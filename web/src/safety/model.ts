@@ -96,7 +96,12 @@ export interface SceneLocation {
 export interface SourceStage {
   incident_id:string;details?:string;event_time?:EventTime;category?:string;formal_location_ids?:string[];
 }
+export interface SourceRelationship {
+  source_id:string;source_sha256:string;related_source_id:string;related_source_url:string;relation:string;
+}
 export interface PoliceEvent {
+  source_sha256?:string;
+  source_relationships?:SourceRelationship[];
   public_display_fields?:string[];
   public_uncertainty?:string[];
   status_update?:string;
@@ -611,4 +616,17 @@ export const SOURCE_POI_CLICK_LAYERS=["source-poi-reference-fill","source-poi-re
 export function sourcePoiReferences(rows:PoliceEvent[],references:FC|undefined):FC {
  const sources=new Map(rows.map(e=>[String((e as PoliceEvent&{source_id?:string}).source_id??e.id.split(":").at(-1)),e.id]));
  return {type:"FeatureCollection",features:(references?.features??[]).flatMap(f=>{const id=sources.get(String(f.properties.source_id));if(!id)return [];if(f.properties.context_only!==true||f.properties.counts_as_crime_point!==false||f.properties.event_count_point!==false||f.properties.association_radius_m!==0||!validGeometry(f.geometry))throw Error("Invalid reviewed source POI reference");return [{...f,properties:{...f.properties,id,source_reference_id:f.id??f.properties.native_object_id}}];})};
+}
+
+/** Show only explicitly public, current-source-bound related announcements. */
+export function relatedSourceLinks(event:PoliceEvent):SourceRelationship[] {
+ if(!event.public_display_fields?.includes("source_relationships"))return [];
+ const seen=new Set<string>();
+ return (event.source_relationships??[]).filter(row=>{
+  const url=safeURL(row.related_source_url);
+  if(row.source_id!==event.id||!event.source_sha256||row.source_sha256!==event.source_sha256||
+    !["explicit_source_link_to_previously_reported_case","explicit_link_to_federal_police_details_distinct_source_not_fetched"].includes(row.relation)||
+    !row.related_source_id||!url||seen.has(url))return false;
+  seen.add(url);return true;
+ });
 }

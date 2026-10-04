@@ -40,6 +40,7 @@ import {
   SCENE_CLICK_LAYERS,
   styledPois,
   unplacedStages,
+  relatedSourceLinks,
   sourcePoiReferences,
   SOURCE_POI_CLICK_LAYERS,
   renderPois,
@@ -333,6 +334,7 @@ function listReports(parent: HTMLElement, ids: string[]) {
     const publicFields=new Set(e.public_display_fields??[]);
     if (publicFields.has("map_review_note") && e.map_review_note) text("p", t("source.mapReview",{note:e.map_review_note}), card);
     appendPublicEventNotes(card,e);
+    for(const related of relatedSourceLinks(e))link(card,t("sourceRevision.related",{id:related.related_source_id}),related.related_source_url);
     if (e.published_at_source_literal) text("small", t("time.publicationLiteral",{date:e.published_at_source_literal}), card);
     if (e.published_at_timezone_basis === "Europe/Berlin") text("small",t("time.publicationZoneNote"),card);
     for (const attachment of publicFields.has("source_attachments") ? e.source_attachments ?? [] : []) {
