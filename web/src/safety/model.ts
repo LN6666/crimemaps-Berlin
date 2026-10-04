@@ -630,3 +630,11 @@ export function relatedSourceLinks(event:PoliceEvent):SourceRelationship[] {
   seen.add(url);return true;
  });
 }
+
+/** A named point or venue in the source does not establish a resolved position on the map. */
+export function sceneDisplayPrecision(scene:SceneLocation):string {
+ if(scene.location_precision!=="point"&&scene.location_precision!=="place")return scene.location_precision;
+ const hasPoint=Boolean(scene.coordinates&&validPoint(scene.coordinates))||Boolean(scene.geometry?.type==="Point"&&validPoint(scene.geometry.coordinates));
+ if(scene.location_precision==="point")return hasPoint?"point":"unknown";
+ return hasPoint||Boolean(scene.geometry&&validGeometry(scene.geometry))?"place":"unknown";
+}

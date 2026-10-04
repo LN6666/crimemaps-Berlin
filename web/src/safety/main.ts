@@ -37,6 +37,7 @@ import {
   sceneFeatures,
   type SceneLocation,
   sceneRoleLabel,
+  sceneDisplayPrecision,
   SCENE_CLICK_LAYERS,
   styledPois,
   unplacedStages,
@@ -386,7 +387,7 @@ function listReports(parent: HTMLElement, ids: string[]) {
         text("strong", `${sceneRoleLabel(scene.role)} · ${scene.label}`, item);
         text(
           "small",
-          `${scene.case_relation ? `${sceneRelationLabels[scene.case_relation]} · ` : ""}${precisionLabels[scene.location_precision] ?? t("precision.unknown")} · ${scene.primary_for_count ? t("report.primary") : t("report.displayOnly")}${scene.candidate_road_geometry ? ` · ${t("report.roadPending")}` : ""}`,
+          `${scene.case_relation ? `${sceneRelationLabels[scene.case_relation]} · ` : ""}${precisionLabels[sceneDisplayPrecision(scene)] ?? t("precision.unknown")} · ${scene.primary_for_count ? t("report.primary") : t("report.displayOnly")}${scene.candidate_road_geometry ? ` · ${t("report.roadPending")}` : ""}`,
           item,
         );
         const eventTimes = [

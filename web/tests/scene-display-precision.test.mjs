@@ -1,0 +1,9 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {build} from 'esbuild';
+const result=await build({entryPoints:[new URL('../src/safety/model.ts',import.meta.url).pathname],bundle:true,platform:'node',format:'esm',write:false});
+const {sceneDisplayPrecision}=await import('data:text/javascript;base64,'+Buffer.from(result.outputFiles[0].text).toString('base64'));
+test('source point with no resolved geometry reads as unknown while its scientific fields remain unchanged',()=>{const scene={location_precision:'point',coordinates:null,geometry:null,primary_for_count:false};const before=structuredClone(scene);assert.equal(sceneDisplayPrecision(scene),'unknown');assert.deepEqual(scene,before);});
+test('valid native point retains its point label',()=>{assert.equal(sceneDisplayPrecision({location_precision:'point',coordinates:[12.340235,51.330374]}),'point');assert.equal(sceneDisplayPrecision({location_precision:'point',coordinates:null,geometry:{type:'Point',coordinates:[12.340235,51.330374]}}),'point');for(const coordinates of [[NaN,51],[181,51],[12,91]])assert.equal(sceneDisplayPrecision({location_precision:'point',coordinates}),'unknown');});
+test('area street and unknown labels retain their reviewed precision',()=>{for(const location_precision of ['area','street','unknown','district'])assert.equal(sceneDisplayPrecision({location_precision,coordinates:null}),location_precision);});
+test('unresolved named venues read as unknown and valid native footprints retain their place label',()=>{assert.equal(sceneDisplayPrecision({location_precision:'place',coordinates:null,geometry:null}),'unknown');assert.equal(sceneDisplayPrecision({location_precision:'place',coordinates:null,geometry:{type:'Polygon',coordinates:[[[12,51],[12.01,51],[12.01,51.01],[12,51]]]}}),'place');});
