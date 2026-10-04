@@ -262,6 +262,10 @@ function sceneGeometries(geometry: Geometry): Geometry[] {
 }
 /** Road anchors must not be labelled as checked operational lines or precise segments. */
 export function transitGeometryLabel(scene: SceneLocation): string {
+  if (scene.transit_route && (!scene.geometry || !validGeometry(scene.geometry) ||
+      !sceneGeometries(scene.geometry).some((geometry) =>
+        geometry.type === "LineString" || geometry.type === "MultiLineString")))
+    return t("transit.unresolved");
   if (isUnderpassReference(scene)) return t("transit.underpass");
   if (scene.geometry_usage === "source_transit_corridor_reference_only")
     return t("transit.trackInterval");
