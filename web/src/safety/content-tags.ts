@@ -34,7 +34,9 @@ export interface TagDecision {
   tag: ContentTag;
   verdict: TagVerdict;
   evidence_quotes: readonly string[];
-  basis?: "source_backed_offence" | "police_motive_suspected" | "reported_bias_language_or_behavior";
+  basis?: "source_backed_offence" | "source_backed_reported_charge" |
+    "reported_historical_charge_not_conviction" | "police_motive_suspected" |
+    "reported_bias_language_or_behavior";
   /** Private export provenance; not rendered in the public panel. */
   review_provenance?: {
     batch: string; batch_sha256: string; annotation_input_sha256: string;
@@ -126,7 +128,9 @@ export function contentTagStatistics(
         if (decision.tag === "possible_hate_crime") {
           if (!["police_motive_suspected", "reported_bias_language_or_behavior"].includes(decision.basis ?? ""))
             throw Error("Explicit source-backed bias evidence required");
-        } else if (decision.basis !== "source_backed_offence") throw Error("Offence evidence basis required");
+        } else if (![
+          "source_backed_offence", "source_backed_reported_charge", "reported_historical_charge_not_conviction",
+        ].includes(decision.basis ?? "")) throw Error("Offence evidence basis required");
       }
     }
     if (seen.size !== CONTENT_TAGS.length) throw Error("All tag states must be explicit");

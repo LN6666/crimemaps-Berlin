@@ -54,3 +54,24 @@ test('both tables expose a no-support column in every shipped interface language
   assert.equal(typeof load('macro-tag-copy').MACRO_COPY[language].noSupport,'string');
  }
 });
+
+const source={city:'berlin',id:'reviewed-history',source_url:'https://www.berlin.de/polizei/polizeimeldungen/2026/pressemitteilung.example.php',source_sha256:'c'.repeat(64)};
+const evidence='A source explicitly reports a historical charge, without a conviction.';
+const reviewed=(version,tags,supportedTag,basis)=>({...source,version,content_sha256:source.source_sha256,text_scope:'full_official_text',reviewer:'Source-bound test fixture',evidence_checked:true,
+ decisions:tags.map(tag=>({tag,verdict:tag===supportedTag?'supported':'no_support',evidence_quotes:tag===supportedTag?[evidence]:[],...(tag===supportedTag?{basis}:{})}))});
+test('reported and historical charges retain source attribution without becoming conviction or risk scores',()=>{
+ const tag=ordinary.CONTENT_TAGS.find(t=>t!=='possible_hate_crime');
+ for(const basis of ['source_backed_reported_charge','reported_historical_charge_not_conviction']){
+  const review=reviewed(ordinary.CONTENT_TAG_VERSION,ordinary.CONTENT_TAGS,tag,basis);const result=ordinary.contentTagStatistics([source],[review]);
+  assert.equal(result.tags.find(t=>t.tag===tag).counts.supported,1);assert.equal(result.tags.find(t=>t.tag===tag).content_index,100);
+  assert.equal(review.decisions.find(t=>t.tag===tag).basis,basis);assert.equal(result.composite,null);assert.equal(result.crime_rate,null);assert.equal(result.city_risk_score,null);
+ }
+ const tagMacro=macro.MACRO_TAGS.find(t=>t!=='hate_discrimination');const m=reviewed(macro.MACRO_TAG_VERSION,macro.ALL_MACRO_TAGS,tagMacro,'reported_historical_charge_not_conviction');
+ const result=macro.macroStatistics([source],[m]);const row=result.tags.find(t=>t.tag===tagMacro);assert.equal(row.counts.supported,1);assert.equal(row.police_category_stated,0);assert.equal(row.narrative_lead,1);assert.equal(m.decisions.find(t=>t.tag===tagMacro).basis,'reported_historical_charge_not_conviction');
+});
+test('a reported charge basis cannot substitute for explicit hate-bias evidence or current source versions',()=>{
+ const hate=reviewed(ordinary.CONTENT_TAG_VERSION,ordinary.CONTENT_TAGS,'possible_hate_crime','reported_historical_charge_not_conviction');
+ assert.throws(()=>ordinary.contentTagStatistics([source],[hate]),/Explicit source-backed bias evidence/);
+ const stale=reviewed(ordinary.CONTENT_TAG_VERSION,ordinary.CONTENT_TAGS,ordinary.CONTENT_TAGS[0],'source_backed_reported_charge');stale.source_sha256='d'.repeat(64);
+ assert.throws(()=>ordinary.contentTagStatistics([source],[stale]),/Stale/);
+});
