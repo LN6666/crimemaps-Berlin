@@ -184,7 +184,7 @@ text("button", t("nav.otherCities"), el("external-maps")).onclick =
   externalMapsDialog;
 const dynamicText=new DynamicTranslations();
 const methodsPanel=mountAnnouncementMethods(el("methods-panel"),{t,locale,categoryLabel,city:currentCity});
-const uncertaintyPanel=mountUncertaintyPanel(el("uncertainty-panel"),{locale,city:currentCity,translate:t,sourceUncertaintyNotice:t("report.sourceUncertain"),onSelect:(id)=>{const p=openDialog(t("report.scenes"));listReports(p,[id]);}});
+const uncertaintyPanel=mountUncertaintyPanel(el("uncertainty-panel"),{locale,city:currentCity,translate:t,sourceUncertaintyNotice:t("report.sourceUncertain"),onSelect:(id, trigger)=>{const p=openDialog(t("report.scenes"), trigger);listReports(p,[id]);}});
 const githubFooter=mountGitHubFooter(app,{locale,city:currentCity,translate:t});
 const analyticsPanel=mountAnalytics(el("analytics-panel"),{language:locale,city:currentCity,collectionEnabled:import.meta.env.VITE_GOATCOUNTER_ENABLED === "true",snapshotUrl:import.meta.env.BASE_URL+"safety/analytics/visitors-by-country.json"});
 // Establish the collapsed mobile layout before measuring the statistics anchor.
@@ -765,12 +765,19 @@ function refresh() {
   uncertaintyPanel.update(dynamicText.displayRows(rows));
   showSelection();
 }
-function openDialog(title: string) {
+function openDialog(title: string, returnFocus?: HTMLElement) {
   const p = el("drawer-content");
   p.replaceChildren();
   text("h2", title, p).id="drawer-title";
   el("drawer").setAttribute("aria-labelledby","drawer-title");
-  el<HTMLDialogElement>("drawer").showModal();
+  const drawer = el<HTMLDialogElement>("drawer");
+  if (returnFocus) {
+    const fallback = returnFocus.closest("section")?.querySelector<HTMLElement>(".uncertainty-filter");
+    drawer.addEventListener("close", () => {
+      if (!drawer.open) (returnFocus.isConnected ? returnFocus : fallback?.isConnected ? fallback : undefined)?.focus({ preventScroll: true });
+    }, { once: true });
+  }
+  drawer.showModal();
   return p;
 }
 function externalMapsDialog() {
