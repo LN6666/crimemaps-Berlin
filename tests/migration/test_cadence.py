@@ -33,14 +33,14 @@ def test_all_14_policy_identities_are_bound_and_direct_workers_disabled():
 
 
 @pytest.mark.parametrize('previous,current,due', [
-    ('2026-09-30T00:00:00Z', '2026-10-02T23:59:59Z', False),
-    ('2026-09-30T00:00:00Z', '2026-10-03T00:00:00Z', True),
-    ('2026-03-27T09:00:00+01:00', '2026-03-30T09:00:00+02:00', False),
-    ('2026-03-27T09:00:00+01:00', '2026-03-30T10:00:00+02:00', True),
-    ('2026-10-23T09:00:00+02:00', '2026-10-26T07:59:59+01:00', False),
-    ('2026-10-23T09:00:00+02:00', '2026-10-26T08:00:00+01:00', True),
+    ('2026-09-30T00:00:00Z', '2026-10-06T23:59:59Z', False),
+    ('2026-09-30T00:00:00Z', '2026-10-07T00:00:00Z', True),
+    ('2026-03-23T09:00:00+01:00', '2026-03-30T09:00:00+02:00', False),
+    ('2026-03-23T09:00:00+01:00', '2026-03-30T10:00:00+02:00', True),
+    ('2026-10-19T09:00:00+02:00', '2026-10-26T07:59:59+01:00', False),
+    ('2026-10-19T09:00:00+02:00', '2026-10-26T08:00:00+01:00', True),
 ])
-def test_elapsed_72_hours_survives_both_dst_transitions(previous, current, due):
+def test_elapsed_168_hours_survives_both_dst_transitions(previous, current, due):
     state = {'city': CITY['city'], 'last_successful_source_check': previous}
     assert cadence.plan(POLICY, CITY, state, instant(current))['police_check_due'] is due
 

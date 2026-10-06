@@ -23,7 +23,13 @@
     "githubPrivacy": "留言需要登录 GitHub，账号和内容都会公开。请勿发布个人信息或敏感资料。",
     "analyticsCollection": "GoatCounter 统计页面加载及刷新，语言切换和地图操作不另计；这些次数不是独立访客。",
     "analyticsOff": "此页面尚未启用访问采集。",
-    "analyticsPrivacy": "仅保留国家汇总。连接 IP 用于估计国家；已关闭单次访问记录、来路和会话。"
+    "analyticsPrivacy": "仅保留国家汇总。连接 IP 用于估计国家；已关闭单次访问记录、来路和会话。",
+    "noticeTitle": "使用前请留意",
+    "noticeProgress": "网站正在逐步完善。公告内容每周更新一次，地图与周边设施（POI）每月更新。",
+    "noticeTranslation": "译文由 GPT 与豆包 Lite 协助。项目以中文为优先校对版本；英语约90%、德语约85%是项目估计，未经全量准确率测评。部分细节可能仍显示原文，请核对来源。",
+    "noticeData": "所选警方公告及 POLIZEIKARTE 转录保留来源链接；它们不是完整犯罪记录，公告数也不是独立案件总数。",
+    "noticeMap": "POI以已有轮廓或参照范围呈现，并不定位公告事件。深色表示原文支持的同类场所关联；附近设施仅供参照，不代表商家涉案。其他范围和颜色见图例；未知地点不补画坐标。",
+    "noticeMore": "来源、图例与使用说明"
   },
   "appearanceCopy": {
     "label": "外观",

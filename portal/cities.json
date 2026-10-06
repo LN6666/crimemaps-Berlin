@@ -1,7 +1,7 @@
 [
   {
     "city": "berlin",
-    "month": "2026-09",
+    "month": "2026-10",
     "names": {
       "de": "Berlin",
       "zh": "柏林",
@@ -35,7 +35,7 @@
   },
   {
     "city": "munich",
-    "month": "2026-09",
+    "month": "2026-10",
     "names": {
       "de": "München",
       "zh": "慕尼黑",
@@ -52,7 +52,7 @@
   },
   {
     "city": "cologne",
-    "month": "2026-09",
+    "month": "2026-10",
     "names": {
       "de": "Köln",
       "zh": "科隆",
@@ -69,7 +69,7 @@
   },
   {
     "city": "frankfurt",
-    "month": "2026-09",
+    "month": "2026-10",
     "names": {
       "de": "Frankfurt am Main",
       "zh": "法兰克福（美因河畔）",
@@ -86,7 +86,7 @@
   },
   {
     "city": "dusseldorf",
-    "month": "2026-09",
+    "month": "2026-10",
     "names": {
       "de": "Düsseldorf",
       "zh": "杜塞尔多夫",
@@ -103,7 +103,7 @@
   },
   {
     "city": "stuttgart",
-    "month": "2026-09",
+    "month": "2026-10",
     "names": {
       "de": "Stuttgart",
       "zh": "斯图加特",
@@ -120,7 +120,7 @@
   },
   {
     "city": "leipzig",
-    "month": "2026-09",
+    "month": "2026-10",
     "names": {
       "de": "Leipzig",
       "zh": "莱比锡",
@@ -137,7 +137,7 @@
   },
   {
     "city": "dortmund",
-    "month": "2026-09",
+    "month": "2026-10",
     "names": {
       "de": "Dortmund",
       "zh": "多特蒙德",
@@ -154,7 +154,7 @@
   },
   {
     "city": "bremen",
-    "month": "2026-09",
+    "month": "2026-10",
     "names": {
       "de": "Bremen",
       "zh": "不来梅",
@@ -171,7 +171,7 @@
   },
   {
     "city": "essen",
-    "month": "2026-09",
+    "month": "2026-10",
     "names": {
       "de": "Essen",
       "zh": "埃森",
@@ -188,7 +188,7 @@
   },
   {
     "city": "dresden",
-    "month": "2026-09",
+    "month": "2026-10",
     "names": {
       "de": "Dresden",
       "zh": "德累斯顿",
@@ -205,7 +205,7 @@
   },
   {
     "city": "hannover",
-    "month": "2026-09",
+    "month": "2026-10",
     "names": {
       "de": "Hannover",
       "zh": "汉诺威",
@@ -222,7 +222,7 @@
   },
   {
     "city": "nuremberg",
-    "month": "2026-09",
+    "month": "2026-10",
     "names": {
       "de": "Nürnberg",
       "zh": "纽伦堡",

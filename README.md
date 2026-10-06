@@ -13,19 +13,15 @@ Browse the selected police announcements for Berlin, the places they mention and
 
 This is an early open-source version, with plenty still to improve. Coverage, place matching, translations and usability have gaps; information can be missing or wrong. If you are interested, you are welcome to point out problems, suggest source-backed corrections, or help with the code, wording and user experience.
 
-[Planned map address](https://ln6666.github.io/crimemaps-Berlin/)
+[Map address](https://ln6666.github.io/crimemaps-Berlin/)
 
 [Reading the map](#read) · [Sources](#sources) · [Run locally](#run) · [Updates](#updates) · [Privacy and feedback](#privacy) · [Visits by country](#stats) · [Other cities](#cities) · [License](#license)
 
 <a id="status"></a>
 
-## Availability
+## Project status
 
-The new city map is not online yet. This address is reserved for its future release and may not open a map today.
-
-A local map has been prepared for the current selection of reports. Work on the public release is still under way.
-
-Status recorded on 2026-10-03. This describes the current collection, not all crime in the city.
+This repository provides the independent city map source. Release and update information is shown at the map address above. The collection covers selected announcements, not all crime in the city.
 
 <a id="read"></a>
 
@@ -154,3 +150,12 @@ Berlin is the default starting point. All 14 city repositories are public; the l
 Project code is licensed under [Apache-2.0](LICENSE). OpenStreetMap data has its own [ODbL and attribution terms](https://www.openstreetmap.org/copyright). Police publications and other source material retain their respective terms; the code license does not grant a blanket right to redistribute them.
 
 CrimeMaps is an independent project, not an official police service. Read the linked police text before drawing conclusions about a record. The map is not an emergency service or a measure of personal safety. The software is provided under the terms in LICENSE.
+
+
+<!-- crimemaps:public-notice:start -->
+The site is being improved. Announcement content is updated weekly; maps and nearby facilities (POIs) are updated monthly.
+
+GPT and Doubao Lite assist with translation. Chinese is the priority review version. English about 90% and German about 85% are project estimates, not results of a full accuracy assessment. Some details may still show the original text; check the source.
+
+Selected police announcements and POLIZEIKARTE records retain source links. They are not a complete crime inventory; announcement totals are not counts of distinct offences. POI outlines and reference extents do not locate an incident. Darker symbols mark source-linked place types; nearby facilities are context and do not establish an offence at a business. Read other extents and colours in the legend. Unknown locations receive no invented coordinates.
+<!-- crimemaps:public-notice:end -->
