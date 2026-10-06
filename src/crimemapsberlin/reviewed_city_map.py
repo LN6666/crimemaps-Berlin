@@ -522,6 +522,13 @@ def _prepare_events(
     return canonical_events(events), audit, latest
 
 
+def _zones_for_city(city: str) -> dict:
+    if city != "berlin":
+        return {"places": [], "features": [], "geometry_status": "not_applicable"}
+    reference = Path(__file__).resolve().parents[2] / "data/safety/berlin_kbo.json"
+    return json.loads(reference.read_text())
+
+
 def build_candidate(
     *,
     city: str,
@@ -672,7 +679,7 @@ def build_candidate(
         "tile_index": {"pois": tile_keys, "roads": []},
         "tile_size": contract["tile_size"],
         "catalog": catalog,
-        "zones": {"places": [], "features": [], "geometry_status": "not_applicable"},
+        "zones": _zones_for_city(city),
         "metadata": {
             "source": "official police announcement archive",
             "semantic_basis": "source_first_hash_bound_llm_review",
@@ -809,6 +816,8 @@ def build_candidate(
         generation_root / "roads-overview.json",
         {"type": "FeatureCollection", "features": []},
     )
+    from .year_hex import write_year_archives
+    write_year_archives(generation_root, manifest, {month: {**value, "events": [event for event in events if event["month"] == month]} for month, value in months.items()})
     _write_json(staging / "manifest.json", manifest)
     _write_json(staging / "build-audit.json", audit)
     _replace_directory(staging, output)

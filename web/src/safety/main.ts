@@ -52,10 +52,9 @@ import {
 import type { Bundle, FC, PoliceEvent } from "./model";
 import {fetchDataJSON} from "./security";
 import { DataClient } from "./data";
-import type { Manifest } from "./data";
+import type { Manifest, YearData } from "./data";
 import { Basemaps, basemapLabels } from "./basemaps";
 import type { BasemapId } from "./basemaps";
-import { externalMaps, externalMapsDirectory } from "./external-maps";
 import { cityGroups, requestedMapView } from "./cities";
 import { assetPath, cityIds, cityDestination, requestedMonth } from "./deployment";
 
@@ -126,7 +125,7 @@ const sceneColor: maplibregl.ExpressionSpecification = [
 const app = document.querySelector<HTMLDivElement>("#app")!;
 initializeAppearance();
 app.innerHTML = `<header><div><span class="brand">${currentCity === "berlin" ? "CRIMEMAPSBERLIN" : "CRIMEMAPS.DE"}</span><span id="review-badge" class="review-badge" hidden>${html(t("app.preview"))}</span><h1>${html(t("app.heading",{city:localizedCity}))}</h1></div><div class="toolbar"><label>${html(t("nav.language"))}<select id="language" aria-label="${html(t("nav.language"))}"><option value="de">Deutsch</option><option value="en">English</option><option value="zh">中文</option></select></label><label class="city-switch">${html(t("nav.city"))}<select id="city-switch" aria-label="${html(t("nav.city"))}"></select></label><label>${html(t("nav.year"))}<select id="year" aria-label="${html(t("nav.year"))}"></select></label><label>${html(t("nav.month"))}<select id="month" aria-label="${html(t("nav.month"))}"></select></label><button id="overview">${html(t("nav.overview"))}</button><button id="sources">${html(t("nav.sources"))}</button></div></header>
-<main><aside class="controls"><p class="eyebrow">${html(localizedCity)} / ${html(t("app.publicReports"))}</p><h2>${html(t("app.tagline"))}</h2><p id="coverage">${html(t("map.loadingData"))}</p><nav id="external-maps" class="external-maps" aria-label="${html(t("external.aria"))}"></nav><label class="search-label">${html(t("search.label",{city:localizedCity}))}<input id="search" placeholder="${html(t("search.placeholder",{},cityView.latin))}" autocomplete="off"></label><div id="search-results"></div><label>${html(t("filter.category"))}<select id="category"><option value="all">${html(t("filter.allReports"))}</option></select></label><div class="rule"></div><h3>${html(t("legend.hex"))}</h3><div class="ramp"></div><div class="ends"><span>${html(t("legend.low"))}</span><span>${html(t("legend.high"))}</span></div><p id="resolution"></p><label class="toggle"><input id="hex-toggle" type="checkbox" checked> ${html(t("legend.showHex"))}</label><label class="toggle"><input id="candidate-roads-toggle" type="checkbox" checked> ${html(t("legend.showRoads"))}</label><p class="hint"><span class="road-swatch" aria-hidden="true"></span>${html(t("legend.roadNote"))}</p><div class="scene-legend" aria-label="${html(t("legend.scenesAria"))}"><span><i class="scene-swatch incident"></i>${html(t("legend.incident"))}</span><span><i class="scene-swatch discovery"></i>${html(t("legend.discovery"))}</span><span><i class="scene-swatch operation"></i>${html(t("legend.operation"))}</span><span><i class="scene-swatch context"></i>${html(t("legend.context"))}</span><span><i class="route-swatch"></i>${html(t("legend.transit"))}</span></div><h3>${html(t("legend.pois"))}</h3><div id="poi-filters"></div><label class="toggle"><input id="highlight" type="checkbox" checked> ${html(t("legend.highlight"))}</label><p class="hint">${html(t("legend.highlightNote"))}</p><div class="rule"></div><button id="kbo">${html(t("kbo.button"))}</button><p class="hint">${html(t("kbo.separate"))}</p><p id="freshness" class="hint"></p></aside>
+<main><aside class="controls"><p class="eyebrow">${html(localizedCity)} / ${html(t("app.publicReports"))}</p><h2>${html(t("app.tagline"))}</h2><p id="coverage">${html(t("map.loadingData"))}</p><nav id="external-maps" class="external-maps" aria-label="${html(t("external.aria"))}"></nav><label class="search-label">${html(t("search.label",{city:localizedCity}))}<input id="search" placeholder="${html(t("search.placeholder",{},cityView.latin))}" autocomplete="off"></label><div id="search-results"></div><label>${html(t("filter.category"))}<select id="category"><option value="all">${html(t("filter.allReports"))}</option></select></label><div class="rule"></div><h3 id="year-hex-title">${html(t("legend.hex"))}</h3><p class="hint">${html(t("legend.yearScope"))}</p><div class="ramp"></div><div class="ends"><span>${html(t("legend.low"))}</span><span>${html(t("legend.high"))}</span></div><p id="resolution"></p><label class="toggle"><input id="hex-toggle" type="checkbox" checked> ${html(t("legend.showHex"))}</label><p id="hex-empty-note" class="hint" hidden>${html(t("legend.emptyHex"))}</p><label class="toggle"><input id="candidate-roads-toggle" type="checkbox" checked> ${html(t("legend.showRoads"))}</label><p class="hint"><span class="road-swatch" aria-hidden="true"></span>${html(t("legend.roadNote"))}</p><div class="scene-legend" aria-label="${html(t("legend.scenesAria"))}"><span><i class="scene-swatch incident"></i>${html(t("legend.incident"))}</span><span><i class="scene-swatch discovery"></i>${html(t("legend.discovery"))}</span><span><i class="scene-swatch operation"></i>${html(t("legend.operation"))}</span><span><i class="scene-swatch context"></i>${html(t("legend.context"))}</span><span><i class="route-swatch"></i>${html(t("legend.transit"))}</span></div><h3>${html(t("legend.pois"))}</h3><div id="poi-filters"></div><label class="toggle"><input id="highlight" type="checkbox" checked> ${html(t("legend.highlight"))}</label><p class="hint">${html(t("legend.highlightNote"))}</p><div class="rule"></div><button id="kbo">${html(t("kbo.button"))}</button><p class="hint">${html(t("kbo.separate"))}</p><p id="freshness" class="hint"></p></aside>
 <section class="map-wrap"><div id="map" aria-label="${html(t("map.aria",{city:localizedCity}))}"></div><div class="map-label"><span class="dot"></span><span id="map-status" role="status" aria-live="polite">${html(t("map.preparing"))}</span></div><div class="basemap-picker"><label>${html(t("map.basemap"))}<select id="basemap" aria-label="${html(t("map.basemap"))}" disabled><option value="vector">${html(t("basemap.vector"))}</option><option value="street">${html(t("basemap.street"))}</option><option value="aerial">${html(t("basemap.aerial"))}</option><option value="local">${html(t("basemap.local"))}</option></select></label><div id="basemap-error" role="status" hidden><span></span><button id="basemap-fallback">${html(t("basemap.fallback"))}</button></div></div><div class="map-note">${html(t("map.poiNote"))}</div><p class="hint basemap-language-note">${html(t("basemap.languageNote"))}</p></section>
 <aside class="details"><div id="stats"></div><div id="methods-panel"></div><div id="selection"><h2>${html(t("selection.prompt"))}</h2><p>${html(t("selection.intro"))}</p></div><div id="uncertainty-panel"></div><div id="analytics-panel"></div></aside></main>
 <dialog id="drawer"><button id="close-dialog" class="close">${html(t("action.close"))}</button><div id="drawer-content"></div></dialog>`;
@@ -272,6 +271,12 @@ let pendingSearchPoiId: string | null = null;
 let client: DataClient;
 let manifest: Manifest;
 let monthRequest = new AbortController();
+let yearRequest=new AbortController();
+let yearReportRequest=new AbortController();
+let annual:YearData|undefined;
+let annualLoading:Promise<void>|undefined;
+let annualLoadingKey="";
+let annualReportCache:{key:string;rows:PoliceEvent[];missing:Map<string,number>}|undefined;
 let viewportRequest = new AbortController();
 let viewportTimer: ReturnType<typeof setTimeout>;
 let currentMode = "";
@@ -331,9 +336,9 @@ function focusReviewedScenes(scenes: SceneLocation[]) {
   map.fitBounds([[west,south],[east,north]],{padding:55,maxZoom:scenes.some(s=>s.static_scene_reference===true)?17:14});
   el<HTMLDialogElement>("drawer").close();
 }
-function listReports(parent: HTMLElement, ids: string[]) {
+function listReports(parent: HTMLElement, ids: string[], displayOverride?:PoliceEvent[], missingOverride?:Map<string,number>) {
   const wanted = new Set(ids);
-  for (const e of dynamicText.displayRows(data.events).filter((e) => wanted.has(e.id))) {
+  for (const e of (displayOverride ?? dynamicText.displayRows(data.events)).filter((e) => wanted.has(e.id))) {
     const card = document.createElement("article");
     card.className = "report";
     card.dataset.sourceId = e.id;
@@ -358,7 +363,7 @@ function listReports(parent: HTMLElement, ids: string[]) {
     if (e.source_scope_verdict === "uncertain")
       text("small", t("report.cityUncertain"), card);
     text("h4", e.title, card);
-    if(dynamicText.missingFor(e))text("small",t("report.translationMissing"),card);
+    if(missingOverride ? missingOverride.get(e.id) : dynamicText.missingFor(e))text("small",t("report.translationMissing"),card);
     const publicFields=new Set(e.public_display_fields??[]);
     if (publicFields.has("map_review_note") && e.map_review_note) text("p", t("source.mapReview",{note:e.map_review_note}), card);
     appendPublicEventNotes(card,e);
@@ -544,6 +549,8 @@ function listReports(parent: HTMLElement, ids: string[]) {
 }
 function showSelection() {
   const panel = el("selection");
+  yearReportRequest.abort();
+  yearReportRequest=new AbortController();
   panel.replaceChildren();
   setSource("reported-sections", empty());
   if (!selected) {
@@ -605,6 +612,18 @@ function showSelection() {
   }
   pendingSearchPoiId = null;
   const p = f.properties;
+  if(selection.type==="hex") {
+    text("p",t("legend.yearHex",{year:el<HTMLSelectElement>("year").value}),panel).className="eyebrow";
+    text("h2",t("selection.announcementCount",{count:number(p.count)}),panel);
+    text("p",t("selection.yearHexSize",{year:el<HTMLSelectElement>("year").value,metres:number(p.edge_m)}),panel);
+    text("p",t("selection.outcomeUnknown"),panel).className="hint";
+    const ids=[...(p.event_ids??[])].sort((a:string,b:string)=>(annual?.event_months[b]??"").localeCompare(annual?.event_months[a]??"")||a.localeCompare(b));
+    const list=text("div","",panel);let page=0;
+    const controls=text("nav","",panel),previous=text("button",t("selection.yearPrevious"),controls),label=text("span","",controls),next=text("button",t("selection.yearNext"),controls);
+    const render=()=>{yearReportRequest.abort();yearReportRequest=new AbortController();const signal=yearReportRequest.signal;list.replaceChildren();label.textContent=t("selection.yearPage",{page:number(page+1),pages:number(Math.max(1,Math.ceil(ids.length/20)))});(previous as HTMLButtonElement).disabled=page===0;(next as HTMLButtonElement).disabled=(page+1)*20>=ids.length;
+      text("p",t("selection.yearLoading"),list);void annualReports(ids.slice(page*20,page*20+20),signal).then(value=>{if(signal.aborted||selected!==selection||!list.isConnected)return;list.replaceChildren();listReports(list,ids,value.rows,value.missing);}).catch(error=>{if(!signal.aborted){console.error(error);list.replaceChildren();text("p",t("map.loadFailed"),list);}});};
+    previous.onclick=()=>{page--;render();};next.onclick=()=>{page++;render();};render();return;
+  }
   setSource("reported-sections", {
     type: "FeatureCollection",
     features: data.events
@@ -720,7 +739,10 @@ function refresh() {
     countable = countableEventIds(rows);
   const mode =
     map.getZoom() >= data.metadata.zoom_threshold ? "detail" : "overview";
-  activeHex = month ? filteredHex(month.hex[mode], countable) : empty();
+  const selectedYear=el<HTMLSelectElement>("year").value, category=el<HTMLSelectElement>("category").value;
+  const yearIds=new Set(annual?.year===selectedYear ? annual.countable_event_ids.filter(id=>category==="all"||annual!.event_categories[id]?.includes(category)) : []);
+  activeHex = annual?.year===selectedYear ? filteredHex(annual.hex[mode],yearIds) : empty();
+  el("year-hex-title").textContent=t("legend.yearHex",{year:selectedYear});
   activePois = styledPois(
     data,
     month?.links ?? [],
@@ -747,6 +769,8 @@ function refresh() {
     "visibility",
     el<HTMLInputElement>("hex-toggle").checked ? "visible" : "none",
   );
+  el("hex-empty-note").hidden = annualLoadingKey===selectedYear || yearIds.size > 0 || !el<HTMLInputElement>("hex-toggle").checked;
+  el("hex-empty-note").textContent=t(annual?.year===selectedYear ? "legend.emptyHex" : "legend.yearUnavailable");
   currentMode = mode;
   paintOverlays();
   el("resolution").textContent =
@@ -820,8 +844,11 @@ function externalMapsDialog() {
   const nav = text("nav", "", p);
   nav.className = "city-map-links";
   nav.setAttribute("aria-label", t("external.polizeikarteAria"));
-  for (const item of externalMaps) link(nav, `${cityName(item.id,item.city)} ↗`, item.url);
-  link(p, t("external.allCities"), externalMapsDirectory);
+  for (const id of cityIds) {
+    const a = text("a", cityName(id, id), nav) as HTMLAnchorElement;
+    a.href = cityDestination(id, `?lang=${locale}`, monthKey());
+    a.dataset.projectCity = id;
+  }
 }
 function sourcesDialog() {
   const p = openDialog(
@@ -868,19 +895,28 @@ function sourcesDialog() {
     p,
   );
 }
-function kboDialog() {
+function kboDialog(selectedIndex?:number) {
   const p = openDialog(t("kbo.title"));
   text(
     "p",
     t("kbo.note"),
     p,
   );
-  for (const zone of data.zones.places) {
+  for (const [index, zone] of data.zones.places.entries()) {
+    if(selectedIndex!==undefined&&index!==selectedIndex)continue;
     const card = document.createElement("article");
     p.append(card);
     text("h3", zone.name, card);
     link(card, t("kbo.boundary"), zone.official_map_url);
     link(card, t("kbo.source"), zone.source_url);
+    const image = document.createElement("img");
+    image.className = "kbo-official-map";
+    image.src = zone.official_map_url;
+    image.alt = t("kbo.imageAlt", {place: zone.name});
+    image.loading = "lazy";
+    image.decoding = "async";
+    image.referrerPolicy = "no-referrer";
+    card.append(image);
     const b = text("button", t("kbo.navigate"), card);
     b.onclick = () => {
       map.flyTo({ center: zone.navigation_center, zoom: 15 });
@@ -888,7 +924,21 @@ function kboDialog() {
     };
   }
 }
+async function annualReports(ids:string[],signal:AbortSignal) {
+  if(!annual)throw Error("No annual index");const key=manifest.generation+"/"+annual.year+"/"+locale+"/"+ids.join(",");
+  if(annualReportCache?.key===key)return annualReportCache;
+  const groups=new Map<string,string[]>();for(const id of ids){const month=annual.event_months[id];if(!month)throw Error("Missing report month");groups.set(month,[...(groups.get(month)??[]),id]);}
+  const rows:PoliceEvent[]=[],missing=new Map<string,number>();
+  for(const[month,wanted]of groups){signal.throwIfAborted();const value=await client.month(month,signal);if(!value)throw Error("Missing referenced month");const selectedRows=value.events.filter(e=>wanted.includes(e.id));const language=new DynamicTranslations();await language.load(selectedRows,manifest,client,month,locale,signal,currentCity);rows.push(...language.displayRows(selectedRows));for(const e of selectedRows)missing.set(e.id,language.missingFor(e));}
+  signal.throwIfAborted();if(rows.length!==ids.length)throw Error("Incomplete annual cell reports");const result={key,rows,missing};annualReportCache=new TextEncoder().encode(JSON.stringify(rows)).byteLength<=4*1024*1024?result:undefined;return result;
+}
+function ensureYear():Promise<void> {
+  const year=el<HTMLSelectElement>("year").value;if(annual?.year===year)return Promise.resolve();if(annualLoadingKey===year&&annualLoading)return annualLoading;
+  yearRequest.abort();yearRequest=new AbortController();const signal=yearRequest.signal;annual=undefined;annualLoadingKey=year;
+  annualLoading=(async()=>{try{const value=await client.year(year,signal);if(!signal.aborted&&year===el<HTMLSelectElement>("year").value)annual=value;}catch(error){if(!signal.aborted)console.error(error);}finally{if(!signal.aborted){annualLoadingKey="";annualLoading=undefined;refresh();}}})();return annualLoading;
+}
 async function loadMonth() {
+  yearReportRequest.abort();void ensureYear();
   monthRequest.abort();
   monthRequest = new AbortController();
   const signal = monthRequest.signal;
@@ -1054,6 +1104,7 @@ async function start() {
         customAttribution:
           `<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">${html(t("map.attributionPlaces"))}: © OpenStreetMap contributors</a> / <a href="https://www.geofabrik.de/" target="_blank" rel="noopener noreferrer">Geofabrik</a> · <a href="${cityView.policeUrl}" target="_blank" rel="noopener noreferrer">${html(t("report.source"))}: ${cityView.policeName}</a>`,
       }),
+      "bottom-left",
     );
     map.once("load", async () => {
       for (const id of [
@@ -1062,6 +1113,7 @@ async function start() {
         "hex",
         "pois",
         "kbo",
+        "kbo-navigation",
         "reported-sections",
         "candidate-roads",
         "scenes",
@@ -1180,8 +1232,9 @@ async function start() {
         id: "scene-area-fill",
         type: "fill",
         source: "scenes",
-        filter: ["==", ["geometry-type"], "Polygon"],
-        paint: { "fill-color": sceneColor, "fill-opacity": 0.22 },
+        // Administrative/background surfaces have no fill, so they cannot intercept interior POI clicks.
+        filter: ["all", ["==", ["geometry-type"], "Polygon"], ["!", ["any", ["==", ["get", "role_group"], "context"], ["in", ["get", "location_precision"], ["literal", ["city", "district", "area", "unknown"]]]]]],
+        paint: { "fill-color": sceneColor, "fill-opacity": 0.18 },
       });
       map.addLayer({
         id: "scene-area-outline",
@@ -1273,8 +1326,12 @@ async function start() {
       map.addLayer({id:"source-poi-reference-point",type:"circle",source:"source-poi-references",filter:["==",["geometry-type"],"Point"],paint:{"circle-radius":5,"circle-color":"#677785","circle-opacity":0.5,"circle-stroke-width":1,"circle-stroke-color":"#ffffff"}});
       setSource("kbo", {
         type: "FeatureCollection",
-        features: data.zones.features,
+        features: cityView.kbo ? data.zones.features : [],
       });
+      const navigationFeatures = cityView.kbo ? data.zones.places.map((zone,index) => ({type:"Feature" as const,geometry:{type:"Point" as const,coordinates:zone.navigation_center},properties:{id:`kbo-navigation:${index}`,zone_index:index,name:zone.name,purpose:"approximate_navigation_only_not_legal_boundary"}})) : [];
+      setSource("kbo-navigation",{type:"FeatureCollection",features:navigationFeatures});
+      map.addLayer({id:"kbo-navigation-point",type:"circle",source:"kbo-navigation",paint:{"circle-radius":6,"circle-color":"#3c6681","circle-stroke-color":"#fff","circle-stroke-width":2}});
+      map.addLayer({id:"kbo-navigation-label",type:"symbol",source:"kbo-navigation",layout:{"text-field":["concat","kbO · ",["get","name"]],"text-size":11,"text-offset":[0,1.2],"text-anchor":"top"},paint:{"text-color":"#244a64","text-halo-color":"#fff","text-halo-width":1.5}});
       basemaps = new Basemaps(map, paintOverlays, (id) => {
         const error = el("basemap-error");
         error.querySelector("span")!.textContent =
@@ -1305,11 +1362,13 @@ async function start() {
           layers: [
             ...SCENE_CLICK_LAYERS,
             ...SOURCE_POI_CLICK_LAYERS,
-            "candidate-roads-hit", "poi-fill", "poi-line", "poi-point", "poi-circle", "hex-fill",
+            "kbo-navigation-point", "kbo-navigation-label", "candidate-roads-hit", "poi-fill", "poi-line", "poi-point", "poi-circle", "hex-fill",
           ],
         });
         if (!fs.length) return;
         pendingSearchPoiId = null;
+        const kboHit=fs.find(f=>f.layer.id.startsWith("kbo-navigation-"));
+        if(kboHit){kboDialog(Number(kboHit.properties.zone_index));return;}
         const scenes = fs.filter((f) => f.layer.id.startsWith("scene-"));
         if (scenes.length) {
           selected = { type: "scene", ids: sceneEventIds(scenes) };
@@ -1359,7 +1418,7 @@ async function start() {
     el("overview").onclick = () =>
       map.flyTo({ center: cityView.center, zoom: 10.5 });
     el("sources").onclick = sourcesDialog;
-    if (cityView.kbo) el("kbo").onclick = kboDialog;
+    if (cityView.kbo) el("kbo").onclick = () => kboDialog();
     freshnessTimer = setInterval(async () => {
       if (document.hidden) return;
       try {
@@ -1438,9 +1497,10 @@ async function start() {
 window.addEventListener("pageshow",(event)=>{el<HTMLSelectElement>("language").value=locale;if(event.persisted&&loaded){map.resize();void loadMonth();void loadViewport();void loadStatistics();void loadDatedStatistics();}});
 window.addEventListener("pagehide", (event) => {
   statisticsRequest.abort();datedStatisticsRequest.abort();
-  if(event.persisted){monthRequest.abort();viewportRequest.abort();clearTimeout(viewportTimer);return;}
+  if(event.persisted){monthRequest.abort();yearRequest.abort();yearReportRequest.abort();annualLoadingKey="";annualLoading=undefined;viewportRequest.abort();clearTimeout(viewportTimer);return;}
   searchRequest.abort();
   monthRequest.abort();
+  yearRequest.abort();yearReportRequest.abort();
   viewportRequest.abort();
   clearTimeout(viewportTimer);
   clearInterval(freshnessTimer);

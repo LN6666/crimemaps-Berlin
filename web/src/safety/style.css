@@ -618,3 +618,11 @@ dialog .close { position: sticky; top: 0; background: white; z-index: 1; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+.kbo-official-map{display:block;width:100%;max-width:720px;height:auto;margin:12px 0;object-fit:contain;border-radius:6px}
+.city-map-links a[data-project-city]{display:flex;align-items:center;min-height:44px;max-width:100%;overflow-wrap:anywhere}
+
+/* Attribution owns the actual lower edge; zoom and scale use separate space. */
+.maplibregl-ctrl-bottom-left{bottom:env(safe-area-inset-bottom,0px);max-width:calc(100% - 64px)}
+.maplibregl-ctrl-bottom-left .maplibregl-ctrl-scale{position:absolute;bottom:calc(100% + 8px);left:0}
+.maplibregl-ctrl-bottom-left .maplibregl-ctrl-attrib{margin-bottom:4px;max-width:100%}
