@@ -97,6 +97,8 @@ export interface SourceStage {
   incident_id:string;details?:string;event_time?:EventTime;category?:string;formal_location_ids?:string[];
 }
 export interface PoliceEvent {
+  upstream_provider?: string;
+  provider_display_month?: string;
   public_display_fields?:string[];
   public_uncertainty?:string[];
   status_update?:string;
@@ -477,13 +479,21 @@ export function roadBounds(
     }
   return [west, south, east, north];
 }
+export function displayMonth(event: PoliceEvent): string | null {
+  if (event.month !== null) return event.month;
+  if (event.upstream_provider !== "POLIZEIKARTE" ||
+      event.time_basis !== "polizeikarte_listing_display_metadata_only" ||
+      typeof event.provider_display_month !== "string" ||
+      !/^\d{4}-(0[1-9]|1[0-2])$/.test(event.provider_display_month)) return null;
+  return event.provider_display_month;
+}
 export function monthEvents(
   data: Bundle,
   month: string,
   category: string,
 ): PoliceEvent[] {
   return data.events.filter(
-    (e) => e.month === month && (category === "all" || e.category === category),
+    (e) => displayMonth(e) === month && (category === "all" || e.category === category),
   );
 }
 export function filteredHex(source: FC, ids: Set<string>): FC {
