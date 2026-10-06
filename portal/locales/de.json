@@ -23,7 +23,13 @@
     "githubPrivacy": "Für einen Beitrag musst du dich bei GitHub anmelden. Dein Konto und dein Text sind öffentlich. Bitte keine persönlichen oder sensiblen Angaben veröffentlichen.",
     "analyticsCollection": "GoatCounter zählt Seitenaufrufe und Neuladen; Sprachwechsel und Kartenaktionen zählen nicht zusätzlich. Das sind keine eindeutigen Besucher.",
     "analyticsOff": "Auf dieser Seite ist die Besuchserfassung nicht aktiviert.",
-    "analyticsPrivacy": "Nur Länderaggregate. Die Verbindungs-IP wird zur Schätzung des Landes verarbeitet; Einzelaufrufe, Verweise und Sitzungen sind deaktiviert."
+    "analyticsPrivacy": "Nur Länderaggregate. Die Verbindungs-IP wird zur Schätzung des Landes verarbeitet; Einzelaufrufe, Verweise und Sitzungen sind deaktiviert.",
+    "noticeTitle": "Hinweise zur Nutzung",
+    "noticeProgress": "Die Website wird schrittweise verbessert. Meldungsinhalte werden wöchentlich aktualisiert; Karten und Einrichtungen im Umfeld (POIs) monatlich.",
+    "noticeTranslation": "GPT und Doubao Lite unterstützen die Übersetzung. Chinesisch wird vorrangig geprüft. Etwa 90 % für Englisch und 85 % für Deutsch sind Projekteinschätzungen, keine Ergebnisse einer vollständigen Genauigkeitsprüfung. Einzelne Angaben können im Original erscheinen; bitte die Quelle prüfen.",
+    "noticeData": "Ausgewählte Polizeimeldungen und POLIZEIKARTE-Einträge behalten ihre Quellenlinks. Sie sind keine vollständige Kriminalitätsstatistik; Meldungszahlen sind keine Zahl unabhängiger Straftaten.",
+    "noticeMap": "POI-Umrisse und räumliche Bezüge lokalisieren keinen Vorfall. Dunklere Symbole kennzeichnen quellenbelegte Einrichtungstypen; Einrichtungen im Umfeld dienen als Bezug und belegen keine Straftat in einem Betrieb. Weitere Bezüge und Farben erklärt die Legende. Unbekannte Orte erhalten keine erfundenen Koordinaten.",
+    "noticeMore": "Quellen, Kartenlegende und Nutzungshinweise"
   },
   "appearanceCopy": {
     "label": "Darstellung",

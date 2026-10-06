@@ -2,7 +2,7 @@
   "schema_version": 1,
   "city": "berlin",
   "repository": "crimemaps-Berlin",
-  "police_check_interval_hours": 72,
+  "police_check_interval_hours": 168,
   "map_poi_cadence": "calendar_month",
   "timezone": "Europe/Berlin",
   "dedupe_successful_month": true,

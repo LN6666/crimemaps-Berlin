@@ -26,7 +26,7 @@ def validate(policy: dict, city_config: dict) -> None:
     if (city not in CITY_IDS or policy.get('schema_version') != 1 or policy.get('city') != city
             or policy.get('repository') != city_config['repository']
             or city_config['repository'] != 'crimemaps-' + city.capitalize()
-            or policy.get('police_check_interval_hours') != 72
+            or policy.get('police_check_interval_hours') != 168
             or policy.get('map_poi_cadence') != 'calendar_month'
             or policy.get('timezone') != 'Europe/Berlin'
             or policy.get('first_publication_refresh_required') is not True
@@ -45,7 +45,7 @@ def plan(policy: dict, city_config: dict, state: dict, now: datetime) -> dict:
     previous = utc(prior) if prior is not None else None
     if previous and previous > current:
         raise ValueError('Success timestamp is in the future')
-    source_due = previous is None or (current-previous).total_seconds() >= 72*3600
+    source_due = previous is None or (current-previous).total_seconds() >= 168*3600
     month = current.astimezone(BERLIN).strftime('%Y-%m')
     successful_month = state.get('map_poi_successful_month')
     if successful_month is not None and (not isinstance(successful_month,str) or not re.fullmatch(r'\d{4}-(0[1-9]|1[0-2])',successful_month)):

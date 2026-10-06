@@ -13,19 +13,15 @@ CrimeMaps zeigt erfasste Polizeimeldungen für Berlin, die darin genannten Orte 
 
 CrimeMaps ist ein offenes Projekt in einer frühen Version. Datenabdeckung, Ortszuordnung, Übersetzungen und Bedienung werden weiter verbessert; Angaben können fehlen oder Fehler enthalten. Wer mithelfen möchte, ist willkommen: durch Fragen, belegte Korrekturen oder Beiträge zum Code, zu den Texten und zur Bedienung.
 
-[Geplante Kartenadresse](https://ln6666.github.io/crimemaps-Berlin/)
+[Kartenadresse](https://ln6666.github.io/crimemaps-Berlin/)
 
 [Karte lesen](#read) · [Quellen](#sources) · [Lokal starten](#run) · [Aktualisierungen](#updates) · [Datenschutz und Hinweise](#privacy) · [Aufrufe nach Land](#stats) · [Weitere Städte](#cities) · [Lizenz](#license)
 
 <a id="status"></a>
 
-## Verfügbarkeit
+## Projektstand
 
-Die neue Stadtkarte ist noch nicht online. Diese Adresse ist für die spätere Veröffentlichung vorgesehen und zeigt derzeit möglicherweise keine Karte.
-
-Für die aktuelle Auswahl von Meldungen liegt eine lokale Karte vor. Die öffentliche Veröffentlichung wird noch vorbereitet.
-
-Stand: 2026-10-03. Die Angabe betrifft die aktuelle Sammlung, nicht sämtliche Straftaten in der Stadt.
+Dieses Repository enthält den Quellcode der eigenständigen Stadtkarte. Hinweise zu Veröffentlichung und Aktualisierung stehen unter der Kartenadresse oben. Die Sammlung umfasst ausgewählte Meldungen, nicht sämtliche Straftaten der Stadt.
 
 <a id="read"></a>
 
@@ -154,3 +150,12 @@ Berlin ist der Ausgangspunkt. Alle 14 Stadt-Repositories sind öffentlich zugän
 Der Projektcode steht unter [Apache-2.0](LICENSE). Für OpenStreetMap gelten eigene [ODbL- und Namensnennungsbedingungen](https://www.openstreetmap.org/copyright). Polizeipublikationen und andere Quellen behalten ihre jeweiligen Nutzungsbedingungen; die Codelizenz erlaubt nicht pauschal ihre Weiterverbreitung.
 
 CrimeMaps ist ein unabhängiges Projekt, kein offizieller Polizeidienst. Lesen Sie die verlinkte Polizeimeldung, bevor Sie Schlüsse aus einem Eintrag ziehen. Die Karte ist kein Notfalldienst und misst keine persönliche Sicherheit. Für die Software gelten die Bedingungen in LICENSE.
+
+
+<!-- crimemaps:public-notice:start -->
+Die Website wird schrittweise verbessert. Meldungsinhalte werden wöchentlich aktualisiert; Karten und Einrichtungen im Umfeld (POIs) monatlich.
+
+GPT und Doubao Lite unterstützen die Übersetzung. Chinesisch wird vorrangig geprüft. Etwa 90 % für Englisch und 85 % für Deutsch sind Projekteinschätzungen, keine Ergebnisse einer vollständigen Genauigkeitsprüfung. Einzelne Angaben können im Original erscheinen; bitte die Quelle prüfen.
+
+Ausgewählte Polizeimeldungen und POLIZEIKARTE-Einträge behalten ihre Quellenlinks. Sie sind keine vollständige Kriminalitätsstatistik; Meldungszahlen sind keine Zahl unabhängiger Straftaten. POI-Umrisse und räumliche Bezüge lokalisieren keinen Vorfall. Dunklere Symbole kennzeichnen quellenbelegte Einrichtungstypen; Einrichtungen im Umfeld dienen als Bezug und belegen keine Straftat in einem Betrieb. Weitere Bezüge und Farben erklärt die Legende. Unbekannte Orte erhalten keine erfundenen Koordinaten.
+<!-- crimemaps:public-notice:end -->
