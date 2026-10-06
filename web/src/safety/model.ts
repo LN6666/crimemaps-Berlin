@@ -96,9 +96,14 @@ export interface SceneLocation {
 export interface SourceStage {
   incident_id:string;details?:string;event_time?:EventTime;category?:string;formal_location_ids?:string[];
 }
+export interface SourceRelationship {
+  source_id:string;source_sha256:string;related_source_id:string;related_source_url:string;relation:string;
+}
 export interface PoliceEvent {
   upstream_provider?: string;
   provider_display_month?: string;
+  source_sha256?:string;
+  source_relationships?:SourceRelationship[];
   public_display_fields?:string[];
   public_uncertainty?:string[];
   status_update?:string;
@@ -259,6 +264,10 @@ function sceneGeometries(geometry: Geometry): Geometry[] {
 }
 /** Road anchors must not be labelled as checked operational lines or precise segments. */
 export function transitGeometryLabel(scene: SceneLocation): string {
+  if (scene.transit_route && (!scene.geometry || !validGeometry(scene.geometry) ||
+      !sceneGeometries(scene.geometry).some((geometry) =>
+        geometry.type === "LineString" || geometry.type === "MultiLineString")))
+    return t("transit.unresolved");
   if (isUnderpassReference(scene)) return t("transit.underpass");
   if (scene.geometry_usage === "source_transit_corridor_reference_only")
     return t("transit.trackInterval");
@@ -621,4 +630,25 @@ export const SOURCE_POI_CLICK_LAYERS=["source-poi-reference-fill","source-poi-re
 export function sourcePoiReferences(rows:PoliceEvent[],references:FC|undefined):FC {
  const sources=new Map(rows.map(e=>[String((e as PoliceEvent&{source_id?:string}).source_id??e.id.split(":").at(-1)),e.id]));
  return {type:"FeatureCollection",features:(references?.features??[]).flatMap(f=>{const id=sources.get(String(f.properties.source_id));if(!id)return [];if(f.properties.context_only!==true||f.properties.counts_as_crime_point!==false||f.properties.event_count_point!==false||f.properties.association_radius_m!==0||!validGeometry(f.geometry))throw Error("Invalid reviewed source POI reference");return [{...f,properties:{...f.properties,id,source_reference_id:f.id??f.properties.native_object_id}}];})};
+}
+
+/** Show only explicitly public, current-source-bound related announcements. */
+export function relatedSourceLinks(event:PoliceEvent):SourceRelationship[] {
+ if(!event.public_display_fields?.includes("source_relationships"))return [];
+ const seen=new Set<string>();
+ return (event.source_relationships??[]).filter(row=>{
+  const url=safeURL(row.related_source_url);
+  if(row.source_id!==event.id||!event.source_sha256||row.source_sha256!==event.source_sha256||
+    !["explicit_source_link_to_previously_reported_case","explicit_link_to_federal_police_details_distinct_source_not_fetched"].includes(row.relation)||
+    !row.related_source_id||!url||seen.has(url))return false;
+  seen.add(url);return true;
+ });
+}
+
+/** A named point or venue in the source does not establish a resolved position on the map. */
+export function sceneDisplayPrecision(scene:SceneLocation):string {
+ if(scene.location_precision!=="point"&&scene.location_precision!=="place")return scene.location_precision;
+ const hasPoint=Boolean(scene.coordinates&&validPoint(scene.coordinates))||Boolean(scene.geometry?.type==="Point"&&validPoint(scene.geometry.coordinates));
+ if(scene.location_precision==="point")return hasPoint?"point":"unknown";
+ return hasPoint||Boolean(scene.geometry&&validGeometry(scene.geometry))?"place":"unknown";
 }

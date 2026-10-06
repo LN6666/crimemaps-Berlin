@@ -716,5 +716,6 @@
   "theme.blue": "Blue",
   "theme.light": "Light",
   "project.discuss": "Discuss this map",
-  "project.githubRepository": "Open the {city} project on GitHub"
+  "project.githubRepository": "Open the {city} project on GitHub",
+  "transit.unresolved": "The source identifies a line. Its geometry is unresolved; the exact event section remains unknown."
 }

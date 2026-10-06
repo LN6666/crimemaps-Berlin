@@ -34,7 +34,9 @@ export interface TagDecision {
   tag: ContentTag;
   verdict: TagVerdict;
   evidence_quotes: readonly string[];
-  basis?: "source_backed_offence" | "police_motive_suspected" | "reported_bias_language_or_behavior";
+  basis?: "source_backed_offence" | "source_backed_reported_charge" |
+    "reported_historical_charge_not_conviction" | "police_motive_suspected" |
+    "reported_bias_language_or_behavior";
   /** Private export provenance; not rendered in the public panel. */
   review_provenance?: {
     batch: string; batch_sha256: string; annotation_input_sha256: string;
@@ -126,7 +128,9 @@ export function contentTagStatistics(
         if (decision.tag === "possible_hate_crime") {
           if (!["police_motive_suspected", "reported_bias_language_or_behavior"].includes(decision.basis ?? ""))
             throw Error("Explicit source-backed bias evidence required");
-        } else if (decision.basis !== "source_backed_offence") throw Error("Offence evidence basis required");
+        } else if (![
+          "source_backed_offence", "source_backed_reported_charge", "reported_historical_charge_not_conviction",
+        ].includes(decision.basis ?? "")) throw Error("Offence evidence basis required");
       }
     }
     if (seen.size !== CONTENT_TAGS.length) throw Error("All tag states must be explicit");
@@ -183,10 +187,10 @@ function statisticsFromCounts(
       evaluation_coverage: ratio(evaluated, total),
       documented_share: ratio(counts.supported, total),
       share_in_resolved_records: ratio(counts.supported, resolved),
-      /** Available before full coverage only as an explicitly documented share. */
+      /** Public content-label index: supported announcements divided by all selected announcements. */
       documented_share_points: score(counts.supported, total),
-      /** A single final content index is withheld while any record is uncertain or unevaluated. */
-      content_index: resolved === total ? score(counts.supported, total) : null,
+      /** Uncertain and not-evaluated states stay visible in counts; neither removes a record from the denominator. */
+      content_index: score(counts.supported, total),
       /** Arithmetic missing-label bounds, not a statistical confidence interval. */
       possible_index_range: total ? [
         score(counts.supported, total),
@@ -215,6 +219,6 @@ function statisticsFromCounts(
   return {version: CONTENT_TAG_VERSION, records: total, tags, composite,
     basis: "selected_record_content_labels", index_range: [0, 100] as const,
     crime_rate: null, city_risk_score: null,
-    formula: "100 * supported_records / all_selected_records; final index requires every tag decision resolved",
+    formula: "100 * supported_records / all_selected_records; uncertain and not_evaluated counts remain separately visible",
   };
 }

@@ -6,7 +6,7 @@ export const MACRO_TAGS=["community_safety","hate_discrimination","political_mot
 export const HATE_FACETS=["anti_lgbt","racism","xenophobia","religious_bias"] as const;
 export const ALL_MACRO_TAGS=[...MACRO_TAGS,...HATE_FACETS] as const;
 export type MacroTag=typeof ALL_MACRO_TAGS[number];
-export type MacroBasis="police_category_stated"|"narrative_lead";
+export type MacroBasis="police_category_stated"|"narrative_lead"|"reported_historical_charge_not_conviction";
 export interface MacroDecision {
   tag:MacroTag; verdict:TagVerdict; evidence_quotes:readonly string[]; basis?:MacroBasis;
 }
@@ -47,7 +47,7 @@ export function macroStatistics(records:readonly ContentRecord[],reviews:readonl
       if(d.verdict!=="not_evaluated"&&(!row.reviewer?.trim()||!row.evidence_checked||!row.content_sha256||
         !sha(row.content_sha256)||row.text_scope==="unavailable"))throw Error("Checked source text required");
       if(d.verdict==="supported"&&(!d.evidence_quotes.length||d.evidence_quotes.some(q=>q.trim().length<15||q.trim().length>240)||
-        !["police_category_stated","narrative_lead"].includes(d.basis??"")))throw Error("Macro support needs evidence and attribution");
+        !["police_category_stated","narrative_lead","reported_historical_charge_not_conviction"].includes(d.basis??"")))throw Error("Macro support needs evidence and attribution");
       if(HATE_FACETS.includes(d.tag as typeof HATE_FACETS[number])&&d.verdict==="supported"&&
         row.decisions.find(item=>item.tag==="hate_discrimination")?.verdict!=="supported")
         throw Error("A supported hate facet requires supported parent evidence");
@@ -58,7 +58,10 @@ export function macroStatistics(records:readonly ContentRecord[],reviews:readonl
     const item:MacroCount={tag,counts:{supported:0,no_support:0,uncertain:0,not_evaluated:0},police_category_stated:0,narrative_lead:0};
     for(const row of selected.values()){
       const d=assessed.get(identity(row))?.decisions.find(d=>d.tag===tag);item.counts[d?.verdict??"not_evaluated"]++;
-      if(d?.verdict==="supported")item[d.basis!]++;
+      if(d?.verdict==="supported"){
+        const attribution=d.basis==="reported_historical_charge_not_conviction"?"narrative_lead":d.basis!;
+        item[attribution]++;
+      }
     }
     return item;
   });
@@ -91,8 +94,11 @@ function fromCounts(total:number,counts:readonly MacroCount[]){
     const item=counts.find(item=>item.tag===tag)!,c=item.counts;
     return {...item,share:total?c.supported/total:null,
       evaluated:total?1-c.not_evaluated/total:null,
-      content_index:total&&c.uncertain+c.not_evaluated===0?100*c.supported/total:null};
-  }),crime_rate:null,city_risk_score:null};
+      /** All selected announcements stay in the denominator; unresolved states are reported in counts. */
+      content_index:total?100*c.supported/total:null};
+  }),
+    formula:"100 * supported_records / all_selected_records; uncertain and not_evaluated counts remain separately visible",
+    crime_rate:null,city_risk_score:null};
 }
 /** The caller supplies one checked, count-only catalogue; no country lookup or API calls. */
 export function validateMacroCatalogue(sources:readonly MacroSummary[]){

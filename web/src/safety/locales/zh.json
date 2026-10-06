@@ -716,5 +716,6 @@
   "theme.blue": "深蓝",
   "theme.light": "亮色",
   "project.discuss": "留言讨论",
-  "project.githubRepository": "在 GitHub 查看{city}项目"
+  "project.githubRepository": "在 GitHub 查看{city}项目",
+  "transit.unresolved": "原文明确线路身份；线路几何未解析，具体事件区间仍未知。"
 }
