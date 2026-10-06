@@ -71,3 +71,10 @@ function renderScene(){
 renderScene();
 setInterval(()=>{if(!document.hidden)renderScene();},60000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)renderScene();});
+
+// Native modal dialogs provide focus containment and Escape/cancel handling.
+const noticeTrigger=document.querySelector('#notice-trigger');
+const noticeDialog=document.querySelector('#notice-dialog');
+noticeTrigger.addEventListener('click',()=>{if(!noticeDialog.open)noticeDialog.showModal();});
+document.querySelector('#notice-close').addEventListener('click',()=>noticeDialog.close());
+noticeDialog.addEventListener('close',()=>noticeTrigger.focus());
