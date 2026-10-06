@@ -716,5 +716,6 @@
   "theme.blue": "Blau",
   "theme.light": "Hell",
   "project.discuss": "Über die Karte sprechen",
-  "project.githubRepository": "Das Projekt {city} auf GitHub öffnen"
+  "project.githubRepository": "Das Projekt {city} auf GitHub öffnen",
+  "transit.unresolved": "Die Quelle nennt eine Linie. Ihre Geometrie ist nicht geklärt; der genaue Ereignisabschnitt bleibt unbekannt."
 }
