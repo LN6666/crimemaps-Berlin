@@ -29,7 +29,9 @@
     "noticeTranslation": "GPT and Doubao Lite assist with translation. Chinese is the priority review version. English about 90% and German about 85% are project estimates, not results of a full accuracy assessment. Some details may still show the original text; check the source.",
     "noticeData": "Selected police announcements and POLIZEIKARTE records retain source links. They are not a complete crime inventory; announcement totals are not counts of distinct offences.",
     "noticeMap": "POI outlines and reference extents do not locate an incident. Darker symbols mark source-linked place types; nearby facilities are context and do not establish an offence at a business. Read other extents and colours in the legend. Unknown locations receive no invented coordinates.",
-    "noticeMore": "Sources, map legend and usage notes"
+    "noticeMore": "Sources, map legend and usage notes",
+    "noticeLabel": "Important notes",
+    "noticeClose": "Close"
   },
   "appearanceCopy": {
     "label": "Appearance",

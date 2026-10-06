@@ -29,7 +29,9 @@
     "noticeTranslation": "GPT und Doubao Lite unterstützen die Übersetzung. Chinesisch wird vorrangig geprüft. Etwa 90 % für Englisch und 85 % für Deutsch sind Projekteinschätzungen, keine Ergebnisse einer vollständigen Genauigkeitsprüfung. Einzelne Angaben können im Original erscheinen; bitte die Quelle prüfen.",
     "noticeData": "Ausgewählte Polizeimeldungen und POLIZEIKARTE-Einträge behalten ihre Quellenlinks. Sie sind keine vollständige Kriminalitätsstatistik; Meldungszahlen sind keine Zahl unabhängiger Straftaten.",
     "noticeMap": "POI-Umrisse und räumliche Bezüge lokalisieren keinen Vorfall. Dunklere Symbole kennzeichnen quellenbelegte Einrichtungstypen; Einrichtungen im Umfeld dienen als Bezug und belegen keine Straftat in einem Betrieb. Weitere Bezüge und Farben erklärt die Legende. Unbekannte Orte erhalten keine erfundenen Koordinaten.",
-    "noticeMore": "Quellen, Kartenlegende und Nutzungshinweise"
+    "noticeMore": "Quellen, Kartenlegende und Nutzungshinweise",
+    "noticeLabel": "Hinweise",
+    "noticeClose": "Schließen"
   },
   "appearanceCopy": {
     "label": "Darstellung",
