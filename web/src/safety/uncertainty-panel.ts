@@ -2,11 +2,12 @@ import type { PoliceEvent } from "./model";
 import { UNCERTAINTY_KINDS, uncertaintyPage, uncertaintyRows, uncertaintyStats, type UncertaintyKind, type UncertaintyRow } from "./uncertainty";
 import { ufText, type UFLocale } from "./uncertainty-copy";
 export function mountUncertaintyPanel(container: HTMLElement, options: {
-  locale: UFLocale; city: string; translate?: (key: Parameters<typeof ufText>[1], params?: Record<string, string | number>) => string; onSelect?: (sourceId: string) => void;
+  locale: UFLocale; city: string; translate?: (key: Parameters<typeof ufText>[1], params?: Record<string, string | number>) => string; onSelect?: (sourceId: string, trigger: HTMLButtonElement) => void;
   sourceUncertaintyNotice?: string;
 }) {
   const t = (key: Parameters<typeof ufText>[1], params = {}) => options.translate?.(key, params) ?? ufText(options.locale, key, params);
   let rows: UncertaintyRow[] = [], page = 0;
+  let renderedRows: string | undefined;
   const section = document.createElement("section"); section.className = "uncertainty-panel"; section.id = "unknown-locations";
   const add = (tag: string, value: string, parent: HTMLElement = section) => {
     const el = document.createElement(tag); el.textContent = value; parent.append(el); return el;
@@ -49,7 +50,7 @@ export function mountUncertaintyPanel(container: HTMLElement, options: {
       } else add("span", t("unknown.sourceUnavailable"), actions);
       if (options.onSelect) {
         const button = add("button", t("unknown.show"), actions) as HTMLButtonElement; button.type = "button";
-        button.onclick = () => options.onSelect?.(r.sourceId);
+        button.onclick = () => options.onSelect?.(r.sourceId, button);
       }
     }
   }
@@ -58,7 +59,12 @@ export function mountUncertaintyPanel(container: HTMLElement, options: {
   container.append(section);
   return {
     update(events: readonly PoliceEvent[]) {
-      rows = uncertaintyRows(events); page = 0;
+      const nextRows = uncertaintyRows(events);
+      const signature = JSON.stringify(nextRows);
+      // Keep pagination and focusable buttons when only the map viewport changed.
+      if (signature === renderedRows) return;
+      renderedRows = signature;
+      rows = nextRows; page = 0;
       const s = uncertaintyStats(rows); stats.textContent = t("unknown.stats", s); groups.replaceChildren();
       for (const k of UNCERTAINTY_KINDS) {
         const group = add("li", "", groups);
@@ -66,6 +72,6 @@ export function mountUncertaintyPanel(container: HTMLElement, options: {
       }
       render();
     },
-    destroy() {section.remove(); rows = [];},
+    destroy() {section.remove(); rows = []; renderedRows = undefined;},
   };
 }
