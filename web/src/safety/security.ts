@@ -44,9 +44,9 @@ export function safeExternalURL(value: string): string | null {
   } catch { return null; }
 }
 /** Bound downloads even if Content-Length is absent or dishonest. Preserve caller cancellation. */
-export async function fetchDataJSON<T>(url: string, signal?: AbortSignal, onRead?: (weight: number) => void): Promise<T> {
+export async function fetchDataJSON<T>(url: string, signal?: AbortSignal, onRead?: (weight: number) => void, cachePolicy: "default" | "no-store" = "default"): Promise<T> {
   safeLocalDataPath(url);
-  const response = await fetch(url, { signal, redirect: "error", credentials: "omit", referrerPolicy: "no-referrer" });
+  const response = await fetch(url, { signal, redirect: "error", credentials: "omit", referrerPolicy: "no-referrer", cache: cachePolicy });
   if (!response.ok) throw Error(`Data request failed (${response.status})`);
   const limit = 64 * 1024 * 1024;
   const declared = response.headers.get("content-length");
@@ -73,4 +73,9 @@ export async function fetchDataJSON<T>(url: string, signal?: AbortSignal, onRead
   } catch (error) {
     await reader.cancel().catch(() => {}); throw error;
   } finally { reader.releaseLock(); }
+}
+
+/** Bootstrap manifests select immutable generation URLs and must revalidate on every load. */
+export function fetchFreshManifest<T>(url: string, signal?: AbortSignal): Promise<T> {
+  return fetchDataJSON<T>(url, signal, undefined, "no-store");
 }
