@@ -678,7 +678,7 @@ function showSelection() {
     if (p.opening_hours) text("p", t("selection.openingHours",{hours:p.opening_hours}), panel);
     link(panel, t("selection.osm"), p.source_url);
     const sources = data.catalog.sources.filter((s) =>
-      s.poi_types.includes(p.kind),
+      Array.isArray(s.poi_types) && s.poi_types.includes(p.kind),
     );
     const details = document.createElement("details");
     panel.append(details);
