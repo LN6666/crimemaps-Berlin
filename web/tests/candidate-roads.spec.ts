@@ -202,7 +202,7 @@ async function mockData(page: Page) {
           retrieved_at: "2026-09-27T12:00:00Z",
           coverage: { discovered: 5, fetched: 5, pending: 0, failed: 0 },
           months: { "2026-09": { count: 5 } },
-          years: {"2026":{path:"years/2026.json",announcement_count:5,countable_announcement_count:1,sha256:"0000000000000000000000000000000000000000000000000000000000000000"}}},
+          years: {"2026":{path:"years/2026.json",announcement_count:5,countable_announcement_count:1,sha256:"0000000000000000000000000000000000000000000000000000000000000000"}},
           categories: ["raub", "sachbeschaedigung"],
           tile_index: { pois: [], roads: [] },
           tile_size: [0.04, 0.025],

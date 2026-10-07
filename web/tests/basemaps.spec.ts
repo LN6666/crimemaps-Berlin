@@ -202,7 +202,7 @@ test.describe("basemap browser", () => {
             retrieved_at: "2026-09-27T12:00:00Z",
             coverage: { discovered: 1, fetched: 1, pending: 0, failed: 0 },
             months: { "2026-09": { count: 1 } },
-          years: {"2026":{path:"years/2026.json",announcement_count:1,countable_announcement_count:1,sha256:"0000000000000000000000000000000000000000000000000000000000000000"}}},
+          years: {"2026":{path:"years/2026.json",announcement_count:1,countable_announcement_count:1,sha256:"0000000000000000000000000000000000000000000000000000000000000000"}},
             categories: ["raub"],
             tile_index: { pois: ["bar/335_2100"], roads: [] },
             tile_size: [0.04, 0.025],

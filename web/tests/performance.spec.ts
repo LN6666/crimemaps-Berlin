@@ -116,7 +116,7 @@ test("overview loads no POI geometry, month switching clears missing months", as
           retrieved_at: "2026-09-27T12:00:00Z",
           coverage: { discovered: 2, fetched: 2, pending: 0, failed: 0 },
           months: { "2026-09": { count: 2 } },
-          years: {"2026":{path:"years/2026.json",announcement_count:2,countable_announcement_count:1,sha256:"0000000000000000000000000000000000000000000000000000000000000000"}}},
+          years: {"2026":{path:"years/2026.json",announcement_count:2,countable_announcement_count:1,sha256:"0000000000000000000000000000000000000000000000000000000000000000"}},
           categories: ["raub"],
           tile_index: { pois: [], roads: [] },
           tile_size: [0.04, 0.025],
