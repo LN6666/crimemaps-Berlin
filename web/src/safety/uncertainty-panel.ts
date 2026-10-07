@@ -1,6 +1,6 @@
 import type { PoliceEvent } from "./model";
 import { UNCERTAINTY_KINDS, uncertaintyPage, uncertaintyRows, uncertaintyStats, type UncertaintyKind, type UncertaintyRow } from "./uncertainty";
-import { ufText, type UFLocale } from "./uncertainty-copy";
+import { ufText, uncertaintyRoleKey, type UFLocale } from "./uncertainty-copy";
 export function mountUncertaintyPanel(container: HTMLElement, options: {
   locale: UFLocale; city: string; translate?: (key: Parameters<typeof ufText>[1], params?: Record<string, string | number>) => string; onSelect?: (sourceId: string, trigger: HTMLButtonElement) => void;
   sourceUncertaintyNotice?: string;
@@ -37,7 +37,7 @@ export function mountUncertaintyPanel(container: HTMLElement, options: {
       if (r.sourceStatus === "uncertain" && options.sourceUncertaintyNotice)
         add("p", options.sourceUncertaintyNotice, item).className = "hint";
       const tags = add("div", "", item); tags.className = "uncertainty-tags";
-      add("span", t(`unknown.${r.kind}`), tags); add("span", t(`unknown.role.${r.role}`), tags);
+      add("span", t(`unknown.${r.kind}`), tags); add("span", t(uncertaintyRoleKey(r.role)), tags);
       if (r.label) add("p", r.label, item).className = "uncertainty-location";
       const metadata = add("div", "", item); metadata.className = "uncertainty-metadata";
       add("p", r.eventTime?.precision !== "unknown" && r.eventTime?.display ? t("unknown.originalTime", {time: r.eventTime.display}) : r.summaryEventDate ? t("unknown.summaryDate", {date: r.summaryEventDate}) : t("unknown.timeUnknown"), metadata);
