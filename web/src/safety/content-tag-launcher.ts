@@ -63,8 +63,11 @@ export function mountContentTagLauncher(parent: HTMLElement, options: {
   // Current dated counts can be used even while older prose remains bound to an earlier snapshot.
   const currentStatisticsHost=document.createElement("div");
   if(options.currentStatisticsOnly){
+    // The current count catalogue has no validated saved-brief handoff context.
+    // Keep its statistics available without advertising a disabled copy action.
+    officialHandoff.element.hidden=true;
     for(const node of [briefHost,scopeLabel,reportLink,allMonths,preview,highlights,content])node.hidden=true;
-    availability.textContent={zh:"以下统计对应当前地图资料；旧版AI摘要暂不可用。",en:"The statistics below match the current map data. Earlier AI briefs are unavailable.",de:"Die folgende Statistik passt zu den aktuellen Kartendaten. Frühere KI-Kurzberichte sind nicht verfügbar."}[options.locale];
+    availability.textContent={zh:"以下统计对应当前地图资料，可以选择范围和时间查看。旧版AI摘要与当前资料不匹配，暂不可用。",en:"The statistics below match the current map data; choose a scope and period to read them. Earlier AI briefs do not match this snapshot and are unavailable.",de:"Die folgende Statistik passt zu den aktuellen Kartendaten; Bereich und Zeitraum sind auswählbar. Frühere KI-Kurzberichte passen nicht zu diesem Stand und sind nicht verfügbar."}[options.locale];
     drawer.insertBefore(currentStatisticsHost,officialHandoff.element);
   }
   let catalogue:readonly ContentTagSummary[]=[];
