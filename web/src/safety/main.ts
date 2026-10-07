@@ -1507,7 +1507,7 @@ async function start() {
           "text-anchor":"top","text-offset":[0,0.8],"text-allow-overlap":false,"text-ignore-placement":false},
         paint:{"text-color":"#000000","text-halo-color":"#ffffff","text-halo-width":0.5}});
       map.addLayer({id:"community-line",type:"line",source:"communities",paint:{"line-color":"#000000","line-width":2,"line-opacity":0.9}});
-      map.addLayer({id:"community-label",type:"symbol",source:"community-names",minzoom:11,
+      map.addLayer({id:"community-label",type:"symbol",source:"community-names",minzoom:9,
         layout:{"text-field":["get","name"],"text-size":10,"text-font":["Open Sans Regular","Arial Unicode MS Regular"],
           "text-allow-overlap":false,"text-ignore-placement":false},
         paint:{"text-color":"#000000","text-halo-color":"#ffffff","text-halo-width":1}});
