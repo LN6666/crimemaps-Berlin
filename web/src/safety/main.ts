@@ -692,6 +692,10 @@ function showSelection() {
       panel,
     ).className = "eyebrow";
     text("h2", p.name, panel);
+    text("p",t("selection.poiAssociationLevel",{count:number(p.association_announcement_count??0),level:p.association_roman||"—"}),panel);
+    const levelMethod=text("details","",panel);
+    text("summary",t("selection.poiLevelMethod"),levelMethod);
+    text("p",t("selection.poiLevelFormula"),levelMethod);
     text(
       "p",
       poiGeometryLabel(p.geometry_mode),
@@ -779,7 +783,7 @@ function refresh() {
     kinds(),
     el<HTMLInputElement>("highlight").checked,
   );
-  const noHighlightedPlaces = el<HTMLInputElement>("highlight").checked && !activePois.features.some(f=>f.properties.association_count>0);
+  const noHighlightedPlaces = el<HTMLInputElement>("highlight").checked && !activePois.features.some(f=>f.properties.association_announcement_count>0);
   el("highlight-note").textContent = (noHighlightedPlaces ? t("legend.highlightNone")+" " : "")+t("legend.highlightNote");
   activeRoads = candidateRoads(rows);
   activeScenes = sceneFeatures(rows);
@@ -794,6 +798,7 @@ function refresh() {
   setSource("hex", activeHex);
   setSource("pois", renderPois(activePois));
   setSource("poi-centers", poiCenters(activePois));
+  map.setLayoutProperty("poi-association-label","visibility",el<HTMLInputElement>("highlight").checked ? "visible" : "none");
   setSource("candidate-roads", activeRoads);
   setSource("scenes", activeScenes);
   setSource("source-poi-references",activeSourcePois);
@@ -1447,6 +1452,12 @@ async function start() {
       map.addLayer({id:"poi-center",type:"circle",source:"poi-centers",paint:{
         "circle-radius":3,"circle-color":["get","center_color"],"circle-opacity":1,
         "circle-stroke-color":"#000000","circle-stroke-width":1,"circle-stroke-opacity":1}});
+      map.addLayer({id:"poi-association-label",type:"symbol",source:"poi-centers",
+        filter:["!=",["get","association_roman"],""],
+        layout:{"text-field":["get","association_roman"],"text-size":10,
+          "text-font":["Open Sans Regular","Arial Unicode MS Regular"],
+          "text-anchor":"top","text-offset":[0,0.8],"text-allow-overlap":false,"text-ignore-placement":false},
+        paint:{"text-color":"#000000","text-halo-color":"#ffffff","text-halo-width":0.5}});
       basemaps = new Basemaps(map, paintOverlays, (id) => {
         const error = el("basemap-error");
         error.querySelector("span")!.textContent =
@@ -1511,7 +1522,7 @@ async function start() {
           }
         };
 
-        const centerHits=fs.filter(f=>f.layer.id==="poi-center" && typeof f.properties.id==="string");
+        const centerHits=fs.filter(f=>["poi-center","poi-association-label"].includes(f.layer.id) && typeof f.properties.id==="string");
         if(centerHits.length){
           const centerIds=[...new Set(centerHits.map(f=>String(f.properties.id)))];
           if(centerIds.length===1){selected={type:"poi",id:centerIds[0]};finishSelection();return;}

@@ -562,6 +562,14 @@ export function styledPois(
           n = counts.get(id)?.size ?? 0,
           c = candidate.get(id)?.size ?? 0,
           x = context.get(id)?.size ?? 0;
+        const associationIds=[...new Set([
+          ...(counts.get(id) ?? []),...(candidate.get(id) ?? []),...(context.get(id) ?? []),
+        ])];
+        // Quantize the original shading strength; Roman numerals are not report counts.
+        const count=associationIds.length;
+        const strength=Math.min(1,(Math.min(0.78,0.12+0.16*Math.log2(1+count))-0.12)/0.66);
+        const associationLevel=count>0 ? Math.max(1,Math.min(15,Math.ceil(strength*15))) : 0;
+        const associationRoman=["","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","XIII","XIV","XV"][associationLevel];
         const displayKind = f.properties.scope_category ? f.properties.kind
           : (f.properties.context_kinds ?? [f.properties.kind]).find((kind:string) => kinds.has(kind)) ?? f.properties.kind;
         const categoryColor=data.catalog.poi_types[displayKind]?.color ?? "#64748b";
@@ -580,14 +588,11 @@ export function styledPois(
             candidate_count: c,
             context_count: x,
             association_count: n + c + x,
-            opacity: highlight
-              ? Math.min(0.85, 0.25 + 0.30 * Math.log2(1 + n + c + x))
-              : 0.25,
-            event_ids: [
-              ...(counts.get(id) ?? []),
-              ...(candidate.get(id) ?? []),
-              ...(context.get(id) ?? []),
-            ],
+            association_announcement_count:associationIds.length,
+            association_level:associationLevel,
+            association_roman:associationRoman,
+            opacity:0.25,
+            event_ids:associationIds,
           },
         };
       }),

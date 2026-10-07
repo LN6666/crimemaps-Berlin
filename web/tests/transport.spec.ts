@@ -44,13 +44,29 @@ test('display circle shrink and centre markers preserve native inputs and skip u
  const centers=poiCenters(fc);expect(centers.features.map(f=>f.properties.id)).toEqual(['circle','native']);expect((centers.features[0].geometry as any).coordinates).toEqual([13,52]);expect(JSON.stringify(fc)).toBe(before);
 });
 
-test('POI opacity is visible without inventing associations and toggles only linked facilities',()=>{
+test('POI fill stays visible and uniform while association metadata retains source links',()=>{
  const feature=(id:string,kind:string)=>({type:'Feature',geometry:{type:'Point',coordinates:[13.4,52.5]},properties:{id,kind}});
  const data:any={pois:{type:'FeatureCollection',features:[feature('linked','bar'),feature('neutral','bar'),feature('hidden','cafe')]},catalog:{poi_types:{bar:{color:'#123456'}}}};
  const link=(id:string)=>({event_id:id,poi_id:'linked',status:'context_named_object',source_url:'https://example.test/source',mention_basis:'source_reviewed_context_only'});
  const ids=new Set(['a','b','c']);const links=['a','b','c'].map(link);const kinds=new Set(['bar']);const before=JSON.stringify(data);
  const normal=styledPois(data,links,ids,kinds,false),highlighted=styledPois(data,links,ids,kinds,true);
- expect(normal.features.map(f=>f.properties.opacity)).toEqual([.25,.25]);expect(highlighted.features.map(f=>f.properties.opacity)).toEqual([.85,.25]);
+ expect(normal.features.map(f=>f.properties.opacity)).toEqual([.25,.25]);expect(highlighted.features.map(f=>f.properties.opacity)).toEqual([.25,.25]);
  expect(highlighted.features.map(f=>f.properties.id)).toEqual(['linked','neutral']);expect(highlighted.features.map(f=>f.properties.center_color)).toEqual(['#0b1f34','#0b1f34']);expect(highlighted.features[1].properties.association_count).toBe(0);
  expect(styledPois(data,links,new Set(),kinds,true).features.map(f=>f.properties.opacity)).toEqual([.25,.25]);expect(JSON.stringify(data)).toBe(before);
+});
+
+test('Roman intensity bands deduplicate source links without treating numerals as report counts',()=>{
+ const poi:any={type:'Feature',geometry:{type:'Point',coordinates:[13.4,52.5]},properties:{id:'p',kind:'bar',center:[13.4,52.5]}};
+ const data:any={pois:{type:'FeatureCollection',features:[poi]},catalog:{poi_types:{bar:{color:'#123456'}}}};
+ const link=(id:string,status:string)=>({event_id:id,poi_id:'p',status,source_url:'https://example.test/source',mention_basis:'reviewed'});
+ const names=['','I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV'];
+ for(let n=0;n<=20;n++){
+  const ids=Array.from({length:n},(_,i)=>'a'+i),links=ids.flatMap(id=>[link(id,'context_named_object'),link(id,'named_place_candidate'),link(id,'matched')]);
+  const styled=styledPois(data,links,new Set(ids),new Set(['bar']),true).features[0].properties;
+  const expectedLevels=[0,4,6,8,9,10,11,11,12,13,13,14,14,14,15,15,15,15,15,15,15];const expectedLevel=expectedLevels[n];
+  expect(styled.association_announcement_count).toBe(n);expect(styled.association_level).toBe(expectedLevel);expect(styled.association_roman).toBe(names[expectedLevel]);
+  expect(styled.count).toBe(n);expect(styled.candidate_count).toBe(n);expect(styled.context_count).toBe(n);expect(styled.association_count).toBe(n*3);expect(styled.event_ids).toHaveLength(n);expect(styled.opacity).toBe(.25);
+  expect(styledPois(data,links,new Set(ids),new Set(['bar']),false).features[0].properties.association_roman).toBe(styled.association_roman);
+ }
+ expect(styledPois(data,[link('filtered-out','matched')],new Set(),new Set(['bar']),true).features[0].properties.association_roman).toBe('');
 });
