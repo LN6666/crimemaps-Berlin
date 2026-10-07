@@ -103,7 +103,7 @@
   "report.originalText": "原文表述",
   "report.translation": "中文辅助译文",
   "report.translationNote": "中文译文用于辅助阅读，可能有误。具体表述与细节请核对链接中的警方原文。",
-  "report.translationMissing": "暂无经过复核的中文译文，以下保留原文。",
+  "report.translationMissing": "部分细节可能尚未翻译；如有疑问，请核对来源链接。",
   "report.summary": "经复核的中文摘要",
   "report.summaryNote": "摘要用于辅助阅读，不能代替警方原文。",
   "report.publishedMonth": "地图月份：{month}",
