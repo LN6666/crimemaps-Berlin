@@ -1,4 +1,5 @@
 import type {PoliceEvent} from './model';
+import {unplacedStages} from './source-stages';
 import type {Manifest,DataClient} from './data';
 import type {Locale} from './i18n';
 export interface AddressedText {city:string;source_id:string;source_sha256?:string;field:string;text_sha256:string;translated_text:string;method?:'official_excerpt'|'translated'|'unchanged_native'}
@@ -18,7 +19,9 @@ function restoredFields(event:PoliceEvent, add:(path:string,value:unknown)=>void
  event.scene_locations?.forEach((scene,i)=>{
   if(scene.public_display_fields?.includes('public_reference_note'))add(`/scene_locations/${i}/public_reference_note`,scene.public_reference_note);
  });
+ const visibleStages=new Set(unplacedStages(event));
  if(event.incidents===undefined)event.source_incidents?.forEach((stage,i)=>{
+  if(!visibleStages.has(stage))return;
   add(`/source_incidents/${i}/details`,stage.details);add(`/source_incidents/${i}/event_time/display`,stage.event_time?.display);
  });
 }
@@ -47,7 +50,8 @@ function fieldsFor(event:PoliceEvent):TextField[] {
  const fields:TextField[]=[];
  const add=(field:string,value:unknown)=>{if(typeof value==='string'&&value)fields.push({event,field,original:value});};
  add('/title',event.title);add('/location_label',event.location_label);
- event.incidents?.forEach((stage,i)=>{add(`/incidents/${i}/details`,stage.details);add(`/incidents/${i}/event_time/display`,stage.event_time?.display);});
+ const visibleStages=new Set(unplacedStages(event));
+ event.incidents?.forEach((stage,i)=>{if(visibleStages.has(stage)){add(`/incidents/${i}/details`,stage.details);add(`/incidents/${i}/event_time/display`,stage.event_time?.display);}});
  event.scene_locations?.forEach((scene,i)=>{
   const path=`/scene_locations/${i}`;
   add(`${path}/label`,scene.label);add(`${path}/details`,scene.details);add(`${path}/event_time/display`,scene.event_time?.display);
