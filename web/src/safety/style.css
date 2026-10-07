@@ -357,6 +357,22 @@ i {
 #stats button {
   font-size: 11px;
 }
+/* Keep report navigation legible in the narrow details column. */
+.uncertainty-pagination {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  align-items: center;
+  margin-top: 20px;
+  padding-block: 16px;
+}
+.uncertainty-pagination > span {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  text-align: center;
+}
+.uncertainty-pagination > button { width: 100%; }
+#analytics-panel { margin-top: 24px; }
 .report {
   border-top: 1px solid #e2e8e4;
   padding: 15px 0;

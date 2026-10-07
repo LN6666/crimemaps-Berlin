@@ -75,6 +75,6 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)renderScen
 // Native modal dialogs provide focus containment and Escape/cancel handling.
 const noticeTrigger=document.querySelector('#notice-trigger');
 const noticeDialog=document.querySelector('#notice-dialog');
-noticeTrigger.addEventListener('click',()=>{if(!noticeDialog.open)noticeDialog.showModal();});
+noticeTrigger.addEventListener('click',()=>{if(!noticeDialog.open){noticeDialog.showModal();noticeDialog.querySelector(".notice-dialog-body").scrollTop=0;}});
 document.querySelector('#notice-close').addEventListener('click',()=>noticeDialog.close());
 noticeDialog.addEventListener('close',()=>noticeTrigger.focus());
