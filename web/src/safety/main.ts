@@ -50,7 +50,7 @@ import {
   transitGeometryLabel,
 } from "./model";
 import type { Bundle, FC, PoliceEvent } from "./model";
-import {fetchDataJSON} from "./security";
+import {fetchDataJSON,fetchFreshManifest} from "./security";
 import { DataClient } from "./data";
 import type { Manifest, YearData } from "./data";
 import { Basemaps, basemapLabels } from "./basemaps";
@@ -1007,7 +1007,7 @@ async function loadViewport() {
 }
 async function start() {
   try {
-    manifest = await fetchDataJSON<Manifest>(cityView.manifestPath);
+    manifest = await fetchFreshManifest<Manifest>(cityView.manifestPath);
     if (manifest.city !== cityView.manifestCity)
       throw Error(t("error.cityMismatch"));
     if (new URLSearchParams(location.search).has("diagnostics") && (
