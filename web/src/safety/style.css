@@ -218,19 +218,35 @@ p {
 }
 .scene-swatch {
   display: inline-block;
-  width: 9px;
-  height: 9px;
-  margin-right: 5px;
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  margin: 2px 7px 2px 2px;
+  border: 3px solid currentColor;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: 0 0 0 2px #ffffff;
+  vertical-align: middle;
 }
-.scene-swatch.incident { background: #b43d4b; }
-.scene-swatch.discovery { background: #2874a6; }
-.scene-swatch.operation { background: #986223; }
-.scene-swatch.context { background: #677785; }
+.scene-legend > span { display: flex; align-items: center; }
+.scene-swatch.incident { color: #b43d4b; }
+.scene-swatch.discovery { color: #2874a6; }
+.scene-swatch.operation { color: #986223; }
+.scene-swatch.context { color: #677785; }
+.scene-road-swatch { display:inline-block; flex:0 0 18px; width:18px; height:3px; margin-right:7px; box-shadow:0 0 0 2px #ffffff; }
+.scene-road-swatch.incident { background:#b43d4b; }
+.scene-road-swatch.discovery { background:#2874a6; }
+.scene-road-swatch.operation { background:#986223; }
+.scene-road-swatch.context { background:#677785; }
+.scene-shape-note { margin-top: 8px; }
 .route-swatch {
   display: inline-block;
-  width: 18px;
+  width: 22px;
   height: 3px;
+  flex: 0 0 22px;
   margin-right: 6px;
+  box-shadow: 0 0 0 2px #ffffff;
   vertical-align: middle;
   background: repeating-linear-gradient(90deg, #6d4bc3 0 7px, transparent 7px 11px);
 }

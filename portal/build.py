@@ -11,7 +11,7 @@ import shutil
 
 CITY_IDS = ('berlin', 'hamburg', 'munich', 'cologne', 'frankfurt', 'dusseldorf',
             'stuttgart', 'leipzig', 'dortmund', 'bremen', 'essen', 'dresden', 'hannover', 'nuremberg')
-NOTICE_RULE_KEYS = tuple((f"noticeRule{i}Title", f"noticeRule{i}Body") for i in range(1, 13))
+NOTICE_RULE_KEYS = tuple((f"noticeRule{i}Title", f"noticeRule{i}Body") for i in range(1, 14))
 COPY_KEYS = {key for pair in NOTICE_RULE_KEYS for key in pair} | {'noticeLabel', 'noticeClose', 'noticeTranslation', 'noticeTitle', 'noticeProgress', 'noticeMore', 'noticeData', 'noticeMap'} | {'title', 'home', 'caption', 'grid', 'open', 'about', 'note', 'details', 'images', 'repo', 'alt',
              'sourcesTitle', 'sourcesNote', 'mapLink', 'policeLink', 'directoryCount',
              'externalMapLabel', 'externalPoliceLabel', 'githubDiscuss', 'githubIssues', 'githubPrivacy', 'analyticsCollection', 'analyticsOff', 'analyticsPrivacy'}

@@ -97,3 +97,20 @@
  .content-tag-gemini-tools summary{min-height:36px;padding:2px 0;}
 }
 @media(prefers-reduced-motion:reduce){.content-tag-gemini-handoff .content-tag-gemini-copy,.content-tag-gemini-handoff .content-tag-gemini-open{transition:none;}}
+
+/* Dated tables also live outside the floating widget, in the narrow details rail. */
+.dated-tag-statistics { --ct-ink:#183044; --ct-line:#cbdce8; color:var(--ct-ink); min-width:0; }
+.dated-tag-statistics > details { min-width:0; margin-top:12px; padding:12px; }
+.dated-tag-table { max-width:100%; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch; }
+.dated-tag-table:focus-visible { outline:3px solid #48a9e6; outline-offset:2px; }
+.dated-tag-table table { min-width:60rem; table-layout:auto; }
+.dated-tag-table thead th { min-width:7rem; max-width:12rem; vertical-align:top; white-space:normal; word-break:normal; overflow-wrap:normal; }
+.dated-tag-table tbody td { white-space:nowrap; }
+.dated-tag-table th[scope="row"] { min-width:9rem; }
+:root:not([data-theme="light"]) .dated-tag-statistics { --ct-ink:#f3f0e8; --ct-line:#596b80; }
+:root:not([data-theme="light"]) .dated-tag-statistics thead { color:#f3f0e8; background:#20334b; }
+.content-tag-drawer [hidden] { display:none; }
+.content-tag-drawer .dated-tag-statistics { padding:14px 18px; }
+.content-tag-drawer .dated-tag-statistics > h3 { margin-top:0; }
+:root:not([data-theme="light"]) .content-tag-drawer .dated-tag-statistics { --ct-ink:#183044; --ct-line:#cbdce8; }
+:root:not([data-theme="light"]) .content-tag-drawer .dated-tag-statistics thead { color:#183044; background:#ecf5fc; }

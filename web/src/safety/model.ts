@@ -4,11 +4,12 @@ import type {
   Geometry,
   LineString,
   MultiLineString,
+  Polygon,
 } from "geojson";
 export type Properties = Record<string, any>;
 export type FC = FeatureCollection<Geometry, Properties>;
 export const SCENE_CLICK_LAYERS = [
-  "scene-point", "scene-candidate-road-hit", "scene-line", "scene-line-hit", "scene-transit-route",
+  "scene-point", "scene-point-halo", "scene-line-casing", "scene-transit-route-casing", "scene-transit-line-reference-casing", "scene-candidate-road-line-casing", "scene-candidate-road-hit", "scene-line", "scene-line-hit", "scene-transit-route",
   "scene-transit-line-reference", "scene-transit-line-reference-hit",
   "scene-area-fill", "scene-area-outline",
 ];
@@ -202,7 +203,7 @@ export interface Bundle {
     exhaustive: boolean;
   };
   zones: {
-    places: Properties[];
+    places: (Properties & { approximate_geometry?: Polygon })[];
     features: FC["features"];
     geometry_status: string;
   };
@@ -561,27 +562,37 @@ export function styledPois(
           n = counts.get(id)?.size ?? 0,
           c = candidate.get(id)?.size ?? 0,
           x = context.get(id)?.size ?? 0;
+        const associationIds=[...new Set([
+          ...(counts.get(id) ?? []),...(candidate.get(id) ?? []),...(context.get(id) ?? []),
+        ])];
+        // Quantize the original shading strength; Roman numerals are not report counts.
+        const count=associationIds.length;
+        const strength=Math.min(1,(Math.min(0.78,0.12+0.16*Math.log2(1+count))-0.12)/0.66);
+        const associationLevel=count>0 ? Math.max(1,Math.min(15,Math.ceil(strength*15))) : 0;
+        const associationRoman=["","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","XIII","XIV","XV"][associationLevel];
         const displayKind = f.properties.scope_category ? f.properties.kind
           : (f.properties.context_kinds ?? [f.properties.kind]).find((kind:string) => kinds.has(kind)) ?? f.properties.kind;
+        const categoryColor=data.catalog.poi_types[displayKind]?.color ?? "#64748b";
+        const centerColor=/^#[0-9a-f]{6}$/i.test(categoryColor)
+          ? "#"+categoryColor.slice(1).match(/../g)!.map(channel=>Math.round(parseInt(channel,16)*0.6).toString(16).padStart(2,"0")).join("")
+          : "#3c4653";
         return {
           ...f,
           properties: {
             ...f.properties,
             display_kind: displayKind,
+            center_color:centerColor,
             color:
               data.catalog.poi_types[displayKind]?.color ?? "#64748b",
             count: n,
             candidate_count: c,
             context_count: x,
             association_count: n + c + x,
-            opacity: highlight
-              ? Math.min(0.78, 0.12 + 0.16 * Math.log2(1 + n + c + x))
-              : 0.12,
-            event_ids: [
-              ...(counts.get(id) ?? []),
-              ...(candidate.get(id) ?? []),
-              ...(context.get(id) ?? []),
-            ],
+            association_announcement_count:associationIds.length,
+            association_level:associationLevel,
+            association_roman:associationRoman,
+            opacity:0.25,
+            event_ids:associationIds,
           },
         };
       }),
@@ -600,14 +611,22 @@ export function safeURL(value: string): string | null {
  * Native geometry/scene/count/context matching never consume this display copy.
  */
 export function radiusPixelsAtZoomZero(latitude: number, radius: number): number {
-  if (!Number.isFinite(latitude) || Math.abs(latitude) >= 85 || radius !== 50)
+  if (!Number.isFinite(latitude) || Math.abs(latitude) >= 85 || ![30,50].includes(radius))
     throw Error("Invalid reviewed display circle");
   return radius * 512 / (40075016.68557849 * Math.cos(latitude * Math.PI / 180));
 }
 export function renderPois(fc: FC): FC {
   return { ...fc, features: fc.features.map((feature) => {
     const p = feature.properties;
-    if (p.compact_geometry_version !== 1) return feature;
+    if (p.compact_geometry_version !== 1) {
+      // Shrink only a saved display circle; never resize a native footprint.
+      if (p.geometry_mode !== "50m_circle" || feature.geometry.type !== "Polygon" ||
+          !Array.isArray(p.center) || !validPoint(p.center) || !validGeometry(feature.geometry)) return feature;
+      const [lon,lat] = p.center;
+      return {...feature,geometry:{...feature.geometry,coordinates:feature.geometry.coordinates.map(ring =>
+        ring.map(point => [lon+(point[0]-lon)*0.6,lat+(point[1]-lat)*0.6]))},
+        properties:{...p,display_radius_m:30,display_circle_polygon:true}};
+    }
     if (feature.geometry.type !== "Point" || p.geometry_mode !== "50m_circle" ||
         p.boundary_clipped !== false || p.display_radius_m !== 50 ||
         !validPoint(feature.geometry.coordinates) ||
@@ -615,8 +634,19 @@ export function renderPois(fc: FC): FC {
         p.center[1] !== feature.geometry.coordinates[1])
       throw Error("Invalid compact reviewed circle");
     return { ...feature, properties: { ...p,
-      radius_px_z0: radiusPixelsAtZoomZero(feature.geometry.coordinates[1], p.display_radius_m) } };
+      display_radius_m:30, radius_px_z0: radiusPixelsAtZoomZero(feature.geometry.coordinates[1], 30) } };
   }) };
+}
+
+/** Existing reviewed anchors only: no centroid calculation or unknown-location substitute. */
+export function poiCenters(fc: FC): FC {
+  return {...fc,features:fc.features.flatMap(feature => {
+    const p=feature.properties;
+    if (!Array.isArray(p.center) || !validPoint(p.center) || !feature.geometry || !validGeometry(feature.geometry) ||
+        ["unknown","footprint_missing"].includes(p.geometry_mode)) return [];
+    return [{...feature,geometry:{type:"Point" as const,coordinates:[...p.center]},
+      properties:{...p,display_anchor_only:true,does_not_locate_or_count_event:true}}];
+  })};
 }
 
 export {unplacedStages} from './source-stages';

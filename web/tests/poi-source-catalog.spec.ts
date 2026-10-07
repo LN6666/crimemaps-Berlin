@@ -33,9 +33,9 @@ test('general source entries do not interrupt POI provenance and linked reports'
   await page.locator('#search').fill('Test Bar');
   await page.getByRole('button',{name:'Test Bar · 酒吧／酒馆',exact:true}).click();
   await expect(page.locator('#selection h2')).toHaveText('Test Bar');
-  await expect(page.locator('#selection summary')).toContainText('1项警方来源');
+  await expect(page.locator('#selection summary').filter({hasText:'1项警方来源'})).toContainText('1项警方来源');
   await expect(page.locator('#selection .report')).toContainText('Linked announcement');
-  await page.locator('#selection summary').click();
+  await page.locator('#selection summary').filter({hasText:'1项警方来源'}).click();
   await expect(page.locator('#selection')).toContainText('Police source');
   await expect(page.locator('#selection')).not.toContainText('General source');
   await expect(page.locator('#selection')).not.toContainText('String is not a type list');
