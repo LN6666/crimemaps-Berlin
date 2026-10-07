@@ -165,3 +165,10 @@ body{background:linear-gradient(160deg,#13253a 0,#0b1726 580px)}
 :root[data-theme=light] .notice-dialog{background:#fdfcf8;color:#213b4b}:root[data-theme=light] .notice-dialog-header{border-color:#39556b26}:root[data-theme=light] .notice-close{border-color:#39556b55}:root[data-theme=light] .notice-dialog-body a{color:#715a29}
 @media(min-width:1081px){.header-tools{grid-template-columns:auto auto auto}}
 @media(max-width:600px){.notice-trigger{grid-row:2;grid-column:1/-1;justify-self:end;font-size:16px}.header-caption{grid-row:3}.notice-dialog-header{padding:10px 12px;gap:10px}.notice-dialog h2{font-size:18px}.notice-dialog-body{padding:6px 12px 16px;font-size:15px}}
+
+/* Keep the modal header visible while the full reading guide scrolls. */
+.notice-dialog-body{flex:1 1 auto;scrollbar-gutter:stable;-webkit-overflow-scrolling:touch}
+.notice-dialog-body:focus-visible{outline:2px solid var(--gold);outline-offset:-3px}
+.notice-rule{border-top:1px solid #a8bfd329;padding-top:12px;margin-top:18px}
+.notice-rule h3{margin:0 0 6px;font-size:17px;line-height:1.45}
+:root[data-theme=light] .notice-rule{border-color:#39556b26}
