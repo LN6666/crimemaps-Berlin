@@ -15,6 +15,8 @@ try {
     await cp(join(web, path), join(fixtureWeb, path), {recursive:true});
   await symlink(resolve(web, "node_modules"), join(fixtureWeb, "node_modules"), "dir");
   await cp(resolve(web, "../config"), join(temporary, "config"), {recursive:true});
+  await mkdir(join(temporary, "data", "safety"), {recursive:true});
+  await cp(resolve(web, "../data/safety/berlin_kbo.json"), join(temporary, "data", "safety", "berlin_kbo.json"));
   // The lazy statistics card imports the shared inert renderer. Preserve the
   // same relative module paths in this isolated synthetic-city build.
   const analyticsSource = join(temporary, "services", "analytics", "src");

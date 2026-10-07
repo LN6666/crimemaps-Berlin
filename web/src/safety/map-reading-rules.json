@@ -10,7 +10,7 @@
     },
     {
       "title": "地点精度、角色与颜色",
-      "body": "地点按已核验的点、街道或路线、区域、区级和未知精度展示。事件或事故地为红色，发现地为蓝色，警方行动地为棕色，背景或尚未厘清的地点为灰色；公共交通路线为紫色虚线。发现、报案、救助、搜查、逮捕和背景地点各自保留角色，不能都理解为犯罪发生地。一篇公告可能关联多个地点，点击相应图形阅读原文和详情。 公告地点采用低透明度彩色空心圆与白色外圈，颜色表示地点角色；POI采用半透明类别色、细黑边和小黑圆心。两类颜色体系分别解释，不把场所类别误认为案发角色。"
+      "body": "地点按已核验的点、街道或路线、区域、区级和未知精度展示。事件或事故地为红色，发现地为蓝色，警方行动地为棕色，背景或尚未厘清的地点为灰色；公共交通路线为紫色虚线。发现、报案、救助、搜查、逮捕和背景地点各自保留角色，不能都理解为犯罪发生地。一篇公告可能关联多个地点，点击相应图形阅读原文和详情。 公告地点采用低透明度彩色空心圆与白色外圈，颜色表示地点角色；POI采用半透明类别色、细黑边和同类别深色实心圆心（完全不透明，带细黑边）。两类颜色体系分别解释，不把场所类别误认为案发角色。"
     },
     {
       "title": "道路、路线与范围",
@@ -26,7 +26,7 @@
     },
     {
       "title": "POI轮廓与30米圆",
-      "body": "大型场所、车站、站台和公园优先保留已核验的原生轮廓、线或点；具体范围以该对象详情为准。小型场所的30米圆只是半径30米的显示范围，不是场所边界、警方划定范围、事件影响范围或附近匹配半径。为加载而采用的圆心编码只还原同一显示圆，不产生新的事件位置。未知场所几何不由行政区中心、附近设施或图片像素补造。 点击小黑圆心可查看该POI的名称、类型及已有详细信息；圆心沿用已保存的场所位置，不用于定位公告事件。"
+      "body": "大型场所、车站、站台和公园优先保留已核验的原生轮廓、线或点；具体范围以该对象详情为准。小型场所的30米圆只是半径30米的显示范围，不是场所边界、警方划定范围、事件影响范围或附近匹配半径。为加载而采用的圆心编码只还原同一显示圆，不产生新的事件位置。未知场所几何不由行政区中心、附近设施或图片像素补造。 点击同类别深色实心圆心（完全不透明，带细黑边）可查看该POI的名称、类型及已有详细信息；圆心沿用已保存的场所位置，不用于定位公告事件。"
     },
     {
       "title": "身份、边界与覆盖",
@@ -60,7 +60,7 @@
     },
     {
       "title": "Location precision, roles and colours",
-      "body": "Locations retain their verified point, street or route, area, district or unknown precision. Incident or accident locations are red, discovery locations blue, police operations brown, and background or unresolved locations grey. Public-transport routes use purple dashes. Discovery, reporting, rescue, search, arrest and background places retain their own roles; they are not all offence locations. One announcement may reference several places. Open the relevant shape to read its details and source. Announcement points use faintly tinted rings with white outer rims; their colors identify location roles. POIs use translucent venue-type colors, thin black outlines and small black centers. Venue types and announcement roles are separate legends."
+      "body": "Locations retain their verified point, street or route, area, district or unknown precision. Incident or accident locations are red, discovery locations blue, police operations brown, and background or unresolved locations grey. Public-transport routes use purple dashes. Discovery, reporting, rescue, search, arrest and background places retain their own roles; they are not all offence locations. One announcement may reference several places. Open the relevant shape to read its details and source. Announcement points use faintly tinted rings with white outer rims; their colors identify location roles. POIs use translucent venue-type colors, thin black outlines and fully opaque solid centers in a darker shade of the same venue-type color, with thin black outlines. Venue types and announcement roles are separate legends."
     },
     {
       "title": "Roads, routes and extents",
@@ -76,7 +76,7 @@
     },
     {
       "title": "POI outlines and 30 m circles",
-      "body": "Large venues, stations, platforms and parks retain verified native outlines, lines or points where available; consult each object’s details for its actual extent. A small venue’s circle has a display radius of 30 m. It is not a venue boundary, police-defined area, incident impact area or nearby matching radius. Compact centre encoding reconstructs that same display circle and creates no event position. Unknown venue geometry is not invented from district centres, nearby facilities or image pixels. Click a small black center to view the POI name, type and available details. Centers reuse saved venue positions and do not locate announcement events."
+      "body": "Large venues, stations, platforms and parks retain verified native outlines, lines or points where available; consult each object’s details for its actual extent. A small venue’s circle has a display radius of 30 m. It is not a venue boundary, police-defined area, incident impact area or nearby matching radius. Compact centre encoding reconstructs that same display circle and creates no event position. Unknown venue geometry is not invented from district centres, nearby facilities or image pixels. Click a fully opaque solid center in a darker shade of the same venue-type color, with a thin black outline to view the POI name, type and available details. Centers reuse saved venue positions and do not locate announcement events."
     },
     {
       "title": "Identity, boundaries and coverage",
@@ -110,7 +110,7 @@
     },
     {
       "title": "Ortsgenauigkeit, Rollen und Farben",
-      "body": "Orte behalten ihre geprüfte Genauigkeit als Punkt, Straße oder Route, Gebiet, Bezirk oder unbekannten Ort. Ereignis- und Unfallorte sind rot, Fundorte blau, Polizeieinsätze braun sowie Hintergrund- und ungeklärte Orte grau. ÖPNV-Routen erscheinen violett gestrichelt. Fund-, Anzeige-, Rettungs-, Durchsuchungs-, Festnahme- und Hintergrundorte behalten ihre eigenen Rollen; sie sind nicht alle Tatorte. Eine Meldung kann mehrere Orte nennen. Die jeweilige Form öffnet Details und Quelle. Orte aus Meldungen werden als schwach gefärbte Ringe mit weißem Außenrand gezeigt; die Farben kennzeichnen Ortsrollen. POI haben halbtransparente Farben nach Einrichtungstyp, dünne schwarze Umrisse und kleine schwarze Mittelpunkte. Einrichtungstypen und Ortsrollen haben getrennte Legenden."
+      "body": "Orte behalten ihre geprüfte Genauigkeit als Punkt, Straße oder Route, Gebiet, Bezirk oder unbekannten Ort. Ereignis- und Unfallorte sind rot, Fundorte blau, Polizeieinsätze braun sowie Hintergrund- und ungeklärte Orte grau. ÖPNV-Routen erscheinen violett gestrichelt. Fund-, Anzeige-, Rettungs-, Durchsuchungs-, Festnahme- und Hintergrundorte behalten ihre eigenen Rollen; sie sind nicht alle Tatorte. Eine Meldung kann mehrere Orte nennen. Die jeweilige Form öffnet Details und Quelle. Orte aus Meldungen werden als schwach gefärbte Ringe mit weißem Außenrand gezeigt; die Farben kennzeichnen Ortsrollen. POI haben halbtransparente Farben nach Einrichtungstyp, dünne schwarze Umrisse und vollständig deckende Mittelpunkte in einer dunkleren Farbe desselben Einrichtungstyps mit dünnem schwarzem Rand. Einrichtungstypen und Ortsrollen haben getrennte Legenden."
     },
     {
       "title": "Straßen, Routen und Ausdehnung",
@@ -126,7 +126,7 @@
     },
     {
       "title": "POI-Umrisse und 30-Meter-Kreise",
-      "body": "Große Einrichtungen, Bahnhöfe, Bahnsteige und Parks behalten nach Möglichkeit geprüfte native Umrisse, Linien oder Punkte; die jeweilige Ausdehnung steht in den Objektdetails. Der Kreis eines kleinen Orts hat einen Darstellungsradius von 30 m. Er ist weder Einrichtungsgrenze noch Polizeigebiet, Wirkungsbereich eines Vorfalls oder Suchradius für nahe Orte. Eine kompakte Mittelpunktkodierung rekonstruiert denselben Darstellungskreis und erzeugt keine Ereignisposition. Unbekannte Geometrie wird nicht aus Bezirksmittelpunkten, nahen Einrichtungen oder Bildpixeln erfunden. Ein Klick auf den kleinen schwarzen Mittelpunkt zeigt Name, Typ und vorhandene Details des POI. Die Mittelpunkte verwenden gespeicherte Ortspositionen und verorten keine Ereignisse aus Meldungen."
+      "body": "Große Einrichtungen, Bahnhöfe, Bahnsteige und Parks behalten nach Möglichkeit geprüfte native Umrisse, Linien oder Punkte; die jeweilige Ausdehnung steht in den Objektdetails. Der Kreis eines kleinen Orts hat einen Darstellungsradius von 30 m. Er ist weder Einrichtungsgrenze noch Polizeigebiet, Wirkungsbereich eines Vorfalls oder Suchradius für nahe Orte. Eine kompakte Mittelpunktkodierung rekonstruiert denselben Darstellungskreis und erzeugt keine Ereignisposition. Unbekannte Geometrie wird nicht aus Bezirksmittelpunkten, nahen Einrichtungen oder Bildpixeln erfunden. Ein Klick auf den vollständig deckenden Mittelpunkt in einer dunkleren Farbe desselben Einrichtungstyps mit dünnem schwarzem Rand zeigt Name, Typ und vorhandene Details des POI. Die Mittelpunkte verwenden gespeicherte Ortspositionen und verorten keine Ereignisse aus Meldungen."
     },
     {
       "title": "Identität, Grenzen und Abdeckung",

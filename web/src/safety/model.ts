@@ -9,7 +9,7 @@ import type {
 export type Properties = Record<string, any>;
 export type FC = FeatureCollection<Geometry, Properties>;
 export const SCENE_CLICK_LAYERS = [
-  "scene-point", "scene-point-halo", "scene-candidate-road-hit", "scene-line", "scene-line-hit", "scene-transit-route",
+  "scene-point", "scene-point-halo", "scene-line-casing", "scene-transit-route-casing", "scene-transit-line-reference-casing", "scene-candidate-road-line-casing", "scene-candidate-road-hit", "scene-line", "scene-line-hit", "scene-transit-route",
   "scene-transit-line-reference", "scene-transit-line-reference-hit",
   "scene-area-fill", "scene-area-outline",
 ];
@@ -564,11 +564,16 @@ export function styledPois(
           x = context.get(id)?.size ?? 0;
         const displayKind = f.properties.scope_category ? f.properties.kind
           : (f.properties.context_kinds ?? [f.properties.kind]).find((kind:string) => kinds.has(kind)) ?? f.properties.kind;
+        const categoryColor=data.catalog.poi_types[displayKind]?.color ?? "#64748b";
+        const centerColor=/^#[0-9a-f]{6}$/i.test(categoryColor)
+          ? "#"+categoryColor.slice(1).match(/../g)!.map(channel=>Math.round(parseInt(channel,16)*0.6).toString(16).padStart(2,"0")).join("")
+          : "#3c4653";
         return {
           ...f,
           properties: {
             ...f.properties,
             display_kind: displayKind,
+            center_color:centerColor,
             color:
               data.catalog.poi_types[displayKind]?.color ?? "#64748b",
             count: n,
@@ -576,8 +581,8 @@ export function styledPois(
             context_count: x,
             association_count: n + c + x,
             opacity: highlight
-              ? Math.min(0.78, 0.12 + 0.16 * Math.log2(1 + n + c + x))
-              : 0.12,
+              ? Math.min(0.85, 0.25 + 0.30 * Math.log2(1 + n + c + x))
+              : 0.25,
             event_ids: [
               ...(counts.get(id) ?? []),
               ...(candidate.get(id) ?? []),

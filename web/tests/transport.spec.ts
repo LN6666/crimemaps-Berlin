@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 import {LRU,DataClient,tileKeys} from '../src/safety/data';
-import {renderPois,radiusPixelsAtZoomZero,poiCenters} from '../src/safety/model';
+import {renderPois,radiusPixelsAtZoomZero,poiCenters,styledPois} from '../src/safety/model';
 const manifest:any={schema_version:2,generation:'0123456789abcdef-20261003T000000',tile_index:{pois:['bar/335_2100','bar/336_2100'],roads:[]},tile_size:[0.04,0.025],months:{'2026-09':{count:1}},categories:['gewalt']};
 test('weighted cache prevents oversized records and respects recency',()=>{const c=new LRU<number>(80,10);c.set('a',1,4);c.set('b',2,4);c.get('a');c.set('c',3,4);expect(c.get('b')).toBeUndefined();c.set('oversize',4,11);expect(c.get('oversize')).toBeUndefined();expect(c.weight).toBeLessThanOrEqual(10);});
 test('display circles require reviewed unchanged anchors; native geometry is untouched',()=>{const f:any={type:'Feature',properties:{id:'osm/node/1',geometry_mode:'50m_circle',boundary_clipped:false,center:[13.4,52.5],display_radius_m:50,compact_geometry_version:1},geometry:{type:'Point',coordinates:[13.4,52.5]}};const fc:any={type:'FeatureCollection',features:[f]};expect(renderPois(fc).features[0].properties.radius_px_z0).toBeCloseTo(radiusPixelsAtZoomZero(52.5,30));expect(renderPois(fc).features[0].properties.display_radius_m).toBe(30);expect(f.properties.display_radius_m).toBe(50);expect(()=>renderPois({type:'FeatureCollection',features:[{...f,properties:{...f.properties,boundary_clipped:true}}]})).toThrow();const native:any={...f,properties:{id:'native'},geometry:{type:'LineString',coordinates:[[13.4,52.5],[13.5,52.6]]}};expect(renderPois({type:'FeatureCollection',features:[native]}).features[0]).toBe(native);});
@@ -42,4 +42,15 @@ test('display circle shrink and centre markers preserve native inputs and skip u
  const fc:any={type:'FeatureCollection',features:[circle,native,missing,unknown]};const before=JSON.stringify(fc);
  const displayed=renderPois(fc);expect((displayed.features[0].geometry as any).coordinates[0][0][0]).toBeCloseTo(13.0006);expect(displayed.features[1]).toBe(native);
  const centers=poiCenters(fc);expect(centers.features.map(f=>f.properties.id)).toEqual(['circle','native']);expect((centers.features[0].geometry as any).coordinates).toEqual([13,52]);expect(JSON.stringify(fc)).toBe(before);
+});
+
+test('POI opacity is visible without inventing associations and toggles only linked facilities',()=>{
+ const feature=(id:string,kind:string)=>({type:'Feature',geometry:{type:'Point',coordinates:[13.4,52.5]},properties:{id,kind}});
+ const data:any={pois:{type:'FeatureCollection',features:[feature('linked','bar'),feature('neutral','bar'),feature('hidden','cafe')]},catalog:{poi_types:{bar:{color:'#123456'}}}};
+ const link=(id:string)=>({event_id:id,poi_id:'linked',status:'context_named_object',source_url:'https://example.test/source',mention_basis:'source_reviewed_context_only'});
+ const ids=new Set(['a','b','c']);const links=['a','b','c'].map(link);const kinds=new Set(['bar']);const before=JSON.stringify(data);
+ const normal=styledPois(data,links,ids,kinds,false),highlighted=styledPois(data,links,ids,kinds,true);
+ expect(normal.features.map(f=>f.properties.opacity)).toEqual([.25,.25]);expect(highlighted.features.map(f=>f.properties.opacity)).toEqual([.85,.25]);
+ expect(highlighted.features.map(f=>f.properties.id)).toEqual(['linked','neutral']);expect(highlighted.features.map(f=>f.properties.center_color)).toEqual(['#0b1f34','#0b1f34']);expect(highlighted.features[1].properties.association_count).toBe(0);
+ expect(styledPois(data,links,new Set(),kinds,true).features.map(f=>f.properties.opacity)).toEqual([.25,.25]);expect(JSON.stringify(data)).toBe(before);
 });
