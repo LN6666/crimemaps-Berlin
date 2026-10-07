@@ -1,3 +1,5 @@
+import mapReadingRules from "./map-reading-rules.json";
+import reviewedKboReference from "../../../data/safety/berlin_kbo.json";
 import {mountAnalytics,markAnalyticsLanguageNavigation} from "./analytics";
 import "./analytics.css";
 import {catalogSummary,loadCatalogTranslations} from "./catalog-translations";
@@ -46,6 +48,7 @@ import {
   sourcePoiReferences,
   SOURCE_POI_CLICK_LAYERS,
   renderPois,
+  poiCenters,
   poiGeometryLabel,
   transitGeometryLabel,
 } from "./model";
@@ -59,6 +62,8 @@ import { cityGroups, requestedMapView } from "./cities";
 import { assetPath, cityIds, cityDestination, requestedMonth } from "./deployment";
 
 const cityView = requestedMapView(window.location.search);
+// Versioned display reference: independent of frozen announcement archives.
+const kboZones: Bundle["zones"] = cityView.kbo ? reviewedKboReference as Bundle["zones"] : {places:[],features:[],geometry_status:"not_applicable"};
 const currentCity = cityView.id;
 const localizedCity=cityName(currentCity,cityView.latin);
 document.title = t("app.title",{city:localizedCity});
@@ -125,7 +130,7 @@ const sceneColor: maplibregl.ExpressionSpecification = [
 const app = document.querySelector<HTMLDivElement>("#app")!;
 initializeAppearance();
 app.innerHTML = `<header><div><span class="brand">${currentCity === "berlin" ? "CRIMEMAPSBERLIN" : "CRIMEMAPS.DE"}</span><span id="review-badge" class="review-badge" hidden>${html(t("app.preview"))}</span><h1>${html(t("app.heading",{city:localizedCity}))}</h1></div><div class="toolbar"><label>${html(t("nav.language"))}<select id="language" aria-label="${html(t("nav.language"))}"><option value="de">Deutsch</option><option value="en">English</option><option value="zh">中文</option></select></label><label class="city-switch">${html(t("nav.city"))}<select id="city-switch" aria-label="${html(t("nav.city"))}"></select></label><label>${html(t("nav.year"))}<select id="year" aria-label="${html(t("nav.year"))}"></select></label><label>${html(t("nav.month"))}<select id="month" aria-label="${html(t("nav.month"))}"></select></label><button id="overview">${html(t("nav.overview"))}</button><button id="sources">${html(t("nav.sources"))}</button></div></header>
-<main><aside class="controls"><p class="eyebrow">${html(localizedCity)} / ${html(t("app.publicReports"))}</p><h2>${html(t("app.tagline"))}</h2><p id="coverage">${html(t("map.loadingData"))}</p><nav id="external-maps" class="external-maps" aria-label="${html(t("external.aria"))}"></nav><label class="search-label">${html(t("search.label",{city:localizedCity}))}<input id="search" placeholder="${html(t("search.placeholder",{},cityView.latin))}" autocomplete="off"></label><div id="search-results"></div><label>${html(t("filter.category"))}<select id="category"><option value="all">${html(t("filter.allReports"))}</option></select></label><div class="rule"></div><h3 id="year-hex-title">${html(t("legend.hex"))}</h3><p class="hint">${html(t("legend.yearScope"))}</p><div class="ramp"></div><div class="ends"><span>${html(t("legend.low"))}</span><span>${html(t("legend.high"))}</span></div><p id="resolution"></p><label class="toggle"><input id="hex-toggle" type="checkbox" checked> ${html(t("legend.showHex"))}</label><p id="hex-empty-note" class="hint" hidden>${html(t("legend.emptyHex"))}</p><label class="toggle"><input id="candidate-roads-toggle" type="checkbox" checked> ${html(t("legend.showRoads"))}</label><p class="hint"><span class="road-swatch" aria-hidden="true"></span>${html(t("legend.roadNote"))}</p><div class="scene-legend" aria-label="${html(t("legend.scenesAria"))}"><span><i class="scene-swatch incident"></i>${html(t("legend.incident"))}</span><span><i class="scene-swatch discovery"></i>${html(t("legend.discovery"))}</span><span><i class="scene-swatch operation"></i>${html(t("legend.operation"))}</span><span><i class="scene-swatch context"></i>${html(t("legend.context"))}</span><span><i class="route-swatch"></i>${html(t("legend.transit"))}</span></div><h3>${html(t("legend.pois"))}</h3><div id="poi-filters"></div><label class="toggle"><input id="highlight" type="checkbox" checked> ${html(t("legend.highlight"))}</label><p class="hint">${html(t("legend.highlightNote"))}</p><div class="rule"></div><button id="kbo">${html(t("kbo.button"))}</button><p class="hint">${html(t("kbo.separate"))}</p><p id="freshness" class="hint"></p></aside>
+<main><aside class="controls"><p class="eyebrow">${html(localizedCity)} / ${html(t("app.publicReports"))}</p><h2>${html(t("app.tagline"))}</h2><p id="coverage">${html(t("map.loadingData"))}</p><nav id="external-maps" class="external-maps" aria-label="${html(t("external.aria"))}"></nav><label class="search-label">${html(t("search.label",{city:localizedCity}))}<input id="search" placeholder="${html(t("search.placeholder",{},cityView.latin))}" autocomplete="off"></label><div id="search-results"></div><label>${html(t("filter.category"))}<select id="category"><option value="all">${html(t("filter.allReports"))}</option></select></label><div class="rule"></div><h3 id="year-hex-title">${html(t("legend.hex"))}</h3><p class="hint">${html(t("legend.yearScope"))}</p><div class="ramp"></div><div class="ends"><span>${html(t("legend.low"))}</span><span>${html(t("legend.high"))}</span></div><p id="resolution"></p><label class="toggle"><input id="hex-toggle" type="checkbox" checked> ${html(t("legend.showHex"))}</label><p id="hex-empty-note" class="hint" hidden>${html(t("legend.emptyHex"))}</p><label class="toggle"><input id="candidate-roads-toggle" type="checkbox" checked> ${html(t("legend.showRoads"))}</label><p class="hint"><span class="road-swatch" aria-hidden="true"></span>${html(t("legend.roadNote"))}</p><div class="scene-legend" aria-label="${html(t("legend.scenesAria"))}"><span><i class="scene-swatch incident" aria-hidden="true"></i><i class="scene-road-swatch incident" aria-hidden="true"></i>${html(t("legend.incident"))}</span><span><i class="scene-swatch discovery" aria-hidden="true"></i><i class="scene-road-swatch discovery" aria-hidden="true"></i>${html(t("legend.discovery"))}</span><span><i class="scene-swatch operation" aria-hidden="true"></i><i class="scene-road-swatch operation" aria-hidden="true"></i>${html(t("legend.operation"))}</span><span><i class="scene-swatch context" aria-hidden="true"></i><i class="scene-road-swatch context" aria-hidden="true"></i>${html(t("legend.context"))}</span><span><i class="route-swatch"></i>${html(t("legend.transit"))}</span></div><p class="hint scene-shape-note">${html(t("legend.sceneShapes"))}</p><button id="map-reading-rules">${html(t("legend.readRules"))}</button><h3>${html(t("legend.pois"))}</h3><div id="poi-filters"></div><label class="toggle"><input id="highlight" type="checkbox" checked> ${html(t("legend.highlight"))}</label><p class="hint">${html(t("legend.highlightNote"))}</p><div class="rule"></div><button id="kbo">${html(t("kbo.button"))}</button><p class="hint">${html(t("kbo.separate"))}</p><p id="freshness" class="hint"></p></aside>
 <section class="map-wrap"><div id="map" aria-label="${html(t("map.aria",{city:localizedCity}))}"></div><div class="map-label"><span class="dot"></span><span id="map-status" role="status" aria-live="polite">${html(t("map.preparing"))}</span></div><div class="basemap-picker"><label>${html(t("map.basemap"))}<select id="basemap" aria-label="${html(t("map.basemap"))}" disabled><option value="vector">${html(t("basemap.vector"))}</option><option value="street">${html(t("basemap.street"))}</option><option value="aerial">${html(t("basemap.aerial"))}</option><option value="local">${html(t("basemap.local"))}</option></select></label><div id="basemap-error" role="status" hidden><span></span><button id="basemap-fallback">${html(t("basemap.fallback"))}</button></div></div><div class="map-note">${html(t("map.poiNote"))}</div><p class="hint basemap-language-note">${html(t("basemap.languageNote"))}</p></section>
 <aside class="details"><div id="stats"></div><div id="methods-panel"></div><div id="selection"><h2>${html(t("selection.prompt"))}</h2><p>${html(t("selection.intro"))}</p></div><div id="uncertainty-panel"></div><div id="analytics-panel"></div></aside></main>
 <dialog id="drawer"><button id="close-dialog" class="close">${html(t("action.close"))}</button><div id="drawer-content"></div></dialog>`;
@@ -184,6 +189,15 @@ if (!cityView.aerial)
   el<HTMLSelectElement>("basemap").querySelector<HTMLOptionElement>("option[value='aerial']")!.disabled = true;
 text("button", t("nav.otherCities"), el("external-maps")).onclick =
   externalMapsDialog;
+el("map-reading-rules").onclick = () => {
+  const panel = openDialog(t("legend.readRules"));
+  for (const rule of mapReadingRules[locale]) {
+    const section = document.createElement("section");
+    text("h3", rule.title, section);
+    text("p", rule.body, section);
+    panel.append(section);
+  }
+};
 const dynamicText=new DynamicTranslations();
 const methodsPanel=mountAnnouncementMethods(el("methods-panel"),{t,locale,categoryLabel,city:currentCity});
 const uncertaintyPanel=mountUncertaintyPanel(el("uncertainty-panel"),{locale,city:currentCity,translate:t,sourceUncertaintyNotice:t("report.sourceUncertain"),onSelect:(id, trigger)=>{const p=openDialog(t("report.scenes"), trigger);listReports(p,[id]);}});
@@ -196,16 +210,20 @@ const mobileLayout=installMobileLayout(app,{labels:{filters:t("mobile.filters"),
 const statisticsNames = Object.fromEntries(cityIds.map(city => [city, cityName(city, city)]));
 statisticsNames.all14 = {zh:"14城合计",en:"14-city total",de:"Gesamt: 14 Städte"}[locale];
 const statisticsReportUrls: Record<string, string> = {};
+const datedBuildBinding = import.meta.env.VITE_DATED_STATISTICS_BINDING
+  ? JSON.parse(import.meta.env.VITE_DATED_STATISTICS_BINDING) as {city:string;generation:string;records:number;source_versions:DatedTagBindings}
+  : undefined;
+const savedStatisticsEnabled = import.meta.env.VITE_SAVED_STATISTICS === "true";
 // Build this UI only into artifacts that actually contain the checked saved-statistics assets.
 // Keeping it outside the app avoids adding a row to the map's grid layout.
-const statisticsPanel = import.meta.env.VITE_SAVED_STATISTICS === "true" ? mountContentTagLauncher(document.body, {locale, copy:CONTENT_TAG_COPY[locale],
+const statisticsPanel = savedStatisticsEnabled || datedBuildBinding ? mountContentTagLauncher(document.body, {locale, copy:CONTENT_TAG_COPY[locale],
   eagleUrl:new URL("../../../assets/brand/police-eagle.png", import.meta.url).href,
   boundsElement:app.querySelector<HTMLElement>(".map-wrap")!, id:"ai-statistics",
-  staticReportUrls:statisticsReportUrls}) : undefined;
+  staticReportUrls:statisticsReportUrls,currentStatisticsOnly:!savedStatisticsEnabled}) : undefined;
 let statisticsRequest = new AbortController();
 let statisticsReady = false;
 async function loadStatistics() {
-  if (statisticsReady || !statisticsPanel) return;
+  if (!savedStatisticsEnabled || statisticsReady || !statisticsPanel) return;
   if (statisticsRequest.signal.aborted) statisticsRequest = new AbortController();
   const signal = statisticsRequest.signal;
   try {
@@ -228,10 +246,9 @@ async function loadStatistics() {
 }
 
 // Count-only dated statistics are bound independently from cached model prose.
-const datedBuildBinding = import.meta.env.VITE_DATED_STATISTICS_BINDING
-  ? JSON.parse(import.meta.env.VITE_DATED_STATISTICS_BINDING) as {city:string;generation:string;records:number;source_versions:DatedTagBindings}
-  : undefined;
 const datedStatisticsPanel = datedBuildBinding ? mountDatedTagStatistics(el("methods-panel"), {locale}) : undefined;
+const floatingDatedStatisticsPanel = datedBuildBinding && statisticsPanel && !savedStatisticsEnabled
+  ? mountDatedTagStatistics(statisticsPanel.currentStatisticsHost, {locale}) : undefined;
 let datedStatisticsRequest = new AbortController();
 let datedStatisticsReady = false;
 async function loadDatedStatistics() {
@@ -246,9 +263,13 @@ async function loadDatedStatistics() {
     if (signal.aborted) return;
     if (!datedStatisticsPanel.setCatalogue(catalogue, datedBuildBinding.source_versions)) return;
     datedStatisticsPanel.setScope(currentCity);
+    if (floatingDatedStatisticsPanel) {
+      if (!floatingDatedStatisticsPanel.setCatalogue(catalogue, datedBuildBinding.source_versions)) return;
+      floatingDatedStatisticsPanel.setScope(currentCity);
+    }
     datedStatisticsReady = true;
   } catch {
-    if (!signal.aborted) datedStatisticsPanel.invalidate();
+    if (!signal.aborted) { datedStatisticsPanel.invalidate(); floatingDatedStatisticsPanel?.invalidate(); }
   }
 }
 
@@ -756,6 +777,7 @@ function refresh() {
   activeSourcePois=sourcePoiReferences(rows,month?.source_poi_reference_features);
   setSource("hex", activeHex);
   setSource("pois", renderPois(activePois));
+  setSource("poi-centers", poiCenters(activePois));
   setSource("candidate-roads", activeRoads);
   setSource("scenes", activeScenes);
   setSource("source-poi-references",activeSourcePois);
@@ -905,7 +927,7 @@ function kboDialog(selectedIndex?:number) {
     t("kbo.note"),
     p,
   );
-  for (const [index, zone] of data.zones.places.entries()) {
+  for (const [index, zone] of kboZones.places.entries()) {
     if(selectedIndex!==undefined&&index!==selectedIndex)continue;
     const card = document.createElement("article");
     p.append(card);
@@ -922,7 +944,13 @@ function kboDialog(selectedIndex?:number) {
     card.append(image);
     const b = text("button", t("kbo.navigate"), card);
     b.onclick = () => {
-      map.flyTo({ center: zone.navigation_center, zoom: 15 });
+      if (zone.approximate_geometry?.type === "Polygon") {
+        const points = zone.approximate_geometry.coordinates.flat();
+        const bounds = new maplibregl.LngLatBounds();
+        for (const point of points) bounds.extend([point[0],point[1]]);
+        if (!bounds.isEmpty()) map.fitBounds(bounds,{padding:55,maxZoom:15});
+        else map.flyTo({ center: zone.navigation_center, zoom: 15 });
+      } else map.flyTo({ center: zone.navigation_center, zoom: 15 });
       el<HTMLDialogElement>("drawer").close();
     };
   }
@@ -1121,8 +1149,10 @@ async function start() {
         "source-poi-references",
         "hex",
         "pois",
+        "poi-centers",
         "kbo",
         "kbo-navigation",
+        "kbo-approximate",
         "reported-sections",
         "candidate-roads",
         "scenes",
@@ -1169,16 +1199,16 @@ async function start() {
         source: "pois",
         filter: ["any", ["==", ["geometry-type"], "Polygon"], ["==", ["geometry-type"], "LineString"]],
         paint: {
-          "line-color": ["get", "color"],
-          "line-width": ["case", [">", ["get", "association_count"], 0], 2, 1],
-          "line-opacity": ["get", "opacity"],
+          "line-color": "#000000",
+          "line-width": 1,
+          "line-opacity": 0.8,
         },
       });
       map.addLayer({
         id: "poi-circle",
         type: "circle",
         source: "pois",
-        filter: ["has", "display_radius_m"],
+        filter: ["all", ["has", "display_radius_m"], ["==", ["geometry-type"], "Point"]],
         paint: {
           "circle-radius": ["interpolate", ["exponential", 2], ["zoom"],
             0, ["get", "radius_px_z0"], 24, ["*", 16777216, ["get", "radius_px_z0"]]],
@@ -1186,9 +1216,9 @@ async function start() {
           "circle-pitch-scale": "map",
           "circle-color": ["get", "color"],
           "circle-opacity": ["get", "opacity"],
-          "circle-stroke-color": ["get", "color"],
-          "circle-stroke-width": ["case", [">", ["get", "association_count"], 0], 2, 1],
-          "circle-stroke-opacity": ["get", "opacity"],
+          "circle-stroke-color": "#000000",
+          "circle-stroke-width": 1,
+          "circle-stroke-opacity": 0.8,
         },
       });
       map.addLayer({
@@ -1198,11 +1228,11 @@ async function start() {
         filter: ["all", ["==", ["geometry-type"], "Point"], ["!", ["has", "display_radius_m"]]],
         paint: {
           "circle-radius": 4,
-          "circle-color": "#ffffff",
-          "circle-stroke-width": 2,
-          "circle-stroke-color": ["get", "color"],
+          "circle-color": ["get", "color"],
+          "circle-stroke-width": 1,
+          "circle-stroke-color": "#000000",
           "circle-opacity": ["get", "opacity"],
-          "circle-stroke-opacity": ["get", "opacity"],
+          "circle-stroke-opacity": 0.8,
         },
       });
       map.addLayer({
@@ -1253,6 +1283,19 @@ async function start() {
         paint: { "line-color": sceneColor, "line-width": 2 },
       });
       map.addLayer({
+        id: "scene-line-casing",
+        type: "line",
+        source: "scenes",
+        filter: [
+          "all",
+          ["==", ["geometry-type"], "LineString"],
+          ["!=", ["get", "geometry_kind"], "candidate_road"],
+          ["!=", ["get", "geometry_kind"], "transit_route"],
+          ["!=", ["get", "geometry_kind"], "transit_line_reference"],
+        ],
+        paint: { "line-color": "#ffffff", "line-width": 8, "line-opacity": 1 },
+      });
+      map.addLayer({
         id: "scene-line",
         type: "line",
         source: "scenes",
@@ -1271,6 +1314,13 @@ async function start() {
         paint:{"line-width":14,"line-opacity":0},
       });
       map.addLayer({
+        id: "scene-transit-route-casing",
+        type: "line",
+        source: "scenes",
+        filter: ["==", ["get", "geometry_kind"], "transit_route"],
+        paint: { "line-color": "#ffffff", "line-width": 9, "line-opacity": 1 },
+      });
+      map.addLayer({
         id: "scene-transit-route",
         type: "line",
         source: "scenes",
@@ -1280,6 +1330,13 @@ async function start() {
           "line-width": 5,
           "line-dasharray": [2, 1.2],
         },
+      });
+      map.addLayer({
+        id: "scene-transit-line-reference-casing",
+        type: "line",
+        source: "scenes",
+        filter: ["==", ["get", "geometry_kind"], "transit_line_reference"],
+        paint: { "line-color": "#ffffff", "line-width": 6, "line-opacity": 0.55 },
       });
       map.addLayer({
         id: "scene-transit-line-reference",
@@ -1301,6 +1358,13 @@ async function start() {
         paint: { "line-width": 14, "line-opacity": 0 },
       });
       map.addLayer({
+        id: "scene-candidate-road-line-casing",
+        type: "line",
+        source: "scenes",
+        filter: ["==", ["get", "geometry_kind"], "candidate_road"],
+        paint: { "line-color": "#ffffff", "line-width": 7, "line-opacity": 0.85 },
+      });
+      map.addLayer({
         id: "scene-candidate-road-line",
         type: "line",
         source: "scenes",
@@ -1319,14 +1383,22 @@ async function start() {
         paint: { "line-width": 14, "line-opacity": 0 },
       });
       map.addLayer({
+        id: "scene-point-halo",
+        type: "circle",
+        source: "scenes",
+        filter: ["==", ["geometry-type"], "Point"],
+        paint: { "circle-radius": 7, "circle-color": "#ffffff", "circle-opacity": 0, "circle-stroke-color": "#ffffff", "circle-stroke-width": 2 },
+      });
+      map.addLayer({
         id: "scene-point",
         type: "circle",
         source: "scenes",
         filter: ["==", ["geometry-type"], "Point"],
         paint: {
-          "circle-radius": 6,
-          "circle-color": ["case",["==",["get","geometry_usage"],"source_native_platform_points_reference_only"],"#fff",sceneColor],
-          "circle-stroke-color": ["case",["==",["get","geometry_usage"],"source_native_platform_points_reference_only"],"#a16207","#fff"],
+          "circle-radius": 5,
+          "circle-color": ["case",["==",["get","geometry_usage"],"source_native_platform_points_reference_only"],"#a16207",sceneColor],
+          "circle-opacity": 0.14,
+          "circle-stroke-color": ["case",["==",["get","geometry_usage"],"source_native_platform_points_reference_only"],"#a16207",sceneColor],
           "circle-stroke-width": 2,
         },
       });
@@ -1335,12 +1407,28 @@ async function start() {
       map.addLayer({id:"source-poi-reference-point",type:"circle",source:"source-poi-references",filter:["==",["geometry-type"],"Point"],paint:{"circle-radius":5,"circle-color":"#677785","circle-opacity":0.5,"circle-stroke-width":1,"circle-stroke-color":"#ffffff"}});
       setSource("kbo", {
         type: "FeatureCollection",
-        features: cityView.kbo ? data.zones.features : [],
+        features: cityView.kbo ? kboZones.features : [],
       });
-      const navigationFeatures = cityView.kbo ? data.zones.places.map((zone,index) => ({type:"Feature" as const,geometry:{type:"Point" as const,coordinates:zone.navigation_center},properties:{id:`kbo-navigation:${index}`,zone_index:index,name:zone.name,purpose:"approximate_navigation_only_not_legal_boundary"}})) : [];
+      const approximateFeatures = cityView.kbo ? kboZones.places.flatMap((zone,index) => {
+        const geometry = zone.approximate_geometry;
+        if (!geometry || geometry.type !== "Polygon" || !geometry.coordinates.length) return [];
+        const valid = geometry.coordinates.every(ring => ring.length >= 4 && ring.every(point =>
+          point.length >= 2 && Number.isFinite(point[0]) && Number.isFinite(point[1]) &&
+          Math.abs(point[0]) <= 180 && Math.abs(point[1]) <= 90) &&
+          ring[0][0] === ring[ring.length-1][0] && ring[0][1] === ring[ring.length-1][1]);
+        if (!valid) return [];
+        return [{type:"Feature" as const,geometry,properties:{id:`kbo-approximate:${index}`,zone_index:index,name:zone.name,purpose:"approximate_reference_only_not_legal_boundary_not_counted"}}];
+      }) : [];
+      setSource("kbo-approximate",{type:"FeatureCollection",features:approximateFeatures});
+      map.addLayer({id:"kbo-approximate-fill",type:"fill",source:"kbo-approximate",paint:{"fill-color":"#e53935","fill-opacity":0.25}});
+      map.addLayer({id:"kbo-approximate-outline",type:"line",source:"kbo-approximate",paint:{"line-color":"#000000","line-width":4}});
+      const navigationFeatures = cityView.kbo ? kboZones.places.map((zone,index) => ({type:"Feature" as const,geometry:{type:"Point" as const,coordinates:zone.navigation_center},properties:{id:`kbo-navigation:${index}`,zone_index:index,name:zone.name,purpose:"approximate_navigation_only_not_legal_boundary"}})) : [];
       setSource("kbo-navigation",{type:"FeatureCollection",features:navigationFeatures});
       map.addLayer({id:"kbo-navigation-point",type:"circle",source:"kbo-navigation",paint:{"circle-radius":6,"circle-color":"#3c6681","circle-stroke-color":"#fff","circle-stroke-width":2}});
       map.addLayer({id:"kbo-navigation-label",type:"symbol",source:"kbo-navigation",layout:{"text-field":["concat","kbO · ",["get","name"]],"text-size":11,"text-offset":[0,1.2],"text-anchor":"top"},paint:{"text-color":"#244a64","text-halo-color":"#fff","text-halo-width":1.5}});
+      map.addLayer({id:"poi-center",type:"circle",source:"poi-centers",paint:{
+        "circle-radius":3,"circle-color":"#000000","circle-opacity":1,
+        "circle-stroke-color":"#ffffff","circle-stroke-width":1,"circle-stroke-opacity":0.9}});
       basemaps = new Basemaps(map, paintOverlays, (id) => {
         const error = el("basemap-error");
         error.querySelector("span")!.textContent =
@@ -1371,12 +1459,25 @@ async function start() {
           layers: [
             ...SCENE_CLICK_LAYERS,
             ...SOURCE_POI_CLICK_LAYERS,
-            "kbo-navigation-point", "kbo-navigation-label", "candidate-roads-hit", "poi-fill", "poi-line", "poi-point", "poi-circle", "hex-fill",
+            "poi-center", "kbo-navigation-point", "kbo-navigation-label", "kbo-approximate-outline", "kbo-approximate-fill", "candidate-roads-hit", "poi-fill", "poi-line", "poi-point", "poi-circle", "hex-fill",
           ],
         });
         if (!fs.length) return;
         pendingSearchPoiId = null;
-        const kboHit=fs.find(f=>f.layer.id.startsWith("kbo-navigation-"));
+        const centerHits=fs.filter(f=>f.layer.id==="poi-center" && typeof f.properties.id==="string");
+        if(centerHits.length){
+          const centerIds=[...new Set(centerHits.map(f=>String(f.properties.id)))];
+          if(centerIds.length===1){selected={type:"poi",id:centerIds[0]};showSelection();return;}
+          const panel=openDialog(t("selection.multiplePois"));
+          text("p",t("selection.multiplePoisNote"),panel);
+          for(const id of centerIds){
+            const poi=activePois.features.find(f=>f.properties.id===id);
+            const button=text("button",String(poi?.properties.name??id),panel);
+            button.onclick=()=>{selected={type:"poi",id};el<HTMLDialogElement>("drawer").close();showSelection();};
+          }
+          return;
+        }
+        const kboHit=fs.find(f=>f.layer.id.startsWith("kbo-navigation-")||f.layer.id.startsWith("kbo-approximate-"));
         if(kboHit){kboDialog(Number(kboHit.properties.zone_index));return;}
         const scenes = fs.filter((f) => f.layer.id.startsWith("scene-"));
         if (scenes.length) {
@@ -1528,7 +1629,7 @@ window.addEventListener("pagehide", (event) => {
   uncertaintyPanel.destroy();
   githubFooter.destroy();
   analyticsPanel.destroy();
-  statisticsPanel?.destroy();datedStatisticsPanel?.destroy();
+  statisticsPanel?.destroy();datedStatisticsPanel?.destroy();floatingDatedStatisticsPanel?.destroy();
   mobileLayout.destroy();
   basemaps?.dispose();
   map?.remove();

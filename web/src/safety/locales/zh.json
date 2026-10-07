@@ -68,6 +68,7 @@
   "legend.showRoads": "显示具体事件位置未知的道路",
   "legend.roadNote": "橙色虚线表示原文提到的道路参照范围，具体事件位置未知。这些道路不增加六边形计数，也不用于关联具体场所。",
   "legend.scenesAria": "警方公告中的地点颜色",
+  "legend.sceneShapes": "公告地点用白色外圈和彩色空心圆，内部仅淡淡着色；环色表示地点角色。红、蓝、棕、灰色线沿用这些角色，表示原文提到的道路或线状参照范围，不代表整条街都发生了案件，也不能据此确定具体事件位置。橙色虚线是位置未知的道路参照，紫色线是公共交通路线或线路参照。下方周边场所用带黑色圆心的半透明图形，颜色仅表示场所类别。",
   "legend.incident": "案发／事故",
   "legend.discovery": "发现地点",
   "legend.operation": "警方行动",
@@ -174,12 +175,12 @@
   "sources.pendingCountries": "尚未核对来源的国家：{countries}",
   "kbo.title": "柏林警方划定区域（kbO）",
   "kbo.button": "查看柏林警方划定区域（kbO）",
-  "kbo.separate": "警方划定区域与公告六边形分别展示。 地图上的 kbO 标记只用于导航，位置不是法定边界；请查看警方公布的边界图。",
-  "kbo.note": "已登记七个区域及警方原始边界图。尚未取得可直接叠加到地图的精确边界，下方位置只用于导航，不能视为法定边界。",
+  "kbo.separate": "红色半透明大块与粗黑线表示柏林 kbO 的近似参照范围，可点击查看警方边界图。它们不是法定边界，不参与公告或六边形计数；kbO 与公告六边形分别展示。",
+  "kbo.note": "已登记七个区域及警方原始边界图。地图上的红色填充与粗黑线为便于浏览而绘制的近似参照范围，不是警方确认的精确或法定边界，也不参与公告、六边形或场所关联统计。请以各区域的警方原始边界图为准。",
   "kbo.boundary": "官方边界图 ↗",
   "kbo.source": "警方说明 ↗",
   "kbo.navigate": "查看周边",
-  "geometry.circle": "展示圆的半径为50米",
+  "geometry.circle": "展示圆的半径为30米；只影响显示，不改变原始位置或科学匹配范围",
   "geometry.footprintMissing": "缺少场所边界，仅显示参照点",
   "geometry.nativeLine": "沿用地图中的线作参照，实际区域范围未知",
   "geometry.namedArea": "沿用原文点名区域的地图轮廓作参照。OSM未注明场所类型，这不是精确事件位置。",
@@ -729,5 +730,6 @@
   "selection.yearNext": "下一页",
   "legend.yearUnavailable": "年度网格暂不可用，月份列表仍可浏览。",
   "selection.multiplePois": "多个场所范围在此重叠",
-  "selection.multiplePoisNote": "请选择要查看的实际场所。展示圆和轮廓可能重叠，不能据此推定事件发生在某一家场所。"
+  "selection.multiplePoisNote": "请选择要查看的实际场所。展示圆和轮廓可能重叠，不能据此推定事件发生在某一家场所。",
+  "legend.readRules": "地图元素与读图规则"
 }

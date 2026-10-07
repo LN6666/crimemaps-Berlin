@@ -68,6 +68,7 @@
   "legend.showRoads": "Genannte Straßen bei unbekanntem Ereignisort anzeigen",
   "legend.roadNote": "Orange gestrichelte Linien zeigen Straßen, die in der Meldung genannt werden. Der genaue Ereignisort ist unbekannt. Die Linien erhöhen die Zahl in den Sechsecken nicht und ordnen das Ereignis keinem Betrieb zu.",
   "legend.scenesAria": "Farben der Orte in Polizeimeldungen",
+  "legend.sceneShapes": "Orte aus Meldungen erscheinen als kleine farbige Ringe mit schwach gefärbtem Inneren und weißem Außenrand; die Ringfarbe zeigt die Rolle des Orts. Rote, blaue, braune und graue Linien verwenden dieselben Rollenfarben für Straßen oder linienförmige Referenzbereiche aus der Meldung. Sie bedeuten nicht, dass sich auf der ganzen Straße ein Ereignis zugetragen hat, und bestimmen keinen genauen Ereignisort. Orange gestrichelte Linien zeigen Straßenreferenzen bei unbekanntem Ereignisort; violette Linien zeigen Routen oder Linienreferenzen des öffentlichen Verkehrs. Umliegende Einrichtungen erscheinen als halbtransparente Formen mit schwarzem Mittelpunkt; ihre Farben kennzeichnen die Art der Einrichtung.",
   "legend.incident": "Ereignis oder Unfall",
   "legend.discovery": "Fund",
   "legend.operation": "Polizeieinsatz",
@@ -174,12 +175,12 @@
   "sources.pendingCountries": "Länder mit noch ausstehender Quellenprüfung: {countries}",
   "kbo.title": "Berlin · Kriminalitätsbelastete Orte (kbO)",
   "kbo.button": "Offizielle Berliner kbO-Gebiete ansehen",
-  "kbo.separate": "Polizeilich ausgewiesene Gebiete werden getrennt vom Meldungsraster angezeigt. Die kbO-Markierungen dienen nur der Navigation und stellen keine rechtlichen Grenzen dar. Maßgeblich sind die Grenzkarten der Polizei.",
-  "kbo.note": "Sieben Gebiete und ihre polizeilichen Grenzkarten sind erfasst. Genaue Vektorgrenzen liegen nicht vor. Die folgenden Positionen dienen der Navigation und stellen keine rechtlich maßgeblichen Grenzen dar.",
+  "kbo.separate": "Halbtransparente rote Flächen mit dicken schwarzen Umrissen zeigen ungefähre Orientierungsbereiche der Berliner kbO. Ein Klick öffnet die polizeiliche Grenzkarte. Dies sind keine rechtlich maßgeblichen Grenzen; sie gehen nicht in Meldungs- oder Hexagonzählungen ein. kbO-Flächen und Meldungsraster sind getrennte Ebenen.",
+  "kbo.note": "Sieben Gebiete und ihre ursprünglichen polizeilichen Grenzkarten sind aufgeführt. Rote Flächen mit dicken schwarzen Umrissen dienen als ungefähre Orientierung. Sie sind weder präzise noch rechtlich maßgebliche Polizeigrenzen und fließen nicht in Meldungs-, Hexagon- oder Ortszuordnungsstatistiken ein. Maßgeblich ist jeweils die ursprüngliche Grenzkarte der Polizei.",
   "kbo.boundary": "Amtliche Grenzkarte ↗",
   "kbo.source": "Erläuterung der Polizei ↗",
   "kbo.navigate": "Umgebung anzeigen",
-  "geometry.circle": "Darstellungskreis: 50 m Radius",
+  "geometry.circle": "Darstellungskreis mit 30 m Radius; nur die Anzeige ändert sich, nicht die ursprüngliche Position oder der Zuordnungsbereich",
   "geometry.footprintMissing": "Der Umriss des Ortes ist unbekannt; angezeigt wird nur seine Position zur Orientierung",
   "geometry.nativeLine": "Die Karte zeigt eine bekannte Linie zur Orientierung. Der tatsächliche betroffene Bereich ist unbekannt.",
   "geometry.namedArea": "Die Karte zeigt das in der Quelle benannte Gebiet zur Orientierung. Die Kartendaten nennen keine Art der Einrichtung. Der genaue Ereignisort ist unbekannt.",
@@ -729,5 +730,6 @@
   "selection.yearNext": "Weiter",
   "legend.yearUnavailable": "Das Jahresraster ist nicht verfügbar. Die Monatsmeldungen bleiben zugänglich.",
   "selection.multiplePois": "Mehrere Ortsflächen überschneiden sich hier",
-  "selection.multiplePoisNote": "Wählen Sie den gewünschten Ort. Darstellungskreise und Umrisse können sich überschneiden; daraus folgt kein Ereignis bei einem bestimmten Betrieb."
+  "selection.multiplePoisNote": "Wählen Sie den gewünschten Ort. Darstellungskreise und Umrisse können sich überschneiden; daraus folgt kein Ereignis bei einem bestimmten Betrieb.",
+  "legend.readRules": "Kartenelemente und Lesehinweise"
 }

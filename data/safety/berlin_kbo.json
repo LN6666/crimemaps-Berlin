@@ -2,7 +2,7 @@
   "source_url": "https://www.berlin.de/polizei/polizeimeldungen/fakten-hintergruende/artikel.1078268.php",
   "designation_valid_from": "2026-07-01",
   "verified_on": "2026-09-27",
-  "geometry_status": "official_maps_available_vector_boundaries_pending",
+  "geometry_status": "official_maps_available_with_approximate_native_anchor_reference_areas",
   "features": [],
   "places": [
     {
@@ -13,7 +13,42 @@
         13.413,
         52.521
       ],
-      "center_status": "approximate_navigation_only_not_legal_boundary"
+      "center_status": "approximate_navigation_only_not_legal_boundary",
+      "approximate_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              13.4084415,
+              52.5175344
+            ],
+            [
+              13.4150294,
+              52.5208789
+            ],
+            [
+              13.4167149,
+              52.5220587
+            ],
+            [
+              13.4119004,
+              52.5240274
+            ],
+            [
+              13.4049874,
+              52.5200133
+            ],
+            [
+              13.4084415,
+              52.5175344
+            ]
+          ]
+        ]
+      },
+      "approximate_geometry_status": "approximate_reference_not_legal_boundary",
+      "approximation_method": "simplified_native_OSM_street_and_place_anchors_read_from_official_map",
+      "precision_statement": "Simplified reference area from named streets, native place edges and visible addresses in the official map. Kerbs, parcels, narrow extensions and building cut-outs are generalized. No quantified error bound; consult the official map and ordinance for exact applicability.",
+      "approximation_source_map_sha256": "5db37bf5bb6eb42e028eb5668b1348079a33615f569145eb7468c01a58217f55"
     },
     {
       "name": "Görlitzer Park / Wrangelkiez",
@@ -23,7 +58,98 @@
         13.437,
         52.497
       ],
-      "center_status": "approximate_navigation_only_not_legal_boundary"
+      "center_status": "approximate_navigation_only_not_legal_boundary",
+      "approximate_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              13.4271377,
+              52.4991322
+            ],
+            [
+              13.441720256382123,
+              52.49405958629193
+            ],
+            [
+              13.444891258610868,
+              52.49500946628481
+            ],
+            [
+              13.444901361086638,
+              52.495101179889346
+            ],
+            [
+              13.443673251741851,
+              52.496826052099195
+            ],
+            [
+              13.4462083,
+              52.4984611
+            ],
+            [
+              13.4475659,
+              52.497671
+            ],
+            [
+              13.448536423223166,
+              52.497293031548416
+            ],
+            [
+              13.445482417693345,
+              52.499188721462126
+            ],
+            [
+              13.44499608764377,
+              52.50119178664288
+            ],
+            [
+              13.4431411,
+              52.501925
+            ],
+            [
+              13.4419243,
+              52.5010924
+            ],
+            [
+              13.443903,
+              52.5000713
+            ],
+            [
+              13.4403805,
+              52.4965896
+            ],
+            [
+              13.4320675,
+              52.4993331
+            ],
+            [
+              13.43145748068786,
+              52.50057338494007
+            ],
+            [
+              13.429733450848664,
+              52.500563387405464
+            ],
+            [
+              13.42999874051731,
+              52.49942760452262
+            ],
+            [
+              13.4262056,
+              52.4991055
+            ],
+            [
+              13.4271377,
+              52.4991322
+            ]
+          ]
+        ]
+      },
+      "approximate_geometry_status": "approximate_reference_not_legal_boundary",
+      "approximation_method": "simplified_native_OSM_street_and_place_anchors_read_from_official_map",
+      "precision_statement": "Simplified reference area from named streets, native place edges and visible addresses in the official map. Kerbs, parcels, narrow extensions and building cut-outs are generalized. No quantified error bound; consult the official map and ordinance for exact applicability.",
+      "approximation_source_map_sha256": "ec6b3ec27f569bf02d6925b55eb80d7721319b37752bbe872a74375072c2f684"
     },
     {
       "name": "Hermannplatz / Donaukiez",
@@ -33,7 +159,46 @@
         13.425,
         52.487
       ],
-      "center_status": "approximate_navigation_only_not_legal_boundary"
+      "center_status": "approximate_navigation_only_not_legal_boundary",
+      "approximate_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              13.4241039,
+              52.4863616
+            ],
+            [
+              13.4250314,
+              52.4806328
+            ],
+            [
+              13.433703,
+              52.4819377
+            ],
+            [
+              13.4336404,
+              52.4820909
+            ],
+            [
+              13.4359385,
+              52.4838324
+            ],
+            [
+              13.4254191,
+              52.4878602
+            ],
+            [
+              13.4241039,
+              52.4863616
+            ]
+          ]
+        ]
+      },
+      "approximate_geometry_status": "approximate_reference_not_legal_boundary",
+      "approximation_method": "simplified_native_OSM_street_and_place_anchors_read_from_official_map",
+      "precision_statement": "Simplified reference area from named streets, native place edges and visible addresses in the official map. Kerbs, parcels, narrow extensions and building cut-outs are generalized. No quantified error bound; consult the official map and ordinance for exact applicability.",
+      "approximation_source_map_sha256": "846ca93c053ed2cec691262fbd9f925ba3402161c9f2ebdf27b660dc5be0b985"
     },
     {
       "name": "Hermannstraße / Bahnhof Neukölln",
@@ -43,7 +208,86 @@
         13.442,
         52.469
       ],
-      "center_status": "approximate_navigation_only_not_legal_boundary"
+      "center_status": "approximate_navigation_only_not_legal_boundary",
+      "approximate_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              13.4274302,
+              52.4747782
+            ],
+            [
+              13.424991433767358,
+              52.473075115555034
+            ],
+            [
+              13.4281148,
+              52.4734362
+            ],
+            [
+              13.428004996583576,
+              52.47295484040177
+            ],
+            [
+              13.420101835455428,
+              52.47207848896691
+            ],
+            [
+              13.4204662,
+              52.4708675
+            ],
+            [
+              13.4289136,
+              52.4718882
+            ],
+            [
+              13.4307239,
+              52.4684653
+            ],
+            [
+              13.4210131,
+              52.4673775
+            ],
+            [
+              13.4214708,
+              52.4651987
+            ],
+            [
+              13.4319419,
+              52.4664336
+            ],
+            [
+              13.442008,
+              52.4676705
+            ],
+            [
+              13.4444472,
+              52.4874576
+            ],
+            [
+              13.4413652,
+              52.4715077
+            ],
+            [
+              13.441003981829999,
+              52.472371989153245
+            ],
+            [
+              13.4294368,
+              52.4709171
+            ],
+            [
+              13.4274302,
+              52.4747782
+            ]
+          ]
+        ]
+      },
+      "approximate_geometry_status": "approximate_reference_not_legal_boundary",
+      "approximation_method": "simplified_native_OSM_street_and_place_anchors_read_from_official_map",
+      "precision_statement": "Simplified reference area from named streets, native place edges and visible addresses in the official map. Kerbs, parcels, narrow extensions and building cut-outs are generalized. No quantified error bound; consult the official map and ordinance for exact applicability.",
+      "approximation_source_map_sha256": "5883980858b72c6233660bdb119b520e7746857690136f9ab6c0cb059f095e78"
     },
     {
       "name": "Kottbusser Tor",
@@ -53,7 +297,54 @@
         13.418,
         52.499
       ],
-      "center_status": "approximate_navigation_only_not_legal_boundary"
+      "center_status": "approximate_navigation_only_not_legal_boundary",
+      "approximate_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              13.418196022133179,
+              52.498219095178875
+            ],
+            [
+              13.4192567,
+              52.4979634
+            ],
+            [
+              13.41925757144826,
+              52.49817565060947
+            ],
+            [
+              13.419773,
+              52.4998232
+            ],
+            [
+              13.418618,
+              52.5005924
+            ],
+            [
+              13.418065,
+              52.5001289
+            ],
+            [
+              13.416996146955583,
+              52.499334431982916
+            ],
+            [
+              13.4162683,
+              52.4989994
+            ],
+            [
+              13.418196022133179,
+              52.498219095178875
+            ]
+          ]
+        ]
+      },
+      "approximate_geometry_status": "approximate_reference_not_legal_boundary",
+      "approximation_method": "simplified_native_OSM_street_and_place_anchors_read_from_official_map",
+      "precision_statement": "Simplified reference area from named streets, native place edges and visible addresses in the official map. Kerbs, parcels, narrow extensions and building cut-outs are generalized. No quantified error bound; consult the official map and ordinance for exact applicability.",
+      "approximation_source_map_sha256": "9fe7919e155c76edc4ea6c2650de900e6328137599e82c0b516d62c8e1c68685"
     },
     {
       "name": "Rigaer Straße",
@@ -63,7 +354,38 @@
         13.462,
         52.515
       ],
-      "center_status": "approximate_navigation_only_not_legal_boundary"
+      "center_status": "approximate_navigation_only_not_legal_boundary",
+      "approximate_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              13.4538083,
+              52.5157554
+            ],
+            [
+              13.4643863,
+              52.5148175
+            ],
+            [
+              13.4651057,
+              52.5163742
+            ],
+            [
+              13.4536177,
+              52.5184447
+            ],
+            [
+              13.4538083,
+              52.5157554
+            ]
+          ]
+        ]
+      },
+      "approximate_geometry_status": "approximate_reference_not_legal_boundary",
+      "approximation_method": "simplified_native_OSM_street_and_place_anchors_read_from_official_map",
+      "precision_statement": "Simplified reference area from named streets, native place edges and visible addresses in the official map. Kerbs, parcels, narrow extensions and building cut-outs are generalized. No quantified error bound; consult the official map and ordinance for exact applicability.",
+      "approximation_source_map_sha256": "571b0ee0485f6f861b2171f8bdd56276e8a514dc282675752f6ab54d7476ca25"
     },
     {
       "name": "Warschauer Brücke",
@@ -73,7 +395,50 @@
         13.449,
         52.505
       ],
-      "center_status": "approximate_navigation_only_not_legal_boundary"
+      "center_status": "approximate_navigation_only_not_legal_boundary",
+      "approximate_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              13.4499664,
+              52.5073081
+            ],
+            [
+              13.444915110905729,
+              52.501231732902035
+            ],
+            [
+              13.447543740827799,
+              52.503440740152726
+            ],
+            [
+              13.450039327962077,
+              52.50514153384448
+            ],
+            [
+              13.4570552,
+              52.5029488
+            ],
+            [
+              13.4588168,
+              52.5065643
+            ],
+            [
+              13.4506298,
+              52.5086244
+            ],
+            [
+              13.4499664,
+              52.5073081
+            ]
+          ]
+        ]
+      },
+      "approximate_geometry_status": "approximate_reference_not_legal_boundary",
+      "approximation_method": "simplified_native_OSM_street_and_place_anchors_read_from_official_map",
+      "precision_statement": "Simplified reference area from named streets, native place edges and visible addresses in the official map. Kerbs, parcels, narrow extensions and building cut-outs are generalized. No quantified error bound; consult the official map and ordinance for exact applicability.",
+      "approximation_source_map_sha256": "cf0ab6bf9e912bedf029f062d74a856da1ae024db706610d5d0ca720e8ef4197"
     }
   ]
 }

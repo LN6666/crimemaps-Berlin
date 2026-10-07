@@ -12,6 +12,7 @@ export function mountContentTagLauncher(parent: HTMLElement, options: {
   locale: "en" | "de" | "zh"; copy: ContentTagCopy; eagleUrl: string;
   boundsElement?: HTMLElement; id: string;
   staticReportUrls?:Readonly<Record<string,string>>;
+  currentStatisticsOnly?:boolean;
 }) {
   const c=options.copy, root=document.createElement("div"), anchor=document.createElement("div");
   root.className="content-tag-widget"; anchor.className="content-tag-anchor";
@@ -59,6 +60,13 @@ export function mountContentTagLauncher(parent: HTMLElement, options: {
     preview.textContent=c.preview.replace("{count}",number.format(stats.records)).replace("{evaluated}",number.format(full));
     const hint=document.createElement("p");hint.textContent=c.previewPending;highlights.append(hint);
   };
+  // Current dated counts can be used even while older prose remains bound to an earlier snapshot.
+  const currentStatisticsHost=document.createElement("div");
+  if(options.currentStatisticsOnly){
+    for(const node of [briefHost,scopeLabel,reportLink,allMonths,preview,highlights,content])node.hidden=true;
+    availability.textContent={zh:"以下统计对应当前地图资料；旧版AI摘要暂不可用。",en:"The statistics below match the current map data. Earlier AI briefs are unavailable.",de:"Die folgende Statistik passt zu den aktuellen Kartendaten. Frühere KI-Kurzberichte sind nicht verfügbar."}[options.locale];
+    drawer.insertBefore(currentStatisticsHost,officialHandoff.element);
+  }
   let catalogue:readonly ContentTagSummary[]=[];
   let macroCatalogue:readonly MacroSummary[]=[];
   let catalogueLabels:Readonly<Record<string,string>>={};
@@ -96,7 +104,7 @@ export function mountContentTagLauncher(parent: HTMLElement, options: {
     anchor.dataset.tooltipBelow=String(position.y<48);
     anchor.style.left=`${position.x}px`; anchor.style.top=`${position.y}px`;
   };
-  const initial=bounds(); move(initial.right-100,initial.bottom-120);
+  const initial=bounds(); move(initial.right-164,initial.bottom-128);
   const setOpen=(open:boolean)=>{
     drawer.hidden=!open; trigger.setAttribute("aria-expanded",String(open));
     if(open) close.focus(); else trigger.focus({preventScroll:true});
@@ -142,7 +150,7 @@ export function mountContentTagLauncher(parent: HTMLElement, options: {
   for(const eventName of ["click","dblclick","pointerdown","wheel"])
     root.addEventListener(eventName,event=>event.stopPropagation());
   return {
-    element:root, trigger,
+    element:root, trigger, currentStatisticsHost,
     update(records:readonly ContentRecord[],assessments:readonly ContentAssessment[],context:{
       scopeLabel:string;textScope:"full_official_text"|"accepted_upstream_summary";
       weights?:Readonly<Partial<Record<ContentTag,number>>>;

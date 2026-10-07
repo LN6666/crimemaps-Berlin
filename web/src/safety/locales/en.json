@@ -68,6 +68,7 @@
   "legend.showRoads": "Show roads when the incident location is unknown",
   "legend.roadNote": "Orange dashes show roads mentioned in announcements. The exact incident location is unknown. These announcements are not added to the hexagon totals or linked to individual venues.",
   "legend.scenesAria": "Colours for places in police reports",
+  "legend.sceneShapes": "Announcement locations use small colored rings with a faint interior tint and white outer rim; ring color identifies the location role. Red, blue, brown and gray lines use the same role colors for roads or linear references mentioned in a report. They do not mean an incident occurred along the entire street or establish its exact position. Orange dashes show road references with unknown incident positions; purple lines show public-transport routes or line references. Nearby places use translucent shapes with a black center, and their colors identify venue types.",
   "legend.incident": "Incident or accident",
   "legend.discovery": "Discovery",
   "legend.operation": "Police operation",
@@ -174,12 +175,12 @@
   "sources.pendingCountries": "Countries awaiting verification: {countries}",
   "kbo.title": "Berlin kbO · Police-designated areas",
   "kbo.button": "View Berlin's official kbO areas",
-  "kbo.separate": "Police-designated areas are shown separately from the announcement grid. The kbO markers are navigation aids, not legal boundaries. Use the police boundary maps for the actual limits.",
-  "kbo.note": "Seven areas and their original police boundary maps are listed. The exact boundaries are not drawn here. The buttons help you find the surrounding area; they do not mark a legal boundary.",
+  "kbo.separate": "Translucent red areas with thick black outlines show approximate Berlin kbO reference areas. Click an area to open its police boundary map. These are not legal boundaries and do not contribute to announcement or hexagon counts; kbO areas and announcement hexagons are separate layers.",
+  "kbo.note": "Seven areas and their original police boundary maps are listed. Red fills and thick black outlines are approximate reference areas drawn for navigation. They are not precise or legally authoritative police boundaries and do not contribute to announcement, hexagon or place-association statistics. Use each original police boundary map for the actual limits.",
   "kbo.boundary": "Official boundary map ↗",
   "kbo.source": "Police explanation ↗",
   "kbo.navigate": "View the surrounding area",
-  "geometry.circle": "Shown as a circle with a 50 m radius; this is a display aid",
+  "geometry.circle": "Display circle with a 30 m radius; this changes only its appearance, not the original location or matching range",
   "geometry.footprintMissing": "The place’s outline is unknown; only a reference location is shown",
   "geometry.nativeLine": "A mapped line is shown for reference; the full area is unknown",
   "geometry.namedArea": "An area named in the announcement is shown for reference. Its place type and exact incident location are not confirmed.",
@@ -729,5 +730,6 @@
   "selection.yearNext": "Next",
   "legend.yearUnavailable": "The yearly grid is unavailable. Monthly reports remain accessible.",
   "selection.multiplePois": "Several place areas overlap here",
-  "selection.multiplePoisNote": "Choose the place you want to view. Display circles and outlines may overlap; this does not establish an incident at any particular business."
+  "selection.multiplePoisNote": "Choose the place you want to view. Display circles and outlines may overlap; this does not establish an incident at any particular business.",
+  "legend.readRules": "Map elements and reading rules"
 }
