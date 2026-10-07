@@ -1,7 +1,7 @@
 import { test } from "@playwright/test";
 import assert from "node:assert/strict";
 import { uncertaintyRows, uncertaintyStats, uncertaintyPage } from "../src/safety/uncertainty";
-import { UF_COPY, ufText } from "../src/safety/uncertainty-copy";
+import { UF_COPY, ufText, uncertaintyRoleKey } from "../src/safety/uncertainty-copy";
 import { githubFeedbackLinks, GITHUB_FEEDBACK_COPY } from "../src/safety/github-feedback";
 const event=(id,scenes)=>({id,title:id,category:'Gewalt',month:'2026-09',published_at:'2026-09-30T12:00:00+02:00',event_date:'2026-09-30',coordinates:null,location_precision:'unknown',location_label:'',source_url:'https://polizei.example/'+id,scene_locations:scenes});
 const scene=(p,overrides={})=>({label:p,role:'incident',location_precision:p,geocode_method:'unresolved',primary_for_count:false,geometry_review:{verdict:'unresolved'},...overrides});
@@ -64,4 +64,20 @@ test('legacy summary dates stay separate from scene-native times and never move 
  const rows=uncertaintyRows([legacy,reviewed,absent]);
  assert.equal(rows[0].eventTime,null);assert.equal(rows[0].summaryEventDate,'2026-01-14');
  assert.equal(rows[1].summaryEventDate,null);assert.equal(rows[2].summaryEventDate,null);
+});
+
+
+test('unrecognized place roles use existing localized unknown text without altering the source row',()=>{
+ const input=[event('legacy-context',[scene('district',{role:'context'})])],before=JSON.stringify(input);
+ const rows=uncertaintyRows(input);assert.equal(rows[0].role,'context');
+ for(const locale of ['de','en','zh']) {
+  for(const role of ['context','future_role','__proto__']) {
+   const key=uncertaintyRoleKey(role);assert.equal(key,'unknown.role.unknown');
+   assert.equal(ufText(locale,key),UF_COPY[locale]['unknown.role.unknown']);
+   assert.ok(!ufText(locale,key).includes('unknown.role.'));
+  }
+  for(const role of ['incident','accident','discovery','operation','arrest','search','background','unknown'])
+   assert.equal(ufText(locale,uncertaintyRoleKey(role)),UF_COPY[locale]['unknown.role.'+role]);
+ }
+ assert.equal(JSON.stringify(input),before);assert.equal(uncertaintyStats(rows).announcements,1);
 });

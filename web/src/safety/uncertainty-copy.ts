@@ -107,6 +107,10 @@ export const UF_COPY = {
   }
 } as const;
 export type UFKey = keyof typeof UF_COPY.en;
+export function uncertaintyRoleKey(role: string): UFKey {
+  const key = `unknown.role.${role}`;
+  return Object.hasOwn(UF_COPY.en, key) ? key as UFKey : "unknown.role.unknown";
+}
 export function ufText(locale: UFLocale, key: UFKey, params: Record<string, string | number> = {}): string {
   return UF_COPY[locale][key].replace(/\{(\w+)\}/g, (match, name) => String(params[name] ?? match));
 }
