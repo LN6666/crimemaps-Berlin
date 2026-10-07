@@ -103,7 +103,7 @@
   "report.originalText": "Official wording",
   "report.translation": "English translation for reference",
   "report.translationNote": "The English text is an aid to reading. Check the linked official original for the wording and detail.",
-  "report.translationMissing": "An English translation is not available. The original wording is shown.",
+  "report.translationMissing": "Some details may still be untranslated. Please check the source link if anything is unclear.",
   "report.summary": "Reviewed English summary",
   "report.summaryNote": "This summary is an aid to reading. It does not replace the official announcement.",
   "report.publishedMonth": "Map month: {month}",

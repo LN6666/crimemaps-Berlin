@@ -103,7 +103,7 @@
   "report.originalText": "Wortlaut der Quelle",
   "report.translation": "Deutsche Lesehilfe",
   "report.translationNote": "Die deutsche Fassung dient als Lesehilfe. Wortlaut und Einzelheiten stehen in der verlinkten amtlichen Originalmeldung.",
-  "report.translationMissing": "Keine geprüfte deutsche Lesehilfe verfügbar. Der Originaltext wird angezeigt.",
+  "report.translationMissing": "Einzelne Details sind möglicherweise noch nicht übersetzt. Bitte prüfen Sie bei Unklarheiten den Quellenlink.",
   "report.summary": "Geprüfte deutsche Zusammenfassung",
   "report.summaryNote": "Die Zusammenfassung dient als Lesehilfe. Sie ersetzt die amtliche Meldung nicht.",
   "report.publishedMonth": "Kartenmonat: {month}",
