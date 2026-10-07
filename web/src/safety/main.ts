@@ -1389,6 +1389,17 @@ async function start() {
         }
         const references=fs.filter(f=>SOURCE_POI_CLICK_LAYERS.includes(f.layer.id));
         if(references.length){selected={type:"source_poi",ids:sceneEventIds(references)};showSelection();return;}
+        const poiHits=new Map<string,typeof fs[number]>();
+        for(const hit of fs)if(hit.layer.id.startsWith("poi-")&&typeof hit.properties.id==="string")poiHits.set(hit.properties.id,hit);
+        if(poiHits.size>1){
+          const panel=openDialog(t("selection.multiplePois"));
+          text("p",t("selection.multiplePoisNote"),panel);
+          for(const[id,hit]of [...poiHits].sort((a,b)=>String(a[1].properties.name??a[0]).localeCompare(String(b[1].properties.name??b[0])))){
+            const chosen=activePois.features.find(f=>f.properties.id===id);const name=String(chosen?.properties.name??hit.properties.name??id);const button=text("button",name,panel);
+            button.onclick=()=>{selected={type:"poi",id};el<HTMLDialogElement>("drawer").close();showSelection();};
+          }
+          return;
+        }
         const f = fs[0];
         selected = {
           type: f.layer.id.startsWith("poi") ? "poi" : "hex",

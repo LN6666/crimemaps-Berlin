@@ -727,5 +727,7 @@
   "selection.yearPage": "Seite {page} von {pages}",
   "selection.yearPrevious": "Zurück",
   "selection.yearNext": "Weiter",
-  "legend.yearUnavailable": "Das Jahresraster ist nicht verfügbar. Die Monatsmeldungen bleiben zugänglich."
+  "legend.yearUnavailable": "Das Jahresraster ist nicht verfügbar. Die Monatsmeldungen bleiben zugänglich.",
+  "selection.multiplePois": "Mehrere Ortsflächen überschneiden sich hier",
+  "selection.multiplePoisNote": "Wählen Sie den gewünschten Ort. Darstellungskreise und Umrisse können sich überschneiden; daraus folgt kein Ereignis bei einem bestimmten Betrieb."
 }

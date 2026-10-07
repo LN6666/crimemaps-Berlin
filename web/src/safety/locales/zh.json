@@ -727,5 +727,7 @@
   "selection.yearPage": "第{page}页，共{pages}页",
   "selection.yearPrevious": "上一页",
   "selection.yearNext": "下一页",
-  "legend.yearUnavailable": "年度网格暂不可用，月份列表仍可浏览。"
+  "legend.yearUnavailable": "年度网格暂不可用，月份列表仍可浏览。",
+  "selection.multiplePois": "多个场所范围在此重叠",
+  "selection.multiplePoisNote": "请选择要查看的实际场所。展示圆和轮廓可能重叠，不能据此推定事件发生在某一家场所。"
 }

@@ -818,6 +818,7 @@ def build_candidate(
     )
     from .year_hex import write_year_archives
     write_year_archives(generation_root, manifest, {month: {**value, "events": [event for event in events if event["month"] == month]} for month, value in months.items()})
+    audit["candidate_digest"] = _digest({"manifest": manifest, "audit": {key: value for key, value in audit.items() if key != "candidate_digest"}})
     _write_json(staging / "manifest.json", manifest)
     _write_json(staging / "build-audit.json", audit)
     _replace_directory(staging, output)

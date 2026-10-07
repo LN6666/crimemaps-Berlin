@@ -727,5 +727,7 @@
   "selection.yearPage": "Page {page} of {pages}",
   "selection.yearPrevious": "Previous",
   "selection.yearNext": "Next",
-  "legend.yearUnavailable": "The yearly grid is unavailable. Monthly reports remain accessible."
+  "legend.yearUnavailable": "The yearly grid is unavailable. Monthly reports remain accessible.",
+  "selection.multiplePois": "Several place areas overlap here",
+  "selection.multiplePoisNote": "Choose the place you want to view. Display circles and outlines may overlap; this does not establish an incident at any particular business."
 }
