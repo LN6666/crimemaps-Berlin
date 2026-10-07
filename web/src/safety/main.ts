@@ -271,6 +271,7 @@ let pendingSearchPoiId: string | null = null;
 let client: DataClient;
 let manifest: Manifest;
 let monthRequest = new AbortController();
+let monthLoading = false;
 let yearRequest=new AbortController();
 let yearReportRequest=new AbortController();
 let annual:YearData|undefined;
@@ -775,9 +776,11 @@ function refresh() {
   paintOverlays();
   el("resolution").textContent =
     t("legend.resolution",{metres:number(mode === "detail" ? 275 : 1100)});
-  el("map-status").textContent = month
-    ? t("map.monthCount",{month:monthKey(),count:number(rows.length)})
-    : t("map.monthMissing",{month:monthKey()});
+  el("map-status").textContent = monthLoading
+    ? t("map.loadingMonth")
+    : month
+      ? t("map.monthCount",{month:monthKey(),count:number(rows.length)})
+      : t("map.monthMissing",{month:monthKey()});
   el("stats").replaceChildren();
   text("div", month ? number(rows.length) : "—", el("stats")).className = "big";
   text("p", month ? t("coverage.filtered") : t("coverage.noMonth"), el("stats"));
@@ -943,6 +946,7 @@ async function loadMonth() {
   monthRequest = new AbortController();
   const signal = monthRequest.signal;
   const key = monthKey();
+  monthLoading = true;
   data.events = [];
   data.months = {};
   dynamicText.clear();
@@ -951,15 +955,20 @@ async function loadMonth() {
   try {
     const value = await client.month(key, signal);
     if (signal.aborted || key !== monthKey()) return;
-    data.events = value?.events ?? [];
-    data.months = value ? { [key]: value } : {};
-    try {await dynamicText.load(data.events,manifest,client,key,locale,signal,currentCity);}catch(error){if(signal.aborted)throw error;dynamicText.clear();dynamicText.missing=data.events.length;}
+    const monthRows = value?.events ?? [];
+    // Year and category refreshes can run while the language pack is loading.
+    // Publish rows only once their translation snapshot is ready.
+    try {await dynamicText.load(monthRows,manifest,client,key,locale,signal,currentCity);}catch(error){if(signal.aborted)throw error;dynamicText.clear();dynamicText.missing=monthRows.length;}
     if(signal.aborted||key!==monthKey())return;
+    data.events = monthRows;
+    data.months = value ? { [key]: value } : {};
+    monthLoading = false;
     pendingSearchPoiId = null;
     selected = null;
     refresh();
   } catch (error) {
     if (!signal.aborted) {
+      monthLoading = false;
       data.events = [];
       data.months = {};
       refresh();
