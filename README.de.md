@@ -29,7 +29,7 @@ Dieses Repository enthält den Quellcode der eigenständigen Stadtkarte. Hinweis
 
 Wähle einen Monat und öffne ein Gebiet, eine Straße oder einen Ort, um die zugehörigen Meldungen zu lesen. Veröffentlichungsdatum und genannte Ereigniszeit bleiben getrennt. Fehlt eine Ereigniszeit, bleibt sie unbekannt.
 
-Die Sechsecke zählen die berücksichtigten Meldungen mit einer geeigneten Ortsangabe. Jede Meldung zählt pro Monat und angezeigter Sechseckgröße höchstens einmal. Eine Meldung kann mehrere Ereignisse, Ermittlungen, einen Polizeieinsatz oder Hintergrundinformationen enthalten. Die Zahlen erfassen nicht alle Straftaten und messen weder ein persönliches Risiko noch die Sicherheit einer Stadt.
+Die Sechsecke zählen die berücksichtigten Meldungen mit einer geeigneten Ortsangabe. Jede Meldung zählt im gewählten Jahr und pro angezeigter Sechseckgröße höchstens einmal. Die gespeicherten Meldungsmonate bestimmen die Jahreszuordnung; die Monatsauswahl filtert Meldungslisten und Details. Eine Meldung kann mehrere Ereignisse, Ermittlungen, einen Polizeieinsatz oder Hintergrundinformationen enthalten. Die Zahlen erfassen nicht alle Straftaten und messen weder ein persönliches Risiko noch die Sicherheit einer Stadt.
 
 Orte werden nur so genau dargestellt, wie es die Quelle erlaubt. Eine Straße, Verkehrslinie oder ein Gebiet kann als Orientierung dienen, ohne den genauen Ereignisort zu bezeichnen. Meldungen mit bloßer Bezirksangabe und nicht lokalisierbare Orte bleiben ohne erfundenen Kartenpunkt in der Liste.
 

@@ -14,6 +14,7 @@ from pathlib import Path
 
 CITIES = set("berlin hamburg munich cologne frankfurt dusseldorf stuttgart leipzig dortmund bremen essen dresden hannover nuremberg".split())
 ALLOWED = set(".html .js .mjs .css .json .geojson .png .jpg .jpeg .webp .ico .svg .woff .woff2 .ttf .txt .xml".split())
+KBO_MAP_IMAGES = {'https://www.berlin.de/polizei/_assets/dienststellen/anlagen-landespolizeidirektion/kbo-alexanderplatz.jpg', 'https://www.berlin.de/polizei/_assets/dienststellen/anlagen-landespolizeidirektion/kbo-kottbusser-tor.jpg', 'https://www.berlin.de/polizei/_assets/dienststellen/anlagen-landespolizeidirektion/kbo-rigaer-strasse.jpg', 'https://www.berlin.de/polizei/_assets/dienststellen/anlagen-landespolizeidirektion/kbo-hermannstrasse-bahnhof-neukoelln.jpg', 'https://www.berlin.de/polizei/_assets/dienststellen/anlagen-landespolizeidirektion/kbo-goerlitzer-park-wrangelkiez.jpg', 'https://www.berlin.de/polizei/_assets/dienststellen/anlagen-landespolizeidirektion/kbo-warschauer-bruecke.jpg', 'https://www.berlin.de/polizei/_assets/dienststellen/anlagen-landespolizeidirektion/kbo-hermannplatz-donaukiez.jpg'}
 PRIVATE = {"raw_html", "article_body", "source_body", "raw_body", "full_body", "full_text", "authorization", "api_key", "access_token", "private_key", "password", "secret"}
 FORBIDDEN_PARTS = {".runtime", ".git", "node_modules", "src", "test_suite", "reviews", "review", "archives", "archive", "source-downloads"}
 SECRET = re.compile(rb"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|\bgh[pousr]_[A-Za-z0-9]{30,}\b|\bgithub_pat_[A-Za-z0-9_]{60,}\b|\bAKIA[A-Z0-9]{16}\b")
@@ -82,7 +83,7 @@ class StaticHTML(HTMLParser):
             approved_count = "https://ryoushunnei.goatcounter.com/count"
             if not connect <= {"'none'", "'self'", *maps, *({approved_count} if self.goatcounter else set())}:
                 raise ValueError("Unapproved connect permission")
-            if not images <= {"'none'", "'self'", "data:", "blob:", *maps}:
+            if not images <= {"'none'", "'self'", "data:", "blob:", *maps, *KBO_MAP_IMAGES}:
                 raise ValueError("Unapproved image permission")
             if self.goatcounter and approved_count not in connect:
                 raise ValueError("GoatCounter needs the exact approved count path")

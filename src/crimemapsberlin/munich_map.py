@@ -351,6 +351,8 @@ def build_candidate(
         generation_root / "roads-overview.json",
         {"type": "FeatureCollection", "features": []},
     )
+    from .year_hex import write_year_archives
+    write_year_archives(generation_root, manifest, {p.stem: json.loads(p.read_text()) for p in (generation_root / "months").glob("*.json")})
     _write_json(staging / "manifest.json", manifest)
     _write_json(staging / "build-audit.json", audit)
     _replace_directory(staging, output)

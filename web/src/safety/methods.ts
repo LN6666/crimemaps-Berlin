@@ -84,6 +84,7 @@ export function mountAnnouncementMethods(parent: HTMLElement, options: MethodOpt
         } catch { /* Missing/invalid contribution links are not advertised as available. */ }
       }
       body.replaceChildren();
+      line("legend.yearScope");
       summary.textContent = t("methods.title");
       line("methods.independent");
       const munich = current.city === "munich";

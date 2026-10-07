@@ -20,6 +20,7 @@ export interface Manifest {
     pending: number;
   };
   months: Record<string, { count: number }>;
+  years?: Record<string, {path:string;announcement_count:number;countable_announcement_count:number;sha256:string}>;
   categories: string[];
   tile_index: { pois: string[]; roads: string[] };
   tile_size: [number, number];
@@ -27,6 +28,7 @@ export interface Manifest {
   zones: Bundle["zones"];
   metadata: Properties;
 }
+export interface YearData {schema_version:1;city:string;source_generation:string;year:string;announcement_count:number;countable_announcement_count:number;countable_event_ids:string[];event_months:Record<string,string>;event_categories:Record<string,string[]>;hex:{overview:FC;detail:FC}}
 interface MonthData extends Month {
   events: PoliceEvent[];
 }
@@ -86,6 +88,7 @@ export function tileKeys(
 export class DataClient {
   private tiles = new LRU<FC>(80, 20 * 1024 * 1024);
   private months = new LRU<MonthData>(3, 24 * 1024 * 1024);
+  private years = new LRU<YearData>(2, 10 * 1024 * 1024);
   private poiCoordinates: Set<string>;
   private available: { pois: Set<string>; roads: Set<string> };
   readonly base: string;
@@ -119,6 +122,16 @@ export class DataClient {
     signal.throwIfAborted();
     this.months.set(key, value, bytes);
     return value;
+  }
+  async year(key:string, signal:AbortSignal):Promise<YearData|undefined> {
+    signal.throwIfAborted();
+    if(!/^\d{4}$/.test(key))throw Error("Invalid year");
+    const entry=this.manifest.years?.[key];if(!entry)return undefined;
+    if(entry.path!==`years/${key}.json`)throw Error("Invalid annual data path");
+    const cached=this.years.get(key);if(cached)return cached;
+    const {value,bytes}=await this.read<YearData>(`${this.base}/${entry.path}`,signal);signal.throwIfAborted();
+    if(value.schema_version!==1||value.city!==this.manifest.city||value.source_generation!==this.manifest.generation||value.year!==key||!Array.isArray(value.countable_event_ids)||!value.event_months||!value.event_categories||!value.hex)throw Error("Stale annual data");
+    this.years.set(key,value,bytes);return value;
   }
   async viewport(
     kind: "pois" | "roads",
@@ -169,7 +182,7 @@ export class DataClient {
   }
   get cacheStats() {
     return { tiles: this.tiles.size, tileBytes: this.tiles.weight,
-      months: this.months.size, monthBytes: this.months.weight };
+      months: this.months.size, monthBytes: this.months.weight, years:this.years.size, yearBytes:this.years.weight };
   }
   private async read<T>(url: string, signal?: AbortSignal): Promise<{value:T;bytes:number}> {
     signal?.throwIfAborted();

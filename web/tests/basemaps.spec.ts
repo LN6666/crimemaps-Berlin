@@ -164,6 +164,35 @@ test.describe("basemap browser", () => {
     );
     await page.route("http://127.0.0.1:4173/safety/**", (route) => {
       const url = route.request().url();
+      const hex = {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            geometry: {
+              type: "Polygon",
+              coordinates: [
+                [
+                  [13.4, 52.5],
+                  [13.42, 52.5],
+                  [13.42, 52.52],
+                  [13.4, 52.52],
+                  [13.4, 52.5],
+                ],
+              ],
+            },
+            properties: {
+              id: "test",
+              edge_m: 1100,
+              count: 1,
+              event_ids: ["1"],
+            },
+          },
+        ],
+      };
+
+
+      if (url.includes("/years/")) return route.fulfill({json:{schema_version:1,city:"Berlin",source_generation:"0123456789abcdef-20260927T120000",year:"2026",announcement_count:1,countable_announcement_count:1,countable_event_ids:["1"],event_months:{["1"]:"2026-09"},event_categories:{["1"]:["raub"]},hex:{overview:hex,detail:hex}}});
       if (url.endsWith("manifest.json"))
         return route.fulfill({
           json: {
@@ -173,6 +202,7 @@ test.describe("basemap browser", () => {
             retrieved_at: "2026-09-27T12:00:00Z",
             coverage: { discovered: 1, fetched: 1, pending: 0, failed: 0 },
             months: { "2026-09": { count: 1 } },
+          years: {"2026":{path:"years/2026.json",announcement_count:1,countable_announcement_count:1,sha256:"0000000000000000000000000000000000000000000000000000000000000000"}},
             categories: ["raub"],
             tile_index: { pois: ["bar/335_2100"], roads: [] },
             tile_size: [0.04, 0.025],
@@ -187,32 +217,6 @@ test.describe("basemap browser", () => {
           },
         });
       if (url.includes("/months/")) {
-        const hex = {
-          type: "FeatureCollection",
-          features: [
-            {
-              type: "Feature",
-              geometry: {
-                type: "Polygon",
-                coordinates: [
-                  [
-                    [13.4, 52.5],
-                    [13.42, 52.5],
-                    [13.42, 52.52],
-                    [13.4, 52.52],
-                    [13.4, 52.5],
-                  ],
-                ],
-              },
-              properties: {
-                id: "test",
-                edge_m: 1100,
-                count: 1,
-                event_ids: ["1"],
-              },
-            },
-          ],
-        };
         return route.fulfill({
           json: {
             event_ids: ["1"],

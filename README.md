@@ -29,7 +29,7 @@ This repository provides the independent city map source. Release and update inf
 
 Select a month, then open an area, road or place to read the linked announcements. An event may have happened earlier than publication; if its time is not known, it stays unknown.
 
-Hexagons show selected announcements with a location suitable for the totals. Each announcement counts at most once in the selected month and map view. An announcement may describe several events, police activity or earlier events. These totals do not measure all crime, your chance of becoming a victim or how safe one city is compared with another.
+Hexagons show selected announcements with a location suitable for the totals. Each announcement counts at most once in the selected year and hexagon size. The saved announcement months define the yearly grouping; the month selector filters report lists and details. An announcement may describe several events, police activity or earlier events. These totals do not measure all crime, your chance of becoming a victim or how safe one city is compared with another.
 
 A road, transport line or area may show a place mentioned in the source while the exact incident location remains unknown. Reports that name only a district, or cannot be located, remain in the list. No point is invented to fill the gap.
 

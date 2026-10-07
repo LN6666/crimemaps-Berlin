@@ -191,6 +191,8 @@ async function mockData(page: Page) {
     );
   await page.route("http://127.0.0.1:4173/safety/**", (route) => {
     const url = route.request().url();
+      if (url.includes("/years/")) return route.fulfill({json:{schema_version:1,city:"Berlin",source_generation:"0123456789abcdef-20260927T120000",year:"2026",announcement_count:5,countable_announcement_count:1,countable_event_ids:[rows[0].id],event_months:{[rows[0].id]:"2026-09"},event_categories:{[rows[0].id]:["raub"]},hex:{overview:hex,detail:hex}}});
+
     if (url.endsWith("manifest.json"))
       return route.fulfill({
         json: {
@@ -200,6 +202,7 @@ async function mockData(page: Page) {
           retrieved_at: "2026-09-27T12:00:00Z",
           coverage: { discovered: 5, fetched: 5, pending: 0, failed: 0 },
           months: { "2026-09": { count: 5 } },
+          years: {"2026":{path:"years/2026.json",announcement_count:5,countable_announcement_count:1,sha256:"0000000000000000000000000000000000000000000000000000000000000000"}},
           categories: ["raub", "sachbeschaedigung"],
           tile_index: { pois: [], roads: [] },
           tile_size: [0.04, 0.025],
