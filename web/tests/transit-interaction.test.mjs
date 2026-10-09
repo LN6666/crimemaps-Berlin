@@ -75,7 +75,7 @@ function fixture(t, locale, initial=[full,thin],extra={}) {
   const events=new Map(), visualEvents=new Map(), mapEvents=new Map();
   const visualViewport={offsetLeft:0,offsetTop:0,width:320,height:720,
     addEventListener:(k,f)=>visualEvents.set(k,f),removeEventListener:k=>visualEvents.delete(k)};
-  Object.assign(globalThis,{document:{body:new Element('body'),createElement:tag=>new Element(tag)},
+  Object.assign(globalThis,{document:{documentElement:new Element('html'),body:new Element('body'),createElement:tag=>new Element(tag)},
     window:{visualViewport,addEventListener:(k,f)=>events.set(k,f),removeEventListener:k=>events.delete(k)},innerWidth:320,innerHeight:720});
   let loaded=initial, hits=[...Array(1001).fill(initial[0]),...initial], hitBox;
   const sources=new Map(), layers=new Map([['public-transit-bus-lines',{}]]);
