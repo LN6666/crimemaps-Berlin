@@ -1,6 +1,6 @@
 {
   "community.view": "查看此社区：{name}",
-  "community.toggle": "显示社区边界与名称",
+  "community.toggle": "显示所选分区边界",
   "community.loading": "社区边界正在加载；这是独立的地理参照图层。",
   "community.available": "行政区划层级：{level}。黑线与名称仅作地理参照，不表示社区警情统计。名称按缩放与空间显示。",
   "community.unavailable": "当前城市尚无可用的已核验社区边界；不补画或猜测社区。",
@@ -188,7 +188,7 @@
   "sources.pendingCountries": "尚未核对来源的国家：{countries}",
   "kbo.title": "柏林警方划定区域（kbO）",
   "kbo.button": "查看柏林警方划定区域（kbO）",
-  "kbo.separate": "红色半透明大块与粗黑线表示柏林 kbO 的近似参照范围，可点击查看警方边界图。它们不是法定边界，不参与公告或六边形计数；kbO 与公告六边形分别展示。",
+  "kbo.separate": "红色半透明大块与细黑线表示柏林 kbO 的近似参照范围，可点击查看警方边界图。它们不是法定边界，不参与公告或六边形计数；kbO 与公告六边形分别展示。",
   "kbo.note": "已登记七个区域及警方原始边界图。地图上的红色填充与粗黑线为便于浏览而绘制的近似参照范围，不是警方确认的精确或法定边界，也不参与公告、六边形或场所关联统计。请以各区域的警方原始边界图为准。",
   "kbo.boundary": "官方边界图 ↗",
   "kbo.source": "警方说明 ↗",

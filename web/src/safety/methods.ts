@@ -42,6 +42,8 @@ export function mountAnnouncementMethods(parent: HTMLElement, options: MethodOpt
   const line = (key: string, params?: Record<string, string | number>) => {
     const element = document.createElement("p");
     element.textContent = t(key, params);
+    if (params || key === "methods.statisticsUnavailable") element.setAttribute("data-no-disclosure", "");
+    else element.setAttribute("data-long-copy", "");
     body.append(element);
   };
   const format = (f: Fraction) => f.value === null ? t("methods.unknown") :
@@ -68,6 +70,7 @@ export function mountAnnouncementMethods(parent: HTMLElement, options: MethodOpt
       for (const key of ["project.initial"]) {
         const paragraph = document.createElement("p");
         paragraph.textContent = t(key);
+        paragraph.setAttribute("data-long-copy", "");
         introduction.append(paragraph);
       }
       const contributionUrl = current.metadata.project_contribution_url;

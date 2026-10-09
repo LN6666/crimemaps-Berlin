@@ -43,6 +43,10 @@ Bei den erfassten Meldungen werden Quellen, Kategorien, Ortsangaben und ihre Anz
 
 Die Kennzeichnung „Hinweis auf ein mögliches Hassmotiv“ wird mit KI-Unterstützung aus ausdrücklichen Anzeichen von Vorurteilen im Text abgeleitet. Sie ist keine polizeiliche Feststellung. Identität, Herkunft oder Wohnviertel allein belegen kein Motiv.
 
+<!-- crimemaps:public-transit-reading:start -->
+Eine angezeigte ÖPNV-Linie lässt sich per Mausklick oder Antippen hervorheben. Die Details zeigen ihre Nummer, den ursprünglichen Namen aus der Quelle und vorhandene Quellenangaben. Bei überlappenden Linien wählen Sie eine aus der Liste. Fehlende Quellennamen werden gekennzeichnet. Die Linienebene selbst belegt keinen Bezug zu einer Polizeimeldung; die eingebundenen Linien bilden auch nicht das gesamte Stadtnetz ab. Fähren gehören zu „Sonstiger öffentlicher Verkehr“. Eine ungeprüfte Quelle oder eine fehlende Linie auf der Karte belegt nicht, dass es keinen Fährverkehr gibt.
+<!-- crimemaps:public-transit-reading:end -->
+
 <a id="sources"></a>
 
 ## Quellen und erfasster Umfang

@@ -36,5 +36,6 @@ export function communityReference(value:unknown,city:string):CommunityReference
     labels.features.push({type:"Feature",geometry:{type:"Point",coordinates:[...p.label_point]},properties:p});
   }
   return {available:true,boundaries,labels,metadata:{division_level:v.division_level,admin_level:v.admin_level,
-    coverage_note:v.coverage_note,source_name:v.source_name,source_url:v.source_url,snapshot:v.snapshot}};
+    coverage_note:v.coverage_note,source_name:v.source_name,source_url:v.source_url,snapshot:v.snapshot,
+    boundary_reference_year:v.boundary_reference_year,retrieved:v.retrieved}};
 }

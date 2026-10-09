@@ -1,0 +1,5 @@
+import assert from 'node:assert/strict';import test from 'node:test';import {readFileSync} from 'node:fs';import {transform} from 'esbuild';
+const {code}=await transform(readFileSync(new URL('../src/safety/floating-position.ts',import.meta.url),'utf8'),{loader:'ts',format:'esm',target:'es2022'});
+const {floatingPosition}=await import(`data:text/javascript;base64,${Buffer.from(code).toString('base64')}`);
+test('phone resize retains inset on all four edges',()=>{const v={left:0,top:0,width:390,height:740};assert.deepEqual(floatingPosition(980,110,280,380,v),{left:98,top:110});assert.deepEqual(floatingPosition(-100,-100,280,380,v),{left:12,top:12});assert.deepEqual(floatingPosition(900,900,280,380,v),{left:98,top:348});});
+test('visible viewport offsets after zoom or keyboard are respected',()=>{const v={left:30,top:70,width:320,height:280};const p=floatingPosition(900,900,280,154,v);assert.deepEqual(p,{left:58,top:184});assert.ok(p.left>=42&&p.left+280<=338&&p.top>=82&&p.top+154<=338);});
