@@ -177,9 +177,13 @@ def run_import(db, files, *, city="berlin", imported_at=3):
 
 
 @pytest.mark.parametrize(
-    ("city", "native_columns"),
-    [("berlin", False), ("hamburg", False), ("cologne", True), ("frankfurt", False)],
+    "city",
+    [
+        "berlin", "hamburg", "cologne", "frankfurt", "dusseldorf", "stuttgart",
+        "leipzig", "dortmund", "bremen", "essen", "dresden", "hannover", "nuremberg",
+    ],
 )
+@pytest.mark.parametrize("native_columns", [False, True])
 def test_imports_each_city_schema_with_multiple_incidents_and_locations(
     tmp_path, city, native_columns
 ):
