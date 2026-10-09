@@ -1,3 +1,4 @@
+import {revealSelectedInformation} from './selected-information-visibility';
 import {createFinalPositiveMunicipalReferences} from './final-positive-municipal-references';
 import {createNurembergMunicipalRentView} from './nuremberg-municipal-rent-view';
 import {createEssenMunicipalMHView} from './essen-municipal-mh-view';
@@ -159,7 +160,7 @@ export function installGeographyBase(options:{map:MapView;host:HTMLElement;city:
  let hoveredId:string|undefined;
  const clearHover=()=>{if(hoveredId===undefined)return;hoveredId=undefined;set('community-hover',empty());set('community-names',empty());};
  function locateAt(point:number[]){cancelSemantic();references.cancel();lastPoint=point;selected=areaLookup.find(point);name.textContent=selected?`${level?.label??ref.metadata.division_level??''} · ${selected.properties.name}`:ref.available?c.outside:c.missing;details.disabled=!selected;}
- function chooseAt(point:number[]){locateAt(point);if(!selected||map.getZoom()>=(level?.overview_zoom??13))return;
+ function chooseAt(point:number[]){locateAt(point);if(selected)revealSelectedInformation(bar);if(!selected||map.getZoom()>=(level?.overview_zoom??13))return;
   let west=180,east=-180,south=90,north=-90;
   const scan=(v:any)=>{if(typeof v[0]==='number'){west=Math.min(west,v[0]);east=Math.max(east,v[0]);south=Math.min(south,v[1]);north=Math.max(north,v[1]);}else v.forEach(scan);};
   scan((selected.geometry as any).coordinates);map.fitBounds([[west,south],[east,north]],{padding:36,maxZoom:level?.overview_zoom??13,duration:650});

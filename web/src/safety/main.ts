@@ -1,3 +1,4 @@
+import {installSelectionInspector} from './selection-inspector';
 import {installLongCopyDisclosure} from './long-copy-disclosure';
 import './long-copy-disclosure.css';
 import {installBaseShopLabels,SHOP_LABEL_LAYER} from './base-shop-labels';
@@ -254,6 +255,7 @@ let baseShopLabels:ReturnType<typeof installBaseShopLabels>|undefined;
 function communityVisibility() {geographyBase?.visibility(el<HTMLInputElement>("community-toggle").checked);}
 function communityDialog(id:string,_relatedKbo?:number) {geographyBase?.showDetails(id);}
 const mobileLayout=installMobileLayout(app,{labels:{filters:t("mobile.filters"),showFilters:t("mobile.showFilters"),hideFilters:t("mobile.hideFilters"),map:t("mobile.map"),details:t("mobile.details"),skipToMap:t("mobile.skipToMap")},onLayoutChange:()=>map?.resize()});
+const selectionInspector=installSelectionInspector(el('selection'),app.querySelector<HTMLElement>('.map-wrap')!,locale);
 const longCopyDisclosure=installLongCopyDisclosure(app,locale);
 const statisticsNames = Object.fromEntries(cityIds.map(city => [city, cityName(city, city)]));
 statisticsNames.all14 = {zh:"14城合计",en:"14-city total",de:"Gesamt: 14 Städte"}[locale];
@@ -620,6 +622,7 @@ function listReports(parent: HTMLElement, ids: string[], displayOverride?:Police
   }
 }
 function showSelection() {
+  if(!selected&&!basicOsmPanel)selectionInspector.close();
   const panel = el("selection");
   yearReportRequest.abort();
   yearReportRequest=new AbortController();
@@ -1044,6 +1047,7 @@ function ensureYear():Promise<void> {
   annualLoading=(async()=>{try{const value=await client.year(year,signal);if(!signal.aborted&&year===el<HTMLSelectElement>("year").value)annual=value;}catch(error){if(!signal.aborted)console.error(error);}finally{if(!signal.aborted){annualLoadingKey="";annualLoading=undefined;refresh();}}})();return annualLoading;
 }
 async function loadMonth() {
+  selectionInspector.close();basicOsmPanel=undefined;osmClickInspection?.clear();
   yearReportRequest.abort();void ensureYear();
   monthRequest.abort();
   monthRequest = new AbortController();
@@ -1556,7 +1560,7 @@ async function start() {
       publicTransitOverlay=installPublicTransitOverlay({map,host:(app.querySelector<HTMLElement>(".mobile-filter-content")??app.querySelector<HTMLElement>(".controls"))!,city:currentCity,locale,fetchBytes:(path,signal,maxBytes)=>boundedDataBytes(assetPath(path),signal,maxBytes,path==="/safety/transit/index.json"?"no-store":"default")});
       void publicTransitOverlay.load();
       baseShopLabels=installBaseShopLabels({map,host:(app.querySelector<HTMLElement>(".mobile-filter-content")??app.querySelector<HTMLElement>(".controls"))!,locale,diagnostics:location.hostname==='127.0.0.1'&&new URLSearchParams(location.search).get('qaShopSource')==='1'});
-      osmClickInspection=installOsmClickInspection(map,locale,panel=>{selected=null;basicOsmPanel=panel;el("selection").replaceChildren(panel);});
+      osmClickInspection=installOsmClickInspection(map,locale,panel=>{selected=null;basicOsmPanel=panel;el("selection").replaceChildren(panel);selectionInspector.open();});
       basemaps = new Basemaps(map, paintOverlays, (id) => {
         const error = el("basemap-error");
         error.querySelector("span")!.textContent =
@@ -1584,6 +1588,7 @@ async function start() {
       }
       map.on("click", (e) => {
         if (expired) return;
+        selectionInspector.close();
         // Real report markers keep priority; selected stations precede ordinary venue points.
         const transitIncidentLayers=["scene-point","scene-point-halo","source-poi-reference-point"].filter(id=>map.getLayer(id));
         const transitIncidentHit=transitIncidentLayers.length&&map.queryRenderedFeatures(e.point,{layers:transitIncidentLayers}).length;
@@ -1628,6 +1633,7 @@ async function start() {
         };
         const finishSelection=()=>{
           showSelection();
+          selectionInspector.open();
           const communityHit=fs.find(f=>["community-line","community-label","community-hit"].includes(f.layer.id));
           if(communityHit){
             const button=text("button",t("community.view",{name:String(communityHit.properties.name)}),el("selection"));
@@ -1848,6 +1854,7 @@ window.addEventListener("pagehide", (event) => {
   analyticsPanel.destroy();
   statisticsPanel?.destroy();datedStatisticsPanel?.destroy();floatingDatedStatisticsPanel?.destroy();
   longCopyDisclosure.destroy();
+  selectionInspector.destroy();
   mobileLayout.destroy();
   basemaps?.dispose();
   map?.remove();
