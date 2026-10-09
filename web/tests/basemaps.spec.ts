@@ -282,7 +282,7 @@ test.describe("basemap browser", () => {
     await page.goto("/?lang=zh");
     await expect(page.locator("#stats .big")).toHaveText("1");
     await expect(page.locator("#basemap")).toHaveValue("vector");
-    await page.locator("#basemap").selectOption("street");
+    await page.locator("#basemap + .compact-choices button").nth(["vector", "street", "aerial", "local"].indexOf("street")).click();
     await expect
       .poll(
         () =>
@@ -303,7 +303,7 @@ test.describe("basemap browser", () => {
     const selection = await page.locator("#selection").innerText();
     const scale = await page.locator(".maplibregl-ctrl-scale").innerText();
     for (const id of ["aerial", "local", "street"]) {
-      await page.locator("#basemap").selectOption(id);
+      await page.locator("#basemap + .compact-choices button").nth(["vector", "street", "aerial", "local"].indexOf(id)).click();
       await expect(page.locator("#selection")).toHaveText(selection, {
         useInnerText: true,
       });
@@ -367,7 +367,7 @@ test.describe("basemap browser", () => {
     );
     await page.goto("/?lang=zh");
     await expect(page.locator("#stats .big")).toHaveText("1");
-    await page.locator("#basemap").selectOption("aerial");
+    await page.locator("#basemap + .compact-choices button").nth(["vector", "street", "aerial", "local"].indexOf("aerial")).click();
     await expect(page.locator("#basemap-error")).toContainText("加载失败");
     const failedCount = failedTiles;
     await page.locator("#basemap-fallback").click();
@@ -400,7 +400,7 @@ test.describe("basemap browser", () => {
     const selection = await page.locator("#selection").innerText();
     const scale = await page.locator(".maplibregl-ctrl-scale").innerText();
     for (const id of ["aerial", "local", "street"]) {
-      await page.locator("#basemap").selectOption(id);
+      await page.locator("#basemap + .compact-choices button").nth(["vector", "street", "aerial", "local"].indexOf(id)).click();
       await expect(page.locator("#selection")).toHaveText(selection, {
         useInnerText: true,
       });
@@ -419,7 +419,7 @@ test.describe("basemap browser", () => {
     await page.goto("/?lang=zh");
     await expect(page.locator("#stats .big")).toHaveText("1");
     await page.locator(".mobile-basemap-settings > summary").click();
-    await page.locator("#basemap").selectOption("aerial");
+    await page.locator("#basemap + .compact-choices button").nth(["vector", "street", "aerial", "local"].indexOf("aerial")).click();
     const attributionSummary = page.locator(".maplibregl-ctrl-attrib > summary");
     if (await attributionSummary.isVisible()) await attributionSummary.click();
     await expect(page.locator(".maplibregl-ctrl-attrib")).toContainText(

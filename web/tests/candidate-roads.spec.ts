@@ -319,7 +319,7 @@ test.describe("candidate roads browser", () => {
     const selection = await page.locator("#selection").innerText();
     const scale = await page.locator(".maplibregl-ctrl-scale").innerText();
     for (const basemap of ["aerial", "local", "street"]) {
-      await page.locator("#basemap").selectOption(basemap);
+      await page.locator("#basemap + .compact-choices button").nth(["vector", "street", "aerial", "local"].indexOf(basemap)).click();
       await expect(page.locator("#selection")).toHaveText(selection, {
         useInnerText: true,
       });
@@ -344,7 +344,7 @@ test.describe("candidate roads browser", () => {
       .toContain("1条公告");
     await expect(page.locator("#selection")).not.toContainText("Wide road A");
     await expect(page.locator("#stats .big")).toHaveText("5");
-    await page.locator("#basemap").selectOption("local");
+    await page.locator("#basemap + .compact-choices button").nth(["vector", "street", "aerial", "local"].indexOf("local")).click();
     await expect(page.locator("#candidate-roads-toggle")).not.toBeChecked();
     await clickCenter(page);
     await expect(page.locator("#selection h2")).toHaveText("1条公告");

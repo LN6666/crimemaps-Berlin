@@ -1,5 +1,17 @@
+import {installLongCopyDisclosure} from './long-copy-disclosure';
+import './long-copy-disclosure.css';
+import {installBaseShopLabels,SHOP_LABEL_LAYER} from './base-shop-labels';
+import {appendBuildingShopChoices} from './building-shop-choices';
+import {installOsmClickInspection} from './osm-click-inspection';
+import {installPublicTransitOverlay} from './public-transit-overlay';
+import {boundedDataBytes} from './local-data-bytes';
+import {installElectoralOverlay} from './electoral-overlay';
+import {verifiedElectoralJSON} from './electoral-assets';
+import {electoralPartyPalette} from './electoral-party-palette';
+import {installGeographyBase} from "./geography-base";
 import {communityReference,type CommunityReference} from "./community-boundaries";
 import mapReadingRules from "./map-reading-rules.json";
+import {appendNewDataReadingPolicy} from "./reading-policy-new-data";
 import reviewedKboReference from "../../../data/safety/berlin_kbo.json";
 import {mountAnalytics,markAnalyticsLanguageNavigation} from "./analytics";
 import "./analytics.css";
@@ -25,8 +37,12 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import "./style.css";
 import "./brand.css";
 import "./appearance.css";
+import "./geography-base.css";
+import "./typography-density.css";
+import "./transit-interaction.css";
 import {mountBrand} from "./brand";
 import {initializeAppearance,mountAppearance} from "./appearance";
+import {compactChoices} from './compact-choices';
 import {
   candidateRoadGeometry,
   candidateRoads,
@@ -131,16 +147,36 @@ const sceneColor: maplibregl.ExpressionSpecification = [
 const app = document.querySelector<HTMLDivElement>("#app")!;
 initializeAppearance();
 app.innerHTML = `<header><div><span class="brand">${currentCity === "berlin" ? "CRIMEMAPSBERLIN" : "CRIMEMAPS.DE"}</span><span id="review-badge" class="review-badge" hidden>${html(t("app.preview"))}</span><h1>${html(t("app.heading",{city:localizedCity}))}</h1></div><div class="toolbar"><label>${html(t("nav.language"))}<select id="language" aria-label="${html(t("nav.language"))}"><option value="de">Deutsch</option><option value="en">English</option><option value="zh">中文</option></select></label><label class="city-switch">${html(t("nav.city"))}<select id="city-switch" aria-label="${html(t("nav.city"))}"></select></label><label>${html(t("nav.year"))}<select id="year" aria-label="${html(t("nav.year"))}"></select></label><label>${html(t("nav.month"))}<select id="month" aria-label="${html(t("nav.month"))}"></select></label><button id="overview">${html(t("nav.overview"))}</button><button id="sources">${html(t("nav.sources"))}</button></div></header>
-<main><aside class="controls"><p class="eyebrow">${html(localizedCity)} / ${html(t("app.publicReports"))}</p><h2>${html(t("app.tagline"))}</h2><p id="coverage">${html(t("map.loadingData"))}</p><nav id="external-maps" class="external-maps" aria-label="${html(t("external.aria"))}"></nav><label class="search-label">${html(t("search.label",{city:localizedCity}))}<input id="search" placeholder="${html(t("search.placeholder",{},cityView.latin))}" autocomplete="off"></label><div id="search-results"></div><label>${html(t("filter.category"))}<select id="category"><option value="all">${html(t("filter.allReports"))}</option></select></label><div class="rule"></div><h3 id="year-hex-title">${html(t("legend.hex"))}</h3><p class="hint">${html(t("legend.yearScope"))}</p><div class="ramp"></div><div class="ends"><span>${html(t("legend.low"))}</span><span>${html(t("legend.high"))}</span></div><p id="resolution"></p><label class="toggle"><input id="hex-toggle" type="checkbox" checked> ${html(t("legend.showHex"))}</label><p id="hex-empty-note" class="hint" hidden>${html(t("legend.emptyHex"))}</p><label class="toggle"><input id="candidate-roads-toggle" type="checkbox" checked> ${html(t("legend.showRoads"))}</label><p class="hint"><span class="road-swatch" aria-hidden="true"></span>${html(t("legend.roadNote"))}</p><div class="scene-legend" aria-label="${html(t("legend.scenesAria"))}"><span><i class="scene-swatch incident" aria-hidden="true"></i><i class="scene-road-swatch incident" aria-hidden="true"></i>${html(t("legend.incident"))}</span><span><i class="scene-swatch discovery" aria-hidden="true"></i><i class="scene-road-swatch discovery" aria-hidden="true"></i>${html(t("legend.discovery"))}</span><span><i class="scene-swatch operation" aria-hidden="true"></i><i class="scene-road-swatch operation" aria-hidden="true"></i>${html(t("legend.operation"))}</span><span><i class="scene-swatch context" aria-hidden="true"></i><i class="scene-road-swatch context" aria-hidden="true"></i>${html(t("legend.context"))}</span><span><i class="route-swatch"></i>${html(t("legend.transit"))}</span></div><p class="hint scene-shape-note">${html(t("legend.sceneShapes"))}</p><p id="scene-availability" class="hint" aria-live="polite"></p><p id="transit-availability" class="hint"></p><button id="map-reading-rules">${html(t("legend.readRules"))}</button><label class="toggle"><input id="community-toggle" type="checkbox" checked> ${html(t("community.toggle"))}</label><p id="community-note" class="hint" aria-live="polite">${html(t("community.loading"))}</p><h3>${html(t("legend.pois"))}</h3><div id="poi-filters"></div><label class="toggle"><input id="highlight" type="checkbox" checked> ${html(t("legend.highlight"))}</label><p id="highlight-note" class="hint">${html(t("legend.highlightNote"))}</p><div class="rule"></div><button id="kbo">${html(t("kbo.button"))}</button><p class="hint">${html(t("kbo.separate"))}</p><p id="freshness" class="hint"></p></aside>
+<main><aside class="controls"><p class="eyebrow">${html(localizedCity)} / ${html(t("app.publicReports"))}</p><h2>${html(t("app.tagline"))}</h2><p id="coverage">${html(t("map.loadingData"))}</p><nav id="external-maps" class="external-maps" aria-label="${html(t("external.aria"))}"></nav><label class="search-label">${html(t("search.label",{city:localizedCity}))}<input id="search" placeholder="${html(t("search.placeholder",{},cityView.latin))}" autocomplete="off"></label><div id="search-results"></div><label>${html(t("filter.category"))}<select id="category"><option value="all">${html(t("filter.allReports"))}</option></select></label><div class="rule"></div><h3 id="year-hex-title">${html(t("legend.hex"))}</h3><p class="hint">${html(t("legend.yearScope"))}</p><div class="ramp"></div><div class="ends"><span>${html(t("legend.low"))}</span><span>${html(t("legend.high"))}</span></div><p id="resolution"></p><label class="toggle"><input id="hex-toggle" type="checkbox" checked> ${html(t("legend.showHex"))}</label><p id="hex-empty-note" class="hint" hidden>${html(t("legend.emptyHex"))}</p><label class="toggle"><input id="candidate-roads-toggle" type="checkbox" checked> ${html(t("legend.showRoads"))}</label><p class="hint"><span class="road-swatch" aria-hidden="true"></span>${html(t("legend.roadNote"))}</p><div class="scene-legend" aria-label="${html(t("legend.scenesAria"))}"><span><i class="scene-swatch incident" aria-hidden="true"></i><i class="scene-road-swatch incident" aria-hidden="true"></i>${html(t("legend.incident"))}</span><span><i class="scene-swatch discovery" aria-hidden="true"></i><i class="scene-road-swatch discovery" aria-hidden="true"></i>${html(t("legend.discovery"))}</span><span><i class="scene-swatch operation" aria-hidden="true"></i><i class="scene-road-swatch operation" aria-hidden="true"></i>${html(t("legend.operation"))}</span><span><i class="scene-swatch context" aria-hidden="true"></i><i class="scene-road-swatch context" aria-hidden="true"></i>${html(t("legend.context"))}</span><span><i class="route-swatch"></i>${html(t("legend.transit"))}</span></div><p class="hint scene-shape-note">${html(t("legend.sceneShapes"))}</p><p id="scene-availability" class="hint" aria-live="polite"></p><p id="transit-availability" class="hint"></p><button id="map-reading-rules">${html(t("legend.readRules"))}</button><label class="toggle"><input id="community-toggle" type="checkbox" checked> ${html(t("community.toggle"))}</label><p id="community-note" class="hint" aria-live="polite">${html(t("community.loading"))}</p><h3>${html(t("legend.pois"))}</h3><label class="toggle"><input id="poi-toggle" type="checkbox" checked> ${html(({zh:"显示周边场所",en:"Show nearby places",de:"Orte in der Nähe anzeigen"})[locale])}</label><div id="poi-filters"></div><label class="toggle"><input id="highlight" type="checkbox" checked> ${html(t("legend.highlight"))}</label><p id="highlight-note" class="hint">${html(t("legend.highlightNote"))}</p><div class="rule"></div><button id="kbo">${html(t("kbo.button"))}</button><p class="hint">${html(t("kbo.separate"))}</p><p id="freshness" class="hint"></p></aside>
 <section class="map-wrap"><div id="map" aria-label="${html(t("map.aria",{city:localizedCity}))}"></div><div class="map-label"><span class="dot"></span><span id="map-status" role="status" aria-live="polite">${html(t("map.preparing"))}</span></div><div class="basemap-picker"><label>${html(t("map.basemap"))}<select id="basemap" aria-label="${html(t("map.basemap"))}" disabled><option value="vector">${html(t("basemap.vector"))}</option><option value="street">${html(t("basemap.street"))}</option><option value="aerial">${html(t("basemap.aerial"))}</option><option value="local">${html(t("basemap.local"))}</option></select></label><div id="basemap-error" role="status" hidden><span></span><button id="basemap-fallback">${html(t("basemap.fallback"))}</button></div></div><div class="map-note">${html(t("map.poiNote"))}</div><p class="hint basemap-language-note">${html(t("basemap.languageNote"))}</p></section>
 <aside class="details"><div id="stats"></div><div id="methods-panel"></div><div id="selection"><h2>${html(t("selection.prompt"))}</h2><p>${html(t("selection.intro"))}</p></div><div id="uncertainty-panel"></div><div id="analytics-panel"></div></aside></main>
 <dialog id="drawer"><button id="close-dialog" class="close">${html(t("action.close"))}</button><div id="drawer-content"></div></dialog>`;
 const el = <T extends HTMLElement = HTMLElement>(id: string) =>
   document.getElementById(id) as T;
 mountBrand(app.querySelector<HTMLElement>(".brand")!);
+const cityHeading=app.querySelector<HTMLHeadingElement>('header h1')!;
+const headingContainer=cityHeading.parentElement!;
+const fitCityHeading=()=>{
+  cityHeading.style.removeProperty('font-size');
+  const available=headingContainer.clientWidth;
+  for(let attempt=0;attempt<3 && available>0 && cityHeading.scrollWidth>available;attempt++){
+    const baseSize=parseFloat(getComputedStyle(cityHeading).fontSize);
+    cityHeading.style.fontSize=`${Math.floor(baseSize*(available-1)/cityHeading.scrollWidth*10)/10}px`;
+  }
+};
+let headingContainerWidth=-1;
+new ResizeObserver(entries=>{
+  const width=entries[0]?.contentRect.width;
+  if(width!==headingContainerWidth){headingContainerWidth=width??-1;fitCityHeading();}
+}).observe(headingContainer);
+void document.fonts.ready.then(fitCityHeading);
 mountAppearance(app.querySelector<HTMLElement>(".toolbar")!, {label:t("theme.label"),blue:t("theme.blue"),light:t("theme.light")});
 el<HTMLSelectElement>("language").value=locale;
 el("language").onchange=()=>{markAnalyticsLanguageNavigation(currentCity);const url=new URL(location.href);url.searchParams.set("lang",el<HTMLSelectElement>("language").value);url.searchParams.set("month",monthKey());location.assign(url.href);};
+compactChoices(el<HTMLSelectElement>('language'),{de:'DE',en:'EN',zh:'中文'});
+compactChoices(el<HTMLSelectElement>('appearance'));
+const zoomTierNote=document.createElement('p');zoomTierNote.className='hint';zoomTierNote.id='zoom-tier-note';zoomTierNote.textContent={"zh": "放大后先隐藏分区悬停的蓝色与名称，保留黑色边界；再放大到街道细节时隐藏六边形。缩小时按相反顺序恢复；关闭六边形开关后不会自动恢复。", "en": "Area hover colours and names disappear first as you zoom in; black boundaries remain. Hexagons disappear at street-detail scale and return when zooming out, unless switched off.", "de": "Beim Hineinzoomen verschwinden zuerst die blauen Gebietshervorhebungen und Namen; schwarze Grenzen bleiben. Auf Straßen-Detailebene verschwinden auch die Hexagone. Beim Herauszoomen erscheinen sie wieder, sofern sie nicht ausgeschaltet sind."}[locale];el('hex-empty-note').after(zoomTierNote);
+compactChoices(el<HTMLSelectElement>('basemap'),({zh:{vector:'多语街道',street:'街道',aerial:'航拍',local:'简图'},en:{vector:'Multilingual',street:'Streets',aerial:'Aerial',local:'Simple'},de:{vector:'Mehrsprachig',street:'Straßen',aerial:'Luftbild',local:'Einfach'}})[locale]);
 const citySelect = el<HTMLSelectElement>("city-switch");
 for (const group of cityGroups) {
   const section = document.createElement("optgroup");
@@ -192,10 +228,11 @@ text("button", t("nav.otherCities"), el("external-maps")).onclick =
   externalMapsDialog;
 el("map-reading-rules").onclick = () => {
   const panel = openDialog(t("legend.readRules"));
-  for (const rule of mapReadingRules[locale]) {
+  for (const [ruleIndex,rule] of mapReadingRules[locale].entries()) {
     const section = document.createElement("section");
     text("h3", rule.title, section);
-    text("p", rule.body, section);
+    if(ruleIndex===13)appendNewDataReadingPolicy(section,currentCity,locale,rule.body);
+    else text("p", rule.body, section);
     panel.append(section);
   }
 };
@@ -208,49 +245,16 @@ const analyticsPanel=mountAnalytics(el("analytics-panel"),{language:locale,city:
 let data: Bundle;
 let map: maplibregl.Map;
 let communities:CommunityReference=communityReference(null,currentCity);
-const communityRequest=new AbortController();
-let communityLoading:Promise<void>|undefined;
-function communityVisibility() {
-  if(!map?.getLayer("community-line"))return;
-  const visibility=el<HTMLInputElement>("community-toggle").checked&&communities.available?"visible":"none";
-  for(const id of ["community-hit","community-line","community-label"])map.setLayoutProperty(id,"visibility",visibility);
-}
-function loadCommunities():Promise<void> {
-  if(communityLoading)return communityLoading;
-  communityLoading=(async()=>{
-    try {
-      communities=communityReference(await fetchDataJSON<unknown>(assetPath("/safety/community-boundaries.geojson"),communityRequest.signal),currentCity);
-    } catch { communities=communityReference(null,currentCity); }
-    if(communityRequest.signal.aborted)return;
-    setSource("communities",communities.boundaries);setSource("community-names",communities.labels);
-    el<HTMLInputElement>("community-toggle").disabled=!communities.available;
-    const meta=communities.metadata;
-    const note=el("community-note");note.replaceChildren();
-    if(communities.available) {
-      text("span",t("community.available",{level:String(meta.division_level??meta.admin_level??"—")}),note);
-      if(typeof meta.coverage_note==="string"&&meta.coverage_note.trim())text("span"," "+meta.coverage_note,note);
-      if(typeof meta.source_url==="string")link(note,t("community.source"),meta.source_url);
-    } else text("span",t("community.unavailable"),note);
-    communityVisibility();
-  })();
-  return communityLoading;
-}
-function communityDialog(id:string,relatedKbo?:number) {
-  const feature=communities.boundaries.features.find(f=>f.properties.id===id);if(!feature)return;
-  const props=feature.properties,meta=communities.metadata;
-  const panel=openDialog(String(props.name));
-  text("p",t("community.level",{level:String(props.division_type??meta.division_level??"—"),admin:String(props.admin_level??meta.admin_level??"—")}),panel);
-  text("p",t("community.referenceOnly"),panel);
-  if(typeof meta.source_name==="string")text("p",meta.source_name,panel);
-  if(typeof props.source_url==="string")link(panel,t("community.source"),props.source_url);
-  else if(typeof meta.source_url==="string")link(panel,t("community.source"),meta.source_url);
-  if(typeof meta.snapshot==="string")text("p",t("community.snapshot",{snapshot:meta.snapshot}),panel);
-  if(relatedKbo!==undefined&&kboZones.places[relatedKbo]) {
-    const button=text("button",t("selection.relatedKbo",{name:String(kboZones.places[relatedKbo].name)}),panel);
-    button.onclick=()=>kboDialog(relatedKbo);
-  }
-}
+let geographyBase:ReturnType<typeof installGeographyBase>|undefined;
+let electoralOverlay:ReturnType<typeof installElectoralOverlay>|undefined;
+let publicTransitOverlay:ReturnType<typeof installPublicTransitOverlay>|undefined;
+let osmClickInspection:ReturnType<typeof installOsmClickInspection>|undefined;
+let basicOsmPanel:HTMLElement|undefined;
+let baseShopLabels:ReturnType<typeof installBaseShopLabels>|undefined;
+function communityVisibility() {geographyBase?.visibility(el<HTMLInputElement>("community-toggle").checked);}
+function communityDialog(id:string,_relatedKbo?:number) {geographyBase?.showDetails(id);}
 const mobileLayout=installMobileLayout(app,{labels:{filters:t("mobile.filters"),showFilters:t("mobile.showFilters"),hideFilters:t("mobile.hideFilters"),map:t("mobile.map"),details:t("mobile.details"),skipToMap:t("mobile.skipToMap")},onLayoutChange:()=>map?.resize()});
+const longCopyDisclosure=installLongCopyDisclosure(app,locale);
 const statisticsNames = Object.fromEntries(cityIds.map(city => [city, cityName(city, city)]));
 statisticsNames.all14 = {zh:"14城合计",en:"14-city total",de:"Gesamt: 14 Städte"}[locale];
 const statisticsReportUrls: Record<string, string> = {};
@@ -359,6 +363,7 @@ function events() {
   return monthEvents(data, monthKey(), el<HTMLSelectElement>("category").value);
 }
 function kinds() {
+  if (!el<HTMLInputElement>("poi-toggle").checked) return new Set<string>();
   return new Set(
     [
       ...document.querySelectorAll<HTMLInputElement>(
@@ -621,10 +626,13 @@ function showSelection() {
   panel.replaceChildren();
   setSource("reported-sections", empty());
   if (!selected) {
+    if(basicOsmPanel){panel.append(basicOsmPanel);return;}
     text("h2", t("selection.prompt"), panel);
     text("p", t("selection.intro"), panel);
     return;
   }
+  osmClickInspection?.clear();
+  if(selected.type==="poi"){const objectId=selected.id;const object=activePois.features.find(f=>String(f.properties.id)===objectId);if(object)osmClickInspection?.highlight(object);}
   if(selected.type==="report"){
     const ids=selected.ids.filter(id=>data.events.some(e=>e.id===id));
     text("h2",t("selection.announcementCount",{count:number(ids.length)}),panel);
@@ -779,6 +787,7 @@ function showSelection() {
 function paintOverlays() {
   const max = Math.max(1, ...activeHex.features.map((f) => f.properties.count));
   const base = basemaps?.rendered ?? "local";
+  baseShopLabels?.setBasemapActive(base==="vector");
   map.setPaintProperty("hex-fill", "fill-opacity", [
     "interpolate",
     ["linear"],
@@ -842,6 +851,7 @@ function refresh() {
   setSource("hex", activeHex);
   setSource("pois", renderPois(activePois));
   setSource("poi-centers", poiCenters(activePois));
+  baseShopLabels?.updateExistingPois(poiCenters(activePois));
   map.setLayoutProperty("poi-association-label","visibility",el<HTMLInputElement>("highlight").checked ? "visible" : "none");
   setSource("candidate-roads", activeRoads);
   setSource("scenes", activeScenes);
@@ -1094,7 +1104,7 @@ async function loadViewport() {
       detail
         ? client.viewport("roads", bounds, signal)
         : client.json<FC>(`${client.base}/roads-overview.json`, signal),
-      detail
+      detail && kinds().size > 0
         ? client.viewport("pois", bounds, signal, [...kinds()])
         : Promise.resolve(empty()),
     ]);
@@ -1159,6 +1169,13 @@ async function start() {
       label.append(swatch, document.createTextNode(poiName(key,value.label)));
       el("poi-filters").append(label);
     }
+    el("poi-toggle").onchange = () => {
+      const enabled=el<HTMLInputElement>("poi-toggle").checked;
+      for(const input of document.querySelectorAll<HTMLInputElement>("#poi-filters input")) input.disabled=!enabled;
+      pendingSearchPoiId=null;
+      if(selected?.type==="poi") {selected=null;osmClickInspection?.clear();}
+      refresh();void loadViewport();
+    };
     if(manifest.metadata.candidate_notice)text("p",String(manifest.metadata.candidate_notice),el("coverage").parentElement!);
     for(const [field,key] of [["source_reference_review_url","source.reviewDetails"],["historical112_service_review_url","source.serviceHistory"]]) {
       const path=manifest.metadata[field];
@@ -1208,6 +1225,17 @@ async function start() {
       }),
       "bottom-left",
     );
+    // Reserve a measured vertical stack for attribution, scale, then reading notes.
+    const overlayHost=document.querySelector<HTMLElement>(".map-wrap")!;
+    const scaleElement=map.getContainer().querySelector<HTMLElement>(".maplibregl-ctrl-scale")!;
+    const lowerControls=map.getContainer().querySelector<HTMLElement>(".maplibregl-ctrl-bottom-left")!;
+    const updateScaleSpacing=()=>{
+      overlayHost.style.setProperty("--map-scale-height",scaleElement.getBoundingClientRect().height+"px");
+      overlayHost.style.setProperty("--map-lower-controls-height",lowerControls.getBoundingClientRect().height+"px");
+    };
+    const scaleSpacingObserver=new ResizeObserver(updateScaleSpacing);
+    scaleSpacingObserver.observe(scaleElement);scaleSpacingObserver.observe(lowerControls);updateScaleSpacing();
+    map.once("remove",()=>scaleSpacingObserver.disconnect());
     map.once("load", async () => {
       for (const id of [
         "roads",
@@ -1236,14 +1264,23 @@ async function start() {
       });
       // Invisible hit surface only; visible community geometry is an unfilled black outline.
       map.addLayer({id:"community-hit",type:"fill",source:"communities",paint:{"fill-color":"#000000","fill-opacity":0}});
+      map.addSource("community-hover",{type:"geojson",data:empty()});
+      map.addLayer({id:"community-hover",type:"fill",source:"community-hover",paint:{"fill-color":"#2679c6","fill-opacity":0.42}});
+      map.addLayer({id:"community-line",type:"line",source:"communities",paint:{"line-color":"#000000","line-width":0.8,"line-opacity":0.85}});
+      map.addLayer({id:"community-label",type:"symbol",source:"community-names",
+        layout:{"text-field":["get","name"],"text-size":12,"text-font":["Open Sans Regular","Arial Unicode MS Regular"],"text-allow-overlap":true},
+        paint:{"text-color":"#000000","text-halo-color":"#ffffff","text-halo-width":1}});
+
       map.addLayer({
         id: "hex-fill",
+        maxzoom: 16,
         type: "fill",
         source: "hex",
         paint: { "fill-color": "#d54949", "fill-opacity": 0.4 },
       });
       map.addLayer({
         id: "hex-line",
+        maxzoom: 16,
         type: "line",
         source: "hex",
         paint: {
@@ -1310,7 +1347,7 @@ async function start() {
         source: "kbo",
         paint: {
           "line-color": "#171717",
-          "line-width": 2,
+          "line-width": 1.2,
           "line-dasharray": [4, 2],
         },
       });
@@ -1490,7 +1527,7 @@ async function start() {
       }) : [];
       setSource("kbo-approximate",{type:"FeatureCollection",features:approximateFeatures});
       map.addLayer({id:"kbo-approximate-fill",type:"fill",source:"kbo-approximate",paint:{"fill-color":"#e53935","fill-opacity":0.25}});
-      map.addLayer({id:"kbo-approximate-outline",type:"line",source:"kbo-approximate",paint:{"line-color":"#000000","line-width":4}});
+      map.addLayer({id:"kbo-approximate-outline",type:"line",source:"kbo-approximate",paint:{"line-color":"#000000","line-width":1.2}});
       const navigationFeatures = cityView.kbo ? kboZones.places.map((zone,index) => ({type:"Feature" as const,geometry:{type:"Point" as const,coordinates:zone.navigation_center},properties:{id:`kbo-navigation:${index}`,zone_index:index,name:zone.name,purpose:"approximate_navigation_only_not_legal_boundary"}})) : [];
       setSource("kbo-navigation",{type:"FeatureCollection",features:navigationFeatures});
       map.addLayer({id:"kbo-navigation-point",type:"circle",source:"kbo-navigation",paint:{"circle-radius":6,"circle-color":"#3c6681","circle-stroke-color":"#fff","circle-stroke-width":2}});
@@ -1506,12 +1543,20 @@ async function start() {
           "text-font":["Open Sans Regular","Arial Unicode MS Regular"],
           "text-anchor":"top","text-offset":[0,0.8],"text-allow-overlap":false,"text-ignore-placement":false},
         paint:{"text-color":"#000000","text-halo-color":"#ffffff","text-halo-width":0.5}});
-      map.addLayer({id:"community-line",type:"line",source:"communities",paint:{"line-color":"#000000","line-width":2,"line-opacity":0.9}});
-      map.addLayer({id:"community-label",type:"symbol",source:"community-names",minzoom:9,
-        layout:{"text-field":["get","name"],"text-size":10,"text-font":["Open Sans Regular","Arial Unicode MS Regular"],
-          "text-allow-overlap":false,"text-ignore-placement":false},
-        paint:{"text-color":"#000000","text-halo-color":"#ffffff","text-halo-width":1}});
-      void loadCommunities();
+      geographyBase=installGeographyBase({fetchBytes:(path,signal,policy)=>boundedDataBytes(assetPath(path),signal,8*1024*1024,policy??(path==="/safety/geography/official-regional-scope-metrics.json"?"no-store":"default")),map,host:app.querySelector<HTMLElement>(".map-wrap")!,city:currentCity,locale,
+        fetchJSON:(path,signal,policy)=>{
+          const mutable=policy==='no-store'||path==="/safety/geography/reference-rules/manifest.json"||path==="/safety/geography/index.json"||path==="/safety/geography/metric-coverage.json"||/^\/safety\/geography\/official-(?:municipal-scope|regional-scope|crime-scope|scope)-metrics\.json$/.test(path);
+          return mutable?fetchFreshManifest<unknown>(assetPath(path),signal):fetchDataJSON<unknown>(assetPath(path),signal);
+        },
+        onChange:ref=>{communities=ref;el<HTMLInputElement>("community-toggle").disabled=!ref.available;
+          const note=el("community-note");note.textContent=ref.available?String(ref.metadata.division_level??t("community.referenceOnly")):t("community.unavailable");communityVisibility();}});
+      void geographyBase.load();
+      electoralOverlay=installElectoralOverlay({map,host:(app.querySelector<HTMLElement>(".mobile-filter-content")??app.querySelector<HTMLElement>(".controls"))!,city:currentCity,locale,fetchJSON:(path,signal)=>path==='/safety/elections/index.json'?fetchFreshManifest<unknown>(assetPath(path),signal):fetchDataJSON<unknown>(assetPath(path),signal),fetchVerifiedJSON:(path,hash,signal)=>verifiedElectoralJSON(assetPath(path),hash,signal),assetURL:path=>assetPath(path),palette:electoralPartyPalette});
+      void electoralOverlay.load();
+      publicTransitOverlay=installPublicTransitOverlay({map,host:(app.querySelector<HTMLElement>(".mobile-filter-content")??app.querySelector<HTMLElement>(".controls"))!,city:currentCity,locale,fetchBytes:(path,signal,maxBytes)=>boundedDataBytes(assetPath(path),signal,maxBytes,path==="/safety/transit/index.json"?"no-store":"default")});
+      void publicTransitOverlay.load();
+      baseShopLabels=installBaseShopLabels({map,host:(app.querySelector<HTMLElement>(".mobile-filter-content")??app.querySelector<HTMLElement>(".controls"))!,locale,diagnostics:location.hostname==='127.0.0.1'&&new URLSearchParams(location.search).get('qaShopSource')==='1'});
+      osmClickInspection=installOsmClickInspection(map,locale,panel=>{selected=null;basicOsmPanel=panel;el("selection").replaceChildren(panel);});
       basemaps = new Basemaps(map, paintOverlays, (id) => {
         const error = el("basemap-error");
         error.querySelector("span")!.textContent =
@@ -1521,6 +1566,7 @@ async function start() {
       const changeBasemap = (id: BasemapId) => {
         el("basemap-error").hidden = true;
         el<HTMLSelectElement>("basemap").value = id;
+        if(basemaps.rendered!==id)baseShopLabels?.setBasemapActive(false);
         basemaps.select(id);
         document.querySelector(".basemap-language-note")!.textContent=t(id==="vector"?"basemap.vectorLanguageNote":"basemap.languageNote");
       };
@@ -1534,20 +1580,30 @@ async function start() {
       if(new URLSearchParams(location.search).has("diagnostics")) {
         const output=document.createElement("output"); output.id="vector-label-proof";output.hidden=true;app.append(output);
         const detailProof=document.createElement("output");detailProof.id="map-detail-proof";detailProof.hidden=true;app.append(detailProof);
-        map.on("idle",()=>{detailProof.textContent=JSON.stringify({cache:client.cacheStats,translations:{matched:dynamicText.matched,missing:dynamicText.missing},circles:map.queryRenderedFeatures({layers:["poi-circle"]}).map(f=>({id:f.properties.id,name:f.properties.name,radius:f.properties.display_radius_m})),month:monthKey()});if(map.getLayer("basemap-vector-place-labels"))output.textContent=JSON.stringify(map.queryRenderedFeatures({layers:["basemap-vector-place-labels"]}).map(f=>({name:f.properties.name,localized:f.properties[`name_${locale}`]??null,display:f.properties[`name_${locale}`]??f.properties.name})));});
+        map.on("idle",()=>{detailProof.textContent=JSON.stringify({cache:client.cacheStats,transit:{cache:publicTransitOverlay?.cacheStats(),rendered:Object.fromEntries(["metro","tram","bus","extra"].map(g=>{const id="public-transit-"+g+"-lines";return[g,map.getLayer(id)?map.queryRenderedFeatures({layers:[id]}).length:0];}))},translations:{matched:dynamicText.matched,missing:dynamicText.missing},circles:map.queryRenderedFeatures({layers:["poi-circle"]}).map(f=>({id:f.properties.id,name:f.properties.name,radius:f.properties.display_radius_m})),month:monthKey()});if(map.getLayer("basemap-vector-place-labels"))output.textContent=JSON.stringify(map.queryRenderedFeatures({layers:["basemap-vector-place-labels"]}).map(f=>({name:f.properties.name,localized:f.properties[`name_${locale}`]??null,display:f.properties[`name_${locale}`]??f.properties.name})));});
       }
       map.on("click", (e) => {
         if (expired) return;
+        // Real report/venue markers keep priority. Broad reference areas do not hide routes.
+        const transitPriorityLayers=["scene-point","scene-point-halo","source-poi-reference-point",
+          "poi-center","poi-association-label","poi-point","kbo-navigation-point","kbo-navigation-label"].filter(id=>map.getLayer(id));
+        const transitPriorityHit=transitPriorityLayers.length&&map.queryRenderedFeatures(e.point,{layers:transitPriorityLayers}).length;
+        if(!transitPriorityHit&&publicTransitOverlay?.inspectAt(e.point)){
+          selected=null;pendingSearchPoiId=null;basicOsmPanel=undefined;osmClickInspection?.clear();return;
+        }
+        publicTransitOverlay?.clearSelection();
+        basicOsmPanel=undefined;osmClickInspection?.clear();
+        geographyBase?.locateAt([e.lngLat.lng,e.lngLat.lat]);
         const fs = map.queryRenderedFeatures(e.point, {
           layers: [
             ...SCENE_CLICK_LAYERS,
             ...SOURCE_POI_CLICK_LAYERS,
             "roads-line", "reported-sections-line", "candidate-roads-line", "hex-line",
             "community-line", "community-label", "community-hit", "poi-center", "kbo-boundary", "kbo-navigation-point", "kbo-navigation-label", "kbo-approximate-outline", "kbo-approximate-fill", "candidate-roads-hit", "poi-fill", "poi-line", "poi-point", "poi-circle", "hex-fill",
-            ...["basemap-vector-street-labels","basemap-vector-place-labels","basemap-vector-streets","basemap-vector-buildings","basemap-vector-water","basemap-vector-land"].filter(id=>map.getLayer(id)),
+            ...[SHOP_LABEL_LAYER,"basemap-vector-street-labels","basemap-vector-place-labels","basemap-vector-streets","basemap-vector-buildings","basemap-vector-water","basemap-vector-land"].filter(id=>map.getLayer(id)),
           ],
         });
-        if (!fs.length) return;
+        if (!fs.length) {osmClickInspection?.inspect(undefined,[e.lngLat.lng,e.lngLat.lat]);if(geographyBase?.hasArea())geographyBase.chooseAt([e.lngLat.lng,e.lngLat.lat]);return;}
         pendingSearchPoiId = null;
         // Filled kbO references must not capture a more specific marker below them.
         const kboHit=fs.find(f=>f.layer.id.startsWith("kbo-navigation-")||f.layer.id.startsWith("kbo-approximate-")||f.layer.id==="kbo-boundary");
@@ -1629,19 +1685,45 @@ async function start() {
         }
         const poiHit=[...poiHits.values()][0];
         if(poiHit){selected={type:"poi",id:String(poiHit.properties.id)};finishSelection();return;}
+        const shopLabelHit=fs.find(f=>f.layer.id===SHOP_LABEL_LAYER);
+        if(shopLabelHit){osmClickInspection?.inspect(shopLabelHit);return;}
+        const buildingHit=fs.find(f=>f.layer.id==="basemap-vector-buildings");
+        if(buildingHit){
+          const view=osmClickInspection?.inspect(buildingHit,[e.lngLat.lng,e.lngLat.lat]);
+          if(view?.geometry&&['Polygon','MultiPolygon'].includes(view.geometry.type)){
+            const records=[...activePois.features.filter(f=>f.geometry.type==='Point'),...(baseShopLabels?.getLoadedShopRecords()??[])];
+            appendBuildingShopChoices(view.panel,view.geometry,records,locale,record=>{
+              if(activePois.features.includes(record as any)){selected={type:'poi',id:String(record.properties?.id)};finishSelection();}
+              else osmClickInspection?.inspect(record);
+            });
+          }return;
+        }
         // Navigation labels and borders intentionally open the official-area explanation.
         const kboEdge=fs.find(f=>f.layer.id.startsWith("kbo-navigation-")||f.layer.id==="kbo-approximate-outline"||f.layer.id==="kbo-boundary");
         if(kboEdge && Number.isInteger(Number(kboEdge.properties.zone_index))){kboDialog(Number(kboEdge.properties.zone_index));return;}
-        const communityEdge=fs.find(f=>["community-line","community-label"].includes(f.layer.id));
-        if(communityEdge){communityDialog(String(communityEdge.properties.id),kboHit?Number(kboHit.properties.zone_index):undefined);return;}
         const hexHit=fs.find(f=>f.layer.id==="hex-fill"||f.layer.id==="hex-line");
         if(hexHit){selected={type:"hex",id:String(hexHit.properties.id)};finishSelection();return;}
-        const communityHit=fs.find(f=>f.layer.id==="community-hit");
-        if(communityHit){communityDialog(String(communityHit.properties.id),kboHit?Number(kboHit.properties.zone_index):undefined);return;}
+        const basicOsm=fs.find(f=>f.layer.id.startsWith("basemap-vector-street")||f.layer.id==="roads-line"||f.layer.id==="basemap-vector-place-labels");
+        osmClickInspection?.inspect(basicOsm,[e.lngLat.lng,e.lngLat.lat]);
+        const communityEdge=fs.find(f=>["community-line","community-label"].includes(f.layer.id));
+        if(communityEdge){geographyBase?.chooseAt([e.lngLat.lng,e.lngLat.lat]);return;}
+        if(geographyBase?.hasArea()&&geographyBase.isOverview()){geographyBase.chooseAt([e.lngLat.lng,e.lngLat.lat]);return;}
         if(kboHit && Number.isInteger(Number(kboHit.properties.zone_index))){kboDialog(Number(kboHit.properties.zone_index));return;}
-        // Basemap features expose only fields actually present in the rendered source.
+        // Keep the native-area details entry accessible at close range; offer
+        // basemap information separately instead of opening a covering modal.
         const geographicHits=fs.filter(f=>f.layer.id==="roads-line"||f.layer.id.startsWith("basemap-vector-"));
-        if(geographicHits.length)showGeography();
+        if(geographicHits.length){
+          if(geographyBase?.hasArea()){
+            selected=null;
+            const button=text("button",t("selection.geographicInformation"),el("selection"));
+            button.onclick=showGeography;
+            geographyBase.chooseAt([e.lngLat.lng,e.lngLat.lat]);
+            return;
+          }
+          showGeography();return;
+        }
+        const communityHit=fs.find(f=>f.layer.id==="community-hit");
+        if(communityHit){osmClickInspection?.inspect(undefined,[e.lngLat.lng,e.lngLat.lat]);geographyBase?.chooseAt([e.lngLat.lng,e.lngLat.lat]);return;}
       });
       map.on("movestart", () => viewportRequest.abort());
       map.on("moveend", () => {
@@ -1724,7 +1806,9 @@ async function start() {
             box,
           );
           b.onclick = () => {
+            el<HTMLInputElement>("poi-toggle").checked=true;
             for (const input of document.querySelectorAll<HTMLInputElement>("#poi-filters input")) {
+              input.disabled=false;
               if (input.value === (f.scope_category??f.kind) || (!f.scope_category&&manifest.poi_scope_groups?.[input.value]?.kinds.includes(f.kind))) input.checked = true;
             }
             pendingSearchPoiId = f.id;
@@ -1742,15 +1826,15 @@ async function start() {
     el("map-status").textContent = t("map.notReady");
   }
 }
-window.addEventListener("pageshow",(event)=>{el<HTMLSelectElement>("language").value=locale;if(event.persisted&&loaded){map.resize();void loadMonth();void loadViewport();void loadStatistics();void loadDatedStatistics();}});
+window.addEventListener("pageshow",(event)=>{el<HTMLSelectElement>("language").value=locale;if(event.persisted&&loaded){map.resize();electoralOverlay?.resume();publicTransitOverlay?.resume();void loadMonth();void loadViewport();void loadStatistics();void loadDatedStatistics();}});
 window.addEventListener("pagehide", (event) => {
-  statisticsRequest.abort();datedStatisticsRequest.abort();
+  statisticsRequest.abort();datedStatisticsRequest.abort();electoralOverlay?.suspend();publicTransitOverlay?.suspend();
   if(event.persisted){monthRequest.abort();yearRequest.abort();yearReportRequest.abort();annualLoadingKey="";annualLoading=undefined;viewportRequest.abort();clearTimeout(viewportTimer);return;}
   searchRequest.abort();
   monthRequest.abort();
   yearRequest.abort();yearReportRequest.abort();
   viewportRequest.abort();
-  communityRequest.abort();
+  baseShopLabels?.destroy();osmClickInspection?.destroy();publicTransitOverlay?.destroy();electoralOverlay?.destroy();geographyBase?.destroy();
   clearTimeout(viewportTimer);
   clearInterval(freshnessTimer);
   methodsPanel.destroy();
@@ -1758,6 +1842,7 @@ window.addEventListener("pagehide", (event) => {
   githubFooter.destroy();
   analyticsPanel.destroy();
   statisticsPanel?.destroy();datedStatisticsPanel?.destroy();floatingDatedStatisticsPanel?.destroy();
+  longCopyDisclosure.destroy();
   mobileLayout.destroy();
   basemaps?.dispose();
   map?.remove();

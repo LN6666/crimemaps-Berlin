@@ -1,6 +1,6 @@
 {
   "community.view": "Dieses Gebiet ansehen: {name}",
-  "community.toggle": "Ortsteilgrenzen und Namen anzeigen",
+  "community.toggle": "Ausgewählte Gebietsgrenzen anzeigen",
   "community.loading": "Ortsteilgrenzen werden als eigenständige geografische Referenzebene geladen.",
   "community.available": "Gliederungsebene: {level}. Schwarze Umrisse und Namen dienen der Orientierung, nicht als Ortsteil-Meldungsstatistik. Namen erscheinen je nach Zoom und verfügbarem Platz.",
   "community.unavailable": "Für diese Stadt sind derzeit keine geprüften Ortsteilgrenzen verfügbar. Fehlende Gebiete werden nicht ergänzt oder geraten.",
@@ -188,8 +188,8 @@
   "sources.pendingCountries": "Länder mit noch ausstehender Quellenprüfung: {countries}",
   "kbo.title": "Berlin · Kriminalitätsbelastete Orte (kbO)",
   "kbo.button": "Offizielle Berliner kbO-Gebiete ansehen",
-  "kbo.separate": "Halbtransparente rote Flächen mit dicken schwarzen Umrissen zeigen ungefähre Orientierungsbereiche der Berliner kbO. Ein Klick öffnet die polizeiliche Grenzkarte. Dies sind keine rechtlich maßgeblichen Grenzen; sie gehen nicht in Meldungs- oder Hexagonzählungen ein. kbO-Flächen und Meldungsraster sind getrennte Ebenen.",
-  "kbo.note": "Sieben Gebiete und ihre ursprünglichen polizeilichen Grenzkarten sind aufgeführt. Rote Flächen mit dicken schwarzen Umrissen dienen als ungefähre Orientierung. Sie sind weder präzise noch rechtlich maßgebliche Polizeigrenzen und fließen nicht in Meldungs-, Hexagon- oder Ortszuordnungsstatistiken ein. Maßgeblich ist jeweils die ursprüngliche Grenzkarte der Polizei.",
+  "kbo.separate": "Halbtransparente rote Flächen mit dünnen schwarzen Umrissen zeigen ungefähre Orientierungsbereiche der Berliner kbO. Ein Klick öffnet die polizeiliche Grenzkarte. Dies sind keine rechtlich maßgeblichen Grenzen; sie gehen nicht in Meldungs- oder Hexagonzählungen ein. kbO-Flächen und Meldungsraster sind getrennte Ebenen.",
+  "kbo.note": "Sieben Gebiete und ihre ursprünglichen polizeilichen Grenzkarten sind aufgeführt. Rote Flächen mit dünnen schwarzen Umrissen dienen als ungefähre Orientierung. Sie sind weder präzise noch rechtlich maßgebliche Polizeigrenzen und fließen nicht in Meldungs-, Hexagon- oder Ortszuordnungsstatistiken ein. Maßgeblich ist jeweils die ursprüngliche Grenzkarte der Polizei.",
   "kbo.boundary": "Amtliche Grenzkarte ↗",
   "kbo.source": "Erläuterung der Polizei ↗",
   "kbo.navigate": "Umgebung anzeigen",

@@ -107,7 +107,22 @@ export function mountContentTagLauncher(parent: HTMLElement, options: {
     anchor.dataset.tooltipBelow=String(position.y<48);
     anchor.style.left=`${position.x}px`; anchor.style.top=`${position.y}px`;
   };
-  const initial=bounds(); move(initial.right-164,initial.bottom-128);
+  let manuallyPositioned=false;
+  const dock=()=>{
+    const b=bounds(), size=anchor.getBoundingClientRect();
+    const navigation=options.boundsElement?.querySelector('.maplibregl-ctrl-group')?.getBoundingClientRect();
+    move(navigation ? navigation.right-size.width : b.right-size.width,
+      navigation ? navigation.top-size.height-8 : b.bottom-size.height-112);
+  };
+  dock();
+  requestAnimationFrame(dock);
+  const dockObserver=new ResizeObserver(()=>{if(!manuallyPositioned)dock();});
+  if(options.boundsElement){
+    dockObserver.observe(options.boundsElement);
+    for(const element of options.boundsElement.querySelectorAll('#map,.maplibregl-ctrl-group,.maplibregl-ctrl-bottom-right'))dockObserver.observe(element);
+  }
+  const dockMutation=new MutationObserver(()=>{if(!manuallyPositioned)dock();});
+  if(options.boundsElement)dockMutation.observe(options.boundsElement,{childList:true,subtree:true});
   const setOpen=(open:boolean)=>{
     drawer.hidden=!open; trigger.setAttribute("aria-expanded",String(open));
     if(open) close.focus(); else trigger.focus({preventScroll:true});
@@ -131,7 +146,7 @@ export function mountContentTagLauncher(parent: HTMLElement, options: {
     if(!drag || event.pointerId!==drag.pointer) return;
     const dx=event.clientX-drag.startX,dy=event.clientY-drag.startY;
     if(Math.hypot(dx,dy)>6) drag.moved=true;
-    if(drag.moved) {event.preventDefault();move(drag.x+dx,drag.y+dy);}
+    if(drag.moved) {manuallyPositioned=true;event.preventDefault();move(drag.x+dx,drag.y+dy);}
   });
   const endDrag=(event:PointerEvent)=>{
     if(!drag || event.pointerId!==drag.pointer) return;
@@ -144,10 +159,11 @@ export function mountContentTagLauncher(parent: HTMLElement, options: {
   trigger.addEventListener("keydown",event=>{
     const shifts: Record<string,[number,number]>={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]};
     const shift=shifts[event.key];
-    if(shift){event.preventDefault();const step=event.shiftKey?30:10;move(position.x+shift[0]*step,position.y+shift[1]*step);}
+    if(shift){manuallyPositioned=true;event.preventDefault();const step=event.shiftKey?30:10;move(position.x+shift[0]*step,position.y+shift[1]*step);}
   });
   const escape=(event:KeyboardEvent)=>{if(event.key==="Escape" && !drawer.hidden){event.preventDefault();setOpen(false);}};
-  const resize=()=>move(position.x,position.y);
+  const resize=()=>{if(manuallyPositioned)move(position.x,position.y);else dock();};
+  window.addEventListener("scroll",resize,{passive:true});
   window.addEventListener("keydown",escape); window.addEventListener("resize",resize);
   // Keep interactions inside the widget from selecting a map feature underneath it.
   for(const eventName of ["click","dblclick","pointerdown","wheel"])
@@ -208,6 +224,6 @@ export function mountContentTagLauncher(parent: HTMLElement, options: {
     open:()=>setOpen(true), close:()=>setOpen(false),
     /** Invoke when Q&A is disabled, region-restricted, exhausted or fails. Saved data is preserved. */
     showStatisticsFallback(){availability.textContent=c.answerUnavailable;setOpen(true);},
-    destroy(){window.removeEventListener("keydown",escape);window.removeEventListener("resize",resize);officialHandoff.destroy();briefPanel.destroy();macroPanel.destroy();panel.destroy();root.remove();},
+    destroy(){window.removeEventListener("keydown",escape);window.removeEventListener("resize",resize); window.removeEventListener("scroll",resize); dockObserver.disconnect();dockMutation.disconnect();officialHandoff.destroy();briefPanel.destroy();macroPanel.destroy();panel.destroy();root.remove();},
   };
 }

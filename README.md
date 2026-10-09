@@ -43,6 +43,10 @@ Sources, categories, location descriptions and the way the map displays them are
 
 A label such as ‘possible hate crime’ is an AI-assisted lead based on explicit evidence of bias in the narrative, not a finding by the police. Identity, origin or neighbourhood alone is not evidence of motive.
 
+<!-- crimemaps:public-transit-reading:start -->
+Click or tap a displayed public-transport route to highlight it and view its number, original source name and available source information. Where routes overlap, choose one from the list. Missing source names are marked. The route layer itself does not establish a link to a police announcement, and the routes loaded do not represent the complete city network. Ferries belong to “Other public transport”. An unverified source or an absent map route does not establish that no ferry service exists.
+<!-- crimemaps:public-transit-reading:end -->
+
 <a id="sources"></a>
 
 ## Sources and coverage

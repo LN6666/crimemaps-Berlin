@@ -1,6 +1,6 @@
 {
   "community.view": "View this community: {name}",
-  "community.toggle": "Show community boundaries and names",
+  "community.toggle": "Show selected area boundaries",
   "community.loading": "Loading community boundaries as a separate geographic reference layer.",
   "community.available": "Division level: {level}. Black outlines and names are geographic references, not community announcement statistics. Names appear as zoom and spacing allow.",
   "community.unavailable": "Reviewed community boundaries are not currently available for this city. No communities are invented or drawn to fill the gap.",
@@ -188,8 +188,8 @@
   "sources.pendingCountries": "Countries awaiting verification: {countries}",
   "kbo.title": "Berlin kbO · Police-designated areas",
   "kbo.button": "View Berlin's official kbO areas",
-  "kbo.separate": "Translucent red areas with thick black outlines show approximate Berlin kbO reference areas. Click an area to open its police boundary map. These are not legal boundaries and do not contribute to announcement or hexagon counts; kbO areas and announcement hexagons are separate layers.",
-  "kbo.note": "Seven areas and their original police boundary maps are listed. Red fills and thick black outlines are approximate reference areas drawn for navigation. They are not precise or legally authoritative police boundaries and do not contribute to announcement, hexagon or place-association statistics. Use each original police boundary map for the actual limits.",
+  "kbo.separate": "Translucent red areas with thin black outlines show approximate Berlin kbO reference areas. Click an area to open its police boundary map. These are not legal boundaries and do not contribute to announcement or hexagon counts; kbO areas and announcement hexagons are separate layers.",
+  "kbo.note": "Seven areas and their original police boundary maps are listed. Red fills and thin black outlines are approximate reference areas drawn for navigation. They are not precise or legally authoritative police boundaries and do not contribute to announcement, hexagon or place-association statistics. Use each original police boundary map for the actual limits.",
   "kbo.boundary": "Official boundary map ↗",
   "kbo.source": "Police explanation ↗",
   "kbo.navigate": "View the surrounding area",
