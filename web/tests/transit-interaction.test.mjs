@@ -82,7 +82,7 @@ function fixture(t, locale, initial=[full,thin],extra={}) {
   const map={getSource:id=>sources.get(id),addSource(id,source){sources.set(id,{...source,setData(data){this.data=data;}})},
     removeSource:id=>sources.delete(id),getLayer:id=>layers.get(id),addLayer:layer=>layers.set(layer.id,layer),
     removeLayer:id=>layers.delete(id),setFilter(){},on:(key,fn)=>mapEvents.set(key,fn),off:key=>mapEvents.delete(key),
-    queryRenderedFeatures(box){hitBox=box;return hits;}};
+    queryRenderedFeatures(box,options){hitBox=box;return hits.filter(hit=>!hit.layer?.id||options.layers.includes(hit.layer.id));}};
   const inspector=installTransitInteraction({map,host:new Element('host'),locale,loaded:()=>loaded,manifest:()=>manifest,...extra});
   t.after(()=>{inspector.destroy(); for(const [key,descriptor] of previous) {
     if(descriptor) Object.defineProperty(globalThis,key,descriptor); else delete globalThis[key];
@@ -298,4 +298,16 @@ for(const locale of ['zh','en','de']){
 }
 test('default ten-second retention deadline is not extended by repeated resize refreshes',async t=>{
  const f=overlayFixture(t);await f.ready();t.mock.timers.enable({apis:['setTimeout','Date'],now:1000});f.hold();f.setBounds([13.395,52.4,13.45,52.7]);f.overlay.refresh();assert(f.waiting);t.mock.timers.tick(9000);assert.equal(f.panel.hidden,false);f.map.resize();assert.equal(f.panel.hidden,false);t.mock.timers.tick(999);assert.equal(f.panel.hidden,false);t.mock.timers.tick(1);assert.equal(f.panel.hidden,true);assert(f.delaySignal.aborted);t.mock.timers.reset();
+});
+
+test('station marker wins over overlapping neighbour label while label-only hits remain selectable',async t=>{
+ const r=roster(),data=stopFixture(r),m={...manifest,modes:{bus:{...manifest.modes.bus,source:stopSource,stop_lists_index:data.index}}};const f=fixture(t,'en',[full],{fetchBytes:data.fetchBytes,manifest:()=>m});assert(f.inspector.inspect({x:0,y:0}));await until(()=>f.sources.has('public-transit-selected-stops'));
+ const hit=(sequence,layer,extra={})=>({layer:{id:layer},properties:{route_id:r.route_id,variant_id:'forward',stop_id:'stop/'+sequence,sequence,...extra}});
+ f.setHits([hit(6,'public-transit-selected-stop-labels'),hit(5,'public-transit-selected-stop-points')]);assert(f.inspector.inspectStop({x:100,y:200}));assert.equal(descendants(f.panel).find(e=>e.className==='transit-route-stop-detail').children[0].textContent,'Selected stop: Stop 5');
+ f.setHits([hit(6,'public-transit-selected-stop-labels')]);assert(f.inspector.inspectStop({x:100,y:200}));assert.equal(descendants(f.panel).find(e=>e.className==='transit-route-stop-detail').children[0].textContent,'Selected stop: Stop 6');
+ for(const bad of [{route_id:'foreign'},{variant_id:'other'},{sequence:7}]){f.setHits([hit(5,'public-transit-selected-stop-points',bad),hit(6,'public-transit-selected-stop-labels')]);assert(f.inspector.inspectStop({x:100,y:200}));assert.equal(descendants(f.panel).find(e=>e.className==='transit-route-stop-detail').children[0].textContent,'Selected stop: Stop 6');}
+});
+test('repeated source stop ID is selected by its exact occurrence sequence',async t=>{
+ const r=roster(full.properties.route_id,7);r.variants[0].stops[5].stop_id='stop/5';const data=stopFixture(r),m={...manifest,modes:{bus:{...manifest.modes.bus,source:stopSource,stop_lists_index:data.index}}};const f=fixture(t,'en',[full],{fetchBytes:data.fetchBytes,manifest:()=>m});assert(f.inspector.inspect({x:0,y:0}));await until(()=>f.sources.has('public-transit-selected-stops'));
+ f.setHits([{layer:{id:'public-transit-selected-stop-points'},properties:{route_id:r.route_id,variant_id:'forward',stop_id:'stop/5',sequence:6}}]);assert(f.inspector.inspectStop({x:0,y:0}));assert.equal(descendants(f.panel).find(e=>e.className==='transit-route-stop-detail').children[0].textContent,'Selected stop: Stop 6');assert.equal(f.inspector.selection.features[0],full);
 });
