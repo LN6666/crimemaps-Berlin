@@ -7,7 +7,7 @@
     "dev": "vite --host 127.0.0.1",
     "build": "tsc --noEmit && vite build",
     "test": "playwright test",
-    "test:navigation": "node --test tests/deployment-navigation.test.mjs tests/appearance.test.mjs tests/provider-display-month.test.mjs tests/source-relationships.test.mjs tests/scene-display-precision.test.mjs tests/transit-unresolved-geometry.test.mjs tests/transit-interaction.test.mjs",
+    "test:navigation": "node --test tests/deployment-navigation.test.mjs tests/appearance.test.mjs tests/provider-display-month.test.mjs tests/source-relationships.test.mjs tests/scene-display-precision.test.mjs tests/transit-unresolved-geometry.test.mjs tests/transit-interaction.test.mjs tests/selected-information-visibility.test.mjs tests/selection-inspector.test.mjs",
     "test:statistics": "node --test tests/statistics-binding.test.mjs tests/content-tag-statistics.test.mjs"
   },
   "dependencies": {
