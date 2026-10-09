@@ -1,11 +1,11 @@
 #map-filters .long-copy-preview,#map-details .long-copy-preview{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
-#map-filters .long-copy-toggle,#map-details .long-copy-toggle{display:flex;align-items:center;justify-content:center;width:28px;height:24px;min-height:0;padding:4px;margin:-4px 0 4px auto;border:0;background:transparent;box-shadow:none;color:inherit;cursor:pointer}
-#map-filters .long-copy-toggle[hidden],#map-details .long-copy-toggle[hidden]{display:none}
-.long-copy-chevron{width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center}
-.long-copy-chevron::before{content:'';width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:translateY(-2px) rotate(45deg)}
-.long-copy-toggle[aria-expanded="true"] .long-copy-chevron::before{transform:translateY(2px) rotate(225deg)}
+#app #map-filters .long-copy-toggle,#app #map-details .long-copy-toggle{display:flex;align-items:center;justify-content:center;width:15.4px;height:13.2px;min-height:0;padding:2.2px;margin:-4px 0 4px auto;border:0;background:transparent;box-shadow:none;color:inherit;cursor:pointer}
+#app #map-filters .long-copy-toggle[hidden],#app #map-details .long-copy-toggle[hidden]{display:none}
+.long-copy-chevron{flex:none;width:8.8px;height:8.8px;display:inline-flex;align-items:center;justify-content:center}
+.long-copy-chevron::before{content:'';width:3.85px;height:3.85px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;transform:translateY(-1.1px) rotate(45deg)}
+.long-copy-toggle[aria-expanded="true"] .long-copy-chevron::before{transform:translateY(1.1px) rotate(225deg)}
 .long-copy-toggle:focus-visible{outline:2px solid currentColor;outline-offset:2px;border-radius:3px}
-@media(pointer:coarse){#map-filters .long-copy-toggle,#map-details .long-copy-toggle{width:44px;height:44px;margin-top:-8px;margin-bottom:0}}
+@media(pointer:coarse){#app #map-filters .long-copy-toggle,#app #map-details .long-copy-toggle{width:44px;height:44px;margin-top:-8px;margin-bottom:0}}
 
 #map-filters .long-copy-text,#map-details .long-copy-text{display:block}
 #map-filters .long-copy-text.long-copy-preview,#map-details .long-copy-text.long-copy-preview{display:-webkit-box}

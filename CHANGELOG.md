@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add route-bound, source-checked stop lists with direction and variant selection, confirmed endpoints, clickable intermediate stops, lazy loading and explicit coverage limits. Keep transport references separate from police announcement counts.
+- Use compact rounded route details with expandable source information; shrink long-text disclosure controls by 45% while retaining previews and coarse-pointer hit areas.
 - Retire six legacy PRs/branches and 205 old build artifacts; document the owner's one-time administrator approval for the default-branch migration.
 - Add outbound POLIZEIKARTE Berlin and major German city links, without embedded scripts or automatic data imports.
 - Display unresolved long/disconnected scene roads as orange dashed ranges, preserving locality scope and gaps; click or focus from a report card without changing hex counts or POI associations.

@@ -1584,7 +1584,12 @@ async function start() {
       }
       map.on("click", (e) => {
         if (expired) return;
-        // Real report/venue markers keep priority. Broad reference areas do not hide routes.
+        // Real report markers keep priority; selected stations precede ordinary venue points.
+        const transitIncidentLayers=["scene-point","scene-point-halo","source-poi-reference-point"].filter(id=>map.getLayer(id));
+        const transitIncidentHit=transitIncidentLayers.length&&map.queryRenderedFeatures(e.point,{layers:transitIncidentLayers}).length;
+        if(!transitIncidentHit&&publicTransitOverlay?.inspectStopAt(e.point)){
+          selected=null;pendingSearchPoiId=null;basicOsmPanel=undefined;osmClickInspection?.clear();return;
+        }
         const transitPriorityLayers=["scene-point","scene-point-halo","source-poi-reference-point",
           "poi-center","poi-association-label","poi-point","kbo-navigation-point","kbo-navigation-label"].filter(id=>map.getLayer(id));
         const transitPriorityHit=transitPriorityLayers.length&&map.queryRenderedFeatures(e.point,{layers:transitPriorityLayers}).length;

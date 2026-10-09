@@ -22,3 +22,20 @@
  .transit-route-inspector :is(.transit-route-page-button,.transit-route-choice) {min-height:44px;min-width:44px;box-sizing:border-box;}
  .geography-panel.transit-route-inspector > .geography-drag .transit-route-close {flex-basis:44px;width:44px;height:44px;min-width:44px;min-height:44px;background:transparent;border:0;font-size:18px;}
 }
+
+.transit-route-stops {border-top:1px solid var(--glass-line,#8ba0b44d);padding-top:6px;margin-top:7px;min-width:0;}
+.transit-route-stops p {font-size:10px;line-height:1.4;margin:4px 0;}
+.transit-route-stops > strong,.transit-route-stop-detail > strong {font-size:11px;}
+.transit-route-stop-detail {border:1px solid var(--glass-line,#8ba0b44d);border-radius:8px;padding:5px 7px;margin:5px 0;}
+.transit-route-stop-list {margin-top:5px;max-height:150px;overflow:auto;scrollbar-width:thin;}
+.transit-route-stop-list summary {cursor:pointer;font-size:10.5px;}
+.transit-route-stop-list .transit-route-stop-choice {display:block;text-align:left;width:calc(100% - 4px);}
+
+@media(pointer:coarse),(max-width:760px){.transit-route-stop-list summary {min-height:44px;box-sizing:border-box;padding-block:6px;}}
+
+.transit-route-identity {margin-top:0;}
+.transit-route-source-details {border-top:1px solid var(--glass-line,#8ba0b44d);margin-top:6px;padding-top:4px;font-size:10px;}
+.transit-route-source-details summary {cursor:pointer;overflow-wrap:anywhere;}
+.transit-route-source-details .transit-route-fields {margin:4px 0;}
+.transit-route-coverage {font-size:10px;opacity:.85;}
+@media(pointer:coarse),(max-width:760px){.transit-route-source-details summary {min-height:44px;box-sizing:border-box;padding-block:6px;}}
