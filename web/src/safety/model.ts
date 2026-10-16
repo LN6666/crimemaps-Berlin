@@ -103,6 +103,10 @@ export interface SourceRelationship {
 export interface PoliceEvent {
   upstream_provider?: string;
   provider_display_month?: string;
+  /** Stored provider summary, distinct from a reviewed display summary and full report body. */
+  source_summary?: string;
+  /** Reviewed/curated short display summary, when present. */
+  summary?: string;
   source_sha256?:string;
   source_relationships?:SourceRelationship[];
   public_display_fields?:string[];
