@@ -18,6 +18,8 @@ import {mountAnalytics,markAnalyticsLanguageNavigation} from "./analytics";
 import "./analytics.css";
 import {catalogSummary,loadCatalogTranslations} from "./catalog-translations";
 import {DynamicTranslations} from "./dynamic-translations";
+import {abortPendingReportBodyLoads,loadReportBody,type ReportBodyIdentity,type ReportBodyLocale} from "./report-body-loader";
+import {pendingReportBodyLabel,reportBodyPresentation} from "./report-body-presentation";
 import {appendPublicEventNotes,appendPublicSceneReferenceNote} from "./public-report-notes";
 import {mountAnnouncementMethods} from "./methods";
 import {mountUncertaintyPanel} from "./uncertainty-panel";
@@ -410,6 +412,85 @@ function focusReviewedScenes(scenes: SceneLocation[]) {
   map.fitBounds([[west,south],[east,north]],{padding:55,maxZoom:scenes.some(s=>s.static_scene_reference===true)?17:14});
   el<HTMLDialogElement>("drawer").close();
 }
+function appendLazyReportBody(parent:HTMLElement,event:PoliceEvent) {
+  const identity:ReportBodyIdentity={
+    city:currentCity,
+    month:String(event.month??monthKey()),
+    // Frozen body indexes preserve the complete provider-prefixed event ID.
+    source_id:String(event.id),
+    source_url:event.source_url,
+    source_sha256:String(event.source_sha256??""),
+  };
+  const language=locale as ReportBodyLocale;
+  const copy:Record<ReportBodyLocale,{loading:string;failed:string;retry:string;identity:string}>={
+    de:{loading:"Volltext wird geladen …",failed:"Der Volltext ist derzeit nicht verfügbar.",retry:"Erneut versuchen",identity:"Für diese Quellenfassung sind keine vollständigen Quelldaten hinterlegt."},
+    en:{loading:"Loading full text …",failed:"The full text is currently unavailable.",retry:"Try again",identity:"No complete source record is available for this revision."},
+    zh:{loading:"正在加载正文…",failed:"目前无法加载正文。",retry:"重试",identity:"此来源版本没有可用的完整正文记录。"},
+  };
+  const disclosure=document.createElement("details");
+  disclosure.className="report-body-disclosure";
+  disclosure.dataset.reportBody="true";
+  disclosure.dataset.sourceId=identity.source_id;
+  parent.append(disclosure);
+  const summary=text("summary",pendingReportBodyLabel(language),disclosure);
+  const content=document.createElement("div");
+  content.className="report-body-content";
+  disclosure.append(content);
+  let loadedLocale="";
+  let request:AbortController|undefined;
+  const load=async()=>{
+    request?.abort();
+    const currentRequest=new AbortController();
+    request=currentRequest;
+    const signal=currentRequest.signal;
+    content.replaceChildren();
+    content.dataset.state="loading";
+    text("small",copy[language].loading,content);
+    try{
+      if(!identity.source_url||!identity.source_sha256)throw new Error("identity");
+      const result=await loadReportBody(identity,language,signal);
+      if(signal.aborted||request!==currentRequest||!content.isConnected)return;
+      const presentation=reportBodyPresentation(result.contentClass,language,Boolean(result.body));
+      summary.textContent=presentation.label;
+      content.replaceChildren();
+      if(presentation.note)text("small",presentation.note,content);
+      if(result.body){
+        const paragraph=text("p",result.body,content);
+        paragraph.className="report-body-text";
+        content.dataset.state="loaded";
+      }else{
+        content.dataset.state="unavailable";
+      }
+      loadedLocale=language;
+      request=undefined;
+    }catch(error){
+      if(request!==currentRequest||!content.isConnected)return;
+      content.replaceChildren();
+      const cancelled=signal.aborted||(error instanceof Error&&error.name==="AbortError");
+      request=undefined;
+      if(cancelled){
+        content.dataset.state="idle";
+        return;
+      }
+      text("small",error instanceof Error&&error.message==="identity"?copy[language].identity:copy[language].failed,content);
+      content.dataset.state="failed";
+      const retry=text("button",copy[language].retry,content) as HTMLButtonElement;
+      retry.type="button";
+      retry.className="report-body-retry";
+      retry.onclick=()=>void load();
+    }
+  };
+  disclosure.addEventListener("toggle",()=>{
+    if(disclosure.open){
+      if(loadedLocale!==language&&content.dataset.state!=="loading")void load();
+    }else if(request&&!request.signal.aborted){
+      request.abort();
+      request=undefined;
+      content.replaceChildren();
+      content.dataset.state="idle";
+    }
+  });
+}
 function listReports(parent: HTMLElement, ids: string[], displayOverride?:PoliceEvent[], missingOverride?:Map<string,number>) {
   const wanted = new Set(ids);
   for (const e of (displayOverride ?? dynamicText.displayRows(data.events)).filter((e) => wanted.has(e.id))) {
@@ -437,6 +518,9 @@ function listReports(parent: HTMLElement, ids: string[], displayOverride?:Police
     if (e.source_scope_verdict === "uncertain")
       text("small", t("report.cityUncertain"), card);
     text("h4", e.title, card);
+    const summary=(e as PoliceEvent&{summary?:unknown}).summary;
+    if(typeof summary==="string"&&summary)text("p",summary,card).className="report-summary";
+    appendLazyReportBody(card,e);
     if(missingOverride ? missingOverride.get(e.id) : dynamicText.missingFor(e))text("small",t("report.translationMissing"),card);
     const publicFields=new Set(e.public_display_fields??[]);
     if (publicFields.has("map_review_note") && e.map_review_note) text("p", t("source.mapReview",{note:e.map_review_note}), card);
@@ -622,6 +706,7 @@ function listReports(parent: HTMLElement, ids: string[], displayOverride?:Police
   }
 }
 function showSelection() {
+  abortPendingReportBodyLoads();
   if(!selected&&!basicOsmPanel)selectionInspector.close();
   const panel = el("selection");
   yearReportRequest.abort();
@@ -1048,6 +1133,7 @@ function ensureYear():Promise<void> {
 }
 async function loadMonth() {
   selectionInspector.close();basicOsmPanel=undefined;osmClickInspection?.clear();
+  abortPendingReportBodyLoads();
   yearReportRequest.abort();void ensureYear();
   monthRequest.abort();
   monthRequest = new AbortController();
@@ -1779,6 +1865,7 @@ async function start() {
         /* Keep the currently loaded snapshot while offline. */
       }
     }, 300000);
+    el<HTMLDialogElement>("drawer").addEventListener("close",abortPendingReportBodyLoads);
     el("close-dialog").onclick = () => el<HTMLDialogElement>("drawer").close();
     let searchTimer: ReturnType<typeof setTimeout>;
     el<HTMLInputElement>("search").oninput = () => {
@@ -1839,6 +1926,7 @@ async function start() {
 }
 window.addEventListener("pageshow",(event)=>{el<HTMLSelectElement>("language").value=locale;if(event.persisted&&loaded){map.resize();electoralOverlay?.resume();publicTransitOverlay?.resume();void loadMonth();void loadViewport();void loadStatistics();void loadDatedStatistics();}});
 window.addEventListener("pagehide", (event) => {
+  abortPendingReportBodyLoads();
   statisticsRequest.abort();datedStatisticsRequest.abort();electoralOverlay?.suspend();publicTransitOverlay?.suspend();
   if(event.persisted){monthRequest.abort();yearRequest.abort();yearReportRequest.abort();annualLoadingKey="";annualLoading=undefined;viewportRequest.abort();clearTimeout(viewportTimer);return;}
   searchRequest.abort();
