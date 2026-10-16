@@ -35,9 +35,11 @@ function translatedRestored(event:PoliceEvent, field:(path:string,value:string)=
   if(value&&typeof value==='object')return Object.fromEntries(Object.entries(value).map(([k,v])=>[k,copy(v,`${path}/${k}`)]));
   return value;
  };
- const result={...event} as PoliceEvent&{summary?:string};
- const summary=(event as PoliceEvent&{summary?:unknown}).summary;
+ const result={...event};
+ const summary=event.summary;
  if(typeof summary==='string'&&summary)result.summary=field('/summary',summary);
+ const sourceSummary=event.source_summary;
+ if(typeof sourceSummary==='string'&&sourceSummary)result.source_summary=field('/source_summary',sourceSummary);
  for(const root of restoredRoots)if(event[root]!==undefined)(result as any)[root]=copy(event[root],`/${root}`);
  if(event.incidents===undefined && event.source_incidents)result.source_incidents=copy(event.source_incidents,'/source_incidents') as PoliceEvent['source_incidents'];
  if(event.scene_locations)result.scene_locations=event.scene_locations.map((scene,i)=>{
@@ -54,7 +56,8 @@ function fieldsFor(event:PoliceEvent):TextField[] {
  add('/title',event.title);add('/location_label',event.location_label);
  // The short display summary is translated here; the full report body is
  // handled by its separate lazy loader so it does not inflate month packs.
- add('/summary',(event as PoliceEvent&{summary?:unknown}).summary);
+ add('/summary',event.summary);
+ add('/source_summary',event.source_summary);
  const visibleStages=new Set(unplacedStages(event));
  event.incidents?.forEach((stage,i)=>{if(visibleStages.has(stage)){add(`/incidents/${i}/details`,stage.details);add(`/incidents/${i}/event_time/display`,stage.event_time?.display);}});
  event.scene_locations?.forEach((scene,i)=>{

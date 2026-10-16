@@ -18,7 +18,8 @@ import {mountAnalytics,markAnalyticsLanguageNavigation} from "./analytics";
 import "./analytics.css";
 import {catalogSummary,loadCatalogTranslations} from "./catalog-translations";
 import {DynamicTranslations} from "./dynamic-translations";
-import {abortPendingReportBodyLoads,loadReportBody,type ReportBodyIdentity,type ReportBodyLocale} from "./report-body-loader";
+import {reportSummaryPresentation} from "./report-summary";
+import {abortPendingReportBodyLoads,loadReportBody,reportBodySourceId,type ReportBodyIdentity,type ReportBodyLocale} from "./report-body-loader";
 import {pendingReportBodyLabel,reportBodyPresentation} from "./report-body-presentation";
 import {appendPublicEventNotes,appendPublicSceneReferenceNote} from "./public-report-notes";
 import {mountAnnouncementMethods} from "./methods";
@@ -416,8 +417,8 @@ function appendLazyReportBody(parent:HTMLElement,event:PoliceEvent) {
   const identity:ReportBodyIdentity={
     city:currentCity,
     month:String(event.month??monthKey()),
-    // Frozen body indexes preserve the complete provider-prefixed event ID.
-    source_id:String(event.id),
+    // Native source IDs are distinct from namespaced UI event IDs.
+    source_id:reportBodySourceId(event,currentCity),
     source_url:event.source_url,
     source_sha256:String(event.source_sha256??""),
   };
@@ -518,8 +519,9 @@ function listReports(parent: HTMLElement, ids: string[], displayOverride?:Police
     if (e.source_scope_verdict === "uncertain")
       text("small", t("report.cityUncertain"), card);
     text("h4", e.title, card);
-    const summary=(e as PoliceEvent&{summary?:unknown}).summary;
-    if(typeof summary==="string"&&summary)text("p",summary,card).className="report-summary";
+    const summary=reportSummaryPresentation(e.summary,e.source_summary);
+    if(summary?.kind==="provider_summary")text("small",t("report.providerSummary",{provider:e.upstream_provider??t("report.dataProvider")}),card).className="report-summary-source";
+    if(summary)text("p",summary.text,card).className="report-summary";
     appendLazyReportBody(card,e);
     if(missingOverride ? missingOverride.get(e.id) : dynamicText.missingFor(e))text("small",t("report.translationMissing"),card);
     const publicFields=new Set(e.public_display_fields??[]);

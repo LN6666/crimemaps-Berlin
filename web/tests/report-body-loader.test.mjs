@@ -17,7 +17,7 @@ async function loadModule(file) {
   return import(`data:text/javascript;base64,${Buffer.from(result.outputFiles[0].text).toString('base64')}`);
 }
 
-const {loadReportBody, clearReportBodyCache} = await loadModule('report-body-loader.ts');
+const {loadReportBody, clearReportBodyCache, reportBodySourceId} = await loadModule('report-body-loader.ts');
 const {reportBodyPresentation} = await loadModule('report-body-presentation.ts');
 
 const sha256 = async (text) => [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text)))]
@@ -199,9 +199,20 @@ test('an aborted disclosure load can be retried for the same source identity', a
 test('report cards keep the original police link and mount the lazy disclosure for each row', async () => {
   const main = await readFile(new URL('../src/safety/main.ts', import.meta.url), 'utf8');
   assert.match(main, /appendLazyReportBody\(card,e\)/);
-  assert.match(main, /if\(typeof summary==="string"&&summary\)text\("p",summary,card\)\.className="report-summary"/);
+  assert.match(main, /reportSummaryPresentation\(e\.summary,e\.source_summary\)/);
   assert.match(main, /link\(card, t\("report\.source"\), e\.source_url\)/);
   assert.match(main, /abortPendingReportBodyLoads\(\)/);
   assert.match(main, /loadedLocale=language;\s*request=undefined;/, 'a successful disclosure retains its body across close and reopen');
   assert.match(main, /request\.abort\(\);\s*request=undefined;\s*content\.replaceChildren\(\);\s*content\.dataset\.state="idle"/);
+});
+
+
+test('body identity uses native IDs for ordinary, city-prefixed and provider-prefixed events', () => {
+  assert.equal(reportBodySourceId({id:'1001'}, 'berlin'), '1001');
+  assert.equal(reportBodySourceId({id:'cologne:1001',source_id:'1001'}, 'cologne'), '1001');
+  assert.equal(reportBodySourceId({id:'cologne:1001'}, 'cologne'), '1001');
+  assert.equal(reportBodySourceId({id:'polizeikarte:1001'}, 'munich'), '1001');
+  assert.equal(reportBodySourceId({id:'polizeikarte:1001',source_id:'1001'}, 'hannover'), '1001');
+  assert.equal(reportBodySourceId({id:'ui:ignored',source_id:'native:part:1001'}, 'berlin'), 'native:part:1001');
+  assert.equal(reportBodySourceId({id:'other:1001'}, 'berlin'), 'other:1001');
 });

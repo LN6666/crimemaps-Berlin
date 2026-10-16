@@ -15,6 +15,16 @@ export type ReportBodyIdentity = {
   source_sha256: string;
 };
 
+/** Month indexes retain native source IDs, not UI event namespace prefixes. */
+export function reportBodySourceId(event: {id: string; source_id?: unknown}, city: string): string {
+  if (typeof event.source_id === "string" && event.source_id) return event.source_id;
+  if (typeof event.source_id === "number" && Number.isSafeInteger(event.source_id)) return String(event.source_id);
+  for (const prefix of [`${city}:`, "polizeikarte:"]) {
+    if (event.id.startsWith(prefix)) return event.id.slice(prefix.length);
+  }
+  return event.id;
+}
+
 type LocaleIndex = {
   status?: string;
   body_sha256?: string;

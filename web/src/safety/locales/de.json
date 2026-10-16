@@ -120,6 +120,8 @@
   "report.translationMissing": "Einzelne Details sind möglicherweise noch nicht übersetzt. Bitte prüfen Sie bei Unklarheiten den Quellenlink.",
   "report.summary": "Geprüfte deutsche Zusammenfassung",
   "report.summaryNote": "Die Zusammenfassung dient als Lesehilfe. Sie ersetzt die amtliche Meldung nicht.",
+  "report.dataProvider": "Datenanbieter",
+  "report.providerSummary": "Zusammenfassung von {provider} · keine vollständige Polizeimeldung",
   "report.publishedMonth": "Kartenmonat: {month}",
   "report.published": "Veröffentlicht",
   "report.sourceUnavailable": "Der Originaltext ist derzeit nicht verfügbar. Der zuvor erfasste Eintrag bleibt erhalten.",
