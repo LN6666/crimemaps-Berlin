@@ -1,0 +1,1 @@
+export type OwnerReconstructionStats={objects:number;vertices:number;triangles:number;originalVertices:number;sourceRetained:true;actualVisualAccepted:false;components:{objectId:string;partId:string;sourcePartId:string;patchSHA256:string;vertices:number;triangles:number;geometryRole:string}[];error?:string};

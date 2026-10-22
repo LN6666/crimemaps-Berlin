@@ -1,0 +1,2751 @@
+{
+  "captureSources": [
+    {
+      "target": "F001",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F006",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F007",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F008",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F011",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F012",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F015",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F016",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F017",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F018",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F023",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F024",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F026",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F027",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F028",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F029",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F030",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F031",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F033",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F034",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F035",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F036",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F037",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F038",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F039",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F040",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F041",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F042",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F043",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F045",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F047",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F048",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F049",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F051",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F052",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F053",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F054",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F055",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F060",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F062",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F064",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F067",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F070",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F071",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F072",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F073",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F076",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F077",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F078",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F079",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F081",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F083",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F084",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F085",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F086",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F089",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F105",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F106",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F108",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F109",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F110",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F112",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F114",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F115",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F116",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F117",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F118",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F120",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F121",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F122",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F123",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F124",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F125",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F126",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F127",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F128",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F129",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F131",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F132",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F133",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F134",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F135",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F137",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F139",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F140",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F141",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F142",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F143",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F144",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F145",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F146",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F147",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F148",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F149",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F150",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F151",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F152",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F153",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F154",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F155",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F156",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F157",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F158",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F160",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F161",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F163",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F164",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F165",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F166",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F167",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F168",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F169",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F170",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F171",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F172",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F173",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F174",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F175",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F176",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F177",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F178",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F179",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F180",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F183",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F184",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F185",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F186",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F187",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F188",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F189",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F191",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F193",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F194",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F197",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F198",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F199",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F201",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F202",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F203",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F204",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F205",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F206",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F207",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F208",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F209",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F210",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F211",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F212",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F213",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F214",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F216",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F217",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F218",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F219",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F220",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F221",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F222",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F223",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F224",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F225",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F226",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F228",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F249",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F252",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F257",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F259",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F274",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F297",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F299",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F314",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F316",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F318",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F320",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F350",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F352",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F369",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "F371",
+      "provider": "root500",
+      "kind": "indexed-native-capture"
+    },
+    {
+      "target": "S001",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S002",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S003",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S004",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S005",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S007",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S008",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S010",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S011",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S012",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S013",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S014",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S015",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S016",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S017",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S018",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S020",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S021",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S022",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S023",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S024",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S025",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S027",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S028",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S029",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S030",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S033",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S034",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S035",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S036",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S041",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S045",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S048",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S050",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S051",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S055",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S056",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S057",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S058",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S060",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S063",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S064",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S065",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S066",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S068",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S070",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S071",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S077",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S081",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S083",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S085",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S088",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S098",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S099",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S105",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S106",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S107",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S109",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S110",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S111",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S112",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S114",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S135",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S136",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S137",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S138",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S142",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S144",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S145",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S149",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S151",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S152",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S153",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S158",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S159",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S165",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S166",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S168",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S175",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S176",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S177",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S179",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S182",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S184",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S191",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S196",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S198",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S202",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S208",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S209",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S210",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S212",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S213",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S216",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S224",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S228",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S234",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S235",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S236",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S238",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S239",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S240",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S242",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S243",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S244",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S246",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S247",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S248",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S250",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S252",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S260",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S262",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S263",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S265",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S266",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S267",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S270",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S271",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S274",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S275",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S276",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S278",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S282",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S283",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S284",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S285",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S289",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S301",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S302",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S303",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S304",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S305",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S306",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S325",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S328",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S332",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S357",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S358",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S363",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S364",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S369",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S375",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S384",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S385",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S393",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S394",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S395",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S397",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S398",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S402",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S403",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S404",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S409",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S412",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S414",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S416",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S417",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S420",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S423",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S431",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S434",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S435",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S439",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S440",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S449",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S450",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S451",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S452",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S456",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S458",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S471",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S475",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S478",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S480",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S481",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S497",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S527",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S528",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S530",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S531",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S534",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S535",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S536",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S537",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S540",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S542",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S552",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S553",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S556",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S558",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S560",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S561",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S569",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S570",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S572",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S573",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S576",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S578",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S579",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S580",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S581",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S583",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S585",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S587",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S588",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S589",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S593",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S603",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S604",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S605",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S608",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S610",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S611",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S614",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S615",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S616",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S618",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S622",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S624",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S625",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S629",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S634",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S635",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S637",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S638",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S639",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S642",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S643",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S644",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S645",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S646",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S647",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S650",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S653",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S654",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S655",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S657",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S659",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S660",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S661",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S662",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S663",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S665",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S666",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S668",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S670",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S675",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S676",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S678",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S679",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S682",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S687",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S688",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S689",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S692",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S693",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S696",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S697",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S698",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S699",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S702",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S707",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S709",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S711",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S713",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S714",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S720",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S721",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S722",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S723",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S728",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S729",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S731",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S732",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S733",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S734",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S735",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S736",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S737",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S738",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S740",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S741",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S745",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S746",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S747",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S748",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S749",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S752",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S753",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S756",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S759",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S760",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S761",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S762",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S763",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S764",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S765",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S766",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S767",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S775",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S776",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S777",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S779",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S780",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S786",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S787",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S788",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S790",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S793",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S794",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S795",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S797",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S800",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S802",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S804",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S808",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S810",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S815",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S816",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S817",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S818",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S819",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S820",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S821",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S822",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    },
+    {
+      "target": "S823",
+      "provider": "tier300",
+      "kind": "frozen-native-capture"
+    }
+  ],
+  "collisions": [
+    {
+      "key": "berlin|osm/way/122384035|osm/way/122384035/component/31d7758f40ccd77e5771",
+      "kept": "tier300",
+      "candidate": "root500",
+      "target": "F018",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "berlin|osm/way/122384037|osm/way/122384037/component/0e4cdeaa5edbd0b30bd7",
+      "kept": "tier300",
+      "candidate": "root500",
+      "target": "F018",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "berlin|osm/way/186517395|osm/way/186517395/component/cb10264dea572ad20aa9",
+      "kept": "tier300",
+      "candidate": "root500",
+      "target": "F018",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "berlin|osm/way/1222295516|osm/way/1222295516/component/f9a73b055937f4c5f6d3",
+      "kept": "tier300",
+      "candidate": "root500",
+      "target": "F035",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "cologne|osm/way/176438284|osm/way/176438284/component/da975a8792470f34e867",
+      "kept": "tier300",
+      "candidate": "root500",
+      "target": "F110",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "frankfurt|osm/way/268132460|osm/way/268132460/component/94f11ed27fe9dc6cc5dd",
+      "kept": "tier300",
+      "candidate": "root500",
+      "target": "F137",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "frankfurt|osm/way/268132462|osm/way/268132462/component/05d356a4f97118733aeb",
+      "kept": "tier300",
+      "candidate": "root500",
+      "target": "F137",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "frankfurt|osm/way/268132464|osm/way/268132464/component/5a7094ec074abc725631",
+      "kept": "tier300",
+      "candidate": "root500",
+      "target": "F137",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "frankfurt|osm/way/268132465|osm/way/268132465/component/d5f4f3312333fcf17fde",
+      "kept": "tier300",
+      "candidate": "root500",
+      "target": "F137",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "frankfurt|osm/way/268132475|osm/way/268132475/component/f72b23cf32d3a1a8aa22",
+      "kept": "tier300",
+      "candidate": "root500",
+      "target": "F137",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "dusseldorf|osm/way/261554524|osm/way/261554524/component/3679dfb2f7a06676481a",
+      "kept": "tier300",
+      "candidate": "root500",
+      "target": "F166",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "dusseldorf|osm/relation/1985633|osm/relation/1985633/component/aa50dbe56a6518aeca17",
+      "kept": "tier300",
+      "candidate": "root500",
+      "target": "F166",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "leipzig|osm/relation/10616532|osm/relation/10616532/component/d1e323bcd2de6e6d3f40",
+      "kept": "tier300",
+      "candidate": "root500",
+      "target": "F210",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "berlin|osm/way/122384037|osm/way/122384037/component/0e4cdeaa5edbd0b30bd7",
+      "kept": "root500",
+      "candidate": "tier300",
+      "target": "S036",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "berlin|osm/way/122384035|osm/way/122384035/component/31d7758f40ccd77e5771",
+      "kept": "root500",
+      "candidate": "tier300",
+      "target": "S036",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "berlin|osm/way/186517395|osm/way/186517395/component/cb10264dea572ad20aa9",
+      "kept": "root500",
+      "candidate": "tier300",
+      "target": "S036",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "berlin|osm/way/1222295516|osm/way/1222295516/component/f9a73b055937f4c5f6d3",
+      "kept": "root500",
+      "candidate": "tier300",
+      "target": "S099",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "cologne|osm/way/176438284|osm/way/176438284/component/da975a8792470f34e867",
+      "kept": "root500",
+      "candidate": "tier300",
+      "target": "S153",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "dusseldorf|osm/relation/1985633|osm/relation/1985633/component/aa50dbe56a6518aeca17",
+      "kept": "root500",
+      "candidate": "tier300",
+      "target": "S305",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "dusseldorf|osm/way/261554524|osm/way/261554524/component/3679dfb2f7a06676481a",
+      "kept": "root500",
+      "candidate": "tier300",
+      "target": "S305",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "frankfurt|osm/way/268132465|osm/way/268132465/component/d5f4f3312333fcf17fde",
+      "kept": "root500",
+      "candidate": "tier300",
+      "target": "S412",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "frankfurt|osm/way/268132475|osm/way/268132475/component/f72b23cf32d3a1a8aa22",
+      "kept": "root500",
+      "candidate": "tier300",
+      "target": "S412",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "frankfurt|osm/way/268132460|osm/way/268132460/component/94f11ed27fe9dc6cc5dd",
+      "kept": "root500",
+      "candidate": "tier300",
+      "target": "S412",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "frankfurt|osm/way/268132462|osm/way/268132462/component/05d356a4f97118733aeb",
+      "kept": "root500",
+      "candidate": "tier300",
+      "target": "S412",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "frankfurt|osm/way/268132464|osm/way/268132464/component/5a7094ec074abc725631",
+      "kept": "root500",
+      "candidate": "tier300",
+      "target": "S412",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "leipzig|osm/relation/10616532|osm/relation/10616532/component/d1e323bcd2de6e6d3f40",
+      "kept": "root500",
+      "candidate": "tier300",
+      "target": "S573",
+      "reason": "more detailed accepted scope wins",
+      "selected": "root500"
+    },
+    {
+      "key": "dresden|osm/relation/4283218|osm/relation/4283218/component/2e6097e34f020c1857a9",
+      "kept": "tier300",
+      "candidate": "delegated500",
+      "target": "F303",
+      "reason": "more detailed accepted scope wins",
+      "selected": "delegated500"
+    },
+    {
+      "key": "dortmund|osm/way/699216724|osm/way/699216724/component/215758ddf98ea8b5ba6f",
+      "kept": "tier300",
+      "candidate": "delegated500",
+      "target": "F236",
+      "reason": "more detailed accepted scope wins",
+      "selected": "delegated500"
+    }
+  ],
+  "partsPerProvider": {
+    "root500": 2240,
+    "delegated500": 1551,
+    "tier300": 1009
+  },
+  "moduleIdentityCollisions": []
+}

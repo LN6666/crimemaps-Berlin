@@ -44,7 +44,9 @@ function reliableId(record:BuildingShopRecord,p:Record<string,unknown>){
 export function buildingShopMatches<T extends BuildingShopRecord>(geometry:unknown,records:readonly T[]){
  const polys=polygons(geometry);const matches:T[]=[];let boundaryCount=0;const seen=new Set<string>();
  if(!polys)return {matches,boundaryCount};
- for(const record of records){const p=record.properties??{},q=point(record);if(!q||!shop(p))continue;
+ // Reject distant loaded points in constant time before walking a complex component's rings.
+ let west=Infinity,south=Infinity,east=-Infinity,north=-Infinity;for(const poly of polys)for(const ring of poly)for(const q of ring){west=Math.min(west,q[0]);east=Math.max(east,q[0]);south=Math.min(south,q[1]);north=Math.max(north,q[1]);}
+ for(const record of records){const p=record.properties??{},q=point(record);if(!q||!shop(p)||q[0]<west||q[0]>east||q[1]<south||q[1]>north)continue;
   if(onBoundary(polys,q)){boundaryCount++;continue;}if(!containsPosition(geometry,q))continue;
   const id=reliableId(record,p);const rawName=meaningful(p.name)?p.name:undefined;
   // No coordinate rounding or unnamed co-location merging. Different explicit IDs stay distinct.

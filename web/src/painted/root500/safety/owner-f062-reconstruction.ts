@@ -1,0 +1,23 @@
+import {readFrozenTable} from '../../../safety/frozen-paint-tables';
+import type {BuildingComponent,Identity,MeshBatch} from './building-mesh-renderer';
+import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
+import {nativePaintSignature} from './progressive-native-signature';
+type Batch=MeshBatch&{positions:number[];normals:number[];indices:number[];color:number[];frames:number[];paint:number[];writeMask:boolean[];role:number;provenance?:unknown;geometryRole?:string};
+export const F062_IDS=[{"city":"hamburg","objectId":"osm/way/48361392","partId":"osm/way/48361392/component/5e0464c4bd97f0b13631","signature":"6e061a03"},{"city":"hamburg","objectId":"osm/way/362565055","partId":"osm/way/362565055/component/a400868c26bf8a38639c","signature":"b738e65b"},{"city":"hamburg","objectId":"osm/way/362565056","partId":"osm/way/362565056/component/5cb446726adb8a92b519","signature":"d86ecde2"},{"city":"hamburg","objectId":"osm/way/697524432","partId":"osm/way/697524432/component/b0b99c1fbb30d901de75","signature":"bccc6f6c"},{"city":"hamburg","objectId":"osm/way/697624037","partId":"osm/way/697624037/component/09101f5b392b6aabaac4","signature":"a841f15b"}];
+const SOURCE:Record<string,any>=readFrozenTable("75b9ea43a5fa7c6473ecd4ece819a4b2e43a9b7ed00186870c2fef0867b019e3");
+const DISPLAY:Record<string,Batch[]>=readFrozenTable("30989617f90eb265ee3889bb3d807cae650ec99499734c0d28ed69fe12e40646");
+export const F062_RECONSTRUCTION_SHA="30989617f90eb265ee3889bb3d807cae650ec99499734c0d28ed69fe12e40646";
+export const ownerF062Identity=(c:Identity)=>F062_IDS.some(i=>i.objectId===c.objectId&&i.partId===c.partId);
+export function ownerF062BaseMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){let offset=0,objects=0,vertices=0;for(const c of components){const match=c.city==='hamburg'&&ownerF062Identity(c)&&!!c.displayEstimates?.F062Exterior;if(match)objects++;for(const b of c.batches){const count=b.positions.length/3;if(match){const a=b as Batch;for(let j=0;j<count;j++)if(a.writeMask[j]){paint.set(a.paint.slice(j*4,j*4+4),4*(offset+j));frames.set(a.frames.slice(j*5,j*5+5),5*(offset+j));vertices++;}}offset+=count;}}return{objects,vertices,actualVisualAccepted:false};}
+export function ownerF062Reconstruction(components:BuildingComponent[]):{components:BuildingComponent[];stats:OwnerReconstructionStats}{
+ const stats:OwnerReconstructionStats={objects:0,vertices:0,triangles:0,originalVertices:0,sourceRetained:true,actualVisualAccepted:false,components:[]};
+ const out:BuildingComponent[]=components.map(c=>{
+  if(c.city!=='hamburg'||!ownerF062Identity(c))return c;
+  const id=F062_IDS.find(i=>i.objectId===c.objectId&&i.partId===c.partId)!,e=SOURCE[c.partId];
+  const valid=components.filter(x=>x.city===c.city&&x.objectId===c.objectId&&x.partId===c.partId).length===1&&nativePaintSignature(c)===id.signature&&JSON.stringify(c.origin)===JSON.stringify(e.origin)&&JSON.stringify(c.componentGeometry)===JSON.stringify(e.componentGeometry)&&JSON.stringify(c.sourceFeature)===JSON.stringify(e.sourceFeature)&&c.batches.length===e.batches.length&&c.batches.every((b,bi)=>['positions','normals','indices','color'].every(k=>{const a=(b as any)[k],v=e.batches[bi][k];return a?.length===v.length&&Array.from(a as ArrayLike<number>).every((n,j)=>Object.is(n,v[j]));}));
+  if(!valid){stats.error='F062 exact native carrier mismatch: '+c.partId;return c;}
+  const batches=DISPLAY[c.partId].map(b=>({...b,positions:[...b.positions],normals:[...b.normals],indices:[...b.indices],color:[...b.color],frames:[...b.frames],paint:[...b.paint],writeMask:[...b.writeMask]}));
+  const vertices=batches.reduce((s,b)=>s+b.positions.length/3,0),triangles=batches.reduce((s,b)=>s+b.indices.length/3,0);stats.objects++;stats.vertices+=vertices;stats.triangles+=triangles;stats.originalVertices+=c.batches.reduce((s,b)=>s+b.positions.length/3,0);stats.components.push({objectId:c.objectId,partId:c.partId,sourcePartId:c.partId,patchSHA256:F062_RECONSTRUCTION_SHA,vertices,triangles,geometryRole:'owner-authorized-reconstruction'});
+  return{...c,batches,displayEstimates:{...c.displayEstimates,F062Exterior:{sourceRetained:true,sourceOnlyAlias:batches.length===0,patchSHA:F062_RECONSTRUCTION_SHA,sourceGetterGeometryUnchanged:true,displayGeometryIsPhotoDerived:true,fullDescriptionAndCurrentReferenceBound:true,localFacadeFrames:true,independentExactCarrierAdmission:true,northElbtunnelPavilionOnly:true,sourceOriginalFiveGettersImmutable:true,twoOverlappingOpaqueSourceProxiesDisplayAlias:true,photo2026RiverFacadeAndContinuousDome:true}}};
+ });return{components:out,stats};
+}

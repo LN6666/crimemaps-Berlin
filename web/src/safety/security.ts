@@ -1,3 +1,4 @@
+import {localDataTransportFor} from './local-data-routing';
 /** Validate routing fields before they become fetch paths. No semantic/GIS decisions here. */
 const slug = /^[a-z][a-z0-9_]{0,79}$/;
 const tile = /^-?\d{1,7}_-?\d{1,7}$/;
@@ -44,7 +45,7 @@ export function safeExternalURL(value: string): string | null {
   } catch { return null; }
 }
 /** Bound downloads even if Content-Length is absent or dishonest. Preserve caller cancellation. */
-export async function fetchDataJSON<T>(url: string, signal?: AbortSignal, onRead?: (weight: number) => void, cachePolicy: "default" | "no-store" = "default"): Promise<T> {
+export async function fetchRawDataJSON<T>(url: string, signal?: AbortSignal, onRead?: (weight: number) => void, cachePolicy: "default" | "no-store" = "default"): Promise<T> {
   safeLocalDataPath(url);
   const response = await fetch(url, { signal, redirect: "error", credentials: "omit", referrerPolicy: "no-referrer", cache: cachePolicy });
   if (!response.ok) throw Error(`Data request failed (${response.status})`);
@@ -74,6 +75,9 @@ export async function fetchDataJSON<T>(url: string, signal?: AbortSignal, onRead
     await reader.cancel().catch(() => {}); throw error;
   } finally { reader.releaseLock(); }
 }
+
+/** Optional byte-exact physical routing, with unchanged raw-compatible default. */
+export async function fetchDataJSON<T>(url:string,signal?:AbortSignal,onRead?:(weight:number)=>void,cachePolicy:'default'|'no-store'='default'):Promise<T>{safeLocalDataPath(url);signal?.throwIfAborted();const route=localDataTransportFor(url);const result=await (route?route.json<T>(url,signal,onRead,cachePolicy):fetchRawDataJSON<T>(url,signal,onRead,cachePolicy));signal?.throwIfAborted();return result;}
 
 /** Bootstrap manifests select immutable generation URLs and must revalidate on every load. */
 export function fetchFreshManifest<T>(url: string, signal?: AbortSignal): Promise<T> {

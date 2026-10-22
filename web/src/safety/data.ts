@@ -92,7 +92,7 @@ export class DataClient {
   private poiCoordinates: Set<string>;
   private available: { pois: Set<string>; roads: Set<string> };
   readonly base: string;
-  constructor(readonly manifest: Manifest, dataRoot = "/safety") {
+  constructor(readonly manifest: Manifest, dataRoot = "/safety", private readonly fetchJSON: typeof fetchDataJSON = fetchDataJSON) {
     assertManifestPaths(manifest,dataRoot);
     if (
       manifest.schema_version !== 2 ||
@@ -188,7 +188,7 @@ export class DataClient {
     signal?.throwIfAborted();
     if (!url.startsWith(`${this.base}/`)) throw Error("Invalid generation data path");
     let bytes=0;
-    const value=await fetchDataJSON<T>(url,signal,(weight)=>{bytes=weight;});
+    const value=await this.fetchJSON<T>(url,signal,(weight)=>{bytes=weight;});
     signal?.throwIfAborted();
     return {value,bytes};
   }

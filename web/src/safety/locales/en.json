@@ -120,8 +120,6 @@
   "report.translationMissing": "Some details may still be untranslated. Please check the source link if anything is unclear.",
   "report.summary": "Reviewed English summary",
   "report.summaryNote": "This summary is an aid to reading. It does not replace the official announcement.",
-  "report.dataProvider": "data provider",
-  "report.providerSummary": "Summary from {provider} · not the full police announcement",
   "report.publishedMonth": "Map month: {month}",
   "report.published": "Published",
   "report.sourceUnavailable": "The original is currently unavailable. The earlier collected record is retained.",
@@ -762,5 +760,7 @@
   "selection.geography.building": "Building",
   "selection.geography.water": "Water",
   "selection.geography.land": "Land area",
-  "selection.geography.place": "Place"
+  "selection.geography.place": "Place",
+  "report.dataProvider": "data provider",
+  "report.providerSummary": "Summary from {provider} · not the full police announcement"
 }

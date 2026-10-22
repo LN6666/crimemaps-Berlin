@@ -1,0 +1,5 @@
+import type {createLosslessPhysicalResolver} from './lossless-physical-data';
+/** Optional registered physical representation; caller scheduling/cache/raw-SHA logic is unchanged. */
+export function withLosslessDataTransport(resolver:ReturnType<typeof createLosslessPhysicalResolver>,legacy:{bytes:(url:string,signal:AbortSignal,max?:number,cache?:'default'|'no-store')=>Promise<Uint8Array>;json:<T>(url:string,signal?:AbortSignal,onRead?:(weight:number)=>void,cache?:'default'|'no-store')=>Promise<T>}){
+ return{async bytes(url:string,signal:AbortSignal,max=8*1024**2,cache:'default'|'no-store'='default'){const value=await resolver.bytes(url,signal,max,cache);signal.throwIfAborted();return value??legacy.bytes(url,signal,max,cache);},async json<T>(url:string,signal?:AbortSignal,onRead?:(weight:number)=>void,cache:'default'|'no-store'='default'):Promise<T>{const own=signal??new AbortController().signal;const value=await resolver.json<T>(url,own,64*1024**2,cache);own.throwIfAborted();if(value){onRead?.(value.bytes);own.throwIfAborted();return value.value;}return legacy.json<T>(url,signal,onRead,cache);}};
+}

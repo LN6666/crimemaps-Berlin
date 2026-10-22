@@ -120,8 +120,6 @@
   "report.translationMissing": "部分细节可能尚未翻译；如有疑问，请核对来源链接。",
   "report.summary": "经复核的中文摘要",
   "report.summaryNote": "摘要用于辅助阅读，不能代替警方原文。",
-  "report.dataProvider": "数据提供方",
-  "report.providerSummary": "{provider}摘要 · 非警方公告全文",
   "report.publishedMonth": "地图月份：{month}",
   "report.published": "公布时间",
   "report.sourceUnavailable": "原文目前不可用，保留先前采集的记录。",
@@ -762,5 +760,7 @@
   "selection.geography.building": "建筑",
   "selection.geography.water": "水域",
   "selection.geography.land": "地表范围",
-  "selection.geography.place": "地点"
+  "selection.geography.place": "地点",
+  "report.dataProvider": "数据提供方",
+  "report.providerSummary": "{provider}摘要 · 非警方公告全文"
 }

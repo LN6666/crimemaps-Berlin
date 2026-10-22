@@ -1,0 +1,4 @@
+import {c336MaterialFragment} from './c336-feature-glsl';
+export const C335_FEATURE_GLSL=`vec3 c335Annex(vec3 base,vec3 p,vec3 normal,vec4 f,float family){if(family==13462.)return vec3(.34,.36,.34);if(family==13461.){float u=f.x;float seam=1.-smoothstep(.018,.018+max(.02,fwidth(u)),abs(mod(u+.35,.7)-.35));return vec3(.43,.64,.55)*(1.-seam*.08);}return vec3(.85,.84,.77);}
+`;
+export function c335MaterialFragment(source:string,city:string){if(city!=='munich')return source;const name=source.includes('vec3 progressiveFeatureDispatchCity(')?'progressiveFeatureDispatchCity':'progressiveFeatureDispatch';const anchor='vec3 '+name+'(vec3 base,vec3 p,vec3 normal,vec4 frame,float family){';if(source.split(anchor).length!==2)throw Error('C335 dispatcher drift');return c336MaterialFragment(source.replace(anchor,C335_FEATURE_GLSL+'\n'+anchor+'if(family>=13460.&&family<=13462.)return c335Annex(base,p,normal,frame,family);'),city);}

@@ -1,0 +1,1 @@
+export const OWNER_F216_ANNEX_PAINT_GLSL="vec3 operLeipzigAnnex216(vec3 base,vec3 p,vec3 n,vec4 frame){float role=frame.w;if(role>1.5)return vec3(.73,.74,.70);if(role>.5)return vec3(.45,.44,.41);float grain=sin(frame.x*15.0)*sin(frame.y*21.0+frame.z*13.0)*.009;float joint=1.0-smoothstep(.018,.045,abs(fract(frame.y/.7)-.5));return vec3(.73,.72,.68)+grain-joint*.025;}\n";

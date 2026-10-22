@@ -1,0 +1,11 @@
+export const C354_FEATURE_GLSL=String.raw`
+float c354box(vec2 q,vec2 c,vec2 h){vec2 a=max(fwidth(q),vec2(.012));vec2 m=1.-smoothstep(h-a,h+a,abs(q-c));return m.x*m.y;}
+vec3 c354brick(vec2 q){vec3 c=vec3(.28,.31,.30);float pixel=max(fwidth(q.x),fwidth(q.y)),fade=1.-smoothstep(.018,.060,pixel);float row=floor(q.y/.075),h=step(.94,fract(q.y/.075)),v=step(.96,fract((q.x+mod(row,2.)*.14)/.28));return mix(c,vec3(.39,.41,.39),max(h,v)*.38*fade);}
+vec3 c354Wiwi(vec3 base,vec3 p,vec3 normal,vec4 f,float family){if(family==13671.)return vec3(.37,.40,.39);if(family==13673.)return vec3(.47,.46,.40);vec2 q=f.xy;vec3 brick=c354brick(q),c=brick,metal=vec3(.66,.69,.67),glass=vec3(.32,.42,.42);if(family==13670.)return c;
+// Source photographs show five visible window tiers; do not turn native six-level metadata into an unsupported sixth repeated row.
+float returnShape=sin(clamp(q.y/10.5,0.,1.)*3.14159265);for(int i=0;i<31;i++){float x=-52.+float(i)*3.10;float pier=x-1.36+.25*returnShape;float strip=(1.-smoothstep(.14,.30,abs(q.x-pier)))*(1.-smoothstep(9.,11.8,q.y));c=mix(c,brick*.67,strip*.6);c=mix(c,brick*1.20,c354box(q,vec2(pier+.20,4.8),vec2(.055,4.8))*(1.-smoothstep(8.,11.,q.y)));}
+for(int j=0;j<5;j++){float y=1.45+float(j)*2.95;for(int i=0;i<31;i++){float x=-52.+float(i)*3.1;bool art=x>26.5&&x<33.5;bool entrance=x>34.&&j<2;if(art||entrance)continue;float win=c354box(q,vec2(x,y),vec2(.87,.88));c=mix(c,metal,c354box(q,vec2(x,y),vec2(.98,.99)));c=mix(c,glass,win);c=mix(c,metal,c354box(q,vec2(x,y),vec2(.035,.88))*win);}}
+// Four local art-glass panels, schematic geometric reading of the photographed leadwork, not an invented whole-building grid.
+for(int j=0;j<4;j++){float y=4.5+float(j)*2.86;vec2 ctr=vec2(30.,y);float pane=c354box(q,ctr,vec2(1.24,1.12));c=mix(c,metal,c354box(q,ctr,vec2(1.36,1.23)));c=mix(c,vec3(.22,.27,.27),pane);for(int i=-2;i<=2;i++)c=mix(c,metal*.80,c354box(q,ctr+vec2(float(i)*.42,0.),vec2(.025,1.12))*pane);for(int i=-2;i<=2;i++)c=mix(c,metal*.80,c354box(q,ctr+vec2(0.,float(i)*.39),vec2(1.24,.022))*pane);if(j==0||j==1){float radius=j==0?.54:.89;float d=abs(length(q-ctr)-radius);float ring=1.-smoothstep(.025,.060,d);c=mix(c,metal*.92,ring*pane);}}
+return c;}
+`;

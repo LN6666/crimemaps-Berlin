@@ -1,0 +1,5360 @@
+{
+  "tier500": [
+    {
+      "id": "F001",
+      "city": "berlin",
+      "name": "Gropius-Bau",
+      "objectId": "osm/relation/11516702",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F002",
+      "city": "berlin",
+      "name": "Reichstagsgebäude",
+      "objectId": "osm/relation/2201742",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F003",
+      "city": "berlin",
+      "name": "Berliner Schloss",
+      "objectId": "osm/relation/3007958",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F004",
+      "city": "berlin",
+      "name": "Berlin Hauptbahnhof",
+      "objectId": "osm/relation/3600565",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F005",
+      "city": "berlin",
+      "name": "Altes Museum",
+      "objectId": "osm/relation/3619",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F006",
+      "city": "berlin",
+      "name": "Gemäldegalerie am Kulturforum",
+      "objectId": "osm/relation/3626233",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F007",
+      "city": "berlin",
+      "name": "Philharmonie",
+      "objectId": "osm/relation/3626485",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F008",
+      "city": "berlin",
+      "name": "Bode-Museum",
+      "objectId": "osm/relation/4211594",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F009",
+      "city": "berlin",
+      "name": "Rotes Rathaus",
+      "objectId": "osm/relation/4211905",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F010",
+      "city": "berlin",
+      "name": "Schloss Bellevue",
+      "objectId": "osm/way/1034456118",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F011",
+      "city": "berlin",
+      "name": "Fernsehturm Müggelberge",
+      "objectId": "osm/way/127184907",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F012",
+      "city": "berlin",
+      "name": "Schloss Köpenick",
+      "objectId": "osm/way/137219848",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F013",
+      "city": "berlin",
+      "name": "Neue Kaiser-Wilhelm-Gedächtniskirche",
+      "objectId": "osm/way/15218371",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F014",
+      "city": "berlin",
+      "name": "Kaiser-Wilhelm-Gedächtniskirche (Ruine)",
+      "objectId": "osm/way/15218373",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F015",
+      "city": "berlin",
+      "name": "Staatsoper Unter den Linden",
+      "objectId": "osm/way/15976892",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F016",
+      "city": "berlin",
+      "name": "Hamburger Bahnhof",
+      "objectId": "osm/way/175464203",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F017",
+      "city": "berlin",
+      "name": "Neues Museum",
+      "objectId": "osm/way/18578139",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F018",
+      "city": "berlin",
+      "name": "Schloss Charlottenburg",
+      "objectId": "osm/way/186517395",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F019",
+      "city": "berlin",
+      "name": "Konzerthaus Berlin",
+      "objectId": "osm/way/217512230",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F020",
+      "city": "berlin",
+      "name": "Nikolaikirche",
+      "objectId": "osm/way/23813200",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F021",
+      "city": "berlin",
+      "name": "Sophienkirche",
+      "objectId": "osm/way/23816415",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F022",
+      "city": "berlin",
+      "name": "Friedrichswerdersche Kirche",
+      "objectId": "osm/way/24044937",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F023",
+      "city": "berlin",
+      "name": "Schloss Schönhausen",
+      "objectId": "osm/way/24315051",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F024",
+      "city": "berlin",
+      "name": "Neue Nationalgalerie",
+      "objectId": "osm/way/25652321",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F025",
+      "city": "berlin",
+      "name": "Französischer Dom",
+      "objectId": "osm/way/28248283",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F026",
+      "city": "berlin",
+      "name": "Oberbaumbrücke",
+      "objectId": "osm/way/288514442",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F027",
+      "city": "berlin",
+      "name": "Funkturm Berlin",
+      "objectId": "osm/way/30926247",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F028",
+      "city": "berlin",
+      "name": "Pergamonmuseum",
+      "objectId": "osm/way/313659704",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F029",
+      "city": "berlin",
+      "name": "Alte Nationalgalerie",
+      "objectId": "osm/way/313670733",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F030",
+      "city": "berlin",
+      "name": "Berliner Dom",
+      "objectId": "osm/way/313670734",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F031",
+      "city": "berlin",
+      "name": "Fernmeldeturm Schäferberg",
+      "objectId": "osm/way/36055031",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F032",
+      "city": "berlin",
+      "name": "Parochialkirche",
+      "objectId": "osm/way/43000923",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F033",
+      "city": "berlin",
+      "name": "Deutscher Dom",
+      "objectId": "osm/way/43347270",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F034",
+      "city": "berlin",
+      "name": "St. Marienkirche",
+      "objectId": "osm/way/474111581",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F035",
+      "city": "berlin",
+      "name": "Brandenburger Tor",
+      "objectId": "osm/way/518071791",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F036",
+      "city": "berlin",
+      "name": "Berliner Fernsehturm",
+      "objectId": "osm/way/556435241",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F037",
+      "city": "berlin",
+      "name": "St. Hedwigs-Kathedrale Berlin",
+      "objectId": "osm/way/58608090",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F038",
+      "city": "hamburg",
+      "name": "Heinrich-Hertz-Turm",
+      "objectId": "osm/node/2720636699",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F039",
+      "city": "hamburg",
+      "name": "Speicherstadt",
+      "objectId": "osm/node/4417808181",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F040",
+      "city": "hamburg",
+      "name": "Bucerius Kunst Forum",
+      "objectId": "osm/node/6499891885",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F041",
+      "city": "hamburg",
+      "name": "Hamburger Kunsthalle",
+      "objectId": "osm/relation/4259123",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F042",
+      "city": "hamburg",
+      "name": "Chilehaus",
+      "objectId": "osm/relation/918679",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F043",
+      "city": "hamburg",
+      "name": "Hamburg Hauptbahnhof",
+      "objectId": "osm/way/137538320",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F044",
+      "city": "hamburg",
+      "name": "Evangelisch-lutherische Hauptkirche St. Jacobi",
+      "objectId": "osm/way/142944360",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F045",
+      "city": "hamburg",
+      "name": "Rathaus",
+      "objectId": "osm/way/142944431",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F046",
+      "city": "hamburg",
+      "name": "St. Johannis Harvestehude",
+      "objectId": "osm/way/206525073",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F047",
+      "city": "hamburg",
+      "name": "Haus der Photographie",
+      "objectId": "osm/way/23191264",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F048",
+      "city": "hamburg",
+      "name": "Deichtorhallen",
+      "objectId": "osm/way/23191265",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F049",
+      "city": "hamburg",
+      "name": "St. Pauli-Elbtunnel",
+      "objectId": "osm/way/23559156",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F050",
+      "city": "hamburg",
+      "name": "Elbphilharmonie",
+      "objectId": "osm/way/24981342",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F051",
+      "city": "hamburg",
+      "name": "Internationales Maritimes Museum Hamburg",
+      "objectId": "osm/way/25337154",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F052",
+      "city": "hamburg",
+      "name": "Laeiszhalle Musikhalle Hamburg",
+      "objectId": "osm/way/257675372",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F053",
+      "city": "hamburg",
+      "name": "Planetarium",
+      "objectId": "osm/way/316456276",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F054",
+      "city": "hamburg",
+      "name": "Altonaer Museum",
+      "objectId": "osm/way/33836835",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F055",
+      "city": "hamburg",
+      "name": "Museum für Hamburgische Geschichte",
+      "objectId": "osm/way/34766557",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F056",
+      "city": "hamburg",
+      "name": "Domkirche Sankt Marien",
+      "objectId": "osm/way/362942071",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F057",
+      "city": "hamburg",
+      "name": "Hauptkirche St. Katharinen",
+      "objectId": "osm/way/363239302",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F058",
+      "city": "hamburg",
+      "name": "Sankt Johannis Altona",
+      "objectId": "osm/way/37785744",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F059",
+      "city": "hamburg",
+      "name": "Kirchenruine St. Nikolai",
+      "objectId": "osm/way/380562777",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F060",
+      "city": "hamburg",
+      "name": "Museum für Kunst und Gewerbe Hamburg",
+      "objectId": "osm/way/42864381",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F061",
+      "city": "hamburg",
+      "name": "Hauptkirche St. Nikolai",
+      "objectId": "osm/way/45574500",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F062",
+      "city": "hamburg",
+      "name": "St. Pauli-Elbtunnel",
+      "objectId": "osm/way/48361392",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F063",
+      "city": "hamburg",
+      "name": "Sankt Gertrud",
+      "objectId": "osm/way/98234152",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F064",
+      "city": "munich",
+      "name": "Museum Brandhorst",
+      "objectId": "osm/node/11099726845",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F065",
+      "city": "munich",
+      "name": "München Hauptbahnhof",
+      "objectId": "osm/node/2470201868",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F066",
+      "city": "munich",
+      "name": "Neues Rathaus",
+      "objectId": "osm/relation/147095",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F067",
+      "city": "munich",
+      "name": "Justizpalast",
+      "objectId": "osm/relation/14897",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F068",
+      "city": "munich",
+      "name": "Neue Pinakothek",
+      "objectId": "osm/relation/1644123",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F069",
+      "city": "munich",
+      "name": "Schloss Nymphenburg",
+      "objectId": "osm/relation/2144986",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F070",
+      "city": "munich",
+      "name": "Deutsches Museum",
+      "objectId": "osm/relation/3866522",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F071",
+      "city": "munich",
+      "name": "Bayerisches Nationalmuseum",
+      "objectId": "osm/relation/4270033",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F072",
+      "city": "munich",
+      "name": "Bayerische Staatsbibliothek",
+      "objectId": "osm/relation/52412",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F073",
+      "city": "munich",
+      "name": "Glyptothek",
+      "objectId": "osm/relation/532621",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F074",
+      "city": "munich",
+      "name": "Residenz",
+      "objectId": "osm/relation/7456359",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F075",
+      "city": "munich",
+      "name": "Altes Schloss Schleißheim",
+      "objectId": "osm/relation/87558",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F076",
+      "city": "munich",
+      "name": "Pinakothek der Moderne",
+      "objectId": "osm/way/10053440",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F077",
+      "city": "munich",
+      "name": "Bürgersaalkirche",
+      "objectId": "osm/way/125213617",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F078",
+      "city": "munich",
+      "name": "Haus der Kunst",
+      "objectId": "osm/way/150797531",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F079",
+      "city": "munich",
+      "name": "Olympiaturm",
+      "objectId": "osm/way/164084344",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F080",
+      "city": "munich",
+      "name": "Frauenkirche",
+      "objectId": "osm/way/225698612",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F081",
+      "city": "munich",
+      "name": "St. Peter",
+      "objectId": "osm/way/228534603",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F082",
+      "city": "munich",
+      "name": "Schloss Lustheim",
+      "objectId": "osm/way/23152070",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F083",
+      "city": "munich",
+      "name": "Bayerisches Nationaltheater",
+      "objectId": "osm/way/23458583",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F084",
+      "city": "munich",
+      "name": "Lenbachhaus",
+      "objectId": "osm/way/237426208",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F085",
+      "city": "munich",
+      "name": "Theatinerkirche St. Kajetan",
+      "objectId": "osm/way/25514390",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F086",
+      "city": "munich",
+      "name": "Sankt-Anna-Klosterkirche",
+      "objectId": "osm/way/27910913",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F087",
+      "city": "munich",
+      "name": "Maximilianeum",
+      "objectId": "osm/way/325929848",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F088",
+      "city": "munich",
+      "name": "Sankt Michael",
+      "objectId": "osm/way/36943165",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F089",
+      "city": "munich",
+      "name": "Heilig Geist",
+      "objectId": "osm/way/3810527",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F090",
+      "city": "munich",
+      "name": "Allerheiligen Hofkirche",
+      "objectId": "osm/way/388187792",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F091",
+      "city": "munich",
+      "name": "",
+      "objectId": "osm/way/431367942",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F092",
+      "city": "munich",
+      "name": "",
+      "objectId": "osm/way/431367944",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F093",
+      "city": "munich",
+      "name": "",
+      "objectId": "osm/way/431367946",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F094",
+      "city": "munich",
+      "name": "",
+      "objectId": "osm/way/431367947",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F095",
+      "city": "munich",
+      "name": "",
+      "objectId": "osm/way/431367948",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F096",
+      "city": "munich",
+      "name": "",
+      "objectId": "osm/way/431367949",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F097",
+      "city": "munich",
+      "name": "",
+      "objectId": "osm/way/431367950",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F098",
+      "city": "munich",
+      "name": "",
+      "objectId": "osm/way/431367951",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F099",
+      "city": "munich",
+      "name": "",
+      "objectId": "osm/way/431367952",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F100",
+      "city": "munich",
+      "name": "",
+      "objectId": "osm/way/431367953",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F101",
+      "city": "munich",
+      "name": "",
+      "objectId": "osm/way/431367954",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F102",
+      "city": "munich",
+      "name": "",
+      "objectId": "osm/way/431367955",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F103",
+      "city": "munich",
+      "name": "",
+      "objectId": "osm/way/431367956",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F104",
+      "city": "munich",
+      "name": "",
+      "objectId": "osm/way/431367957",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F105",
+      "city": "munich",
+      "name": "Alte Pinakothek",
+      "objectId": "osm/way/4647135",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F106",
+      "city": "munich",
+      "name": "Sankt Johann Nepomuk",
+      "objectId": "osm/way/47515468",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F107",
+      "city": "munich",
+      "name": "Neues Schloss Schleißheim",
+      "objectId": "osm/way/7920443",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F108",
+      "city": "munich",
+      "name": "Dreifaltigkeitskirche",
+      "objectId": "osm/way/91268639",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F109",
+      "city": "munich",
+      "name": "Palais Holnstein",
+      "objectId": "osm/way/91268641",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F110",
+      "city": "cologne",
+      "name": "Köln Hauptbahnhof",
+      "objectId": "osm/node/2399559029",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F111",
+      "city": "cologne",
+      "name": "Rautenstrauch-Joest-Museum",
+      "objectId": "osm/node/3396039255",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F112",
+      "city": "cologne",
+      "name": "Kolumba Kunstmuseum",
+      "objectId": "osm/node/5739097722",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F113",
+      "city": "cologne",
+      "name": "Kölnisches Stadtmuseum",
+      "objectId": "osm/node/618164720",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F114",
+      "city": "cologne",
+      "name": "Museum Ludwig",
+      "objectId": "osm/node/633480736",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F115",
+      "city": "cologne",
+      "name": "Museum für Angewandte Kunst",
+      "objectId": "osm/relation/4595998",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F116",
+      "city": "cologne",
+      "name": "Römisch-Germanisches Museum",
+      "objectId": "osm/relation/965473",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F117",
+      "city": "cologne",
+      "name": "St. Pantaleon",
+      "objectId": "osm/way/10212387",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F118",
+      "city": "cologne",
+      "name": "Historisches Rathaus",
+      "objectId": "osm/way/16186002",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F119",
+      "city": "cologne",
+      "name": "Köln Triangle",
+      "objectId": "osm/way/21113435",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F120",
+      "city": "cologne",
+      "name": "St. Severin",
+      "objectId": "osm/way/248656007",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F121",
+      "city": "cologne",
+      "name": "Groß Sankt Martin",
+      "objectId": "osm/way/25270980",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F122",
+      "city": "cologne",
+      "name": "St.Andreas",
+      "objectId": "osm/way/25284355",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F123",
+      "city": "cologne",
+      "name": "St. Ursula",
+      "objectId": "osm/way/27780576",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F124",
+      "city": "cologne",
+      "name": "St. Aposteln",
+      "objectId": "osm/way/282443595",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F125",
+      "city": "cologne",
+      "name": "St. Maria im Kapitol",
+      "objectId": "osm/way/30079415",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F126",
+      "city": "cologne",
+      "name": "St. Kunibert",
+      "objectId": "osm/way/316013323",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F127",
+      "city": "cologne",
+      "name": "Gürzenich",
+      "objectId": "osm/way/334084497",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F128",
+      "city": "cologne",
+      "name": "Wallraf-Richartz-Museum & Fondation Corboud",
+      "objectId": "osm/way/334084512",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F129",
+      "city": "cologne",
+      "name": "Schokoladenmuseum",
+      "objectId": "osm/way/334606061",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F130",
+      "city": "cologne",
+      "name": "Flora",
+      "objectId": "osm/way/363009217",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F131",
+      "city": "cologne",
+      "name": "St. Gereon",
+      "objectId": "osm/way/38246033",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F132",
+      "city": "cologne",
+      "name": "Museum Schnütgen",
+      "objectId": "osm/way/386349068",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F133",
+      "city": "cologne",
+      "name": "Kölner Dom",
+      "objectId": "osm/way/4532022",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F134",
+      "city": "cologne",
+      "name": "Colonius",
+      "objectId": "osm/way/515897895",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F135",
+      "city": "frankfurt",
+      "name": "Städel Museum",
+      "objectId": "osm/node/144346893",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F136",
+      "city": "frankfurt",
+      "name": "Deutsche Nationalbibliothek",
+      "objectId": "osm/node/16084570",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F137",
+      "city": "frankfurt",
+      "name": "Frankfurt (Main) Hauptbahnhof",
+      "objectId": "osm/node/205364328",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F138",
+      "city": "frankfurt",
+      "name": "Römer",
+      "objectId": "osm/node/34223060",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F139",
+      "city": "frankfurt",
+      "name": "Palais Thurn und Taxis",
+      "objectId": "osm/relation/1688621",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F140",
+      "city": "frankfurt",
+      "name": "Historisches Museum Frankfurt",
+      "objectId": "osm/relation/8171080",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F141",
+      "city": "frankfurt",
+      "name": "Kaiserdom St. Bartholomäus",
+      "objectId": "osm/way/11018815",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F142",
+      "city": "frankfurt",
+      "name": "Paulskirche",
+      "objectId": "osm/way/11526375",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F143",
+      "city": "frankfurt",
+      "name": "Festhalle",
+      "objectId": "osm/way/1390237893",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F144",
+      "city": "frankfurt",
+      "name": "Dreikönigskirche",
+      "objectId": "osm/way/156298612",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F145",
+      "city": "frankfurt",
+      "name": "Justinuskirche",
+      "objectId": "osm/way/156356617",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F146",
+      "city": "frankfurt",
+      "name": "Goethe-Haus",
+      "objectId": "osm/way/174501393",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F147",
+      "city": "frankfurt",
+      "name": "Städtische Galerie Liebieghaus",
+      "objectId": "osm/way/232829987",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F148",
+      "city": "frankfurt",
+      "name": "Deutsche Bundesbank",
+      "objectId": "osm/way/23901923",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F149",
+      "city": "frankfurt",
+      "name": "Jüdisches Museum",
+      "objectId": "osm/way/265793228",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F150",
+      "city": "frankfurt",
+      "name": "Alte Nikolaikirche",
+      "objectId": "osm/way/27769415",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F151",
+      "city": "frankfurt",
+      "name": "Katharinenkirche",
+      "objectId": "osm/way/28426081",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F152",
+      "city": "frankfurt",
+      "name": "Senckenberg Naturmuseum",
+      "objectId": "osm/way/30119021",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F153",
+      "city": "frankfurt",
+      "name": "Museum MMK",
+      "objectId": "osm/way/35216115",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F154",
+      "city": "frankfurt",
+      "name": "Alte Oper",
+      "objectId": "osm/way/384153099",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F155",
+      "city": "frankfurt",
+      "name": "Liebfrauenkirche",
+      "objectId": "osm/way/49842069",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F156",
+      "city": "frankfurt",
+      "name": "Kirche St. Leonhard",
+      "objectId": "osm/way/53567953",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F157",
+      "city": "frankfurt",
+      "name": "Eschenheimer Turm",
+      "objectId": "osm/way/53671623",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F158",
+      "city": "frankfurt",
+      "name": "Europaturm",
+      "objectId": "osm/way/673138931",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F159",
+      "city": "frankfurt",
+      "name": "Schirn Kunsthalle",
+      "objectId": "osm/way/689507214",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F160",
+      "city": "frankfurt",
+      "name": "Deutschordenskirche",
+      "objectId": "osm/way/71324413",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F161",
+      "city": "frankfurt",
+      "name": "Nikolauskapelle",
+      "objectId": "osm/way/72569775",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F162",
+      "city": "dusseldorf",
+      "name": "Kunstverein für die Rheinlande und Westfalen",
+      "objectId": "osm/node/1577235480",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F163",
+      "city": "dusseldorf",
+      "name": "Museum Kunstpalast",
+      "objectId": "osm/node/254342155",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F164",
+      "city": "dusseldorf",
+      "name": "K20 - Kunstsammlung NRW",
+      "objectId": "osm/node/3478983042",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F165",
+      "city": "dusseldorf",
+      "name": "Schloss Benrath",
+      "objectId": "osm/relation/13014237",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F166",
+      "city": "dusseldorf",
+      "name": "Düsseldorf Hbf",
+      "objectId": "osm/relation/557210",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F167",
+      "city": "dusseldorf",
+      "name": "Johanneskirche",
+      "objectId": "osm/way/142783039",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F168",
+      "city": "dusseldorf",
+      "name": "Berger Kirche",
+      "objectId": "osm/way/143518310",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F169",
+      "city": "dusseldorf",
+      "name": "Neanderkirche",
+      "objectId": "osm/way/144140062",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F170",
+      "city": "dusseldorf",
+      "name": "Kreuzherrenkirche",
+      "objectId": "osm/way/144141186",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F171",
+      "city": "dusseldorf",
+      "name": "St. Maximilian",
+      "objectId": "osm/way/145266530",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F172",
+      "city": "dusseldorf",
+      "name": "Schloss Jägerhof",
+      "objectId": "osm/way/145667826",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F173",
+      "city": "dusseldorf",
+      "name": "Rheinturm",
+      "objectId": "osm/way/161648930",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F174",
+      "city": "dusseldorf",
+      "name": "St. Andreas-Kirche",
+      "objectId": "osm/way/23442766",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F175",
+      "city": "dusseldorf",
+      "name": "Ständehaus",
+      "objectId": "osm/way/23442898",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F176",
+      "city": "dusseldorf",
+      "name": "Rathaus Düsseldorf",
+      "objectId": "osm/way/23444432",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F177",
+      "city": "dusseldorf",
+      "name": "St. Lambertus",
+      "objectId": "osm/way/23445439",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F178",
+      "city": "dusseldorf",
+      "name": "Kunstakademie",
+      "objectId": "osm/way/23445756",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F179",
+      "city": "dusseldorf",
+      "name": "Basilika St. Margareta",
+      "objectId": "osm/way/24659036",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F180",
+      "city": "dusseldorf",
+      "name": "Tonhalle Düsseldorf",
+      "objectId": "osm/way/300707026",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F181",
+      "city": "dusseldorf",
+      "name": "Schlossturm",
+      "objectId": "osm/way/45774488",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F182",
+      "city": "dusseldorf",
+      "name": "St. Rochus",
+      "objectId": "osm/way/52882422",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F183",
+      "city": "dusseldorf",
+      "name": "St. Suitbertus",
+      "objectId": "osm/way/52882428",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F184",
+      "city": "stuttgart",
+      "name": "Weißenhofsiedlung",
+      "objectId": "osm/relation/1071059",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F185",
+      "city": "stuttgart",
+      "name": "Mercedes-Benz Museum",
+      "objectId": "osm/relation/14292942",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F186",
+      "city": "stuttgart",
+      "name": "Altes Schloss",
+      "objectId": "osm/relation/22988",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F187",
+      "city": "stuttgart",
+      "name": "Schloss Hohenheim",
+      "objectId": "osm/relation/7201678",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F188",
+      "city": "stuttgart",
+      "name": "Schloss Solitude",
+      "objectId": "osm/relation/9521787",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F189",
+      "city": "stuttgart",
+      "name": "Hospitalkirche",
+      "objectId": "osm/way/106702067",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F190",
+      "city": "stuttgart",
+      "name": "Stadtbibliothek am Mailänder Platz",
+      "objectId": "osm/way/107760990",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F191",
+      "city": "stuttgart",
+      "name": "Erlöserkirche",
+      "objectId": "osm/way/108256860",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F192",
+      "city": "stuttgart",
+      "name": "Staatsgalerie",
+      "objectId": "osm/way/11408642",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F193",
+      "city": "stuttgart",
+      "name": "Fernsehturm Stuttgart",
+      "objectId": "osm/way/203951586",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F194",
+      "city": "stuttgart",
+      "name": "Johanneskirche",
+      "objectId": "osm/way/24475575",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F195",
+      "city": "stuttgart",
+      "name": "Neues Schloss",
+      "objectId": "osm/way/246115202",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F196",
+      "city": "stuttgart",
+      "name": "Kunstmuseum",
+      "objectId": "osm/way/248949535",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F197",
+      "city": "stuttgart",
+      "name": "Linden-Museum",
+      "objectId": "osm/way/25518780",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F198",
+      "city": "stuttgart",
+      "name": "Markuskirche",
+      "objectId": "osm/way/27261199",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F199",
+      "city": "stuttgart",
+      "name": "Porsche Museum",
+      "objectId": "osm/way/30698972",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F200",
+      "city": "stuttgart",
+      "name": "Bonatzbau",
+      "objectId": "osm/way/334574350",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F201",
+      "city": "stuttgart",
+      "name": "Domkirche St. Eberhard",
+      "objectId": "osm/way/36881173",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F202",
+      "city": "stuttgart",
+      "name": "St. Maria",
+      "objectId": "osm/way/40523805",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F203",
+      "city": "stuttgart",
+      "name": "Friedenskirche",
+      "objectId": "osm/way/43733682",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F204",
+      "city": "stuttgart",
+      "name": "Opernhaus",
+      "objectId": "osm/way/442911745",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F205",
+      "city": "stuttgart",
+      "name": "Grabkapelle auf dem Württemberg",
+      "objectId": "osm/way/77096076",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F206",
+      "city": "stuttgart",
+      "name": "Fernmeldeturm Stuttgart-Frauenkopf",
+      "objectId": "osm/way/80776251",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F207",
+      "city": "stuttgart",
+      "name": "Markthalle",
+      "objectId": "osm/way/9725108",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F208",
+      "city": "stuttgart",
+      "name": "Stiftskirche",
+      "objectId": "osm/way/9727140",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F209",
+      "city": "stuttgart",
+      "name": "Leonhardskirche",
+      "objectId": "osm/way/9862220",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F210",
+      "city": "leipzig",
+      "name": "Bundesverwaltungsgericht",
+      "objectId": "osm/node/13064221933",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F211",
+      "city": "leipzig",
+      "name": "Gewandhaus",
+      "objectId": "osm/relation/152769",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F212",
+      "city": "leipzig",
+      "name": "Neues Rathaus",
+      "objectId": "osm/relation/277361",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F213",
+      "city": "leipzig",
+      "name": "Grassimuseum",
+      "objectId": "osm/relation/4746",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F214",
+      "city": "leipzig",
+      "name": "Propsteikirche St. Trinitatis",
+      "objectId": "osm/relation/7211031",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F215",
+      "city": "leipzig",
+      "name": "Kroch-Hochhaus",
+      "objectId": "osm/way/125212973",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F216",
+      "city": "leipzig",
+      "name": "Oper Leipzig",
+      "objectId": "osm/way/18920139",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F217",
+      "city": "leipzig",
+      "name": "Völkerschlachtdenkmal",
+      "objectId": "osm/way/21357018",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F218",
+      "city": "leipzig",
+      "name": "Paulinum",
+      "objectId": "osm/way/226096975",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F219",
+      "city": "leipzig",
+      "name": "Museum der Bildenden Künste",
+      "objectId": "osm/way/22734771",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F220",
+      "city": "leipzig",
+      "name": "Russische Gedächtniskirche",
+      "objectId": "osm/way/23566049",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F221",
+      "city": "leipzig",
+      "name": "Alte Handelsbörse",
+      "objectId": "osm/way/24606480",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F222",
+      "city": "leipzig",
+      "name": "Nikolaikirche",
+      "objectId": "osm/way/24606979",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F223",
+      "city": "leipzig",
+      "name": "Versöhnungskirche",
+      "objectId": "osm/way/31072467",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F224",
+      "city": "leipzig",
+      "name": "Evangelisch-reformierte Kirche",
+      "objectId": "osm/way/32459512",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F225",
+      "city": "leipzig",
+      "name": "Gohliser Schlösschen",
+      "objectId": "osm/way/36232476",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F226",
+      "city": "leipzig",
+      "name": "Peterskirche",
+      "objectId": "osm/way/40860490",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F227",
+      "city": "leipzig",
+      "name": "Michaeliskirche",
+      "objectId": "osm/way/40861887",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F228",
+      "city": "leipzig",
+      "name": "Bayerischer Bahnhof",
+      "objectId": "osm/way/41311573",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F229",
+      "city": "leipzig",
+      "name": "Thomaskirche",
+      "objectId": "osm/way/41803555",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F230",
+      "city": "leipzig",
+      "name": "Lutherkirche",
+      "objectId": "osm/way/42445239",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F231",
+      "city": "leipzig",
+      "name": "",
+      "objectId": "osm/way/693100778",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F232",
+      "city": "leipzig",
+      "name": "Fernmeldeturm Leipzig-Holzhausen",
+      "objectId": "osm/way/77764787",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F233",
+      "city": "leipzig",
+      "name": "Altes Rathaus",
+      "objectId": "osm/way/8031319",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F234",
+      "city": "dortmund",
+      "name": "Florianturm",
+      "objectId": "osm/node/10724497797",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F235",
+      "city": "dortmund",
+      "name": "Hoesch Museum",
+      "objectId": "osm/node/12144775680",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F236",
+      "city": "dortmund",
+      "name": "Dortmund Hbf",
+      "objectId": "osm/node/1458488633",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F237",
+      "city": "dortmund",
+      "name": "Hohensyburg",
+      "objectId": "osm/relation/4296785",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F238",
+      "city": "dortmund",
+      "name": "Konzerthaus",
+      "objectId": "osm/way/1221515757",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F239",
+      "city": "dortmund",
+      "name": "Propsteikirche St. Johannes Baptist",
+      "objectId": "osm/way/139708537",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F240",
+      "city": "dortmund",
+      "name": "Sankt Urbanus",
+      "objectId": "osm/way/145253729",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F241",
+      "city": "dortmund",
+      "name": "Petrikirche",
+      "objectId": "osm/way/23641325",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F242",
+      "city": "dortmund",
+      "name": "Museum für Kunst und Kulturgeschichte",
+      "objectId": "osm/way/23718610",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F243",
+      "city": "dortmund",
+      "name": "Kaiser-Wilhelm-Denkmal",
+      "objectId": "osm/way/25012741",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F244",
+      "city": "dortmund",
+      "name": "Haus Bodelschwingh",
+      "objectId": "osm/way/27474314",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F245",
+      "city": "dortmund",
+      "name": "Liebfrauenkirche",
+      "objectId": "osm/way/31305227",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F246",
+      "city": "dortmund",
+      "name": "Deutsches Fußballmuseum",
+      "objectId": "osm/way/320198903",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F247",
+      "city": "dortmund",
+      "name": "Sankt-Nicolai-Kirche",
+      "objectId": "osm/way/32812984",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F248",
+      "city": "dortmund",
+      "name": "LWL-Industriemuseum Zeche Zollern",
+      "objectId": "osm/way/33627795",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F249",
+      "city": "dortmund",
+      "name": "Sankt Reinoldi-Kirche",
+      "objectId": "osm/way/34239929",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F250",
+      "city": "dortmund",
+      "name": "Altes Hafenamt",
+      "objectId": "osm/way/34945447",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F251",
+      "city": "dortmund",
+      "name": "St. Franziskus",
+      "objectId": "osm/way/40667568",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F252",
+      "city": "dortmund",
+      "name": "Dortmunder U – Zentrum für Kunst und Kreativität",
+      "objectId": "osm/way/415553662",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F253",
+      "city": "dortmund",
+      "name": "St. Bonifatius",
+      "objectId": "osm/way/53268813",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F254",
+      "city": "dortmund",
+      "name": "St. Martin",
+      "objectId": "osm/way/53656669",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F255",
+      "city": "dortmund",
+      "name": "Sankt Marien",
+      "objectId": "osm/way/53870398",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F256",
+      "city": "bremen",
+      "name": "Weserburg Museum für moderne Kunst",
+      "objectId": "osm/node/2520454182",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F257",
+      "city": "bremen",
+      "name": "Rathaus",
+      "objectId": "osm/relation/2190791",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F258",
+      "city": "bremen",
+      "name": "Focke-Museum",
+      "objectId": "osm/relation/2979110",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F259",
+      "city": "bremen",
+      "name": "Schütting",
+      "objectId": "osm/relation/3335570",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F260",
+      "city": "bremen",
+      "name": "Bremen Hauptbahnhof",
+      "objectId": "osm/relation/3340527",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F261",
+      "city": "bremen",
+      "name": "Fernmeldeturm Bremen",
+      "objectId": "osm/way/110900143",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F262",
+      "city": "bremen",
+      "name": "Sankt Michaelis",
+      "objectId": "osm/way/111612062",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F263",
+      "city": "bremen",
+      "name": "Schloss Schönebeck",
+      "objectId": "osm/way/161547823",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F264",
+      "city": "bremen",
+      "name": "Sankt Remberti",
+      "objectId": "osm/way/162252702",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F265",
+      "city": "bremen",
+      "name": "St.-Stephani-Kirche",
+      "objectId": "osm/way/163457337",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F266",
+      "city": "bremen",
+      "name": "Martinikirche",
+      "objectId": "osm/way/163626811",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F267",
+      "city": "bremen",
+      "name": "St. Johann",
+      "objectId": "osm/way/164166394",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F268",
+      "city": "bremen",
+      "name": "Haus der Bremischen Bürgerschaft",
+      "objectId": "osm/way/164227999",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F269",
+      "city": "bremen",
+      "name": "Paula-Becker-Modersohn-Haus",
+      "objectId": "osm/way/164333540",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F270",
+      "city": "bremen",
+      "name": "Roseliushaus",
+      "objectId": "osm/way/164333542",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F271",
+      "city": "bremen",
+      "name": "Haus des Glockenspiels",
+      "objectId": "osm/way/170465385",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F272",
+      "city": "bremen",
+      "name": "Sankt Pauli",
+      "objectId": "osm/way/185305138",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F273",
+      "city": "bremen",
+      "name": "Kunsthalle Bremen",
+      "objectId": "osm/way/192685359",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F274",
+      "city": "bremen",
+      "name": "St. Petri-Dom",
+      "objectId": "osm/way/224608409",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F275",
+      "city": "bremen",
+      "name": "Überseemuseum",
+      "objectId": "osm/way/247135794",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F276",
+      "city": "bremen",
+      "name": "Unser Lieben Frauen",
+      "objectId": "osm/way/374504643",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F277",
+      "city": "bremen",
+      "name": "Friedenskirche",
+      "objectId": "osm/way/42042859",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F278",
+      "city": "essen",
+      "name": "Aalto-Theater",
+      "objectId": "osm/node/280397516",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F279",
+      "city": "essen",
+      "name": "Red Dot Design Museum",
+      "objectId": "osm/node/304633128",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F280",
+      "city": "essen",
+      "name": "Ruhr Museum",
+      "objectId": "osm/node/621131210",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F281",
+      "city": "essen",
+      "name": "Lichtburggebäude",
+      "objectId": "osm/relation/13388514",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F282",
+      "city": "essen",
+      "name": "Museum Folkwang",
+      "objectId": "osm/relation/3707271",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F283",
+      "city": "essen",
+      "name": "Funkturm Essen",
+      "objectId": "osm/way/1169944107",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F284",
+      "city": "essen",
+      "name": "St. Lucius",
+      "objectId": "osm/way/117610415",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F285",
+      "city": "essen",
+      "name": "Siedlung Margarethenhöhe",
+      "objectId": "osm/way/1320655378",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F286",
+      "city": "essen",
+      "name": "Zeche Carl",
+      "objectId": "osm/way/142798148",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F287",
+      "city": "essen",
+      "name": "Evangelische Kirche Katernberg",
+      "objectId": "osm/way/176071955",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F288",
+      "city": "essen",
+      "name": "Essen Hauptbahnhof",
+      "objectId": "osm/way/25019213",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F289",
+      "city": "essen",
+      "name": "St. Andreas",
+      "objectId": "osm/way/25700084",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F290",
+      "city": "essen",
+      "name": "Philharmonie/ Saalbau",
+      "objectId": "osm/way/25716223",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F291",
+      "city": "essen",
+      "name": "St. Ludgerus",
+      "objectId": "osm/way/26498173",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F292",
+      "city": "essen",
+      "name": "Schloss Borbeck",
+      "objectId": "osm/way/27554748",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F293",
+      "city": "essen",
+      "name": "Villa Hügel",
+      "objectId": "osm/way/31653712",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F294",
+      "city": "essen",
+      "name": "Marktkirche",
+      "objectId": "osm/way/337205268",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F295",
+      "city": "essen",
+      "name": "Zeche Zollverein",
+      "objectId": "osm/way/35100527",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F296",
+      "city": "essen",
+      "name": "Auferstehungskirche",
+      "objectId": "osm/way/44913285",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F297",
+      "city": "essen",
+      "name": "Grillo-Theater",
+      "objectId": "osm/way/46580979",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F298",
+      "city": "essen",
+      "name": "Kreuzeskirche",
+      "objectId": "osm/way/51254929",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F299",
+      "city": "essen",
+      "name": "Domkirche Ss. Cosmas und Damian",
+      "objectId": "osm/way/53212149",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F300",
+      "city": "essen",
+      "name": "Friedenskirche",
+      "objectId": "osm/way/91647286",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F301",
+      "city": "essen",
+      "name": "St. Gertrud (Essen)",
+      "objectId": "wikidata/Q14541332",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F302",
+      "city": "dresden",
+      "name": "Sempergalerie",
+      "objectId": "osm/relation/3278006",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F303",
+      "city": "dresden",
+      "name": "Zwinger",
+      "objectId": "osm/relation/4019184",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F304",
+      "city": "dresden",
+      "name": "Hotel Taschenbergpalais Kempinski",
+      "objectId": "osm/relation/5671",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F305",
+      "city": "dresden",
+      "name": "Residenzschloss Dresden",
+      "objectId": "osm/relation/5764",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F306",
+      "city": "dresden",
+      "name": "Japanisches Palais",
+      "objectId": "osm/relation/6169",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F307",
+      "city": "dresden",
+      "name": "Militärhistorisches Museum der Bundeswehr",
+      "objectId": "osm/relation/8283747",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F308",
+      "city": "dresden",
+      "name": "Kreuzkirche",
+      "objectId": "osm/way/1087238064",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F309",
+      "city": "dresden",
+      "name": "Kathedrale Ss. Trinitatis",
+      "objectId": "osm/way/14879154",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F310",
+      "city": "dresden",
+      "name": "Fernsehturm Dresden",
+      "objectId": "osm/way/197647434",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F311",
+      "city": "dresden",
+      "name": "Kulturpalast",
+      "objectId": "osm/way/20490395",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F312",
+      "city": "dresden",
+      "name": "Verkehrsmuseum",
+      "objectId": "osm/way/20673807",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F313",
+      "city": "dresden",
+      "name": "Palais im Großen Garten",
+      "objectId": "osm/way/20675812",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F314",
+      "city": "dresden",
+      "name": "Dresden Hauptbahnhof",
+      "objectId": "osm/way/22764481",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F315",
+      "city": "dresden",
+      "name": "Lukaskirche",
+      "objectId": "osm/way/22996092",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F316",
+      "city": "dresden",
+      "name": "Frauenkirche",
+      "objectId": "osm/way/23040893",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F317",
+      "city": "dresden",
+      "name": "Langer Gang",
+      "objectId": "osm/way/23057817",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F318",
+      "city": "dresden",
+      "name": "Albertinum",
+      "objectId": "osm/way/23059208",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F319",
+      "city": "dresden",
+      "name": "Schloss Albrechtsberg",
+      "objectId": "osm/way/23246768",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F320",
+      "city": "dresden",
+      "name": "Semperoper",
+      "objectId": "osm/way/242305584",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F321",
+      "city": "dresden",
+      "name": "Dreikönigskirche",
+      "objectId": "osm/way/24249616",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F322",
+      "city": "dresden",
+      "name": "Trinitatiskirche",
+      "objectId": "osm/way/24357777",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F323",
+      "city": "dresden",
+      "name": "Christuskirche",
+      "objectId": "osm/way/24418310",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F324",
+      "city": "dresden",
+      "name": "Schloss Übigau",
+      "objectId": "osm/way/25137244",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F325",
+      "city": "dresden",
+      "name": "Schloss Eckberg",
+      "objectId": "osm/way/25298141",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F326",
+      "city": "dresden",
+      "name": "Lingnerschloss",
+      "objectId": "osm/way/30651836",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F327",
+      "city": "dresden",
+      "name": "Martin-Luther-Kirche",
+      "objectId": "osm/way/324339461",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F328",
+      "city": "dresden",
+      "name": "Yenidze",
+      "objectId": "osm/way/33719917",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F329",
+      "city": "dresden",
+      "name": "Hl. Simeon vom Wunderbaren Berge",
+      "objectId": "osm/way/42706546",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F330",
+      "city": "dresden",
+      "name": "Kirche zu Dresden-Loschwitz",
+      "objectId": "osm/way/44642112",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F331",
+      "city": "dresden",
+      "name": "Schloss Pillnitz",
+      "objectId": "osm/way/67147333",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F332",
+      "city": "hannover",
+      "name": "Niedersächsischer Landtag",
+      "objectId": "osm/relation/1170793",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F333",
+      "city": "hannover",
+      "name": "Welfenschloss",
+      "objectId": "osm/relation/2743600",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F334",
+      "city": "hannover",
+      "name": "Neues Rathaus",
+      "objectId": "osm/relation/313173",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F335",
+      "city": "hannover",
+      "name": "Niedersächsisches Landesmuseum",
+      "objectId": "osm/relation/364529",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F336",
+      "city": "hannover",
+      "name": "Schloss Marienburg",
+      "objectId": "osm/relation/6681741",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F337",
+      "city": "hannover",
+      "name": "Aegidienkirche",
+      "objectId": "osm/relation/7359339",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F338",
+      "city": "hannover",
+      "name": "VW-Tower",
+      "objectId": "osm/way/1247690037",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F339",
+      "city": "hannover",
+      "name": "Gartenkirche St. Marien",
+      "objectId": "osm/way/138392040",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F340",
+      "city": "hannover",
+      "name": "Apostelkirche",
+      "objectId": "osm/way/143090932",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F341",
+      "city": "hannover",
+      "name": "Historisches Museum Hannover",
+      "objectId": "osm/way/1491794926",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F342",
+      "city": "hannover",
+      "name": "Schloss Herrenhausen",
+      "objectId": "osm/way/153538022",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F343",
+      "city": "hannover",
+      "name": "",
+      "objectId": "osm/way/244482124",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F344",
+      "city": "hannover",
+      "name": "Hannover Hauptbahnhof",
+      "objectId": "osm/way/265614713",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F345",
+      "city": "hannover",
+      "name": "Neustädter Hof- und Stadtkirche",
+      "objectId": "osm/way/29173386",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F346",
+      "city": "hannover",
+      "name": "Schloss- und Stadtkirche St. Crucis",
+      "objectId": "osm/way/29348078",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F347",
+      "city": "hannover",
+      "name": "Anzeiger-Hochhaus",
+      "objectId": "osm/way/304133007",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F348",
+      "city": "hannover",
+      "name": "St. Clemens",
+      "objectId": "osm/way/357786647",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F349",
+      "city": "hannover",
+      "name": "Kuppelsaal",
+      "objectId": "osm/way/37761427",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F350",
+      "city": "hannover",
+      "name": "Opernhaus",
+      "objectId": "osm/way/4816458",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F351",
+      "city": "hannover",
+      "name": "Museum August Kestner",
+      "objectId": "osm/way/4816460",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F352",
+      "city": "hannover",
+      "name": "Marktkirche",
+      "objectId": "osm/way/5121355",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F353",
+      "city": "hannover",
+      "name": "Georgenpalais",
+      "objectId": "osm/way/5121415",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F354",
+      "city": "hannover",
+      "name": "St.-Elisabeth-Kirche",
+      "objectId": "osm/way/51260321",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F355",
+      "city": "hannover",
+      "name": "Lutherkirche",
+      "objectId": "osm/way/52994920",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F356",
+      "city": "hannover",
+      "name": "Sprengel Museum Hannover",
+      "objectId": "osm/way/560955703",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F357",
+      "city": "hannover",
+      "name": "Telemax",
+      "objectId": "osm/way/590712193",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F358",
+      "city": "hannover",
+      "name": "Christuskirche",
+      "objectId": "osm/way/7655778",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F359",
+      "city": "nuremberg",
+      "name": "Memorium Nürnberger Prozesse",
+      "objectId": "osm/node/1529939905",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F360",
+      "city": "nuremberg",
+      "name": "Kaiserburg",
+      "objectId": "osm/node/31013768",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F361",
+      "city": "nuremberg",
+      "name": "Altes Rathaus",
+      "objectId": "osm/relation/1841447",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F362",
+      "city": "nuremberg",
+      "name": "Kongresshalle",
+      "objectId": "osm/relation/6360",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F363",
+      "city": "nuremberg",
+      "name": "Germanisches Nationalmuseum",
+      "objectId": "osm/relation/7169027",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F364",
+      "city": "nuremberg",
+      "name": "Pellerhaus",
+      "objectId": "osm/relation/7471820",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F365",
+      "city": "nuremberg",
+      "name": "St. Jakob",
+      "objectId": "osm/way/10702249",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F366",
+      "city": "nuremberg",
+      "name": "Kartäuserkirche",
+      "objectId": "osm/way/1313082427",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F367",
+      "city": "nuremberg",
+      "name": "Nürnberg Hauptbahnhof",
+      "objectId": "osm/way/136288748",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F368",
+      "city": "nuremberg",
+      "name": "St. Sebald",
+      "objectId": "osm/way/139460727",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F369",
+      "city": "nuremberg",
+      "name": "Frauenkirche",
+      "objectId": "osm/way/143415043",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F370",
+      "city": "nuremberg",
+      "name": "Mauthalle",
+      "objectId": "osm/way/144721688",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F371",
+      "city": "nuremberg",
+      "name": "St. Lorenz",
+      "objectId": "osm/way/144721691",
+      "owner": "root225",
+      "tier": 500
+    },
+    {
+      "id": "F372",
+      "city": "nuremberg",
+      "name": "Heilig-Geist-Spital",
+      "objectId": "osm/way/221539177",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F373",
+      "city": "nuremberg",
+      "name": "Fernmeldeturm Nürnberg",
+      "objectId": "osm/way/23283521",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F374",
+      "city": "nuremberg",
+      "name": "Fembohaus",
+      "objectId": "osm/way/290771330",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F375",
+      "city": "nuremberg",
+      "name": "St. Elisabeth",
+      "objectId": "osm/way/313228637",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F376",
+      "city": "nuremberg",
+      "name": "St. Klara",
+      "objectId": "osm/way/315420977",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F377",
+      "city": "nuremberg",
+      "name": "Tucherschloss",
+      "objectId": "osm/way/31862065",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F378",
+      "city": "nuremberg",
+      "name": "St. Martha",
+      "objectId": "osm/way/32390850",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F379",
+      "city": "nuremberg",
+      "name": "Nassauer Haus",
+      "objectId": "osm/way/32397234",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F380",
+      "city": "nuremberg",
+      "name": "Albrecht-Dürer-Haus",
+      "objectId": "osm/way/32477251",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F381",
+      "city": "nuremberg",
+      "name": "Weinstadel",
+      "objectId": "osm/way/32496978",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F382",
+      "city": "nuremberg",
+      "name": "Staatstheater",
+      "objectId": "osm/way/32697339",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F383",
+      "city": "nuremberg",
+      "name": "Neues Museum",
+      "objectId": "osm/way/35399404",
+      "owner": "delegated159",
+      "tier": 500
+    },
+    {
+      "id": "F384",
+      "city": "nuremberg",
+      "name": "St. Egidien",
+      "objectId": "osm/way/363763914",
+      "owner": "delegated159",
+      "tier": 500
+    }
+  ],
+  "tier300": [
+    {
+      "number": "S001",
+      "city": "berlin",
+      "name": "Flughafen Tempelhof",
+      "object_id": "osm/relation/10466358",
+      "tier": "300"
+    },
+    {
+      "number": "S002",
+      "city": "berlin",
+      "name": "Abgeordnetenhaus von Berlin",
+      "object_id": "osm/relation/1154556",
+      "tier": "300"
+    },
+    {
+      "number": "S003",
+      "city": "berlin",
+      "name": "Gasometer Schöneberg",
+      "object_id": "osm/relation/13132134",
+      "tier": "300"
+    },
+    {
+      "number": "S004",
+      "city": "berlin",
+      "name": "Café Moskau",
+      "object_id": "osm/relation/1320420",
+      "tier": "300"
+    },
+    {
+      "number": "S005",
+      "city": "berlin",
+      "name": "Deutsche Oper Berlin",
+      "object_id": "osm/relation/13408555",
+      "tier": "300"
+    },
+    {
+      "number": "S007",
+      "city": "berlin",
+      "name": "Märkisches Museum",
+      "object_id": "osm/relation/1652105",
+      "tier": "300"
+    },
+    {
+      "number": "S008",
+      "city": "berlin",
+      "name": "Bendlerblock",
+      "object_id": "osm/relation/1687694",
+      "tier": "300"
+    },
+    {
+      "number": "S010",
+      "city": "berlin",
+      "name": "Staatsbibliothek zu Berlin",
+      "object_id": "osm/relation/180594",
+      "tier": "300"
+    },
+    {
+      "number": "S011",
+      "city": "berlin",
+      "name": "Altes Stadthaus",
+      "object_id": "osm/relation/23745",
+      "tier": "300"
+    },
+    {
+      "number": "S012",
+      "city": "berlin",
+      "name": "Bundesministerium der Finanzen",
+      "object_id": "osm/relation/280070",
+      "tier": "300"
+    },
+    {
+      "number": "S013",
+      "city": "berlin",
+      "name": "Museum für Naturkunde",
+      "object_id": "osm/relation/3290885",
+      "tier": "300"
+    },
+    {
+      "number": "S014",
+      "city": "berlin",
+      "name": "Kronprinzenpalais",
+      "object_id": "osm/relation/4284350",
+      "tier": "300"
+    },
+    {
+      "number": "S015",
+      "city": "berlin",
+      "name": "Adlon Kempinski",
+      "object_id": "osm/relation/4582978",
+      "tier": "300"
+    },
+    {
+      "number": "S016",
+      "city": "berlin",
+      "name": "Rathaus Schöneberg",
+      "object_id": "osm/relation/5684271",
+      "tier": "300"
+    },
+    {
+      "number": "S017",
+      "city": "berlin",
+      "name": "Philipp-Schaeffer-Bibliothek",
+      "object_id": "osm/relation/5847114",
+      "tier": "300"
+    },
+    {
+      "number": "S018",
+      "city": "berlin",
+      "name": "Humboldt-Universität zu Berlin",
+      "object_id": "osm/relation/6647",
+      "tier": "300"
+    },
+    {
+      "number": "S020",
+      "city": "berlin",
+      "name": "Planetarium am Insulaner",
+      "object_id": "osm/relation/8102166",
+      "tier": "300"
+    },
+    {
+      "number": "S021",
+      "city": "berlin",
+      "name": "Staatsbibliothek zu Berlin",
+      "object_id": "osm/relation/9261463",
+      "tier": "300"
+    },
+    {
+      "number": "S022",
+      "city": "berlin",
+      "name": "Science Center Spectrum",
+      "object_id": "osm/way/102813193",
+      "tier": "300"
+    },
+    {
+      "number": "S023",
+      "city": "berlin",
+      "name": "E-Werk",
+      "object_id": "osm/way/1056820805",
+      "tier": "300"
+    },
+    {
+      "number": "S024",
+      "city": "berlin",
+      "name": "Carillon",
+      "object_id": "osm/way/1065494287",
+      "tier": "300"
+    },
+    {
+      "number": "S025",
+      "city": "berlin",
+      "name": "Jugend-, Kultur- und Informartionzentrum Wasserturm e.V.",
+      "object_id": "osm/way/106886812",
+      "tier": "300"
+    },
+    {
+      "number": "S027",
+      "city": "berlin",
+      "name": "Nashornhaus",
+      "object_id": "osm/way/1102580371",
+      "tier": "300"
+    },
+    {
+      "number": "S028",
+      "city": "berlin",
+      "name": "Kreuzberg Tower",
+      "object_id": "osm/way/112149783",
+      "tier": "300"
+    },
+    {
+      "number": "S029",
+      "city": "berlin",
+      "name": "Alfred-Brehm-Haus",
+      "object_id": "osm/way/11269594",
+      "tier": "300"
+    },
+    {
+      "number": "S030",
+      "city": "berlin",
+      "name": "Schloss Friedrichsfelde",
+      "object_id": "osm/way/11269749",
+      "tier": "300"
+    },
+    {
+      "number": "S033",
+      "city": "berlin",
+      "name": "Bundesrat",
+      "object_id": "osm/way/11688785",
+      "tier": "300"
+    },
+    {
+      "number": "S034",
+      "city": "berlin",
+      "name": "Haus Bastian",
+      "object_id": "osm/way/121717655",
+      "tier": "300"
+    },
+    {
+      "number": "S035",
+      "city": "berlin",
+      "name": "Mausoleum im Schlosspark Charlottenburg",
+      "object_id": "osm/way/122226140",
+      "tier": "300"
+    },
+    {
+      "number": "S036",
+      "city": "berlin",
+      "name": "Große Orangerie Schloss Charlottenburg",
+      "object_id": "osm/way/122384017",
+      "tier": "300"
+    },
+    {
+      "number": "S041",
+      "city": "berlin",
+      "name": "Singakademie",
+      "object_id": "osm/way/131835798",
+      "tier": "300"
+    },
+    {
+      "number": "S045",
+      "city": "berlin",
+      "name": "Wasserturm Prenzlauer Berg",
+      "object_id": "osm/way/137353386",
+      "tier": "300"
+    },
+    {
+      "number": "S048",
+      "city": "berlin",
+      "name": "Alter Markt 9",
+      "object_id": "osm/way/139628963",
+      "tier": "300"
+    },
+    {
+      "number": "S050",
+      "city": "berlin",
+      "name": "Zeughaus",
+      "object_id": "osm/way/15971186",
+      "tier": "300"
+    },
+    {
+      "number": "S051",
+      "city": "berlin",
+      "name": "Amerika-Gedenkbibliothek (AGB)",
+      "object_id": "osm/way/16112544",
+      "tier": "300"
+    },
+    {
+      "number": "S055",
+      "city": "berlin",
+      "name": "asisi Panorama Berlin Die Mauer",
+      "object_id": "osm/way/182566447",
+      "tier": "300"
+    },
+    {
+      "number": "S056",
+      "city": "berlin",
+      "name": "Zoo-Aquarium Berlin",
+      "object_id": "osm/way/18330093",
+      "tier": "300"
+    },
+    {
+      "number": "S057",
+      "city": "berlin",
+      "name": "Museum für Architekturzeichnung",
+      "object_id": "osm/way/184592746",
+      "tier": "300"
+    },
+    {
+      "number": "S058",
+      "city": "berlin",
+      "name": "Neuer Marstall",
+      "object_id": "osm/way/194079583",
+      "tier": "300"
+    },
+    {
+      "number": "S060",
+      "city": "berlin",
+      "name": "Ullsteinhaus",
+      "object_id": "osm/way/219118937",
+      "tier": "300"
+    },
+    {
+      "number": "S063",
+      "city": "berlin",
+      "name": "Soho House Berlin",
+      "object_id": "osm/way/23278333",
+      "tier": "300"
+    },
+    {
+      "number": "S064",
+      "city": "berlin",
+      "name": "Neue Synagoge",
+      "object_id": "osm/way/24054915",
+      "tier": "300"
+    },
+    {
+      "number": "S065",
+      "city": "berlin",
+      "name": "Neue Wache",
+      "object_id": "osm/way/24240381",
+      "tier": "300"
+    },
+    {
+      "number": "S066",
+      "city": "berlin",
+      "name": "Prinzessinnenpalais",
+      "object_id": "osm/way/24247322",
+      "tier": "300"
+    },
+    {
+      "number": "S068",
+      "city": "berlin",
+      "name": "Alte Bibliothek",
+      "object_id": "osm/way/24247456",
+      "tier": "300"
+    },
+    {
+      "number": "S070",
+      "city": "berlin",
+      "name": "Jüdisches Museum Berlin",
+      "object_id": "osm/way/24649550",
+      "tier": "300"
+    },
+    {
+      "number": "S071",
+      "city": "berlin",
+      "name": "Gründerzeitmuseum im Gutshaus Mahlsdorf",
+      "object_id": "osm/way/26144213",
+      "tier": "300"
+    },
+    {
+      "number": "S077",
+      "city": "berlin",
+      "name": "Ephraim-Palais",
+      "object_id": "osm/way/285972948",
+      "tier": "300"
+    },
+    {
+      "number": "S081",
+      "city": "berlin",
+      "name": "Zeiss-Großplanetarium",
+      "object_id": "osm/way/329262981",
+      "tier": "300"
+    },
+    {
+      "number": "S083",
+      "city": "berlin",
+      "name": "AEG Turbinenfabrik",
+      "object_id": "osm/way/35467228",
+      "tier": "300"
+    },
+    {
+      "number": "S085",
+      "city": "berlin",
+      "name": "Philologische Bibliothek",
+      "object_id": "osm/way/379437309",
+      "tier": "300"
+    },
+    {
+      "number": "S088",
+      "city": "berlin",
+      "name": "Palais Schwerin",
+      "object_id": "osm/way/43159507",
+      "tier": "300"
+    },
+    {
+      "number": "S098",
+      "city": "berlin",
+      "name": "Fort Hahneberg",
+      "object_id": "osm/way/50898721",
+      "tier": "300"
+    },
+    {
+      "number": "S099",
+      "city": "berlin",
+      "name": "Nördliches Torhaus",
+      "object_id": "osm/way/518071762",
+      "tier": "300"
+    },
+    {
+      "number": "S105",
+      "city": "berlin",
+      "name": "Corbusierhaus",
+      "object_id": "osm/way/8080757",
+      "tier": "300"
+    },
+    {
+      "number": "S106",
+      "city": "berlin",
+      "name": "Friedrichstraßenpassage / Kunsthaus Tacheles",
+      "object_id": "osm/way/940754304",
+      "tier": "300"
+    },
+    {
+      "number": "S107",
+      "city": "berlin",
+      "name": "Große Neugierde",
+      "object_id": "osm/way/96459421",
+      "tier": "300"
+    },
+    {
+      "number": "S109",
+      "city": "bremen",
+      "name": "Kaiserliche Oberpostdirektion",
+      "object_id": "osm/relation/13257857",
+      "tier": "300"
+    },
+    {
+      "number": "S110",
+      "city": "bremen",
+      "name": "Wilhelm Wagenfeld Haus",
+      "object_id": "osm/relation/19427",
+      "tier": "300"
+    },
+    {
+      "number": "S111",
+      "city": "bremen",
+      "name": "Der Senator für Finanzen",
+      "object_id": "osm/relation/2190540",
+      "tier": "300"
+    },
+    {
+      "number": "S112",
+      "city": "bremen",
+      "name": "Landgericht Bremen",
+      "object_id": "osm/relation/2193685",
+      "tier": "300"
+    },
+    {
+      "number": "S114",
+      "city": "bremen",
+      "name": "Herrenhaus \"Egestorff-Stiftung Altenheim\"",
+      "object_id": "osm/relation/8408090",
+      "tier": "300"
+    },
+    {
+      "number": "S135",
+      "city": "bremen",
+      "name": "Villa Rutenberg",
+      "object_id": "osm/way/163254697",
+      "tier": "300"
+    },
+    {
+      "number": "S136",
+      "city": "bremen",
+      "name": "Kaiserliche Oberpostdirektion (Bremen)",
+      "object_id": "osm/way/164501814",
+      "tier": "300"
+    },
+    {
+      "number": "S137",
+      "city": "bremen",
+      "name": "Universität Bremen (ZARM, Fallturm)",
+      "object_id": "osm/way/180344326",
+      "tier": "300"
+    },
+    {
+      "number": "S138",
+      "city": "bremen",
+      "name": "Kulturzentrum Schlachthof",
+      "object_id": "osm/way/23044599",
+      "tier": "300"
+    },
+    {
+      "number": "S142",
+      "city": "cologne",
+      "name": "Oberlandesgericht Köln (Justizgebäude Reichenspergerplatz)",
+      "object_id": "osm/relation/1865779",
+      "tier": "300"
+    },
+    {
+      "number": "S144",
+      "city": "cologne",
+      "name": "Alte Universität — Claudiusstraße 1",
+      "object_id": "osm/relation/2581430",
+      "tier": "300"
+    },
+    {
+      "number": "S145",
+      "city": "cologne",
+      "name": "Hauptgebäude Universität zu Köln",
+      "object_id": "osm/relation/3472110",
+      "tier": "300"
+    },
+    {
+      "number": "S149",
+      "city": "cologne",
+      "name": "Colonia-Haus",
+      "object_id": "osm/way/1371910972",
+      "tier": "300"
+    },
+    {
+      "number": "S151",
+      "city": "cologne",
+      "name": "Fort X",
+      "object_id": "osm/way/155422545",
+      "tier": "300"
+    },
+    {
+      "number": "S152",
+      "city": "cologne",
+      "name": "Biogarten Thurner Hof",
+      "object_id": "osm/way/167106569",
+      "tier": "300"
+    },
+    {
+      "number": "S153",
+      "city": "cologne",
+      "name": "Alter Wartesaal",
+      "object_id": "osm/way/176438284",
+      "tier": "300"
+    },
+    {
+      "number": "S158",
+      "city": "cologne",
+      "name": "Hochschule für Musik und Tanz Köln",
+      "object_id": "osm/way/202117250",
+      "tier": "300"
+    },
+    {
+      "number": "S159",
+      "city": "cologne",
+      "name": "Aqualand Freizeitbad",
+      "object_id": "osm/way/215574672",
+      "tier": "300"
+    },
+    {
+      "number": "S165",
+      "city": "cologne",
+      "name": "KOMED",
+      "object_id": "osm/way/23113727",
+      "tier": "300"
+    },
+    {
+      "number": "S166",
+      "city": "cologne",
+      "name": "Deutsches Sport- und Olympiamuseum",
+      "object_id": "osm/way/23482434",
+      "tier": "300"
+    },
+    {
+      "number": "S168",
+      "city": "cologne",
+      "name": "Justizgebäude am Appellhofplatz",
+      "object_id": "osm/way/24234937",
+      "tier": "300"
+    },
+    {
+      "number": "S175",
+      "city": "cologne",
+      "name": "Südamerikahaus",
+      "object_id": "osm/way/29031414",
+      "tier": "300"
+    },
+    {
+      "number": "S176",
+      "city": "cologne",
+      "name": "Hippodom",
+      "object_id": "osm/way/29050209",
+      "tier": "300"
+    },
+    {
+      "number": "S177",
+      "city": "cologne",
+      "name": "Dreikönigenpförtchen",
+      "object_id": "osm/way/30079779",
+      "tier": "300"
+    },
+    {
+      "number": "S179",
+      "city": "cologne",
+      "name": "Messeturm",
+      "object_id": "osm/way/32878250",
+      "tier": "300"
+    },
+    {
+      "number": "S182",
+      "city": "cologne",
+      "name": "Ulrepforte",
+      "object_id": "osm/way/35006256",
+      "tier": "300"
+    },
+    {
+      "number": "S184",
+      "city": "cologne",
+      "name": "Severinstorburg",
+      "object_id": "osm/way/42693266",
+      "tier": "300"
+    },
+    {
+      "number": "S191",
+      "city": "cologne",
+      "name": "Bahnhof Deutz/Messe",
+      "object_id": "osm/way/50752511",
+      "tier": "300"
+    },
+    {
+      "number": "S196",
+      "city": "cologne",
+      "name": "LANXESS arena",
+      "object_id": "osm/way/7827669",
+      "tier": "300"
+    },
+    {
+      "number": "S198",
+      "city": "cologne",
+      "name": "Geographie Rundbau",
+      "object_id": "osm/way/83266763",
+      "tier": "300"
+    },
+    {
+      "number": "S202",
+      "city": "dortmund",
+      "name": "Standesamt Dortmund",
+      "object_id": "osm/way/104749640",
+      "tier": "300"
+    },
+    {
+      "number": "S208",
+      "city": "dortmund",
+      "name": "Dortmund Hauptbahnhof reception building",
+      "object_id": "osm/way/23028131",
+      "tier": "300"
+    },
+    {
+      "number": "S209",
+      "city": "dortmund",
+      "name": "Wasserschloss Haus Rodenberg",
+      "object_id": "osm/way/23043649",
+      "tier": "300"
+    },
+    {
+      "number": "S210",
+      "city": "dortmund",
+      "name": "Westfalenhalle",
+      "object_id": "osm/way/23920094",
+      "tier": "300"
+    },
+    {
+      "number": "S212",
+      "city": "dortmund",
+      "name": "Schloss Westhusen",
+      "object_id": "osm/way/25429087",
+      "tier": "300"
+    },
+    {
+      "number": "S213",
+      "city": "dortmund",
+      "name": "Vincketurm",
+      "object_id": "osm/way/26515687",
+      "tier": "300"
+    },
+    {
+      "number": "S216",
+      "city": "dortmund",
+      "name": "Haus Schulte-Witten",
+      "object_id": "osm/way/29364654",
+      "tier": "300"
+    },
+    {
+      "number": "S224",
+      "city": "dortmund",
+      "name": "Löschzug 15 Kirchhörde/Löttringhausen",
+      "object_id": "osm/way/47132140",
+      "tier": "300"
+    },
+    {
+      "number": "S228",
+      "city": "dortmund",
+      "name": "Landgericht Dortmund",
+      "object_id": "osm/way/53582301",
+      "tier": "300"
+    },
+    {
+      "number": "S234",
+      "city": "dresden",
+      "name": "Barkhausen-Bau",
+      "object_id": "osm/relation/103144",
+      "tier": "300"
+    },
+    {
+      "number": "S235",
+      "city": "dresden",
+      "name": "Mollier-Bau",
+      "object_id": "osm/relation/14301",
+      "tier": "300"
+    },
+    {
+      "number": "S236",
+      "city": "dresden",
+      "name": "Sächsisches Staatsarchiv - Hauptstaatsarchiv Dresden",
+      "object_id": "osm/relation/2817511",
+      "tier": "300"
+    },
+    {
+      "number": "S238",
+      "city": "dresden",
+      "name": "Sächsischer Landtag - Sakski krajny sejm",
+      "object_id": "osm/relation/3273049",
+      "tier": "300"
+    },
+    {
+      "number": "S239",
+      "city": "dresden",
+      "name": "Kurländer Palais",
+      "object_id": "osm/relation/3302402",
+      "tier": "300"
+    },
+    {
+      "number": "S240",
+      "city": "dresden",
+      "name": "Zwinger",
+      "object_id": "osm/relation/4283218",
+      "tier": "300"
+    },
+    {
+      "number": "S242",
+      "city": "dresden",
+      "name": "Deutsches Hygiene-Museum",
+      "object_id": "osm/relation/5651",
+      "tier": "300"
+    },
+    {
+      "number": "S243",
+      "city": "dresden",
+      "name": "Sächsisches Ständehaus",
+      "object_id": "osm/relation/5760",
+      "tier": "300"
+    },
+    {
+      "number": "S244",
+      "city": "dresden",
+      "name": "Kunstakademie",
+      "object_id": "osm/relation/5761",
+      "tier": "300"
+    },
+    {
+      "number": "S246",
+      "city": "dresden",
+      "name": "Neues Rathaus",
+      "object_id": "osm/relation/5789",
+      "tier": "300"
+    },
+    {
+      "number": "S247",
+      "city": "dresden",
+      "name": "Landgericht Dresden",
+      "object_id": "osm/relation/5844",
+      "tier": "300"
+    },
+    {
+      "number": "S248",
+      "city": "dresden",
+      "name": "Sächsisches Staatsministerium für Kultus / Sächsisches Staatsministerium der Finanzen",
+      "object_id": "osm/relation/6170",
+      "tier": "300"
+    },
+    {
+      "number": "S250",
+      "city": "dresden",
+      "name": "Sächsische Staatskanzlei / Sächsisches Staatsministerium für Infrastruktur und Landesentwicklung",
+      "object_id": "osm/relation/78454",
+      "tier": "300"
+    },
+    {
+      "number": "S252",
+      "city": "dresden",
+      "name": "Landesamt für Umwelt Landwirtschaft und Geologie",
+      "object_id": "osm/way/115767945",
+      "tier": "300"
+    },
+    {
+      "number": "S260",
+      "city": "dresden",
+      "name": "Panometer Dresden",
+      "object_id": "osm/way/19072130",
+      "tier": "300"
+    },
+    {
+      "number": "S262",
+      "city": "dresden",
+      "name": "Schauspielhaus",
+      "object_id": "osm/way/20674314",
+      "tier": "300"
+    },
+    {
+      "number": "S263",
+      "city": "dresden",
+      "name": "Trefftz-Bau",
+      "object_id": "osm/way/22903470",
+      "tier": "300"
+    },
+    {
+      "number": "S265",
+      "city": "dresden",
+      "name": "Mathematisch-Physikalischer Salon",
+      "object_id": "osm/way/23039960",
+      "tier": "300"
+    },
+    {
+      "number": "S266",
+      "city": "dresden",
+      "name": "Stadtbezirksamt Altstadt",
+      "object_id": "osm/way/23084603",
+      "tier": "300"
+    },
+    {
+      "number": "S267",
+      "city": "dresden",
+      "name": "Sächsisches Staatsministerium der Justiz und für Demokratie, Europa und Gleichstellung",
+      "object_id": "osm/way/23124656",
+      "tier": "300"
+    },
+    {
+      "number": "S270",
+      "city": "dresden",
+      "name": "Beyer-Bau",
+      "object_id": "osm/way/23324475",
+      "tier": "300"
+    },
+    {
+      "number": "S271",
+      "city": "dresden",
+      "name": "Berndt-Bau",
+      "object_id": "osm/way/23326183",
+      "tier": "300"
+    },
+    {
+      "number": "S274",
+      "city": "dresden",
+      "name": "Bahnhof Dresden-Neustadt",
+      "object_id": "osm/way/238582225",
+      "tier": "300"
+    },
+    {
+      "number": "S275",
+      "city": "dresden",
+      "name": "Stadtbezirksamt Plauen",
+      "object_id": "osm/way/24383291",
+      "tier": "300"
+    },
+    {
+      "number": "S276",
+      "city": "dresden",
+      "name": "Coselpalais",
+      "object_id": "osm/way/244247409",
+      "tier": "300"
+    },
+    {
+      "number": "S278",
+      "city": "dresden",
+      "name": "Landhaus",
+      "object_id": "osm/way/245999171",
+      "tier": "300"
+    },
+    {
+      "number": "S282",
+      "city": "dresden",
+      "name": "Sächsisches Landesamt zur Regelung offener Vermögensfragen",
+      "object_id": "osm/way/25777690",
+      "tier": "300"
+    },
+    {
+      "number": "S283",
+      "city": "dresden",
+      "name": "Arbeitsgericht, Sozialgericht, Verwaltungsgericht Dresden",
+      "object_id": "osm/way/25777712",
+      "tier": "300"
+    },
+    {
+      "number": "S284",
+      "city": "dresden",
+      "name": "Technische Sammlungen Dresden",
+      "object_id": "osm/way/27444107",
+      "tier": "300"
+    },
+    {
+      "number": "S285",
+      "city": "dresden",
+      "name": "Sozialamt",
+      "object_id": "osm/way/27444123",
+      "tier": "300"
+    },
+    {
+      "number": "S289",
+      "city": "dresden",
+      "name": "Begerburg",
+      "object_id": "osm/way/35382375",
+      "tier": "300"
+    },
+    {
+      "number": "S301",
+      "city": "dresden",
+      "name": "Georgenbau",
+      "object_id": "osm/way/76196047",
+      "tier": "300"
+    },
+    {
+      "number": "S302",
+      "city": "dusseldorf",
+      "name": "Schloss Benrath – Westflügel / Naturkundemuseum",
+      "object_id": "osm/relation/1320514",
+      "tier": "300"
+    },
+    {
+      "number": "S303",
+      "city": "dusseldorf",
+      "name": "Schloss Benrath, Benrather Schloßallee 106",
+      "object_id": "osm/relation/1320515",
+      "tier": "300"
+    },
+    {
+      "number": "S304",
+      "city": "dusseldorf",
+      "name": "Bezirksregierung Düsseldorf",
+      "object_id": "osm/relation/1956183",
+      "tier": "300"
+    },
+    {
+      "number": "S305",
+      "city": "dusseldorf",
+      "name": "Unlabelled target (osm/relation/1985633)",
+      "object_id": "osm/relation/1985633",
+      "tier": "300"
+    },
+    {
+      "number": "S306",
+      "city": "dusseldorf",
+      "name": "Stahlhof",
+      "object_id": "osm/relation/4548819",
+      "tier": "300"
+    },
+    {
+      "number": "S325",
+      "city": "dusseldorf",
+      "name": "Burgplatz 1, former Kunstgewerbeschule",
+      "object_id": "osm/way/23442925",
+      "tier": "300"
+    },
+    {
+      "number": "S328",
+      "city": "dusseldorf",
+      "name": "IT.NRW",
+      "object_id": "osm/way/297214268",
+      "tier": "300"
+    },
+    {
+      "number": "S332",
+      "city": "dusseldorf",
+      "name": "Burg Angermund",
+      "object_id": "osm/way/315538521",
+      "tier": "300"
+    },
+    {
+      "number": "S357",
+      "city": "dusseldorf",
+      "name": "Schloss Heltorf",
+      "object_id": "osm/way/575149878",
+      "tier": "300"
+    },
+    {
+      "number": "S358",
+      "city": "dusseldorf",
+      "name": "Bernburger Straße 44 school building",
+      "object_id": "osm/way/587673581",
+      "tier": "300"
+    },
+    {
+      "number": "S363",
+      "city": "dusseldorf",
+      "name": "Grundschule Kaiserswerth",
+      "object_id": "osm/way/94175743",
+      "tier": "300"
+    },
+    {
+      "number": "S364",
+      "city": "dusseldorf",
+      "name": "Schloss Eller",
+      "object_id": "osm/way/94511158",
+      "tier": "300"
+    },
+    {
+      "number": "S369",
+      "city": "essen",
+      "name": "Kreuzgang",
+      "object_id": "osm/relation/533999",
+      "tier": "300"
+    },
+    {
+      "number": "S375",
+      "city": "essen",
+      "name": "Haus Heck",
+      "object_id": "osm/way/137851428",
+      "tier": "300"
+    },
+    {
+      "number": "S384",
+      "city": "essen",
+      "name": "Colosseum Theater",
+      "object_id": "osm/way/25707434",
+      "tier": "300"
+    },
+    {
+      "number": "S385",
+      "city": "essen",
+      "name": "St. Fronleichnam",
+      "object_id": "osm/way/27577641",
+      "tier": "300"
+    },
+    {
+      "number": "S393",
+      "city": "essen",
+      "name": "Haus der Technik",
+      "object_id": "osm/way/46922261",
+      "tier": "300"
+    },
+    {
+      "number": "S394",
+      "city": "essen",
+      "name": "Atrium",
+      "object_id": "osm/way/53211835",
+      "tier": "300"
+    },
+    {
+      "number": "S395",
+      "city": "essen",
+      "name": "Atrium",
+      "object_id": "osm/way/53211850",
+      "tier": "300"
+    },
+    {
+      "number": "S397",
+      "city": "essen",
+      "name": "Alte Synagoge",
+      "object_id": "osm/way/56149749",
+      "tier": "300"
+    },
+    {
+      "number": "S398",
+      "city": "essen",
+      "name": "Hundertwasserhaus",
+      "object_id": "osm/way/56158869",
+      "tier": "300"
+    },
+    {
+      "number": "S402",
+      "city": "frankfurt",
+      "name": "Senckenberg Biodiversität und Klima Forschungszentrum",
+      "object_id": "osm/relation/12551010",
+      "tier": "300"
+    },
+    {
+      "number": "S403",
+      "city": "frankfurt",
+      "name": "Halle 8",
+      "object_id": "osm/relation/6641508",
+      "tier": "300"
+    },
+    {
+      "number": "S404",
+      "city": "frankfurt",
+      "name": "Halle 9",
+      "object_id": "osm/relation/6641509",
+      "tier": "300"
+    },
+    {
+      "number": "S409",
+      "city": "frankfurt",
+      "name": "Bockenheimer Depot",
+      "object_id": "osm/way/13984368",
+      "tier": "300"
+    },
+    {
+      "number": "S412",
+      "city": "frankfurt",
+      "name": "Frankfurt Hauptbahnhof",
+      "object_id": "osm/way/154495112",
+      "tier": "300"
+    },
+    {
+      "number": "S414",
+      "city": "frankfurt",
+      "name": "Historischer Treppenturm",
+      "object_id": "osm/way/174487228",
+      "tier": "300"
+    },
+    {
+      "number": "S416",
+      "city": "frankfurt",
+      "name": "Gartenflügel",
+      "object_id": "osm/way/232461876",
+      "tier": "300"
+    },
+    {
+      "number": "S417",
+      "city": "frankfurt",
+      "name": "Forum",
+      "object_id": "osm/way/23915969",
+      "tier": "300"
+    },
+    {
+      "number": "S420",
+      "city": "frankfurt",
+      "name": "Großmarkthalle",
+      "object_id": "osm/way/300429302",
+      "tier": "300"
+    },
+    {
+      "number": "S423",
+      "city": "frankfurt",
+      "name": "I.G.-Farben-Haus",
+      "object_id": "osm/way/321136070",
+      "tier": "300"
+    },
+    {
+      "number": "S431",
+      "city": "frankfurt",
+      "name": "Villa Holzmann",
+      "object_id": "osm/way/70908761",
+      "tier": "300"
+    },
+    {
+      "number": "S434",
+      "city": "frankfurt",
+      "name": "Bürgersaalbau",
+      "object_id": "osm/way/72449471",
+      "tier": "300"
+    },
+    {
+      "number": "S435",
+      "city": "frankfurt",
+      "name": "Steinernes Haus",
+      "object_id": "osm/way/72471247",
+      "tier": "300"
+    },
+    {
+      "number": "S439",
+      "city": "frankfurt",
+      "name": "Galluswarte",
+      "object_id": "osm/way/86342171",
+      "tier": "300"
+    },
+    {
+      "number": "S440",
+      "city": "frankfurt",
+      "name": "Friedberger Warte",
+      "object_id": "osm/way/89571101",
+      "tier": "300"
+    },
+    {
+      "number": "S449",
+      "city": "hamburg",
+      "name": "Altonaer Rathaus",
+      "object_id": "osm/relation/1161366",
+      "tier": "300"
+    },
+    {
+      "number": "S450",
+      "city": "hamburg",
+      "name": "Altbau der Staats- und Universitätsbibliothek Hamburg",
+      "object_id": "osm/relation/2882277",
+      "tier": "300"
+    },
+    {
+      "number": "S451",
+      "city": "hamburg",
+      "name": "Justizbehörde",
+      "object_id": "osm/relation/308234",
+      "tier": "300"
+    },
+    {
+      "number": "S452",
+      "city": "hamburg",
+      "name": "Ü35",
+      "object_id": "osm/relation/6560292",
+      "tier": "300"
+    },
+    {
+      "number": "S456",
+      "city": "hamburg",
+      "name": "Bahnhof Harburg",
+      "object_id": "osm/way/129246841",
+      "tier": "300"
+    },
+    {
+      "number": "S458",
+      "city": "hamburg",
+      "name": "Alstertalmuseum",
+      "object_id": "osm/way/135568250",
+      "tier": "300"
+    },
+    {
+      "number": "S471",
+      "city": "hamburg",
+      "name": "Audimax",
+      "object_id": "osm/way/26315374",
+      "tier": "300"
+    },
+    {
+      "number": "S475",
+      "city": "hamburg",
+      "name": "Herrenhaus Wellingsbüttel",
+      "object_id": "osm/way/27673839",
+      "tier": "300"
+    },
+    {
+      "number": "S478",
+      "city": "hamburg",
+      "name": "Ehemaliges Finanzamt Beim Schlump / Monetastraße 5",
+      "object_id": "osm/way/30273466",
+      "tier": "300"
+    },
+    {
+      "number": "S480",
+      "city": "hamburg",
+      "name": "Deutsche Bundesbank Hauptverwaltung Hamburg",
+      "object_id": "osm/way/32349745",
+      "tier": "300"
+    },
+    {
+      "number": "S481",
+      "city": "hamburg",
+      "name": "HFBK Hamburg main building, Lerchenfeld 2",
+      "object_id": "osm/way/32562467",
+      "tier": "300"
+    },
+    {
+      "number": "S497",
+      "city": "hamburg",
+      "name": "Davidwache",
+      "object_id": "osm/way/48050726",
+      "tier": "300"
+    },
+    {
+      "number": "S527",
+      "city": "hamburg",
+      "name": "Deutsches Zollmuseum",
+      "object_id": "osm/way/60578529",
+      "tier": "300"
+    },
+    {
+      "number": "S528",
+      "city": "hamburg",
+      "name": "Leuchtturm Neuwerk",
+      "object_id": "osm/way/62040943",
+      "tier": "300"
+    },
+    {
+      "number": "S530",
+      "city": "hamburg",
+      "name": "Palmspeicher",
+      "object_id": "osm/way/95534457",
+      "tier": "300"
+    },
+    {
+      "number": "S531",
+      "city": "hamburg",
+      "name": "Polizeikommissariat 15 - Davidwache",
+      "object_id": "osm/way/973035313",
+      "tier": "300"
+    },
+    {
+      "number": "S534",
+      "city": "hannover",
+      "name": "Akademiegebäude Bismarckstraße",
+      "object_id": "osm/relation/12918858",
+      "tier": "300"
+    },
+    {
+      "number": "S535",
+      "city": "hannover",
+      "name": "Amtsgericht Hannover Old Court Building",
+      "object_id": "osm/relation/2511728",
+      "tier": "300"
+    },
+    {
+      "number": "S536",
+      "city": "hannover",
+      "name": "Niedersächsisches Finanzministerium",
+      "object_id": "osm/relation/4662941",
+      "tier": "300"
+    },
+    {
+      "number": "S537",
+      "city": "hannover",
+      "name": "Niedersächsisches Ministerium für Umwelt, Energie und Klimaschutz",
+      "object_id": "osm/relation/60087",
+      "tier": "300"
+    },
+    {
+      "number": "S540",
+      "city": "hannover",
+      "name": "Orangerie",
+      "object_id": "osm/way/10142074",
+      "tier": "300"
+    },
+    {
+      "number": "S542",
+      "city": "hannover",
+      "name": "Palais Grote",
+      "object_id": "osm/way/124426765",
+      "tier": "300"
+    },
+    {
+      "number": "S552",
+      "city": "hannover",
+      "name": "Lindener Marktplatz 12, Hannover",
+      "object_id": "osm/way/229833609",
+      "tier": "300"
+    },
+    {
+      "number": "S553",
+      "city": "hannover",
+      "name": "Lindener Marktplatz 2",
+      "object_id": "osm/way/229833612",
+      "tier": "300"
+    },
+    {
+      "number": "S556",
+      "city": "hannover",
+      "name": "Neues Lindener Rathaus",
+      "object_id": "osm/way/237417738",
+      "tier": "300"
+    },
+    {
+      "number": "S558",
+      "city": "hannover",
+      "name": "Königlicher Pferdestall",
+      "object_id": "osm/way/28555077",
+      "tier": "300"
+    },
+    {
+      "number": "S560",
+      "city": "hannover",
+      "name": "Philosophische Fakultät",
+      "object_id": "osm/way/30635651",
+      "tier": "300"
+    },
+    {
+      "number": "S561",
+      "city": "hannover",
+      "name": "Welfenmausoleum",
+      "object_id": "osm/way/31359756",
+      "tier": "300"
+    },
+    {
+      "number": "S569",
+      "city": "hannover",
+      "name": "Hochhaus Glückauf",
+      "object_id": "osm/way/768518116",
+      "tier": "300"
+    },
+    {
+      "number": "S570",
+      "city": "hannover",
+      "name": "Wasserturm",
+      "object_id": "osm/way/80665175",
+      "tier": "300"
+    },
+    {
+      "number": "S572",
+      "city": "hannover",
+      "name": "Künstlerhaus",
+      "object_id": "osm/way/9874473",
+      "tier": "300"
+    },
+    {
+      "number": "S573",
+      "city": "leipzig",
+      "name": "Reichsgerichtsgebäude",
+      "object_id": "osm/relation/10616532",
+      "tier": "300"
+    },
+    {
+      "number": "S576",
+      "city": "leipzig",
+      "name": "Deutsche Nationalbibliothek",
+      "object_id": "osm/relation/15637",
+      "tier": "300"
+    },
+    {
+      "number": "S578",
+      "city": "leipzig",
+      "name": "Zum Lindwurm",
+      "object_id": "osm/relation/1773732",
+      "tier": "300"
+    },
+    {
+      "number": "S579",
+      "city": "leipzig",
+      "name": "Amtsgericht Leipzig",
+      "object_id": "osm/relation/272022",
+      "tier": "300"
+    },
+    {
+      "number": "S580",
+      "city": "leipzig",
+      "name": "Stadthaus",
+      "object_id": "osm/relation/277360",
+      "tier": "300"
+    },
+    {
+      "number": "S581",
+      "city": "leipzig",
+      "name": "Stadtbibliothek Leipzig",
+      "object_id": "osm/relation/384995",
+      "tier": "300"
+    },
+    {
+      "number": "S583",
+      "city": "leipzig",
+      "name": "Felsenkeller",
+      "object_id": "osm/relation/5509169",
+      "tier": "300"
+    },
+    {
+      "number": "S585",
+      "city": "leipzig",
+      "name": "Bismarckturm",
+      "object_id": "osm/relation/6431041",
+      "tier": "300"
+    },
+    {
+      "number": "S587",
+      "city": "leipzig",
+      "name": "Dresdner Hof",
+      "object_id": "osm/way/100118299",
+      "tier": "300"
+    },
+    {
+      "number": "S588",
+      "city": "leipzig",
+      "name": "Alte Waage",
+      "object_id": "osm/way/100119683",
+      "tier": "300"
+    },
+    {
+      "number": "S589",
+      "city": "leipzig",
+      "name": "Markt 6, Baarmanns Hof",
+      "object_id": "osm/way/100119687",
+      "tier": "300"
+    },
+    {
+      "number": "S593",
+      "city": "leipzig",
+      "name": "Alte Nikolaischule",
+      "object_id": "osm/way/131748135",
+      "tier": "300"
+    },
+    {
+      "number": "S603",
+      "city": "leipzig",
+      "name": "Kaufhaus Ebert, Thomaskirchhof",
+      "object_id": "osm/way/138238823",
+      "tier": "300"
+    },
+    {
+      "number": "S604",
+      "city": "leipzig",
+      "name": "Thomaskirchhof 21",
+      "object_id": "osm/way/138238838",
+      "tier": "300"
+    },
+    {
+      "number": "S605",
+      "city": "leipzig",
+      "name": "Panometer",
+      "object_id": "osm/way/19785236",
+      "tier": "300"
+    },
+    {
+      "number": "S608",
+      "city": "leipzig",
+      "name": "Großer Blumenberg",
+      "object_id": "osm/way/24608155",
+      "tier": "300"
+    },
+    {
+      "number": "S610",
+      "city": "leipzig",
+      "name": "HTWK Lipsius-Bau",
+      "object_id": "osm/way/26656747",
+      "tier": "300"
+    },
+    {
+      "number": "S611",
+      "city": "leipzig",
+      "name": "HTWK Geutebrück-Bau",
+      "object_id": "osm/way/26656794",
+      "tier": "300"
+    },
+    {
+      "number": "S614",
+      "city": "leipzig",
+      "name": "Finanzamt I und II",
+      "object_id": "osm/way/32116871",
+      "tier": "300"
+    },
+    {
+      "number": "S615",
+      "city": "leipzig",
+      "name": "Finanzamt Leipzig II",
+      "object_id": "osm/way/32116918",
+      "tier": "300"
+    },
+    {
+      "number": "S616",
+      "city": "leipzig",
+      "name": "Volkshochschule",
+      "object_id": "osm/way/32459506",
+      "tier": "300"
+    },
+    {
+      "number": "S618",
+      "city": "leipzig",
+      "name": "City-Hochhaus",
+      "object_id": "osm/way/35462506",
+      "tier": "300"
+    },
+    {
+      "number": "S622",
+      "city": "leipzig",
+      "name": "Forschungszentrum Campus (FZC)",
+      "object_id": "osm/way/37521927",
+      "tier": "300"
+    },
+    {
+      "number": "S624",
+      "city": "leipzig",
+      "name": "Portikus",
+      "object_id": "osm/way/41311576",
+      "tier": "300"
+    },
+    {
+      "number": "S625",
+      "city": "leipzig",
+      "name": "Thomashaus",
+      "object_id": "osm/way/41803553",
+      "tier": "300"
+    },
+    {
+      "number": "S629",
+      "city": "leipzig",
+      "name": "Grassistraße 8",
+      "object_id": "osm/way/44950083",
+      "tier": "300"
+    },
+    {
+      "number": "S634",
+      "city": "leipzig",
+      "name": "Universitätsbibliothek Leipzig - Bibliotheca Albertina",
+      "object_id": "osm/way/766030637",
+      "tier": "300"
+    },
+    {
+      "number": "S635",
+      "city": "leipzig",
+      "name": "Stadtarchiv Leipzig",
+      "object_id": "osm/way/865889976",
+      "tier": "300"
+    },
+    {
+      "number": "S637",
+      "city": "leipzig",
+      "name": "G2 Kunsthalle",
+      "object_id": "osm/way/96833207",
+      "tier": "300"
+    },
+    {
+      "number": "S638",
+      "city": "leipzig",
+      "name": "Deutsches Zentrum für barrierefreies Lesen",
+      "object_id": "osm/way/96917815",
+      "tier": "300"
+    },
+    {
+      "number": "S639",
+      "city": "leipzig",
+      "name": "H16 Eventpalast",
+      "object_id": "osm/way/989325034",
+      "tier": "300"
+    },
+    {
+      "number": "S642",
+      "city": "munich",
+      "name": "Former Upper Bavarian state insurance building, Holbeinstraße/Cuvilliésstraße",
+      "object_id": "osm/relation/1657892",
+      "tier": "300"
+    },
+    {
+      "number": "S643",
+      "city": "munich",
+      "name": "Palais Arco-Zinneberg",
+      "object_id": "osm/relation/20841",
+      "tier": "300"
+    },
+    {
+      "number": "S644",
+      "city": "munich",
+      "name": "Münchner Stadtmuseum",
+      "object_id": "osm/relation/2360164",
+      "tier": "300"
+    },
+    {
+      "number": "S645",
+      "city": "munich",
+      "name": "Palais Preysing",
+      "object_id": "osm/relation/52740",
+      "tier": "300"
+    },
+    {
+      "number": "S646",
+      "city": "munich",
+      "name": "Isartor",
+      "object_id": "osm/relation/6035286",
+      "tier": "300"
+    },
+    {
+      "number": "S647",
+      "city": "munich",
+      "name": "Oberlandesgericht München",
+      "object_id": "osm/relation/61204",
+      "tier": "300"
+    },
+    {
+      "number": "S650",
+      "city": "munich",
+      "name": "Prinz-Georg-Palais",
+      "object_id": "osm/way/1201920701",
+      "tier": "300"
+    },
+    {
+      "number": "S653",
+      "city": "munich",
+      "name": "Staatstheater am Gärtnerplatz",
+      "object_id": "osm/way/16129581",
+      "tier": "300"
+    },
+    {
+      "number": "S654",
+      "city": "munich",
+      "name": "Botanisches Institut",
+      "object_id": "osm/way/16576973",
+      "tier": "300"
+    },
+    {
+      "number": "S655",
+      "city": "munich",
+      "name": "Verwaltung IJB",
+      "object_id": "osm/way/174137942",
+      "tier": "300"
+    },
+    {
+      "number": "S657",
+      "city": "munich",
+      "name": "Siegestor",
+      "object_id": "osm/way/22727580",
+      "tier": "300"
+    },
+    {
+      "number": "S659",
+      "city": "munich",
+      "name": "Hochvolthaus",
+      "object_id": "osm/way/22744232",
+      "tier": "300"
+    },
+    {
+      "number": "S660",
+      "city": "munich",
+      "name": "Bürgerzentrum Pasinger Rathaus (Altbau)",
+      "object_id": "osm/way/25299100",
+      "tier": "300"
+    },
+    {
+      "number": "S661",
+      "city": "munich",
+      "name": "Bazar (Odeonsplatz 6 section)",
+      "object_id": "osm/way/25503947",
+      "tier": "300"
+    },
+    {
+      "number": "S662",
+      "city": "munich",
+      "name": "Bazar, Odeonsplatz 14–17 wing",
+      "object_id": "osm/way/25503949",
+      "tier": "300"
+    },
+    {
+      "number": "S663",
+      "city": "munich",
+      "name": "Prinz-Carl-Palais",
+      "object_id": "osm/way/25503951",
+      "tier": "300"
+    },
+    {
+      "number": "S665",
+      "city": "munich",
+      "name": "Odeonsplatz 1–2, München",
+      "object_id": "osm/way/25507206",
+      "tier": "300"
+    },
+    {
+      "number": "S666",
+      "city": "munich",
+      "name": "Palais Ludwig Ferdinand",
+      "object_id": "osm/way/25507219",
+      "tier": "300"
+    },
+    {
+      "number": "S668",
+      "city": "munich",
+      "name": "Museum Fünf Kontinente",
+      "object_id": "osm/way/25695553",
+      "tier": "300"
+    },
+    {
+      "number": "S670",
+      "city": "munich",
+      "name": "Karlsplatz-Rondell (Karlsplatz 10)",
+      "object_id": "osm/way/273262452",
+      "tier": "300"
+    },
+    {
+      "number": "S675",
+      "city": "munich",
+      "name": "Palais Montgelas",
+      "object_id": "osm/way/283850488",
+      "tier": "300"
+    },
+    {
+      "number": "S676",
+      "city": "munich",
+      "name": "Bazar, northern two-storey wing",
+      "object_id": "osm/way/286825217",
+      "tier": "300"
+    },
+    {
+      "number": "S678",
+      "city": "munich",
+      "name": "Talbrucktor",
+      "object_id": "osm/way/291585566",
+      "tier": "300"
+    },
+    {
+      "number": "S679",
+      "city": "munich",
+      "name": "Sendlinger Tor",
+      "object_id": "osm/way/337782843",
+      "tier": "300"
+    },
+    {
+      "number": "S682",
+      "city": "munich",
+      "name": "Rathgeber-Villa",
+      "object_id": "osm/way/35667181",
+      "tier": "300"
+    },
+    {
+      "number": "S687",
+      "city": "munich",
+      "name": "Altes Rathaus",
+      "object_id": "osm/way/4054817",
+      "tier": "300"
+    },
+    {
+      "number": "S688",
+      "city": "munich",
+      "name": "Schloss Fürstenried",
+      "object_id": "osm/way/420564332",
+      "tier": "300"
+    },
+    {
+      "number": "S689",
+      "city": "munich",
+      "name": "Karlsplatz-Rondell, Karlsplatz 11",
+      "object_id": "osm/way/42404640",
+      "tier": "300"
+    },
+    {
+      "number": "S692",
+      "city": "munich",
+      "name": "Karlstor",
+      "object_id": "osm/way/52103816",
+      "tier": "300"
+    },
+    {
+      "number": "S693",
+      "city": "munich",
+      "name": "Brainlab Tower",
+      "object_id": "osm/way/53085101",
+      "tier": "300"
+    },
+    {
+      "number": "S696",
+      "city": "munich",
+      "name": "Prinzregententheater",
+      "object_id": "osm/way/664886022",
+      "tier": "300"
+    },
+    {
+      "number": "S697",
+      "city": "munich",
+      "name": "Wirtshaus Aumeister",
+      "object_id": "osm/way/66758185",
+      "tier": "300"
+    },
+    {
+      "number": "S698",
+      "city": "munich",
+      "name": "Palais Freyberg",
+      "object_id": "osm/way/75509206",
+      "tier": "300"
+    },
+    {
+      "number": "S699",
+      "city": "munich",
+      "name": "Volkshochschule",
+      "object_id": "osm/way/77907122",
+      "tier": "300"
+    },
+    {
+      "number": "S702",
+      "city": "munich",
+      "name": "Viktualienmarkt 5",
+      "object_id": "osm/way/80510209",
+      "tier": "300"
+    },
+    {
+      "number": "S707",
+      "city": "munich",
+      "name": "Palais Schrenck-Notzing",
+      "object_id": "osm/way/85421451",
+      "tier": "300"
+    },
+    {
+      "number": "S709",
+      "city": "munich",
+      "name": "Kustermannhaus",
+      "object_id": "osm/way/85990369",
+      "tier": "300"
+    },
+    {
+      "number": "S711",
+      "city": "munich",
+      "name": "Truppendienstgericht und Bundeswehr Dienstleistungszentrum",
+      "object_id": "osm/way/89457142",
+      "tier": "300"
+    },
+    {
+      "number": "S713",
+      "city": "munich",
+      "name": "Palais Moy",
+      "object_id": "osm/way/91010421",
+      "tier": "300"
+    },
+    {
+      "number": "S714",
+      "city": "munich",
+      "name": "Palais Seinsheim",
+      "object_id": "osm/way/91268636",
+      "tier": "300"
+    },
+    {
+      "number": "S720",
+      "city": "munich",
+      "name": "Palais Neuhaus-Preysing",
+      "object_id": "osm/way/91908339",
+      "tier": "300"
+    },
+    {
+      "number": "S721",
+      "city": "munich",
+      "name": "Palais Woronzow",
+      "object_id": "osm/way/91908385",
+      "tier": "300"
+    },
+    {
+      "number": "S722",
+      "city": "munich",
+      "name": "Altheimer Eck 15, Nordflügel des Damenstifts zu St. Anna",
+      "object_id": "osm/way/93216455",
+      "tier": "300"
+    },
+    {
+      "number": "S723",
+      "city": "munich",
+      "name": "Städtisches Hochhaus",
+      "object_id": "osm/way/93979498",
+      "tier": "300"
+    },
+    {
+      "number": "S728",
+      "city": "munich",
+      "name": "Löwenbräukeller",
+      "object_id": "osm/way/98064749",
+      "tier": "300"
+    },
+    {
+      "number": "S729",
+      "city": "munich",
+      "name": "Bazar, Odeonsplatz 18",
+      "object_id": "osm/way/98344459",
+      "tier": "300"
+    },
+    {
+      "number": "S731",
+      "city": "nuremberg",
+      "name": "Bildungszentrum Nürnberg",
+      "object_id": "osm/relation/102716",
+      "tier": "300"
+    },
+    {
+      "number": "S732",
+      "city": "nuremberg",
+      "name": "Schloss Großgründlach",
+      "object_id": "osm/relation/1425078",
+      "tier": "300"
+    },
+    {
+      "number": "S733",
+      "city": "nuremberg",
+      "name": "Justizpalast",
+      "object_id": "osm/relation/51721",
+      "tier": "300"
+    },
+    {
+      "number": "S734",
+      "city": "nuremberg",
+      "name": "ehem. Loeffelholzscher Herrensitz",
+      "object_id": "osm/way/122731963",
+      "tier": "300"
+    },
+    {
+      "number": "S735",
+      "city": "nuremberg",
+      "name": "Naturhistorisches Museum",
+      "object_id": "osm/way/1301388403",
+      "tier": "300"
+    },
+    {
+      "number": "S736",
+      "city": "nuremberg",
+      "name": "Norishalle",
+      "object_id": "osm/way/135291997",
+      "tier": "300"
+    },
+    {
+      "number": "S737",
+      "city": "nuremberg",
+      "name": "Schuldturm",
+      "object_id": "osm/way/135346116",
+      "tier": "300"
+    },
+    {
+      "number": "S738",
+      "city": "nuremberg",
+      "name": "Kunsthalle Nürnberg",
+      "object_id": "osm/way/136870076",
+      "tier": "300"
+    },
+    {
+      "number": "S740",
+      "city": "nuremberg",
+      "name": "Ehrenhalle",
+      "object_id": "osm/way/143047713",
+      "tier": "300"
+    },
+    {
+      "number": "S741",
+      "city": "nuremberg",
+      "name": "Hummelsteiner Schloss",
+      "object_id": "osm/way/145039692",
+      "tier": "300"
+    },
+    {
+      "number": "S745",
+      "city": "nuremberg",
+      "name": "Laufer Torturm",
+      "object_id": "osm/way/23447844",
+      "tier": "300"
+    },
+    {
+      "number": "S746",
+      "city": "nuremberg",
+      "name": "Frauentorturm",
+      "object_id": "osm/way/23447845",
+      "tier": "300"
+    },
+    {
+      "number": "S747",
+      "city": "nuremberg",
+      "name": "Spittlertorturm",
+      "object_id": "osm/way/23447846",
+      "tier": "300"
+    },
+    {
+      "number": "S748",
+      "city": "nuremberg",
+      "name": "Neutorturm",
+      "object_id": "osm/way/23448111",
+      "tier": "300"
+    },
+    {
+      "number": "S749",
+      "city": "nuremberg",
+      "name": "Sinwellturm",
+      "object_id": "osm/way/23448852",
+      "tier": "300"
+    },
+    {
+      "number": "S752",
+      "city": "nuremberg",
+      "name": "Künstlerhaus",
+      "object_id": "osm/way/315732130",
+      "tier": "300"
+    },
+    {
+      "number": "S753",
+      "city": "nuremberg",
+      "name": "Hirsvogelsaal",
+      "object_id": "osm/way/31862063",
+      "tier": "300"
+    },
+    {
+      "number": "S756",
+      "city": "nuremberg",
+      "name": "Heidenturm",
+      "object_id": "osm/way/32112923",
+      "tier": "300"
+    },
+    {
+      "number": "S759",
+      "city": "nuremberg",
+      "name": "Zeltnerschloss",
+      "object_id": "osm/way/32239699",
+      "tier": "300"
+    },
+    {
+      "number": "S760",
+      "city": "nuremberg",
+      "name": "Burgamtsmannhaus",
+      "object_id": "osm/way/32240479",
+      "tier": "300"
+    },
+    {
+      "number": "S761",
+      "city": "nuremberg",
+      "name": "Polizeiberatung Zeughaus",
+      "object_id": "osm/way/32393131",
+      "tier": "300"
+    },
+    {
+      "number": "S762",
+      "city": "nuremberg",
+      "name": "Pilatushaus",
+      "object_id": "osm/way/32496988",
+      "tier": "300"
+    },
+    {
+      "number": "S763",
+      "city": "nuremberg",
+      "name": "Wasserturm",
+      "object_id": "osm/way/32500157",
+      "tier": "300"
+    },
+    {
+      "number": "S764",
+      "city": "nuremberg",
+      "name": "Henkerturm",
+      "object_id": "osm/way/32500158",
+      "tier": "300"
+    },
+    {
+      "number": "S765",
+      "city": "nuremberg",
+      "name": "Laufer Schlagturm",
+      "object_id": "osm/way/32520210",
+      "tier": "300"
+    },
+    {
+      "number": "S766",
+      "city": "nuremberg",
+      "name": "Nicolaus-Copernicus-Planetarium Nürnberg",
+      "object_id": "osm/way/32908740",
+      "tier": "300"
+    },
+    {
+      "number": "S767",
+      "city": "nuremberg",
+      "name": "Weißer Turm",
+      "object_id": "osm/way/373097073",
+      "tier": "300"
+    },
+    {
+      "number": "S775",
+      "city": "stuttgart",
+      "name": "Haus der Wirtschaft",
+      "object_id": "osm/relation/1553279",
+      "tier": "300"
+    },
+    {
+      "number": "S776",
+      "city": "stuttgart",
+      "name": "Alte Staatsgalerie",
+      "object_id": "osm/relation/6698913",
+      "tier": "300"
+    },
+    {
+      "number": "S777",
+      "city": "stuttgart",
+      "name": "Neue Staatsgalerie",
+      "object_id": "osm/relation/6699110",
+      "tier": "300"
+    },
+    {
+      "number": "S779",
+      "city": "stuttgart",
+      "name": "Württembergische Landesbibliothek",
+      "object_id": "osm/way/10075279",
+      "tier": "300"
+    },
+    {
+      "number": "S780",
+      "city": "stuttgart",
+      "name": "Schweinemuseum",
+      "object_id": "osm/way/107136753",
+      "tier": "300"
+    },
+    {
+      "number": "S786",
+      "city": "stuttgart",
+      "name": "Stadtarchiv Stuttgart",
+      "object_id": "osm/way/137440737",
+      "tier": "300"
+    },
+    {
+      "number": "S787",
+      "city": "stuttgart",
+      "name": "Naturkundemuseum",
+      "object_id": "osm/way/13865445",
+      "tier": "300"
+    },
+    {
+      "number": "S788",
+      "city": "stuttgart",
+      "name": "Carl-Zeiss-Planetarium",
+      "object_id": "osm/way/13865496",
+      "tier": "300"
+    },
+    {
+      "number": "S790",
+      "city": "stuttgart",
+      "name": "Reichsbahndirektion Stuttgart",
+      "object_id": "osm/way/166516401",
+      "tier": "300"
+    },
+    {
+      "number": "S793",
+      "city": "stuttgart",
+      "name": "Hanns-Martin-Schleyer-Halle",
+      "object_id": "osm/way/24169069",
+      "tier": "300"
+    },
+    {
+      "number": "S794",
+      "city": "stuttgart",
+      "name": "Graf-Eberhard-Bau",
+      "object_id": "osm/way/244206977",
+      "tier": "300"
+    },
+    {
+      "number": "S795",
+      "city": "stuttgart",
+      "name": "ARCOTEL Camino Stuttgart",
+      "object_id": "osm/way/25270942",
+      "tier": "300"
+    },
+    {
+      "number": "S797",
+      "city": "stuttgart",
+      "name": "Maurisches Landhaus",
+      "object_id": "osm/way/25309635",
+      "tier": "300"
+    },
+    {
+      "number": "S800",
+      "city": "stuttgart",
+      "name": "Bahnhofsturm",
+      "object_id": "osm/way/27153443",
+      "tier": "300"
+    },
+    {
+      "number": "S802",
+      "city": "stuttgart",
+      "name": "Haus der Geschichte Baden-Württemberg",
+      "object_id": "osm/way/28139506",
+      "tier": "300"
+    },
+    {
+      "number": "S804",
+      "city": "stuttgart",
+      "name": "Staatliches Schulamt Stuttgart",
+      "object_id": "osm/way/30055062",
+      "tier": "300"
+    },
+    {
+      "number": "S808",
+      "city": "stuttgart",
+      "name": "Altes Schauspielhaus",
+      "object_id": "osm/way/325284236",
+      "tier": "300"
+    },
+    {
+      "number": "S810",
+      "city": "stuttgart",
+      "name": "Universitätssternwarte Pfaffenwald",
+      "object_id": "osm/way/34852284",
+      "tier": "300"
+    },
+    {
+      "number": "S815",
+      "city": "stuttgart",
+      "name": "Kunstmuseum",
+      "object_id": "osm/way/9414302",
+      "tier": "300"
+    },
+    {
+      "number": "S816",
+      "city": "stuttgart",
+      "name": "Königsbau",
+      "object_id": "osm/way/9414673",
+      "tier": "300"
+    },
+    {
+      "number": "S817",
+      "city": "stuttgart",
+      "name": "Haus des Landtags",
+      "object_id": "osm/way/9712941",
+      "tier": "300"
+    },
+    {
+      "number": "S818",
+      "city": "stuttgart",
+      "name": "Kunstgebäude",
+      "object_id": "osm/way/9713669",
+      "tier": "300"
+    },
+    {
+      "number": "S819",
+      "city": "stuttgart",
+      "name": "Neue Liederhalle",
+      "object_id": "osm/way/9720623",
+      "tier": "300"
+    },
+    {
+      "number": "S820",
+      "city": "stuttgart",
+      "name": "Alte Kanzlei",
+      "object_id": "osm/way/9724284",
+      "tier": "300"
+    },
+    {
+      "number": "S821",
+      "city": "stuttgart",
+      "name": "Prinzenbau",
+      "object_id": "osm/way/9724517",
+      "tier": "300"
+    },
+    {
+      "number": "S822",
+      "city": "stuttgart",
+      "name": "Fruchtkasten",
+      "object_id": "osm/way/9727183",
+      "tier": "300"
+    },
+    {
+      "number": "S823",
+      "city": "stuttgart",
+      "name": "StadtPalais",
+      "object_id": "osm/way/9837954",
+      "tier": "300"
+    }
+  ]
+}

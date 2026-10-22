@@ -1,0 +1,18 @@
+import type{BuildingComponent}from'./building-mesh-renderer';
+import{nativePaintSignature}from'./progressive-native-signature';
+import{f342AnnexReady613}from'./f342-annex613';
+const P={"objectId": "osm/way/53837896", "partId": "osm/way/53837896/component/9ac26d472a85d3d2b7ea", "origin": [9.69873855, 52.39104415], "leafSHA": "c7a526979f0f1bf47aee5622c69be047db6b426be1bae70c92f4288aa38053d0", "signature": "1c723821"},F=[[[-24.75200080871582, -1.274999976158142, 499, 100, 1724], [-24.297000885009766, 0.9850000143051147, 499, 100, 1724], [-23.801000595092773, 3.4560000896453857, 499, 100, 1724], [-22.312999725341797, 10.914999961853027, 499, 100, 1724], [24.75200080871582, 1.274999976158142, 499, 100, 1724], [23.23699951171875, -6.084000110626221, 499, 100, 1724], [22.802000045776367, -8.210000038146973, 499, 100, 1724], [22.2450008392334, -10.914999961853027, 499, 100, 1724]], [[0, 0, 400, 2.3053470210505047, 1724], [2.3053470210505047, 0, 400, 2.3053470210505047, 1724], [2.3053470210505047, 4, 400, 2.3053470210505047, 1724], [0, 4, 400, 2.3053470210505047, 1724], [0, 0, 401, 2.520289201645193, 1724], [2.520289201645193, 0, 401, 2.520289201645193, 1724], [2.520289201645193, 4, 401, 2.520289201645193, 1724], [0, 4, 401, 2.520289201645193, 1724], [0, 0, 402, 7.60597302663987, 1724], [7.60597302663987, 0, 402, 7.60597302663987, 1724], [7.60597302663987, 4, 402, 7.60597302663987, 1724], [0, 4, 402, 7.60597302663987, 1724], [0, 0, 403, 48.042105230672824, 1724], [48.042105230672824, 0, 403, 48.042105230672824, 1724], [48.042105230672824, 4, 403, 48.042105230672824, 1724], [0, 4, 403, 48.042105230672824, 1724], [0, 0, 404, 7.513328903169025, 1724], [7.513328903169025, 0, 404, 7.513328903169025, 1724], [7.513328903169025, 4, 404, 7.513328903169025, 1724], [0, 4, 404, 7.513328903169025, 1724], [0, 0, 405, 2.170046134806447, 1724], [2.170046134806447, 0, 405, 2.170046134806447, 1724], [2.170046134806447, 4, 405, 2.170046134806447, 1724], [0, 4, 405, 2.170046134806447, 1724], [0, 0, 406, 2.7617517454216007, 1724], [2.7617517454216007, 0, 406, 2.7617517454216007, 1724], [2.7617517454216007, 4, 406, 2.7617517454216007, 1724], [0, 4, 406, 2.7617517454216007, 1724], [0, 0, 407, 47.97549128066891, 1724], [47.97549128066891, 0, 407, 47.97549128066891, 1724], [47.97549128066891, 4, 407, 47.97549128066891, 1724], [0, 4, 407, 47.97549128066891, 1724]]];const key=(c:{objectId:string;partId:string})=>c.objectId+'|'+c.partId;
+export function applyF342Foyer615(draw:BuildingComponent[],frames:Float32Array,raw:readonly BuildingComponent[],leaf:((c:BuildingComponent)=>string|undefined)|undefined){
+ if(!leaf||!f342AnnexReady613(raw,leaf))return{ready:false,written:0};
+ const selected=raw.filter(c=>key(c)===key(P));
+ if(selected.length!==1||JSON.stringify(selected[0].origin)!==JSON.stringify(P.origin)||leaf(selected[0])!==P.leafSHA||nativePaintSignature(selected[0])!==P.signature)return{ready:false,written:0};
+ const parts=draw.filter(c=>key(c)===key(P));if(parts.length!==1||nativePaintSignature(parts[0])!==P.signature)return{ready:false,written:0};
+ let at=0,written=0;for(const c of draw)for(const[bi,b]of c.batches.entries())for(let i=0;i<b.positions.length/3;i++,at++)if(c===parts[0]){frames.set(F[bi][i],at*5);written++;}
+ return{ready:true,written};
+}
+
+export function f342FoyerFragment615(source:string,city:string){
+ const anchor='if(edge>98.){if(role<1.5)return vec3(.29,.32,.32);return vec3(.38,.40,.39);}';
+ if(city!=='hannover'||source.split(anchor).length!==2)return source;
+ return source.replace(anchor,'if(role>3.5){if(edge>98.)return vec3(.38,.40,.39);return mix(vec3(.19,.29,.30),vec3(.32,.43,.43),smoothstep(0.,4.,q.y));}'+anchor);
+}

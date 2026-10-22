@@ -1,0 +1,7 @@
+export const C349_FEATURE_GLSL=String.raw`
+float c349box(vec2 q,vec2 c,vec2 h){vec2 aa=max(fwidth(q),vec2(.015));vec2 m=1.-smoothstep(h-aa,h+aa,abs(q-c));return m.x*m.y;}
+vec3 c349Admin(vec3 base,vec3 p,vec3 n,vec4 f,float family){vec3 white=vec3(.82,.83,.80),stone=vec3(.66,.65,.59),glass=vec3(.23,.30,.31),light=vec3(.78,.77,.70);if(family==13620.)return white;if(family==13621.)return vec3(.34,.36,.35);if(family==13624.)return vec3(.69,.71,.68);vec2 q=f.xy;vec3 c=white;
+if(q.y>=5.){c=stone;float pitch=45.6/22.;float x=-22.8+(floor((q.x+22.8)/pitch)+.5)*pitch;float lower=c349box(q,vec2(x,6.20),vec2(pitch*.38,.86));float upper=c349box(q,vec2(x,8.65),vec2(pitch*.36,1.0));c=mix(c,vec3(.35,.38,.36),lower);c=mix(c,glass,upper);c=mix(c,light,c349box(q,vec2(x,8.65),vec2(.025,.99))*upper);float band=c349box(q,vec2(0.,7.48),vec2(24.,.14));c=mix(c,light,band);return c;}
+for(int i=0;i<11;i++){float x=(float(i)-5.)*3.85;float outer=c349box(q,vec2(x,3.65),vec2(.53,.95));float inner=c349box(q,vec2(x,3.65),vec2(.39,.83));c=mix(c,vec3(.67,.68,.63),outer);c=mix(c,glass,inner);c=mix(c,light,c349box(q,vec2(x,3.65),vec2(.39,.026))*inner);}
+float entry=c349box(q,vec2(-.25,1.28),vec2(1.35,1.17));c=mix(c,vec3(.15,.22,.23),entry);c=mix(c,light,c349box(q,vec2(-.25,1.28),vec2(.032,1.17))*entry);c=mix(c,vec3(.65,.67,.64),c349box(q,vec2(-.25,.12),vec2(1.5,.055)));c=mix(c,glass,c349box(q,vec2(-10.5,1.40),vec2(.42,.55)));return c;}
+`;

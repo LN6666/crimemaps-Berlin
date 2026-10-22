@@ -1,0 +1,3087 @@
+{
+  "found": [
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F061-Tower-279.json",
+      "sha256": "f4ee876101d3e9807a29b211fa1593197d15e51c1d2ea54fee8603424cb5240e",
+      "bytes": 12148,
+      "module": "web/src/painted/root500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/f4/f4ee876101d3e9807a29b211fa1593197d15e51c1d2ea54fee8603424cb5240e.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F071-Roof6374-01-height375.json",
+      "sha256": "6250cf90d41e754b8876ca932a958c0a256082437b5c9e014c444da939a6976f",
+      "bytes": 747033,
+      "module": "web/src/painted/root500/safety/owner-f071-height-reconstruction.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/62/6250cf90d41e754b8876ca932a958c0a256082437b5c9e014c444da939a6976f.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F071-Roof6374-02-height375.json",
+      "sha256": "4320f1270068fdedeef02a205f67c4d4799d2750088d0aa187d0795ba3808aa0",
+      "bytes": 796792,
+      "module": "web/src/painted/root500/safety/owner-f071-height-reconstruction.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/43/4320f1270068fdedeef02a205f67c4d4799d2750088d0aa187d0795ba3808aa0.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F071-Roof6374-03-height375.json",
+      "sha256": "42f73b3335393bdca73ee32eac680c128da7658d787e86465bef67bd34e7d388",
+      "bytes": 336863,
+      "module": "web/src/painted/root500/safety/owner-f071-height-reconstruction.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/42/42f73b3335393bdca73ee32eac680c128da7658d787e86465bef67bd34e7d388.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F071-Upper6374-height375.json",
+      "sha256": "e41272f6dae78525bca2566c1a30bd0b116315b99e6f78a5c4808edacf8cc17c",
+      "bytes": 381647,
+      "module": "web/src/painted/root500/safety/owner-f071-height-reconstruction.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/e4/e41272f6dae78525bca2566c1a30bd0b116315b99e6f78a5c4808edacf8cc17c.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/S010.json",
+      "sha256": "701d7202afefba8632eaef48548b2a10c890c6b47dc470f211cb6cd1cc16baaa",
+      "bytes": 956683,
+      "module": "web/src/painted/root500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/70/701d7202afefba8632eaef48548b2a10c890c6b47dc470f211cb6cd1cc16baaa.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/S015.json",
+      "sha256": "19e5133f27e80334b8c00c3d42c25214502b17cbe3119b5dfee6ebfc428b371b",
+      "bytes": 114803,
+      "module": "web/src/painted/root500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/19/19e5133f27e80334b8c00c3d42c25214502b17cbe3119b5dfee6ebfc428b371b.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/S579.json",
+      "sha256": "6b33632ce858d73523524e1da56fbc0cb9c35e760503d83a9fd4e03e3513e832",
+      "bytes": 973102,
+      "module": "web/src/painted/root500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/6b/6b33632ce858d73523524e1da56fbc0cb9c35e760503d83a9fd4e03e3513e832.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/S795.json",
+      "sha256": "bc610c04bcac4d32f4d0af676cac4a0fbb03c2f318302df376fe1a34cf797794",
+      "bytes": 337374,
+      "module": "web/src/painted/root500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/bc/bc610c04bcac4d32f4d0af676cac4a0fbb03c2f318302df376fe1a34cf797794.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F46-180.json",
+      "sha256": "ff22585be629238ff3564b0c1c161a6542eac3c5ed090c452a3214b97ae10642",
+      "bytes": 138763,
+      "module": "web/src/painted/root500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/ff/ff22585be629238ff3564b0c1c161a6542eac3c5ed090c452a3214b97ae10642.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F260-ConnectorA-263.json",
+      "sha256": "d484af0e663635f4e29276f8a47a1c005cd413c0d0f002d5218a2a626dfe0d59",
+      "bytes": 6871,
+      "module": "web/src/painted/root500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/d4/d484af0e663635f4e29276f8a47a1c005cd413c0d0f002d5218a2a626dfe0d59.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F260-ConnectorB-263.json",
+      "sha256": "2d41ea245d6076ba08d55ead7354bbf4203963e497ecf1977534b95e30e59cff",
+      "bytes": 6849,
+      "module": "web/src/painted/root500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/2d/2d41ea245d6076ba08d55ead7354bbf4203963e497ecf1977534b95e30e59cff.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F260-LowWingA-263.json",
+      "sha256": "2f18be3676a683ce8056de795da05b9e63f81e3e5363a94d19c7a39bbdb192a2",
+      "bytes": 23634,
+      "module": "web/src/painted/root500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/2f/2f18be3676a683ce8056de795da05b9e63f81e3e5363a94d19c7a39bbdb192a2.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F260-LowWingB-263.json",
+      "sha256": "9d6f5fa175e39c54113eac54e5ca8c6ec239f86821e28631440d013a3540a67d",
+      "bytes": 20051,
+      "module": "web/src/painted/root500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/9d/9d6f5fa175e39c54113eac54e5ca8c6ec239f86821e28631440d013a3540a67d.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F260-Canopy-373894408-267.json",
+      "sha256": "2b7897c4dac6c78450b2529150ce4f98ac7add8df0461974250f47f8f0d336ce",
+      "bytes": 139182,
+      "module": "web/src/painted/root500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/2b/2b7897c4dac6c78450b2529150ce4f98ac7add8df0461974250f47f8f0d336ce.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F260-Canopy-373894410-267.json",
+      "sha256": "9bfb999a6cda14441cd3288636306155cbc683103d7415fe8fa1f9196f624a3e",
+      "bytes": 75815,
+      "module": "web/src/painted/root500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/9b/9bfb999a6cda14441cd3288636306155cbc683103d7415fe8fa1f9196f624a3e.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F260-Canopy-373894411-267.json",
+      "sha256": "e3a843456bfb2bb3f4dabd2e1aaca5c7cd262f63c60e76169eb4d6f492169441",
+      "bytes": 76155,
+      "module": "web/src/painted/root500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/e3/e3a843456bfb2bb3f4dabd2e1aaca5c7cd262f63c60e76169eb4d6f492169441.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F260-Canopy-373894412-267.json",
+      "sha256": "0836b34f38b6e34675307b577784c92f77b3d4e9c2bf9cbd83a8e2d52d873f40",
+      "bytes": 96226,
+      "module": "web/src/painted/root500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/08/0836b34f38b6e34675307b577784c92f77b3d4e9c2bf9cbd83a8e2d52d873f40.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F063-Tower-272.json",
+      "sha256": "d0a030244cc5cb0c75743772aef1e6c5bbacb749efcd222413827a65d8f58e8f",
+      "bytes": 12895,
+      "module": "web/src/painted/root500/safety/f063-source-recovery-paint272.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/d0/d0a030244cc5cb0c75743772aef1e6c5bbacb749efcd222413827a65d8f58e8f.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F063-Nave-272.json",
+      "sha256": "5e83f2546bacf41754baaefab8c1714ab54d94e35d123a4c4dae008be4118bd5",
+      "bytes": 5481,
+      "module": "web/src/painted/root500/safety/f063-source-recovery-paint272.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/5e/5e83f2546bacf41754baaefab8c1714ab54d94e35d123a4c4dae008be4118bd5.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F063-WestBody-272.json",
+      "sha256": "600cf9f6cb0bd177c3dddb221ef2e50f72e2469eeeaaacf3d9c38d478b241be4",
+      "bytes": 5484,
+      "module": "web/src/painted/root500/safety/f063-source-recovery-paint272.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/60/600cf9f6cb0bd177c3dddb221ef2e50f72e2469eeeaaacf3d9c38d478b241be4.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F063-SouthGable-272.json",
+      "sha256": "18c1b6e9391ab6953bf3b688add72fe5db8e440fa7eb8ea6ee4b8593237bdaeb",
+      "bytes": 5430,
+      "module": "web/src/painted/root500/safety/f063-source-recovery-paint272.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/18/18c1b6e9391ab6953bf3b688add72fe5db8e440fa7eb8ea6ee4b8593237bdaeb.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F063-NorthGable-272.json",
+      "sha256": "d5fd85f68d586d7de58095844b591a8bbf02e292a9fb713857a8bdc5a68d8c57",
+      "bytes": 5464,
+      "module": "web/src/painted/root500/safety/f063-source-recovery-paint272.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/d5/d5fd85f68d586d7de58095844b591a8bbf02e292a9fb713857a8bdc5a68d8c57.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F063-SouthTurret-272.json",
+      "sha256": "574ed5634799a072e19e74717eb101efd6397c1fcad96c534f032936b7046ef7",
+      "bytes": 6661,
+      "module": "web/src/painted/root500/safety/f063-source-recovery-paint272.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/57/574ed5634799a072e19e74717eb101efd6397c1fcad96c534f032936b7046ef7.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F063-NorthTurret-272.json",
+      "sha256": "c8d66e21f37f9dc332c0cd3b2a794029fc866e124b50c0e931ee7651d8ed6d80",
+      "bytes": 6589,
+      "module": "web/src/painted/root500/safety/f063-source-recovery-paint272.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/c8/c8d66e21f37f9dc332c0cd3b2a794029fc866e124b50c0e931ee7651d8ed6d80.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F063-EastTurret-272.json",
+      "sha256": "e77d6cef46b54883d2e080c7cf4827b40a684efdf91ec22a0f9dfac121a1f0a7",
+      "bytes": 5668,
+      "module": "web/src/painted/root500/safety/f063-source-recovery-paint272.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/e7/e77d6cef46b54883d2e080c7cf4827b40a684efdf91ec22a0f9dfac121a1f0a7.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F063-EastBody-6372.json",
+      "sha256": "6c9d116ae0ead45ea1b39f77d6a2a0bc8317e977a2574c99806c6796c26b571b",
+      "bytes": 20822,
+      "module": "web/src/painted/root500/safety/f063-source-recovery-paint272.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/6c/6c9d116ae0ead45ea1b39f77d6a2a0bc8317e977a2574c99806c6796c26b571b.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F063-Details6372.json",
+      "sha256": "e6abfcad19c0c53259c36c681a3da2d4d1c2ea9b32205d662378c6bdc0bfe18e",
+      "bytes": 22397,
+      "module": "web/src/painted/root500/safety/f063-source-recovery-paint272.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/e6/e6abfcad19c0c53259c36c681a3da2d4d1c2ea9b32205d662378c6bdc0bfe18e.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F058-Upper-suffix364.json",
+      "sha256": "f61b926980f68e6827d58db2ec09bc9a11220919d3f5939f27feaa1ab35a8e07",
+      "bytes": 250007,
+      "module": "web/src/painted/root500/safety/f058-upper-paint312.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/f6/f61b926980f68e6827d58db2ec09bc9a11220919d3f5939f27feaa1ab35a8e07.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/safety/buildings3d/owner-shape-patches/F061-Main6370.json",
+      "sha256": "fd4ea17a3de79fe7a670a6f8405692c0f8e93a6dd5e104d4562be89fd1a1c621",
+      "bytes": 623303,
+      "module": "web/src/painted/root500/safety/f061-main-paint6370.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/fd/fd4ea17a3de79fe7a670a6f8405692c0f8e93a6dd5e104d4562be89fd1a1c621.json"
+    },
+    {
+      "provider": "root500",
+      "path": "/assets/3d-materials/plaster002-5dbf2c4b731a.png",
+      "sha256": "5dbf2c4b731a721bb73ee1a53c397e3feb23ad2a9cc24213ede4dac3ec507ea2",
+      "bytes": 95359,
+      "module": "web/src/painted/root500/safety/open-facade-diffuse.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/5d/5dbf2c4b731a721bb73ee1a53c397e3feb23ad2a9cc24213ede4dac3ec507ea2.png"
+    },
+    {
+      "provider": "root500",
+      "path": "/assets/3d-materials/bricks029-da249cffc10c.png",
+      "sha256": "da249cffc10c296e44fd64921039a3b8f1e306a51218cd6e7f9fb43a3c3d68d4",
+      "bytes": 117467,
+      "module": "web/src/painted/root500/safety/open-facade-diffuse.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/da/da249cffc10c296e44fd64921039a3b8f1e306a51218cd6e7f9fb43a3c3d68d4.png"
+    },
+    {
+      "provider": "root500",
+      "path": "/assets/3d-materials/osm2world-windows-7e2f0946.png",
+      "sha256": "7e2f09469e1b4a683bed7e41306d9e7800da1a9aecfd5688e22b77fb4a2d0386",
+      "bytes": 13651,
+      "module": "web/src/painted/root500/safety/open-facade-window-texture.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/7e/7e2f09469e1b4a683bed7e41306d9e7800da1a9aecfd5688e22b77fb4a2d0386.png"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F382-Opera388-body.json",
+      "sha256": "32fc04aac813b17f64e7f0d6a8813b32d95843845da227714471928ff35590fb",
+      "bytes": 21365,
+      "module": "web/src/painted/delegated500/safety/f382-north519.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/32/32fc04aac813b17f64e7f0d6a8813b32d95843845da227714471928ff35590fb.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F382-Opera388-roofs.json",
+      "sha256": "a6582ff8f40c8c120bcf40b88fed4053938dc8b04ee8320477ca7b3f86adcb64",
+      "bytes": 22142,
+      "module": "web/src/painted/delegated500/safety/f382-north519.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/a6/a6582ff8f40c8c120bcf40b88fed4053938dc8b04ee8320477ca7b3f86adcb64.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F382-Opera388-entrance.json",
+      "sha256": "b949aed7ab092a9ed354b85a8d47694b3542fa6423661d458595d4ccda207c4d",
+      "bytes": 190546,
+      "module": "web/src/painted/delegated500/safety/f382-north519.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/b9/b949aed7ab092a9ed354b85a8d47694b3542fa6423661d458595d4ccda207c4d.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F382-Opera519-north.json",
+      "sha256": "1ae37c47b2bb6687a2395c8e6d5cf40974b6e14d80f6af61bb4c8ecbe1a6eb7e",
+      "bytes": 51436,
+      "module": "web/src/painted/delegated500/safety/f382-north519.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/1a/1ae37c47b2bb6687a2395c8e6d5cf40974b6e14d80f6af61bb4c8ecbe1a6eb7e.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F382-OperaRoofJoin743.json",
+      "sha256": "f1915aacc649ed3242a3cd7ff20ba53f074cfa02f93f62eb0ba163752d095f5d",
+      "bytes": 9136,
+      "module": "web/src/painted/delegated500/safety/f382-north519.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/f1/f1915aacc649ed3242a3cd7ff20ba53f074cfa02f93f62eb0ba163752d095f5d.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F382-Crown779.json",
+      "sha256": "83a00f636f3178b252a0eabab38d1cb85db4cf674a9594dfa459bebf58ceba28",
+      "bytes": 547879,
+      "module": "web/src/painted/delegated500/safety/f382-north519.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/83/83a00f636f3178b252a0eabab38d1cb85db4cf674a9594dfa459bebf58ceba28.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F382-WestFigure811.json",
+      "sha256": "46500813e55b46e2a12da859758ef2c24ee9e425a9e51d51765dbf3d6e398710",
+      "bytes": 123199,
+      "module": "web/src/painted/delegated500/safety/f382-north519.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/46/46500813e55b46e2a12da859758ef2c24ee9e425a9e51d51765dbf3d6e398710.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F061-Tower-828.json",
+      "sha256": "08c7c81054294980e408a3dc3f3fd715ccfbc45a669c1e2cdf4543cdbecb9496",
+      "bytes": 35607,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/08/08c7c81054294980e408a3dc3f3fd715ccfbc45a669c1e2cdf4543cdbecb9496.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F331-SourceRemainder-276.json",
+      "sha256": "2ddc82e38afb0a8465ef91665a8920490be05d5dbbdf348974de5999db934992",
+      "bytes": 67148,
+      "module": "web/src/painted/delegated500/safety/f331-bergpalais494.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/2d/2ddc82e38afb0a8465ef91665a8920490be05d5dbbdf348974de5999db934992.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F021-Nave-306.json",
+      "sha256": "e26808211f6fed43edda6eb75b17ec2d644cc2af315709399f85404f047660fc",
+      "bytes": 136803,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/e2/e26808211f6fed43edda6eb75b17ec2d644cc2af315709399f85404f047660fc.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F021-Tower69m-308.json",
+      "sha256": "6ca0cc553c8563789e61ade38da908b1e4330df008a124b3c46f268e2f8f020a",
+      "bytes": 658563,
+      "module": "web/src/painted/delegated500/safety/f021-tower-paint295.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/6c/6ca0cc553c8563789e61ade38da908b1e4330df008a124b3c46f268e2f8f020a.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F013-Canopy-291.json",
+      "sha256": "ec4a879c3c93704afc2a1dce89d084295dda5f903016b06f2861fc3a79f6a487",
+      "bytes": 25844,
+      "module": "web/src/painted/delegated500/safety/f013-entrance448.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/ec/ec4a879c3c93704afc2a1dce89d084295dda5f903016b06f2861fc3a79f6a487.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F285-Restoration634.json",
+      "sha256": "cb73ed237b7e587480d5933faa475e736c52abfdb9f8f8a27212ded2dafb267f",
+      "bytes": 93597,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/cb/cb73ed237b7e587480d5933faa475e736c52abfdb9f8f8a27212ded2dafb267f.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F061-RearCourt829.json",
+      "sha256": "c3a9c6c61ba72fc5bbfca2f9808b8421b3b2e83896ffc6118589313ef36626a4",
+      "bytes": 32637,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/c3/c3a9c6c61ba72fc5bbfca2f9808b8421b3b2e83896ffc6118589313ef36626a4.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/S018-Humboldt-body-345.json",
+      "sha256": "5c2243b26fa9325091d4915f3d02ac0dab30c414c970d434beba4685ad0858dd",
+      "bytes": 77694,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/5c/5c2243b26fa9325091d4915f3d02ac0dab30c414c970d434beba4685ad0858dd.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/S018-Humboldt-columns-345.json",
+      "sha256": "336b596998d1c20d4a684ecb6473e7fa07d0564a2bb2b86604e4cab0dc63a24b",
+      "bytes": 535929,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/33/336b596998d1c20d4a684ecb6473e7fa07d0564a2bb2b86604e4cab0dc63a24b.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/S018-Humboldt-rails-a-345.json",
+      "sha256": "38394c4a5df1bc885a4740c19ccab763f27f4115181459745bc85b38a2848159",
+      "bytes": 503890,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/38/38394c4a5df1bc885a4740c19ccab763f27f4115181459745bc85b38a2848159.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/S018-Humboldt-rails-b-345.json",
+      "sha256": "0e555b8a17b98c13da3a55de3d8d805a6b1e5a7912cb538b7116999704ddb122",
+      "bytes": 481051,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/0e/0e555b8a17b98c13da3a55de3d8d805a6b1e5a7912cb538b7116999704ddb122.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/S018-Humboldt-rails-c-345.json",
+      "sha256": "8d1c2a8000e30907e601c77b6ad624abeaff6023f91da465a732bec1efca9e90",
+      "bytes": 474936,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/8d/8d1c2a8000e30907e601c77b6ad624abeaff6023f91da465a732bec1efca9e90.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/S018-Humboldt-sculptures-345.json",
+      "sha256": "f8165b6b0fa27a7c3301c3eca1d6034118434e432a10ef76612aeca9918a431a",
+      "bytes": 229485,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/f8/f8165b6b0fa27a7c3301c3eca1d6034118434e432a10ef76612aeca9918a431a.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F337-OpenRuin386.json",
+      "sha256": "ec6cf1d8df76b995dc98bccc4624ab2cc742538a0770a0729ec64f6a5c803752",
+      "bytes": 519548,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/ec/ec6cf1d8df76b995dc98bccc4624ab2cc742538a0770a0729ec64f6a5c803752.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F337-StoneTower460.json",
+      "sha256": "6bd51a2c7874faf19b22167dea4e91892745215d13e1ff4c6958ac89165ebe5e",
+      "bytes": 249205,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/6b/6bd51a2c7874faf19b22167dea4e91892745215d13e1ff4c6958ac89165ebe5e.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F243-Sculptures482.json",
+      "sha256": "aa1005a108511b99cb3bb0133db0ce55d5a339a4b504ffdc73fece7be6650935",
+      "bytes": 935412,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/aa/aa1005a108511b99cb3bb0133db0ce55d5a339a4b504ffdc73fece7be6650935.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F364-Body337.json",
+      "sha256": "f4225ddef0f9183c04731e4e6465aed7d033fe2a2753d6cf54f6cb7099eb965f",
+      "bytes": 133857,
+      "module": "web/src/painted/delegated500/safety/f364-court498.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/f4/f4225ddef0f9183c04731e4e6465aed7d033fe2a2753d6cf54f6cb7099eb965f.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F345-Repair467-parent.json",
+      "sha256": "9c4f715674ffa51a57c9c753c7b1e57d605943d17d6aa1269ad398f7500553f7",
+      "bytes": 251217,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/9c/9c4f715674ffa51a57c9c753c7b1e57d605943d17d6aa1269ad398f7500553f7.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F345-Repair467-hood.json",
+      "sha256": "80d7c2603501d170f544bd44d80a8360af5a083560f1de990d48d8a2bd8b6a43",
+      "bytes": 170279,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/80/80d7c2603501d170f544bd44d80a8360af5a083560f1de990d48d8a2bd8b6a43.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F248-Lohnhalle-367.json",
+      "sha256": "24608c5babecd3dc397b3433288ba399cd9bdc71fe83cd2d7d141d84864d7217",
+      "bytes": 367497,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/24/24608c5babecd3dc397b3433288ba399cd9bdc71fe83cd2d7d141d84864d7217.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F248-ZollernII-214.json",
+      "sha256": "c2744168cc5f34e01143e30f11c49cb016978a3486db6d1eaf24098c6d83ec54",
+      "bytes": 170385,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/c2/c2744168cc5f34e01143e30f11c49cb016978a3486db6d1eaf24098c6d83ec54.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F248-ZollernIV-214.json",
+      "sha256": "e1f2018f4e7ea1e8012e266efaaf9c5227bb534506732a7cff0aa61c6b796a38",
+      "bytes": 168542,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/e1/e1f2018f4e7ea1e8012e266efaaf9c5227bb534506732a7cff0aa61c6b796a38.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F303-BasementCopy508.json",
+      "sha256": "374144c4513516ce3f154d891049ccaa4e9b2ec9a733d583531593b117f02d35",
+      "bytes": 88841,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/37/374144c4513516ce3f154d891049ccaa4e9b2ec9a733d583531593b117f02d35.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F232-Main-316.json",
+      "sha256": "a841c61eeda38499bd175f06c08e40be1d8a7c3733e3fc9234bc4c90f9291085",
+      "bytes": 713281,
+      "module": "web/src/painted/delegated500/safety/f232-main-recovery315.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/a8/a841c61eeda38499bd175f06c08e40be1d8a7c3733e3fc9234bc4c90f9291085.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F278-UpperHall594.json",
+      "sha256": "54141b8bae1865d0bf3e8e34d7cc78614934af932cf23a60d20e632033898abb",
+      "bytes": 89307,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/54/54141b8bae1865d0bf3e8e34d7cc78614934af932cf23a60d20e632033898abb.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F278-Canopy594.json",
+      "sha256": "655591988495655d08fb620f86eaf3fbb8c6d1439815772a3436c22486cae088",
+      "bytes": 119709,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/65/655591988495655d08fb620f86eaf3fbb8c6d1439815772a3436c22486cae088.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F061-Nave834.json",
+      "sha256": "bdc29c024c04c16aca93bb41a7fe6fa40209089a4bc905325395759bff18fbcf",
+      "bytes": 448689,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/bd/bdc29c024c04c16aca93bb41a7fe6fa40209089a4bc905325395759bff18fbcf.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F258-Entrance382.json",
+      "sha256": "4c92e5911af5045dfba4a9eff4c778848c43235afd49fe5dd92aafcfb30ce7b3",
+      "bytes": 23979,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/4c/4c92e5911af5045dfba4a9eff4c778848c43235afd49fe5dd92aafcfb30ce7b3.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F258-Upper382.json",
+      "sha256": "656f8bf29a45370285df1c651433875f0beb4cbd956aa6c1f01bb7a9573499db",
+      "bytes": 6768,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/65/656f8bf29a45370285df1c651433875f0beb4cbd956aa6c1f01bb7a9573499db.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F269-LowRoof640.json",
+      "sha256": "7b9069d9fc387c0d1346113d6cbe1f80bcbf7f8a665c907791a516cc63e05920",
+      "bytes": 246727,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/7b/7b9069d9fc387c0d1346113d6cbe1f80bcbf7f8a665c907791a516cc63e05920.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F244-Main622.json",
+      "sha256": "5d11bd883cc1999db22e1e3f749a0fc363f953e900059871d1d209f2844ccb31",
+      "bytes": 91402,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/5d/5d11bd883cc1999db22e1e3f749a0fc363f953e900059871d1d209f2844ccb31.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F025-EastPortico799.json",
+      "sha256": "6881d9e0e45f8101087bf97a1b80a7520bf120b37a98f80d65f54edc0237efdd",
+      "bytes": 145262,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/68/6881d9e0e45f8101087bf97a1b80a7520bf120b37a98f80d65f54edc0237efdd.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F329-Current380.json",
+      "sha256": "05833b8ca39393af4dabdd4303fa8f2c73792abbf785d4e1cf459599ca393778",
+      "bytes": 857676,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/05/05833b8ca39393af4dabdd4303fa8f2c73792abbf785d4e1cf459599ca393778.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F329-Details489.json",
+      "sha256": "8873b5973fe6cf441131c9134694fa2310a62420b40aa610a831fe152bb80b3e",
+      "bytes": 817591,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/88/8873b5973fe6cf441131c9134694fa2310a62420b40aa610a831fe152bb80b3e.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F242-Upper596.json",
+      "sha256": "a5fb59ab4a5d4c8042f0042160b79c7711a70010a63554a95c329211394fdd2a",
+      "bytes": 74412,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/a5/a5fb59ab4a5d4c8042f0042160b79c7711a70010a63554a95c329211394fdd2a.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F271-Upper826.json",
+      "sha256": "b1dcabb7f5b53e20c1a5e584cada0b85a9455592a82e050a1f89d5e3c984f89b",
+      "bytes": 624527,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/b1/b1dcabb7f5b53e20c1a5e584cada0b85a9455592a82e050a1f89d5e3c984f89b.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F363-EastVisibleWall472.json",
+      "sha256": "5600ce944095e9d0bbdc3928f8f02229c3ea17a24a54f899dbfb7f0cf833d501",
+      "bytes": 6633,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/56/5600ce944095e9d0bbdc3928f8f02229c3ea17a24a54f899dbfb7f0cf833d501.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F363-EastRoof360.json",
+      "sha256": "d797bcf146cd8884d4e5053939056d998c4b2106b4e95c6ed5c911eb4312c8c0",
+      "bytes": 4010,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/d7/d797bcf146cd8884d4e5053939056d998c4b2106b4e95c6ed5c911eb4312c8c0.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F234-Equipment751.json",
+      "sha256": "d17f9f73daa827218f5ea16a482315248346e576961c9ae90e64c15a9de084e5",
+      "bytes": 800236,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/d1/d17f9f73daa827218f5ea16a482315248346e576961c9ae90e64c15a9de084e5.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F288-Platform259200330-729.json",
+      "sha256": "cb2071fe527958ef232a3e414d57e6da6f7404c40c4333a0d456766df180c652",
+      "bytes": 86918,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/cb/cb2071fe527958ef232a3e414d57e6da6f7404c40c4333a0d456766df180c652.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F288-Platform259200333-729.json",
+      "sha256": "5beb5face6e710d88f7187db7c135da364693fea3c716812157c3e584b8c8c0b",
+      "bytes": 116674,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/5b/5beb5face6e710d88f7187db7c135da364693fea3c716812157c3e584b8c8c0b.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F288-Platform259200339-729.json",
+      "sha256": "75c444bff2de6ceffcb7fe12c369d5a508204815afd8282836a27883698b22c5",
+      "bytes": 89769,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/75/75c444bff2de6ceffcb7fe12c369d5a508204815afd8282836a27883698b22c5.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F288-Platform259200344-729.json",
+      "sha256": "b181eb7ab0654e74cd808b7307415efe26fe56197ca967f5964c1b87ae13db01",
+      "bytes": 72916,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/b1/b181eb7ab0654e74cd808b7307415efe26fe56197ca967f5964c1b87ae13db01.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F288-Platform259226807-729.json",
+      "sha256": "7f53cd3e71df746bfb0eb3f3a39d875477ca46ac74c6c59012ef0dfb6973a0c9",
+      "bytes": 99550,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/7f/7f53cd3e71df746bfb0eb3f3a39d875477ca46ac74c6c59012ef0dfb6973a0c9.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F288-Platform464799103-729.json",
+      "sha256": "84b3b4d4fe630c737d6d7cca27d6ab342a2a12a1f3a095aea1e47f2ecf295c0c",
+      "bytes": 56651,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/84/84b3b4d4fe630c737d6d7cca27d6ab342a2a12a1f3a095aea1e47f2ecf295c0c.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F364-Front-327.json",
+      "sha256": "c17407a0a917abd829eb34c0d123c8c8318e9dc655c6d02fbc4d8863625f299e",
+      "bytes": 206013,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/c1/c17407a0a917abd829eb34c0d123c8c8318e9dc655c6d02fbc4d8863625f299e.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/S010.json",
+      "sha256": "701d7202afefba8632eaef48548b2a10c890c6b47dc470f211cb6cd1cc16baaa",
+      "bytes": 956683,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/70/701d7202afefba8632eaef48548b2a10c890c6b47dc470f211cb6cd1cc16baaa.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/S015.json",
+      "sha256": "19e5133f27e80334b8c00c3d42c25214502b17cbe3119b5dfee6ebfc428b371b",
+      "bytes": 114803,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/19/19e5133f27e80334b8c00c3d42c25214502b17cbe3119b5dfee6ebfc428b371b.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/S579.json",
+      "sha256": "6b33632ce858d73523524e1da56fbc0cb9c35e760503d83a9fd4e03e3513e832",
+      "bytes": 973102,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/6b/6b33632ce858d73523524e1da56fbc0cb9c35e760503d83a9fd4e03e3513e832.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/S795.json",
+      "sha256": "bc610c04bcac4d32f4d0af676cac4a0fbb03c2f318302df376fe1a34cf797794",
+      "bytes": 337374,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/bc/bc610c04bcac4d32f4d0af676cac4a0fbb03c2f318302df376fe1a34cf797794.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F46-180.json",
+      "sha256": "ff22585be629238ff3564b0c1c161a6542eac3c5ed090c452a3214b97ae10642",
+      "bytes": 138763,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/ff/ff22585be629238ff3564b0c1c161a6542eac3c5ed090c452a3214b97ae10642.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F260-ConnectorA-263.json",
+      "sha256": "d484af0e663635f4e29276f8a47a1c005cd413c0d0f002d5218a2a626dfe0d59",
+      "bytes": 6871,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/d4/d484af0e663635f4e29276f8a47a1c005cd413c0d0f002d5218a2a626dfe0d59.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F260-ConnectorB-263.json",
+      "sha256": "2d41ea245d6076ba08d55ead7354bbf4203963e497ecf1977534b95e30e59cff",
+      "bytes": 6849,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/2d/2d41ea245d6076ba08d55ead7354bbf4203963e497ecf1977534b95e30e59cff.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F260-LowWingA-263.json",
+      "sha256": "2f18be3676a683ce8056de795da05b9e63f81e3e5363a94d19c7a39bbdb192a2",
+      "bytes": 23634,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/2f/2f18be3676a683ce8056de795da05b9e63f81e3e5363a94d19c7a39bbdb192a2.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F260-LowWingB-263.json",
+      "sha256": "9d6f5fa175e39c54113eac54e5ca8c6ec239f86821e28631440d013a3540a67d",
+      "bytes": 20051,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/9d/9d6f5fa175e39c54113eac54e5ca8c6ec239f86821e28631440d013a3540a67d.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F260-Canopy-373894408-267.json",
+      "sha256": "2b7897c4dac6c78450b2529150ce4f98ac7add8df0461974250f47f8f0d336ce",
+      "bytes": 139182,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/2b/2b7897c4dac6c78450b2529150ce4f98ac7add8df0461974250f47f8f0d336ce.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F260-Canopy-373894410-267.json",
+      "sha256": "9bfb999a6cda14441cd3288636306155cbc683103d7415fe8fa1f9196f624a3e",
+      "bytes": 75815,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/9b/9bfb999a6cda14441cd3288636306155cbc683103d7415fe8fa1f9196f624a3e.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F260-Canopy-373894411-267.json",
+      "sha256": "e3a843456bfb2bb3f4dabd2e1aaca5c7cd262f63c60e76169eb4d6f492169441",
+      "bytes": 76155,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/e3/e3a843456bfb2bb3f4dabd2e1aaca5c7cd262f63c60e76169eb4d6f492169441.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F260-Canopy-373894412-267.json",
+      "sha256": "0836b34f38b6e34675307b577784c92f77b3d4e9c2bf9cbd83a8e2d52d873f40",
+      "bytes": 96226,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/08/0836b34f38b6e34675307b577784c92f77b3d4e9c2bf9cbd83a8e2d52d873f40.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F373-LowerHead-269.json",
+      "sha256": "4cfbc74431bb8855c579c7b2df497b4c22c893513cc3ab7421e95aafe9178df3",
+      "bytes": 40019,
+      "module": "web/src/painted/delegated500/safety/f373-lower-head-recovery269.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/4c/4cfbc74431bb8855c579c7b2df497b4c22c893513cc3ab7421e95aafe9178df3.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F063-Tower-272.json",
+      "sha256": "d0a030244cc5cb0c75743772aef1e6c5bbacb749efcd222413827a65d8f58e8f",
+      "bytes": 12895,
+      "module": "web/src/painted/delegated500/safety/f063-source-recovery-paint272.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/d0/d0a030244cc5cb0c75743772aef1e6c5bbacb749efcd222413827a65d8f58e8f.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F063-Nave-806.json",
+      "sha256": "5a81f9689975dbc31d94787f79170569b4ce0f3026324826961413c5577471ae",
+      "bytes": 14188,
+      "module": "web/src/painted/delegated500/safety/f063-source-recovery-paint272.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/5a/5a81f9689975dbc31d94787f79170569b4ce0f3026324826961413c5577471ae.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F063-WestBody-806.json",
+      "sha256": "fb3b051c1b9ec2ebbdf1ec61696ba5a0205d4eedf5484626eba846b1afc16f8a",
+      "bytes": 9712,
+      "module": "web/src/painted/delegated500/safety/f063-source-recovery-paint272.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/fb/fb3b051c1b9ec2ebbdf1ec61696ba5a0205d4eedf5484626eba846b1afc16f8a.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F063-SouthGable-806.json",
+      "sha256": "d4350fe52d0f5015f452fcaca157ef9a681c51713646bfcef38c5f732be42021",
+      "bytes": 29062,
+      "module": "web/src/painted/delegated500/safety/f063-source-recovery-paint272.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/d4/d4350fe52d0f5015f452fcaca157ef9a681c51713646bfcef38c5f732be42021.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F063-NorthGable-806.json",
+      "sha256": "26a25b5f5d46942520a2bec3f758bcd60afb26a6cc962cc9f8ec46e389870816",
+      "bytes": 20129,
+      "module": "web/src/painted/delegated500/safety/f063-source-recovery-paint272.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/26/26a25b5f5d46942520a2bec3f758bcd60afb26a6cc962cc9f8ec46e389870816.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F063-SouthTurret-272.json",
+      "sha256": "574ed5634799a072e19e74717eb101efd6397c1fcad96c534f032936b7046ef7",
+      "bytes": 6661,
+      "module": "web/src/painted/delegated500/safety/f063-source-recovery-paint272.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/57/574ed5634799a072e19e74717eb101efd6397c1fcad96c534f032936b7046ef7.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F063-NorthTurret-272.json",
+      "sha256": "c8d66e21f37f9dc332c0cd3b2a794029fc866e124b50c0e931ee7651d8ed6d80",
+      "bytes": 6589,
+      "module": "web/src/painted/delegated500/safety/f063-source-recovery-paint272.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/c8/c8d66e21f37f9dc332c0cd3b2a794029fc866e124b50c0e931ee7651d8ed6d80.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F063-EastTurret-810.json",
+      "sha256": "f1ce365ec42d6cceeb266dabfb6bfb018bc22cc2f95c4e87993f5d141186bec5",
+      "bytes": 5806,
+      "module": "web/src/painted/delegated500/safety/f063-source-recovery-paint272.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/f1/f1ce365ec42d6cceeb266dabfb6bfb018bc22cc2f95c4e87993f5d141186bec5.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F063-EastBody-806.json",
+      "sha256": "2d489c0993cda87014ed592041f4b18ce951a0be4e5411b08e3c0df3b323e917",
+      "bytes": 67936,
+      "module": "web/src/painted/delegated500/safety/f063-source-recovery-paint272.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/2d/2d489c0993cda87014ed592041f4b18ce951a0be4e5411b08e3c0df3b323e917.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F269-Turret-283.json",
+      "sha256": "86936dc771a1d048b2058698f3121162aa5c0c806d483f35f32a42f1b8581a13",
+      "bytes": 57215,
+      "module": "web/src/painted/delegated500/safety/f269-roof575.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/86/86936dc771a1d048b2058698f3121162aa5c0c806d483f35f32a42f1b8581a13.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F269-FrontWing-283.json",
+      "sha256": "9cff2772acbd9c5d743b58f57fb10cf5d499a5e50cf4e37a73c706ec324ca72b",
+      "bytes": 7281,
+      "module": "web/src/painted/delegated500/safety/f269-roof575.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/9c/9cff2772acbd9c5d743b58f57fb10cf5d499a5e50cf4e37a73c706ec324ca72b.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F269-SteppedGable-283.json",
+      "sha256": "d00998ca4ac1bcc906d390beb04028b256c2dc4ce85f127700ecb58f31a27074",
+      "bytes": 12071,
+      "module": "web/src/painted/delegated500/safety/f269-roof575.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/d0/d00998ca4ac1bcc906d390beb04028b256c2dc4ce85f127700ecb58f31a27074.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F058-Upper-312.json",
+      "sha256": "f717126f4903b4428439b6efdf440d29fe1b2b0accc24bf84c1db331d20468c7",
+      "bytes": 500920,
+      "module": "web/src/painted/delegated500/safety/f058-upper-paint312.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/f7/f717126f4903b4428439b6efdf440d29fe1b2b0accc24bf84c1db331d20468c7.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F243-Plinth330.json",
+      "sha256": "0339e22b227e3e4d8de67da48d65b9b3541b63269b45c0dabaad7dd63a27ca7e",
+      "bytes": 299806,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/03/0339e22b227e3e4d8de67da48d65b9b3541b63269b45c0dabaad7dd63a27ca7e.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F243-TowerUpper330.json",
+      "sha256": "d29c6f8342f62c914027aee44b7988e3a1901a06bbc906cd81c5e0540c2c0ff1",
+      "bytes": 206371,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/d2/d29c6f8342f62c914027aee44b7988e3a1901a06bbc906cd81c5e0540c2c0ff1.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F364-East347.json",
+      "sha256": "dabddf7fa38560bb74674c5bfd4acaecd88142a03a31d706f6a358b80d9e99ea",
+      "bytes": 9825,
+      "module": "web/src/painted/delegated500/safety/f364-court498.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/da/dabddf7fa38560bb74674c5bfd4acaecd88142a03a31d706f6a358b80d9e99ea.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F372-Bridge507.json",
+      "sha256": "ba1afd59fe97a723122b8be1ceebe50d3a09bb170e7faa2ff23fb6855a335264",
+      "bytes": 813829,
+      "module": "web/src/painted/delegated500/safety/f372-repair350.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/ba/ba1afd59fe97a723122b8be1ceebe50d3a09bb170e7faa2ff23fb6855a335264.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F331-835821420-PhotoApprox344.json",
+      "sha256": "87fc5083f0da090a9567d500d99e4c31ba79a3ab7314a385d637391af7521bfc",
+      "bytes": 16098,
+      "module": "web/src/painted/delegated500/safety/f331-bergpalais494.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/87/87fc5083f0da090a9567d500d99e4c31ba79a3ab7314a385d637391af7521bfc.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F331-835821422-PhotoApprox344.json",
+      "sha256": "5e984bb150c7fa964a1c3a37897513d86eb0552d677caaa62afc98755199d58d",
+      "bytes": 137953,
+      "module": "web/src/painted/delegated500/safety/f331-bergpalais494.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/5e/5e984bb150c7fa964a1c3a37897513d86eb0552d677caaa62afc98755199d58d.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F331-835821423-PhotoApprox344.json",
+      "sha256": "8a3c8d02e05993726c54bb5c76076a445b95826e82f67d24268d78ee1c81f096",
+      "bytes": 20519,
+      "module": "web/src/painted/delegated500/safety/f331-bergpalais494.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/8a/8a3c8d02e05993726c54bb5c76076a445b95826e82f67d24268d78ee1c81f096.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F248-Sidewing368-Schwarzkaue.json",
+      "sha256": "bbbbe8128353c6fcfede684e94dd86e03a4ff7369a59082630783c371fe325c5",
+      "bytes": 14693,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/bb/bbbbe8128353c6fcfede684e94dd86e03a4ff7369a59082630783c371fe325c5.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F248-Sidewing368-Magazin.json",
+      "sha256": "0eb0ab22a88d0b3a69660c0f13eabf0369e408c807b960bb6dd51b91e809ad6f",
+      "bytes": 9247,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/0e/0eb0ab22a88d0b3a69660c0f13eabf0369e408c807b960bb6dd51b91e809ad6f.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F372-CourtyardGallery370.json",
+      "sha256": "ec7fb36bfb7008938d02040f6d536b055ca6d8a59cfcd185262f996e8b7e06cd",
+      "bytes": 366219,
+      "module": "web/src/painted/delegated500/safety/f372-repair350.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/ec/ec7fb36bfb7008938d02040f6d536b055ca6d8a59cfcd185262f996e8b7e06cd.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F323-Details373.json",
+      "sha256": "fbc8d6c7283ef4dc8d0d4e81902f1373dbd0bef0cf2e51b60b3a00a8fb82bc44",
+      "bytes": 76415,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/fb/fbc8d6c7283ef4dc8d0d4e81902f1373dbd0bef0cf2e51b60b3a00a8fb82bc44.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F322-Current372.json",
+      "sha256": "ccc1485f55676ecb0678597ee2a88da1fae74339dbb8a8c6a5fb21a340e6144e",
+      "bytes": 950476,
+      "module": "web/src/painted/delegated500/safety/f322-details483.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/cc/ccc1485f55676ecb0678597ee2a88da1fae74339dbb8a8c6a5fb21a340e6144e.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F327-Tower381.json",
+      "sha256": "14300888c0cc3021d39c4b328e1ed241535372e55559dddae4acee8fec0a1310",
+      "bytes": 178565,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/14/14300888c0cc3021d39c4b328e1ed241535372e55559dddae4acee8fec0a1310.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F327-Nave381.json",
+      "sha256": "3f57104319989a9d3c479057cfd23a2e8e405edf21e83c0143b7640070935c98",
+      "bytes": 218168,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/3f/3f57104319989a9d3c479057cfd23a2e8e405edf21e83c0143b7640070935c98.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F356-ParentCarve396.json",
+      "sha256": "f8618a3499d77d27884dea5e23b092ade79f8dc4836a31759666a2a2406bf97c",
+      "bytes": 526619,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/f8/f8618a3499d77d27884dea5e23b092ade79f8dc4836a31759666a2a2406bf97c.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F310-Tower394.json",
+      "sha256": "ffb8ce3fff510f6352b7feac2a8e5da8a7478e69e757d305dfae8d0a2414d447",
+      "bytes": 827717,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/ff/ffb8ce3fff510f6352b7feac2a8e5da8a7478e69e757d305dfae8d0a2414d447.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F288-Reception399.json",
+      "sha256": "c7c90c6cbbac365e0bce658b12cbf6e9409451c74bcabe5b7adfaf8b36e360a0",
+      "bytes": 111615,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/c7/c7c90c6cbbac365e0bce658b12cbf6e9409451c74bcabe5b7adfaf8b36e360a0.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F360-Upper401-32112921.json",
+      "sha256": "8ac42b2be9e88916760193fd316990e80c1ea6a8f6f877266298efbec9c552cd",
+      "bytes": 14748,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/8a/8ac42b2be9e88916760193fd316990e80c1ea6a8f6f877266298efbec9c552cd.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F360-Upper401-32113829.json",
+      "sha256": "5f7ea31ad828e3dd3ba0fc8aad92978caa888956c49743822b75148c8e7c9bc9",
+      "bytes": 21460,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/5f/5f7ea31ad828e3dd3ba0fc8aad92978caa888956c49743822b75148c8e7c9bc9.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F360-Upper401-32113831.json",
+      "sha256": "047e87794ccd3bd1e415845759c7b3b22f30e4156fdbe6a81559846c167f2a86",
+      "bytes": 28920,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/04/047e87794ccd3bd1e415845759c7b3b22f30e4156fdbe6a81559846c167f2a86.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F295-Body404.json",
+      "sha256": "89b9d330d62846cdca7ec6457c3394df6ff1dfcdc05397850aa8c560a5c1f9db",
+      "bytes": 19614,
+      "module": "web/src/painted/delegated500/safety/f295-headframe419.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/89/89b9d330d62846cdca7ec6457c3394df6ff1dfcdc05397850aa8c560a5c1f9db.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F295-Frame419.json",
+      "sha256": "ae81a62cb297badc6cf015f5313df541a1093f86104ff205bdb2fc197f90f0f5",
+      "bytes": 152385,
+      "module": "web/src/painted/delegated500/safety/f295-headframe419.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/ae/ae81a62cb297badc6cf015f5313df541a1093f86104ff205bdb2fc197f90f0f5.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F295-Wheels404.json",
+      "sha256": "86468a1c180993a44e12208ea5b0ac1df90719329881267f9a923f2723f4a40b",
+      "bytes": 322001,
+      "module": "web/src/painted/delegated500/safety/f295-headframe419.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/86/86468a1c180993a44e12208ea5b0ac1df90719329881267f9a923f2723f4a40b.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F295-Access419.json",
+      "sha256": "a7ff61d049f478f5cbfb1e15e4f88dcd93de9f67c222b076b5889126c025b7a2",
+      "bytes": 400753,
+      "module": "web/src/painted/delegated500/safety/f295-headframe419.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/a7/a7ff61d049f478f5cbfb1e15e4f88dcd93de9f67c222b076b5889126c025b7a2.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F359-East410.json",
+      "sha256": "a1afccdb2e179fefb1182ef56f67aaff7064cce718a041758748078eb4083da8",
+      "bytes": 109378,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/a1/a1afccdb2e179fefb1182ef56f67aaff7064cce718a041758748078eb4083da8.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F349-Portico406.json",
+      "sha256": "6b74c421c2be4069f9984a3dc5a1b7bc650f2f2447f6a51a1d4ab056e3704a3d",
+      "bytes": 317531,
+      "module": "web/src/painted/delegated500/safety/f349-portico406.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/6b/6b74c421c2be4069f9984a3dc5a1b7bc650f2f2447f6a51a1d4ab056e3704a3d.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F237-RuinWall412.json",
+      "sha256": "67c05bbe9b9a5a28bfde69bbf70248bcfd3c81f2d5f6d40cbc4f7c6ad6a925ff",
+      "bytes": 112239,
+      "module": "web/src/painted/delegated500/safety/f237-ruin412.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/67/67c05bbe9b9a5a28bfde69bbf70248bcfd3c81f2d5f6d40cbc4f7c6ad6a925ff.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F025-Dom801.json",
+      "sha256": "ca5d765398f53a639355d75422924a03e681adcf649b44bef97c12fe4621feb3",
+      "bytes": 1033008,
+      "module": "web/src/painted/delegated500/safety/f025-figure663.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/ca/ca5d765398f53a639355d75422924a03e681adcf649b44bef97c12fe4621feb3.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F336-Castle425.json",
+      "sha256": "53da414f9dc4872b84f36715aaf357db3db6b777086c5ffe7a6e1e1ef18de233",
+      "bytes": 367112,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/53/53da414f9dc4872b84f36715aaf357db3db6b777086c5ffe7a6e1e1ef18de233.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F059-RuinWalls428.json",
+      "sha256": "dc6e8d5e526de77dd91cac680f9e203884abb917818a66483bd2623d879c809a",
+      "bytes": 97426,
+      "module": "web/src/painted/delegated500/safety/f059-memorial437.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/dc/dc6e8d5e526de77dd91cac680f9e203884abb917818a66483bd2623d879c809a.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F059-TowerBase428.json",
+      "sha256": "7cede281e856d13dfe242a1bb1ae5cd196cafd673076873e5f3de47ed9358d71",
+      "bytes": 45547,
+      "module": "web/src/painted/delegated500/safety/f059-memorial437.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/7c/7cede281e856d13dfe242a1bb1ae5cd196cafd673076873e5f3de47ed9358d71.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F059-OpenSpire437.json",
+      "sha256": "c6c3a4b4beb834e4a7cf48a258de92b47a9da081f7e2eaca379353cc3165d8a4",
+      "bytes": 950450,
+      "module": "web/src/painted/delegated500/safety/f059-memorial437.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/c6/c6c3a4b4beb834e4a7cf48a258de92b47a9da081f7e2eaca379353cc3165d8a4.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F044-Parent427.json",
+      "sha256": "c6910c8284a435d1d0bbe5e57023b12fcf1ed6b71ca5e2906ed3809507eb1e4c",
+      "bytes": 190415,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/c6/c6910c8284a435d1d0bbe5e57023b12fcf1ed6b71ca5e2906ed3809507eb1e4c.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F360-User420-32319661.json",
+      "sha256": "4e899c2758487026e2c44c495a0eb3428029a53a266a888383ce82cf455764d9",
+      "bytes": 20772,
+      "module": "web/src/painted/delegated500/safety/f360-user420.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/4e/4e899c2758487026e2c44c495a0eb3428029a53a266a888383ce82cf455764d9.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F360-User420-32500116.json",
+      "sha256": "696b7a8880f469c4c6f7e745c5aaf9cd577fb4b4588cf3a12a3f45602e85f1a4",
+      "bytes": 9717,
+      "module": "web/src/painted/delegated500/safety/f360-user420.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/69/696b7a8880f469c4c6f7e745c5aaf9cd577fb4b4588cf3a12a3f45602e85f1a4.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F360-User420-81521646.json",
+      "sha256": "c1e3d8e6d268105ce95de271e1fb6f6690cfde7e99d443783412e13b82b6708f",
+      "bytes": 13845,
+      "module": "web/src/painted/delegated500/safety/f360-user420.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/c1/c1e3d8e6d268105ce95de271e1fb6f6690cfde7e99d443783412e13b82b6708f.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F360-User420-169500732.json",
+      "sha256": "73a27d8081099cf9275f89071aaf97ddb7752fa5ca08b7c243cc41547850a4de",
+      "bytes": 15319,
+      "module": "web/src/painted/delegated500/safety/f360-user420.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/73/73a27d8081099cf9275f89071aaf97ddb7752fa5ca08b7c243cc41547850a4de.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F360-User420-169500734.json",
+      "sha256": "267830bbb050ce40d6f3121828e4d48953f4a7d4158ad4f4d513ce97228c136e",
+      "bytes": 8995,
+      "module": "web/src/painted/delegated500/safety/f360-user420.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/26/267830bbb050ce40d6f3121828e4d48953f4a7d4158ad4f4d513ce97228c136e.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F360-User420-169500737.json",
+      "sha256": "b44347f3c795897b66eb2c53a2693b18bd9b6365b5cffe24eaac309fae279726",
+      "bytes": 12124,
+      "module": "web/src/painted/delegated500/safety/f360-user420.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/b4/b44347f3c795897b66eb2c53a2693b18bd9b6365b5cffe24eaac309fae279726.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F360-User420-234352062.json",
+      "sha256": "aa9a6ae4a30f7a4b277eae874d85e6acff4c7a29de5bd2a5111af256f1ac0856",
+      "bytes": 8417,
+      "module": "web/src/painted/delegated500/safety/f360-user420.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/aa/aa9a6ae4a30f7a4b277eae874d85e6acff4c7a29de5bd2a5111af256f1ac0856.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F360-User420-234352064.json",
+      "sha256": "a33328a14fbe7049c77d52f77e5368feeb821688782b6f5610513b6a030a02c4",
+      "bytes": 6188,
+      "module": "web/src/painted/delegated500/safety/f360-user420.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/a3/a33328a14fbe7049c77d52f77e5368feeb821688782b6f5610513b6a030a02c4.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F360-User420-234352068.json",
+      "sha256": "536558a27878a55f509fe9aea9d08a800821b0f6a9b690a9961ea08f430ac1bd",
+      "bytes": 8833,
+      "module": "web/src/painted/delegated500/safety/f360-user420.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/53/536558a27878a55f509fe9aea9d08a800821b0f6a9b690a9961ea08f430ac1bd.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F360-User420-234352072.json",
+      "sha256": "e0c94864a56171ac078cf1605bbe9ce87b0f225a3bd5cc9c2b583df565c401e7",
+      "bytes": 8149,
+      "module": "web/src/painted/delegated500/safety/f360-user420.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/e0/e0c94864a56171ac078cf1605bbe9ce87b0f225a3bd5cc9c2b583df565c401e7.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F360-User420-234352073.json",
+      "sha256": "9913e24bcef95cf7b547e59092477bc5052b6acb667646edca02868952b8b33f",
+      "bytes": 9849,
+      "module": "web/src/painted/delegated500/safety/f360-user420.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/99/9913e24bcef95cf7b547e59092477bc5052b6acb667646edca02868952b8b33f.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F360-User420-234352078.json",
+      "sha256": "aa65a298c419ce5d02144ab389024ebd7432b806185fb8d38cdebbd8b495f19d",
+      "bytes": 9282,
+      "module": "web/src/painted/delegated500/safety/f360-user420.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/aa/aa65a298c419ce5d02144ab389024ebd7432b806185fb8d38cdebbd8b495f19d.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F360-User420-234352079.json",
+      "sha256": "3ee89dbcc26a833d27dc12324a5837e0abae3e00bfdb5a094f29e5556422ae56",
+      "bytes": 12545,
+      "module": "web/src/painted/delegated500/safety/f360-user420.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/3e/3ee89dbcc26a833d27dc12324a5837e0abae3e00bfdb5a094f29e5556422ae56.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F360-User420-273385273.json",
+      "sha256": "af58d143723ac8eb44eea4869af6ce83eb264d7680eecad7061c6736abc077f2",
+      "bytes": 8215,
+      "module": "web/src/painted/delegated500/safety/f360-user420.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/af/af58d143723ac8eb44eea4869af6ce83eb264d7680eecad7061c6736abc077f2.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F336-Castle431.json",
+      "sha256": "54782c7f8df59d72139d7e2100e16347f6711082a6719bde714051119aa71244",
+      "bytes": 647205,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/54/54782c7f8df59d72139d7e2100e16347f6711082a6719bde714051119aa71244.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F044-Parent447.json",
+      "sha256": "d188ccc41e9b7dbae58ee8251af935cf663126b906ba187e302f1c96dd47954a",
+      "bytes": 253883,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/d1/d188ccc41e9b7dbae58ee8251af935cf663126b906ba187e302f1c96dd47954a.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F237-KeepOther453.json",
+      "sha256": "e2f6b73ad09f78c22c8a673dd03490ac861f0ca0aa81891d76a1b60051e4f65d",
+      "bytes": 51036,
+      "module": "web/src/painted/delegated500/safety/f237-ruin412.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/e2/e2f6b73ad09f78c22c8a673dd03490ac861f0ca0aa81891d76a1b60051e4f65d.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F237-Palas453.json",
+      "sha256": "0584a1e51c7eb5d7f20f6012788cc8385e9726ad8b5ba723580918537ea24dc7",
+      "bytes": 101783,
+      "module": "web/src/painted/delegated500/safety/f237-ruin412.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/05/0584a1e51c7eb5d7f20f6012788cc8385e9726ad8b5ba723580918537ea24dc7.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F315-Repair461-right-lantern.json",
+      "sha256": "139dcf77a46bc497f41b409396de3725d4b5d0a2559090606c7f2926f2259f14",
+      "bytes": 201267,
+      "module": "web/src/painted/delegated500/safety/f315-details461.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/13/139dcf77a46bc497f41b409396de3725d4b5d0a2559090606c7f2926f2259f14.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F315-Body760.json",
+      "sha256": "4d24633f5d583d8eb5f45db3bbb40450fb585e54690538309b487bef52faf652",
+      "bytes": 555576,
+      "module": "web/src/painted/delegated500/safety/f315-details461.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/4d/4d24633f5d583d8eb5f45db3bbb40450fb585e54690538309b487bef52faf652.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F044-Parent463.json",
+      "sha256": "38d82b827e1bc9703340fbf9dca2d2fc74e8ddc160767724e14dc04953859416",
+      "bytes": 352930,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/38/38d82b827e1bc9703340fbf9dca2d2fc74e8ddc160767724e14dc04953859416.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F303-FrenchPavilion465.json",
+      "sha256": "abb1c516cb4874c68e99f760b8c944bb93f7d8b5468ff001a0a5f841cb08b894",
+      "bytes": 28805,
+      "module": "web/src/painted/delegated500/safety/f303-pavilions465.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/ab/abb1c516cb4874c68e99f760b8c944bb93f7d8b5468ff001a0a5f841cb08b894.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F303-GermanPavilion465.json",
+      "sha256": "4f9d84ec078d0dbfb229ea87f33924bf9e2ea46096ae38244330b495245e1cf9",
+      "bytes": 22858,
+      "module": "web/src/painted/delegated500/safety/f303-pavilions465.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/4f/4f9d84ec078d0dbfb229ea87f33924bf9e2ea46096ae38244330b495245e1cf9.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F303-WallPavilion465.json",
+      "sha256": "ba002420951216aa162e1f5579a2740359badc40cbd0aeedee83dfe993363378",
+      "bytes": 67083,
+      "module": "web/src/painted/delegated500/safety/f303-pavilions465.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/ba/ba002420951216aa162e1f5579a2740359badc40cbd0aeedee83dfe993363378.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F303-CourtArcades1465.json",
+      "sha256": "2186b0af66da861118cf133bf88167f35c0ec7878b7bf9f635e411020eea6619",
+      "bytes": 378990,
+      "module": "web/src/painted/delegated500/safety/f303-pavilions465.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/21/2186b0af66da861118cf133bf88167f35c0ec7878b7bf9f635e411020eea6619.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F303-CourtArcades2465.json",
+      "sha256": "86360490d93b3d291a14e67564967e3ddcc29d7efb29ebff02619a17809f250c",
+      "bytes": 287666,
+      "module": "web/src/painted/delegated500/safety/f303-pavilions465.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/86/86360490d93b3d291a14e67564967e3ddcc29d7efb29ebff02619a17809f250c.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F248-Machinehall469.json",
+      "sha256": "faad74610204b1902489810a941e2fe9a98aef25e75e4945f29d3771c4988c34",
+      "bytes": 96869,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/fa/faad74610204b1902489810a941e2fe9a98aef25e75e4945f29d3771c4988c34.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F303-CourtArcades1474.json",
+      "sha256": "c3d16e7b3c2f553028d7228462f0ccc28c84feac51378727aa29123ef52c073c",
+      "bytes": 152621,
+      "module": "web/src/painted/delegated500/safety/f303-pavilions465.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/c3/c3d16e7b3c2f553028d7228462f0ccc28c84feac51378727aa29123ef52c073c.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F303-CourtArcades2474.json",
+      "sha256": "4525820f5cffe0f9b125f24388637f24d64315aeaa9305f2fcdee352919d086b",
+      "bytes": 45965,
+      "module": "web/src/painted/delegated500/safety/f303-pavilions465.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/45/4525820f5cffe0f9b125f24388637f24d64315aeaa9305f2fcdee352919d086b.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F323-Body765.json",
+      "sha256": "e24ad65d085b93efa197200bc1df7e39e10223ac2ed5852ef6ad6443399526f0",
+      "bytes": 978395,
+      "module": "web/src/painted/delegated500/safety/f323-body476.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/e2/e24ad65d085b93efa197200bc1df7e39e10223ac2ed5852ef6ad6443399526f0.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F327-Details817.json",
+      "sha256": "d5aee20c0d787f909592b1bbc573b3f8b1615510b555c5b017bad9bfec9546fd",
+      "bytes": 446306,
+      "module": "web/src/painted/delegated500/safety/f327-details478.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/d5/d5aee20c0d787f909592b1bbc573b3f8b1615510b555c5b017bad9bfec9546fd.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F322-Details483.json",
+      "sha256": "a438ae90d28f3636c82c22c1c41cdf9f6eacd66acd4c1f818106b6fa53a6c1a2",
+      "bytes": 1036033,
+      "module": "web/src/painted/delegated500/safety/f322-details483.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/a4/a438ae90d28f3636c82c22c1c41cdf9f6eacd66acd4c1f818106b6fa53a6c1a2.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F303-Kronentor484.json",
+      "sha256": "bb71f8c8198bfb07b1b621cebea5d3503d5ef8b08be5ded2753404ace73da1e5",
+      "bytes": 364917,
+      "module": "web/src/painted/delegated500/safety/f303-pavilions465.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/bb/bb71f8c8198bfb07b1b621cebea5d3503d5ef8b08be5ded2753404ace73da1e5.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F303-Glockenspiel484.json",
+      "sha256": "65ff026755ad31505e033c22c511b599a85ffe7d2081bef2b7d24b502c9cb100",
+      "bytes": 89855,
+      "module": "web/src/painted/delegated500/safety/f303-pavilions465.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/65/65ff026755ad31505e033c22c511b599a85ffe7d2081bef2b7d24b502c9cb100.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F323-Entry488.json",
+      "sha256": "8fe65e5154c72904eb20b4d22a6e07f2ed6b59458cdf7ae870ed87476575950b",
+      "bytes": 90672,
+      "module": "web/src/painted/delegated500/safety/f323-entry488.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/8f/8fe65e5154c72904eb20b4d22a6e07f2ed6b59458cdf7ae870ed87476575950b.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F331-Bergpalais494.json",
+      "sha256": "12ff57799b8841dbd66bfc58636b7fb812cddbbddfad3746c7c84c4c1eddf9ff",
+      "bytes": 434622,
+      "module": "web/src/painted/delegated500/safety/f331-bergpalais494.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/12/12ff57799b8841dbd66bfc58636b7fb812cddbbddfad3746c7c84c4c1eddf9ff.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F303-GateParentCopy508.json",
+      "sha256": "9c763cf387eb75f77c9d26afa856bda72069c31a747fd83b163fb29753729984",
+      "bytes": 728670,
+      "module": "web/src/painted/delegated500/safety/f303-gate492.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/9c/9c763cf387eb75f77c9d26afa856bda72069c31a747fd83b163fb29753729984.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F303-GalleryGateCopy492.json",
+      "sha256": "ed918a66b8a6fa84b829b685b75260a575e36718022d64351eacf886ea88ae08",
+      "bytes": 37265,
+      "module": "web/src/painted/delegated500/safety/f303-gate492.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/ed/ed918a66b8a6fa84b829b685b75260a575e36718022d64351eacf886ea88ae08.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F364-SourceDisplay498.json",
+      "sha256": "8e7234736af0c73311aba8e68223cdbb00ac20a4b729665075234a3a666a92bd",
+      "bytes": 10491,
+      "module": "web/src/painted/delegated500/safety/f364-court498.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/8e/8e7234736af0c73311aba8e68223cdbb00ac20a4b729665075234a3a666a92bd.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F364-BodyDisplay498.json",
+      "sha256": "0b1191b74f72ce0dce410488ba43419b2dfdf7383bb2e49240982164a383c56a",
+      "bytes": 238411,
+      "module": "web/src/painted/delegated500/safety/f364-court498.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/0b/0b1191b74f72ce0dce410488ba43419b2dfdf7383bb2e49240982164a383c56a.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F364-Court498.json",
+      "sha256": "d24dcc9e6f310a65aae75929397ca1bf8d94b257783d0b719c6d1b245993f607",
+      "bytes": 705736,
+      "module": "web/src/painted/delegated500/safety/f364-court498.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/d2/d24dcc9e6f310a65aae75929397ca1bf8d94b257783d0b719c6d1b245993f607.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F356-Entry495.json",
+      "sha256": "91cfb7ce596e65345ca0e94f65c1853f16963f57c6b6b7cbd724f9f08bd06b37",
+      "bytes": 803494,
+      "module": "web/src/painted/delegated500/safety/f356-entry495.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/91/91cfb7ce596e65345ca0e94f65c1853f16963f57c6b6b7cbd724f9f08bd06b37.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F315-Crowns504.json",
+      "sha256": "b2fdfd5532a7e2f48b83aad953d6f786f3d4899ead057de0321959afa659ceea",
+      "bytes": 104602,
+      "module": "web/src/painted/delegated500/safety/f315-front515.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/b2/b2fdfd5532a7e2f48b83aad953d6f786f3d4899ead057de0321959afa659ceea.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F364-Court505.json",
+      "sha256": "0a20b593f1c5b1b7f3b479064c380ff1fd12b2d7035b2db52886cea810fb924b",
+      "bytes": 1034953,
+      "module": "web/src/painted/delegated500/safety/f364-court505.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/0a/0a20b593f1c5b1b7f3b479064c380ff1fd12b2d7035b2db52886cea810fb924b.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F331-NeuesPalais503.json",
+      "sha256": "c0050488571d5f64732856fcc3adec9bdfc0c155f77b379ef85db6471a3ba390",
+      "bytes": 589558,
+      "module": "web/src/painted/delegated500/safety/f331-neues503.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/c0/c0050488571d5f64732856fcc3adec9bdfc0c155f77b379ef85db6471a3ba390.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F372-CourtDormers507.json",
+      "sha256": "773a6ed41d55460ef7c86657e1af62bc880f4180781998ac4afeeacd15dc8126",
+      "bytes": 35921,
+      "module": "web/src/painted/delegated500/safety/f372-details507.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/77/773a6ed41d55460ef7c86657e1af62bc880f4180781998ac4afeeacd15dc8126.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F363-SouthSourceCopy518.json",
+      "sha256": "f06c9d81716389cba8c0d3c21f03597aa039c1079bf62507c210ccb4071d13a4",
+      "bytes": 51167,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/f0/f06c9d81716389cba8c0d3c21f03597aa039c1079bf62507c210ccb4071d13a4.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F363-EastSourceCopy518.json",
+      "sha256": "c1d79e4d8c3cae5cab169218cb9357597b0123c2a7a306ddecba5214412b2efe",
+      "bytes": 8125,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/c1/c1d79e4d8c3cae5cab169218cb9357597b0123c2a7a306ddecba5214412b2efe.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F373-HeadDetails516.json",
+      "sha256": "033908f8fa448894bf9ea98417554c10e37769e3098f78aac8ac8e57aef11cf0",
+      "bytes": 752160,
+      "module": "web/src/painted/delegated500/safety/f373-details516.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/03/033908f8fa448894bf9ea98417554c10e37769e3098f78aac8ac8e57aef11cf0.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F373-Tip516.json",
+      "sha256": "6a3d90e7c5e93c5e6e27dfd965fdb852a250f6799994a3369b079b8b9dce02da",
+      "bytes": 46555,
+      "module": "web/src/painted/delegated500/safety/f373-details516.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/6a/6a3d90e7c5e93c5e6e27dfd965fdb852a250f6799994a3369b079b8b9dce02da.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F236-CorridorDisplay524.json",
+      "sha256": "ac9c55d39973062334a95f8fd39519eb87e2582be8edcfa585542b63086447f7",
+      "bytes": 199936,
+      "module": "web/src/painted/delegated500/safety/f236-source-display524.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/ac/ac9c55d39973062334a95f8fd39519eb87e2582be8edcfa585542b63086447f7.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F248-Site525-Alte-Werkstatt.json",
+      "sha256": "1f1e4456bd21724ed6a6ecfaaf1b948e1c1899161613e53ee0d8377b3b7f984a",
+      "bytes": 58455,
+      "module": "web/src/painted/delegated500/safety/f248-site525.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/1f/1f1e4456bd21724ed6a6ecfaaf1b948e1c1899161613e53ee0d8377b3b7f984a.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F248-Site525-Alte-Verwaltung.json",
+      "sha256": "e354efec0214c678dbd94cef441ab4048a2d02ec607dd8e33f0e0c08c3268082",
+      "bytes": 154357,
+      "module": "web/src/painted/delegated500/safety/f248-site525.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/e3/e354efec0214c678dbd94cef441ab4048a2d02ec607dd8e33f0e0c08c3268082.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F248-Site525-Kesselhaus.json",
+      "sha256": "4f1429b7a7dd7da475d2d288c5c9e9a9d35403a6439fcdb0dc97b811d6095121",
+      "bytes": 15292,
+      "module": "web/src/painted/delegated500/safety/f248-site525.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/4f/4f1429b7a7dd7da475d2d288c5c9e9a9d35403a6439fcdb0dc97b811d6095121.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F236-EntranceDetails530.json",
+      "sha256": "7226b0e36ec6080a6a0e385376b0e0545d83c686903803ff5f6db0cb38a67890",
+      "bytes": 256513,
+      "module": "web/src/painted/delegated500/safety/f236-details530.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/72/7226b0e36ec6080a6a0e385376b0e0545d83c686903803ff5f6db0cb38a67890.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F248-Site534-Pferdestall.json",
+      "sha256": "01ae7c7be9b0fcd3e1f512bf66b7cca94ab3fb7e2c53694c39a73e862e397c6b",
+      "bytes": 190640,
+      "module": "web/src/painted/delegated500/safety/f248-site534.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/01/01ae7c7be9b0fcd3e1f512bf66b7cca94ab3fb7e2c53694c39a73e862e397c6b.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F248-Site534-Lampenstube.json",
+      "sha256": "55a5de1209b4b173a963abea295033dd175039fff98a60113160321f0d8d3a15",
+      "bytes": 147014,
+      "module": "web/src/painted/delegated500/safety/f248-site534.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/55/55a5de1209b4b173a963abea295033dd175039fff98a60113160321f0d8d3a15.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F248-Site534-Schachthalle.json",
+      "sha256": "c33e3910c4a81f6667c9ee6337f09be71de2e2c34a437f6daaacef42e9e8eb03",
+      "bytes": 68036,
+      "module": "web/src/painted/delegated500/safety/f248-site534.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/c3/c33e3910c4a81f6667c9ee6337f09be71de2e2c34a437f6daaacef42e9e8eb03.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F248-Site534-Museumsladen.json",
+      "sha256": "61cf42cdf6c7c116a2bb95c70a2bd48c1079d123b08375225fde6aff0508ebb4",
+      "bytes": 22525,
+      "module": "web/src/painted/delegated500/safety/f248-site534.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/61/61cf42cdf6c7c116a2bb95c70a2bd48c1079d123b08375225fde6aff0508ebb4.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F355-TowerHip559.json",
+      "sha256": "5895d0e771fdbf9bb44ae70aef8b7a2dfd5de82d902a25b9f28b926d520d6a32",
+      "bytes": 3819,
+      "module": "web/src/painted/delegated500/safety/f355-hip559.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/58/5895d0e771fdbf9bb44ae70aef8b7a2dfd5de82d902a25b9f28b926d520d6a32.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F302-BodyRearCopy554.json",
+      "sha256": "9f4b973193c647eaa75fd7150848759eeeb3b749106393f9af61cd26d89db3dd",
+      "bytes": 148308,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/9f/9f4b973193c647eaa75fd7150848759eeeb3b749106393f9af61cd26d89db3dd.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F302-UpperRearCopy554.json",
+      "sha256": "9414a670f7adf2d34c2d3fba94b16e061978aefe21e23ce7f6dddb1544520088",
+      "bytes": 138122,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/94/9414a670f7adf2d34c2d3fba94b16e061978aefe21e23ce7f6dddb1544520088.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F302-BasementRearCopy554.json",
+      "sha256": "b092be4688d18884515aede56a0da8de50dc591be9afa83de68de5e28819d4dd",
+      "bytes": 68766,
+      "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/b0/b092be4688d18884515aede56a0da8de50dc591be9afa83de68de5e28819d4dd.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F302-Crown576.json",
+      "sha256": "86861b8b50d156f138cee2d535c45a98ca6464f310c1f9c5af4c3cf15948c098",
+      "bytes": 21057,
+      "module": "web/src/painted/delegated500/safety/f302-crown576.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/86/86861b8b50d156f138cee2d535c45a98ca6464f310c1f9c5af4c3cf15948c098.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F302-RailingA576.json",
+      "sha256": "7eebeadf5f95204e27e169d9aaba2ae055e54f1548c1d444d04486f0ea9014d0",
+      "bytes": 599884,
+      "module": "web/src/painted/delegated500/safety/f302-crown576.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/7e/7eebeadf5f95204e27e169d9aaba2ae055e54f1548c1d444d04486f0ea9014d0.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F302-RailingB576.json",
+      "sha256": "e8856daaaac7fc621b12188006855563f25d728afc9caa638e15e6c74c106a19",
+      "bytes": 371857,
+      "module": "web/src/painted/delegated500/safety/f302-crown576.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/e8/e8856daaaac7fc621b12188006855563f25d728afc9caa638e15e6c74c106a19.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F302-RailingC576.json",
+      "sha256": "3625a08b80ebb9156eae93a4bfd41a942585963db891d21f3236acefbce32f44",
+      "bytes": 553481,
+      "module": "web/src/painted/delegated500/safety/f302-crown576.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/36/3625a08b80ebb9156eae93a4bfd41a942585963db891d21f3236acefbce32f44.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F302-RailingD576.json",
+      "sha256": "760347268c85037e4d7cbccf2a3d5c63264884dfe9a7f338286d50bd4dde7d3f",
+      "bytes": 361775,
+      "module": "web/src/painted/delegated500/safety/f302-crown576.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/76/760347268c85037e4d7cbccf2a3d5c63264884dfe9a7f338286d50bd4dde7d3f.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F022-Upper574.json",
+      "sha256": "3bbe4256cb3f6a804d2dc3a1c4d462ed9997289cf14fd106cc5376dfd1848901",
+      "bytes": 903424,
+      "module": "web/src/painted/delegated500/safety/f022-repair574.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/3b/3bbe4256cb3f6a804d2dc3a1c4d462ed9997289cf14fd106cc5376dfd1848901.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F280-Mass582.json",
+      "sha256": "56ffe17c9ed6e26c555d9b7522e33c98a0a1a928a1dca5d1c936149a75795bb0",
+      "bytes": 183716,
+      "module": "web/src/painted/delegated500/safety/f280-recovery582.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/56/56ffe17c9ed6e26c555d9b7522e33c98a0a1a928a1dca5d1c936149a75795bb0.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F280-Bridge582.json",
+      "sha256": "02791bf6db5970183feae2e8a71d13996d5e010b2cfe78ce90f2bb738642ecd5",
+      "bytes": 182966,
+      "module": "web/src/painted/delegated500/safety/f280-recovery582.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/02/02791bf6db5970183feae2e8a71d13996d5e010b2cfe78ce90f2bb738642ecd5.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F250-HipRoof590.json",
+      "sha256": "035804fb395c81d7adc6bb77012a9c137727dec0d3e6a1c4b61911469cc4a50c",
+      "bytes": 20340,
+      "module": "web/src/painted/delegated500/safety/f250-recovery590.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/03/035804fb395c81d7adc6bb77012a9c137727dec0d3e6a1c4b61911469cc4a50c.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F250-ClockLantern590.json",
+      "sha256": "0b064787b3f576d9d44b9fbb0f347ac00a32d4d1df2070b8e0b76d5140353fee",
+      "bytes": 422917,
+      "module": "web/src/painted/delegated500/safety/f250-recovery590.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/0b/0b064787b3f576d9d44b9fbb0f347ac00a32d4d1df2070b8e0b76d5140353fee.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F238-FoyerCopy595.json",
+      "sha256": "96fc39f280c4042f2af53c91634f42dda325f53433a4a5e742817c2c7b386741",
+      "bytes": 22007,
+      "module": "web/src/painted/delegated500/safety/f238-body595.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/96/96fc39f280c4042f2af53c91634f42dda325f53433a4a5e742817c2c7b386741.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F238-HallShell595.json",
+      "sha256": "4de967931ef22d6cebfdc7ade85a94472bf22f960a44d95b7fde84cb6fa0c335",
+      "bytes": 12978,
+      "module": "web/src/painted/delegated500/safety/f238-body595.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/4d/4de967931ef22d6cebfdc7ade85a94472bf22f960a44d95b7fde84cb6fa0c335.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F358-NorthGable1604.json",
+      "sha256": "3519974dd6154aeadcec7a12a16a0e9f2c57301f3378d10281136155e822dcf2",
+      "bytes": 3498,
+      "module": "web/src/painted/delegated500/safety/f358-repair604.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/35/3519974dd6154aeadcec7a12a16a0e9f2c57301f3378d10281136155e822dcf2.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F358-NorthGable2604.json",
+      "sha256": "e1aea6e39767f759242ebc4e524c6bb50d43899bba2600810a95a0078fa805f5",
+      "bytes": 3506,
+      "module": "web/src/painted/delegated500/safety/f358-repair604.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/e1/e1aea6e39767f759242ebc4e524c6bb50d43899bba2600810a95a0078fa805f5.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F244-NorthCorner619.json",
+      "sha256": "ad9bc44b246163f87edf03cbf2520268065d22d56c7c860cb9421d1d2e63fb5e",
+      "bytes": 31649,
+      "module": "web/src/painted/delegated500/safety/f244-corners619.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/ad/ad9bc44b246163f87edf03cbf2520268065d22d56c7c860cb9421d1d2e63fb5e.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F244-SouthCorner619.json",
+      "sha256": "0b24a44e360ef5ff8ca655c7726027f7eed6f60df3b99dcb6a3c79fa8d9a7f4a",
+      "bytes": 31658,
+      "module": "web/src/painted/delegated500/safety/f244-corners619.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/0b/0b24a44e360ef5ff8ca655c7726027f7eed6f60df3b99dcb6a3c79fa8d9a7f4a.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F244-RaisedDisplay627.json",
+      "sha256": "1d3c3861de0089ea1e3fc8974c9c2dfc415d28378d8ddf9a007f5c1e71942596",
+      "bytes": 162489,
+      "module": "web/src/painted/delegated500/safety/f244-level627.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/1d/1d3c3861de0089ea1e3fc8974c9c2dfc415d28378d8ddf9a007f5c1e71942596.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F244-LevelScene627.json",
+      "sha256": "215a1306503b05626ca5ac012fe03066aa9e515ee0c50dc2c0ea75bf7e01ef0d",
+      "bytes": 19197,
+      "module": "web/src/painted/delegated500/safety/f244-level627.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/21/215a1306503b05626ca5ac012fe03066aa9e515ee0c50dc2c0ea75bf7e01ef0d.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F244-Bridge627.json",
+      "sha256": "2ec4ddce6cd8224263a502d0d7c80e4ff14ce57b5cf1775acfc6047cc12258bf",
+      "bytes": 581991,
+      "module": "web/src/painted/delegated500/safety/f244-level627.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/2e/2ec4ddce6cd8224263a502d0d7c80e4ff14ce57b5cf1775acfc6047cc12258bf.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F235-Upper631.json",
+      "sha256": "7b8c979269bdbc164344a087109a767f0114e5072601cad241e3198e12cb6589",
+      "bytes": 12741,
+      "module": "web/src/painted/delegated500/safety/f235-upper631.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/7b/7b8c979269bdbc164344a087109a767f0114e5072601cad241e3198e12cb6589.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F020-Step661.json",
+      "sha256": "f4c7ec3c5864e15856d750935c236187cdaa80310bbc8c3d2e09381560aeefbd",
+      "bytes": 4989,
+      "module": "web/src/painted/delegated500/safety/f020-step661.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/f4/f4c7ec3c5864e15856d750935c236187cdaa80310bbc8c3d2e09381560aeefbd.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F025-Figure663.json",
+      "sha256": "df911d33e65ea9aa3bb9772d658622caa0d24d0b360b68a8827e300919884468",
+      "bytes": 473389,
+      "module": "web/src/painted/delegated500/safety/f025-figure663.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/df/df911d33e65ea9aa3bb9772d658622caa0d24d0b360b68a8827e300919884468.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F260-CapA711.json",
+      "sha256": "17fc7240d13be72642deeeb5d2b78bf612f84e12552155c9cf714d92986604d9",
+      "bytes": 27216,
+      "module": "web/src/painted/delegated500/safety/f260-caps710.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/17/17fc7240d13be72642deeeb5d2b78bf612f84e12552155c9cf714d92986604d9.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F260-CapB711.json",
+      "sha256": "a747f0143b346dda50883da06c934836b196ca76636a5609d1b0f3fbea6a1c2d",
+      "bytes": 27029,
+      "module": "web/src/painted/delegated500/safety/f260-caps710.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/a7/a747f0143b346dda50883da06c934836b196ca76636a5609d1b0f3fbea6a1c2d.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F260-FigureA715.json",
+      "sha256": "c87a09c2af2d555fe9cae4f67a5aebaa3c60f194ef7453a0629a81542d4437d2",
+      "bytes": 519449,
+      "module": "web/src/painted/delegated500/safety/f260-figures715.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/c8/c87a09c2af2d555fe9cae4f67a5aebaa3c60f194ef7453a0629a81542d4437d2.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F260-FigureB715.json",
+      "sha256": "32dc408c92fd948ae423473d98f339a5d3cad21a913271064f8b7a6036480ade",
+      "bytes": 439350,
+      "module": "web/src/painted/delegated500/safety/f260-figures715.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/32/32dc408c92fd948ae423473d98f339a5d3cad21a913271064f8b7a6036480ade.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F288-SouthCanopy720.json",
+      "sha256": "d823db4c546722a5b4ecd7923b57a8b01454a9407514f2dc29805866b9f906be",
+      "bytes": 127262,
+      "module": "web/src/painted/delegated500/safety/f288-south697.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/d8/d823db4c546722a5b4ecd7923b57a8b01454a9407514f2dc29805866b9f906be.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F288-LinkRoof725.json",
+      "sha256": "9e676346366be0fea082a5ad7b6d18f4bcf98a6150e0e8e70391bcccde8daa85",
+      "bytes": 20616,
+      "module": "web/src/painted/delegated500/safety/f288-link725.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/9e/9e676346366be0fea082a5ad7b6d18f4bcf98a6150e0e8e70391bcccde8daa85.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F288-Reception726.json",
+      "sha256": "e320bd6c4c664b4a8d547f07ca9cead105d67ddd50219d4388005392899962fe",
+      "bytes": 111239,
+      "module": "web/src/painted/delegated500/safety/f288-reception405.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/e3/e320bd6c4c664b4a8d547f07ca9cead105d67ddd50219d4388005392899962fe.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F288-SouthBody727.json",
+      "sha256": "42425ecc1bda3d391d837cc2cbbd682dfcd38b76a37a2bcec3c58c29f0df3f22",
+      "bytes": 10291,
+      "module": "web/src/painted/delegated500/safety/f288-body727.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/42/42425ecc1bda3d391d837cc2cbbd682dfcd38b76a37a2bcec3c58c29f0df3f22.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F384-FinialA735.json",
+      "sha256": "ee24a884beac759fea6f884ad9ec65c92c6749c243b26095da6813ad8f34c116",
+      "bytes": 48718,
+      "module": "web/src/painted/delegated500/safety/f384-finials735.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/ee/ee24a884beac759fea6f884ad9ec65c92c6749c243b26095da6813ad8f34c116.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F384-FinialB735.json",
+      "sha256": "f15b99a86b0f79b1b440bca7829e3aa330bffa4cdd89c2b988d108457d289adf",
+      "bytes": 47262,
+      "module": "web/src/painted/delegated500/safety/f384-finials735.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/f1/f15b99a86b0f79b1b440bca7829e3aa330bffa4cdd89c2b988d108457d289adf.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F384-CapA736.json",
+      "sha256": "a0bec4e50e97fd3c4c8d4a69c58b1c16f8e37b2cb4d974199cb008e9abb28ed1",
+      "bytes": 49865,
+      "module": "web/src/painted/delegated500/safety/f384-caps736.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/a0/a0bec4e50e97fd3c4c8d4a69c58b1c16f8e37b2cb4d974199cb008e9abb28ed1.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F384-CapB736.json",
+      "sha256": "406bdc2086ef35279b5cb9b517e3991ab5cf59fda218d304231a1f0611c6c709",
+      "bytes": 49436,
+      "module": "web/src/painted/delegated500/safety/f384-caps736.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/40/406bdc2086ef35279b5cb9b517e3991ab5cf59fda218d304231a1f0611c6c709.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F384-NorthDormers738.json",
+      "sha256": "779e551a3b623fd50187173e21ad698ebb3e1b37e2bf0f702c02546932ee010e",
+      "bytes": 37054,
+      "module": "web/src/painted/delegated500/safety/f384-dormers738.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/77/779e551a3b623fd50187173e21ad698ebb3e1b37e2bf0f702c02546932ee010e.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F232-Structure752.json",
+      "sha256": "6450de41a95c1d168d8f1b6fd1d034ed3e6ef83773d0e51244bad42f20e8d010",
+      "bytes": 961666,
+      "module": "web/src/painted/delegated500/safety/f232-structure752.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/64/6450de41a95c1d168d8f1b6fd1d034ed3e6ef83773d0e51244bad42f20e8d010.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F236-NorthPortal770.json",
+      "sha256": "b6c305bab213901ed780250d3d9e8e864290628a86ccd612d936341926c425ed",
+      "bytes": 88773,
+      "module": "web/src/painted/delegated500/safety/f236-north768.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/b6/b6c305bab213901ed780250d3d9e8e864290628a86ccd612d936341926c425ed.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F236-Platform1159802569-771.json",
+      "sha256": "3114e68fac8e8efbc41cc1e1f17f9dd1aa7ed5d63aa3b30c0ea92a0538b61d34",
+      "bytes": 146192,
+      "module": "web/src/painted/delegated500/safety/f236-platforms771.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/31/3114e68fac8e8efbc41cc1e1f17f9dd1aa7ed5d63aa3b30c0ea92a0538b61d34.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F236-Platform1332728408-771.json",
+      "sha256": "e5cfc45a4ba3aa8a537d28bc1bca49341dfbf8c705cb6aea09c882ef7cf8f201",
+      "bytes": 48776,
+      "module": "web/src/painted/delegated500/safety/f236-platforms771.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/e5/e5cfc45a4ba3aa8a537d28bc1bca49341dfbf8c705cb6aea09c882ef7cf8f201.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F236-Platform1408618855-771.json",
+      "sha256": "6ebed3c7e942c629e7d474fe69fbd4698f9545c74dce7616fa3a7d8791aaa574",
+      "bytes": 31596,
+      "module": "web/src/painted/delegated500/safety/f236-platforms771.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/6e/6ebed3c7e942c629e7d474fe69fbd4698f9545c74dce7616fa3a7d8791aaa574.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F236-Platform229563397-771.json",
+      "sha256": "40d051e714ab440c2cb87552a7b1a84163b3fa3ce4a57c586e6d5484fd2ae998",
+      "bytes": 27426,
+      "module": "web/src/painted/delegated500/safety/f236-platforms771.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/40/40d051e714ab440c2cb87552a7b1a84163b3fa3ce4a57c586e6d5484fd2ae998.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F236-Platform229563398-771.json",
+      "sha256": "ef820eaadfec1d4d5aa13ab2e346c4ef11d6e2641c6d8ab1856e996327780a40",
+      "bytes": 68990,
+      "module": "web/src/painted/delegated500/safety/f236-platforms771.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/ef/ef820eaadfec1d4d5aa13ab2e346c4ef11d6e2641c6d8ab1856e996327780a40.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F236-Platform229637862-771.json",
+      "sha256": "32a50be22db298c13e1a9960ae39b6fff56bc1ad0bb10bc13d8382feff212fd1",
+      "bytes": 137767,
+      "module": "web/src/painted/delegated500/safety/f236-platforms771.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/32/32a50be22db298c13e1a9960ae39b6fff56bc1ad0bb10bc13d8382feff212fd1.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F236-Platform229637863-771.json",
+      "sha256": "4a959a60924fff41a57806de57b74fa8c70b9c9eca5967d735897fde6779ac40",
+      "bytes": 61447,
+      "module": "web/src/painted/delegated500/safety/f236-platforms771.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/4a/4a959a60924fff41a57806de57b74fa8c70b9c9eca5967d735897fde6779ac40.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F236-Platform229637865-771.json",
+      "sha256": "917e358b7b705ba54a05913b9c4be25f92064ec531c8c80326f7a45f8f547930",
+      "bytes": 133542,
+      "module": "web/src/painted/delegated500/safety/f236-platforms771.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/91/917e358b7b705ba54a05913b9c4be25f92064ec531c8c80326f7a45f8f547930.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F025-NorthPortico801.json",
+      "sha256": "2a96ca8797d057265e7f915733fb605c54cfdefe86a3e61ea72efc356778f755",
+      "bytes": 112681,
+      "module": "web/src/painted/delegated500/safety/f025-north801.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/2a/2a96ca8797d057265e7f915733fb605c54cfdefe86a3e61ea72efc356778f755.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F340-Crowns819.json",
+      "sha256": "a0af328603334b6ac97f080513577925e7d49342dda59876dee27d4705a7b00a",
+      "bytes": 60137,
+      "module": "web/src/painted/delegated500/safety/f340-crowns819.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/a0/a0af328603334b6ac97f080513577925e7d49342dda59876dee27d4705a7b00a.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/Petrus-Court827.json",
+      "sha256": "139778308f7186cd9cba7331669b34f5407c6a710cef74abb71f68149c6602d9",
+      "bytes": 92474,
+      "module": "web/src/painted/delegated500/safety/f271-courtyard827.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/13/139778308f7186cd9cba7331669b34f5407c6a710cef74abb71f68149c6602d9.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/Roselius-Court827.json",
+      "sha256": "d544cd133701cca392d8a525fe2ff0bc2580112ce9b8500059ceae009f7e7ba8",
+      "bytes": 136121,
+      "module": "web/src/painted/delegated500/safety/f271-courtyard827.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/d5/d544cd133701cca392d8a525fe2ff0bc2580112ce9b8500059ceae009f7e7ba8.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/assets/3d-materials/plaster002-5dbf2c4b731a.png",
+      "sha256": "5dbf2c4b731a721bb73ee1a53c397e3feb23ad2a9cc24213ede4dac3ec507ea2",
+      "bytes": 95359,
+      "module": "web/src/painted/delegated500/safety/open-facade-diffuse.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/5d/5dbf2c4b731a721bb73ee1a53c397e3feb23ad2a9cc24213ede4dac3ec507ea2.png"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/assets/3d-materials/bricks029-da249cffc10c.png",
+      "sha256": "da249cffc10c296e44fd64921039a3b8f1e306a51218cd6e7f9fb43a3c3d68d4",
+      "bytes": 117467,
+      "module": "web/src/painted/delegated500/safety/open-facade-diffuse.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/da/da249cffc10c296e44fd64921039a3b8f1e306a51218cd6e7f9fb43a3c3d68d4.png"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/safety/buildings3d/owner-shape-patches/F355-Tower-220.json",
+      "sha256": "94f972b5a452e8a3032505b8a84353d91b6f727b08b0d922673eb3c92bcb731f",
+      "bytes": 5731,
+      "module": "web/src/painted/delegated500/safety/f355-tower220.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/94/94f972b5a452e8a3032505b8a84353d91b6f727b08b0d922673eb3c92bcb731f.json"
+    },
+    {
+      "provider": "delegated500",
+      "path": "/assets/3d-materials/osm2world-windows-7e2f0946.png",
+      "sha256": "7e2f09469e1b4a683bed7e41306d9e7800da1a9aecfd5688e22b77fb4a2d0386",
+      "bytes": 13651,
+      "module": "web/src/painted/delegated500/safety/open-facade-window-texture.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/7e/7e2f09469e1b4a683bed7e41306d9e7800da1a9aecfd5688e22b77fb4a2d0386.png"
+    },
+    {
+      "provider": "tier300",
+      "path": "/safety/buildings3d/owner-shape-patches/S010.json",
+      "sha256": "701d7202afefba8632eaef48548b2a10c890c6b47dc470f211cb6cd1cc16baaa",
+      "bytes": 956683,
+      "module": "web/src/painted/tier300/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/70/701d7202afefba8632eaef48548b2a10c890c6b47dc470f211cb6cd1cc16baaa.json"
+    },
+    {
+      "provider": "tier300",
+      "path": "/safety/buildings3d/owner-shape-patches/S015.json",
+      "sha256": "19e5133f27e80334b8c00c3d42c25214502b17cbe3119b5dfee6ebfc428b371b",
+      "bytes": 114803,
+      "module": "web/src/painted/tier300/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/19/19e5133f27e80334b8c00c3d42c25214502b17cbe3119b5dfee6ebfc428b371b.json"
+    },
+    {
+      "provider": "tier300",
+      "path": "/safety/buildings3d/owner-shape-patches/S579.json",
+      "sha256": "6b33632ce858d73523524e1da56fbc0cb9c35e760503d83a9fd4e03e3513e832",
+      "bytes": 973102,
+      "module": "web/src/painted/tier300/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/6b/6b33632ce858d73523524e1da56fbc0cb9c35e760503d83a9fd4e03e3513e832.json"
+    },
+    {
+      "provider": "tier300",
+      "path": "/safety/buildings3d/owner-shape-patches/S795.json",
+      "sha256": "bc610c04bcac4d32f4d0af676cac4a0fbb03c2f318302df376fe1a34cf797794",
+      "bytes": 337374,
+      "module": "web/src/painted/tier300/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/bc/bc610c04bcac4d32f4d0af676cac4a0fbb03c2f318302df376fe1a34cf797794.json"
+    },
+    {
+      "provider": "tier300",
+      "path": "/assets/3d-materials/plaster002-5dbf2c4b731a.png",
+      "sha256": "5dbf2c4b731a721bb73ee1a53c397e3feb23ad2a9cc24213ede4dac3ec507ea2",
+      "bytes": 95359,
+      "module": "web/src/painted/tier300/safety/open-facade-diffuse.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/5d/5dbf2c4b731a721bb73ee1a53c397e3feb23ad2a9cc24213ede4dac3ec507ea2.png"
+    },
+    {
+      "provider": "tier300",
+      "path": "/assets/3d-materials/bricks029-da249cffc10c.png",
+      "sha256": "da249cffc10c296e44fd64921039a3b8f1e306a51218cd6e7f9fb43a3c3d68d4",
+      "bytes": 117467,
+      "module": "web/src/painted/tier300/safety/open-facade-diffuse.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/da/da249cffc10c296e44fd64921039a3b8f1e306a51218cd6e7f9fb43a3c3d68d4.png"
+    },
+    {
+      "provider": "tier300",
+      "path": "/assets/3d-materials/osm2world-windows-7e2f0946.png",
+      "sha256": "7e2f09469e1b4a683bed7e41306d9e7800da1a9aecfd5688e22b77fb4a2d0386",
+      "bytes": 13651,
+      "module": "web/src/painted/tier300/safety/open-facade-window-texture.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/7e/7e2f09469e1b4a683bed7e41306d9e7800da1a9aecfd5688e22b77fb4a2d0386.png"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C341.json",
+      "sha256": "ffaf56e72e55e543eee834808f4d382cf2d6ceebd0c659609c9de08963b352b5",
+      "bytes": 347897,
+      "module": "web/src/painted/city/safety/c341-fixture.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/ff/ffaf56e72e55e543eee834808f4d382cf2d6ceebd0c659609c9de08963b352b5.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C338.json",
+      "sha256": "190705589b24e92d438529dcd4e14f611b4d239368373a2430ef3e564ccc6dbe",
+      "bytes": 84698,
+      "module": "web/src/painted/city/safety/c338-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/19/190705589b24e92d438529dcd4e14f611b4d239368373a2430ef3e564ccc6dbe.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C324.json",
+      "sha256": "6de4b8786009c9052e76ae721bbfe0571d406accfc6bd11222aa0628ca530f70",
+      "bytes": 60880,
+      "module": "web/src/painted/city/safety/c324-fixture.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/6d/6de4b8786009c9052e76ae721bbfe0571d406accfc6bd11222aa0628ca530f70.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C426.json",
+      "sha256": "496aebe2077067bb8e9295fecdfe4fda2dfd48a322802e4fee79201a1e38edb9",
+      "bytes": 144476,
+      "module": "web/src/painted/city/safety/c426-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/49/496aebe2077067bb8e9295fecdfe4fda2dfd48a322802e4fee79201a1e38edb9.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C439.json",
+      "sha256": "7aa5ad2fbefad1ae32160d6e4985b531508efbc37cdd91356c1dded6cd385f38",
+      "bytes": 309857,
+      "module": "web/src/painted/city/safety/c439-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/7a/7aa5ad2fbefad1ae32160d6e4985b531508efbc37cdd91356c1dded6cd385f38.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C360.json",
+      "sha256": "ff8a58584ab78c9fa8e3a391b373fe155c7f879634897cd3d97cad8604974806",
+      "bytes": 811911,
+      "module": "web/src/painted/city/safety/c360-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/ff/ff8a58584ab78c9fa8e3a391b373fe155c7f879634897cd3d97cad8604974806.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C335.json",
+      "sha256": "0fa0454f2f86f6cb6682d6adfbb757758c8fae8ee8e02793f65d13c0ea91caa6",
+      "bytes": 211429,
+      "module": "web/src/painted/city/safety/c335-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/0f/0fa0454f2f86f6cb6682d6adfbb757758c8fae8ee8e02793f65d13c0ea91caa6.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C374.json",
+      "sha256": "22f580f3cfd65101561cfd716aae12332c4199c4a129d10daf4b965e20eac661",
+      "bytes": 14927,
+      "module": "web/src/painted/city/safety/c374-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/22/22f580f3cfd65101561cfd716aae12332c4199c4a129d10daf4b965e20eac661.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C448.json",
+      "sha256": "2ab9ee85b569f7f422c739c6ca47b841bf125634d6b76a4fb40a202cb6ea851c",
+      "bytes": 39949,
+      "module": "web/src/painted/city/safety/c448-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/2a/2ab9ee85b569f7f422c739c6ca47b841bf125634d6b76a4fb40a202cb6ea851c.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C476-modern-roof-0.json",
+      "sha256": "da8bf7a25af0ffcff4be2779b0143b05b78e0183b2938e33fb597567cb42f35e",
+      "bytes": 38031,
+      "module": "web/src/painted/city/safety/c476-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/da/da8bf7a25af0ffcff4be2779b0143b05b78e0183b2938e33fb597567cb42f35e.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C476-modern-roof-1.json",
+      "sha256": "1d978097f4e2f1a5e21c9c3b2efc2dfc49603e48556566064b058fe371e93d36",
+      "bytes": 29532,
+      "module": "web/src/painted/city/safety/c476-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/1d/1d978097f4e2f1a5e21c9c3b2efc2dfc49603e48556566064b058fe371e93d36.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C329.json",
+      "sha256": "8c81a40b4e1fd95161ac93a2e78c081e05397ee626503b97273a87644af4e813",
+      "bytes": 33264,
+      "module": "web/src/painted/city/safety/c329-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/8c/8c81a40b4e1fd95161ac93a2e78c081e05397ee626503b97273a87644af4e813.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C432.json",
+      "sha256": "597fa8deecda15f8d14bf13b9dc8594747f0e7b5a3dc01fee2b768c24801aba0",
+      "bytes": 25804,
+      "module": "web/src/painted/city/safety/c432-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/59/597fa8deecda15f8d14bf13b9dc8594747f0e7b5a3dc01fee2b768c24801aba0.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C330.json",
+      "sha256": "a3befa3ca2969f6e5866eafb797bff82af0f37b71ed40cf3d5d552d05e371f74",
+      "bytes": 91103,
+      "module": "web/src/painted/city/safety/c330-fixture.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/a3/a3befa3ca2969f6e5866eafb797bff82af0f37b71ed40cf3d5d552d05e371f74.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C351.json",
+      "sha256": "ae74cf2f80548900e71f1790462b9fcdcdd426e7142a1d87d653df43312a34ea",
+      "bytes": 540134,
+      "module": "web/src/painted/city/safety/c351-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/ae/ae74cf2f80548900e71f1790462b9fcdcdd426e7142a1d87d653df43312a34ea.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C429.json",
+      "sha256": "fb84e1b20206fd8b4915929c7dcee3b0805edea8a338567858f00a96f5db4d36",
+      "bytes": 26462,
+      "module": "web/src/painted/city/safety/c429-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/fb/fb84e1b20206fd8b4915929c7dcee3b0805edea8a338567858f00a96f5db4d36.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C472-23807754.json",
+      "sha256": "edd49c6d54ae7e9c515a0f21fb3e535251db6b8dd89529f97c7dddb29818348f",
+      "bytes": 22149,
+      "module": "web/src/painted/city/safety/c472-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/ed/edd49c6d54ae7e9c515a0f21fb3e535251db6b8dd89529f97c7dddb29818348f.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C472-233583998.json",
+      "sha256": "cfa857b9d89200aa7fc1774ef60dcc7321629fa3ea893f1326cd37922dd1699f",
+      "bytes": 8447,
+      "module": "web/src/painted/city/safety/c472-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/cf/cfa857b9d89200aa7fc1774ef60dcc7321629fa3ea893f1326cd37922dd1699f.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C472-585853975.json",
+      "sha256": "e8577c7adb3c033e181623b645f031a6ce200fe5241ad704ac4a9b9350d50b48",
+      "bytes": 16574,
+      "module": "web/src/painted/city/safety/c472-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/e8/e8577c7adb3c033e181623b645f031a6ce200fe5241ad704ac4a9b9350d50b48.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C472-78454.json",
+      "sha256": "a8bd0387645f982ec6fe7b37636a07c161c10cf86dcf7b45e7893189c68b3d58",
+      "bytes": 637589,
+      "module": "web/src/painted/city/safety/c472-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/a8/a8bd0387645f982ec6fe7b37636a07c161c10cf86dcf7b45e7893189c68b3d58.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C472-3145003.json",
+      "sha256": "f1e17b3aa8857c48566c2d628799bbbc4c01e481c0aa6532e5ec4097b0fd3e26",
+      "bytes": 12138,
+      "module": "web/src/painted/city/safety/c472-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/f1/f1e17b3aa8857c48566c2d628799bbbc4c01e481c0aa6532e5ec4097b0fd3e26.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C472-3145006.json",
+      "sha256": "fc0f3a4fa4a05ce22578181cfcb0c0ca4063b5bea475efcbab0f61e2ce2b4e26",
+      "bytes": 11700,
+      "module": "web/src/painted/city/safety/c472-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/fc/fc0f3a4fa4a05ce22578181cfcb0c0ca4063b5bea475efcbab0f61e2ce2b4e26.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C370.json",
+      "sha256": "4b39784dc49c7fc6845d50e1b18cfdde5820e8c8249ca28fabbb6d7570318a21",
+      "bytes": 9473,
+      "module": "web/src/painted/city/safety/c370-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/4b/4b39784dc49c7fc6845d50e1b18cfdde5820e8c8249ca28fabbb6d7570318a21.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C403.json",
+      "sha256": "fafb23122287607a791827c40ef5b41e58974035d2e42a3a076801b2fb333fed",
+      "bytes": 31684,
+      "module": "web/src/painted/city/safety/c403-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/fa/fafb23122287607a791827c40ef5b41e58974035d2e42a3a076801b2fb333fed.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C364.json",
+      "sha256": "62c060e4d09ade1ff87b4e5655c746eded416f0e84b5ff4c77a39b256e5b2a2b",
+      "bytes": 157897,
+      "module": "web/src/painted/city/safety/c364-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/62/62c060e4d09ade1ff87b4e5655c746eded416f0e84b5ff4c77a39b256e5b2a2b.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C466.json",
+      "sha256": "3b607f0ac445f5614b2593bbae4ec1ba548ce54840d1f4476b38d845b3d40eae",
+      "bytes": 136493,
+      "module": "web/src/painted/city/safety/c466-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/3b/3b607f0ac445f5614b2593bbae4ec1ba548ce54840d1f4476b38d845b3d40eae.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C447.json",
+      "sha256": "2756dba786e6f1cb8220b68217628c15a804a1b9b7db11e8237c975c807cf54c",
+      "bytes": 10043,
+      "module": "web/src/painted/city/safety/c447-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/27/2756dba786e6f1cb8220b68217628c15a804a1b9b7db11e8237c975c807cf54c.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C345.json",
+      "sha256": "0683f0667ab34b2a4963b1e260db2a0235d67f64adf217ddbe755e4bfd3ea616",
+      "bytes": 368691,
+      "module": "web/src/painted/city/safety/c345-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/06/0683f0667ab34b2a4963b1e260db2a0235d67f64adf217ddbe755e4bfd3ea616.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C326.json",
+      "sha256": "3ea328002d8cb1d59930ad719f4addf83f7fd63163997c32f028f2e73811e3a9",
+      "bytes": 50157,
+      "module": "web/src/painted/city/safety/c326-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/3e/3ea328002d8cb1d59930ad719f4addf83f7fd63163997c32f028f2e73811e3a9.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C438.json",
+      "sha256": "ee94758ced4c1e4a80aecdf9d145c47545982d03a327e2a572aed9a4cff245c6",
+      "bytes": 692452,
+      "module": "web/src/painted/city/safety/c438-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/ee/ee94758ced4c1e4a80aecdf9d145c47545982d03a327e2a572aed9a4cff245c6.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C427.json",
+      "sha256": "cb46a0faa9e9acce3f95fb730a316ee82e62be85e5343ae058cdcca8d0cf3511",
+      "bytes": 32658,
+      "module": "web/src/painted/city/safety/c427-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/cb/cb46a0faa9e9acce3f95fb730a316ee82e62be85e5343ae058cdcca8d0cf3511.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C398.json",
+      "sha256": "1973a32ebf459154c969b84bf687ce4574db2a7f01d34e9ed5a251f59665c128",
+      "bytes": 50145,
+      "module": "web/src/painted/city/safety/c398-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/19/1973a32ebf459154c969b84bf687ce4574db2a7f01d34e9ed5a251f59665c128.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C456.json",
+      "sha256": "9ae131317acdd871f9b4003f05223224aa1dc60adebdeb2bac27fef61de70b0d",
+      "bytes": 79357,
+      "module": "web/src/painted/city/safety/c456-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/9a/9ae131317acdd871f9b4003f05223224aa1dc60adebdeb2bac27fef61de70b0d.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/environment/bremen/water-admission-6c79982d4450a2d697b826eeb74bb585e7b123e1e462678e159eee7d21576279.json",
+      "sha256": "6c79982d4450a2d697b826eeb74bb585e7b123e1e462678e159eee7d21576279",
+      "bytes": 42992,
+      "module": "web/src/painted/city/safety/environment-city-admission.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/6c/6c79982d4450a2d697b826eeb74bb585e7b123e1e462678e159eee7d21576279.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/environment/cologne/water-admission-24e29dffe00814b2cadb7f0501e184f636a1f63e6ad3abbb4c80f7bcbe5b4221.json",
+      "sha256": "24e29dffe00814b2cadb7f0501e184f636a1f63e6ad3abbb4c80f7bcbe5b4221",
+      "bytes": 24632,
+      "module": "web/src/painted/city/safety/environment-city-admission.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/24/24e29dffe00814b2cadb7f0501e184f636a1f63e6ad3abbb4c80f7bcbe5b4221.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/environment/dortmund/water-admission-335d934c4b0493dd95f93b76143d53b68e3357e662073bd2eb1926bf747c80ed.json",
+      "sha256": "335d934c4b0493dd95f93b76143d53b68e3357e662073bd2eb1926bf747c80ed",
+      "bytes": 38809,
+      "module": "web/src/painted/city/safety/environment-city-admission.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/33/335d934c4b0493dd95f93b76143d53b68e3357e662073bd2eb1926bf747c80ed.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/environment/dresden/water-admission-6848b8e80197d778368f9207b8de7954941a165c0422b07734497c2f1c4d9103.json",
+      "sha256": "6848b8e80197d778368f9207b8de7954941a165c0422b07734497c2f1c4d9103",
+      "bytes": 42339,
+      "module": "web/src/painted/city/safety/environment-city-admission.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/68/6848b8e80197d778368f9207b8de7954941a165c0422b07734497c2f1c4d9103.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/environment/dusseldorf/water-admission-ecde8467a685ec659603a4d2648020a0357be38f6eef7677b93a95a75776d930.json",
+      "sha256": "ecde8467a685ec659603a4d2648020a0357be38f6eef7677b93a95a75776d930",
+      "bytes": 22692,
+      "module": "web/src/painted/city/safety/environment-city-admission.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/ec/ecde8467a685ec659603a4d2648020a0357be38f6eef7677b93a95a75776d930.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/environment/essen/water-admission-598515636542424c5792867aba5e8cb11864ed805e7349dfad072365f26a17e9.json",
+      "sha256": "598515636542424c5792867aba5e8cb11864ed805e7349dfad072365f26a17e9",
+      "bytes": 24264,
+      "module": "web/src/painted/city/safety/environment-city-admission.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/59/598515636542424c5792867aba5e8cb11864ed805e7349dfad072365f26a17e9.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/environment/frankfurt/water-admission-1477756fa238143c3ff8128354aa08584affb494bfab3ae7bfcfc731a6d50882.json",
+      "sha256": "1477756fa238143c3ff8128354aa08584affb494bfab3ae7bfcfc731a6d50882",
+      "bytes": 18578,
+      "module": "web/src/painted/city/safety/environment-city-admission.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/14/1477756fa238143c3ff8128354aa08584affb494bfab3ae7bfcfc731a6d50882.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/environment/hamburg/water-admission-9c834a9e4566faada1815ab82ef1c354ec2183aa8fe9b71e0f17d5448c5874c8.json",
+      "sha256": "9c834a9e4566faada1815ab82ef1c354ec2183aa8fe9b71e0f17d5448c5874c8",
+      "bytes": 95402,
+      "module": "web/src/painted/city/safety/environment-city-admission.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/9c/9c834a9e4566faada1815ab82ef1c354ec2183aa8fe9b71e0f17d5448c5874c8.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/environment/hannover/water-admission-8b64a986eaa93c22c7fb3a4d6aed510201e606023245d0fc3018f2ef17656046.json",
+      "sha256": "8b64a986eaa93c22c7fb3a4d6aed510201e606023245d0fc3018f2ef17656046",
+      "bytes": 20384,
+      "module": "web/src/painted/city/safety/environment-city-admission.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/8b/8b64a986eaa93c22c7fb3a4d6aed510201e606023245d0fc3018f2ef17656046.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/environment/leipzig/water-admission-37312c137821a6fb5eee4c6b2c5560c1befe706347786754aae4ae00bd44f20e.json",
+      "sha256": "37312c137821a6fb5eee4c6b2c5560c1befe706347786754aae4ae00bd44f20e",
+      "bytes": 31251,
+      "module": "web/src/painted/city/safety/environment-city-admission.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/37/37312c137821a6fb5eee4c6b2c5560c1befe706347786754aae4ae00bd44f20e.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/environment/munich/water-admission-e377502e8dfc14e330f360738b06e84f04f3c52c3cd72cd9852af23d8836b91c.json",
+      "sha256": "e377502e8dfc14e330f360738b06e84f04f3c52c3cd72cd9852af23d8836b91c",
+      "bytes": 23545,
+      "module": "web/src/painted/city/safety/environment-city-admission.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/e3/e377502e8dfc14e330f360738b06e84f04f3c52c3cd72cd9852af23d8836b91c.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/environment/nuremberg/water-admission-cf77b88cee3b4c831346a6596348a184be13686a65f8218a515d9943984b24dc.json",
+      "sha256": "cf77b88cee3b4c831346a6596348a184be13686a65f8218a515d9943984b24dc",
+      "bytes": 21684,
+      "module": "web/src/painted/city/safety/environment-city-admission.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/cf/cf77b88cee3b4c831346a6596348a184be13686a65f8218a515d9943984b24dc.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/environment/stuttgart/water-admission-605e59065d4a05c009b19340f4732bb06a597a2fc75e39e59aeca8cfc38d79fe.json",
+      "sha256": "605e59065d4a05c009b19340f4732bb06a597a2fc75e39e59aeca8cfc38d79fe",
+      "bytes": 22833,
+      "module": "web/src/painted/city/safety/environment-city-admission.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/60/605e59065d4a05c009b19340f4732bb06a597a2fc75e39e59aeca8cfc38d79fe.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/environment/berlin/water-admission-d5c787201e1e21e9eaa41bdbfb096069933c689dafdac1fbd333bc9b2244565d.json",
+      "sha256": "d5c787201e1e21e9eaa41bdbfb096069933c689dafdac1fbd333bc9b2244565d",
+      "bytes": 67388,
+      "module": "web/src/painted/city/safety/environment-city-admission.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/d5/d5c787201e1e21e9eaa41bdbfb096069933c689dafdac1fbd333bc9b2244565d.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C354.json",
+      "sha256": "19928f00be8b6b30684315935012fba999da4353823cdbe155a594aad5eff671",
+      "bytes": 18370,
+      "module": "web/src/painted/city/safety/c354-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/19/19928f00be8b6b30684315935012fba999da4353823cdbe155a594aad5eff671.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/S010.json",
+      "sha256": "701d7202afefba8632eaef48548b2a10c890c6b47dc470f211cb6cd1cc16baaa",
+      "bytes": 956683,
+      "module": "web/src/painted/city/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/70/701d7202afefba8632eaef48548b2a10c890c6b47dc470f211cb6cd1cc16baaa.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/S015.json",
+      "sha256": "19e5133f27e80334b8c00c3d42c25214502b17cbe3119b5dfee6ebfc428b371b",
+      "bytes": 114803,
+      "module": "web/src/painted/city/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/19/19e5133f27e80334b8c00c3d42c25214502b17cbe3119b5dfee6ebfc428b371b.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/S579.json",
+      "sha256": "6b33632ce858d73523524e1da56fbc0cb9c35e760503d83a9fd4e03e3513e832",
+      "bytes": 973102,
+      "module": "web/src/painted/city/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/6b/6b33632ce858d73523524e1da56fbc0cb9c35e760503d83a9fd4e03e3513e832.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/S795.json",
+      "sha256": "bc610c04bcac4d32f4d0af676cac4a0fbb03c2f318302df376fe1a34cf797794",
+      "bytes": 337374,
+      "module": "web/src/painted/city/safety/owner-shape-patch-profiles.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/bc/bc610c04bcac4d32f4d0af676cac4a0fbb03c2f318302df376fe1a34cf797794.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C449.json",
+      "sha256": "3038d15ee6864a90e3713318e17920fd2f4f835ce881f435ea3ccbe346f34317",
+      "bytes": 372603,
+      "module": "web/src/painted/city/safety/c449-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/30/3038d15ee6864a90e3713318e17920fd2f4f835ce881f435ea3ccbe346f34317.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C473.json",
+      "sha256": "33a7d595e8241873204ca472c7b0f979d9050ff92b0406f38cea4064ebc618e2",
+      "bytes": 56576,
+      "module": "web/src/painted/city/safety/c473-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/33/33a7d595e8241873204ca472c7b0f979d9050ff92b0406f38cea4064ebc618e2.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C428.json",
+      "sha256": "77daca4c561044f9cf2655119629d5754d57d3cff7eaff4a75bdc5b068bb3050",
+      "bytes": 34235,
+      "module": "web/src/painted/city/safety/c428-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/77/77daca4c561044f9cf2655119629d5754d57d3cff7eaff4a75bdc5b068bb3050.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C437.json",
+      "sha256": "2c5d0d0e92ef028f6c855d67b7a82dd141b467ac2161994d1e57f797a8dc6607",
+      "bytes": 179533,
+      "module": "web/src/painted/city/safety/c437-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/2c/2c5d0d0e92ef028f6c855d67b7a82dd141b467ac2161994d1e57f797a8dc6607.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C350.json",
+      "sha256": "9749d5cf4edeba218d90b50ef345e643ac452a3322f4170964652c19f51a6c77",
+      "bytes": 128960,
+      "module": "web/src/painted/city/safety/c350-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/97/9749d5cf4edeba218d90b50ef345e643ac452a3322f4170964652c19f51a6c77.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C332.json",
+      "sha256": "155bd619773d36f750d7ea6ab6f69a0739ce834a5f828375fe263e614bce4ce2",
+      "bytes": 307215,
+      "module": "web/src/painted/city/safety/c332-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/15/155bd619773d36f750d7ea6ab6f69a0739ce834a5f828375fe263e614bce4ce2.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C446.json",
+      "sha256": "cb889748281ab03045469f164a8c75af8ea4a99a82071a3722eaec2217faa47c",
+      "bytes": 139452,
+      "module": "web/src/painted/city/safety/c446-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/cb/cb889748281ab03045469f164a8c75af8ea4a99a82071a3722eaec2217faa47c.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C344.json",
+      "sha256": "18f7055668b492b506e23d83204977662b907f0ce53e183195e0a268f0b0a10f",
+      "bytes": 974854,
+      "module": "web/src/painted/city/safety/c344-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/18/18f7055668b492b506e23d83204977662b907f0ce53e183195e0a268f0b0a10f.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C467-1319266081.json",
+      "sha256": "437030dcfbaedb3d729914768d664ca97bb6caefe2debe670d8af2abe9a7dbab",
+      "bytes": 36769,
+      "module": "web/src/painted/city/safety/c467-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/43/437030dcfbaedb3d729914768d664ca97bb6caefe2debe670d8af2abe9a7dbab.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C467-1319266083.json",
+      "sha256": "e839a7088b3aa58ba9a686876f5ff85033846c620830a43e451e4f1e3dc254be",
+      "bytes": 33520,
+      "module": "web/src/painted/city/safety/c467-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/e8/e839a7088b3aa58ba9a686876f5ff85033846c620830a43e451e4f1e3dc254be.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C467-1319266084.json",
+      "sha256": "2a5f0f88ad4fdd3e9ac3c0571f287d452c929b150f06af673333efb669844d50",
+      "bytes": 23970,
+      "module": "web/src/painted/city/safety/c467-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/2a/2a5f0f88ad4fdd3e9ac3c0571f287d452c929b150f06af673333efb669844d50.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C467-981631175.json",
+      "sha256": "3b1263aceaa3c23796406cd6cd473c9d7eb991cddb6dde3df3406bd306b3e8fe",
+      "bytes": 44500,
+      "module": "web/src/painted/city/safety/c467-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/3b/3b1263aceaa3c23796406cd6cd473c9d7eb991cddb6dde3df3406bd306b3e8fe.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C467-981631176.json",
+      "sha256": "0be3ebf86ff8a9ec73d116c62d1bce1904ebd03ee23463f445fbcfb53eb70520",
+      "bytes": 29577,
+      "module": "web/src/painted/city/safety/c467-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/0b/0be3ebf86ff8a9ec73d116c62d1bce1904ebd03ee23463f445fbcfb53eb70520.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C467-981631177.json",
+      "sha256": "2938f3cdb464b54ff186e4f7fb7774b5f7620c1978c947481ebcbf987c23a2b4",
+      "bytes": 47116,
+      "module": "web/src/painted/city/safety/c467-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/29/2938f3cdb464b54ff186e4f7fb7774b5f7620c1978c947481ebcbf987c23a2b4.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C467-981631178.json",
+      "sha256": "294d72f719b9ce3b00d7684386ffe24e79b4b600c2a802e7dece98869a4f14e2",
+      "bytes": 47219,
+      "module": "web/src/painted/city/safety/c467-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/29/294d72f719b9ce3b00d7684386ffe24e79b4b600c2a802e7dece98869a4f14e2.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C467-981631179.json",
+      "sha256": "83e2d198d8811ad899808238772fac763893bbc1d3111af70be71bd7a610c2ae",
+      "bytes": 52486,
+      "module": "web/src/painted/city/safety/c467-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/83/83e2d198d8811ad899808238772fac763893bbc1d3111af70be71bd7a610c2ae.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C467-981631180.json",
+      "sha256": "b37c73b9ea282d93110ed979417e5467c2efa907fd2ab43a1cab99548823ffa6",
+      "bytes": 50714,
+      "module": "web/src/painted/city/safety/c467-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/b3/b37c73b9ea282d93110ed979417e5467c2efa907fd2ab43a1cab99548823ffa6.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C467-1319266085.json",
+      "sha256": "7c3ed6ee6b7ab8ce066d067954dd38b2bb60c679689134f02150b07c581a4bde",
+      "bytes": 21491,
+      "module": "web/src/painted/city/safety/c467-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/7c/7c3ed6ee6b7ab8ce066d067954dd38b2bb60c679689134f02150b07c581a4bde.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C467-1456562667.json",
+      "sha256": "ab801846666bb7a0d3eac39eddeb719bb5966ad1b7da1ef89b9f18cebf1fe732",
+      "bytes": 54922,
+      "module": "web/src/painted/city/safety/c467-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/ab/ab801846666bb7a0d3eac39eddeb719bb5966ad1b7da1ef89b9f18cebf1fe732.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C467-19927027.json",
+      "sha256": "cf5395a485be364235ccb64727abc257819053e829fb7e7062ff9ce3867cd2ad",
+      "bytes": 40610,
+      "module": "web/src/painted/city/safety/c467-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/cf/cf5395a485be364235ccb64727abc257819053e829fb7e7062ff9ce3867cd2ad.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C430.json",
+      "sha256": "7b38508ab095be261f44069d6141738e9df86da958cd47968ccc837b10572d36",
+      "bytes": 40851,
+      "module": "web/src/painted/city/safety/c430-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/7b/7b38508ab095be261f44069d6141738e9df86da958cd47968ccc837b10572d36.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C348.json",
+      "sha256": "11aa3512541c155646497d70ffb7362ac798b87b09f41d02604ac25d441c7326",
+      "bytes": 45219,
+      "module": "web/src/painted/city/safety/c348-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/11/11aa3512541c155646497d70ffb7362ac798b87b09f41d02604ac25d441c7326.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C362.json",
+      "sha256": "7c4250d71129c1a6b3b8fda67373bfbb2b50f31cb04d8ffc46980b284f0304b6",
+      "bytes": 492989,
+      "module": "web/src/painted/city/safety/c362-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/7c/7c4250d71129c1a6b3b8fda67373bfbb2b50f31cb04d8ffc46980b284f0304b6.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C339.json",
+      "sha256": "6803c3ca126c145e7eb710069c0980dc1d9e08f3b6e9f32d5db9357aa99c8753",
+      "bytes": 44498,
+      "module": "web/src/painted/city/safety/c339-fixture.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/68/6803c3ca126c145e7eb710069c0980dc1d9e08f3b6e9f32d5db9357aa99c8753.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C343.json",
+      "sha256": "7bf901085b04a3395844a04d4010de9036f5b3cde53286a8581e0d27d69a49f6",
+      "bytes": 230879,
+      "module": "web/src/painted/city/safety/c343-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/7b/7bf901085b04a3395844a04d4010de9036f5b3cde53286a8581e0d27d69a49f6.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C347.json",
+      "sha256": "cbe8df502702f500aba2598f9444b1b322e7efd7dfe0735926b66d02ce115bea",
+      "bytes": 30363,
+      "module": "web/src/painted/city/safety/c347-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/cb/cbe8df502702f500aba2598f9444b1b322e7efd7dfe0735926b66d02ce115bea.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C379.json",
+      "sha256": "338665df778541b89882ea7e2a81173d57908ccc2dced55c4ba30cb79566fdcb",
+      "bytes": 16456,
+      "module": "web/src/painted/city/safety/c379-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/33/338665df778541b89882ea7e2a81173d57908ccc2dced55c4ba30cb79566fdcb.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C445.json",
+      "sha256": "a4d0b59fc2a08433e3e078c273671b5ffd1c6294e6b6d79a861cb399266f3454",
+      "bytes": 195060,
+      "module": "web/src/painted/city/safety/c445-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/a4/a4d0b59fc2a08433e3e078c273671b5ffd1c6294e6b6d79a861cb399266f3454.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C366.json",
+      "sha256": "90b10c513d2139e17361c09472fd293f23cbfbe78a4d6f50c8bf8ae14ea88b98",
+      "bytes": 156431,
+      "module": "web/src/painted/city/safety/c366-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/90/90b10c513d2139e17361c09472fd293f23cbfbe78a4d6f50c8bf8ae14ea88b98.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C372.json",
+      "sha256": "7709a9a772a28d02ba28b585a1d174d1df133b07a5a22bdd670e42e0959656eb",
+      "bytes": 32064,
+      "module": "web/src/painted/city/safety/c372-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/77/7709a9a772a28d02ba28b585a1d174d1df133b07a5a22bdd670e42e0959656eb.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C470-canopy-238582221.json",
+      "sha256": "b0a6a469b96f5071741333edb66f84317cefff82f7e4141b230983aa975eaf43",
+      "bytes": 9518,
+      "module": "web/src/painted/city/safety/c470-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/b0/b0a6a469b96f5071741333edb66f84317cefff82f7e4141b230983aa975eaf43.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C470-canopy-238582223.json",
+      "sha256": "dd536e9e282fa2a38f7ad9d18175084bb19b48384265aafe513439bf7f2c5a2a",
+      "bytes": 4213,
+      "module": "web/src/painted/city/safety/c470-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/dd/dd536e9e282fa2a38f7ad9d18175084bb19b48384265aafe513439bf7f2c5a2a.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C470-canopy-238582227.json",
+      "sha256": "370878d25d0bd24cf0566aeade4712f3240fd2c26564fd5b418f78fad7acdc92",
+      "bytes": 10439,
+      "module": "web/src/painted/city/safety/c470-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/37/370878d25d0bd24cf0566aeade4712f3240fd2c26564fd5b418f78fad7acdc92.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C334.json",
+      "sha256": "1e65b8e15852d31ac3eb3518c286621740905ac08960999e3744a98377d739a3",
+      "bytes": 306290,
+      "module": "web/src/painted/city/safety/c334-fixture.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/1e/1e65b8e15852d31ac3eb3518c286621740905ac08960999e3744a98377d739a3.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C336.json",
+      "sha256": "d94e8446888f16d972c476713bb4d268fd73f653cacaf636f0e31bd033bf40f9",
+      "bytes": 40997,
+      "module": "web/src/painted/city/safety/c336-fixture.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/d9/d94e8446888f16d972c476713bb4d268fd73f653cacaf636f0e31bd033bf40f9.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C353.json",
+      "sha256": "a7e8b15c7b7df50893c57f9b983bd0af5d091a03b47e7b9e467aa1a3f923518f",
+      "bytes": 511685,
+      "module": "web/src/painted/city/safety/c353-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/a7/a7e8b15c7b7df50893c57f9b983bd0af5d091a03b47e7b9e467aa1a3f923518f.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C328.json",
+      "sha256": "698ad8c639292b88be96cd33724d7a33184c6dc3acee2bbe27c185617fd729f8",
+      "bytes": 43763,
+      "module": "web/src/painted/city/safety/c328-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/69/698ad8c639292b88be96cd33724d7a33184c6dc3acee2bbe27c185617fd729f8.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C377.json",
+      "sha256": "327f4d4c8aad5d17ed4489305f869570dc2ac292687ce9508153dd9303bfe261",
+      "bytes": 383105,
+      "module": "web/src/painted/city/safety/c377-fixture.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/32/327f4d4c8aad5d17ed4489305f869570dc2ac292687ce9508153dd9303bfe261.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C349.json",
+      "sha256": "1bf9808933b03bc53843d104a931c0c7d8cc1a6c0dceb521d0eafa735da0339e",
+      "bytes": 46919,
+      "module": "web/src/painted/city/safety/c349-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/1b/1bf9808933b03bc53843d104a931c0c7d8cc1a6c0dceb521d0eafa735da0339e.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C356.json",
+      "sha256": "0c11532074f92013989c0cc743528d5979815aa378fb8fbde98a447c25c29a0f",
+      "bytes": 266292,
+      "module": "web/src/painted/city/safety/c356-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/0c/0c11532074f92013989c0cc743528d5979815aa378fb8fbde98a447c25c29a0f.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C333.json",
+      "sha256": "0968dda0d4336f8bfd9a155c0943e9a37b2055a2ed57cce43b6f043dd5db00a8",
+      "bytes": 30795,
+      "module": "web/src/painted/city/safety/c333-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/09/0968dda0d4336f8bfd9a155c0943e9a37b2055a2ed57cce43b6f043dd5db00a8.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C431.json",
+      "sha256": "b4b5e81c13d7f2b3ec8e7315ecf2b9440d01fc2ecade9c1c8026aa51a2083500",
+      "bytes": 33519,
+      "module": "web/src/painted/city/safety/c431-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/b4/b4b5e81c13d7f2b3ec8e7315ecf2b9440d01fc2ecade9c1c8026aa51a2083500.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C440.json",
+      "sha256": "72c1a2b1fe3e43a7ce91424a33e6bf050f786118e02cb76bfb1b227562482b41",
+      "bytes": 39893,
+      "module": "web/src/painted/city/safety/c440-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/72/72c1a2b1fe3e43a7ce91424a33e6bf050f786118e02cb76bfb1b227562482b41.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C342.json",
+      "sha256": "4251124ebc2adcb69cba08b570137dcefb48c231a0d57b4a001f643a6b7aa8ea",
+      "bytes": 322276,
+      "module": "web/src/painted/city/safety/c342-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/42/4251124ebc2adcb69cba08b570137dcefb48c231a0d57b4a001f643a6b7aa8ea.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C425.json",
+      "sha256": "0bc94cda816cd7ed7f92ab650579dfdaa69768b5d1c415fac6ada2144da8334f",
+      "bytes": 14880,
+      "module": "web/src/painted/city/safety/c425-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/0b/0bc94cda816cd7ed7f92ab650579dfdaa69768b5d1c415fac6ada2144da8334f.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C327.json",
+      "sha256": "2887da8b83e389f4094d59087f107fda704e3a4290075cba2c5d86be864dfe17",
+      "bytes": 252594,
+      "module": "web/src/painted/city/safety/c327-fixture.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/28/2887da8b83e389f4094d59087f107fda704e3a4290075cba2c5d86be864dfe17.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C385.json",
+      "sha256": "e87897facc8aedb22535da8fb553c18f9e970d519daa5629457c67933b1d5c68",
+      "bytes": 10342,
+      "module": "web/src/painted/city/safety/c385-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/e8/e87897facc8aedb22535da8fb553c18f9e970d519daa5629457c67933b1d5c68.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C400.json",
+      "sha256": "167ef3510ce3824e8dd5ff5b269e364c6df75ac3e94b332355aabf1708931ed1",
+      "bytes": 109955,
+      "module": "web/src/painted/city/safety/c400-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/16/167ef3510ce3824e8dd5ff5b269e364c6df75ac3e94b332355aabf1708931ed1.json"
+    },
+    {
+      "provider": "city",
+      "path": "/assets/3d-materials/plaster002-5dbf2c4b731a.png",
+      "sha256": "5dbf2c4b731a721bb73ee1a53c397e3feb23ad2a9cc24213ede4dac3ec507ea2",
+      "bytes": 95359,
+      "module": "web/src/painted/city/safety/open-facade-diffuse.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/5d/5dbf2c4b731a721bb73ee1a53c397e3feb23ad2a9cc24213ede4dac3ec507ea2.png"
+    },
+    {
+      "provider": "city",
+      "path": "/assets/3d-materials/bricks029-da249cffc10c.png",
+      "sha256": "da249cffc10c296e44fd64921039a3b8f1e306a51218cd6e7f9fb43a3c3d68d4",
+      "bytes": 117467,
+      "module": "web/src/painted/city/safety/open-facade-diffuse.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/da/da249cffc10c296e44fd64921039a3b8f1e306a51218cd6e7f9fb43a3c3d68d4.png"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C465-22999208.json",
+      "sha256": "62af826d7902c5e6303f2c8bd8eafcc947e944559f9ce792480acc64e8b9d088",
+      "bytes": 4737,
+      "module": "web/src/painted/city/safety/c465-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/62/62af826d7902c5e6303f2c8bd8eafcc947e944559f9ce792480acc64e8b9d088.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C465-1197711711.json",
+      "sha256": "c5a9052d1841c68a06889248100eb477a23a1c8732d7866be9a040d756faa076",
+      "bytes": 5587,
+      "module": "web/src/painted/city/safety/c465-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/c5/c5a9052d1841c68a06889248100eb477a23a1c8732d7866be9a040d756faa076.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C465-1197711712.json",
+      "sha256": "d27d01bac02e8e1e5bd075a7b6dce7df9adc05e8145184d5b50636e5c290fb0c",
+      "bytes": 17951,
+      "module": "web/src/painted/city/safety/c465-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/d2/d27d01bac02e8e1e5bd075a7b6dce7df9adc05e8145184d5b50636e5c290fb0c.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C465-16196522.json",
+      "sha256": "7eb23b20e55626f1edd2973e42d56b78792914405c0b98e498381e791b17d7b6",
+      "bytes": 14297,
+      "module": "web/src/painted/city/safety/c465-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/7e/7eb23b20e55626f1edd2973e42d56b78792914405c0b98e498381e791b17d7b6.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C465-1197711709.json",
+      "sha256": "87648845b627acfc8b7bc9acf1426705980e80f47cde8974eee83b8faf99a1cb",
+      "bytes": 797379,
+      "module": "web/src/painted/city/safety/c465-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/87/87648845b627acfc8b7bc9acf1426705980e80f47cde8974eee83b8faf99a1cb.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C346.json",
+      "sha256": "398efd2be54f4da53d1d1f6375f19a2d180c399c34e8f51d967a53c4d3b74355",
+      "bytes": 525547,
+      "module": "web/src/painted/city/safety/c346-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/39/398efd2be54f4da53d1d1f6375f19a2d180c399c34e8f51d967a53c4d3b74355.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C378.json",
+      "sha256": "56e309e196c9af7c98c666dbf608ddb9b09a6cd0b533ce35842822776efe77ba",
+      "bytes": 191786,
+      "module": "web/src/painted/city/safety/c378-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/56/56e309e196c9af7c98c666dbf608ddb9b09a6cd0b533ce35842822776efe77ba.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C444-hotel.json",
+      "sha256": "3f54faf4cfbda951e5ec0a490eab0ccd3e0ce39645ac4193a0b8b8508b469936",
+      "bytes": 26305,
+      "module": "web/src/painted/city/safety/c444-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/3f/3f54faf4cfbda951e5ec0a490eab0ccd3e0ce39645ac4193a0b8b8508b469936.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C444-anton37.json",
+      "sha256": "646824d795801df3e02a6722d2a9e899c496dc680c3741a08edebf6476124317",
+      "bytes": 97316,
+      "module": "web/src/painted/city/safety/c444-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/64/646824d795801df3e02a6722d2a9e899c496dc680c3741a08edebf6476124317.json"
+    },
+    {
+      "provider": "city",
+      "path": "/safety/buildings3d/owner-shape-patches/C444-hain5.json",
+      "sha256": "7420169869cb47070504c0865ce5faf11169545d34803ad2a0041083ea8e8b2c",
+      "bytes": 108438,
+      "module": "web/src/painted/city/safety/c444-owner-profile.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/74/7420169869cb47070504c0865ce5faf11169545d34803ad2a0041083ea8e8b2c.json"
+    },
+    {
+      "provider": "city",
+      "path": "/assets/3d-materials/osm2world-windows-7e2f0946.png",
+      "sha256": "7e2f09469e1b4a683bed7e41306d9e7800da1a9aecfd5688e22b77fb4a2d0386",
+      "bytes": 13651,
+      "module": "web/src/painted/city/safety/open-facade-window-texture.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/7e/7e2f09469e1b4a683bed7e41306d9e7800da1a9aecfd5688e22b77fb4a2d0386.png"
+    },
+    {
+      "provider": "church",
+      "path": "/assets/3d-materials/plaster002-5dbf2c4b731a.png",
+      "sha256": "5dbf2c4b731a721bb73ee1a53c397e3feb23ad2a9cc24213ede4dac3ec507ea2",
+      "bytes": 95359,
+      "module": "web/src/painted/church/safety/open-facade-diffuse.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/5d/5dbf2c4b731a721bb73ee1a53c397e3feb23ad2a9cc24213ede4dac3ec507ea2.png"
+    },
+    {
+      "provider": "church",
+      "path": "/assets/3d-materials/bricks029-da249cffc10c.png",
+      "sha256": "da249cffc10c296e44fd64921039a3b8f1e306a51218cd6e7f9fb43a3c3d68d4",
+      "bytes": 117467,
+      "module": "web/src/painted/church/safety/open-facade-diffuse.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/da/da249cffc10c296e44fd64921039a3b8f1e306a51218cd6e7f9fb43a3c3d68d4.png"
+    },
+    {
+      "provider": "church",
+      "path": "/assets/3d-materials/osm2world-windows-7e2f0946.png",
+      "sha256": "7e2f09469e1b4a683bed7e41306d9e7800da1a9aecfd5688e22b77fb4a2d0386",
+      "bytes": 13651,
+      "module": "web/src/painted/church/safety/open-facade-window-texture.ts",
+      "resolvedPath": "/safety/buildings3d/painted-assets/7e/7e2f09469e1b4a683bed7e41306d9e7800da1a9aecfd5688e22b77fb4a2d0386.png"
+    }
+  ],
+  "missing": [],
+  "uniqueFiles": 349,
+  "uniqueBytes": 65247707
+}

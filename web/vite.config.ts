@@ -18,8 +18,21 @@ export default defineConfig(({ mode, command }) => {
   server: { host: "127.0.0.1", port: 5173 },
   build: {
     rollupOptions: {
+      // The frozen engines contain interdependent generated material dispatches.
+      // Rollup's recursive argument inclusion becomes exponential across these
+      // dispatches. Preserve their code intact; esbuild still performs minification.
+      treeshake: false,
       input: { main: new URL("./index.html", import.meta.url).pathname },
-      output: { manualChunks: { maplibre: ["maplibre-gl"] } },
+      output: {
+        // Keep the accepted geometry modules split rather than concatenating
+        // hundreds of megabytes into one parse/compile unit.
+        onlyExplicitManualChunks: true,
+        manualChunks(id) {
+          if(id.includes('node_modules/maplibre-gl'))return 'maplibre';
+          const owner=id.match(/\/painted\/(root500|delegated500)\/safety\/owner-f(\d{3})/);
+          if(owner)return `paint-${owner[1]}-${Number(owner[2])%8}`;
+        },
+      },
     },
   },
   };

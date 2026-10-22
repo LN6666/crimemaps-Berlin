@@ -1,0 +1,12 @@
+import {c338MaterialFragment} from './c338-feature-glsl';
+export const C337_FEATURE_GLSL=`float c337Box(vec2 p,vec2 center,vec2 halfsize){vec2 aa=max(fwidth(p),vec2(.01));vec2 t=1.-smoothstep(halfsize-aa,halfsize+aa,abs(p-center));return t.x*t.y;}
+vec3 c337Crematorium(vec3 base,vec3 p,vec3 normal,vec4 f,float family){float u=f.x,n=f.z,y=p.y;
+ if(family==13481.){vec3 roof=vec3(.42,.44,.29);float grain=fract(sin(dot(vec2(u,n),vec2(17.3,41.7)))*21546.7);roof*=1.+(grain-.5)*.035*(1.-smoothstep(.2,.7,max(fwidth(u),fwidth(n))));if(n< -16.){roof=vec3(.72,.73,.68);float rib=1.-smoothstep(.045,.045+max(.02,fwidth(n)),abs(mod(n+.65,1.3)-.65));roof=mix(roof,vec3(.47,.50,.47),rib*.5);}for(int i=0;i<3;i++){float z=5.+float(i)*9.;float box=c337Box(vec2(u,n),vec2(2.,z),vec2(4.,.55));roof=mix(roof,vec3(.69,.73,.69),box);}return roof;}
+ float along=abs(normal.x)>.7?n:u;float row=floor(y/.115);float a=mod(along+mod(row,2.)*.26,.52);float b=mod(y,.115);float joint=max(1.-smoothstep(.012,.012+max(.01,fwidth(a)),min(a,.52-a)),1.-smoothstep(.009,.009+max(.008,fwidth(y)),min(b,.115-b)));vec3 c=mix(vec3(.78,.73,.63),vec3(.64,.60,.51),joint*.5);
+ bool north=dot(normal,vec3(-.3230019,0.,.9463983))>.8;bool westneck=dot(normal,vec3(-.9463983,0.,-.3230019))>.8;
+ bool northScreen=north&&n>33.8&&n<34.6&&u<10.4;bool neckScreen=westneck&&abs(u-10.3)<.4&&n>34.&&n<44.8;
+ if(northScreen||neckScreen){float q=neckScreen?n:u;float cell=mod(q,.68);float gap=smoothstep(.10,.14,cell)*(1.-smoothstep(.48,.52,cell))*smoothstep(.035,.05,b)*(1.-smoothstep(.085,.105,b));float fade=1.-smoothstep(.06,.2,max(fwidth(q),fwidth(y)));c=mix(c,vec3(.30,.31,.26),gap*fade*.85);}
+ if(northScreen){float opening=c337Box(vec2(u,y),vec2(5.2,2.35),vec2(3.4,2.15));c=mix(c,vec3(.25,.31,.29),opening);float door=c337Box(vec2(u,y),vec2(4.7,1.8),vec2(.95,1.7));c=mix(c,vec3(.34,.27,.19),door);}
+ return c;}
+`;
+export function c337MaterialFragment(source:string,city:string){if(city!=='munich')return source;const name=source.includes('vec3 progressiveFeatureDispatchCity(')?'progressiveFeatureDispatchCity':'progressiveFeatureDispatch';const anchor='vec3 '+name+'(vec3 base,vec3 p,vec3 normal,vec4 frame,float family){';if(source.split(anchor).length!==2)throw Error('C337 dispatcher drift');return c338MaterialFragment(source.replace(anchor,C337_FEATURE_GLSL+'\n'+anchor+'if(family>=13480.&&family<=13481.)return c337Crematorium(base,p,normal,frame,family);'),city);}

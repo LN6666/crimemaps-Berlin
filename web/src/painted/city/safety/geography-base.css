@@ -1,0 +1,295 @@
+.map-wrap { --geography-top: 38px; --geography-bottom: 38px; }
+.geography-toolbar,.geography-info { position:absolute;left:0;right:0;z-index:4;display:flex;align-items:center;gap:8px;min-height:38px;padding:4px 10px;background:var(--panel,#172638);color:var(--text,#eef2f5);font-size:12px; }
+.geography-toolbar {top:0;border-bottom:1px solid #526171;}
+.geography-toolbar select {width:auto;min-width:0;max-width:220px;padding:4px 24px 4px 8px;font-size:12px;}
+.geography-toolbar details {margin-left:auto;}
+.geography-toolbar summary {cursor:pointer;}
+.geography-toolbar details p {position:absolute;right:8px;top:34px;width:min(320px,80vw);padding:12px;background:#172638;color:#eef2f5;border:1px solid #526171;border-radius:6px;}
+.geography-info {bottom:0;border-top:1px solid #526171;}
+.geography-info span {flex:1;min-width:0;}
+.geography-info button {padding:4px 8px;font-size:12px;white-space:nowrap;}
+.map-wrap #map {top:var(--geography-top);bottom:var(--geography-bottom);height:auto;}
+.map-wrap .map-label {top:calc(var(--geography-top) + 8px);font-size:11px;padding:7px 10px;}
+.map-wrap .basemap-picker {top:calc(var(--geography-top) + 48px);max-width:205px;padding:7px;}
+.map-wrap .basemap-picker select {width:100%;min-width:0;font-size:11px;padding:6px 22px 6px 7px;}
+.map-wrap .map-note {bottom:calc(var(--geography-bottom) + 34px);font-size:10px;padding:5px 8px;max-width:calc(100% - 90px);}
+.map-wrap .basemap-language-note {bottom:var(--geography-bottom);font-size:10px;}
+.geography-panel {position:fixed;z-index:100;top:110px;right:24px;width:min(360px,calc(100vw - 20px));max-height:min(580px,calc(100dvh - 40px));background:#172638;color:#eef2f5;border:1px solid #607080;border-radius:8px;box-shadow:0 8px 32px #0006;font-size:13px;}
+.geography-panel[hidden] {display:none;}
+.geography-drag {display:flex;align-items:center;justify-content:space-between;padding:9px 12px;cursor:move;touch-action:none;border-bottom:1px solid #526171;}
+.geography-drag button {padding:2px 8px;}
+.geography-panel-body {padding:10px 14px;overflow:auto;max-height:calc(min(580px,100dvh - 40px) - 48px);}
+.geography-panel-body h3 {font-size:15px;}.geography-panel-body h4 {font-size:12px;margin:12px 0 2px;}.geography-panel-body p {margin:4px 0 8px;}.geography-panel-body a {color:#9bdaff;overflow-wrap:anywhere;}
+@media(min-width:1000px){
+ #app > main {grid-template-columns:220px minmax(320px,1fr) 245px;}
+ #app > main > aside {padding:14px;font-size:12px;line-height:1.5;}
+ #app > main > aside h2 {font-size:17px;}#app > main > aside h3 {font-size:14px;}
+ #app > header {padding:10px 18px;gap:16px;}
+ #app > header > div:first-child {flex-basis:310px;min-width:240px;}
+ #app .toolbar {gap:8px;}#app .toolbar select {width:auto;min-width:64px;max-width:180px;font-size:12px;padding:7px 24px 7px 8px;}
+ #app .toolbar button {font-size:12px;padding:7px 10px;}
+}
+@media(max-width:700px){.geography-info {font-size:11px;}.geography-toolbar select {max-width:180px;}.geography-panel {top:70px;right:10px;}.map-wrap .basemap-picker {max-width:165px;}.map-wrap .map-label {max-width:calc(100% - 70px);}}
+
+.content-tag-anchor,.content-tag-eagle {width:62px;}
+.content-tag-eagle {padding:5px 3px;border-radius:14px;}
+.content-tag-eagle img {width:38px;height:38px;}
+.content-tag-launcher-label {font-size:10px;}
+.content-tag-drawer {width:min(370px,calc(100vw - 24px));max-height:70dvh;bottom:auto;font-size:12px;border-radius:12px;}
+.content-tag-drawer > header {padding:10px 12px;}.content-tag-drawer h2 {font-size:17px;}
+@media(max-width:760px){.content-tag-drawer {width:auto;max-height:65dvh;bottom:max(8px,env(safe-area-inset-bottom));top:auto;} .geography-toolbar select,.geography-info button {min-height:36px;} .geography-panel button {min-height:36px;}}
+
+.geography-toolbar select,.geography-info button,.geography-toolbar summary {min-height:28px;}
+@media(max-width:760px){.map-wrap {--geography-top:54px;--geography-bottom:54px;}.geography-toolbar select,.geography-info button,.geography-toolbar summary {min-height:44px;}}
+
+.geography-panel > .geography-drag {height:auto;min-height:40px;padding:8px 12px;background:#172638;color:#eef2f5;flex-wrap:nowrap;gap:8px;}
+.geography-panel > .geography-drag button {min-height:28px;background:#243c55;color:#eef2f5;border:1px solid #607080;border-radius:4px;}
+/* Compact reference window; keep the map visible while inspecting an area. */
+.geography-panel {width:min(280px,calc(100vw - 20px));max-height:min(380px,calc(100dvh - 40px));font-size:12px;line-height:1.45;}
+.geography-panel > .geography-drag {min-height:36px;padding:6px 9px;}
+.geography-panel-body {padding:8px 10px;max-height:calc(min(380px,100dvh - 40px) - 42px);}
+.geography-panel-body h3 {font-size:13px;margin:10px 0 5px;}
+.geography-panel-body h4 {font-size:11px;margin:8px 0 1px;}
+.geography-panel-body p {margin:3px 0 6px;}
+@media(max-width:760px){.geography-panel {max-height:min(380px,55dvh);}.geography-panel-body {max-height:calc(min(380px,55dvh) - 54px);}.geography-panel > .geography-drag button {min-height:40px;min-width:40px;}}
+
+/* Few choices stay visible as compact text buttons instead of large select boxes. */
+select[hidden] {display:none !important;}
+.compact-choices {display:inline-flex;align-items:center;gap:2px;max-width:100%;}
+#app .compact-choices button,.geography-toolbar .compact-choices button {
+ min-width:0;min-height:28px;width:auto;margin:0;padding:4px 7px;border:0;border-radius:4px;
+ background:transparent;color:inherit;font:inherit;font-size:11px;line-height:1.3;white-space:nowrap;
+}
+#app .compact-choices button[aria-pressed="true"],.geography-toolbar .compact-choices button[aria-pressed="true"] {
+ background:#34536e;color:#fff;box-shadow:inset 0 -2px #e4bd65;
+}
+#app .compact-choices button:not(:disabled):hover,.geography-toolbar .compact-choices button:not(:disabled):hover {background:#29445c;color:#fff;}
+.compact-choices button:disabled {opacity:.4;cursor:default;}
+.geography-toolbar .compact-choices {min-width:0;overflow-x:auto;}
+.geography-toolbar .compact-choices button {padding:4px 8px;}
+.geography-toolbar > span:first-child {white-space:nowrap;font-size:11px;}
+.map-wrap .basemap-picker {max-width:245px;padding:5px 7px;}
+.basemap-picker label {font-size:10px;gap:3px;}
+#app .toolbar label {gap:4px;font-size:11px;}
+#app .toolbar select {width:auto;min-width:0;max-width:155px;padding:5px 21px 5px 7px;font-size:12px;}
+#app #city-switch {field-sizing:content;max-width:155px;}
+#app #year {max-width:70px;}#app #month {max-width:75px;}
+#app .toolbar button {padding:5px 8px;}
+.geography-info button {background:#29435a;color:#edf2f5;border:1px solid #526a7d;border-radius:4px;}
+.geography-info button:disabled {opacity:.5;}
+:root[data-theme="light"] :is(.geography-toolbar,.geography-info) {background:#e8eff2;color:#183142;border-color:#b1c2cb;}
+:root[data-theme="light"] .geography-info button {background:#dbe6ec;color:#183142;border-color:#9bb2bf;}
+:root[data-theme="light"] #app .compact-choices button[aria-pressed="true"] {background:#dbe8ed;color:#183142;box-shadow:inset 0 -2px #517a91;}
+@media(max-width:760px){
+ .geography-toolbar {gap:4px;padding:4px 6px;}
+ .geography-toolbar > span:first-child {display:none;}
+ .geography-toolbar .compact-choices button {min-height:44px;padding:4px 7px;font-size:10px;}
+ #app .toolbar .compact-choices button {min-height:40px;}
+ .map-wrap .basemap-picker {max-width:230px;}
+ #app .basemap-picker .compact-choices button {min-height:36px;padding:4px 6px;font-size:10px;}
+}
+
+/* A small floating card with an unobtrusive close action. */
+.geography-panel {border-radius:16px;border:1px solid #8ba0b433;box-shadow:0 12px 36px #07101c40;}
+.geography-panel > .geography-drag {border-radius:16px 16px 0 0;padding:7px 8px 7px 12px;border-bottom:1px solid #8ba0b426;}
+.geography-panel > .geography-drag button {
+ display:inline-flex;align-items:center;justify-content:center;flex:0 0 26px;
+ width:26px;height:26px;min-width:26px;min-height:26px;padding:0;margin:0;
+ border:0;border-radius:50%;background:transparent;color:#c0ccd7;
+ font-size:18px;font-weight:300;line-height:1;box-shadow:none;cursor:pointer;
+}
+.geography-panel > .geography-drag button:hover {background:#ffffff12;color:#fff;}
+.geography-panel > .geography-drag button:focus-visible {outline:2px solid #8ac5ec;outline-offset:2px;}
+.geography-panel-body {scrollbar-width:thin;scrollbar-color:#66809766 transparent;padding:9px 12px 12px;}
+@media(max-width:760px){.geography-panel > .geography-drag button {flex-basis:32px;width:32px;height:32px;min-width:32px;min-height:32px;}}
+
+/* The scroll body must shrink with the card; keep rounded corners and shadows inset. */
+.geography-panel {display:flex;flex-direction:column;overflow:hidden;max-width:calc(100vw - 24px);}
+.geography-panel > .geography-drag {flex:0 0 auto;min-width:0;}
+.geography-drag strong {min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.geography-panel-body {flex:1 1 auto;min-height:0;max-height:none;overflow:auto;overflow-wrap:anywhere;}
+.geography-panel-body .metric-visible-definition {font-size:10px;line-height:1.4;opacity:.85;margin:2px 0 4px;overflow-wrap:anywhere;}
+.metric-mini-chart {margin:3px 0 8px;max-width:100%;min-width:0;color:#d5eef7;background:#172638;padding:5px 7px;border-radius:5px;}
+.metric-mini-chart svg {display:block;width:100%;max-width:100%;height:auto;overflow:hidden;}
+.metric-mini-chart .metric-chart-measure {font-size:11px;line-height:1.4;overflow-wrap:anywhere;}
+.metric-mini-chart figcaption {font-size:11px;line-height:1.35;color:inherit;overflow-wrap:anywhere;}
+:root[data-theme="light"] .metric-mini-chart {color:#245a70;background:#f4f8fa;--metric-marker:#9c4c12;}
+
+/* Dense map controls: compact text and cards, with touch targets retained on phones. */
+#app > main > :is(.controls,.details) {font-size:11px;line-height:1.45;padding:10px;}
+#app > main > :is(.controls,.details) :is(p,label,summary,button,select,input,.toggle,.report p,#coverage,#stats p) {font-size:11px;line-height:1.45;}
+#app > main > :is(.controls,.details) :is(h2,h3,h4) {font-size:13px;line-height:1.35;margin:9px 0 5px;}
+#app > main > :is(.controls,.details) :is(button,select,input:not([type=checkbox])) {min-height:28px;padding:4px 6px;border-radius:6px;}
+#app > main > :is(.controls,.details) input[type=checkbox] {width:14px;height:14px;min-height:0;}
+#app > main > :is(.controls,.details) .toggle {gap:6px;margin-block:5px;}
+#app .toolbar {gap:6px;}
+#app .toolbar :is(button,select,label) {font-size:11px;}
+#app .toolbar select {padding:4px 19px 4px 6px;}
+#app .toolbar button {padding:4px 6px;}
+#app .maplibregl-ctrl-group button {width:28px;height:28px;min-height:28px;padding:0;}
+#app .maplibregl-ctrl-group {border-radius:8px;overflow:hidden;}
+.content-tag-anchor,.content-tag-eagle {width:40px;}
+.content-tag-eagle {gap:2px;padding:4px 2px;border-radius:10px;}
+.content-tag-eagle img {width:25px;height:25px;}
+.content-tag-launcher-label {font-size:8px;line-height:1.1;}
+.content-tag-drawer {width:min(300px,calc(100vw - 24px));max-height:55dvh;top:auto;bottom:24px;font-size:11px;border-radius:16px;}
+.content-tag-drawer > header {padding:7px 9px;gap:6px;}
+.content-tag-drawer h2 {font-size:14px;}
+.content-tag-drawer .content-tag-close {width:26px;height:26px;min-height:26px;flex-basis:26px;padding:0;border:0;background:transparent;font-size:19px;}
+.content-tag-drawer :is(button,select,summary) {font-size:11px;min-height:28px;padding:4px 6px;}
+.content-tag-drawer .dated-tag-statistics {padding:9px 10px;}
+@media(min-width:1000px){#app > main {grid-template-columns:205px minmax(320px,1fr) 225px;}}
+@media(max-width:760px){
+ #app > main > :is(.controls,.details),#app > main > :is(.controls,.details) :is(p,label,summary,button,select,input,.toggle,.report p,#coverage,#stats p) {font-size:13px;}
+ #app > main > :is(.controls,.details) :is(h2,h3,h4) {font-size:15px;}
+ #app > main > :is(.controls,.details) :is(button,select,input:not([type=checkbox])) {min-height:36px;padding:5px 7px;}
+ #app > main > :is(.controls,.details) input[type=checkbox] {width:17px;height:17px;}
+ #app .maplibregl-ctrl-group button {width:34px;height:34px;min-height:34px;}
+ .content-tag-anchor,.content-tag-eagle {width:42px;}
+ .content-tag-eagle {min-height:44px;}
+ .content-tag-drawer {left:auto;right:12px;width:min(300px,calc(100vw - 24px));bottom:max(12px,env(safe-area-inset-bottom));max-height:50dvh;font-size:12px;}
+ .content-tag-drawer h2 {font-size:14px;}
+ .content-tag-drawer :is(button,select,summary) {font-size:12px;min-height:34px;}
+ .content-tag-drawer .content-tag-close {width:30px;height:30px;min-height:30px;flex-basis:30px;}
+}
+@media(min-width:761px){
+ #app .toolbar :is(button,select) {min-height:28px;}
+ #app > main > :is(.controls,.details) :is(.toggle,summary,.report a,.external-maps a,.external-maps button) {min-height:28px;}
+}
+/* Blue surfaces: translucent layers, with text and geographic data kept opaque. */
+:root:not([data-theme="light"]) {background:#0d1928;--glass-line:rgba(176,205,231,.22);}
+:root:not([data-theme="light"]) body {background:radial-gradient(ellipse at 12% 0%,#284963 0%,transparent 55%),linear-gradient(145deg,#14283b,#0d1928 75%);}
+:root:not([data-theme="light"]) #app > header,
+:root:not([data-theme="light"]) #app > main > :is(.controls,.details) {background:rgba(17,32,48,.5);border-color:var(--glass-line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+:root:not([data-theme="light"]) :is(.geography-toolbar,.geography-info,.geography-panel,.basemap-picker,.map-label,.map-note,.content-tag-drawer,.content-tag-eagle,.mobile-navigation,.analytics-world-card) {background:rgba(24,44,63,.5);border-color:var(--glass-line);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 8px 24px rgba(2,10,20,.16);}
+:root:not([data-theme="light"]) :is(.toolbar,.controls,.details,dialog,.basemap-picker,.mobile-navigation) :is(button,select,input:not([type="checkbox"]),textarea),
+:root:not([data-theme="light"]) :is(#coverage,.details details,.mobile-view-settings > summary,.mobile-basemap-settings > summary) {background:rgba(49,78,103,.5);border-color:var(--glass-line);}
+:root:not([data-theme="light"]) :is(.toolbar,.controls,.details,dialog,.basemap-picker,.mobile-navigation) button:hover {background:rgba(73,111,144,.5);}
+:root:not([data-theme="light"]) :is(.geography-panel,.content-tag-drawer) > header {background:rgba(31,55,77,.5);border-color:var(--glass-line);}
+@media(prefers-reduced-transparency:reduce){:root:not([data-theme="light"]) :is(#app > header,.controls,.details,.geography-panel,.content-tag-drawer,.basemap-picker){background:#192d41;backdrop-filter:none;-webkit-backdrop-filter:none;}}
+:root:not([data-theme="light"]) #app :is(.basemap-picker,.map-label,.map-note,.analytics-world-card) {background:rgba(24,44,63,.5);border-color:var(--glass-line);}
+
+/* Owner: only blue backgrounds become 65% transparent; controls retain their values. */
+:root:not([data-theme="light"]) body {background:radial-gradient(ellipse at 12% 0%,#3a5b73 0%,transparent 55%),linear-gradient(145deg,#294258,#1b2f43 75%);}
+:root:not([data-theme="light"]) #app > header,
+:root:not([data-theme="light"]) #app > main > :is(.controls,.details),
+:root:not([data-theme="light"]) :is(.geography-panel,.content-tag-drawer) {background:rgba(42,65,86,.35);}
+:root:not([data-theme="light"]) :is(.geography-panel,.content-tag-drawer) > header {background:rgba(42,65,86,.35);}
+@media(prefers-reduced-transparency:reduce){:root:not([data-theme="light"]) :is(#app > header,.controls,.details,.geography-panel,.content-tag-drawer){background:#294258;}}
+
+/* Keep real metric scale geometry; style its container like the map's compact controls. */
+#app .maplibregl-ctrl-scale {box-sizing:border-box;min-height:26px;padding:3px 6px 5px;border:1px solid #b7c7d5;border-bottom:2px solid currentColor;border-radius:7px;background:rgba(255,255,255,.88);color:#203b50;font:500 11px/16px system-ui,sans-serif;box-shadow:0 3px 10px #020a141a;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
+:root:not([data-theme="light"]) #app .maplibregl-ctrl-scale {background:rgba(24,44,63,.5);color:#f3f0e8;border-color:var(--glass-line);border-bottom-color:#f3f0e8;}
+.map-wrap > .map-note {bottom:calc(var(--geography-bottom) + var(--map-lower-controls-height,24px) + var(--map-scale-height,26px) + 24px);}
+@media(max-width:760px){#app .maplibregl-ctrl-scale{font-size:11px;min-height:26px;}}
+
+/* Keep four year digits clear of the native select arrow; wrap whole controls. */
+#app #year {width:80px;min-width:80px;max-width:80px;padding-inline:8px 28px;font-variant-numeric:tabular-nums;}
+#app .toolbar .appearance-switch {min-width:max-content;}
+#app .toolbar .appearance-switch .compact-choices {flex-wrap:nowrap;}
+@media(min-width:1001px){
+ #app .toolbar {flex:1 1 600px;max-width:100%;justify-content:flex-end;}
+ #app .toolbar > * {flex:0 0 auto;}
+}
+.geography-toolbar .geography-dimensions {flex:0 0 auto;margin-left:auto;overflow:visible;}
+.geography-toolbar:has(.geography-dimensions) > details {margin-left:0;}
+.geography-toolbar .geography-dimensions button {padding-inline:6px;}
+#app #year {
+ appearance:none;-webkit-appearance:none;padding-right:22px;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='m1 1 4 4 4-4' fill='none' stroke='%2395a9bc' stroke-width='1.3'/%3E%3C/svg%3E");
+ background-position:right 8px center;background-size:10px 6px;background-repeat:no-repeat;
+}
+#app .geography-dimensions button:disabled {color:#8c969e;background:transparent;box-shadow:none;opacity:1;}
+/* Mobile settings: three compact rows rather than sparse full-width fields. */
+@media(max-width:760px){
+ #app > header {padding:8px 12px;}
+ #app > header > div:first-child {min-width:0;}
+ #app > header h1 {font-size:15px;line-height:1.3;margin:3px 0 0;}
+ #app > header .site-brand {width:min(280px,100%);gap:8px;}
+ #app > header .brand-police {flex-basis:42px;width:42px;height:48px;}
+ #app > header .brand-caption {font-size:11px;}
+ #app .mobile-view-settings {margin-top:7px;}
+ #app .mobile-view-settings > summary {min-height:36px;padding:6px 9px;font-size:13px;border-radius:10px;}
+ #app .toolbar {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 80px 75px;gap:7px 6px;margin-top:7px;align-items:end;}
+ #app .toolbar > label {font-size:10px;line-height:1.4;min-width:0;}
+ #app .toolbar > label:has(#language) {grid-column:1 / 3;grid-row:1;display:flex;align-items:center;gap:4px;}
+ #app .toolbar > .appearance-switch {grid-column:3 / 5;grid-row:1;display:flex;align-items:center;justify-content:flex-end;gap:4px;min-width:0;}
+ #app .toolbar > .city-switch {grid-column:1 / 3;grid-row:2;}
+ #app .toolbar > label:has(#year) {grid-column:3;grid-row:2;}
+ #app .toolbar > label:has(#month) {grid-column:4;grid-row:2;}
+ #app .toolbar > #overview {grid-column:1 / 3;grid-row:3;}
+ #app .toolbar > #sources {grid-column:3 / 5;grid-row:3;}
+ #app .toolbar select {margin-top:2px;min-height:36px;height:36px;font-size:13px;line-height:1.3;border-radius:8px;}
+ #app .toolbar #city-switch {width:100%;max-width:none;min-width:0;field-sizing:fixed;}
+ #app .toolbar #month {width:75px;max-width:75px;padding-left:7px;}
+ #app .toolbar > button {min-height:34px;padding:5px 8px;font-size:12px;border-radius:8px;}
+ #app .toolbar .compact-choices button {min-height:30px;padding:4px 6px;font-size:11px;}
+ #app .mobile-navigation {gap:5px;padding:6px 12px;}
+ #app .mobile-navigation :is(button,a) {min-height:34px;padding:5px 8px;font-size:12px;border-radius:8px;}
+}
+/* Owner-selected dense phone controls. */
+@media(max-width:760px){
+ #app .mobile-view-settings {margin-top:5px;}
+ #app .mobile-view-settings > summary {min-height:30px;padding:4px 8px;font-size:12px;}
+ #app .toolbar {grid-template-columns:minmax(0,1fr) minmax(0,1fr) 72px 64px;gap:4px 5px;margin-top:4px;}
+ #app .toolbar > label {font-size:9px;line-height:1.3;}
+ #app .toolbar select {height:28px;min-height:28px;margin-top:1px;font-size:12px;border-radius:7px;padding-top:3px;padding-bottom:3px;}
+ #app .toolbar #year {width:72px;min-width:72px;max-width:72px;}
+ #app .toolbar #month {width:64px;max-width:64px;padding-right:17px;}
+ #app .toolbar > button {min-height:28px;padding:3px 6px;font-size:11px;}
+ #app .toolbar .compact-choices button {min-height:25px;padding:3px 5px;font-size:10px;}
+ #app .mobile-navigation {gap:4px;padding:4px 12px;}
+ #app .mobile-navigation :is(button,a) {min-height:28px;padding:3px 7px;font-size:11px;}
+ #app > main > :is(.controls,.details) {padding:10px 12px;}
+ #app > main > :is(.controls,.details),#app > main > :is(.controls,.details) :is(p,label,summary,button,select,input,.toggle,.report p,#coverage,#stats p) {font-size:12px;}
+ #app > main > :is(.controls,.details) :is(h2,h3,h4) {font-size:13px;margin-block:9px 5px;}
+ #app > main > :is(.controls,.details) :is(button,select,input:not([type=checkbox])) {min-height:30px;padding:3px 6px;}
+ #app .map-wrap {--geography-top:36px;--geography-bottom:36px;}
+ #app .geography-toolbar,#app .geography-info {min-height:36px;padding:3px 6px;gap:3px;font-size:10px;}
+ #app .geography-toolbar .compact-choices button,#app .geography-toolbar summary,#app .geography-info button {min-height:28px;padding:3px 5px;font-size:10px;}
+ #app .maplibregl-ctrl-group button {width:28px;height:28px;min-height:28px;}
+ #app .basemap-picker {padding:4px 5px;}
+ #app .basemap-picker .compact-choices button {min-height:28px;padding:3px 5px;font-size:10px;}
+ #app .map-label {padding:4px 7px;font-size:10px;}
+ #app .content-tag-anchor,#app .content-tag-eagle {width:34px;}
+ #app .content-tag-eagle {min-height:36px;padding:3px 1px;gap:1px;}
+ #app .content-tag-eagle img {width:21px;height:21px;}
+ #app .content-tag-launcher-label {font-size:7px;}
+}
+@media(max-width:760px){
+ #app .mobile-basemap-settings > summary {min-height:28px;padding:3px 5px;font-size:10px;}
+ .content-tag-anchor,.content-tag-eagle {width:34px;}
+ .content-tag-eagle {min-height:36px;padding:3px 1px;gap:1px;}
+ .content-tag-eagle img {width:21px;height:21px;}
+ .content-tag-launcher-label {font-size:7px;}
+}
+
+/* Phone fields size to their contents, without full-row button stretching. */
+@media(max-width:760px), (pointer:coarse) and (max-height:500px) and (max-width:1100px){
+ #app .toolbar {display:grid;align-items:end;width:fit-content;max-width:100%;grid-template-columns:minmax(0,max-content) max-content max-content;column-gap:7px;justify-content:start;}
+ #app .toolbar > label:has(#language) {grid-column:1 / 4;grid-row:1;justify-self:start;width:max-content;}
+ #app .toolbar > .appearance-switch {grid-column:1 / 4;grid-row:1;justify-self:end;width:max-content;justify-content:flex-start;}
+ #app .toolbar > .city-switch {grid-column:1;grid-row:2;justify-self:stretch;}
+ #app .toolbar > label:has(#year) {grid-column:2;grid-row:2;}
+ #app .toolbar > label:has(#month) {grid-column:3;grid-row:2;}
+ #app .toolbar #city-switch {width:auto;min-width:0;max-width:min(150px,calc(100vw - 180px),100%);field-sizing:content;}
+ #app .toolbar #year {width:66px;min-width:66px;max-width:66px;padding-left:6px;padding-right:20px;background-position:right 5px center;}
+ #app .toolbar #month {width:auto;min-width:55px;max-width:100px;field-sizing:content;}
+ #app .toolbar > #overview {grid-column:1;grid-row:3;justify-self:start;}
+ #app .toolbar > #sources {grid-column:2 / 4;grid-row:3;justify-self:start;}
+ #app .toolbar > :is(#overview,#sources) {width:max-content;padding-inline:9px;}
+}
+
+@media(pointer:coarse) and (max-height:500px) and (max-width:1100px){
+ #app .toolbar {flex:0 1 auto;gap:4px 7px;}
+ #app .toolbar > label {font-size:9px;line-height:1.3;}
+ #app .toolbar :is(select,button) {height:28px;min-height:28px;font-size:11px;padding-block:3px;}
+ #app .toolbar .compact-choices button {min-height:25px;height:25px;font-size:10px;padding:3px 5px;}
+ #app .toolbar > label:has(#language),#app .toolbar > .appearance-switch {display:flex;align-items:center;gap:4px;min-width:0;}
+}
+
+/* Separate the appearance label from its options at every responsive width. */
+#app .toolbar > .appearance-switch {display:flex;align-items:center;column-gap:8px;}
+#app > header > div:first-child {max-width:100%;}
+#app > header h1 {white-space:nowrap;overflow-wrap:normal;}
+@media(min-width:761px){#app > header > div:first-child {flex-basis:max-content;}}

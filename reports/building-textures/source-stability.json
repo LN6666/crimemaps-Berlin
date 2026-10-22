@@ -1,0 +1,7 @@
+{
+  "filesInSnapshot": 1987,
+  "newerFilesHashChecked": 0,
+  "changed": [],
+  "missing": [],
+  "rule": "Only rehash original source files modified after integration snapshot; no repainting or acceptance review."
+}

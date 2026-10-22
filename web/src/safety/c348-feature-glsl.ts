@@ -1,0 +1,7 @@
+export const C348_FEATURE_GLSL=String.raw`
+float c348box(vec2 q,vec2 c,vec2 h){vec2 aa=max(fwidth(q),vec2(.012));vec2 m=1.-smoothstep(h-aa,h+aa,abs(q-c));return m.x*m.y;}
+vec3 c348Main(vec3 base,vec3 p,vec3 normal,vec4 f,float family){vec3 white=vec3(.82,.83,.80),glass=vec3(.22,.29,.29),trim=vec3(.70,.73,.70);vec2 q=f.xy;if(family==13610.)return white;if(family==13611.)return vec3(.28,.30,.30);vec3 c=white;
+if(family==13612.){float pitch=138./62.;for(int j=0;j<5;j++){float y=1.25+float(j)*2.5;if(j<2&&abs(q.x)<27.)continue;float x=-69.+(floor((q.x+69.)/pitch)+.5)*pitch;float window=c348box(q,vec2(x,y),vec2(pitch*.36,j==0?.91:.68));c=mix(c,glass,window);c=mix(c,trim,c348box(q,vec2(x,y),vec2(.018,j==0?.91:.68))*window);}return c;}
+if(family==13613.){for(int i=0;i<10;i++){float x=(float(i)-4.5)*1.90;float upper=c348box(q,vec2(x,3.60),vec2(.64,1.00));c=mix(c,glass,upper);c=mix(c,trim,c348box(q,vec2(x,3.60),vec2(.018,1.00))*upper);}float entry=c348box(q,vec2(0.,1.10),vec2(9.5,.95));c=mix(c,glass,entry);for(int i=0;i<11;i++){float x=(float(i)-5.)*1.9;c=mix(c,trim,c348box(q,vec2(x,1.10),vec2(.045,.95))*entry);}c=mix(c,vec3(.63,.66,.64),c348box(q,vec2(0.,.13),vec2(9.6,.055)));c=mix(c,glass,c348box(q,vec2(20.1,1.25),vec2(.48,.50)));return c;}
+if(family==13614.){float pitch=119.55/57.;float x=-60.04+(floor((q.x+60.04)/pitch)+.5)*pitch;c=vec3(.70,.72,.68);float pane=c348box(q,vec2(x,13.68),vec2(pitch*.40,.98));c=mix(c,glass,pane);c=mix(c,trim,c348box(q,vec2(x,13.68),vec2(.023,.98))*pane);return c;}return base;}
+`;

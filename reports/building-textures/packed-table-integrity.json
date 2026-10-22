@@ -1,0 +1,2604 @@
+[
+  {
+    "path": "web/src/safety/c438-fixture.ts",
+    "variable": "C438_FIXTURE",
+    "sha256": "b976e191888123fa6d235cfcb905b32f3ad675a4f3721e442b51ed22600c9574",
+    "literalBytes": 1068282
+  },
+  {
+    "path": "web/src/safety/c446-fixture.ts",
+    "variable": "C446_FIXTURE",
+    "sha256": "25988c1e16f7ba010f990e1fa894f65d3c909a102aed5d21140d780f8130f54e",
+    "literalBytes": 596820
+  },
+  {
+    "path": "web/src/safety/c471-fixture.ts",
+    "variable": "C471_FIXTURE",
+    "sha256": "1cf81c347a8b20e7ef36c7b1ef87a688190a6d46455dcf9e1bdbcfc38cf6880b",
+    "literalBytes": 871378
+  },
+  {
+    "path": "web/src/safety/c346-fixture.ts",
+    "variable": "C346_FIXTURE",
+    "sha256": "8fdd781ab76116d422a982a31246afb41d3d2327410cb217b96e9d1c80585ebc",
+    "literalBytes": 1007858
+  },
+  {
+    "path": "web/src/safety/c360-fixture.ts",
+    "variable": "C360_FIXTURE",
+    "sha256": "f170bd68804d58f8c5cf2fed9449dfc42579cc10f99fd395fdbaee79a9c52bd3",
+    "literalBytes": 1378064
+  },
+  {
+    "path": "web/src/safety/c457-fixture.ts",
+    "variable": "C457_FIXTURE",
+    "sha256": "2d22ed888f983dac3bb12eb52f24114be5f478dea919d852f033df67f8be261c",
+    "literalBytes": 401675
+  },
+  {
+    "path": "web/src/safety/c452-fixture.ts",
+    "variable": "C452_FIXTURE",
+    "sha256": "23950612c8a9872d11765a46d7ab7f71868be82dabd717c846809661a40c18dd",
+    "literalBytes": 279029
+  },
+  {
+    "path": "web/src/safety/c465-fixture.ts",
+    "variable": "C465_FIXTURE",
+    "sha256": "c22ac1b3a93266bd23456c1650a7dbc9db75925b7e9082940dd92e69e4f854b5",
+    "literalBytes": 1561188
+  },
+  {
+    "path": "web/src/safety/c468-fixture.ts",
+    "variable": "C468_FIXTURE",
+    "sha256": "8fc8bfd2455136fe7871fbb3ba46277f329b57add872e4a39878aa227005efac",
+    "literalBytes": 368026
+  },
+  {
+    "path": "web/src/safety/c474-fixture.ts",
+    "variable": "C474_FIXTURE",
+    "sha256": "839994ce7be4b41dbdaa8a7c95148f83f1ee3dcf9b2b5657440ab735a4a7ae04",
+    "literalBytes": 827629
+  },
+  {
+    "path": "web/src/safety/c443-fixture.ts",
+    "variable": "C443_FIXTURE",
+    "sha256": "ea045940e18bf9801d6a620c7ba03177c943daa97a021454193e4da8f9673f3e",
+    "literalBytes": 1080097
+  },
+  {
+    "path": "web/src/safety/c321-fixture.ts",
+    "variable": "C321_FIXTURE",
+    "sha256": "580f6d3aede96a8f7c3a24d5c3f8e4aa7ea507c90e717b5804ad48897be2fccc",
+    "literalBytes": 1565206
+  },
+  {
+    "path": "web/src/safety/c343-fixture.ts",
+    "variable": "C343_FIXTURE",
+    "sha256": "365929e270125a79678fdad2e5a2251933b7edc668053d723f4efd3bb9854ea8",
+    "literalBytes": 387510
+  },
+  {
+    "path": "web/src/safety/progressive-feature-cities.ts",
+    "variable": "PROGRESSIVE_CITY_EXTRA_GLSL",
+    "sha256": "08a966a2685e8ac662b993b7e663eb3680324e4cbb0be4d9f28ad2f90b669866",
+    "literalBytes": 2125641
+  },
+  {
+    "path": "web/src/safety/c311-fixture.ts",
+    "variable": "C311_FIXTURE",
+    "sha256": "a88742435de1d1ef327b1c44b7a9060951ec4ed3a79e9fd76a489c491b72885d",
+    "literalBytes": 883711
+  },
+  {
+    "path": "web/src/safety/c444-fixture.ts",
+    "variable": "C444_FIXTURE",
+    "sha256": "4319d1f5e753a4082b16c64df7ef81f653ca492a7bab3acb3cb41d5622880be3",
+    "literalBytes": 394596
+  },
+  {
+    "path": "web/src/safety/c426-fixture.ts",
+    "variable": "C426_FIXTURE",
+    "sha256": "c41bab7ca944a3c2b8f11ca205cc748fbf55baf297eff2bc56c16a556d109f51",
+    "literalBytes": 619732
+  },
+  {
+    "path": "web/src/safety/c344-fixture.ts",
+    "variable": "C344_FIXTURE",
+    "sha256": "16337cd1d6d32bf41a15c607b610695eed06ba28696c24dde827fbbf80f394e3",
+    "literalBytes": 1658185
+  },
+  {
+    "path": "web/src/safety/c358-fixture.ts",
+    "variable": "C358_FIXTURE",
+    "sha256": "8081e4c8d91aa3a2c0c574597ca52d1a26bf2055b4259f106497868233a7f64a",
+    "literalBytes": 1671697
+  },
+  {
+    "path": "web/src/safety/c449-fixture.ts",
+    "variable": "C449_FIXTURE",
+    "sha256": "ade4480687b74d46a8489477b9ef2dffe829a701a0808aa4f75775ff578e1d3d",
+    "literalBytes": 636016
+  },
+  {
+    "path": "web/src/safety/c437-fixture.ts",
+    "variable": "C437_FIXTURE",
+    "sha256": "27e3e4d0a90b1f9328463fc889ecffb1939892a05f4a29272c96f0cdf5a95d21",
+    "literalBytes": 291730
+  },
+  {
+    "path": "web/src/safety/c362-fixture.ts",
+    "variable": "C362_FIXTURE",
+    "sha256": "86024c4b0621812f1a581abb43f9f412d25ae0a24a0a4f059cbeef0144c810e1",
+    "literalBytes": 895069
+  },
+  {
+    "path": "web/src/safety/c467-fixture.ts",
+    "variable": "C467_FIXTURE",
+    "sha256": "6e853d400e2868c8ab77fe98642b438aa39cac2ad5a1d1a8b614967f234ee7cd",
+    "literalBytes": 794590
+  },
+  {
+    "path": "web/src/safety/c332-fixture.ts",
+    "variable": "C332_FIXTURE",
+    "sha256": "c5ce475b2c9405b77eeea585ef9e0a8355eb7717a29066ddbf7aa18af635a40f",
+    "literalBytes": 690505
+  },
+  {
+    "path": "web/src/safety/c441-fixture.ts",
+    "variable": "C441_FIXTURE",
+    "sha256": "c552c07be57aa95c09b198b2fe8956ad14003f79156829388749bd37b4af15a5",
+    "literalBytes": 367624
+  },
+  {
+    "path": "web/src/safety/c476-fixture.ts",
+    "variable": "C476_FIXTURE",
+    "sha256": "bb0ed5a154124f179c9668f9eca5eb57ffc25f7cdbd1bfb50be0bb4ac6ad4bf5",
+    "literalBytes": 966943
+  },
+  {
+    "path": "web/src/safety/c341-fixture.ts",
+    "variable": "C341_FIXTURE",
+    "sha256": "a9afca2652da7ad6355c1329d67e3f67c8cf6ff863a2d44f41a5ea3e9cfacb88",
+    "literalBytes": 1046328
+  },
+  {
+    "path": "web/src/safety/c353-fixture.ts",
+    "variable": "C353_FIXTURE",
+    "sha256": "7462d3807a9d9f4c16cbb74046e053908d1e6bd075659567fb87e6604d80bf9f",
+    "literalBytes": 748589
+  },
+  {
+    "path": "web/src/safety/c364-fixture.ts",
+    "variable": "C364_FIXTURE",
+    "sha256": "e0b36493ee0426f0ec61a443a49ce6aa442569d400408eb2d2d802492e844fdf",
+    "literalBytes": 259574
+  },
+  {
+    "path": "web/src/safety/c378-fixture.ts",
+    "variable": "C378_FIXTURE",
+    "sha256": "ca6e84fddada8556623869db6a04b70ba4afc2b456cd2985eed9556314b083d6",
+    "literalBytes": 341784
+  },
+  {
+    "path": "web/src/safety/c320-fixture.ts",
+    "variable": "C320_FIXTURE",
+    "sha256": "afc126d8ce164f7b65b6a627374551eb8d7762154c2d5ed4dcb99676d21bf3c2",
+    "literalBytes": 961086
+  },
+  {
+    "path": "web/src/safety/c342-fixture.ts",
+    "variable": "C342_FIXTURE",
+    "sha256": "d5f63e0a5bed2c639aeed48226d58e7558b75346ae0d69095294aa0076f22ba2",
+    "literalBytes": 523670
+  },
+  {
+    "path": "web/src/safety/c439-fixture.ts",
+    "variable": "C439_FIXTURE",
+    "sha256": "4f8e58cbd1d801d1d9b1fa7e3100b3380a4bd318946281d2a7f0fb1a7b838dbc",
+    "literalBytes": 477431
+  },
+  {
+    "path": "web/src/safety/c325-fixture.ts",
+    "variable": "C325_FIXTURE",
+    "sha256": "b00992c3db06327961029b8f1ab26d98d41365c451918527ac79953629396a1e",
+    "literalBytes": 385396
+  },
+  {
+    "path": "web/src/safety/c447-fixture.ts",
+    "variable": "C447_FIXTURE",
+    "sha256": "47973ee3b364e1a8ea28183933099b95b2df01166365f5f9e41e44fe8c4a8ffb",
+    "literalBytes": 323764
+  },
+  {
+    "path": "web/src/safety/c312-fixture.ts",
+    "variable": "C312_FIXTURE",
+    "sha256": "45be88dd808b25514000607724c6a47680c75a1e1fd86d9f1299b6df2770223c",
+    "literalBytes": 673793
+  },
+  {
+    "path": "web/src/safety/c243-projection-pin.ts",
+    "variable": "C243_PROJECTION_REGISTRY",
+    "sha256": "0eb9ed1c5661691a428c28f48b07f908c9e8ae7be48829545c689f3b25996ad1",
+    "literalBytes": 332746
+  },
+  {
+    "path": "web/src/safety/c361-fixture.ts",
+    "variable": "C361_FIXTURE",
+    "sha256": "86d0bedfbbada35b5c2bfc4989ce67a2bdc0086a8af344536647998e43e39b88",
+    "literalBytes": 459073
+  },
+  {
+    "path": "web/src/safety/c356-fixture.ts",
+    "variable": "C356_FIXTURE",
+    "sha256": "cc14a6db0ed8cc4db6774a5713261723d8ae194f47f2a18948893610badc924e",
+    "literalBytes": 455116
+  },
+  {
+    "path": "web/src/safety/c334-fixture.ts",
+    "variable": "C334_FIXTURE",
+    "sha256": "a9ab7be7b944663997579284eed87b2f84340232819fd5999d26290d2fba40b5",
+    "literalBytes": 340012
+  },
+  {
+    "path": "web/src/safety/c366-fixture.ts",
+    "variable": "C366_FIXTURE",
+    "sha256": "4d66e76492a494f6228c008c2177e95e1587271d31f6e3f4c7f9d967baaab018",
+    "literalBytes": 264354
+  },
+  {
+    "path": "web/src/safety/c351-fixture.ts",
+    "variable": "C351_FIXTURE",
+    "sha256": "81272e383a2b587011e1bf87d5f15aff3ea6bbaeca60e3300df4b89375fe9270",
+    "literalBytes": 885928
+  },
+  {
+    "path": "web/src/safety/c159-projection-pin.ts",
+    "variable": "C159_PROJECTION_REGISTRY",
+    "sha256": "70916062b25d4aa1420eb7fb13471fd93d0c23ddc2c67b6f4fded49a5911bdd7",
+    "literalBytes": 272091
+  },
+  {
+    "path": "web/src/safety/c322-fixture.ts",
+    "variable": "C322_FIXTURE",
+    "sha256": "3923879136732b1c48b6b16ff381ecb413999092c39e114ddb495d66d921c3ff",
+    "literalBytes": 389419
+  },
+  {
+    "path": "web/src/safety/c340-fixture.ts",
+    "variable": "C340_FIXTURE",
+    "sha256": "b026b5e5595e1e7d40e0e060c2214cc8bc1c85cdc88f5f85d32a08d38d4b21b6",
+    "literalBytes": 713681
+  },
+  {
+    "path": "web/src/safety/c377-fixture.ts",
+    "variable": "C377_FIXTURE",
+    "sha256": "16c4a51659e5b55faec50261ac4877fdc06f386509663ca98360df5b0020e92c",
+    "literalBytes": 416833
+  },
+  {
+    "path": "web/src/safety/c472-fixture.ts",
+    "variable": "C472_FIXTURE",
+    "sha256": "330daf304980608d1ff1e0b5e26d91af107f26a78dd084395ccd9497df0dc84d",
+    "literalBytes": 1190652
+  },
+  {
+    "path": "web/src/safety/c445-fixture.ts",
+    "variable": "C445_FIXTURE",
+    "sha256": "82d1025617636afab7b6ab693de9ea7fc9bb0bbd987c7cf600348c67427062de",
+    "literalBytes": 396174
+  },
+  {
+    "path": "web/src/safety/c327-fixture.ts",
+    "variable": "C327_FIXTURE",
+    "sha256": "d732abf5bfddfbe969b23983200aa5ff447989be6d9a5af11df82cd8dcfe19ab",
+    "literalBytes": 729802
+  },
+  {
+    "path": "web/src/safety/c345-fixture.ts",
+    "variable": "C345_FIXTURE",
+    "sha256": "e580e3b8775e8228b5a82302f6b9e959e1a8c1d1d75fd30b128ccc2307e8fcfe",
+    "literalBytes": 615769
+  },
+  {
+    "path": "web/src/safety/c448-fixture.ts",
+    "variable": "C448_FIXTURE",
+    "sha256": "21d49ec6b7f5fff09cd4b469f6ddcd7b4ed5aff2dd576e961aa3429de990d99f",
+    "literalBytes": 300553
+  },
+  {
+    "path": "web/src/safety/c436-fixture.ts",
+    "variable": "C436_FIXTURE",
+    "sha256": "2ba4e9c36cfab40d6511c0b1bf68abc1ca18a713236d0d5227428c1e74c4a312",
+    "literalBytes": 418254
+  },
+  {
+    "path": "web/src/safety/progressive-paint-admissions.ts",
+    "variable": "PROGRESSIVE_ADMISSIONS",
+    "sha256": "7da78c3156384cbe2b15916ef730aa580310bd2dc64e63f747f2721830631a35",
+    "literalBytes": 19078291
+  },
+  {
+    "path": "web/src/painted/tier300/safety/progressive-feature-cities.ts",
+    "variable": "PROGRESSIVE_CITY_EXTRA_GLSL",
+    "sha256": "67cda70d1342fb511ab4748e3927b8d00302531d60f22172ae8deec852f6dc85",
+    "literalBytes": 1562712
+  },
+  {
+    "path": "web/src/painted/tier300/safety/progressive-paint-admissions.ts",
+    "variable": "PROGRESSIVE_ADMISSIONS",
+    "sha256": "ab07a37cd2caf09ad39126521c9331779ceea67b9524c9ccdbc7318c9d324932",
+    "literalBytes": 3810827
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f006-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "289cc3db13aa046e4aa4917d2bfd3ee4b1c7f143e9bb413cb8048fef7366a97f",
+    "literalBytes": 908801,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/28/289cc3db13aa046e4aa4917d2bfd3ee4b1c7f143e9bb413cb8048fef7366a97f.json",
+    "bytes": 908801
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f048-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "b0195cabd8ba449ce8bfde5a9d9f8978d3f3f2ed68cd692753f483aa9c1c3ae0",
+    "literalBytes": 1180007,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/b0/b0195cabd8ba449ce8bfde5a9d9f8978d3f3f2ed68cd692753f483aa9c1c3ae0.json",
+    "bytes": 1180007
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f023-pergola.ts",
+    "variable": "DISPLAY",
+    "sha256": "f1a4cca259028712aff00ed70e00b8a57265d3023190550b9a7eb6caf177f053",
+    "literalBytes": 1023923,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/f1/f1a4cca259028712aff00ed70e00b8a57265d3023190550b9a7eb6caf177f053.json",
+    "bytes": 1023923
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f132-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "8ee55c9ed6c748af8465c2c6617c0e22507ee22b0e22972f4cf00574fb77ce4d",
+    "literalBytes": 857651,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/8e/8ee55c9ed6c748af8465c2c6617c0e22507ee22b0e22972f4cf00574fb77ce4d.json",
+    "bytes": 857651
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f071-narziss-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "058f45e35feb97b46bacde931288953ef390b1664e42e8df2c723545d40261a5",
+    "literalBytes": 658589,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/05/058f45e35feb97b46bacde931288953ef390b1664e42e8df2c723545d40261a5.json",
+    "bytes": 658589
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f137-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "28ce8572cdfdbff84e06da02c55171ce1ae689d34cf604e93b103da725ad5f64",
+    "literalBytes": 529260,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/28/28ce8572cdfdbff84e06da02c55171ce1ae689d34cf604e93b103da725ad5f64.json",
+    "bytes": 529260
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f137-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "c836cb38a61ed4ba41942a47bfffaa72b201ea2e07f3ea7c8dffba78ca37f1bd",
+    "literalBytes": 18748201,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/c8/c836cb38a61ed4ba41942a47bfffaa72b201ea2e07f3ea7c8dffba78ca37f1bd.json",
+    "bytes": 18748201
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f065-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "33ab5d909a9fd0470e74c35283092e190e0f88a46e3a755f8a7955af49ba12a9",
+    "literalBytes": 678562,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/33/33ab5d909a9fd0470e74c35283092e190e0f88a46e3a755f8a7955af49ba12a9.json",
+    "bytes": 678562
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f037-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "467a310979479c329f35ce1cf13e6697afee01e016441bdd15265a60e805c298",
+    "literalBytes": 638401,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/46/467a310979479c329f35ce1cf13e6697afee01e016441bdd15265a60e805c298.json",
+    "bytes": 638401
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f037-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "1f026cd34dd5f54c4e818bb6bea616de9add8a6eb095b46c298c85693bc10204",
+    "literalBytes": 1644431,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/1f/1f026cd34dd5f54c4e818bb6bea616de9add8a6eb095b46c298c85693bc10204.json",
+    "bytes": 1644431
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f079-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "599fafb37995f33636d01a74080c5742ea745094b96df5859fe607276ca01651",
+    "literalBytes": 9705227,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/59/599fafb37995f33636d01a74080c5742ea745094b96df5859fe607276ca01651.json",
+    "bytes": 9705227
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f007-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "8ac3c02680f7a6a620d4b18da33ece3f5358b548fa9787d1cb19d7eebe6cfe8b",
+    "literalBytes": 624295,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/8a/8ac3c02680f7a6a620d4b18da33ece3f5358b548fa9787d1cb19d7eebe6cfe8b.json",
+    "bytes": 624295
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f033-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "44e9b9687d015109cbdb6278cb9ffc4fe9a1dfddd22a7e69e1579e4f8eab40d1",
+    "literalBytes": 632137,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/44/44e9b9687d015109cbdb6278cb9ffc4fe9a1dfddd22a7e69e1579e4f8eab40d1.json",
+    "bytes": 632137
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f033-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "6e9b72aedf1cf42b6ad87ad953e40349373584058ab68e18441f1db2380be7e4",
+    "literalBytes": 15640307,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/6e/6e9b72aedf1cf42b6ad87ad953e40349373584058ab68e18441f1db2380be7e4.json",
+    "bytes": 15640307
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f055-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "38b270e2d0dd12d8f6973e902539ccf4096d96bcf22346065885ad6dd24b6d8f",
+    "literalBytes": 20134517,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/38/38b270e2d0dd12d8f6973e902539ccf4096d96bcf22346065885ad6dd24b6d8f.json",
+    "bytes": 20134517
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f005-completion-geometry.ts",
+    "variable": "F005_COMPLETION_BATCH",
+    "sha256": "c19e221e213e99735f1fc13263d8c03fb18a3fbcc21c6b2f6f5b4c9f195f3569",
+    "literalBytes": 7780091,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/c1/c19e221e213e99735f1fc13263d8c03fb18a3fbcc21c6b2f6f5b4c9f195f3569.json",
+    "bytes": 7780091
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f136-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "f6bed5563b777c5ab91766b11417d3630a67c1fe891d6a474f0df35726614d24",
+    "literalBytes": 924566,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/f6/f6bed5563b777c5ab91766b11417d3630a67c1fe891d6a474f0df35726614d24.json",
+    "bytes": 924566
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f299-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "9d52607a8f828d4b62c4f8a3107e7afe0b89b6f7f56ca7d194288fe62e89f426",
+    "literalBytes": 346128,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/9d/9d52607a8f828d4b62c4f8a3107e7afe0b89b6f7f56ca7d194288fe62e89f426.json",
+    "bytes": 346128
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f077-completion.ts",
+    "variable": "FRAMES",
+    "sha256": "d00e86e6f733c7f507b61b4fe87a4b9ffd0f0fb89fbc186149efbfd4f8400cd9",
+    "literalBytes": 1195809,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/d0/d00e86e6f733c7f507b61b4fe87a4b9ffd0f0fb89fbc186149efbfd4f8400cd9.json",
+    "bytes": 1195809
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f077-completion.ts",
+    "variable": "PAINT",
+    "sha256": "cd47f076985ba11d20b8f0f53eaa50bc9b89c5df0774a7a319b29d375ecc5179",
+    "literalBytes": 569818,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/cd/cd47f076985ba11d20b8f0f53eaa50bc9b89c5df0774a7a319b29d375ecc5179.json",
+    "bytes": 569818
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f180-reconstruction.ts",
+    "variable": "E",
+    "sha256": "fef72950c190857bd5a0492553431bf238a5376114c810347aa65ea6e4743863",
+    "literalBytes": 298345,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/fe/fef72950c190857bd5a0492553431bf238a5376114c810347aa65ea6e4743863.json",
+    "bytes": 298345
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f249-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "8252f1d12204e4a604fb429f9741901018b99e801a97092626cc3761061c63ee",
+    "literalBytes": 261864,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/82/8252f1d12204e4a604fb429f9741901018b99e801a97092626cc3761061c63ee.json",
+    "bytes": 261864
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f036-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "538c0a414afe57c42f75ea518e30aeab69ebb7452557ffb2032637a4879d072f",
+    "literalBytes": 9600565,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/53/538c0a414afe57c42f75ea518e30aeab69ebb7452557ffb2032637a4879d072f.json",
+    "bytes": 9600565
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f164-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "b0ede4213792636751d548e9a7c75f6e7dad3d67dd8c2905f8ad5e990f6e6810",
+    "literalBytes": 11135220,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/b0/b0ede4213792636751d548e9a7c75f6e7dad3d67dd8c2905f8ad5e990f6e6810.json",
+    "bytes": 11135220
+  },
+  {
+    "path": "web/src/painted/root500/safety/progressive-feature-cities.ts",
+    "variable": "PROGRESSIVE_CITY_EXTRA_GLSL",
+    "sha256": "a4d0762be98c9995c3e05ffbea1992099883fd9ec40822abaf6fc12f63acf0aa",
+    "literalBytes": 2476661,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/a4/a4d0762be98c9995c3e05ffbea1992099883fd9ec40822abaf6fc12f63acf0aa.json",
+    "bytes": 2476661
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f062-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "75b9ea43a5fa7c6473ecd4ece819a4b2e43a9b7ed00186870c2fef0867b019e3",
+    "literalBytes": 619590,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/75/75b9ea43a5fa7c6473ecd4ece819a4b2e43a9b7ed00186870c2fef0867b019e3.json",
+    "bytes": 619590
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f062-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "30989617f90eb265ee3889bb3d807cae650ec99499734c0d28ed69fe12e40646",
+    "literalBytes": 8556437,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/30/30989617f90eb265ee3889bb3d807cae650ec99499734c0d28ed69fe12e40646.json",
+    "bytes": 8556437
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f030-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "92739eec56f85019277036b77c02095e6e1a6ec34656550cf8e171e6640b6c13",
+    "literalBytes": 1306639,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/92/92739eec56f85019277036b77c02095e6e1a6ec34656550cf8e171e6640b6c13.json",
+    "bytes": 1306639
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f082-derived-pack.ts",
+    "variable": "F082_DERIVED_PACK",
+    "sha256": "91d0186a3537a5a37652b2131dd9d4967128f38f2f208b3a86a9aa45f196bf34",
+    "literalBytes": 4777913,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/91/91d0186a3537a5a37652b2131dd9d4967128f38f2f208b3a86a9aa45f196bf34.json",
+    "bytes": 4777913
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f162-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "d30e9c8bb9cccfa29ed981df5771524d767d7b128c385223287db760d606adfb",
+    "literalBytes": 1239345,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/d3/d30e9c8bb9cccfa29ed981df5771524d767d7b128c385223287db760d606adfb.json",
+    "bytes": 1239345
+  },
+  {
+    "path": "web/src/painted/root500/safety/progressive-hamburg-programs.ts",
+    "variable": "HAMBURG_PROGRAM_GLSL",
+    "sha256": "ad5d7f17924dde1b30ded4d66364ad28b2be2046c93d4b3f946a588c883931e4",
+    "literalBytes": 2946966,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/ad/ad5d7f17924dde1b30ded4d66364ad28b2be2046c93d4b3f946a588c883931e4.json",
+    "bytes": 2946966
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f067-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "a2046f0b156c391ba865864c2624b191387aa192caafd457b0cc30409a8685c1",
+    "literalBytes": 18829810,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/a2/a2046f0b156c391ba865864c2624b191387aa192caafd457b0cc30409a8685c1.json",
+    "bytes": 18829810
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f029-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "fed592a753df30a3d04d60c42ecf71ac71d5ba17021dfa14abcf8c77730449ac",
+    "literalBytes": 21579746,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/fe/fed592a753df30a3d04d60c42ecf71ac71d5ba17021dfa14abcf8c77730449ac.json",
+    "bytes": 21579746
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f075-derived-pack.ts",
+    "variable": "F075_DERIVED_PACK",
+    "sha256": "a949900a993f60bf6f25e8d68e32c6be6bab10b0143174fb4ee84e8bd5ec400f",
+    "literalBytes": 689729,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/a9/a949900a993f60bf6f25e8d68e32c6be6bab10b0143174fb4ee84e8bd5ec400f.json",
+    "bytes": 689729
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f107-derived-pack.ts",
+    "variable": "F107_DERIVED_PACK",
+    "sha256": "b77082bd9590550ecba2aa0010cbf65bf29bdbec00ca904119f3df6d9bfb223b",
+    "literalBytes": 1386330,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/b7/b77082bd9590550ecba2aa0010cbf65bf29bdbec00ca904119f3df6d9bfb223b.json",
+    "bytes": 1386330
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f035-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "0174de6c86392a7318445413144998a6d10ca4564776dd0acff0d11cec54dafe",
+    "literalBytes": 766102,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/01/0174de6c86392a7318445413144998a6d10ca4564776dd0acff0d11cec54dafe.json",
+    "bytes": 766102
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f035-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "793c485bbd92488853a0dbc61544a27ab27e68a265cca76418720679f5c2c390",
+    "literalBytes": 15043117,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/79/793c485bbd92488853a0dbc61544a27ab27e68a265cca76418720679f5c2c390.json",
+    "bytes": 15043117
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f053-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "7ec9f02aeda68243ba3836be6ce0309948ce417662931ddaadcb8b8be26a73ee",
+    "literalBytes": 491183,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/7e/7ec9f02aeda68243ba3836be6ce0309948ce417662931ddaadcb8b8be26a73ee.json",
+    "bytes": 491183
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f053-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "cdbe70ee8a599146f0bcaf03871d8e238a79247b537bd1c4c2923f89dcd9685f",
+    "literalBytes": 3119233,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/cd/cdbe70ee8a599146f0bcaf03871d8e238a79247b537bd1c4c2923f89dcd9685f.json",
+    "bytes": 3119233
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f083-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "bbd77328ebb2934b51a730aa77bd10e9dc79e47d4b52d7f5ea65c35254297573",
+    "literalBytes": 3693158,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/bb/bbd77328ebb2934b51a730aa77bd10e9dc79e47d4b52d7f5ea65c35254297573.json",
+    "bytes": 3693158
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f005-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "1a6cc9fe91b225cd5350e0d9e00f4eb5f6daaa03be34a41b1bd2deacba57bf2b",
+    "literalBytes": 2379814,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/1a/1a6cc9fe91b225cd5350e0d9e00f4eb5f6daaa03be34a41b1bd2deacba57bf2b.json",
+    "bytes": 2379814
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f039-blockD2-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "21cf29bbdb26a48166bc5ac59b2565a6426ce1e527ccb5daded6c43e55e633b4",
+    "literalBytes": 2403147,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/21/21cf29bbdb26a48166bc5ac59b2565a6426ce1e527ccb5daded6c43e55e633b4.json",
+    "bytes": 2403147
+  },
+  {
+    "path": "web/src/painted/root500/safety/progressive-berlin-programs.ts",
+    "variable": "BERLIN_PROGRAM_GLSL",
+    "sha256": "287aa87661490ea6cd983951b372da5a7cdef9071c02110594443afdc77e26ec",
+    "literalBytes": 6503158,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/28/287aa87661490ea6cd983951b372da5a7cdef9071c02110594443afdc77e26ec.json",
+    "bytes": 6503158
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f039-sande-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "3ba5c383eba05a16f6bcc2cffdab8cbb06f76ee28633b901d35e4870357665bc",
+    "literalBytes": 1642047,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/3b/3ba5c383eba05a16f6bcc2cffdab8cbb06f76ee28633b901d35e4870357665bc.json",
+    "bytes": 1642047
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f170-completion.ts",
+    "variable": "APPEND",
+    "sha256": "6d4bf9e1dde1f003ae2e21f2620f606da2afe58ad6d7bbf6e5032090df895f1a",
+    "literalBytes": 618603,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/6d/6d4bf9e1dde1f003ae2e21f2620f606da2afe58ad6d7bbf6e5032090df895f1a.json",
+    "bytes": 618603
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f031-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "f3f354ac34fb46df9be6def386d794d4f1371ee835281200bc6d1e54d000bcaf",
+    "literalBytes": 9910494,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/f3/f3f354ac34fb46df9be6def386d794d4f1371ee835281200bc6d1e54d000bcaf.json",
+    "bytes": 9910494
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f105-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "a60d130e4e0056de68b5204821eb18032b7100c593e183b42b8c14e0fdd138fe",
+    "literalBytes": 2017755,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/a6/a60d130e4e0056de68b5204821eb18032b7100c593e183b42b8c14e0fdd138fe.json",
+    "bytes": 2017755
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f163-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "23822e8c15af9da72e946db3bc4253b847e58afe60632933eb07422bb0bd303d",
+    "literalBytes": 1201933,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/23/23822e8c15af9da72e946db3bc4253b847e58afe60632933eb07422bb0bd303d.json",
+    "bytes": 1201933
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f057-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "85a113b26efad951ba79f3f68b04d7975ac0a7bbe954466510fd8b50cefa5724",
+    "literalBytes": 474926,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/85/85a113b26efad951ba79f3f68b04d7975ac0a7bbe954466510fd8b50cefa5724.json",
+    "bytes": 474926
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f057-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "5b34424675af7a380eea765ef67bfe3c5b21b06c72576c28ae3c2657336014a4",
+    "literalBytes": 4230050,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/5b/5b34424675af7a380eea765ef67bfe3c5b21b06c72576c28ae3c2657336014a4.json",
+    "bytes": 4230050
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f257-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "08f9d164e6e54ac7e6ef72572c3b1cb6baf8fcfbba21f63f9aa42f7b3d403154",
+    "literalBytes": 1109794,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/08/08f9d164e6e54ac7e6ef72572c3b1cb6baf8fcfbba21f63f9aa42f7b3d403154.json",
+    "bytes": 1109794
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f034-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "4fdc152c32c161715e7daf6f7f705f96819dd5b91feb8659d22597f9b221966a",
+    "literalBytes": 349224,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/4f/4fdc152c32c161715e7daf6f7f705f96819dd5b91feb8659d22597f9b221966a.json",
+    "bytes": 349224
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f034-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "06399f94bb6ccac44b9d7570cf88ec275ae85004628faf8110d809f912d6cc21",
+    "literalBytes": 1218551,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/06/06399f94bb6ccac44b9d7570cf88ec275ae85004628faf8110d809f912d6cc21.json",
+    "bytes": 1218551
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f052-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "b0f6f2e4deea132e2db52a08d37164f6b059710fd2617910df4840949f9e41e5",
+    "literalBytes": 14756891,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/b0/b0f6f2e4deea132e2db52a08d37164f6b059710fd2617910df4840949f9e41e5.json",
+    "bytes": 14756891
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f166-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "06927f485b7149398708d81be382aa73969eb3500b72f23b5b13950440d23345",
+    "literalBytes": 283585,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/06/06927f485b7149398708d81be382aa73969eb3500b72f23b5b13950440d23345.json",
+    "bytes": 283585
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f166-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "8c2b8b06193f449a6afe00c47ee3ba0c7f04469eb9553a34d4c8311e8de06e6c",
+    "literalBytes": 460016,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/8c/8c2b8b06193f449a6afe00c47ee3ba0c7f04469eb9553a34d4c8311e8de06e6c.json",
+    "bytes": 460016
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f018-completion.ts",
+    "variable": "SOURCES",
+    "sha256": "6d5aba54634e887289f77ff34a905c0affe12b30667dd6db91acdbe333bc7d98",
+    "literalBytes": 345352,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/6d/6d5aba54634e887289f77ff34a905c0affe12b30667dd6db91acdbe333bc7d98.json",
+    "bytes": 345352
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f018-completion.ts",
+    "variable": "APPEND",
+    "sha256": "4b348f0bf5a3b4d08242e17ab696bc69170e0c26c351d5d2a035d08fa603e5c2",
+    "literalBytes": 1915724,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/4b/4b348f0bf5a3b4d08242e17ab696bc69170e0c26c351d5d2a035d08fa603e5c2.json",
+    "bytes": 1915724
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f009-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "8e5dd207bc5495f1a350aa0a45570a70925887661886597d8189684063bff0f2",
+    "literalBytes": 1170297,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/8e/8e5dd207bc5495f1a350aa0a45570a70925887661886597d8189684063bff0f2.json",
+    "bytes": 1170297
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f171-completion.ts",
+    "variable": "APPEND",
+    "sha256": "ce2012f9bedf8b439b4b7bdbeae690b460d71da0b07ddf2182b003ee34b9295d",
+    "literalBytes": 864093,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/ce/ce2012f9bedf8b439b4b7bdbeae690b460d71da0b07ddf2182b003ee34b9295d.json",
+    "bytes": 864093
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f171-completion.ts",
+    "variable": "FRAMES",
+    "sha256": "2543d20ad7b9d97b45e2fa553a0ddb74846a3e9e8b914eb3205412abe3f477c6",
+    "literalBytes": 468654,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/25/2543d20ad7b9d97b45e2fa553a0ddb74846a3e9e8b914eb3205412abe3f477c6.json",
+    "bytes": 468654
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f015-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "39f4693e03978ff81119cfe25a38556e00f536dc17a273b018467c3c4eccaae7",
+    "literalBytes": 2184920,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/39/39f4693e03978ff81119cfe25a38556e00f536dc17a273b018467c3c4eccaae7.json",
+    "bytes": 2184920
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f210-reconstruction.ts",
+    "variable": "E",
+    "sha256": "d20446d5f01f6fcec82418d4a6a4e8f5e22564837f863d3de687576382061499",
+    "literalBytes": 341592,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/d2/d20446d5f01f6fcec82418d4a6a4e8f5e22564837f863d3de687576382061499.json",
+    "bytes": 341592
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f197-reconstruction.ts",
+    "variable": "E",
+    "sha256": "4783946258051f331cc914b10e4caa2c7630f67b1ef7f2f2da82ffe3d4394105",
+    "literalBytes": 285861,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/47/4783946258051f331cc914b10e4caa2c7630f67b1ef7f2f2da82ffe3d4394105.json",
+    "bytes": 285861
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f209-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "7dd91574b5c4786e82bc1ec6052ecac6c5a843a64b9de59b299949e510e453be",
+    "literalBytes": 271397,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/7d/7dd91574b5c4786e82bc1ec6052ecac6c5a843a64b9de59b299949e510e453be.json",
+    "bytes": 271397
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f110-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "d7e8d84bcc96ab8498c1ab00cd318f7f26e966d1915b1ef7747ff9218246b29b",
+    "literalBytes": 8173425,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/d7/d7e8d84bcc96ab8498c1ab00cd318f7f26e966d1915b1ef7747ff9218246b29b.json",
+    "bytes": 8173425
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f042-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "ca9c0fdb680af8481eca50fb7e342e706ae221d6d4b6a4d4e1f195b1a637461f",
+    "literalBytes": 12119103,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/ca/ca9c0fdb680af8481eca50fb7e342e706ae221d6d4b6a4d4e1f195b1a637461f.json",
+    "bytes": 12119103
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f138-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "9fda19ee6068fbad151c7c5452dd833aa77518789e011623b066950eb211ffbb",
+    "literalBytes": 3593279,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/9f/9fda19ee6068fbad151c7c5452dd833aa77518789e011623b066950eb211ffbb.json",
+    "bytes": 3593279
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f038-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "cb1415e8a23c665c8879b01a26ee138a1f2f574f02c3f87896362e683922a93f",
+    "literalBytes": 7902454,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/cb/cb1415e8a23c665c8879b01a26ee138a1f2f574f02c3f87896362e683922a93f.json",
+    "bytes": 7902454
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f192-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "593cc7323786e99493103d02fa21145e56f7339729738fbe7c1f99fcf06357ff",
+    "literalBytes": 657694,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/59/593cc7323786e99493103d02fa21145e56f7339729738fbe7c1f99fcf06357ff.json",
+    "bytes": 657694
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f215-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "46c25f2ebc0e368cde0106a3bca753a3f501d70828b4e1286dc5b88bbeda43ab",
+    "literalBytes": 5004252,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/46/46c25f2ebc0e368cde0106a3bca753a3f501d70828b4e1286dc5b88bbeda43ab.json",
+    "bytes": 5004252
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f142-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "4e0d3f7e7428121370b7ad31d998c9688d714627895f12c565b03f579cc11d3e",
+    "literalBytes": 750001,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/4e/4e0d3f7e7428121370b7ad31d998c9688d714627895f12c565b03f579cc11d3e.json",
+    "bytes": 750001
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f142-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "f7394c134b3db70402019e059538473d21cdbb8c784f47347a33571fd2d88696",
+    "literalBytes": 1803919,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/f7/f7394c134b3db70402019e059538473d21cdbb8c784f47347a33571fd2d88696.json",
+    "bytes": 1803919
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f114-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "3b77d9e55f9a51ba0759462e2f04591a66edd2452b1d7d22f1c2c82d21ec8521",
+    "literalBytes": 1904619,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/3b/3b77d9e55f9a51ba0759462e2f04591a66edd2452b1d7d22f1c2c82d21ec8521.json",
+    "bytes": 1904619
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-extra6306-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "5af9200719405dcd7050ca32bdaa669ddae1bfdcfa6b80aa47fb937351f0899e",
+    "literalBytes": 612616,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/5a/5af9200719405dcd7050ca32bdaa669ddae1bfdcfa6b80aa47fb937351f0899e.json",
+    "bytes": 612616
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f008-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "28ecfc32248bc189f5c54f3ed4a3eec87e61f27ef5842db4f8699cb054e3346c",
+    "literalBytes": 483949,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/28/28ecfc32248bc189f5c54f3ed4a3eec87e61f27ef5842db4f8699cb054e3346c.json",
+    "bytes": 483949
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f008-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "6685d812ac07b947c799e3c41e6b5f190beeff35982c8bf776945edb5006e545",
+    "literalBytes": 760127,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/66/6685d812ac07b947c799e3c41e6b5f190beeff35982c8bf776945edb5006e545.json",
+    "bytes": 760127
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f106-completion.ts",
+    "variable": "APPEND",
+    "sha256": "699a37ea2fb16d9ccd0081f92a1b35b4b4842c36c101b3477dc6ff3040ca027c",
+    "literalBytes": 1520061,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/69/699a37ea2fb16d9ccd0081f92a1b35b4b4842c36c101b3477dc6ff3040ca027c.json",
+    "bytes": 1520061
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f106-completion.ts",
+    "variable": "FRAMES",
+    "sha256": "2ff67a889bcce4393f83d1ecaf3e10d0222fcbd9e6ddfb70eb06115a57f81193",
+    "literalBytes": 839188,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/2f/2ff67a889bcce4393f83d1ecaf3e10d0222fcbd9e6ddfb70eb06115a57f81193.json",
+    "bytes": 839188
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f043-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "73cafa95d2ffc214e0f5ea96bdd1dd9b904d43f8b7d28f7eef58f53458c713db",
+    "literalBytes": 765125,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/73/73cafa95d2ffc214e0f5ea96bdd1dd9b904d43f8b7d28f7eef58f53458c713db.json",
+    "bytes": 765125
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f043-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "81c115252bbee1cd969b4858857c13e9e98e7a1ded48f7ba533e56309981c12e",
+    "literalBytes": 1426244,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/81/81c115252bbee1cd969b4858857c13e9e98e7a1ded48f7ba533e56309981c12e.json",
+    "bytes": 1426244
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f314-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "2b649639364c11129046f5aad421227b99e4aa8f592d1dccefd14ebedd7bba17",
+    "literalBytes": 800196,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/2b/2b649639364c11129046f5aad421227b99e4aa8f592d1dccefd14ebedd7bba17.json",
+    "bytes": 800196
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f032-reconstruction-data.ts",
+    "variable": "F032_RECONSTRUCTION_BATCHES",
+    "sha256": "a1c9423283ad7b9db8cf778f22ba6d90b96b33f2a4be22cf0a3384bfc78c167e",
+    "literalBytes": 341184,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/a1/a1c9423283ad7b9db8cf778f22ba6d90b96b33f2a4be22cf0a3384bfc78c167e.json",
+    "bytes": 341184
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f088-completion.ts",
+    "variable": "DISPLAY",
+    "sha256": "0e92f8d6c9f797e8bcc1581594e567bdfe2f3da362e76dc2bd1b44f3f614fdce",
+    "literalBytes": 255626,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/0e/0e92f8d6c9f797e8bcc1581594e567bdfe2f3da362e76dc2bd1b44f3f614fdce.json",
+    "bytes": 255626
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f011-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "09b30b47287fa81bfb313807a20bbb211c90e8774fc34ae1fbe56c1ea9be8601",
+    "literalBytes": 681807,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/09/09b30b47287fa81bfb313807a20bbb211c90e8774fc34ae1fbe56c1ea9be8601.json",
+    "bytes": 681807
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f308-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "14a4f3754ffececc21e40aef8c27c6b0875d870012ebf0c617b24318bc671857",
+    "literalBytes": 1766990,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/14/14a4f3754ffececc21e40aef8c27c6b0875d870012ebf0c617b24318bc671857.json",
+    "bytes": 1766990
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f320-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "2ee8d3323e69a7498fd61411a2cb8d421d29a48cae4d482ddb180d8a6b741463",
+    "literalBytes": 262424,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/2e/2ee8d3323e69a7498fd61411a2cb8d421d29a48cae4d482ddb180d8a6b741463.json",
+    "bytes": 262424
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f214-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "6b577a9d5682f1e73fc886bdf6b1b433cd31bee4d22bad2b5454873fd5b7bdd2",
+    "literalBytes": 298593,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/6b/6b577a9d5682f1e73fc886bdf6b1b433cd31bee4d22bad2b5454873fd5b7bdd2.json",
+    "bytes": 298593
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f189-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "ea1ddf56a10e3eeba8acbb41cbe7b4024eb492913d2528c0d8575389ffd6eea8",
+    "literalBytes": 1075101,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/ea/ea1ddf56a10e3eeba8acbb41cbe7b4024eb492913d2528c0d8575389ffd6eea8.json",
+    "bytes": 1075101
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f039-blockD45-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "ff9524f7285a57d7c078426fde9d87f03b353ae5671b1d3453d41e97de12098b",
+    "literalBytes": 2524695,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/ff/ff9524f7285a57d7c078426fde9d87f03b353ae5671b1d3453d41e97de12098b.json",
+    "bytes": 2524695
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f226-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "36e893ee3ef200ad83c3a9c1047b92008f9fb7facf5d68a01eeb57d540339b27",
+    "literalBytes": 573628,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/36/36e893ee3ef200ad83c3a9c1047b92008f9fb7facf5d68a01eeb57d540339b27.json",
+    "bytes": 573628
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f068-derived-pack.ts",
+    "variable": "F068_DERIVED_PACK",
+    "sha256": "aa0b0665414590b08a88a1b59ad2dc1b01873bcc794353575b57a76d888356c4",
+    "literalBytes": 2703795,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/aa/aa0b0665414590b08a88a1b59ad2dc1b01873bcc794353575b57a76d888356c4.json",
+    "bytes": 2703795
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f086-completion.ts",
+    "variable": "APPEND",
+    "sha256": "b82a88d01e2a22fe73fb75330e367f9507f9cd181a6872c0a51dec17105904fc",
+    "literalBytes": 2029236,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/b8/b82a88d01e2a22fe73fb75330e367f9507f9cd181a6872c0a51dec17105904fc.json",
+    "bytes": 2029236
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f086-completion.ts",
+    "variable": "FRAMES",
+    "sha256": "6d386179f88ed1ceecfac89cfffaad1ef017c1705cdfa664d0855c57e56171e7",
+    "literalBytes": 874322,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/6d/6d386179f88ed1ceecfac89cfffaad1ef017c1705cdfa664d0855c57e56171e7.json",
+    "bytes": 874322
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f017-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "e201cbadc8f9a597a5edaa435cc21f380e6c07e5ad4da21e058ea143f716a672",
+    "literalBytes": 366108,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/e2/e201cbadc8f9a597a5edaa435cc21f380e6c07e5ad4da21e058ea143f716a672.json",
+    "bytes": 366108
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f059-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "d30c4c77c340c475074906293fffe60a6dd2fec00bb9c835b4f7354b8e8b7b58",
+    "literalBytes": 9873337,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/d3/d30c4c77c340c475074906293fffe60a6dd2fec00bb9c835b4f7354b8e8b7b58.json",
+    "bytes": 9873337
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f274-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "7c20f7761c74e12e17f3d35031b08bc267631de5c35c3d648d31b704a46e8bd2",
+    "literalBytes": 409759,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/7c/7c20f7761c74e12e17f3d35031b08bc267631de5c35c3d648d31b704a46e8bd2.json",
+    "bytes": 409759
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f212-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "a0104303626db43a932218cb0b2dce7c9fc3cba793b80ed68149bfccd471ac36",
+    "literalBytes": 380935,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/a0/a0104303626db43a932218cb0b2dce7c9fc3cba793b80ed68149bfccd471ac36.json",
+    "bytes": 380935
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f212-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "5be95a1ce4cd1694fa9ba9110356874d3a164cdb38d621c936bee31e6d75656b",
+    "literalBytes": 1972128,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/5b/5be95a1ce4cd1694fa9ba9110356874d3a164cdb38d621c936bee31e6d75656b.json",
+    "bytes": 1972128
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f195-reconstruction.ts",
+    "variable": "ROOF",
+    "sha256": "25d707d7fc570ef5fd7a2b5d917d185e51ddc72ecba92727407b39f3df95291b",
+    "literalBytes": 644891,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/25/25d707d7fc570ef5fd7a2b5d917d185e51ddc72ecba92727407b39f3df95291b.json",
+    "bytes": 644891
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f122-completion.ts",
+    "variable": "DISPLAY",
+    "sha256": "8bb1a67008d043539a99d9c1a1ce0932521db696f3696730a9911b4bd95e3652",
+    "literalBytes": 661520,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/8b/8bb1a67008d043539a99d9c1a1ce0932521db696f3696730a9911b4bd95e3652.json",
+    "bytes": 661520
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f112-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "233c9e975ebdf14a1533bc9a3814c35ebc24551ee287e98f1fa34354f3586bd7",
+    "literalBytes": 1086146,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/23/233c9e975ebdf14a1533bc9a3814c35ebc24551ee287e98f1fa34354f3586bd7.json",
+    "bytes": 1086146
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f371-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "615ca547b64b9d6e8f3f61a3d454a22d709b70a65ea0bbf33087097713a0ffc9",
+    "literalBytes": 843846,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/61/615ca547b64b9d6e8f3f61a3d454a22d709b70a65ea0bbf33087097713a0ffc9.json",
+    "bytes": 843846
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f026-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "d84c738a6184208adc0c0d70efcef3a38e365e340374e26d09c8cb02b974c1e6",
+    "literalBytes": 12389742,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/d8/d84c738a6184208adc0c0d70efcef3a38e365e340374e26d09c8cb02b974c1e6.json",
+    "bytes": 12389742
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f131-completion.ts",
+    "variable": "DISPLAY",
+    "sha256": "eecbb8e76d12658eb81f31c011e7ef123b42e1eb3df28eee99d36d46d8dd303b",
+    "literalBytes": 1269291,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/ee/eecbb8e76d12658eb81f31c011e7ef123b42e1eb3df28eee99d36d46d8dd303b.json",
+    "bytes": 1269291
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f039-blockD-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "42a9446cbffc5a1a00c1e1741c3f6370a2cb382d0611b6d4dd31bbd4c249f831",
+    "literalBytes": 1584331,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/42/42a9446cbffc5a1a00c1e1741c3f6370a2cb382d0611b6d4dd31bbd4c249f831.json",
+    "bytes": 1584331
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f140-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "0234e5e0e3e34b773f948e82ea146c96c1d24428149c4e0d31847281481ee7a2",
+    "literalBytes": 3913463,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/02/0234e5e0e3e34b773f948e82ea146c96c1d24428149c4e0d31847281481ee7a2.json",
+    "bytes": 3913463
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f217-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "b8a8d84604835949026987b6f1ed5cdb47fc118b793afb36d36e72519097d276",
+    "literalBytes": 4311171,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/b8/b8a8d84604835949026987b6f1ed5cdb47fc118b793afb36d36e72519097d276.json",
+    "bytes": 4311171
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-extra6304-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "42e016d0230eb1da084cda20b9f7057596907ba27d78ba9007f77f54b5a9d82a",
+    "literalBytes": 268472,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/42/42e016d0230eb1da084cda20b9f7057596907ba27d78ba9007f77f54b5a9d82a.json",
+    "bytes": 268472
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f044-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "7b20f16b47333e9fb81c90c73afad4dce400ddb7d5566dc48898468cec69b383",
+    "literalBytes": 1279919,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/7b/7b20f16b47333e9fb81c90c73afad4dce400ddb7d5566dc48898468cec69b383.json",
+    "bytes": 1279919
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f016-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "2838796363bb7afa98f691fea3b322de5e528fa6cc0d6659a3fb894d774bae8e",
+    "literalBytes": 481378,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/28/2838796363bb7afa98f691fea3b322de5e528fa6cc0d6659a3fb894d774bae8e.json",
+    "bytes": 481378
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f144-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "97395d6647e51638b3cc633231158d13fef1704f2216be83cfe3f2965f488bfb",
+    "literalBytes": 3273498,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/97/97395d6647e51638b3cc633231158d13fef1704f2216be83cfe3f2965f488bfb.json",
+    "bytes": 3273498
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f213-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "612f8f6f15d45f22b2f915ad1d6d4dcc9faec1069b99c2c89c77db0c2e96c8e9",
+    "literalBytes": 5751999,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/61/612f8f6f15d45f22b2f915ad1d6d4dcc9faec1069b99c2c89c77db0c2e96c8e9.json",
+    "bytes": 5751999
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f194-reconstruction.ts",
+    "variable": "E",
+    "sha256": "267a67e05ba422acb060b5d9b0f60401e42933a1d4cec52686bae38bff38c384",
+    "literalBytes": 299331,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/26/267a67e05ba422acb060b5d9b0f60401e42933a1d4cec52686bae38bff38c384.json",
+    "bytes": 299331
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f070-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "bf3de4cb0634a1fbf4f30b1e522ad1ea588d0609cbce933d0fdfe430d44a3655",
+    "literalBytes": 713170,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/bf/bf3de4cb0634a1fbf4f30b1e522ad1ea588d0609cbce933d0fdfe430d44a3655.json",
+    "bytes": 713170
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f070-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "1031b0b40f62176dbf96e89d63fefcb034cfc35c82ed5f1455804444f8cd5c99",
+    "literalBytes": 2196958,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/10/1031b0b40f62176dbf96e89d63fefcb034cfc35c82ed5f1455804444f8cd5c99.json",
+    "bytes": 2196958
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f113-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "adc2d2923529762720ed519e12c93c843cd21458ff8b88afe3b892f82915b937",
+    "literalBytes": 570680,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/ad/adc2d2923529762720ed519e12c93c843cd21458ff8b88afe3b892f82915b937.json",
+    "bytes": 570680
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f027-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "92c61e4ecabdd585779249d11a7d18654ef8d30c2a7308d0578692344e80250a",
+    "literalBytes": 5953350,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/92/92c61e4ecabdd585779249d11a7d18654ef8d30c2a7308d0578692344e80250a.json",
+    "bytes": 5953350
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f316-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "546c540c25bf2dd0101a55a525c0fd0490ff512efa6a4f41272aa2fdfaa59356",
+    "literalBytes": 1321583,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/54/546c540c25bf2dd0101a55a525c0fd0490ff512efa6a4f41272aa2fdfaa59356.json",
+    "bytes": 1321583
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f085-completion.ts",
+    "variable": "DISPLAY",
+    "sha256": "7d82df60b0910e60a26297c3c3a87e426bfc242b4444cbd0c455c64a91c88acf",
+    "literalBytes": 4060999,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/7d/7d82df60b0910e60a26297c3c3a87e426bfc242b4444cbd0c455c64a91c88acf.json",
+    "bytes": 4060999
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f041-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "b413d330aac00e36890bb06cd1f55bc45fbda5cf58356caec314d8df1875c265",
+    "literalBytes": 356670,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/b4/b413d330aac00e36890bb06cd1f55bc45fbda5cf58356caec314d8df1875c265.json",
+    "bytes": 356670
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f041-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "a9baf64169dcd57c326b25acde03990b9e0ed579ebe042c40b3085c3b7d12139",
+    "literalBytes": 2821761,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/a9/a9baf64169dcd57c326b25acde03990b9e0ed579ebe042c40b3085c3b7d12139.json",
+    "bytes": 2821761
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f065-platform-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "80061f80eb1075183b4f4c44e6a8ba5f4f669e4f35d86cff17c40251ccfb419c",
+    "literalBytes": 356641,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/80/80061f80eb1075183b4f4c44e6a8ba5f4f669e4f35d86cff17c40251ccfb419c.json",
+    "bytes": 356641
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f039-blockE-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "16d94174abb3b281e40ae0e2c020383c13a9ffc705dbf47bf535ed01d4bae2d8",
+    "literalBytes": 12482009,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/16/16d94174abb3b281e40ae0e2c020383c13a9ffc705dbf47bf535ed01d4bae2d8.json",
+    "bytes": 12482009
+  },
+  {
+    "path": "web/src/painted/root500/safety/progressive-paint-admissions.ts",
+    "variable": "PROGRESSIVE_ADMISSIONS",
+    "sha256": "2d556d4a2acaf18e4f59940bb24053f547e10f9c4fd0b251fbe302a2cfc86cd1",
+    "literalBytes": 12863741,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/2d/2d556d4a2acaf18e4f59940bb24053f547e10f9c4fd0b251fbe302a2cfc86cd1.json",
+    "bytes": 12863741
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f216-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "835eefa962b6969c5bde955f530a0fd949a950296a16d84ea9051ef1a40fc6dc",
+    "literalBytes": 1279257,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/83/835eefa962b6969c5bde955f530a0fd949a950296a16d84ea9051ef1a40fc6dc.json",
+    "bytes": 1279257
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f081-completion.ts",
+    "variable": "SOURCE",
+    "sha256": "9397abd4e522e3ab44b16e4c0178c1fb79bd44f0641fb30d24a75255db59100f",
+    "literalBytes": 464156,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/93/9397abd4e522e3ab44b16e4c0178c1fb79bd44f0641fb30d24a75255db59100f.json",
+    "bytes": 464156
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f081-completion.ts",
+    "variable": "DISPLAY",
+    "sha256": "5450b66f7259792c0020f77052a46116baabda13f6be209af1e07063a40635b8",
+    "literalBytes": 826733,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/54/5450b66f7259792c0020f77052a46116baabda13f6be209af1e07063a40635b8.json",
+    "bytes": 826733
+  },
+  {
+    "path": "web/src/painted/delegated500/safety/f329-current380.ts",
+    "variable": "F",
+    "sha256": "609e700a20bc46c1489dddfe50681d8b3edf206b19aecd195523018735540011",
+    "literalBytes": 292113,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/60/609e700a20bc46c1489dddfe50681d8b3edf206b19aecd195523018735540011.json",
+    "bytes": 292113
+  },
+  {
+    "path": "web/src/painted/delegated500/safety/progressive-feature-cities.ts",
+    "variable": "PROGRESSIVE_CITY_EXTRA_GLSL",
+    "sha256": "81e1ceb18abedd23289c0d874a1e593130570dbe6c10ca51134f6885c05e1ff1",
+    "literalBytes": 2833746,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/81/81e1ceb18abedd23289c0d874a1e593130570dbe6c10ca51134f6885c05e1ff1.json",
+    "bytes": 2833746
+  },
+  {
+    "path": "web/src/painted/delegated500/safety/progressive-hamburg-programs.ts",
+    "variable": "HAMBURG_PROGRAM_GLSL",
+    "sha256": "db5bfb13f39d704ca1c478f72a9dea8f7e70f1a77db2ffbac08adc2ee9a89950",
+    "literalBytes": 2945893,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/db/db5bfb13f39d704ca1c478f72a9dea8f7e70f1a77db2ffbac08adc2ee9a89950.json",
+    "bytes": 2945893
+  },
+  {
+    "path": "web/src/painted/delegated500/safety/progressive-berlin-programs.ts",
+    "variable": "BERLIN_PROGRAM_GLSL",
+    "sha256": "b7a6aa49d8c80419702b0c7f24b8e123fba14a146bec56ad89b0b934feb07446",
+    "literalBytes": 6092736,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/b7/b7a6aa49d8c80419702b0c7f24b8e123fba14a146bec56ad89b0b934feb07446.json",
+    "bytes": 6092736
+  },
+  {
+    "path": "web/src/painted/delegated500/safety/f340-program822.ts",
+    "variable": "HANNOVER_PROGRAMS822",
+    "sha256": "0d2de6ad28cc48863f289b0229ab1e3a1e5cf3a48bf861f395dfffa9ee3308fc",
+    "literalBytes": 1959502,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/0d/0d2de6ad28cc48863f289b0229ab1e3a1e5cf3a48bf861f395dfffa9ee3308fc.json",
+    "bytes": 1959502
+  },
+  {
+    "path": "web/src/painted/delegated500/safety/f021-tower-paint295.ts",
+    "variable": "FRAMES",
+    "sha256": "5faf8eb92f05d5dc9fe5265901d511b5a6b45f8b237754eb02be6cac8096019f",
+    "literalBytes": 267252,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/5f/5faf8eb92f05d5dc9fe5265901d511b5a6b45f8b237754eb02be6cac8096019f.json",
+    "bytes": 267252
+  },
+  {
+    "path": "web/src/painted/delegated500/safety/f322-current372.ts",
+    "variable": "F",
+    "sha256": "48c6151ffdceab8f4b461eda47106a6368823c9af4ac56d6c846b27161fab7f5",
+    "literalBytes": 332234,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/48/48c6151ffdceab8f4b461eda47106a6368823c9af4ac56d6c846b27161fab7f5.json",
+    "bytes": 332234
+  },
+  {
+    "path": "web/src/painted/delegated500/safety/progressive-paint-admissions.ts",
+    "variable": "PROGRESSIVE_ADMISSIONS",
+    "sha256": "83ac1b8fde06a7aed6c533e2766c4eb9fe788061a42f3c2b643542983e9a2a0f",
+    "literalBytes": 14552057,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/83/83ac1b8fde06a7aed6c533e2766c4eb9fe788061a42f3c2b643542983e9a2a0f.json",
+    "bytes": 14552057
+  },
+  {
+    "path": "web/src/painted/city/safety/c438-fixture.ts",
+    "variable": "C438_FIXTURE",
+    "sha256": "b976e191888123fa6d235cfcb905b32f3ad675a4f3721e442b51ed22600c9574",
+    "literalBytes": 1068282
+  },
+  {
+    "path": "web/src/painted/city/safety/c446-fixture.ts",
+    "variable": "C446_FIXTURE",
+    "sha256": "25988c1e16f7ba010f990e1fa894f65d3c909a102aed5d21140d780f8130f54e",
+    "literalBytes": 596820
+  },
+  {
+    "path": "web/src/painted/city/safety/c471-fixture.ts",
+    "variable": "C471_FIXTURE",
+    "sha256": "1cf81c347a8b20e7ef36c7b1ef87a688190a6d46455dcf9e1bdbcfc38cf6880b",
+    "literalBytes": 871378
+  },
+  {
+    "path": "web/src/painted/city/safety/c346-fixture.ts",
+    "variable": "C346_FIXTURE",
+    "sha256": "8fdd781ab76116d422a982a31246afb41d3d2327410cb217b96e9d1c80585ebc",
+    "literalBytes": 1007858
+  },
+  {
+    "path": "web/src/painted/city/safety/c360-fixture.ts",
+    "variable": "C360_FIXTURE",
+    "sha256": "f170bd68804d58f8c5cf2fed9449dfc42579cc10f99fd395fdbaee79a9c52bd3",
+    "literalBytes": 1378064
+  },
+  {
+    "path": "web/src/painted/city/safety/c457-fixture.ts",
+    "variable": "C457_FIXTURE",
+    "sha256": "2d22ed888f983dac3bb12eb52f24114be5f478dea919d852f033df67f8be261c",
+    "literalBytes": 401675
+  },
+  {
+    "path": "web/src/painted/city/safety/c452-fixture.ts",
+    "variable": "C452_FIXTURE",
+    "sha256": "23950612c8a9872d11765a46d7ab7f71868be82dabd717c846809661a40c18dd",
+    "literalBytes": 279029
+  },
+  {
+    "path": "web/src/painted/city/safety/c465-fixture.ts",
+    "variable": "C465_FIXTURE",
+    "sha256": "c22ac1b3a93266bd23456c1650a7dbc9db75925b7e9082940dd92e69e4f854b5",
+    "literalBytes": 1561188
+  },
+  {
+    "path": "web/src/painted/city/safety/c468-fixture.ts",
+    "variable": "C468_FIXTURE",
+    "sha256": "8fc8bfd2455136fe7871fbb3ba46277f329b57add872e4a39878aa227005efac",
+    "literalBytes": 368026
+  },
+  {
+    "path": "web/src/painted/city/safety/c474-fixture.ts",
+    "variable": "C474_FIXTURE",
+    "sha256": "839994ce7be4b41dbdaa8a7c95148f83f1ee3dcf9b2b5657440ab735a4a7ae04",
+    "literalBytes": 827629
+  },
+  {
+    "path": "web/src/painted/city/safety/c443-fixture.ts",
+    "variable": "C443_FIXTURE",
+    "sha256": "ea045940e18bf9801d6a620c7ba03177c943daa97a021454193e4da8f9673f3e",
+    "literalBytes": 1080097
+  },
+  {
+    "path": "web/src/painted/city/safety/c321-fixture.ts",
+    "variable": "C321_FIXTURE",
+    "sha256": "580f6d3aede96a8f7c3a24d5c3f8e4aa7ea507c90e717b5804ad48897be2fccc",
+    "literalBytes": 1565206
+  },
+  {
+    "path": "web/src/painted/city/safety/c343-fixture.ts",
+    "variable": "C343_FIXTURE",
+    "sha256": "365929e270125a79678fdad2e5a2251933b7edc668053d723f4efd3bb9854ea8",
+    "literalBytes": 387510
+  },
+  {
+    "path": "web/src/painted/city/safety/progressive-feature-cities.ts",
+    "variable": "PROGRESSIVE_CITY_EXTRA_GLSL",
+    "sha256": "08a966a2685e8ac662b993b7e663eb3680324e4cbb0be4d9f28ad2f90b669866",
+    "literalBytes": 2125641
+  },
+  {
+    "path": "web/src/painted/city/safety/c311-fixture.ts",
+    "variable": "C311_FIXTURE",
+    "sha256": "a88742435de1d1ef327b1c44b7a9060951ec4ed3a79e9fd76a489c491b72885d",
+    "literalBytes": 883711
+  },
+  {
+    "path": "web/src/painted/city/safety/c444-fixture.ts",
+    "variable": "C444_FIXTURE",
+    "sha256": "4319d1f5e753a4082b16c64df7ef81f653ca492a7bab3acb3cb41d5622880be3",
+    "literalBytes": 394596
+  },
+  {
+    "path": "web/src/painted/city/safety/c426-fixture.ts",
+    "variable": "C426_FIXTURE",
+    "sha256": "c41bab7ca944a3c2b8f11ca205cc748fbf55baf297eff2bc56c16a556d109f51",
+    "literalBytes": 619732
+  },
+  {
+    "path": "web/src/painted/city/safety/c344-fixture.ts",
+    "variable": "C344_FIXTURE",
+    "sha256": "16337cd1d6d32bf41a15c607b610695eed06ba28696c24dde827fbbf80f394e3",
+    "literalBytes": 1658185
+  },
+  {
+    "path": "web/src/painted/city/safety/c358-fixture.ts",
+    "variable": "C358_FIXTURE",
+    "sha256": "8081e4c8d91aa3a2c0c574597ca52d1a26bf2055b4259f106497868233a7f64a",
+    "literalBytes": 1671697
+  },
+  {
+    "path": "web/src/painted/city/safety/c449-fixture.ts",
+    "variable": "C449_FIXTURE",
+    "sha256": "ade4480687b74d46a8489477b9ef2dffe829a701a0808aa4f75775ff578e1d3d",
+    "literalBytes": 636016
+  },
+  {
+    "path": "web/src/painted/city/safety/c437-fixture.ts",
+    "variable": "C437_FIXTURE",
+    "sha256": "27e3e4d0a90b1f9328463fc889ecffb1939892a05f4a29272c96f0cdf5a95d21",
+    "literalBytes": 291730
+  },
+  {
+    "path": "web/src/painted/city/safety/c362-fixture.ts",
+    "variable": "C362_FIXTURE",
+    "sha256": "86024c4b0621812f1a581abb43f9f412d25ae0a24a0a4f059cbeef0144c810e1",
+    "literalBytes": 895069
+  },
+  {
+    "path": "web/src/painted/city/safety/c467-fixture.ts",
+    "variable": "C467_FIXTURE",
+    "sha256": "6e853d400e2868c8ab77fe98642b438aa39cac2ad5a1d1a8b614967f234ee7cd",
+    "literalBytes": 794590
+  },
+  {
+    "path": "web/src/painted/city/safety/c332-fixture.ts",
+    "variable": "C332_FIXTURE",
+    "sha256": "c5ce475b2c9405b77eeea585ef9e0a8355eb7717a29066ddbf7aa18af635a40f",
+    "literalBytes": 690505
+  },
+  {
+    "path": "web/src/painted/city/safety/c441-fixture.ts",
+    "variable": "C441_FIXTURE",
+    "sha256": "c552c07be57aa95c09b198b2fe8956ad14003f79156829388749bd37b4af15a5",
+    "literalBytes": 367624
+  },
+  {
+    "path": "web/src/painted/city/safety/c476-fixture.ts",
+    "variable": "C476_FIXTURE",
+    "sha256": "bb0ed5a154124f179c9668f9eca5eb57ffc25f7cdbd1bfb50be0bb4ac6ad4bf5",
+    "literalBytes": 966943
+  },
+  {
+    "path": "web/src/painted/city/safety/c341-fixture.ts",
+    "variable": "C341_FIXTURE",
+    "sha256": "a9afca2652da7ad6355c1329d67e3f67c8cf6ff863a2d44f41a5ea3e9cfacb88",
+    "literalBytes": 1046328
+  },
+  {
+    "path": "web/src/painted/city/safety/c353-fixture.ts",
+    "variable": "C353_FIXTURE",
+    "sha256": "7462d3807a9d9f4c16cbb74046e053908d1e6bd075659567fb87e6604d80bf9f",
+    "literalBytes": 748589
+  },
+  {
+    "path": "web/src/painted/city/safety/c364-fixture.ts",
+    "variable": "C364_FIXTURE",
+    "sha256": "e0b36493ee0426f0ec61a443a49ce6aa442569d400408eb2d2d802492e844fdf",
+    "literalBytes": 259574
+  },
+  {
+    "path": "web/src/painted/city/safety/c378-fixture.ts",
+    "variable": "C378_FIXTURE",
+    "sha256": "ca6e84fddada8556623869db6a04b70ba4afc2b456cd2985eed9556314b083d6",
+    "literalBytes": 341784
+  },
+  {
+    "path": "web/src/painted/city/safety/c320-fixture.ts",
+    "variable": "C320_FIXTURE",
+    "sha256": "afc126d8ce164f7b65b6a627374551eb8d7762154c2d5ed4dcb99676d21bf3c2",
+    "literalBytes": 961086
+  },
+  {
+    "path": "web/src/painted/city/safety/c342-fixture.ts",
+    "variable": "C342_FIXTURE",
+    "sha256": "d5f63e0a5bed2c639aeed48226d58e7558b75346ae0d69095294aa0076f22ba2",
+    "literalBytes": 523670
+  },
+  {
+    "path": "web/src/painted/city/safety/c439-fixture.ts",
+    "variable": "C439_FIXTURE",
+    "sha256": "4f8e58cbd1d801d1d9b1fa7e3100b3380a4bd318946281d2a7f0fb1a7b838dbc",
+    "literalBytes": 477431
+  },
+  {
+    "path": "web/src/painted/city/safety/c325-fixture.ts",
+    "variable": "C325_FIXTURE",
+    "sha256": "b00992c3db06327961029b8f1ab26d98d41365c451918527ac79953629396a1e",
+    "literalBytes": 385396
+  },
+  {
+    "path": "web/src/painted/city/safety/c447-fixture.ts",
+    "variable": "C447_FIXTURE",
+    "sha256": "47973ee3b364e1a8ea28183933099b95b2df01166365f5f9e41e44fe8c4a8ffb",
+    "literalBytes": 323764
+  },
+  {
+    "path": "web/src/painted/city/safety/c312-fixture.ts",
+    "variable": "C312_FIXTURE",
+    "sha256": "45be88dd808b25514000607724c6a47680c75a1e1fd86d9f1299b6df2770223c",
+    "literalBytes": 673793
+  },
+  {
+    "path": "web/src/painted/city/safety/c243-projection-pin.ts",
+    "variable": "C243_PROJECTION_REGISTRY",
+    "sha256": "0eb9ed1c5661691a428c28f48b07f908c9e8ae7be48829545c689f3b25996ad1",
+    "literalBytes": 332746
+  },
+  {
+    "path": "web/src/painted/city/safety/c361-fixture.ts",
+    "variable": "C361_FIXTURE",
+    "sha256": "86d0bedfbbada35b5c2bfc4989ce67a2bdc0086a8af344536647998e43e39b88",
+    "literalBytes": 459073
+  },
+  {
+    "path": "web/src/painted/city/safety/c356-fixture.ts",
+    "variable": "C356_FIXTURE",
+    "sha256": "cc14a6db0ed8cc4db6774a5713261723d8ae194f47f2a18948893610badc924e",
+    "literalBytes": 455116
+  },
+  {
+    "path": "web/src/painted/city/safety/c334-fixture.ts",
+    "variable": "C334_FIXTURE",
+    "sha256": "a9ab7be7b944663997579284eed87b2f84340232819fd5999d26290d2fba40b5",
+    "literalBytes": 340012
+  },
+  {
+    "path": "web/src/painted/city/safety/c366-fixture.ts",
+    "variable": "C366_FIXTURE",
+    "sha256": "4d66e76492a494f6228c008c2177e95e1587271d31f6e3f4c7f9d967baaab018",
+    "literalBytes": 264354
+  },
+  {
+    "path": "web/src/painted/city/safety/c351-fixture.ts",
+    "variable": "C351_FIXTURE",
+    "sha256": "81272e383a2b587011e1bf87d5f15aff3ea6bbaeca60e3300df4b89375fe9270",
+    "literalBytes": 885928
+  },
+  {
+    "path": "web/src/painted/city/safety/c159-projection-pin.ts",
+    "variable": "C159_PROJECTION_REGISTRY",
+    "sha256": "70916062b25d4aa1420eb7fb13471fd93d0c23ddc2c67b6f4fded49a5911bdd7",
+    "literalBytes": 272091
+  },
+  {
+    "path": "web/src/painted/city/safety/c322-fixture.ts",
+    "variable": "C322_FIXTURE",
+    "sha256": "3923879136732b1c48b6b16ff381ecb413999092c39e114ddb495d66d921c3ff",
+    "literalBytes": 389419
+  },
+  {
+    "path": "web/src/painted/city/safety/c340-fixture.ts",
+    "variable": "C340_FIXTURE",
+    "sha256": "b026b5e5595e1e7d40e0e060c2214cc8bc1c85cdc88f5f85d32a08d38d4b21b6",
+    "literalBytes": 713681
+  },
+  {
+    "path": "web/src/painted/city/safety/c377-fixture.ts",
+    "variable": "C377_FIXTURE",
+    "sha256": "16c4a51659e5b55faec50261ac4877fdc06f386509663ca98360df5b0020e92c",
+    "literalBytes": 416833
+  },
+  {
+    "path": "web/src/painted/city/safety/c472-fixture.ts",
+    "variable": "C472_FIXTURE",
+    "sha256": "330daf304980608d1ff1e0b5e26d91af107f26a78dd084395ccd9497df0dc84d",
+    "literalBytes": 1190652
+  },
+  {
+    "path": "web/src/painted/city/safety/c445-fixture.ts",
+    "variable": "C445_FIXTURE",
+    "sha256": "82d1025617636afab7b6ab693de9ea7fc9bb0bbd987c7cf600348c67427062de",
+    "literalBytes": 396174
+  },
+  {
+    "path": "web/src/painted/city/safety/c327-fixture.ts",
+    "variable": "C327_FIXTURE",
+    "sha256": "d732abf5bfddfbe969b23983200aa5ff447989be6d9a5af11df82cd8dcfe19ab",
+    "literalBytes": 729802
+  },
+  {
+    "path": "web/src/painted/city/safety/c345-fixture.ts",
+    "variable": "C345_FIXTURE",
+    "sha256": "e580e3b8775e8228b5a82302f6b9e959e1a8c1d1d75fd30b128ccc2307e8fcfe",
+    "literalBytes": 615769
+  },
+  {
+    "path": "web/src/painted/city/safety/c448-fixture.ts",
+    "variable": "C448_FIXTURE",
+    "sha256": "21d49ec6b7f5fff09cd4b469f6ddcd7b4ed5aff2dd576e961aa3429de990d99f",
+    "literalBytes": 300553
+  },
+  {
+    "path": "web/src/painted/city/safety/c436-fixture.ts",
+    "variable": "C436_FIXTURE",
+    "sha256": "2ba4e9c36cfab40d6511c0b1bf68abc1ca18a713236d0d5227428c1e74c4a312",
+    "literalBytes": 418254
+  },
+  {
+    "path": "web/src/painted/city/safety/progressive-paint-admissions.ts",
+    "variable": "PROGRESSIVE_ADMISSIONS",
+    "sha256": "7da78c3156384cbe2b15916ef730aa580310bd2dc64e63f747f2721830631a35",
+    "literalBytes": 19078291
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f060-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "ae95d82b19da55161f87404a7d1984b120e23ed7297a03b506ae2a3a9ea84b24",
+    "literalBytes": 3050549,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/ae/ae95d82b19da55161f87404a7d1984b120e23ed7297a03b506ae2a3a9ea84b24.json",
+    "bytes": 3050549,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f084-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "02cb38947f08bf15d8cce9e96bb75317389c4d3e21809b0c5ee588116e0d0965",
+    "literalBytes": 4381690,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/02/02cb38947f08bf15d8cce9e96bb75317389c4d3e21809b0c5ee588116e0d0965.json",
+    "bytes": 4381690,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f151-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "b21ff1034e36a6d4d3825b08b51f0a025925621d670c4882aef6e2b0c4754ede",
+    "literalBytes": 6064138,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/b2/b21ff1034e36a6d4d3825b08b51f0a025925621d670c4882aef6e2b0c4754ede.json",
+    "bytes": 6064138,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f051-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "115645d355b3c259c25792f0ab0719bc1543c83516ee9e8fd420be477ac3cc7f",
+    "literalBytes": 470094,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/11/115645d355b3c259c25792f0ab0719bc1543c83516ee9e8fd420be477ac3cc7f.json",
+    "bytes": 470094,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f306-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "da1134c4c85c1f193b2bcda9a45a3ea2410aac1183e1e0d93fdb591ed744af99",
+    "literalBytes": 11154735,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/da/da1134c4c85c1f193b2bcda9a45a3ea2410aac1183e1e0d93fdb591ed744af99.json",
+    "bytes": 11154735,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f165-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "4d80351f9e832dc0f02775fb84d2b43a1474c665e2b81b8d40c1598fbc8cfcf5",
+    "literalBytes": 4907285,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/4d/4d80351f9e832dc0f02775fb84d2b43a1474c665e2b81b8d40c1598fbc8cfcf5.json",
+    "bytes": 4907285,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f049-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "8b7a93a38432ee854742471da3df867ee58cf2c0a6e5c342391e8170b6134388",
+    "literalBytes": 296869,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/8b/8b7a93a38432ee854742471da3df867ee58cf2c0a6e5c342391e8170b6134388.json",
+    "bytes": 296869,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f350-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "61ade7ef61caaf69fdf9fd09bff30e128ff697e6572475d015b0f6ae90f8b9a5",
+    "literalBytes": 7115237,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/61/61ade7ef61caaf69fdf9fd09bff30e128ff697e6572475d015b0f6ae90f8b9a5.json",
+    "bytes": 7115237,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f261-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "d7cbe97ba69d51b1f23adbe48be2812c422cdcf5d43bddf4bb60a6b0f1474c2c",
+    "literalBytes": 924083,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/d7/d7cbe97ba69d51b1f23adbe48be2812c422cdcf5d43bddf4bb60a6b0f1474c2c.json",
+    "bytes": 924083,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f299-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "2905c1a6ff92bbaaf5a12cc407fe2516bee90a5ddaf2b272762a7e4db7f7f8e2",
+    "literalBytes": 879410,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/29/2905c1a6ff92bbaaf5a12cc407fe2516bee90a5ddaf2b272762a7e4db7f7f8e2.json",
+    "bytes": 879410,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f077-completion.ts",
+    "variable": "DISPLAY",
+    "sha256": "2dc66d466d4c94075e928cd5fbca0d81919f1b4b8073a0e0d4500c835e576114",
+    "literalBytes": 4425533,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/2d/2dc66d466d4c94075e928cd5fbca0d81919f1b4b8073a0e0d4500c835e576114.json",
+    "bytes": 4425533,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f249-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "58b60675617285654f46d92977d979ba71dfec2f777177ab18fe35c74d9eb0e1",
+    "literalBytes": 1360327,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/58/58b60675617285654f46d92977d979ba71dfec2f777177ab18fe35c74d9eb0e1.json",
+    "bytes": 1360327,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f169-completion-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "409ddb554e4785f696392a5ffa39274aa566bb4622a27892b091cdc1f1411ea8",
+    "literalBytes": 3446105,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/40/409ddb554e4785f696392a5ffa39274aa566bb4622a27892b091cdc1f1411ea8.json",
+    "bytes": 3446105,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f169-completion-reconstruction.ts",
+    "variable": "MATERIAL",
+    "sha256": "e36aa94f0ad1776841cb5a756b1ac97694e0f1687a5861b2226267ee6e23f2dd",
+    "literalBytes": 1365853,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/e3/e36aa94f0ad1776841cb5a756b1ac97694e0f1687a5861b2226267ee6e23f2dd.json",
+    "bytes": 1365853,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f130-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "0545d8a302448a1237fc39c0643dbf4059e003428798cdb9beb53b96870a112c",
+    "literalBytes": 253347,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/05/0545d8a302448a1237fc39c0643dbf4059e003428798cdb9beb53b96870a112c.json",
+    "bytes": 253347,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f130-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "7d04f726f2598a78990f0b0ed3782e5f501aebe05f22b4276b364ec4615c8854",
+    "literalBytes": 465399,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/7d/7d04f726f2598a78990f0b0ed3782e5f501aebe05f22b4276b364ec4615c8854.json",
+    "bytes": 465399,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f118-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "b7c1664911bac75771454cdc4e1e668b4d333b7b9909578b0df6e9255f4a7f7d",
+    "literalBytes": 15040593,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/b7/b7c1664911bac75771454cdc4e1e668b4d333b7b9909578b0df6e9255f4a7f7d.json",
+    "bytes": 15040593,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f030-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "69689f6e5ec6d63e76a18eab012345a8986a05fbd12729405910b0e96327cd2b",
+    "literalBytes": 3102752,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/69/69689f6e5ec6d63e76a18eab012345a8986a05fbd12729405910b0e96327cd2b.json",
+    "bytes": 3102752,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f040h-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "8e76b07b1e1d212beb1767f9e436d0f69f069b950d05e4ebcd7fd02b8c776e6b",
+    "literalBytes": 264541,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/8e/8e76b07b1e1d212beb1767f9e436d0f69f069b950d05e4ebcd7fd02b8c776e6b.json",
+    "bytes": 264541,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f056-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "b1064fd24da32d12c1a8fdde608e0ca80ff9cc9650d3f98bf2d45b89250e2aa6",
+    "literalBytes": 264345,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/b1/b1064fd24da32d12c1a8fdde608e0ca80ff9cc9650d3f98bf2d45b89250e2aa6.json",
+    "bytes": 264345,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f056-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "aeb8f0406dc8cdba81e1aa90ad3f2944cc41da526e1abc745473e69112c3dd5b",
+    "literalBytes": 556403,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/ae/aeb8f0406dc8cdba81e1aa90ad3f2944cc41da526e1abc745473e69112c3dd5b.json",
+    "bytes": 556403,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f318-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "42581ef6dfa47afee832dca86b520885059ec4120617b1cbe9610f237731867f",
+    "literalBytes": 3632682,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/42/42581ef6dfa47afee832dca86b520885059ec4120617b1cbe9610f237731867f.json",
+    "bytes": 3632682,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f167-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "284963f084fa7aeae57e603919d8033942eb54cede1f4e0d00533dc1359b11b3",
+    "literalBytes": 1263009,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/28/284963f084fa7aeae57e603919d8033942eb54cede1f4e0d00533dc1359b11b3.json",
+    "bytes": 1263009,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f129-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "5cacd735d4430a1e50a2a4c23edc44618d0bdf0a8a4b23cdd93f1645ae81dfa5",
+    "literalBytes": 418012,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/5c/5cacd735d4430a1e50a2a4c23edc44618d0bdf0a8a4b23cdd93f1645ae81dfa5.json",
+    "bytes": 418012,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f129-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "302098676835fd880db16f7b3c397c51360149e6027def6c9da09703d61b6973",
+    "literalBytes": 1004343,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/30/302098676835fd880db16f7b3c397c51360149e6027def6c9da09703d61b6973.json",
+    "bytes": 1004343,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f352-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "13a62cb44428a3908242935cfb399081d29a93b5ff5907af60111bcccd10b62e",
+    "literalBytes": 2174957,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/13/13a62cb44428a3908242935cfb399081d29a93b5ff5907af60111bcccd10b62e.json",
+    "bytes": 2174957,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f252-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "2805c9db1da91801abf56f2fe36d15ddcc9169fdf085e34a45ae91cf7c69792e",
+    "literalBytes": 303253,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/28/2805c9db1da91801abf56f2fe36d15ddcc9169fdf085e34a45ae91cf7c69792e.json",
+    "bytes": 303253,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f134-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "a3048999d99869ffd607676e6643610db44b3713a6bd9b5fd47b2dae70cacca9",
+    "literalBytes": 397251,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/a3/a3048999d99869ffd607676e6643610db44b3713a6bd9b5fd47b2dae70cacca9.json",
+    "bytes": 397251,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f134-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "454312f942e9cde446a95306ef983ce6789314f624a1cd4a512921c650a1b5df",
+    "literalBytes": 1207273,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/45/454312f942e9cde446a95306ef983ce6789314f624a1cd4a512921c650a1b5df.json",
+    "bytes": 1207273,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f257-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "817925d6d5badd414efff6e46b08a83694f94f2c47fefb2b8accb4b80f54c7b3",
+    "literalBytes": 5724996,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/81/817925d6d5badd414efff6e46b08a83694f94f2c47fefb2b8accb4b80f54c7b3.json",
+    "bytes": 5724996,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f231-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "70931227f732d6ae1b1f3db5312202591ba6c223b333e60e73465657815d0a88",
+    "literalBytes": 515694,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/70/70931227f732d6ae1b1f3db5312202591ba6c223b333e60e73465657815d0a88.json",
+    "bytes": 515694,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f231-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "15e9f3d5d5d79628926d0a8c4268cec0b5e31a5dbdd73b057412fbd53d80090c",
+    "literalBytes": 2301512,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/15/15e9f3d5d5d79628926d0a8c4268cec0b5e31a5dbdd73b057412fbd53d80090c.json",
+    "bytes": 2301512,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f224-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "48f6f8d4202377ab0120e51790538235bc2ffcedb90e3523f3f0d5213955056b",
+    "literalBytes": 658031,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/48/48f6f8d4202377ab0120e51790538235bc2ffcedb90e3523f3f0d5213955056b.json",
+    "bytes": 658031,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f109-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "00a891208ceef21920d5eb2868b52e0b581fcbf3db486e935596b4e462cdb8af",
+    "literalBytes": 2147326,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/00/00a891208ceef21920d5eb2868b52e0b581fcbf3db486e935596b4e462cdb8af.json",
+    "bytes": 2147326,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f297-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "0a7578c198c07aaed56adca455e82c5a9138310070db2709f064777ef79fdcb8",
+    "literalBytes": 1307927,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/0a/0a7578c198c07aaed56adca455e82c5a9138310070db2709f064777ef79fdcb8.json",
+    "bytes": 1307927,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f141-completion-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "0d6af61db75ed5e88d2d339a72a83ba89dc64668b8e2d77c508bdbe4c61c27ec",
+    "literalBytes": 310839,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/0d/0d6af61db75ed5e88d2d339a72a83ba89dc64668b8e2d77c508bdbe4c61c27ec.json",
+    "bytes": 310839,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f141-completion-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "485e9fb974cc53266d0cd556c12628c7b3977c7a10664d52e236d2b18dd3609c",
+    "literalBytes": 6624404,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/48/485e9fb974cc53266d0cd556c12628c7b3977c7a10664d52e236d2b18dd3609c.json",
+    "bytes": 6624404,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f141-completion-reconstruction.ts",
+    "variable": "MATERIAL",
+    "sha256": "35bd1484d7e368f4de47cb15ecd69bc8aab294af814c91377e4cbe62611cf3fe",
+    "literalBytes": 2730435,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/35/35bd1484d7e368f4de47cb15ecd69bc8aab294af814c91377e4cbe62611cf3fe.json",
+    "bytes": 2730435,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f221-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "168d3bf531d5c6d091a4d01b8ebd8230e7db4cf68d3dc92858bc3642405225fa",
+    "literalBytes": 5126896,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/16/168d3bf531d5c6d091a4d01b8ebd8230e7db4cf68d3dc92858bc3642405225fa.json",
+    "bytes": 5126896,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f076-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "d1c61693a6571ada2bab3b9e65674872cc5a06facc9bc76a1c66fa3470a1a147",
+    "literalBytes": 2519997,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/d1/d1c61693a6571ada2bab3b9e65674872cc5a06facc9bc76a1c66fa3470a1a147.json",
+    "bytes": 2519997,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f225-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "5e618b989bad2972d06a58aae82fa896fb3b5e378df09c21d80bd4a0c7481340",
+    "literalBytes": 766165,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/5e/5e618b989bad2972d06a58aae82fa896fb3b5e378df09c21d80bd4a0c7481340.json",
+    "bytes": 766165,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f172-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "62a0e86f60c69302105ddd113e80a4e3546b4feae62d8549a5cec5a8c8d81e66",
+    "literalBytes": 4656131,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/62/62a0e86f60c69302105ddd113e80a4e3546b4feae62d8549a5cec5a8c8d81e66.json",
+    "bytes": 4656131,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f072-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "a93e796d7b6bbd2120452e7520468727d771034bfb7403b2c32e0b811b8785dc",
+    "literalBytes": 7591329,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/a9/a93e796d7b6bbd2120452e7520468727d771034bfb7403b2c32e0b811b8785dc.json",
+    "bytes": 7591329,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f314-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "a514fd43c2ecddc0c93e3e97f7d3de017d55043b27e2248d91cc566bf113d40e",
+    "literalBytes": 4145830,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/a5/a514fd43c2ecddc0c93e3e97f7d3de017d55043b27e2248d91cc566bf113d40e.json",
+    "bytes": 4145830,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f220-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "e5fc77b19ca29448039f111e76eb831e2d929f06d1b66f6d692f458810af245a",
+    "literalBytes": 1383161,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/e5/e5fc77b19ca29448039f111e76eb831e2d929f06d1b66f6d692f458810af245a.json",
+    "bytes": 1383161,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f124-completion-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "5e482bdebeb0fd8c49175083686e7abeb0bd829e1c37265880cfdbd2e5cc99c7",
+    "literalBytes": 1276262,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/5e/5e482bdebeb0fd8c49175083686e7abeb0bd829e1c37265880cfdbd2e5cc99c7.json",
+    "bytes": 1276262,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f124-completion-reconstruction.ts",
+    "variable": "MATERIAL",
+    "sha256": "ecc178e6bb1d27bb367141494c8a209ffeefd81853163845c2bd781d095d3372",
+    "literalBytes": 621848,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/ec/ecc178e6bb1d27bb367141494c8a209ffeefd81853163845c2bd781d095d3372.json",
+    "bytes": 621848,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f139-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "caaf8a0a3507fa041b18214813e35ada88aa1db8601229953ace5aa80dbc4806",
+    "literalBytes": 4861812,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/ca/caaf8a0a3507fa041b18214813e35ada88aa1db8601229953ace5aa80dbc4806.json",
+    "bytes": 4861812,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f125-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "b884a3371da71671d1c0053c0df565801af5cc03e9359dfadb359a8642874c31",
+    "literalBytes": 286366,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/b8/b884a3371da71671d1c0053c0df565801af5cc03e9359dfadb359a8642874c31.json",
+    "bytes": 286366,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f125-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "b65f9c4284a18c1201c182f9861d7bf89f71f6086e05a71780a0a44babef1bcc",
+    "literalBytes": 454833,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/b6/b65f9c4284a18c1201c182f9861d7bf89f71f6086e05a71780a0a44babef1bcc.json",
+    "bytes": 454833,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f308-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "8740cc15c9a3c641ea14c77b20a8b84d7c10997eebb3ca34f1ec15bae253bfaa",
+    "literalBytes": 6897461,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/87/8740cc15c9a3c641ea14c77b20a8b84d7c10997eebb3ca34f1ec15bae253bfaa.json",
+    "bytes": 6897461,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f320-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "280ed8fdd6bf99d2d84e74be99e0b746cbf210b88721ac5600db58c43b82d92c",
+    "literalBytes": 3271907,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/28/280ed8fdd6bf99d2d84e74be99e0b746cbf210b88721ac5600db58c43b82d92c.json",
+    "bytes": 3271907,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f117-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "d4df98215cdbbec4df8d782b31f763d3eec3a5aab2afb4347a3670870561f393",
+    "literalBytes": 350880,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/d4/d4df98215cdbbec4df8d782b31f763d3eec3a5aab2afb4347a3670870561f393.json",
+    "bytes": 350880,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f226-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "483a023c16f5208fc3f8b9f4ec2b9d4d397bf488efdec14b6032a61563402236",
+    "literalBytes": 2033479,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/48/483a023c16f5208fc3f8b9f4ec2b9d4d397bf488efdec14b6032a61563402236.json",
+    "bytes": 2033479,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f123-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "1affa377c2288bc5fac5d7650e329d3e30d554333fe5809c58e8952610734635",
+    "literalBytes": 1882785,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/1a/1affa377c2288bc5fac5d7650e329d3e30d554333fe5809c58e8952610734635.json",
+    "bytes": 1882785,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f274-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "ce1481345d35591a29290ff0f8549be74b4c68c6b035a9a72abd8fa8fd9786cd",
+    "literalBytes": 1069343,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/ce/ce1481345d35591a29290ff0f8549be74b4c68c6b035a9a72abd8fa8fd9786cd.json",
+    "bytes": 1069343,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f089-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "b9d40dd29abe018bc845134cc19a31bd3b57cbd87f4332327a308ac06afe2af4",
+    "literalBytes": 307196,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/b9/b9d40dd29abe018bc845134cc19a31bd3b57cbd87f4332327a308ac06afe2af4.json",
+    "bytes": 307196,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f089-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "d890992364c767a3a595459081a348d1da8d10939c37e531342d89f48f5a82eb",
+    "literalBytes": 3252961,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/d8/d890992364c767a3a595459081a348d1da8d10939c37e531342d89f48f5a82eb.json",
+    "bytes": 3252961,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f371-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "7dff3bd3f3481481bc2074af679f421a523d9886ba51b76ff9d4c774f61dd695",
+    "literalBytes": 2631146,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/7d/7dff3bd3f3481481bc2074af679f421a523d9886ba51b76ff9d4c774f61dd695.json",
+    "bytes": 2631146,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f108-completion-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "497ea2242024cec4682905f25552028442a42e030cd1e0cedb3fa618e960c833",
+    "literalBytes": 3297634,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/49/497ea2242024cec4682905f25552028442a42e030cd1e0cedb3fa618e960c833.json",
+    "bytes": 3297634,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f108-completion-reconstruction.ts",
+    "variable": "MATERIAL",
+    "sha256": "39de1a8875525c00369a8dddcbbbc7b62267df28af06f92b99854fa131c7538d",
+    "literalBytes": 1312921,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/39/39de1a8875525c00369a8dddcbbbc7b62267df28af06f92b99854fa131c7538d.json",
+    "bytes": 1312921,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f216-annex-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "d6a946d34b6cfae834ce3dba1ddc95b358f8cf7b01a127940492bd99292c8fdd",
+    "literalBytes": 1218709,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/d6/d6a946d34b6cfae834ce3dba1ddc95b358f8cf7b01a127940492bd99292c8fdd.json",
+    "bytes": 1218709,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f223-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "44a5d75ae101372b43f1d953e14f6b34adaf7fd85a2a8ab4da2d3572dc008d4e",
+    "literalBytes": 286994,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/44/44a5d75ae101372b43f1d953e14f6b34adaf7fd85a2a8ab4da2d3572dc008d4e.json",
+    "bytes": 286994,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f168-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "e4dd5bf3bdb943cdbcc9b78c5c600e381ad8db88c5147b37b22894ef576979eb",
+    "literalBytes": 686703,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/e4/e4dd5bf3bdb943cdbcc9b78c5c600e381ad8db88c5147b37b22894ef576979eb.json",
+    "bytes": 686703,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f259-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "3a38b6b504271fed6aecf84ffe265b755921a92e5aef57c86aa7fac0a7b64767",
+    "literalBytes": 1168058,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/3a/3a38b6b504271fed6aecf84ffe265b755921a92e5aef57c86aa7fac0a7b64767.json",
+    "bytes": 1168058,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f227-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "c3983e1532301198435b29e94412d8eace2f55b6c84a4c9e4345b5676b97b89b",
+    "literalBytes": 1065027,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/c3/c3983e1532301198435b29e94412d8eace2f55b6c84a4c9e4345b5676b97b89b.json",
+    "bytes": 1065027,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f369-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "e08b4b41a4eceec0d6bf475a75c3f7ef7f92177eeb019f1d491396e4a5a6d542",
+    "literalBytes": 803126,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/e0/e08b4b41a4eceec0d6bf475a75c3f7ef7f92177eeb019f1d491396e4a5a6d542.json",
+    "bytes": 803126,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f316-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "859019341c49f4c2c010cb6276ca976c7e26767008aeedb8f53decc6a97f0198",
+    "literalBytes": 2637988,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/85/859019341c49f4c2c010cb6276ca976c7e26767008aeedb8f53decc6a97f0198.json",
+    "bytes": 2637988,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/root500/safety/owner-f127-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "8a98bdd88a691b529bda27198da2d105dea150e8f8c1a0d238682bea397ff52a",
+    "literalBytes": 976678,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/8a/8a98bdd88a691b529bda27198da2d105dea150e8f8c1a0d238682bea397ff52a.json",
+    "bytes": 976678,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/delegated500/safety/f336-castle431.ts",
+    "variable": "F",
+    "sha256": "664b55f8090d1e4b90aaf6997167c1eda7c1dd84ab37ae9d8544e124933a1e6d",
+    "literalBytes": 535330,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/66/664b55f8090d1e4b90aaf6997167c1eda7c1dd84ab37ae9d8544e124933a1e6d.json",
+    "bytes": 535330,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/delegated500/safety/f044-native463.ts",
+    "variable": "F",
+    "sha256": "f019874ae2f6bac9e871a1f7cf8fee43e6a9424400288d7cd0f6f43b003d5cd5",
+    "literalBytes": 349544,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/f0/f019874ae2f6bac9e871a1f7cf8fee43e6a9424400288d7cd0f6f43b003d5cd5.json",
+    "bytes": 349544,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/delegated500/safety/owner-f231-frozen215.ts",
+    "variable": "SOURCE",
+    "sha256": "70931227f732d6ae1b1f3db5312202591ba6c223b333e60e73465657815d0a88",
+    "literalBytes": 515694,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/70/70931227f732d6ae1b1f3db5312202591ba6c223b333e60e73465657815d0a88.json",
+    "bytes": 515694,
+    "originalJSONInitializer": true
+  },
+  {
+    "path": "web/src/painted/delegated500/safety/owner-f231-frozen215.ts",
+    "variable": "DISPLAY",
+    "sha256": "15e9f3d5d5d79628926d0a8c4268cec0b5e31a5dbdd73b057412fbd53d80090c",
+    "literalBytes": 2301512,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/15/15e9f3d5d5d79628926d0a8c4268cec0b5e31a5dbdd73b057412fbd53d80090c.json",
+    "bytes": 2301512,
+    "originalJSONInitializer": true
+  }
+]

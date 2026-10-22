@@ -1,0 +1,143 @@
+{
+  "schema": 1,
+  "dateTokyo": "2026-10-23",
+  "productionBuild": {
+    "passed": true,
+    "typescriptNoEmit": true
+  },
+  "regressionChecks": {
+    "browser": {
+      "passed": 94,
+      "failed": 0
+    },
+    "navigationAndInteraction": {
+      "passed": 98,
+      "failed": 0
+    },
+    "statistics": {
+      "passed": 9,
+      "failed": 0
+    },
+    "paintingIntegration": {
+      "passed": 7,
+      "failed": 0
+    }
+  },
+  "representative3DScenes": [
+    {
+      "target": "F001",
+      "visibleTargetParts": 3,
+      "providers": {
+        "root500": {
+          "mode": "3d",
+          "vertices": 244
+        },
+        "delegated500": {
+          "mode": "3d",
+          "vertices": 0
+        },
+        "tier300": {
+          "mode": "3d",
+          "vertices": 1230
+        },
+        "church": {
+          "mode": "3d",
+          "vertices": 0
+        },
+        "city": {
+          "mode": "3d",
+          "vertices": 8928
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "passed": true,
+      "whitePaintedFramesDiffer": true,
+      "frameSHA256": {
+        "painted": "32d0b8d79bdf2073e6ae9b8d5fe1331c295f55f789541416c4029c8a1008ca69",
+        "white": "db6ea3196a763dc676e562b244c7c830449bbadcd3ea180d76ab31d59177beb0"
+      }
+    },
+    {
+      "target": "F003",
+      "visibleTargetParts": 7,
+      "providers": {
+        "root500": {
+          "mode": "3d",
+          "vertices": 69593
+        },
+        "delegated500": {
+          "mode": "3d",
+          "vertices": 20862
+        },
+        "tier300": {
+          "mode": "3d",
+          "vertices": 1080
+        },
+        "church": {
+          "mode": "3d",
+          "vertices": 0
+        },
+        "city": {
+          "mode": "3d",
+          "vertices": 2067
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "passed": true,
+      "whitePaintedFramesDiffer": true,
+      "frameSHA256": {
+        "painted": "ae8c700d40345f7ae8cd025a1203c775825e6dc1ec9d7d3f6ead21eb212c6bb9",
+        "white": "dd18d0b8009313fdcbdea8f2ca4cea82c62546875091a574b3a545ab9ab53278"
+      }
+    },
+    {
+      "target": "S010",
+      "visibleTargetParts": 1,
+      "providers": {
+        "root500": {
+          "mode": "3d",
+          "vertices": 3319
+        },
+        "delegated500": {
+          "mode": "3d",
+          "vertices": 0
+        },
+        "tier300": {
+          "mode": "3d",
+          "vertices": 12086
+        },
+        "church": {
+          "mode": "3d",
+          "vertices": 0
+        },
+        "city": {
+          "mode": "3d",
+          "vertices": 7298
+        }
+      },
+      "errors": [],
+      "failed": [],
+      "passed": true,
+      "whitePaintedFramesDiffer": true,
+      "frameSHA256": {
+        "painted": "bdc1f217dd2dd2547e00d5aff884e93290b1fcba100c2a3b3544e74220d75641",
+        "white": "1b297bd1e35d67a362aed4ff8b0d677990e53ee16a1c9640ecbb7a0064528b4a"
+      }
+    }
+  ],
+  "pinnedAssets": {
+    "verifiedFiles": 556,
+    "verifiedBytes": 677240150,
+    "missing": 0
+  },
+  "changedFileCredentialPatternScan": {
+    "hits": 0
+  },
+  "scopeLimits": [
+    "The 3D scenes are integration samples, not a new visual audit of every frozen building.",
+    "Cold 3D startup still loads the substantial original full-detail table set.",
+    "No public website deployment, data refresh, collection, repainting, or deletion of original workspaces."
+  ]
+}

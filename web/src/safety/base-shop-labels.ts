@@ -61,6 +61,7 @@ const copy={
 };
 export function installBaseShopLabels({map,host,locale,diagnostics=false}:{map:LibreMap;host:HTMLElement;locale:string;diagnostics?:boolean}) {
  const text=copy[locale as keyof typeof copy]??copy.en;
+ let suspended=false;
  let enabled=true,density=3,active=false,destroyed=false,moving=false,frame=0;
  let pois:FeatureCollection={type:'FeatureCollection',features:[]};
  try{const s=JSON.parse(localStorage.getItem(STORAGE)??'null');if(s&&typeof s.enabled==='boolean'&&Number.isInteger(s.density)&&s.density>=1&&s.density<=6){enabled=s.enabled;density=s.density;}}catch{/* storage unavailable */}
@@ -73,8 +74,8 @@ export function installBaseShopLabels({map,host,locale,diagnostics=false}:{map:L
  const note=document.createElement('p');note.textContent=text.note;const status=document.createElement('p');status.setAttribute('role','status');
  wrapper.append(label,densityLabel,note,status);host.append(wrapper);
  const empty=():FeatureCollection=>({type:'FeatureCollection',features:[]});
- function clear(){const s=map.getSource(SOURCE) as GeoJSONSource|undefined;s?.setData(empty());wrapper.setAttribute('data-shop-label-selected','0');}
- function ensureRecords(){
+ function clear(){if(suspended)return;const s=map.getSource(SOURCE) as GeoJSONSource|undefined;s?.setData(empty());wrapper.setAttribute('data-shop-label-selected','0');}
+ function ensureRecords(){if(suspended)return;
   // MapLibre 6 overzoom re-encodes only source layers registered in the style.
   // Keep pois registered even with labels hidden so building clicks use real loaded points.
   // This transparent circle does not draw names, participate in label collision, or fetch another source.
@@ -83,7 +84,7 @@ export function installBaseShopLabels({map,host,locale,diagnostics=false}:{map:L
  function removeRecords(){if(map.getLayer(RECORD_LAYER))map.removeLayer(RECORD_LAYER);}
  function ensure(){if(!map.getSource(SOURCE))map.addSource(SOURCE,{type:'geojson',data:empty()});if(!map.getLayer(SHOP_LABEL_LAYER))map.addLayer({id:SHOP_LABEL_LAYER,type:'symbol',source:SOURCE,layout:{'text-field':['get','display_name'],'text-font':['Noto Sans Regular'],'text-size':11,'text-max-width':15,'text-anchor':'top','text-offset':[0,0.9],'text-allow-overlap':false,'text-ignore-placement':false,'symbol-sort-key':10},paint:{'text-color':'#59656a','text-halo-color':'#ffffff','text-halo-width':1}},map.getLayer('poi-association-label')?'poi-association-label':undefined);}
  function render(){
-  frame=0;if(destroyed)return;slider.disabled=!enabled;wrapper.setAttribute('data-shop-label-zoom',String(map.getZoom()));wrapper.setAttribute('data-shop-label-density',String(density));
+  frame=0;if(destroyed||suspended)return;slider.disabled=!enabled;wrapper.setAttribute('data-shop-label-zoom',String(map.getZoom()));wrapper.setAttribute('data-shop-label-density',String(density));
   if(!active||!map.getSource(VECTOR_SOURCE)){clear();wrapper.setAttribute('data-shop-label-state','unavailable');status.textContent=text.unavailable;return;}
   ensure();if(!enabled||moving){clear();wrapper.setAttribute('data-shop-label-state',moving?'moving':'off');status.textContent=enabled?'':text.off;return;}
   if(map.getZoom()<SHOP_DENSITY[density-1].minzoom){clear();wrapper.setAttribute('data-shop-label-state','zoom');status.textContent=text.zoom;return;}
@@ -100,7 +101,7 @@ export function installBaseShopLabels({map,host,locale,diagnostics=false}:{map:L
   const selected=selectShopLabels(candidates,blockers,density);(map.getSource(SOURCE) as GeoJSONSource).setData({type:'FeatureCollection',features:selected});wrapper.setAttribute('data-shop-label-selected',String(selected.length));wrapper.setAttribute('data-shop-label-blockers',String(blockers.length));wrapper.setAttribute('data-shop-label-state','rendered');status.textContent='';
  }
  function getLoadedShopRecords():readonly Feature<Point>[] {
-  if(destroyed||!active||!map.getSource(VECTOR_SOURCE))return [];
+  if(destroyed||suspended||!active||!map.getSource(VECTOR_SOURCE))return [];
   ensureRecords();
   let raw:ReturnType<LibreMap['querySourceFeatures']>;try{raw=map.querySourceFeatures(VECTOR_SOURCE,{sourceLayer:'pois'});}catch{wrapper.setAttribute('data-shop-label-query-state','error');return [];}
   wrapper.setAttribute('data-shop-label-query-state','ok');wrapper.setAttribute('data-shop-label-queried',String(raw.length));if(raw.length===0)sampleQueryDiagnostics();
@@ -128,5 +129,5 @@ export function installBaseShopLabels({map,host,locale,diagnostics=false}:{map:L
  const start=()=>{moving=true;clear();},end=()=>{moving=false;schedule();};
  const source=(event:{sourceId?:string})=>{if(event.sourceId===VECTOR_SOURCE)schedule();};
  map.on('movestart',start);map.on('moveend',end);map.on('resize',schedule);map.on('sourcedata',source);schedule();
- return {getLoadedShopRecords,updateExistingPois(value:FeatureCollection){pois=value;schedule();},setBasemapActive(value:boolean){active=value;if(active)ensureRecords();else{clear();removeRecords();}schedule();},refresh:schedule,destroy(){destroyed=true;if(frame)cancelAnimationFrame(frame);map.off('movestart',start);map.off('moveend',end);map.off('resize',schedule);map.off('sourcedata',source);wrapper.remove();removeRecords();if(map.getLayer(SHOP_LABEL_LAYER))map.removeLayer(SHOP_LABEL_LAYER);if(map.getSource(SOURCE))map.removeSource(SOURCE);}};
+ return {suspend(){suspended=true;if(frame){cancelAnimationFrame(frame);frame=0;}},resume(){suspended=false;schedule();},getLoadedShopRecords,updateExistingPois(value:FeatureCollection){pois=value;schedule();},setBasemapActive(value:boolean){active=value;if(suspended)return;if(active)ensureRecords();else{clear();removeRecords();}schedule();},refresh:schedule,destroy(){destroyed=true;if(frame)cancelAnimationFrame(frame);map.off('movestart',start);map.off('moveend',end);map.off('resize',schedule);map.off('sourcedata',source);wrapper.remove();removeRecords();if(map.getLayer(SHOP_LABEL_LAYER))map.removeLayer(SHOP_LABEL_LAYER);if(map.getSource(SOURCE))map.removeSource(SOURCE);}};
 }

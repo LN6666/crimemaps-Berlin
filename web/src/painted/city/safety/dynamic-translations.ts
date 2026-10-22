@@ -1,0 +1,116 @@
+import type {PoliceEvent} from './model';
+import {unplacedStages} from './source-stages';
+import type {Manifest,DataClient} from './data';
+import type {Locale} from './i18n';
+export interface AddressedText {city:string;source_id:string;source_sha256?:string;field:string;text_sha256:string;translated_text:string;method?:'official_excerpt'|'translated'|'unchanged_native'}
+export interface DynamicTextPack {schema_version:1;locale:Locale;city?:string;month?:string;source_generation:string;texts:Record<string,string>;fields?:AddressedText[];native_text_hashes?:string[]}
+interface TextField {event:PoliceEvent;field:string;original:string}
+const restoredRoots = ['map_review_note','public_uncertainty','status_update','source_supporting_materials','source_attachments',
+ 'current_claim_overlays','historical_source_reviews','source_reference_comparisons'] as const;
+const restoredTextKeys = new Set(['map_review_note','public_uncertainty','status_update','title','label','note','review_note','display_note','details','display']);
+function restoredFields(event:PoliceEvent, add:(path:string,value:unknown)=>void) {
+ const walk=(value:unknown,path:string,key:string):void=>{
+  if(typeof value==='string'){if(restoredTextKeys.has(key))add(path,value);return;}
+  if(Array.isArray(value)){value.forEach((v,i)=>walk(v,`${path}/${i}`,key));return;}
+  if(value && typeof value==='object')for(const [k,v] of Object.entries(value))walk(v,`${path}/${k}`,k);
+ };
+ const publicFields=new Set(event.public_display_fields??[]);
+ for(const root of restoredRoots)if(publicFields.has(root))walk(event[root],`/${root}`,root);
+ event.scene_locations?.forEach((scene,i)=>{
+  if(scene.public_display_fields?.includes('public_reference_note'))add(`/scene_locations/${i}/public_reference_note`,scene.public_reference_note);
+ });
+ const visibleStages=new Set(unplacedStages(event));
+ if(event.incidents===undefined)event.source_incidents?.forEach((stage,i)=>{
+  if(!visibleStages.has(stage))return;
+  add(`/source_incidents/${i}/details`,stage.details);add(`/source_incidents/${i}/event_time/display`,stage.event_time?.display);
+ });
+}
+function translatedRestored(event:PoliceEvent, field:(path:string,value:string)=>string):PoliceEvent {
+ // Work only on the reviewed public display fields, preserving the canonical
+ // source object, identifiers, URLs, hashes, geometry and count choices.
+ const paths=new Set<string>();restoredFields(event,(path,value)=>{if(typeof value==='string'&&value)paths.add(path);});
+ const copy=(value:unknown,path:string):unknown=>{
+  if(typeof value==='string')return paths.has(path)?field(path,value):value;
+  if(Array.isArray(value))return value.map((v,i)=>copy(v,`${path}/${i}`));
+  if(value&&typeof value==='object')return Object.fromEntries(Object.entries(value).map(([k,v])=>[k,copy(v,`${path}/${k}`)]));
+  return value;
+ };
+ const result={...event};
+ for(const root of restoredRoots)if(event[root]!==undefined)(result as any)[root]=copy(event[root],`/${root}`);
+ if(event.incidents===undefined && event.source_incidents)result.source_incidents=copy(event.source_incidents,'/source_incidents') as PoliceEvent['source_incidents'];
+ if(event.scene_locations)result.scene_locations=event.scene_locations.map((scene,i)=>{
+  const row={...scene};for(const key of ['public_reference_note','poi_review','transit_review','geometry_review','source_relations'] as const)
+   if(scene[key]!==undefined)(row as any)[key]=copy(scene[key],`/scene_locations/${i}/${key}`);
+  return row;
+ });
+ return result;
+}
+function sourceId(event:PoliceEvent):string {return String((event as PoliceEvent&{source_id?:string}).source_id??event.id.split(':').at(-1)??event.id);}
+function fieldsFor(event:PoliceEvent):TextField[] {
+ const fields:TextField[]=[];
+ const add=(field:string,value:unknown)=>{if(typeof value==='string'&&value)fields.push({event,field,original:value});};
+ add('/title',event.title);add('/location_label',event.location_label);
+ const visibleStages=new Set(unplacedStages(event));
+ event.incidents?.forEach((stage,i)=>{if(visibleStages.has(stage)){add(`/incidents/${i}/details`,stage.details);add(`/incidents/${i}/event_time/display`,stage.event_time?.display);}});
+ event.scene_locations?.forEach((scene,i)=>{
+  const path=`/scene_locations/${i}`;
+  add(`${path}/label`,scene.label);add(`${path}/details`,scene.details);add(`${path}/event_time/display`,scene.event_time?.display);
+  scene.incidents?.forEach((incident,j)=>{add(`${path}/incidents/${j}/details`,incident.details);add(`${path}/incidents/${j}/event_time/display`,incident.event_time?.display);});
+ });
+ restoredFields(event,add);
+ return fields;
+}
+export function publicTextFields(rows:readonly PoliceEvent[]):string[] {return [...new Set(rows.flatMap(fieldsFor).map(f=>f.original))];}
+export async function textHash(value:string):Promise<string> {
+ const hash=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(value));
+ return [...new Uint8Array(hash)].map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+function acceptedText(value:unknown):value is string {return typeof value==='string'&&Boolean(value.trim())&&value.length<=32000;}
+/** Source values and geometry stay intact. Only exact fields in a display copy are replaced. */
+export class DynamicTranslations {
+ private lookup=new Map<string,string>();
+ private addressed=new Map<string,string>();
+ private missingByEvent=new Map<string,number>();
+ missing=0; matched=0;
+ clear(){this.lookup.clear();this.addressed.clear();this.missingByEvent.clear();this.missing=0;this.matched=0;}
+ text(original:string):string{return this.lookup.get(original)??original;}
+ field(event:PoliceEvent,path:string,original:string):string {return this.addressed.get(`${event.id}\0${path}`)??this.text(original);}
+ missingFor(event:PoliceEvent):number {return this.missingByEvent.get(event.id)??fieldsFor(event).length;}
+ displayRows(rows:readonly PoliceEvent[]):PoliceEvent[] {
+  return rows.map(original=>{const event=translatedRestored(original,(path,value)=>this.field(original,path,value));return ({...event,title:this.field(event,'/title',event.title),location_label:this.field(event,'/location_label',event.location_label),incidents:event.incidents?.map((stage,i)=>({...stage,details:stage.details?this.field(event,`/incidents/${i}/details`,stage.details):stage.details,event_time:stage.event_time?{...stage.event_time,display:this.field(event,`/incidents/${i}/event_time/display`,stage.event_time.display)}:stage.event_time})),scene_locations:event.scene_locations?.map((scene,i)=>{
+   const path=`/scene_locations/${i}`;
+   return {...scene,label:this.field(event,`${path}/label`,scene.label),details:scene.details?this.field(event,`${path}/details`,scene.details):scene.details,
+    event_time:scene.event_time?{...scene.event_time,display:this.field(event,`${path}/event_time/display`,scene.event_time.display)}:scene.event_time,
+    incidents:scene.incidents?.map((incident,j)=>({...incident,details:incident.details?this.field(event,`${path}/incidents/${j}/details`,incident.details):incident.details,event_time:incident.event_time?{...incident.event_time,display:this.field(event,`${path}/incidents/${j}/event_time/display`,incident.event_time.display)}:incident.event_time}))};
+  })});});
+ }
+ async load(rows:readonly PoliceEvent[],manifest:Manifest,client:DataClient,month:string,locale:Locale,signal:AbortSignal,city=manifest.city.toLowerCase()) {
+  this.clear();signal.throwIfAborted();const fields=rows.flatMap(fieldsFor);
+  const markMissing=()=>{this.missing=fields.length;for(const e of rows)this.missingByEvent.set(e.id,fieldsFor(e).length);};
+  const path=manifest.translations?.[locale]?.[month];
+  if(!path){markMissing();return;}
+  if(!/^translations\/(de|en|zh)\/\d{4}-(0[1-9]|1[0-2])\.json$/.test(path)||!path.startsWith(`translations/${locale}/`))throw Error('Invalid translation path');
+  const pack=await client.json<DynamicTextPack>(`${client.base}/${path}`,signal);
+  if(typeof pack.source_generation!=='string'||!pack.source_generation||pack.schema_version!==1||pack.locale!==locale||(pack.city&&pack.city!==city)||(pack.month&&pack.month!==month)||![manifest.generation,manifest.metadata.transport_source_generation,manifest.metadata.translation_source_generation].includes(pack.source_generation)||!pack.texts||typeof pack.texts!=='object'||Array.isArray(pack.texts))throw Error('Stale translation pack');
+  if(pack.native_text_hashes&&(!Array.isArray(pack.native_text_hashes)||!pack.native_text_hashes.every(h=>typeof h==='string'&&/^[a-f0-9]{64}$/.test(h))))throw Error('Invalid native text receipt');
+  const nativeHashes=new Set(pack.native_text_hashes??[]);
+  const addresses=new Map<string,AddressedText>();
+  for(const item of pack.fields??[]) {
+   if(item.city!==city||!/^\/[A-Za-z0-9_/]+$/.test(item.field)||!(/^[a-f0-9]{64}$/.test(item.text_sha256))||!acceptedText(item.translated_text))continue;
+   const key=`${item.source_id}\0${item.field}`;
+   if(addresses.has(key))throw Error('Duplicate translation address');addresses.set(key,item);
+  }
+  const generic=new Map<string,string>();const addressed=new Map<string,string>();const missing=new Map<string,number>();let matches=0;
+  const hashes=new Map<string,string>();const unique=[...new Set(fields.map(f=>f.original))];
+  for(let i=0;i<unique.length;i+=32){signal.throwIfAborted();const values=await Promise.all(unique.slice(i,i+32).map(textHash));values.forEach((hash,j)=>hashes.set(unique[i+j],hash));}
+  for(const f of fields) {
+   const hash=hashes.get(f.original)!;const item=addresses.get(`${sourceId(f.event)}\0${f.field}`);
+   const currentSHA=(f.event as PoliceEvent&{source_sha256?:string}).source_sha256;
+   if(item&&item.text_sha256===hash&&(!item.source_sha256||!currentSHA||item.source_sha256===currentSHA)) {addressed.set(`${f.event.id}\0${f.field}`,item.translated_text);matches++;}
+   else if(acceptedText(pack.texts[hash])) {generic.set(f.original,pack.texts[hash]);matches++;}
+   else if(nativeHashes.has(hash)){generic.set(f.original,f.original);matches++;}
+   else missing.set(f.event.id,(missing.get(f.event.id)??0)+1);
+  }
+  signal.throwIfAborted();this.lookup=generic;this.addressed=addressed;this.missingByEvent=missing;for(const e of rows)if(!missing.has(e.id))missing.set(e.id,0);this.matched=matches;this.missing=fields.length-matches;
+ }
+}

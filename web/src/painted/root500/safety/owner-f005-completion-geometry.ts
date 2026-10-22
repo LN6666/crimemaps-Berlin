@@ -1,0 +1,2 @@
+import {readFrozenTable} from '../../../safety/frozen-paint-tables';
+export const F005_COMPLETION_BATCH=readFrozenTable("c19e221e213e99735f1fc13263d8c03fb18a3fbcc21c6b2f6f5b4c9f195f3569") as {"color":[number,number,number];"frames":Array<number>;"indices":Array<number>;"normals":Array<number>;"paint":Array<number>;"positions":Array<number>;"role":number;"triangleCount":number;"vertexCount":number;"writeMask":Array<boolean>;};

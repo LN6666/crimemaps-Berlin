@@ -1,0 +1,8 @@
+import type{BuildingComponent}from'./building-mesh-renderer';
+import{f358DetailsReady564}from'./f358-details564';
+import{nativePaintSignature}from'./progressive-native-signature';
+export const F358_NORMAL579_TOKEN='(semanticFamily==428.&&v_paint_frame.z==579.)';
+const PART='osm/way/501234037/component/10176db0efa7181ed301';
+export function applyF358Normal579(draw:BuildingComponent[],frames:Float32Array,raw:readonly BuildingComponent[],leaf:((c:BuildingComponent)=>string|undefined)|undefined,available:boolean){
+ if(!available||!leaf||!f358DetailsReady564(raw,leaf))return{ready:false,writes:0};const cs=draw.filter(c=>c.city==='hannover'&&c.objectId==='osm/way/501234037'&&c.partId===PART);if(cs.length!==1)return{ready:false,writes:0};const c=cs[0];if(nativePaintSignature(c)!=='21e134c0'||JSON.stringify(c.origin)!=='[9.72840045,52.3822485]'||leaf(c)!=='866b8410d2aebbfd555224fae0380e5b88948115aa5020793629779ef988a8dc')return{ready:false,writes:0};const total=draw.reduce((n,c)=>n+c.batches.reduce((n,b)=>n+b.positions.length/3,0),0);if(frames.length!==total*5)return{ready:false,writes:0};let at=0;const indices:number[]=[];for(const cc of draw)for(const[bi,b]of cc.batches.entries())for(let j=0;j<b.positions.length/3;j++,at++){if(cc!==c||bi!==0||j>=48)continue;const y=b.positions[j*3+1],ny=b.normals[j*3+1];if(y<28.999||y>43.001||Math.abs(ny)>.01||frames[at*5+2]!==14||frames[at*5+3]<3.3||frames[at*5+3]>4.0||frames[at*5+4]!==428)return{ready:false,writes:0};indices.push(at*5+2);}if(indices.length!==48)return{ready:false,writes:0};for(const i of indices)frames[i]=579;return{ready:true,writes:48};
+}

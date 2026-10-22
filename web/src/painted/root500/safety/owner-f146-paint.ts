@@ -1,0 +1,22 @@
+export const OWNER_F146_PAINT_GLSL=`
+float go146Box(vec2 p,vec2 c,vec2 h){vec2 d=abs(p-c)-h;return 1.-smoothstep(-.012,.012,max(d.x,d.y));}
+vec3 go146Window(vec3 c,vec2 q,float x,float y,float w,float h,bool bars){float outer=go146Box(q,vec2(x,y),vec2(w*.5+.075,h*.5+.075));c=mix(c,vec3(.85,.83,.73),outer);float glass=go146Box(q,vec2(x,y),vec2(w*.5,h*.5));c=mix(c,vec3(.24,.29,.27),glass);c=mix(c,vec3(.88,.87,.77),go146Box(q,vec2(x,y),vec2(.026,h*.5))*glass);for(int j=0;j<3;j++){float yy=y+(float(j)-1.)*h*.25;c=mix(c,vec3(.86,.85,.75),go146Box(q,vec2(x,yy),vec2(w*.5,.021))*glass);}if(bars){for(int j=0;j<5;j++){float xx=x+(float(j)-2.)*w/5.;c=mix(c,vec3(.15,.16,.14),go146Box(q,vec2(xx,y),vec2(.018,h*.53)));}c=mix(c,vec3(.15,.16,.14),go146Box(q,vec2(x,y+.19),vec2(w*.55,.022)));}c=mix(c,vec3(.80,.78,.66),go146Box(q,vec2(x,y-h*.5-.10),vec2(w*.5+.12,.035)));return c;}
+vec3 go146Street(vec3 base,vec3 p,vec3 normal,vec4 frame,float family){vec2 q=frame.xy;float W=frame.w;float y=q.y;vec3 c=y<3.25?vec3(.49,.31,.25):vec3(.79,.72,.49);
+ for(int j=0;j<2;j++){float yy=j==0?3.27:6.60;c=mix(c,vec3(.72,.69,.57),go146Box(q,vec2(W*.5,yy),vec2(W*.5,.055)));}c=mix(c,vec3(.66,.63,.51),go146Box(q,vec2(W*.5,9.83),vec2(W*.5,.10)));
+ for(int j=0;j<7;j++){float x=W*float(j+1)/8.;c=go146Window(c,q,x,8.20,W*.065,1.78,false);c=go146Window(c,q,x,4.98,W*.068,1.98,false);if(j!=3)c=go146Window(c,q,x,1.63,W*.060,1.98,true);}
+ // Photograph supports dark central door and pale sidejambs, not unreadable sign lettering.
+ float mid=W*.5;float jamb=go146Box(q,vec2(mid,1.53),vec2(W*.052,1.52));c=mix(c,vec3(.64,.54,.41),jamb);c=mix(c,vec3(.18,.17,.13),go146Box(q,vec2(mid,1.48),vec2(W*.041,1.46)));c=mix(c,vec3(.42,.38,.28),go146Box(q,vec2(mid,1.35),vec2(.018,1.25)));for(int j=0;j<2;j++){float xx=mid+(float(j)*2.-1.)*W*.020;c=mix(c,vec3(.29,.28,.21),go146Box(q,vec2(xx,1.35),vec2(W*.013,.90)));}return c;}
+
+vec3 goetheRecovery150(vec3 base,vec3 p,vec3 normal,vec4 frame,float family){
+ float u=frame.x,y=frame.y,v=frame.z,k=frame.w;float W=13.7556455;
+ if(k<.5){vec3 slate=vec3(.24,.27,.27);float seam=max(1.-smoothstep(.012,.04,abs(mod(u,.48)-.24)),1.-smoothstep(.012,.04,abs(mod(frame.y,.35)-.175)));return mix(slate,vec3(.17,.20,.20),seam*.25);}
+ if(k<1.5)return go146Street(base,p,normal,vec4(u,y/1.05,10.,W),family);
+ if(k<2.5){vec2 q=vec2(u,y);vec3 c=vec3(.79,.72,.49);for(int i=0;i<3;i++)c=go146Window(c,q,W*.5+(float(i)-1.)*1.55,12.,.75,1.65,false);c=go146Window(c,q,W*.5,15.1,.80,1.75,false);float roundWindow=1.-smoothstep(.34,.39,length(vec2(u-W*.5,y-17.7)));c=mix(c,vec3(.84,.82,.73),1.-smoothstep(.45,.50,length(vec2(u-W*.5,y-17.7))));c=mix(c,vec3(.26,.31,.28),roundWindow);for(int i=0;i<2;i++){float yy=i==0?13.65:16.58;c=mix(c,vec3(.63,.62,.52),go146Box(q,vec2(W*.5,yy),vec2(3.,.08)));}return c;}
+ if(k>4.5&&k<6.5){bool rear=k<5.5;float t=rear?u:v-3.16;float width=rear?9.05:6.65;int count=rear?4:3;vec2 q=vec2(t,y);vec3 c=vec3(.83,.78,.60);for(int j=0;j<4;j++){if(j>=count)break;float x=width*(float(j)+.5)/float(count);c=go146Window(c,q,x,5.2,.92,2.05,false);c=go146Window(c,q,x,8.5,.92,1.9,false);bool door=rear?j==3:j==1;float trim=go146Box(q,vec2(x,door?1.55:1.8),vec2(.64,door?1.55:1.1));c=mix(c,vec3(.58,.35,.28),trim);if(door){c=mix(c,vec3(.42,.47,.47),go146Box(q,vec2(x,1.47),vec2(.46,1.42)));c=mix(c,vec3(.22,.28,.27),go146Box(q,vec2(x,2.75),vec2(.45,.28)));}else c=go146Window(c,q,x,1.8,.93,1.8,false);}c=mix(c,vec3(.55,.59,.58),go146Box(q,vec2(width*.5,3.25),vec2(width*.5,.075)));c=mix(c,vec3(.52,.35,.29),1.-smoothstep(.30,.48,y));return c;}
+ if(k>6.5){vec3 c=vec3(.24,.27,.27);bool back=dot(normal,vec3(-.9873037,0.,.1588439))>.8;bool ret=dot(normal,vec3(-.1588439,0.,-.9873037))>.8;if(back){for(int i=0;i<3;i++)c=go146Window(c,vec2(u,y),1.55+float(i)*3.,12.79,.7,1.5,false);}if(ret){for(int i=0;i<3;i++)c=go146Window(c,vec2(v,y),4.35+float(i)*2.2,11.96,.65,1.5,false);}return c;}
+ if(k>3.5){vec3 c=vec3(.24,.27,.27);if(dot(normal,vec3(.9873037,0.,-.1588439))>.8){bool large=v< -6.;float cx=large?(u<W*.5?W*.13:W*.87):(u<W*.5?W*.18:W*.82);float center=large?13.56:16.45;c=go146Window(c,vec2(u,y),cx,center,large?.85:.45,large?1.65:.85,false);}return c;}
+ // Unseen rear/partywall retains compatible plaster, without copying seven street-window bays.
+ vec3 c=y<3.4?vec3(.49,.31,.25):vec3(.79,.72,.49);if(dot(normal,vec3(.1588439,0.,.9873037))>.8&&v< -4.)c=go146Window(c,vec2(v,y),-6.6,5.2,.8,1.35,false);return c;
+}
+
+`;

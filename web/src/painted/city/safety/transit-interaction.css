@@ -1,0 +1,24 @@
+/* Use the same card, header, typography and theme as geographic detail windows. */
+.geography-panel.transit-route-inspector {z-index:110;width:min(280px,calc(100vw - 24px));font-size:11.5px;pointer-events:auto;box-sizing:border-box;}
+.geography-panel.transit-route-inspector[hidden] {display:none;}
+.transit-route-inspector > .geography-drag {color:inherit;}
+.transit-route-inspector .transit-route-body {min-width:0;}
+.transit-route-inspector .transit-route-pager {display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-bottom:4px;}
+.transit-route-inspector .transit-route-pager span {flex:1 1 auto;font-size:10px;}
+.transit-route-inspector :is(.transit-route-page-button,.transit-route-choice) {font:inherit;color:inherit;background:transparent;border:1px solid var(--glass-line,#8ba0b44d);border-radius:8px;padding:4px 6px;max-width:100%;white-space:normal;overflow-wrap:anywhere;}
+.transit-route-inspector .transit-route-choice {margin:2px;}
+.transit-route-inspector .transit-route-choice[aria-pressed="true"] {background:#8ac5ec20;border-color:#8ac5ec88;}
+.transit-route-inspector button:disabled {opacity:.45;}
+.transit-route-inspector .transit-route-fields {margin:6px 0;display:grid;grid-template-columns:minmax(0,max-content) minmax(0,1fr);gap:3px 7px;}
+.transit-route-inspector .transit-route-fields dt {opacity:.78;font-size:10px;}
+.transit-route-inspector .transit-route-fields dd {margin:0;min-width:0;overflow-wrap:anywhere;}
+.transit-route-inspector .transit-route-source {display:inline-block;margin-right:8px;}
+:root[data-theme="light"] .geography-panel.transit-route-inspector {background:var(--panel,#f4f8fa);color:var(--text,#18382e);border-color:#8ba0b44d;}
+:root[data-theme="light"] .transit-route-inspector > .geography-drag {background:inherit;color:inherit;}
+:root[data-theme="light"] .transit-route-inspector .geography-drag button {color:inherit;}
+:root[data-theme="light"] .transit-route-inspector a {color:#245a70;}
+/* Keep the visual X small; the transparent touch target is larger on phones. */
+@media(pointer:coarse),(max-width:760px){
+ .transit-route-inspector :is(.transit-route-page-button,.transit-route-choice) {min-height:44px;min-width:44px;box-sizing:border-box;}
+ .geography-panel.transit-route-inspector > .geography-drag .transit-route-close {flex-basis:44px;width:44px;height:44px;min-width:44px;min-height:44px;background:transparent;border:0;font-size:18px;}
+}

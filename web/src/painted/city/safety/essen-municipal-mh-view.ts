@@ -1,0 +1,22 @@
+/** Candidate municipal hook, using existing generic proof contract; not the local-only remaining gate. */
+import {createLimitationContract,type Metric,type Locale,type Text,type Rule} from './limitation-contract';
+import {matchesSourceRule,type SourceRule} from './reference-registry-matcher';
+export interface MunicipalContext {city:string;scopeId:string;scopeName:Text;}
+export interface PinnedRuleRef {path:string;sha256:string;bytes:number;}
+export function createEssenMunicipalMHView(ref:PinnedRuleRef,fetchBytes:(path:string,signal:AbortSignal)=>Promise<Uint8Array>){
+ const pin=Object.freeze({...ref});
+ const ids=new Set(['root-essen-mh-allage-followup-nrw-privatehouseholds2021-count-thousands','root-essen-mh-allage-followup-nrw-privatehouseholds2021-share']);
+ const needs=(c:MunicipalContext,m:Metric)=>c.city==='essen'&&c.scopeId==='municipality/essen/nrw-mikrozensus-migration2021'&&ids.has(String((m as Metric&{metric_id?:string}).metric_id));
+ return {needs,begin(signal:AbortSignal,isActive:()=>boolean){
+  const live=()=>!signal.aborted&&isActive();
+  const contract=createLimitationContract({loadSidecar:async()=>{throw Error('Essen packet uses inline proof only');}});
+  let rules:Promise<readonly Rule[]>|undefined;
+  async function trustedRules(){if(!live())throw Error('Cancelled');rules??=(async()=>{const b=new Uint8Array(await fetchBytes(pin.path,signal));if(!live()||b.length!==pin.bytes||b.length>400000)throw Error('MH proof unavailable');const r=await contract.loadVerifiedRules(new TextDecoder('utf-8',{fatal:true}).decode(b),pin.sha256,'essen');if(!live()||r.length!==2)throw Error('MH packet unavailable');return r;})();return rules;}
+  return {async qualifiedReference(context:MunicipalContext,metric:Metric){if(!needs(context,metric)||!live())return undefined;const id=String((metric as Metric&{metric_id?:string}).metric_id);if(metric.value!==(id==='root-essen-mh-allage-followup-nrw-privatehouseholds2021-count-thousands'?176:30.9))return undefined;try{const entries=await trustedRules(),source={city:context.city,scope:'municipal' as const,scopeId:context.scopeId,scopeName:context.scopeName},matching=entries.filter(r=>matchesSourceRule(r as SourceRule,source,metric));if(matching.length!==1||!live())return undefined;const q=await contract.qualify(matching[0],{...source,conceptId:matching[0].conceptId,metric,sourceEvidence:JSON.stringify(matching[0].sourceEvidence)});if(q.status!=='qualified'||!live())return undefined;return {rule:matching[0] as SourceRule,observation:q.observation};}catch{return undefined;}},async render(host:HTMLElement,context:MunicipalContext,metric:Metric,locale:Locale,format:(metric:Metric,locale:Locale)=>string,appendSingle:(host:HTMLElement,metric:Metric,locale:Locale)=>boolean):Promise<'regular'|'rendered'|'withheld'>{
+   if(!needs(context,metric))return 'regular';if(!live())return 'withheld';
+   const id=String((metric as Metric&{metric_id?:string}).metric_id);const expected=id==='root-essen-mh-allage-followup-nrw-privatehouseholds2021-count-thousands'?176:id==='root-essen-mh-allage-followup-nrw-privatehouseholds2021-share'?30.9:undefined;if(expected===undefined||metric.value!==expected)return 'withheld';
+   const original=metric,stamp=JSON.stringify(metric);
+   try{const entries=await trustedRules(),source={city:context.city,scope:'municipal' as const,scopeId:context.scopeId,scopeName:context.scopeName},matching=entries.filter(r=>matchesSourceRule(r as SourceRule,source,metric));if(matching.length!==1||!live())return 'withheld';const rule=matching[0];const qualified=await contract.qualify(rule,{...source,conceptId:rule.conceptId,metric,sourceEvidence:JSON.stringify(rule.sourceEvidence)});if(qualified.status!=='qualified'||!live())return 'withheld';const detached=document.createElement('section');const rendered=contract.render(detached,qualified.observation,locale,(h,o)=>{if(o.metric!==original)return false;const heading=document.createElement('h4');heading.textContent=o.metric.label[locale];const value=document.createElement('p');value.textContent=format(o.metric,locale);h.append(heading,value);const a=document.createElement('a');a.href=o.metric.source_url;a.textContent=o.metric.source_name;h.append(a);return appendSingle(h,o.metric,locale);});if(rendered.status!=='rendered'||!live()||metric!==original||JSON.stringify(metric)!==stamp)return 'withheld';host.append(detached);return 'rendered';}catch{return 'withheld';}
+  }};
+ }};
+}

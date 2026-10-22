@@ -1,0 +1,4 @@
+export const F077_COMPLETION_GLSL=`
+float bsc077line(float x,float stepSize,float width){float d=abs(mod(x+stepSize*.5,stepSize)-stepSize*.5);return 1.-smoothstep(width,width+max(fwidth(x),.003),d);}
+vec3 buergersaalAttic077(vec3 base,vec3 p,vec3 normal,vec4 frame,float family){if(abs(family-6393.)>.25)return base;float role=floor(frame.z-1000.+.5);vec3 c=vec3(.64,.34,.27);float y=p.y,u=frame.x;if(role>.5&&role<1.5){c=vec3(.77,.74,.64);c*=1.-.055*bsc077line(y,.35,.004);}else if(role>1.5&&role<2.5){c=vec3(.27,.31,.29);float row=floor((y-11.22)/.18);vec2 hex=vec2(mod(u+mod(row,2.)*.10+.10,.20)-.10,mod(y-11.22+.09,.18)-.09);float lead=1.-smoothstep(.007,.014,abs(length(hex)-.073));c=mix(c,vec3(.61,.62,.56),lead*.83);c=mix(c,vec3(.43,.45,.40),max(bsc077line(u,.75,.018),bsc077line(y-11.95,.73,.018)));}else if(role>2.5)c=vec3(.78,.67,.39);return c;}
+`;

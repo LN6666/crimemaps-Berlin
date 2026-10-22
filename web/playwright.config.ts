@@ -4,6 +4,8 @@ const city = JSON.parse(readFileSync(new URL("../city-config.json", import.meta.
 if (!/^\/crimemaps-[A-Z][a-z]+\/$/.test(city.base_path)) throw Error("Invalid repository test prefix");
 export default defineConfig({
   testDir: "tests",
+  // Node unit checks have their own commands; only browser specs belong here.
+  testMatch: /\.spec\.[jt]s$/,
   workers: 1,
   use: {
     baseURL: "http://127.0.0.1:4173",

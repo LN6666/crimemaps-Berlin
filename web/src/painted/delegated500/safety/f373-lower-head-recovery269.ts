@@ -1,0 +1,16 @@
+import {ownerShapePatchProfile} from './owner-shape-patch-display';
+import type {BuildingComponent} from './building-mesh-renderer';
+import {nativePaintSignature} from './progressive-native-signature';
+const PIN={"number":"F373-LowerHead","city":"nuremberg","objectId":"osm/way/258572667","partId":"osm/way/258572667/component/8077339e80f89b6232ef/owner-source-recovery269","sourcePartId":"osm/way/258572667/component/8077339e80f89b6232ef","id":"owner-shape-F373-LowerHead-269","path":"/safety/buildings3d/owner-shape-patches/F373-LowerHead-269.json","bytes":40019,"sha256":"4cfbc74431bb8855c579c7b2df497b4c22c893513cc3ab7421e95aafe9178df3","bbox":[11.0387093,49.4258413,11.0391384,49.4261203],"vertices":289,"triangles":528,"max_height_m":192,"tile_key":"owner-shape-F373-LowerHead-269","geometryRole":"owner-authorized-reconstruction","geometrySignature":"8d6ddea9"} as const;
+type Descriptor={path:string;sha256:string;vertices:number;triangles:number};
+/** Finite registered source-backed recovery; original source-map retention precedes packing guard. */
+export function f373LowerHeadPlan269(rows:BuildingComponent[],profileOf:(path:string)=>Descriptor|undefined=ownerShapePatchProfile){
+ const profile=profileOf(PIN.path);const validProfile=profile?.path===PIN.path&&profile.sha256===PIN.sha256&&profile.vertices===PIN.vertices&&profile.triangles===PIN.triangles;
+ const replacement=validProfile?rows.find(c=>{const m=c.sourceFeature?.properties?.owner_shape_patch as any;return c.city==='nuremberg'&&c.objectId===PIN.objectId&&c.partId===PIN.partId&&m?.number===PIN.number&&m?.sourcePartId===PIN.sourcePartId&&m?.geometryRole==='owner-authorized-reconstruction'&&m?.sourceJoin?.upperObjectId==='osm/way/258572661'&&m?.sourceJoin?.sharedSourceHeightM===192&&nativePaintSignature(c)===PIN.geometrySignature;}):undefined;
+ const held=replacement?rows.filter(c=>{const p=c.sourceFeature?.properties;return c.city==='nuremberg'&&c.objectId===PIN.objectId&&c.partId===PIN.sourcePartId&&p?.height==='173'&&p?.min_height==='192'&&p?.['roof:height']==='-19'&&p?.['roof:shape']==='dome'&&nativePaintSignature(c)==='be228cdf';}):[];
+ const suppress=new Set(held);return{held,drawable:rows.filter(c=>!suppress.has(c)),replacement};
+}
+
+const FRAME={"family":1472,"uAxis":[0.9999999951885252,0,0],"vAxis":[0,0,0.9999999951885252],"uOrigin":-0.04544050394829836,"vOrigin":0.026278878338694415,"height":292.8,"width":90,"originalFamilyReused":true,"newNativeAdmissions":0,"descriptionFileSHA256":"dd064d8ca27c5ba7640766ca6d80e2a6f20ecf267502c36069b8a9853ee8da25"} as const;
+/** Same unchanged1472 source program and absolute metric phase; only the pinned derived mesh receives metadata. */
+export function applyF373LowerHeadPaint269(rows:BuildingComponent[],colors:Float32Array,frames:Float32Array,profileOf:(path:string)=>Descriptor|undefined=ownerShapePatchProfile){const replacement=f373LowerHeadPlan269(rows,profileOf).replacement;let at=0;for(const c of rows)for(const b of c.batches)for(let j=0;j<b.positions.length;j+=3,at++)if(c===replacement){colors.set([...b.color,2],at*4);frames.set([b.positions[j]*FRAME.uAxis[0]-FRAME.uOrigin,b.positions[j+2]*FRAME.vAxis[2]-FRAME.vOrigin,FRAME.height,FRAME.width,FRAME.family],at*5);}return {colors,frames};}
