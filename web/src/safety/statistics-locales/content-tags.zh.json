@@ -50,11 +50,11 @@
     "weapons_offence": "武器犯罪",
     "traffic_offence": "交通犯罪",
     "insult_or_incitement": "侮辱或煽动仇恨",
-    "political_context_offence": "政治相关犯罪",
+    "political_context_offence": "涉及政治背景的行为",
     "prohibited_symbol_or_organization_offence": "非法标志或组织犯罪",
     "coercion_or_unlawful_detention": "强迫或非法拘禁",
-    "public_order_offence": "妨害公共秩序犯罪",
-    "animal_welfare_offence": "虐待动物等犯罪"
+    "public_order_offence": "涉及公共秩序的行为",
+    "animal_welfare_offence": "违反动物保护规定的行为"
   },
   "noSupport": "无内容支持"
 }
