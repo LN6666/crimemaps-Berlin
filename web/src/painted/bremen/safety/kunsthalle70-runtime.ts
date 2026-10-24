@@ -1,0 +1,27 @@
+import type {BuildingComponent,Identity} from './building-mesh-renderer';
+import {nativePaintSignature} from './progressive-native-signature';
+import {KUNSTHALLE70_DATA as D,KUNSTHALLE70_SHA} from './kunsthalle70-data';
+export const BREMEN_KUNSTHALLE70_DERIVED_ID:Identity=D.derivedIdentity;
+export const bremenKunsthalle70DerivedIdentity=(c:Identity)=>c.objectId===D.derivedIdentity.objectId&&c.partId===D.derivedIdentity.partId;
+export const bremenKunsthalle70Identity=(c:Identity)=>bremenKunsthalle70DerivedIdentity(c);
+type Leaf=(c:BuildingComponent)=>string|undefined;
+const key=(c:Identity)=>c.objectId+'|'+c.partId;
+function ready(rows:BuildingComponent[],leaf:Leaf){return D.requiredNativeGroup.every((r:any)=>{const matches=rows.filter(c=>c.city==='bremen'&&key(c)===key(r));if(matches.length!==1)return false;const c=matches[0];return leaf(c)===r.leafSHA256&&nativePaintSignature(c)===r.signature&&c.origin.every((v,j)=>Object.is(v,r.origin[j]))&&JSON.stringify(c.sourceFeature)===JSON.stringify(r.sourceFeature);});}
+const batch=()=>({positions:new Float32Array(D.batch.positions),normals:new Float32Array(D.batch.normals),indices:new Uint32Array(D.batch.indices),color:[.77,.735,.65] as [number,number,number],paint:new Float32Array(D.batch.paint),frames:new Float32Array(D.batch.frames)});
+export function bremenKunsthalle70Reconstruction(components:BuildingComponent[],nativeLeafSHA?:Leaf){
+ const stats={objects:0,vertices:0,triangles:0,originalVertices:0,sourceRetained:true as const,actualVisualAccepted:false as const,components:[] as any[]};
+ if(!nativeLeafSHA||!ready(components,nativeLeafSHA))return{components,stats};
+ if(components.some(bremenKunsthalle70DerivedIdentity))throw Error('Duplicate finite Bremen Kunsthalle70 derived DISPLAY identity');
+ const b=batch(),vertices=b.positions.length/3,triangles=b.indices.length/3;
+ const derived:BuildingComponent={city:'bremen',...D.derivedIdentity,origin:[...D.origin],componentGeometry:D.referenceFootprint,sourceFeature:{id:'display-only/Bremen-Kunsthalle70',type:'Feature',geometry:D.referenceFootprint,properties:{name:'Kunsthalle Bremen upper-wall SOURCE313504594 recovery DISPLAY',__derived_display_only:true,__not_native_source:true,__reference_source_object:D.referenceSourceId,__reference_source_part:D.referenceSourcePartId,__reference_source_sha256:D.referenceSourceSHA256,__source_carrier:D.sourceCarrier}},batches:[b],displayEstimates:{bremenKunsthalle70:{patchSHA256:KUNSTHALLE70_SHA,sourceAbsent:true,nativeGetterCount:0,sourceCarrier:D.sourceCarrier,sourceExactOutline:true,upperBandM:[D.base_m,D.eaves_m],sourceBodyHeightNotSurvey:true,colorCoverageComplete:true,detail70Implemented:true,actualVisualAccepted:false}}};
+ stats.objects=1;stats.vertices=vertices;stats.triangles=triangles;stats.components.push({objectId:derived.objectId,partId:derived.partId,sourcePartId:D.referenceSourcePartId,patchSHA256:KUNSTHALLE70_SHA,vertices,triangles,geometryRole:'source-exact-outline-upper-wall-DISPLAY-only'});
+ return{components:[...components,derived],stats};
+}
+function finite(c:BuildingComponent|undefined){if(!c||c.city!=='bremen'||!bremenKunsthalle70DerivedIdentity(c)||(c.displayEstimates?.bremenKunsthalle70 as any)?.patchSHA256!==KUNSTHALLE70_SHA||JSON.stringify(c.componentGeometry)!==JSON.stringify(D.referenceFootprint)||!c.origin.every((v,j)=>Object.is(v,D.origin[j]))||c.batches.length!==1)return false;const b=c.batches[0];return(['positions','normals','indices'] as const).every(k=>b[k].length===D.batch[k].length&&Array.from(b[k]).every((v,j)=>Object.is(v,k==='indices'?D.batch[k][j]:Math.fround(D.batch[k][j]))));}
+export function bremenKunsthalle70BaseMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){
+ if(!components.some(c=>finite(c)))return{objects:0,vertices:0,actualVisualAccepted:false};let offset=0,objects=0,vertices=0;
+ for(const c of components){const isDerived=finite(c);const patch=c.city==='bremen'?D.metadataPatches.find((r:any)=>key(c)===key(r)&&nativePaintSignature(c)===r.signature):undefined;if(isDerived||patch)objects++;
+  c.batches.forEach((b,bi)=>{const n=b.positions.length/3;if(isDerived){paint.set(D.batch.paint,offset*4);frames.set(D.batch.frames,offset*5);vertices+=n;}else if(patch){for(const p of patch.patches){if(p.batchIndex!==bi)continue;if(p.firstVertex+p.vertexCount>n)throw Error('Bremen Kunsthalle70 native metadata range exceeded');paint.set(p.paint,(offset+p.firstVertex)*4);frames.set(p.frames,(offset+p.firstVertex)*5);vertices+=p.vertexCount;}}offset+=n;});
+ }return{objects,vertices,actualVisualAccepted:false};
+}
+export function serializeBremenKunsthalle70DerivedReadback(c:(BuildingComponent&{generation?:number})|undefined,sourceAbsent:boolean){if(!c||!bremenKunsthalle70DerivedIdentity(c))return null;if(!sourceAbsent)throw Error('Bremen Kunsthalle70 derived DISPLAY entered native SOURCE registry');if(!finite(c))throw Error('Bremen Kunsthalle70 finite derived certificate mismatch');return{displayOnlyId:c.objectId,partId:c.partId,patchSHA256:KUNSTHALLE70_SHA,sourceAbsent:true,nativeGetterCount:0,sourceCarrier:D.sourceCarrier,referenceSourceId:D.referenceSourceId,referenceSourcePartId:D.referenceSourcePartId,referenceSourceSHA256:D.referenceSourceSHA256,generation:c.generation??null,origin:c.origin,referenceFootprint:c.componentGeometry,batches:c.batches.map(b=>({positions:Array.from(b.positions),normals:Array.from(b.normals),indices:Array.from(b.indices)})),actualVisualAccepted:false};}

@@ -1,3 +1,5 @@
+import {HN_ORANGERIE_BACK_GLSL,HN_ORANGERIE_BACK_DISPATCH} from './hn-orangerie-back-glsl';
+import {TIER300_SELECTED_REPAIR_GLSL,TIER300_SELECTED_REPAIR_DISPATCH} from './tier300-selected-repairs';
 import {PROGRESSIVE_CITY_BASELINE_GLSL,PROGRESSIVE_CITY_EXTRA_GLSL,PROGRESSIVE_CITY_SOURCE_FULL_SHA} from './progressive-feature-cities';
 import {PROGRESSIVE_FEATURE_GLSL,PROGRESSIVE_FEATURE_SHA} from './progressive-feature-glsl';
 import {FACADE_PAINT_PRIMITIVE_GLSL} from './facade-paint-primitives';
@@ -11,6 +13,8 @@ import {FACADE_PAINT_PRIMITIVE_GLSL} from './facade-paint-primitives';
  */
 const makeFacadePaintFragment = (progressive:string,dispatchName:string)=>`
 ${FACADE_PAINT_PRIMITIVE_GLSL}
+${TIER300_SELECTED_REPAIR_GLSL}
+${HN_ORANGERIE_BACK_GLSL}
 vec3 fpSurfaceOnly(vec3 base,vec2 uv,float material);
 vec3 fpLayoutFacade(vec3 base,vec3 p,vec3 normal,vec4 frame,float layoutId);
 
@@ -462,6 +466,8 @@ vec3 fpOrdinaryFacade(vec3 base, float u, float y, float width, float height) {
 ${progressive}
 vec3 paintedFacade(vec3 base, vec3 p, vec3 normal, vec4 frame, float family) {
   // New admission family IDs are categorical integers; smooth GPU interpolation can perturb them.
+${TIER300_SELECTED_REPAIR_DISPATCH}
+${HN_ORANGERIE_BACK_DISPATCH}
   if (family>=1000.0) return ${dispatchName}(base,p,normal,frame,floor(family+0.5));
   if (family==-98.0 || abs(family)<0.5) return base;
   if (((family>=120.0 && family<=149.0)||(family>=150.0 && family<170.0)||family==171.0||(family>=180.0&&family<=211.0)||(family>=220.0&&family<=233.0)) && frame.z>0.0 && frame.w>0.0) return fpLayoutFacade(base,p,normal,frame,family);

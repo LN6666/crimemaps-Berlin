@@ -29,7 +29,7 @@ export default defineConfig(({ mode, command }) => {
         onlyExplicitManualChunks: true,
         manualChunks(id) {
           if(id.includes('node_modules/maplibre-gl'))return 'maplibre';
-          const owner=id.match(/\/painted\/(root500|delegated500)\/safety\/owner-f(\d{3})/);
+          const owner=id.match(/\/painted\/(root500|delegated500|infill|bremen)\/safety\/owner-f(\d{3})/);
           if(owner)return `paint-${owner[1]}-${Number(owner[2])%8}`;
         },
       },

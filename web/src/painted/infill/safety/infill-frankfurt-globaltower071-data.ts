@@ -1,0 +1,3 @@
+import {readFrozenTable} from '../../../safety/frozen-paint-tables';
+export const GLOBAL_TOWER_OFFICIAL_PATCH_SHA071="a755da178518e08d20f38922ccfb1edc912dc032727513266dec43491d267be5";
+export const GLOBAL_TOWER_OFFICIAL_DATA071=readFrozenTable("28c63427a9a4a865a0de53a003038febe2cefae96831c5e215a4c4db985191d1") as Array<{"batches":Array<{"color":[number,number,number];"frames":Array<number>;"indices":Array<number>;"normals":Array<number>;"paint":Array<number>;"positions":Array<number>;}>;"families":{"45260":number;"45261":number;"45262":number;"45263":number;"45264":number;"45265":number;};"indexCount":number;"objectId":string;"origin":[number,number];"partId":string;"vertexCount":number;}>;

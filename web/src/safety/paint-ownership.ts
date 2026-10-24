@@ -1,12 +1,24 @@
+import finalBatch from './final-batch-ownership.json';
+import hc70 from '../painted/delegated500/safety/supplement-hc70-ownership.json';
+import supplement from '../painted/delegated500/safety/supplement-ownership-batch1.json';
+import repairedSupplement from '../painted/tier300/safety/supplement-tier300-ownership.json';
+import orangerieSupplement from '../painted/tier300/safety/supplement-orangerie-ownership.json';
+import tvBaseSupplement from '../painted/root500/safety/supplement-tv-base-ownership.json';
 import registry from './paint-ownership-registry.json';
 import {paintFamily} from '../painted/church/safety/facade-paint-frame';
 import type {BuildingComponent} from './building-mesh-renderer';
 
-export type PaintProvider = 'root500' | 'delegated500' | 'tier300' | 'city' | 'church';
+export type PaintProvider = 'root500' | 'delegated500' | 'tier300' | 'city' | 'church' | 'infill' | 'bremen';
 const parts = registry.parts as Record<string, {provider: PaintProvider; target: string; origin?: number[]}>;
 const objects = registry.objects as Record<string, PaintProvider>;
 
 export function paintIdentityOwner(city: string, objectId: string, partId: string): PaintProvider | undefined {
+  const finalOwner=(finalBatch as Record<string,PaintProvider>)[`${city}|${objectId}`];if(finalOwner)return finalOwner;
+  const nextCity=(hc70 as Record<string,PaintProvider>)[`${city}|${objectId}`];if(nextCity)return nextCity;
+  const tvBase=(tvBaseSupplement as Record<string,PaintProvider>)[`${city}|${objectId}`];if(tvBase)return tvBase;
+  const orangerie=(orangerieSupplement as Record<string,PaintProvider>)[`${city}|${objectId}`];if(orangerie)return orangerie;
+  const repaired=(repairedSupplement as Record<string,PaintProvider>)[`${city}|${objectId}`];if(repaired)return repaired;
+  const added=(supplement as Record<string,PaintProvider>)[`${city}|${objectId}`];if(added)return added;
   return parts[`${city}|${objectId}|${partId}`]?.provider ?? objects[`${city}|${objectId}`];
 }
 

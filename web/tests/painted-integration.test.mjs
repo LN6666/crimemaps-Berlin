@@ -11,14 +11,29 @@ async function bundle(entry, plugins=[]) {
 const {paintOwner,acceptPaintComponent}=await bundle('paint-ownership.ts');
 const {createFrozenTableStore}=await bundle('frozen-paint-tables.ts');
 const registry=JSON.parse(await readFile(new URL('../src/safety/paint-ownership-registry.json',import.meta.url)));
+const finalBatch=JSON.parse(await readFile(new URL('../src/safety/final-batch-ownership.json',import.meta.url)));
+const supplementalContracts=Object.assign({},...await Promise.all([
+  'delegated500/safety/supplement-ownership-batch1.json',
+  'tier300/safety/supplement-tier300-ownership.json',
+  'tier300/safety/supplement-orangerie-ownership.json',
+  'root500/safety/supplement-tv-base-ownership.json',
+  'delegated500/safety/supplement-hc70-ownership.json',
+].map(async path=>JSON.parse(await readFile(new URL('../src/painted/'+path,import.meta.url))))),finalBatch);
 const component=(city,objectId,partId)=>({city,objectId,partId,origin:[0,0],batches:[],sourceFeature:{properties:{}},componentGeometry:{type:'Polygon',coordinates:[]}});
 
 test('all frozen native parts select exactly one accepted renderer',()=>{
   for(const [key,row]of Object.entries(registry.parts)){
     const [city,objectId,partId]=key.split('|'),c=component(city,objectId,partId);
-    assert.equal(paintOwner(c),row.provider,key);
-    assert.equal(['root500','delegated500','tier300','city','church'].filter(p=>acceptPaintComponent(p,c)).length,1,key);
+    assert.equal(paintOwner(c),supplementalContracts[`${city}|${objectId}`]??row.provider,key);
+    assert.equal(['root500','delegated500','tier300','city','church','infill','bremen'].filter(p=>acceptPaintComponent(p,c)).length,1,key);
   }
+});
+test('final station and Bremen repairs supersede old copies without taking unrelated cities',()=>{
+  assert.equal(paintOwner(component('frankfurt','osm/way/1419585196','roof')),'infill');
+  assert.equal(paintOwner(component('frankfurt','osm/way/293717947','facade')),'infill');
+  assert.equal(paintOwner(component('bremen','osm/relation/2173872','central-front')),'bremen');
+  assert.equal(paintOwner(component('berlin','osm/way/1419585196','roof')),'city');
+  assert.equal(paintOwner(component('frankfurt','osm/way/999999999999','ordinary')),'city');
 });
 test('derived detail inherits the frozen source owner, while unrelated buildings stay in the base renderer',()=>{
   for(const provider of ['root500','delegated500','tier300']){
