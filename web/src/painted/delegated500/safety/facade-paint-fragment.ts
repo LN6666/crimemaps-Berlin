@@ -1,3 +1,5 @@
+import {HC70_GLSL,HC70_DISPATCH,HC70_FAMILIES} from './supplement-hc70';
+import {SUPPLEMENT_BATCH1_GLSL,SUPPLEMENT_BATCH1_DISPATCH,SUPPLEMENT_BATCH1_FAMILIES} from './supplement-batch1';
 import{F340_PROGRAM_SOURCE_SHA,HANNOVER_FAMILIES822,HANNOVER_PROGRAMS822}from'./f340-program822';
 import{f4054Reachable672}from'./f4054-reachable672';
 import{chilehausRect608}from'./chilehaus-rect608';
@@ -24,6 +26,8 @@ import {HAMBURG_PROGRAM_SOURCE_SHA,HAMBURG_PROGRAM_FAMILIES,HAMBURG_PROGRAM_GLSL
  */
 const makeFacadePaintFragment = (progressive:string,dispatchName:string,includeF063=false,includeF061=false,includeF269=false)=>`
 ${FACADE_PAINT_PRIMITIVE_GLSL}
+${SUPPLEMENT_BATCH1_GLSL}
+${HC70_GLSL}
 vec3 fpSurfaceOnly(vec3 base,vec2 uv,float material);
 vec3 fpLayoutFacade(vec3 base,vec3 p,vec3 normal,vec4 frame,float layoutId);
 
@@ -477,6 +481,8 @@ ${includeF063?F063_RECOVERY_GLSL272:''}
 ${includeF061?F061_NAVE_GLSL833+F061_COURT_GLSL829+F061_RECOVERY_GLSL279:''}
 ${includeF269?F269_RECOVERY_GLSL284:''}
 vec3 paintedFacade(vec3 base, vec3 p, vec3 normal, vec4 frame, float family) {
+${SUPPLEMENT_BATCH1_DISPATCH}
+${HC70_DISPATCH}
   // New admission family IDs are categorical integers; smooth GPU interpolation can perturb them.
 ${includeF269?'  if(abs(family-1648.)<.25)return f269Recovery284(base,vec3(frame.x,p.y,frame.y),normal,frame,family);':''}
 ${includeF061?'  if(abs(family-1647.)<.25){if(frame.w>=8330.&&frame.w<8340.)return f061Nave833(base,vec3(frame.x,p.y,frame.y),normal,frame,family);if(frame.w>8290.)return f061Court829(base,vec3(frame.x,p.y,frame.y),normal,frame.w);return f061Tower279(base,vec3(frame.x,p.y,frame.y),normal,frame,family);}':''}
@@ -540,13 +546,14 @@ ${progressive.includes('vec3 frozenHannover533(')?'  if(family==364.||family==36
 `;
 
 export const FACADE_PAINT_FRAGMENT_GLSL = makeFacadePaintFragment(PROGRESSIVE_FEATURE_GLSL,'progressiveFeatureDispatch',true,true,true);
-export function paintProgramPartitionEnabled(city:string){return (city==='hannover'&&F340_PROGRAM_SOURCE_SHA===PROGRESSIVE_FEATURE_SHA)||(city==='hamburg'&&HAMBURG_PROGRAM_SOURCE_SHA===PROGRESSIVE_FEATURE_SHA)||(city==='berlin'&&BERLIN_PROGRAM_SOURCE_SHA===PROGRESSIVE_FEATURE_SHA);}
+export function paintProgramPartitionEnabled(city:string){return (city==='hannover'&&String(F340_PROGRAM_SOURCE_SHA)===PROGRESSIVE_FEATURE_SHA)||(city==='hamburg'&&HAMBURG_PROGRAM_SOURCE_SHA===PROGRESSIVE_FEATURE_SHA)||(city==='berlin'&&String(BERLIN_PROGRAM_SOURCE_SHA)===PROGRESSIVE_FEATURE_SHA);}
 const shared577Enabled=()=>typeof location!=='undefined'&&location.hostname==='127.0.0.1'&&new URLSearchParams(location.search).get('diagnostics')==='1'&&new URLSearchParams(location.search).get('review303')==='44';
-export function paintProgramKey(family:number,city='hamburg'){if(city==='hannover')return HANNOVER_FAMILIES822[String(family)]??'base';if(city==='hamburg'&&shared577Enabled()){const shared=sharedPartition577(HAMBURG_PROGRAM_GLSL,family);if(shared)return shared.key;}if(city==='hamburg'&&Math.abs(family-1647)<.25)return 'F061-recovery279';if(city==='hamburg'&&Math.abs(family-1646)<.25)return 'F063-recovery272';return (city==='berlin'?BERLIN_PROGRAM_FAMILIES:HAMBURG_PROGRAM_FAMILIES)[String(family)]??'base';}
+export function paintProgramKey(family:number,city='hamburg'){if(HC70_FAMILIES.has(Math.round(family)))return 'supplement-hc70';if(SUPPLEMENT_BATCH1_FAMILIES.has(Math.round(family)))return 'supplement-batch1';if(city==='hannover')return HANNOVER_FAMILIES822[String(family)]??'base';if(city==='hamburg'&&shared577Enabled()){const shared=sharedPartition577(HAMBURG_PROGRAM_GLSL,family);if(shared)return shared.key;}if(city==='hamburg'&&Math.abs(family-1647)<.25)return 'F061-recovery279';if(city==='hamburg'&&Math.abs(family-1646)<.25)return 'F063-recovery272';return (city==='berlin'?BERLIN_PROGRAM_FAMILIES:HAMBURG_PROGRAM_FAMILIES)[String(family)]??'base';}
 const partitionFragments=new Map<string,string>();
 export function paintProgramFragment(key:string,city='hamburg'){
+ if(key==='supplement-batch1'||key==='supplement-hc70')return makeFacadePaintFragment('vec3 progressiveFeatureDispatchCity(vec3 base,vec3 p,vec3 normal,vec4 frame,float family){return base;}','progressiveFeatureDispatchCity');
  const cacheKey=city+':'+key;
- if(city==='hannover'&&F340_PROGRAM_SOURCE_SHA===PROGRESSIVE_FEATURE_SHA){const source=HANNOVER_PROGRAMS822[key];if(source===undefined)throw Error('Unknown finite Hannover partition');let value=partitionFragments.get(cacheKey);if(value===undefined){value=makeFacadePaintFragment(source,'progressiveFeatureDispatchCity');partitionFragments.set(cacheKey,value);}return value;}
+ if(city==='hannover'&&String(F340_PROGRAM_SOURCE_SHA)===PROGRESSIVE_FEATURE_SHA){const source=HANNOVER_PROGRAMS822[key];if(source===undefined)throw Error('Unknown finite Hannover partition');let value=partitionFragments.get(cacheKey);if(value===undefined){value=makeFacadePaintFragment(source,'progressiveFeatureDispatchCity');partitionFragments.set(cacheKey,value);}return value;}
  if(city==='hamburg'&&key==='F061-recovery279'){let own=partitionFragments.get(cacheKey);if(own===undefined){own=makeFacadePaintFragment('vec3 progressiveFeatureDispatchCity(vec3 base,vec3 p,vec3 normal,vec4 frame,float family){return base;}','progressiveFeatureDispatchCity',false,true);partitionFragments.set(cacheKey,own);}return own;}
  if(city==='hamburg'&&key==='F063-recovery272'){let own=partitionFragments.get(cacheKey);if(own===undefined){own=makeFacadePaintFragment('vec3 progressiveFeatureDispatchCity(vec3 base,vec3 p,vec3 normal,vec4 frame,float family){return base;}','progressiveFeatureDispatchCity',true);partitionFragments.set(cacheKey,own);}return own;}
  const shared=city==='hamburg'&&shared577Enabled()&&key.startsWith('shared577-')?sharedPartition577(HAMBURG_PROGRAM_GLSL,Number(key.slice(10))):undefined;

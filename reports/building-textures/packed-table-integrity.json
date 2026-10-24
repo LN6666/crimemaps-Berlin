@@ -1491,24 +1491,6 @@
     "bytes": 292113
   },
   {
-    "path": "web/src/painted/delegated500/safety/progressive-feature-cities.ts",
-    "variable": "PROGRESSIVE_CITY_EXTRA_GLSL",
-    "sha256": "81e1ceb18abedd23289c0d874a1e593130570dbe6c10ca51134f6885c05e1ff1",
-    "literalBytes": 2833746,
-    "external": true,
-    "assetPath": "/safety/buildings3d/painted-tables/81/81e1ceb18abedd23289c0d874a1e593130570dbe6c10ca51134f6885c05e1ff1.json",
-    "bytes": 2833746
-  },
-  {
-    "path": "web/src/painted/delegated500/safety/progressive-hamburg-programs.ts",
-    "variable": "HAMBURG_PROGRAM_GLSL",
-    "sha256": "db5bfb13f39d704ca1c478f72a9dea8f7e70f1a77db2ffbac08adc2ee9a89950",
-    "literalBytes": 2945893,
-    "external": true,
-    "assetPath": "/safety/buildings3d/painted-tables/db/db5bfb13f39d704ca1c478f72a9dea8f7e70f1a77db2ffbac08adc2ee9a89950.json",
-    "bytes": 2945893
-  },
-  {
     "path": "web/src/painted/delegated500/safety/progressive-berlin-programs.ts",
     "variable": "BERLIN_PROGRAM_GLSL",
     "sha256": "b7a6aa49d8c80419702b0c7f24b8e123fba14a146bec56ad89b0b934feb07446",
@@ -2572,16 +2554,6 @@
     "originalJSONInitializer": true
   },
   {
-    "path": "web/src/painted/delegated500/safety/f044-native463.ts",
-    "variable": "F",
-    "sha256": "f019874ae2f6bac9e871a1f7cf8fee43e6a9424400288d7cd0f6f43b003d5cd5",
-    "literalBytes": 349544,
-    "external": true,
-    "assetPath": "/safety/buildings3d/painted-tables/f0/f019874ae2f6bac9e871a1f7cf8fee43e6a9424400288d7cd0f6f43b003d5cd5.json",
-    "bytes": 349544,
-    "originalJSONInitializer": true
-  },
-  {
     "path": "web/src/painted/delegated500/safety/owner-f231-frozen215.ts",
     "variable": "SOURCE",
     "sha256": "70931227f732d6ae1b1f3db5312202591ba6c223b333e60e73465657815d0a88",
@@ -2600,5 +2572,1715 @@
     "assetPath": "/safety/buildings3d/painted-tables/15/15e9f3d5d5d79628926d0a8c4268cec0b5e31a5dbdd73b057412fbd53d80090c.json",
     "bytes": 2301512,
     "originalJSONInitializer": true
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/progressive-paint-admissions.ts",
+    "variable": "PROGRESSIVE_ADMISSIONS",
+    "sha256": "bf6c0c7678fb129cb3fbf9946a3ca9a491370a8489022e5c492ce7e8fd60f651",
+    "literalBytes": 13180425,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/bf/bf6c0c7678fb129cb3fbf9946a3ca9a491370a8489022e5c492ce7e8fd60f651.json",
+    "bytes": 13180425
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/progressive-feature-cities.ts",
+    "variable": "PROGRESSIVE_CITY_EXTRA_GLSL",
+    "sha256": "5a379ad3a88ac198f5d21e8367b988d427e12bc27611eeebecd703dafa2d2eb6",
+    "literalBytes": 2487112,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/5a/5a379ad3a88ac198f5d21e8367b988d427e12bc27611eeebecd703dafa2d2eb6.json",
+    "bytes": 2487112
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/owner-f018-completion.ts",
+    "variable": "SOURCES",
+    "sha256": "6d5aba54634e887289f77ff34a905c0affe12b30667dd6db91acdbe333bc7d98",
+    "literalBytes": 345352,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/6d/6d5aba54634e887289f77ff34a905c0affe12b30667dd6db91acdbe333bc7d98.json",
+    "bytes": 345352
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/owner-f018-completion.ts",
+    "variable": "APPEND",
+    "sha256": "4b348f0bf5a3b4d08242e17ab696bc69170e0c26c351d5d2a035d08fa603e5c2",
+    "literalBytes": 1915724,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/4b/4b348f0bf5a3b4d08242e17ab696bc69170e0c26c351d5d2a035d08fa603e5c2.json",
+    "bytes": 1915724
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/owner-f018-completion.ts",
+    "variable": "OLD",
+    "sha256": "b07260c913d48e75c5593650ea5758c83a336c06e37f310df85aa6444dd562a0",
+    "literalBytes": 208799,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/b0/b07260c913d48e75c5593650ea5758c83a336c06e37f310df85aa6444dd562a0.json",
+    "bytes": 208799
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/owner-f018-completion.ts",
+    "variable": "PRE",
+    "sha256": "31f6f347889c04b842b636b5db1e8cc3bb372345f03c9921fe8ccec8452ac787",
+    "literalBytes": 208497,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/31/31f6f347889c04b842b636b5db1e8cc3bb372345f03c9921fe8ccec8452ac787.json",
+    "bytes": 208497
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/owner-f131-completion.ts",
+    "variable": "SOURCE",
+    "sha256": "dba31ca4657930dbc1c3752af627327aa787cb9dae4d56afb616bc6bdaa32d74",
+    "literalBytes": 228688,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/db/dba31ca4657930dbc1c3752af627327aa787cb9dae4d56afb616bc6bdaa32d74.json",
+    "bytes": 228688
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/owner-f131-completion.ts",
+    "variable": "DISPLAY",
+    "sha256": "eecbb8e76d12658eb81f31c011e7ef123b42e1eb3df28eee99d36d46d8dd303b",
+    "literalBytes": 1269291,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/ee/eecbb8e76d12658eb81f31c011e7ef123b42e1eb3df28eee99d36d46d8dd303b.json",
+    "bytes": 1269291
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/owner-f126-completion.ts",
+    "variable": "SOURCE",
+    "sha256": "9dcef25dca7a7fe0f74ff51a79d5d43f0cf5318994b816586326c4c4cf35f4af",
+    "literalBytes": 75799,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/9d/9dcef25dca7a7fe0f74ff51a79d5d43f0cf5318994b816586326c4c4cf35f4af.json",
+    "bytes": 75799
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/owner-f126-completion.ts",
+    "variable": "DISPLAY",
+    "sha256": "db05266fce27c9fc8b4cea96156c855f0eee02ca6854e2f5777ea459539c6135",
+    "literalBytes": 184468,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/db/db05266fce27c9fc8b4cea96156c855f0eee02ca6854e2f5777ea459539c6135.json",
+    "bytes": 184468
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/owner-f122-completion.ts",
+    "variable": "SOURCE",
+    "sha256": "13a4703a675b0471e38e01e436a319ec92b729c5498d909a222a0f1e125a7112",
+    "literalBytes": 171637,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/13/13a4703a675b0471e38e01e436a319ec92b729c5498d909a222a0f1e125a7112.json",
+    "bytes": 171637
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/owner-f122-completion.ts",
+    "variable": "DISPLAY",
+    "sha256": "8bb1a67008d043539a99d9c1a1ce0932521db696f3696730a9911b4bd95e3652",
+    "literalBytes": 661520,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/8b/8bb1a67008d043539a99d9c1a1ce0932521db696f3696730a9911b4bd95e3652.json",
+    "bytes": 661520
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/owner-f128-completion.ts",
+    "variable": "DISPLAY",
+    "sha256": "45eba0438e31c193ada93b97c0eeab1b271f8e793ceee9aadb1d27978e3b84b3",
+    "literalBytes": 100585,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/45/45eba0438e31c193ada93b97c0eeab1b271f8e793ceee9aadb1d27978e3b84b3.json",
+    "bytes": 100585
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/owner-f088-completion.ts",
+    "variable": "DISPLAY",
+    "sha256": "0e92f8d6c9f797e8bcc1581594e567bdfe2f3da362e76dc2bd1b44f3f614fdce",
+    "literalBytes": 255626,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/0e/0e92f8d6c9f797e8bcc1581594e567bdfe2f3da362e76dc2bd1b44f3f614fdce.json",
+    "bytes": 255626
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/owner-f116-completion.ts",
+    "variable": "DISPLAY",
+    "sha256": "b06ff7fb98a894433fc54b4d83cf982de04ed390c5464c80023117f4705cb604",
+    "literalBytes": 90216,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/b0/b06ff7fb98a894433fc54b4d83cf982de04ed390c5464c80023117f4705cb604.json",
+    "bytes": 90216
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/owner-f081-completion.ts",
+    "variable": "SOURCE",
+    "sha256": "9397abd4e522e3ab44b16e4c0178c1fb79bd44f0641fb30d24a75255db59100f",
+    "literalBytes": 464156,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/93/9397abd4e522e3ab44b16e4c0178c1fb79bd44f0641fb30d24a75255db59100f.json",
+    "bytes": 464156
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/owner-f081-completion.ts",
+    "variable": "DISPLAY",
+    "sha256": "5450b66f7259792c0020f77052a46116baabda13f6be209af1e07063a40635b8",
+    "literalBytes": 826733,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/54/5450b66f7259792c0020f77052a46116baabda13f6be209af1e07063a40635b8.json",
+    "bytes": 826733
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/owner-f077-completion.ts",
+    "variable": "DISPLAY",
+    "sha256": "2dc66d466d4c94075e928cd5fbca0d81919f1b4b8073a0e0d4500c835e576114",
+    "literalBytes": 4425533,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/2d/2dc66d466d4c94075e928cd5fbca0d81919f1b4b8073a0e0d4500c835e576114.json",
+    "bytes": 4425533
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/owner-f077-completion.ts",
+    "variable": "FRAMES",
+    "sha256": "d00e86e6f733c7f507b61b4fe87a4b9ffd0f0fb89fbc186149efbfd4f8400cd9",
+    "literalBytes": 1195809,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/d0/d00e86e6f733c7f507b61b4fe87a4b9ffd0f0fb89fbc186149efbfd4f8400cd9.json",
+    "bytes": 1195809
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/owner-f077-completion.ts",
+    "variable": "PAINT",
+    "sha256": "cd47f076985ba11d20b8f0f53eaa50bc9b89c5df0774a7a319b29d375ecc5179",
+    "literalBytes": 569818,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/cd/cd47f076985ba11d20b8f0f53eaa50bc9b89c5df0774a7a319b29d375ecc5179.json",
+    "bytes": 569818
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-hbf075-data.ts",
+    "variable": "HBF075_ROWS",
+    "sha256": "f48f98edb9fe579ebadc724a8fe74f6590b786ffacb81435467c4e718f502978",
+    "literalBytes": 7180857,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/f4/f48f98edb9fe579ebadc724a8fe74f6590b786ffacb81435467c4e718f502978.json",
+    "bytes": 7180857
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-synagoge-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "884a5230c8385146354e876296f429bc1d5e99da2f7f58a977eaa8a53d362ecc",
+    "literalBytes": 845146,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/88/884a5230c8385146354e876296f429bc1d5e99da2f7f58a977eaa8a53d362ecc.json",
+    "bytes": 845146
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-synagoge-reconstruction.ts",
+    "variable": "SOURCE_SHARD",
+    "sha256": "430157f3e3cca56f8100e852ba513f4e492392c2c281f68cd25813ce178542ce",
+    "literalBytes": 224593,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/43/430157f3e3cca56f8100e852ba513f4e492392c2c281f68cd25813ce178542ce.json",
+    "bytes": 224593
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-essen-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "e71eb51d1b047dae0f69defd40dc86cbb4d77cf6b0dfacb165f27553221b1e45",
+    "literalBytes": 155745,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/e7/e71eb51d1b047dae0f69defd40dc86cbb4d77cf6b0dfacb165f27553221b1e45.json",
+    "bytes": 155745
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-philharmonie-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "acf5ba08fcfd80bed5324c0dc2df3a0225ed8a9f3129c619f1daab132b779cf2",
+    "literalBytes": 107104,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/ac/acf5ba08fcfd80bed5324c0dc2df3a0225ed8a9f3129c619f1daab132b779cf2.json",
+    "bytes": 107104
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-stuttgart-katharina.ts",
+    "variable": "DISPLAY",
+    "sha256": "58ae798da0318682c697550c7686131b523ee429c8cf0c8fb957dea6fa8511bc",
+    "literalBytes": 72931,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/58/58ae798da0318682c697550c7686131b523ee429c8cf0c8fb957dea6fa8511bc.json",
+    "bytes": 72931
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-stuttgart-hmdk.ts",
+    "variable": "DISPLAY",
+    "sha256": "1c52407d411654c9d9057c0be1f6e701d4a2ec0c816ec1a95974bc80051eac55",
+    "literalBytes": 2879775,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/1c/1c52407d411654c9d9057c0be1f6e701d4a2ec0c816ec1a95974bc80051eac55.json",
+    "bytes": 2879775
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-stuttgart-gustav.ts",
+    "variable": "DISPLAY",
+    "sha256": "7871b70bab080e541033278899a939ea388094c8aea0caed50f1af1cdd05e611",
+    "literalBytes": 230018,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/78/7871b70bab080e541033278899a939ea388094c8aea0caed50f1af1cdd05e611.json",
+    "bytes": 230018
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-stuttgart-koenigsbau-passagen.ts",
+    "variable": "DISPLAY",
+    "sha256": "e9af1f8aaecd6d9f43102ac5344f3b5d9efb9b0a98d760e2e5cbf3532a1abf4d",
+    "literalBytes": 200504,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/e9/e9af1f8aaecd6d9f43102ac5344f3b5d9efb9b0a98d760e2e5cbf3532a1abf4d.json",
+    "bytes": 200504
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-stuttgart-schauspielhaus.ts",
+    "variable": "DISPLAY",
+    "sha256": "27cfa05474a44c35cd9ba9e0219cc74fe315fc10b7d4395faff53d304a4e9572",
+    "literalBytes": 255330,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/27/27cfa05474a44c35cd9ba9e0219cc74fe315fc10b7d4395faff53d304a4e9572.json",
+    "bytes": 255330
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-colosseo-data.ts",
+    "variable": "COLOSSEO_DATA",
+    "sha256": "64a2e55ebdba2f5215373744b7570eb4f2526b613c3d4df35a416a26c5f38987",
+    "literalBytes": 4399682,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/64/64a2e55ebdba2f5215373744b7570eb4f2526b613c3d4df35a416a26c5f38987.json",
+    "bytes": 4399682
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-main-plaza-data.ts",
+    "variable": "MAIN_PLAZA_DATA",
+    "sha256": "c0e71dd8105d4748872ec097b42a2ebb8093b24c8c2d98278b8c9d5d93295341",
+    "literalBytes": 497463,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/c0/c0e71dd8105d4748872ec097b42a2ebb8093b24c8c2d98278b8c9d5d93295341.json",
+    "bytes": 497463
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-messeturm-data.ts",
+    "variable": "MESSETURM_DATA",
+    "sha256": "3855be2a6e9815457edb180d502827d466a2431ff1b683651651376c6e9c2d2e",
+    "literalBytes": 375974,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/38/3855be2a6e9815457edb180d502827d466a2431ff1b683651651376c6e9c2d2e.json",
+    "bytes": 375974
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-ecb.ts",
+    "variable": "DISPLAY",
+    "sha256": "af3e13e1cd8e809523025cf8f259ce8cba824c22f5e14bb5d2a6935d51d0977b",
+    "literalBytes": 905067,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/af/af3e13e1cd8e809523025cf8f259ce8cba824c22f5e14bb5d2a6935d51d0977b.json",
+    "bytes": 905067
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-stuttgart-wlb-extension.ts",
+    "variable": "DISPLAY",
+    "sha256": "bc811b7bc5fcf7eced57a914d31625f4937c5916d6246cdcaaf9b9ff94048a5f",
+    "literalBytes": 434389,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/bc/bc811b7bc5fcf7eced57a914d31625f4937c5916d6246cdcaaf9b9ff94048a5f.json",
+    "bytes": 434389
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-stuttgart-wlb-old.ts",
+    "variable": "DISPLAY",
+    "sha256": "79748f5030b671f32c3b4f6033b5b3b88033c58fa8be93b8e2f112f7a79ee145",
+    "literalBytes": 105779,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/79/79748f5030b671f32c3b4f6033b5b3b88033c58fa8be93b8e2f112f7a79ee145.json",
+    "bytes": 105779
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-stuttgart-koenigsbau-repair.ts",
+    "variable": "DISPLAY",
+    "sha256": "f404174fe8cf49098998e88a339d9e383433043b631f39391e88b0342b8e03d8",
+    "literalBytes": 4127679,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/f4/f404174fe8cf49098998e88a339d9e383433043b631f39391e88b0342b8e03d8.json",
+    "bytes": 4127679
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-stuttgart-graf-rear.ts",
+    "variable": "DISPLAY",
+    "sha256": "8ea1605c41f10bbe1be0ceb2135098a5784294623865c8098efdd396430db77f",
+    "literalBytes": 175065,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/8e/8ea1605c41f10bbe1be0ceb2135098a5784294623865c8098efdd396430db77f.json",
+    "bytes": 175065
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-stuttgart-graf-geiss.ts",
+    "variable": "DISPLAY",
+    "sha256": "ed977cf90941507c51df5a1e54d348d13fb474f49651c093a835f87214297c4b",
+    "literalBytes": 465065,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/ed/ed977cf90941507c51df5a1e54d348d13fb474f49651c093a835f87214297c4b.json",
+    "bytes": 465065
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-boerse.ts",
+    "variable": "DISPLAY_LIST",
+    "sha256": "6f6d8006a2d316d2fb6e1d74df76a290c1e86486d5ae7dade9ee26b00c7da7d8",
+    "literalBytes": 361163,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/6f/6f6d8006a2d316d2fb6e1d74df76a290c1e86486d5ae7dade9ee26b00c7da7d8.json",
+    "bytes": 361163
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-tower185.ts",
+    "variable": "DISPLAY_LIST",
+    "sha256": "c22de2ff3b4c4468226931b4129393bcef97338f803d62186aff19fb273e6129",
+    "literalBytes": 189018,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/c2/c22de2ff3b4c4468226931b4129393bcef97338f803d62186aff19fb273e6129.json",
+    "bytes": 189018
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-fbc-data.ts",
+    "variable": "FBC_DATA",
+    "sha256": "6ac3a9530ee86a9ccbecbaf642a67371bf1ed44ad774eef36df70a8392874399",
+    "literalBytes": 214034,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/6a/6ac3a9530ee86a9ccbecbaf642a67371bf1ed44ad774eef36df70a8392874399.json",
+    "bytes": 214034
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-trianon-data.ts",
+    "variable": "TRIANON_DATA",
+    "sha256": "d3327594651eef7a62f96056a3e30f91be5d590caa188dbbd89b3bcd200a7f47",
+    "literalBytes": 104486,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/d3/d3327594651eef7a62f96056a3e30f91be5d590caa188dbbd89b3bcd200a7f47.json",
+    "bytes": 104486
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-westend1.ts",
+    "variable": "DISPLAY_LIST",
+    "sha256": "e022d4806497772c05f994008766c58182c3a395645e4ad3053017026d9c445b",
+    "literalBytes": 185160,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/e0/e022d4806497772c05f994008766c58182c3a395645e4ad3053017026d9c445b.json",
+    "bytes": 185160
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-deutsche-bank-data.ts",
+    "variable": "DB_DATA",
+    "sha256": "b01705b3b18db9c4c3565e9edbc9a8a9f3df41d2439d1efe9ed519992e559f7e",
+    "literalBytes": 2172297,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/b0/b01705b3b18db9c4c3565e9edbc9a8a9f3df41d2439d1efe9ed519992e559f7e.json",
+    "bytes": 2172297
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-nextower-data.ts",
+    "variable": "NEXTOWER_DATA",
+    "sha256": "7c060fabfbf09e8c9863bf9c2b219f72ac30c8b5fdad466f0bfa49d2ab3da94e",
+    "literalBytes": 130299,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/7c/7c060fabfbf09e8c9863bf9c2b219f72ac30c8b5fdad466f0bfa49d2ab3da94e.json",
+    "bytes": 130299
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-myzeil.ts",
+    "variable": "DISPLAY_LIST",
+    "sha256": "9ffe2718c05d4d1415ee1104f54ba85a450a41e751b2a2f418fd21caf24177c7",
+    "literalBytes": 2257226,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/9f/9ffe2718c05d4d1415ee1104f54ba85a450a41e751b2a2f418fd21caf24177c7.json",
+    "bytes": 2257226
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-westendgate-data.ts",
+    "variable": "WESTENDGATE_DATA",
+    "sha256": "c26587aba1ebcf3df23cd7c24da4280698faa80e1f70fdcf081e2f4d8f55f2a1",
+    "literalBytes": 289273,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/c2/c26587aba1ebcf3df23cd7c24da4280698faa80e1f70fdcf081e2f4d8f55f2a1.json",
+    "bytes": 289273
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-boersenplatz-block.ts",
+    "variable": "DISPLAY_LIST",
+    "sha256": "2cc40524aee81a87c1d98335f90c5de643c6f85595b36ab6d4ffea2dc63920ba",
+    "literalBytes": 1092363,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/2c/2cc40524aee81a87c1d98335f90c5de643c6f85595b36ab6d4ffea2dc63920ba.json",
+    "bytes": 1092363
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-one.ts",
+    "variable": "DISPLAY_LIST",
+    "sha256": "7f8dd1671f98e5f66ddb7a4d70c938fee3cb3c37ccd2d9c0989895fa694cfbc3",
+    "literalBytes": 209904,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/7f/7f8dd1671f98e5f66ddb7a4d70c938fee3cb3c37ccd2d9c0989895fa694cfbc3.json",
+    "bytes": 209904
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-spin-data.ts",
+    "variable": "SPIN_DATA",
+    "sha256": "24fc58c8902bb69479d6c4654d5f184554c45b1fb8f9880b89a5d48b919d1aba",
+    "literalBytes": 166607,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/24/24fc58c8902bb69479d6c4654d5f184554c45b1fb8f9880b89a5d48b919d1aba.json",
+    "bytes": 166607
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-opernturm.ts",
+    "variable": "DISPLAY_LIST",
+    "sha256": "c5d4c60e34c637f3a316a0e94af8727c076a1b7e64c558d1a62632f8ce988e83",
+    "literalBytes": 79879,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/c5/c5d4c60e34c637f3a316a0e94af8727c076a1b7e64c558d1a62632f8ce988e83.json",
+    "bytes": 79879
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-stuttgart-jubilaeumssaeule.ts",
+    "variable": "DISPLAY",
+    "sha256": "7602ab59658d63598a40f41e4c808f6393b7552d581add63ac20f521add0aba3",
+    "literalBytes": 610683,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/76/7602ab59658d63598a40f41e4c808f6393b7552d581add63ac20f521add0aba3.json",
+    "bytes": 610683
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-eurotower.ts",
+    "variable": "DISPLAY",
+    "sha256": "3466996db3144dd1871d28486806c9dd3ac0278730f4475d5423d7633eb67b4d",
+    "literalBytes": 119549,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/34/3466996db3144dd1871d28486806c9dd3ac0278730f4475d5423d7633eb67b4d.json",
+    "bytes": 119549
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-skyper-data.ts",
+    "variable": "SKYPER_DATA",
+    "sha256": "a55250880957ed0bf9cf1e62f0f84690d63785bd9ce8427424f35ab3cd8728d7",
+    "literalBytes": 368999,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/a5/a55250880957ed0bf9cf1e62f0f84690d63785bd9ce8427424f35ab3cd8728d7.json",
+    "bytes": 368999
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-stuttgart-graf-west-measured.ts",
+    "variable": "SOURCE",
+    "sha256": "357a6c50c512f673a521f6bd3614f4c5eac72b6b8c2100b663106fdfebabecf1",
+    "literalBytes": 113271,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/35/357a6c50c512f673a521f6bd3614f4c5eac72b6b8c2100b663106fdfebabecf1.json",
+    "bytes": 113271
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-stuttgart-graf-west-measured.ts",
+    "variable": "DISPLAY",
+    "sha256": "b586427dd0ba89587372214546fd604d2a52592e7992e163d951531a676c763c",
+    "literalBytes": 851824,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/b5/b586427dd0ba89587372214546fd604d2a52592e7992e163d951531a676c763c.json",
+    "bytes": 851824
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-stuttgart-graf-courtyard-measured.ts",
+    "variable": "DISPLAY",
+    "sha256": "8b1d5d54b426235f2abe01f45c2276a52ec8adb9ca9a9030216c21be7c652c30",
+    "literalBytes": 194062,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/8b/8b1d5d54b426235f2abe01f45c2276a52ec8adb9ca9a9030216c21be7c652c30.json",
+    "bytes": 194062
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-essen-rabbinerhaus.ts",
+    "variable": "DISPLAY_LIST",
+    "sha256": "682b5978af7d653c1da52da9f73f5258a2ac2b39638b9a11c19b2c67813f68e7",
+    "literalBytes": 109219,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/68/682b5978af7d653c1da52da9f73f5258a2ac2b39638b9a11c19b2c67813f68e7.json",
+    "bytes": 109219
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-essen-rathaus-galerie.ts",
+    "variable": "DISPLAY_LIST",
+    "sha256": "fbf21988fd24e9d63197feeaf15da5f3085bb7e331546adadff2ffdbad45215a",
+    "literalBytes": 5278243,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/fb/fbf21988fd24e9d63197feeaf15da5f3085bb7e331546adadff2ffdbad45215a.json",
+    "bytes": 5278243
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-essen-rathaus-galerie.ts",
+    "variable": "SOURCE_SHARD",
+    "sha256": "ef6aa3af04f88158d20d51e6dad903876e4f6895f14dca1388533bc0667bbb26",
+    "literalBytes": 71642,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/ef/ef6aa3af04f88158d20d51e6dad903876e4f6895f14dca1388533bc0667bbb26.json",
+    "bytes": 71642
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-essen-st-johann.ts",
+    "variable": "DISPLAY_LIST",
+    "sha256": "894d2263734ed5dd991d31ee770706a8e1649092f29f05ca736d2841cc1fe51a",
+    "literalBytes": 460442,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/89/894d2263734ed5dd991d31ee770706a8e1649092f29f05ca736d2841cc1fe51a.json",
+    "bytes": 460442
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-low-office-data.ts",
+    "variable": "LOW_OFFICE_DATA",
+    "sha256": "5e99a3a25631ad35b690daed80f7f7ee7aec13d27dd8d2254a81604de9c4e43d",
+    "literalBytes": 17561391,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/5e/5e99a3a25631ad35b690daed80f7f7ee7aec13d27dd8d2254a81604de9c4e43d.json",
+    "bytes": 17561391
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-low-office-batch2-data.ts",
+    "variable": "LOW_OFFICE_DATA",
+    "sha256": "feaa25662d534db22df2f4d8d4908e2b3b19f0ed3981b483caab6abb5be0acbb",
+    "literalBytes": 2622237,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/fe/feaa25662d534db22df2f4d8d4908e2b3b19f0ed3981b483caab6abb5be0acbb.json",
+    "bytes": 2622237
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-low-office-k26-data.ts",
+    "variable": "LOW_OFFICE_DATA",
+    "sha256": "07f4e96f56ecba998e80822b090b434961f6b3644b7f59b60177ddc666666534",
+    "literalBytes": 72090,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/07/07f4e96f56ecba998e80822b090b434961f6b3644b7f59b60177ddc666666534.json",
+    "bytes": 72090
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-maro74-data.ts",
+    "variable": "LOW_OFFICE_DATA",
+    "sha256": "bc85ebe0967b9ae0aea35faa0da24be0ba4b3f1828c38bdc7c240eab633064f2",
+    "literalBytes": 164382,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/bc/bc85ebe0967b9ae0aea35faa0da24be0ba4b3f1828c38bdc7c240eab633064f2.json",
+    "bytes": 164382
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-schneider076-data.ts",
+    "variable": "SCHNEIDER076_DATA",
+    "sha256": "c0de20d418f67403d38dce691ee60c0883f739a5851a79da63722aa87a56fb2c",
+    "literalBytes": 6080338,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/c0/c0de20d418f67403d38dce691ee60c0883f739a5851a79da63722aa87a56fb2c.json",
+    "bytes": 6080338
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-low-office-bulk70-data.ts",
+    "variable": "LOW_OFFICE_DATA",
+    "sha256": "579c18a51df9cc16083ff4de6ca02e456692fefb5ce869bdee36b3a0fa63d66e",
+    "literalBytes": 48529632,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/57/579c18a51df9cc16083ff4de6ca02e456692fefb5ce869bdee36b3a0fa63d66e.json",
+    "bytes": 48529632
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-ml41-signaris-data.ts",
+    "variable": "LOW_OFFICE_DATA",
+    "sha256": "fa5f4727a2678164313b3669b341e87af324313f13c1aa0d7a84c31d9500ec25",
+    "literalBytes": 909754,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/fa/fa5f4727a2678164313b3669b341e87af324313f13c1aa0d7a84c31d9500ec25.json",
+    "bytes": 909754
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-vci051-data.ts",
+    "variable": "LOW_OFFICE_DATA",
+    "sha256": "024b2add1a236edd82f12e655b4f092ef498b77d8b7c213331b65cfe0fd2638c",
+    "literalBytes": 663778,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/02/024b2add1a236edd82f12e655b4f092ef498b77d8b7c213331b65cfe0fd2638c.json",
+    "bytes": 663778
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-kettenhof065-data.ts",
+    "variable": "LOW_OFFICE_DATA",
+    "sha256": "e01998eee12ad0f18b6ee45c77e80b6a88894abe34f1933354d9078fcbc1002e",
+    "literalBytes": 125141,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/e0/e01998eee12ad0f18b6ee45c77e80b6a88894abe34f1933354d9078fcbc1002e.json",
+    "bytes": 125141
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-goethe34-data.ts",
+    "variable": "GOETHE34_DATA",
+    "sha256": "f37332afb47d4fa7d1023060be8dbecf1cb8059d6e0ff14abb1a88a9823e25d0",
+    "literalBytes": 627244,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/f3/f37332afb47d4fa7d1023060be8dbecf1cb8059d6e0ff14abb1a88a9823e25d0.json",
+    "bytes": 627244
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-stuttgart-eberhard-historical.ts",
+    "variable": "DISPLAY",
+    "sha256": "d4b24f353e6e59ca785ee809cd0bdfb0e1a3f8c6f96f3094c49d87954498a1ff",
+    "literalBytes": 241883,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/d4/d4b24f353e6e59ca785ee809cd0bdfb0e1a3f8c6f96f3094c49d87954498a1ff.json",
+    "bytes": 241883
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-f288-original.ts",
+    "variable": "SOURCE",
+    "sha256": "6d01a7c7db79b5b82f89e1a7dba969e06958429c15f513c16da694d6ce677203",
+    "literalBytes": 240279,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/6d/6d01a7c7db79b5b82f89e1a7dba969e06958429c15f513c16da694d6ce677203.json",
+    "bytes": 240279
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-f288-original.ts",
+    "variable": "DERIVED",
+    "sha256": "b09a14f93af08c85f57e1897b06b277a63bde2d86ac9b7f6d975bc6a9c59ad06",
+    "literalBytes": 1003360,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/b0/b09a14f93af08c85f57e1897b06b277a63bde2d86ac9b7f6d975bc6a9c59ad06.json",
+    "bytes": 1003360
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-bockenheimer084-data.ts",
+    "variable": "LOW_OFFICE_DATA",
+    "sha256": "a6ce1214faf70552dc3976b975de5eab5697234c51774ed7e025a6c8364fb2a8",
+    "literalBytes": 586712,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/a6/a6ce1214faf70552dc3976b975de5eab5697234c51774ed7e025a6c8364fb2a8.json",
+    "bytes": 586712
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-junghof088-data.ts",
+    "variable": "LOW_OFFICE_DATA",
+    "sha256": "38117f39c693dd0efb8b4995c9d31448ca5a0a8514ca9287cb0fc493ce8678e2",
+    "literalBytes": 7614515,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/38/38117f39c693dd0efb8b4995c9d31448ca5a0a8514ca9287cb0fc493ce8678e2.json",
+    "bytes": 7614515
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/c032-official-data.ts",
+    "variable": "C032_OFFICIAL_BATCH",
+    "sha256": "5700f80de1ee690e7d942a3da9693d13e4f42d11638f509a7e83035453982406",
+    "literalBytes": 362883,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/57/5700f80de1ee690e7d942a3da9693d13e4f42d11638f509a7e83035453982406.json",
+    "bytes": 362883
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/c032-original-admissions.ts",
+    "variable": "PROGRESSIVE_ADMISSIONS",
+    "sha256": "1ad26874c7a52a4f5a5419e24a60785d90aa87a1bf4787de699a6acba73b177a",
+    "literalBytes": 74860,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/1a/1ad26874c7a52a4f5a5419e24a60785d90aa87a1bf4787de699a6acba73b177a.json",
+    "bytes": 74860
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/marienturm-specific-data.ts",
+    "variable": "MARIENTURM050_DATA",
+    "sha256": "a10e9bc3b793ddfe1a4ec2620d7b2fde576950efd2eff677cc9b71fa47716d05",
+    "literalBytes": 102338,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/a1/a10e9bc3b793ddfe1a4ec2620d7b2fde576950efd2eff677cc9b71fa47716d05.json",
+    "bytes": 102338
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-omniturm-data.ts",
+    "variable": "OMNITURM_DATA",
+    "sha256": "b2deef6f56e54183b1121b2c143f92fae515fd2def53d2d0b6b9903b0a837483",
+    "literalBytes": 341676,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/b2/b2deef6f56e54183b1121b2c143f92fae515fd2def53d2d0b6b9903b0a837483.json",
+    "bytes": 341676
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-silberturm-full051-data.ts",
+    "variable": "SILBERTURM_DISPLAY_050",
+    "sha256": "44025c321657fc90b9fc058e96da0c760cfe4624b328e02ad76f5acf66a7e98f",
+    "literalBytes": 1082410,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/44/44025c321657fc90b9fc058e96da0c760cfe4624b328e02ad76f5acf66a7e98f.json",
+    "bytes": 1082410
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-silberturm-full051-reconstruction.ts",
+    "variable": "SOURCE",
+    "sha256": "f79b08c9af2ee2f68d27faec7de0c3720fd797ce6f9a03e5afe926eb123f51af",
+    "literalBytes": 108286,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/f7/f79b08c9af2ee2f68d27faec7de0c3720fd797ce6f9a03e5afe926eb123f51af.json",
+    "bytes": 108286
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-silberturm-full051-reconstruction.ts",
+    "variable": "DISPLAY",
+    "sha256": "75ca031fc03795f03e4ead934e2b1fe932ae9b6fb117477198a7f30d4a913d29",
+    "literalBytes": 1991326,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/75/75ca031fc03795f03e4ead934e2b1fe932ae9b6fb117477198a7f30d4a913d29.json",
+    "bytes": 1991326
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-japan-center.ts",
+    "variable": "DISPLAY_LIST",
+    "sha256": "d73f3946c6787edabc9b0efb944e8455eaa9fd70617e336d7cc38150a4bb129b",
+    "literalBytes": 103397,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/d7/d73f3946c6787edabc9b0efb944e8455eaa9fd70617e336d7cc38150a4bb129b.json",
+    "bytes": 103397
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-jw-marriott-data.ts",
+    "variable": "JW_MARRIOTT_DATA",
+    "sha256": "5fcad8d2423494ef51f7066649387e7e7e27a988635bb363798bf71c7b372cc7",
+    "literalBytes": 202867,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/5f/5fcad8d2423494ef51f7066649387e7e7e27a988635bb363798bf71c7b372cc7.json",
+    "bytes": 202867
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/main11369-display-data058.ts",
+    "variable": "MAIN11369_DISPLAY_DATA058",
+    "sha256": "bbef8c9a0953528b2a5aa2dcc1ab325cd1620d0d8856051e8d0ca6afde7585a5",
+    "literalBytes": 93077,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/bb/bbef8c9a0953528b2a5aa2dcc1ab325cd1620d0d8856051e8d0ca6afde7585a5.json",
+    "bytes": 93077
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/commerzbank-podium-official060-data.ts",
+    "variable": "COMMERZBANK_PODIUM_OFFICIAL_DATA060",
+    "sha256": "6b4a7af38918f63bb5f77beb2a97013319d825df910678acf22002e8fa8871fc",
+    "literalBytes": 104715,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/6b/6b4a7af38918f63bb5f77beb2a97013319d825df910678acf22002e8fa8871fc.json",
+    "bytes": 104715
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/kaiser18-official064-data.ts",
+    "variable": "KAISER18_OFFICIAL_DATA064",
+    "sha256": "0b5c2077b443c23aaecc78c1ed95375c8c1738dcff68904de2e13c165cef3109",
+    "literalBytes": 84021,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/0b/0b5c2077b443c23aaecc78c1ed95375c8c1738dcff68904de2e13c165cef3109.json",
+    "bytes": 84021
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/commerzbank-fan-official066-data.ts",
+    "variable": "COMMERZBANK_FAN_OFFICIAL_DATA066",
+    "sha256": "3829c114143c70939cd4510229ee9fbb2f1ea1db69febe1a411401352576083d",
+    "literalBytes": 1063576,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/38/3829c114143c70939cd4510229ee9fbb2f1ea1db69febe1a411401352576083d.json",
+    "bytes": 1063576
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-globaltower071-data.ts",
+    "variable": "GLOBAL_TOWER_OFFICIAL_DATA071",
+    "sha256": "28c63427a9a4a865a0de53a003038febe2cefae96831c5e215a4c4db985191d1",
+    "literalBytes": 1103192,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/28/28c63427a9a4a865a0de53a003038febe2cefae96831c5e215a4c4db985191d1.json",
+    "bytes": 1103192
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/infill-frankfurt-office-principals069-data.ts",
+    "variable": "FRANKFURT_OFFICE_PRINCIPALS_DATA069",
+    "sha256": "105cec6479b4f08a501732b22abf2476db0aeabbfb8fb19431b8ff8c19f026f1",
+    "literalBytes": 100559,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/10/105cec6479b4f08a501732b22abf2476db0aeabbfb8fb19431b8ff8c19f026f1.json",
+    "bytes": 100559
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/weststrip253-measured067-data.ts",
+    "variable": "WESTSTRIP253_DATA067",
+    "sha256": "a07b94e9e38a99a0e94e3b8f7141542327950f8318b331bf1fdfbb81ab3eb558",
+    "literalBytes": 287233,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/a0/a07b94e9e38a99a0e94e3b8f7141542327950f8318b331bf1fdfbb81ab3eb558.json",
+    "bytes": 287233
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/hausdom-official070-data.ts",
+    "variable": "HAUSDOM_OFFICIAL_DATA070",
+    "sha256": "97cf135a5409422ed549882b8ef805c5bf6b3162377401e9b218b7c3d8e29c09",
+    "literalBytes": 232340,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/97/97cf135a5409422ed549882b8ef805c5bf6b3162377401e9b218b7c3d8e29c09.json",
+    "bytes": 232340
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/ecb-press072-data.ts",
+    "variable": "ECB_PRESS_DATA072",
+    "sha256": "076665149434c87f4799124aa75c50c1090657df5ccdfaae6dc30de9041dac97",
+    "literalBytes": 67045,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/07/076665149434c87f4799124aa75c50c1090657df5ccdfaae6dc30de9041dac97.json",
+    "bytes": 67045
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/katharinen149-official070-data.ts",
+    "variable": "FRA149_OFFICIAL_DATA070",
+    "sha256": "fc525ea5c7c4f1401674434ac18dea84b93b9139eca07c9ac59058a5d1774caf",
+    "literalBytes": 1363412,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/fc/fc525ea5c7c4f1401674434ac18dea84b93b9139eca07c9ac59058a5d1774caf.json",
+    "bytes": 1363412
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/senckenberg-selected074-data.ts",
+    "variable": "SENCKENBERG_SELECTED_DATA074",
+    "sha256": "475f7f4edb9d0867bb4a490f2cd7f08ba2874178e88767f414332e62648f489d",
+    "literalBytes": 1514014,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/47/475f7f4edb9d0867bb4a490f2cd7f08ba2874178e88767f414332e62648f489d.json",
+    "bytes": 1514014
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/ecb-ancillary073-data.ts",
+    "variable": "ECB_ANCILLARY_DATA073",
+    "sha256": "83207d7c82e2cebf65c8394b3de43947c980abdadc79eaa19ef165dfcb057105",
+    "literalBytes": 516616,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/83/83207d7c82e2cebf65c8394b3de43947c980abdadc79eaa19ef165dfcb057105.json",
+    "bytes": 516616
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/katharinen149-edge075-data.ts",
+    "variable": "KATHARINEN149_EDGE_DATA075",
+    "sha256": "df82c1d84d2426cbf6f2113044fec1f4805918233f73028e76935569d8f9d160",
+    "literalBytes": 943976,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/df/df82c1d84d2426cbf6f2113044fec1f4805918233f73028e76935569d8f9d160.json",
+    "bytes": 943976
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/frankfurt-groups144146-official073-data.ts",
+    "variable": "FRANKFURT_GROUPS144146_NATIVE073",
+    "sha256": "bf14b4159a54ec060cb42fff468d2298982cfa02f7b8181dc88343559096c6ca",
+    "literalBytes": 80093,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/bf/bf14b4159a54ec060cb42fff468d2298982cfa02f7b8181dc88343559096c6ca.json",
+    "bytes": 80093
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/frankfurt-groups144146-official073-data.ts",
+    "variable": "FRANKFURT_GROUPS144146_DATA073",
+    "sha256": "e4fd8288fc7fc75d46cdb7103bb677e50987b050911300d7e770369c36aef89e",
+    "literalBytes": 3656205,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/e4/e4fd8288fc7fc75d46cdb7103bb677e50987b050911300d7e770369c36aef89e.json",
+    "bytes": 3656205
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/garden-aggregate086-data.ts",
+    "variable": "GARDEN_AGGREGATE086_ROWS",
+    "sha256": "9846d0a79ba8111c0ab42fa0052203fdd96a0ce32a3e862806dcee8559621a51",
+    "literalBytes": 83681,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/98/9846d0a79ba8111c0ab42fa0052203fdd96a0ce32a3e862806dcee8559621a51.json",
+    "bytes": 83681
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/gallusanlage8-children089-data.ts",
+    "variable": "GALLUSANLAGE8_CHILDREN_ROWS089",
+    "sha256": "fec4677d14076756bcf2fb90ba195e64148b8182e60b05074f0772dd8af97912",
+    "literalBytes": 74338,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/fe/fec4677d14076756bcf2fb90ba195e64148b8182e60b05074f0772dd8af97912.json",
+    "bytes": 74338
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/messe-native-children102-data.ts",
+    "variable": "MESSE_CHILD_SOURCES102",
+    "sha256": "f6ac163d272b9cb106edf48efb15a2780c8b28432a5853e04c464de933f88a52",
+    "literalBytes": 121467,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/f6/f6ac163d272b9cb106edf48efb15a2780c8b28432a5853e04c464de933f88a52.json",
+    "bytes": 121467
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/handelshof-balconies103-data.ts",
+    "variable": "HANDELSHOF_BALCONIES103_DATA",
+    "sha256": "79211c514ba7e3169c35b255bc7076a546b390617ede3aeed6f6ff70a0aa9233",
+    "literalBytes": 150202,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/79/79211c514ba7e3169c35b255bc7076a546b390617ede3aeed6f6ff70a0aa9233.json",
+    "bytes": 150202
+  },
+  {
+    "provider": "infill",
+    "path": "web/src/painted/infill/safety/f058-upper-paint312.ts",
+    "variable": "FRAMES",
+    "sha256": "a86a8b6e6e2e555523035abd950bda826992a0bc1486ea424afad7de0a45a65b",
+    "literalBytes": 148757,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/a8/a86a8b6e6e2e555523035abd950bda826992a0bc1486ea424afad7de0a45a65b.json",
+    "bytes": 148757
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/progressive-paint-admissions.ts",
+    "variable": "PROGRESSIVE_ADMISSIONS",
+    "sha256": "d94bfab58ea8a0cecba91b0180cc362dc4f3e963c00b5a03dba0a56326afbe83",
+    "literalBytes": 13411281,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/d9/d94bfab58ea8a0cecba91b0180cc362dc4f3e963c00b5a03dba0a56326afbe83.json",
+    "bytes": 13411281
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/f260-accepted-restore-data.ts",
+    "variable": "F260_ACCEPTED_RESTORE_DATA",
+    "sha256": "8d40ec6862cdfdf644e66571205506114f4af870a097e51e4ffba18947bea186",
+    "literalBytes": 1034376,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/8d/8d40ec6862cdfdf644e66571205506114f4af870a097e51e4ffba18947bea186.json",
+    "bytes": 1034376
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/progressive-feature-cities.ts",
+    "variable": "PROGRESSIVE_CITY_EXTRA_GLSL",
+    "sha256": "48a9a6aa86b1a9caa9d2f98eb8ff949c48ff7a517ff8a0cadb4ecb9d5dc9fff9",
+    "literalBytes": 2485446,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/48/48a9a6aa86b1a9caa9d2f98eb8ff949c48ff7a517ff8a0cadb4ecb9d5dc9fff9.json",
+    "bytes": 2485446
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/owner-f018-completion.ts",
+    "variable": "SOURCES",
+    "sha256": "6d5aba54634e887289f77ff34a905c0affe12b30667dd6db91acdbe333bc7d98",
+    "literalBytes": 345352,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/6d/6d5aba54634e887289f77ff34a905c0affe12b30667dd6db91acdbe333bc7d98.json",
+    "bytes": 345352
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/owner-f018-completion.ts",
+    "variable": "APPEND",
+    "sha256": "4b348f0bf5a3b4d08242e17ab696bc69170e0c26c351d5d2a035d08fa603e5c2",
+    "literalBytes": 1915724,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/4b/4b348f0bf5a3b4d08242e17ab696bc69170e0c26c351d5d2a035d08fa603e5c2.json",
+    "bytes": 1915724
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/owner-f018-completion.ts",
+    "variable": "OLD",
+    "sha256": "b07260c913d48e75c5593650ea5758c83a336c06e37f310df85aa6444dd562a0",
+    "literalBytes": 208799,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/b0/b07260c913d48e75c5593650ea5758c83a336c06e37f310df85aa6444dd562a0.json",
+    "bytes": 208799
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/owner-f018-completion.ts",
+    "variable": "PRE",
+    "sha256": "31f6f347889c04b842b636b5db1e8cc3bb372345f03c9921fe8ccec8452ac787",
+    "literalBytes": 208497,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/31/31f6f347889c04b842b636b5db1e8cc3bb372345f03c9921fe8ccec8452ac787.json",
+    "bytes": 208497
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/owner-f131-completion.ts",
+    "variable": "SOURCE",
+    "sha256": "dba31ca4657930dbc1c3752af627327aa787cb9dae4d56afb616bc6bdaa32d74",
+    "literalBytes": 228688,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/db/dba31ca4657930dbc1c3752af627327aa787cb9dae4d56afb616bc6bdaa32d74.json",
+    "bytes": 228688
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/owner-f131-completion.ts",
+    "variable": "DISPLAY",
+    "sha256": "eecbb8e76d12658eb81f31c011e7ef123b42e1eb3df28eee99d36d46d8dd303b",
+    "literalBytes": 1269291,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/ee/eecbb8e76d12658eb81f31c011e7ef123b42e1eb3df28eee99d36d46d8dd303b.json",
+    "bytes": 1269291
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/owner-f126-completion.ts",
+    "variable": "SOURCE",
+    "sha256": "9dcef25dca7a7fe0f74ff51a79d5d43f0cf5318994b816586326c4c4cf35f4af",
+    "literalBytes": 75799,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/9d/9dcef25dca7a7fe0f74ff51a79d5d43f0cf5318994b816586326c4c4cf35f4af.json",
+    "bytes": 75799
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/owner-f126-completion.ts",
+    "variable": "DISPLAY",
+    "sha256": "db05266fce27c9fc8b4cea96156c855f0eee02ca6854e2f5777ea459539c6135",
+    "literalBytes": 184468,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/db/db05266fce27c9fc8b4cea96156c855f0eee02ca6854e2f5777ea459539c6135.json",
+    "bytes": 184468
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/owner-f122-completion.ts",
+    "variable": "SOURCE",
+    "sha256": "13a4703a675b0471e38e01e436a319ec92b729c5498d909a222a0f1e125a7112",
+    "literalBytes": 171637,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/13/13a4703a675b0471e38e01e436a319ec92b729c5498d909a222a0f1e125a7112.json",
+    "bytes": 171637
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/owner-f122-completion.ts",
+    "variable": "DISPLAY",
+    "sha256": "8bb1a67008d043539a99d9c1a1ce0932521db696f3696730a9911b4bd95e3652",
+    "literalBytes": 661520,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/8b/8bb1a67008d043539a99d9c1a1ce0932521db696f3696730a9911b4bd95e3652.json",
+    "bytes": 661520
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/owner-f128-completion.ts",
+    "variable": "DISPLAY",
+    "sha256": "45eba0438e31c193ada93b97c0eeab1b271f8e793ceee9aadb1d27978e3b84b3",
+    "literalBytes": 100585,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/45/45eba0438e31c193ada93b97c0eeab1b271f8e793ceee9aadb1d27978e3b84b3.json",
+    "bytes": 100585
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/owner-f088-completion.ts",
+    "variable": "DISPLAY",
+    "sha256": "0e92f8d6c9f797e8bcc1581594e567bdfe2f3da362e76dc2bd1b44f3f614fdce",
+    "literalBytes": 255626,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/0e/0e92f8d6c9f797e8bcc1581594e567bdfe2f3da362e76dc2bd1b44f3f614fdce.json",
+    "bytes": 255626
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/owner-f116-completion.ts",
+    "variable": "DISPLAY",
+    "sha256": "b06ff7fb98a894433fc54b4d83cf982de04ed390c5464c80023117f4705cb604",
+    "literalBytes": 90216,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/b0/b06ff7fb98a894433fc54b4d83cf982de04ed390c5464c80023117f4705cb604.json",
+    "bytes": 90216
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/owner-f081-completion.ts",
+    "variable": "SOURCE",
+    "sha256": "9397abd4e522e3ab44b16e4c0178c1fb79bd44f0641fb30d24a75255db59100f",
+    "literalBytes": 464156,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/93/9397abd4e522e3ab44b16e4c0178c1fb79bd44f0641fb30d24a75255db59100f.json",
+    "bytes": 464156
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/owner-f081-completion.ts",
+    "variable": "DISPLAY",
+    "sha256": "5450b66f7259792c0020f77052a46116baabda13f6be209af1e07063a40635b8",
+    "literalBytes": 826733,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/54/5450b66f7259792c0020f77052a46116baabda13f6be209af1e07063a40635b8.json",
+    "bytes": 826733
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/owner-f077-completion.ts",
+    "variable": "DISPLAY",
+    "sha256": "2dc66d466d4c94075e928cd5fbca0d81919f1b4b8073a0e0d4500c835e576114",
+    "literalBytes": 4425533,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/2d/2dc66d466d4c94075e928cd5fbca0d81919f1b4b8073a0e0d4500c835e576114.json",
+    "bytes": 4425533
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/owner-f077-completion.ts",
+    "variable": "FRAMES",
+    "sha256": "d00e86e6f733c7f507b61b4fe87a4b9ffd0f0fb89fbc186149efbfd4f8400cd9",
+    "literalBytes": 1195809,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/d0/d00e86e6f733c7f507b61b4fe87a4b9ffd0f0fb89fbc186149efbfd4f8400cd9.json",
+    "bytes": 1195809
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/owner-f077-completion.ts",
+    "variable": "PAINT",
+    "sha256": "cd47f076985ba11d20b8f0f53eaa50bc9b89c5df0774a7a319b29d375ecc5179",
+    "literalBytes": 569818,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/cd/cd47f076985ba11d20b8f0f53eaa50bc9b89c5df0774a7a319b29d375ecc5179.json",
+    "bytes": 569818
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/infill-stuttgart-jubilaeumssaeule.ts",
+    "variable": "DISPLAY",
+    "sha256": "7602ab59658d63598a40f41e4c808f6393b7552d581add63ac20f521add0aba3",
+    "literalBytes": 610683,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/76/7602ab59658d63598a40f41e4c808f6393b7552d581add63ac20f521add0aba3.json",
+    "bytes": 610683
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/infill-frankfurt-eurotower.ts",
+    "variable": "DISPLAY",
+    "sha256": "ddb5b0ca9924ea34cbb88a9f9eba65ef0a868d97d2c813a46e5c611a73ba9fa0",
+    "literalBytes": 153961,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/dd/ddb5b0ca9924ea34cbb88a9f9eba65ef0a868d97d2c813a46e5c611a73ba9fa0.json",
+    "bytes": 153961
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/infill-essen-rathaus-galerie.ts",
+    "variable": "DISPLAY_LIST",
+    "sha256": "8e86b1bd41ba3e66019029d0c250717f7a484b88ebebb37b918e08e6f4be1bb6",
+    "literalBytes": 6450367,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/8e/8e86b1bd41ba3e66019029d0c250717f7a484b88ebebb37b918e08e6f4be1bb6.json",
+    "bytes": 6450367
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/infill-essen-rathaus-galerie.ts",
+    "variable": "SOURCE_SHARD",
+    "sha256": "ef6aa3af04f88158d20d51e6dad903876e4f6895f14dca1388533bc0667bbb26",
+    "literalBytes": 71642,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/ef/ef6aa3af04f88158d20d51e6dad903876e4f6895f14dca1388533bc0667bbb26.json",
+    "bytes": 71642
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/infill-f288-original.ts",
+    "variable": "SOURCE",
+    "sha256": "6d01a7c7db79b5b82f89e1a7dba969e06958429c15f513c16da694d6ce677203",
+    "literalBytes": 240279,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/6d/6d01a7c7db79b5b82f89e1a7dba969e06958429c15f513c16da694d6ce677203.json",
+    "bytes": 240279
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/infill-f288-original.ts",
+    "variable": "DERIVED",
+    "sha256": "b09a14f93af08c85f57e1897b06b277a63bde2d86ac9b7f6d975bc6a9c59ad06",
+    "literalBytes": 1003360,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/b0/b09a14f93af08c85f57e1897b06b277a63bde2d86ac9b7f6d975bc6a9c59ad06.json",
+    "bytes": 1003360
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/oldtown70-data.ts",
+    "variable": "BREMEN_OLDTOWN70_DATA",
+    "sha256": "ef6445aecf74f314b2138f17dd415b507514d177476d3df2c992f4410a40d8ad",
+    "literalBytes": 1727961,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/ef/ef6445aecf74f314b2138f17dd415b507514d177476d3df2c992f4410a40d8ad.json",
+    "bytes": 1727961
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/kunsthalle70-data.ts",
+    "variable": "KUNSTHALLE70_DATA",
+    "sha256": "444673e70bee245d85318b8f980e34f83ec5315a58017c03cfd8468cb9eb7fce",
+    "literalBytes": 314367,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/44/444673e70bee245d85318b8f980e34f83ec5315a58017c03cfd8468cb9eb7fce.json",
+    "bytes": 314367
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/europahafenkopf70-data.ts",
+    "variable": "EUROPAHAFENKOPF70_DATA",
+    "sha256": "9395db16785881813bb5c4b2362375d35fead6ee653a613d18792c07f6c57a51",
+    "literalBytes": 449709,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/93/9395db16785881813bb5c4b2362375d35fead6ee653a613d18792c07f6c57a51.json",
+    "bytes": 449709
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/quartier670-data.ts",
+    "variable": "QUARTIER670_DATA",
+    "sha256": "bfe66902444e69cb87432c30d092772d28d1e77816ced14eaafee1fcbd0f39c4",
+    "literalBytes": 1271820,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/bf/bfe66902444e69cb87432c30d092772d28d1e77816ced14eaafee1fcbd0f39c4.json",
+    "bytes": 1271820
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/wasserturm70-data.ts",
+    "variable": "WASSERTURM70_DATA",
+    "sha256": "76c4a594a5b19df140c3ea21a57d86522ca2029275d324b332dda7b919fe730e",
+    "literalBytes": 1542806,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/76/76c4a594a5b19df140c3ea21a57d86522ca2029275d324b332dda7b919fe730e.json",
+    "bytes": 1542806
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/extra4-data.ts",
+    "variable": "BREMEN_OLDTOWN_EXTRA4_DATA",
+    "sha256": "035346d8e2f4bd84bb8bd071514642d6303fe5d45134d4a3b33213a36b69b425",
+    "literalBytes": 1131152,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/03/035346d8e2f4bd84bb8bd071514642d6303fe5d45134d4a3b33213a36b69b425.json",
+    "bytes": 1131152
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/repairs-data.ts",
+    "variable": "BREMEN_OLDTOWN_REPAIRS_DATA",
+    "sha256": "b40c1ec6557093160bf7624960966ed6e4f15810ec28f6598a0de638e56a5a6f",
+    "literalBytes": 6326501,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/b4/b40c1ec6557093160bf7624960966ed6e4f15810ec28f6598a0de638e56a5a6f.json",
+    "bytes": 6326501
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/radstation70-data.ts",
+    "variable": "RADSTATION70_DATA",
+    "sha256": "7ae3ecb975fc7cbcb35f3500c8ec6255dc804f012ce63c9635c266aae0c3acd4",
+    "literalBytes": 613707,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/7a/7ae3ecb975fc7cbcb35f3500c8ec6255dc804f012ce63c9635c266aae0c3acd4.json",
+    "bytes": 613707
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/flemings70-data.ts",
+    "variable": "FLEMINGS70_DATA",
+    "sha256": "4adf54b7d8947f77628a3a76054f3943ab910a26b5d1cfdf45bfbe44243407b8",
+    "literalBytes": 296590,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/4a/4adf54b7d8947f77628a3a76054f3943ab910a26b5d1cfdf45bfbe44243407b8.json",
+    "bytes": 296590
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/ws70-data.ts",
+    "variable": "WS70_DATA",
+    "sha256": "45e7758d7b7369af6703b81bb9814d18548ff88de5f8e2ddaa41b652ebbe579f",
+    "literalBytes": 965130,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/45/45e7758d7b7369af6703b81bb9814d18548ff88de5f8e2ddaa41b652ebbe579f.json",
+    "bytes": 965130
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/churches-data.ts",
+    "variable": "BREMEN_OLDTOWN_CHURCHES_DATA",
+    "sha256": "8a1fa75e91344bc55c4e77f2852f626d15d8251d11feb572b5b48ad18e35e203",
+    "literalBytes": 1551900,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/8a/8a1fa75e91344bc55c4e77f2852f626d15d8251d11feb572b5b48ad18e35e203.json",
+    "bytes": 1551900
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/karstadt-data.ts",
+    "variable": "KARSTADT70_DATA",
+    "sha256": "0a1ca52b26563b9363eeb622396941f4ebdb3fc0336c7aa204f4381fd2d2f06a",
+    "literalBytes": 1582128,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/0a/0a1ca52b26563b9363eeb622396941f4ebdb3fc0336c7aa204f4381fd2d2f06a.json",
+    "bytes": 1582128
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/school70-data.ts",
+    "variable": "SCHOOL70_DATA",
+    "sha256": "0d6a49af641b4936275262127bdd1d239a1d108496be8fbd6126e66a60dc05f9",
+    "literalBytes": 187906,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/0d/0d6a49af641b4936275262127bdd1d239a1d108496be8fbd6126e66a60dc05f9.json",
+    "bytes": 187906
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/bremen-ag70-data.ts",
+    "variable": "EDGE70_DATA",
+    "sha256": "509f10033214fa501344fa5ce0eebb8e7ab8b3014b09759abae537fe5ab2ec69",
+    "literalBytes": 431595,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/50/509f10033214fa501344fa5ce0eebb8e7ab8b3014b09759abae537fe5ab2ec69.json",
+    "bytes": 431595
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/bremen-db70-data.ts",
+    "variable": "EDGE70_DATA",
+    "sha256": "90275a03d334b78ef282d2a8bcfc8b2d163c0642e9b54c7054abade1274bcd97",
+    "literalBytes": 1364959,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/90/90275a03d334b78ef282d2a8bcfc8b2d163c0642e9b54c7054abade1274bcd97.json",
+    "bytes": 1364959
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/edgefill70-data.ts",
+    "variable": "EDGEFILL70_DATA",
+    "sha256": "a0a61f98df7e2f2648275d313bfaeeeaa22ada5503612da2165aade1338e1080",
+    "literalBytes": 2645241,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/a0/a0a61f98df7e2f2648275d313bfaeeeaa22ada5503612da2165aade1338e1080.json",
+    "bytes": 2645241
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/glocke-detail-data.ts",
+    "variable": "GLOCKE_DETAIL_DATA",
+    "sha256": "98ad9a1680e113e84b7b9e0d267779f7b9b816f4cf14f3f0e2272a2460f833b9",
+    "literalBytes": 1284345,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/98/98ad9a1680e113e84b7b9e0d267779f7b9b816f4cf14f3f0e2272a2460f833b9.json",
+    "bytes": 1284345
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/ws-back-detail-data.ts",
+    "variable": "WS_BACK_DETAIL_DATA",
+    "sha256": "73e65f16971ed68a9255b738d56de1f311b664e54ee154aa82f8354c994c74f8",
+    "literalBytes": 484261,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/73/73e65f16971ed68a9255b738d56de1f311b664e54ee154aa82f8354c994c74f8.json",
+    "bytes": 484261
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/utility-data.ts",
+    "variable": "UTILITY70_DATA",
+    "sha256": "9bf4e7e1d31589142b099f60054153bc39b65530beccb0bff45fb3e1f6178464",
+    "literalBytes": 97222,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/9b/9bf4e7e1d31589142b099f60054153bc39b65530beccb0bff45fb3e1f6178464.json",
+    "bytes": 97222
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/edge-coverage-data.ts",
+    "variable": "EDGE_COVERAGE_DATA",
+    "sha256": "0d2079d4f879271f759332da6b42f502e8c8ba981ab5239d6c7a298203562506",
+    "literalBytes": 3451826,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/0d/0d2079d4f879271f759332da6b42f502e8c8ba981ab5239d6c7a298203562506.json",
+    "bytes": 3451826
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/boundary-data.ts",
+    "variable": "BOUNDARY70_DATA",
+    "sha256": "638776526482e43de8e820c2a085b64febcda3813e87b9d878d1cd15ecb20918",
+    "literalBytes": 123730,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/63/638776526482e43de8e820c2a085b64febcda3813e87b9d878d1cd15ecb20918.json",
+    "bytes": 123730
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/hbf-court-data.ts",
+    "variable": "HBF_COURT_DATA",
+    "sha256": "2411623fe8c003d280dbea5e4fdac410cdec34fb48a173a8e263d48fca160b14",
+    "literalBytes": 515425,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/24/2411623fe8c003d280dbea5e4fdac410cdec34fb48a173a8e263d48fca160b14.json",
+    "bytes": 515425
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/office7a-contour-data.ts",
+    "variable": "OFFICE7A_CONTOUR_DATA",
+    "sha256": "1a39115e9e9245ab1e27fe841b927cf6bc3c8164894e7069b15ffad0393e5d89",
+    "literalBytes": 115727,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/1a/1a39115e9e9245ab1e27fe841b927cf6bc3c8164894e7069b15ffad0393e5d89.json",
+    "bytes": 115727
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/stephani-row-data.ts",
+    "variable": "STEPHANI_ROW_DATA",
+    "sha256": "0094e759747bb4f00884a096948f56c7f72bb5b10394d94b0744f4ccf015bab4",
+    "literalBytes": 865684,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/00/0094e759747bb4f00884a096948f56c7f72bb5b10394d94b0744f4ccf015bab4.json",
+    "bytes": 865684
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/utility-detail-data.ts",
+    "variable": "UTILITY_DETAIL_DATA",
+    "sha256": "40fb41923c0b602e80ea48e3fcbd944f4814c1d23873eadf77283ca84908a934",
+    "literalBytes": 95063,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/40/40fb41923c0b602e80ea48e3fcbd944f4814c1d23873eadf77283ca84908a934.json",
+    "bytes": 95063
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/official-openings-data.ts",
+    "variable": "OFFICIAL_OPENINGS_DATA",
+    "sha256": "58c778db0227ea02fc67b656985dafa8eff51185591b50c088de3edfe6699363",
+    "literalBytes": 124500,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/58/58c778db0227ea02fc67b656985dafa8eff51185591b50c088de3edfe6699363.json",
+    "bytes": 124500
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/euro-gable-data.ts",
+    "variable": "EURO_GABLE_DATA",
+    "sha256": "851e18fe7e916984621223e0e1afd0f35ab05bd21eed68c44668576bd5eb16ae",
+    "literalBytes": 313217,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/85/851e18fe7e916984621223e0e1afd0f35ab05bd21eed68c44668576bd5eb16ae.json",
+    "bytes": 313217
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/bremen-teerhof-detail-data.ts",
+    "variable": "TEERHOF_DETAIL_DATA",
+    "sha256": "2a60ccf38ce284436446e15697f3d0ecd4c7248944d8dc5e88349f1867110d2a",
+    "literalBytes": 4209631,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/2a/2a60ccf38ce284436446e15697f3d0ecd4c7248944d8dc5e88349f1867110d2a.json",
+    "bytes": 4209631
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/glocke-kuester-data.ts",
+    "variable": "GLOCKE_KUESTER_DATA",
+    "sha256": "d7b87596f02f16d7f485955191074b0a3e4a6b541e937236f35a10ccfbc5291f",
+    "literalBytes": 2392760,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/d7/d7b87596f02f16d7f485955191074b0a3e4a6b541e937236f35a10ccfbc5291f.json",
+    "bytes": 2392760
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/organisten-data.ts",
+    "variable": "ORGANISTEN_DATA",
+    "sha256": "87dbcf745ad540985c830f366f32c6bd2458792af5407583fcb9a65d2dea65e1",
+    "literalBytes": 196282,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/87/87dbcf745ad540985c830f366f32c6bd2458792af5407583fcb9a65d2dea65e1.json",
+    "bytes": 196282
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/market-cap-data.ts",
+    "variable": "MARKET_CAP_DATA",
+    "sha256": "2dcf01a1cc61e7b4d5b26aa4f7dfac1bcb58e6ed36011fae2b169f68c4adae43",
+    "literalBytes": 767299,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/2d/2dcf01a1cc61e7b4d5b26aa4f7dfac1bcb58e6ed36011fae2b169f68c4adae43.json",
+    "bytes": 767299
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/lloyd-front-data.ts",
+    "variable": "LLOYD_FRONT_DATA",
+    "sha256": "4a733773715c075aeaa92a6ce9de1e486577be95770bb4a40f147f03bd1a3699",
+    "literalBytes": 3152635,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/4a/4a733773715c075aeaa92a6ce9de1e486577be95770bb4a40f147f03bd1a3699.json",
+    "bytes": 3152635
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/f058-upper-paint312.ts",
+    "variable": "FRAMES",
+    "sha256": "a86a8b6e6e2e555523035abd950bda826992a0bc1486ea424afad7de0a45a65b",
+    "literalBytes": 148757,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/a8/a86a8b6e6e2e555523035abd950bda826992a0bc1486ea424afad7de0a45a65b.json",
+    "bytes": 148757
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/bremen-additional-held-source-snapshots.ts",
+    "variable": "BREMEN_ADDITIONAL_HELD_SOURCE_SNAPSHOTS",
+    "sha256": "215acc502b1487366a492bd49009be602ef18e2b2dc478dea54c1ffd54a5a80e",
+    "literalBytes": 940451,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/21/215acc502b1487366a492bd49009be602ef18e2b2dc478dea54c1ffd54a5a80e.json",
+    "bytes": 940451
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/bremen-held-source-snapshots.ts",
+    "variable": "BREMEN_REPAIR_SOURCE_SNAPSHOTS",
+    "sha256": "632ad739a017e77124bb28433fb72f756bdb6b24787967ca618a3f26f6c04a57",
+    "literalBytes": 1081010,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/63/632ad739a017e77124bb28433fb72f756bdb6b24787967ca618a3f26f6c04a57.json",
+    "bytes": 1081010
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/bremen-market-held-source-snapshots.ts",
+    "variable": "BREMEN_MARKET_HELD_SOURCE_SNAPSHOTS",
+    "sha256": "5ed07b348ef4ca342dcbcf8a56f8551e0a546aa803fb9fd9385e6d2072b06c63",
+    "literalBytes": 245525,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/5e/5ed07b348ef4ca342dcbcf8a56f8551e0a546aa803fb9fd9385e6d2072b06c63.json",
+    "bytes": 245525
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/bremen-extra-held-source-snapshots.ts",
+    "variable": "BREMEN_EXTRA_HELD_SOURCE_SNAPSHOTS",
+    "sha256": "0a8625e86da19b078fed94bc1085ba5888b2a707272c10451a47bd868c5beb96",
+    "literalBytes": 72998,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/0a/0a8625e86da19b078fed94bc1085ba5888b2a707272c10451a47bd868c5beb96.json",
+    "bytes": 72998
+  },
+  {
+    "provider": "bremen",
+    "path": "web/src/painted/bremen/safety/bremen-candidate-cohort-constants.ts",
+    "variable": "BREMEN_CANDIDATE_COHORTS",
+    "sha256": "0d92690767bd5e4b958f74907805b0fd287c1c63b0518e0df0f82e60de07b971",
+    "literalBytes": 108475,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/0d/0d92690767bd5e4b958f74907805b0fd287c1c63b0518e0df0f82e60de07b971.json",
+    "bytes": 108475
   }
 ]

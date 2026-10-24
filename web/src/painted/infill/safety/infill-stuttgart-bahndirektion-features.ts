@@ -1,0 +1,1 @@
+export const INFILL_DETAIL70_10_GLSL="vec3 infillBahndirektionPaint(vec3 base,vec3 p,vec3 normal,vec4 frame,float family){if(abs(family-27000.)>.25)return base;float tile=max(step(.967,fract(p.x/.34+floor(p.z/.24)*.5)),step(.965,fract(p.z/.24)));float lip=step(.945,fract(p.z/.24));return mix(mix(base,base*.68,tile*.42),base*1.06,lip*.13);}\n";

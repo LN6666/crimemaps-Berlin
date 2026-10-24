@@ -14,7 +14,7 @@ export function verifyOwnerShapePatchRows(rows:BuildingComponent[],profile:Owner
 }
 /** Never remove a native body until its separately pinned replacement is resident in this commit. */
 export function ownerShapePatchDisplayRows(rows:BuildingComponent[],profileOf:(c:BuildingComponent)=>OwnerShapePatchProfile|undefined,nativeLeaf:(c:BuildingComponent)=>string|undefined){
- const active=rows.map(profileOf).filter((p):p is OwnerShapePatchProfile=>!!p&&!p.number.startsWith("F071-")&&!p.number.startsWith("F061-")&&!p.number.startsWith("F063-")&&p.number!=="F058-Upper311");
+ const active=rows.map(profileOf).filter((p):p is OwnerShapePatchProfile=>!!p&&p.number!=="F036-WestFold70"&&!p.number.startsWith("F071-")&&!p.number.startsWith("F061-")&&!p.number.startsWith("F063-")&&p.number!=="F058-Upper311");
  const f058Ready=rows.some(c=>c.city==='hamburg'&&c.objectId==='osm/way/37785744'&&c.partId==='osm/way/37785744/component/2128d951c12116d7ea0d'&&nativeLeaf(c)==='1cc6474e7a83182fabc375a839bbc57fa883caf19ed3386fad90e2be21889908'&&nativePaintSignature(c)==='c30412a0');
  return rows.filter(c=>(c.partId!=='osm/way/37785744/component/2128d951c12116d7ea0d/owner-source-recovery311-upper'||f058Ready)&&!active.some(p=>c.objectId===p.objectId&&c.partId===p.sourcePartId||('replacesNative'in p&&p.replacesNative.some(r=>c.objectId===r.objectId&&c.partId===r.partId&&nativeLeaf(c)===r.nativeLeafSHA256))));
 }

@@ -13,7 +13,7 @@ export function verifyOwnerShapePatchRows(rows:BuildingComponent[],profile:Owner
 }
 /** Never remove a native body until its separately pinned replacement is resident in this commit. */
 export function ownerShapePatchDisplayRows(rows:BuildingComponent[],profileOf:(c:BuildingComponent)=>OwnerShapePatchProfile|undefined,nativeLeaf:(c:BuildingComponent)=>string|undefined){
- const active=rows.map(profileOf).filter((p):p is OwnerShapePatchProfile=>!!p);
+ const active=rows.map(profileOf).filter((p):p is OwnerShapePatchProfile=>!!p&&p.number!=='BE-MarkischesMuseum-Tower1'&&!['S166-Body70','S166-GlassEnd70','S166-RoofCourt70'].includes(p.number));
  return rows.filter(c=>!active.some(p=>c.objectId===p.objectId&&c.partId===p.sourcePartId||('replacesNative'in p&&p.replacesNative.some(r=>c.objectId===r.objectId&&c.partId===r.partId&&nativeLeaf(c)===r.nativeLeafSHA256))));
 }
 export function ownerShapePatchMetadata(rows:BuildingComponent[],profileOf:(c:BuildingComponent)=>OwnerShapePatchProfile|undefined){const components=rows.flatMap(c=>{const p=profileOf(c);return p?[{number:p.number,objectId:c.objectId,partId:c.partId,sourcePartId:p.sourcePartId,patchSHA256:p.sha256,vertices:p.vertices,triangles:p.triangles,geometryRole:'owner-authorized-reconstruction' as const}]:[];});return {components,geometryAdded:components.reduce((n,c)=>n+c.vertices,0),notNative:true as const};}

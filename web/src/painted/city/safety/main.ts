@@ -1688,7 +1688,7 @@ async function start() {
       el("basemap-fallback").onclick = () => changeBasemap("local");
       changeBasemap("vector");
       loaded = true;
-      if(location.hostname==='127.0.0.1'&&new URLSearchParams(location.search).has('diagnostics')){const value=new URLSearchParams(location.search).get('qa3dFocus');const coords=value?.split(',').map(Number);if(coords?.length===2&&coords.every(Number.isFinite)&&Math.abs(coords[0])<=180&&Math.abs(coords[1])<=85)map.jumpTo({center:[coords[0],coords[1]],zoom:18,bearing:-25});}
+      if(location.hostname==='127.0.0.1'&&new URLSearchParams(location.search).has('diagnostics')){const value=new URLSearchParams(location.search).get('qa3dFocus');const coords=value?.split(',').map(Number);if(coords?.length===2&&coords.every(Number.isFinite)&&Math.abs(coords[0])<=180&&Math.abs(coords[1])<=85)map.jumpTo({center:[coords[0],coords[1]],zoom:(()=>{const z=Number(new URLSearchParams(location.search).get('qa3dZoom'));return new URLSearchParams(location.search).has('qa3dZoom')&&Number.isFinite(z)&&z>=14&&z<=20?z:18;})(),bearing:(()=>{const n=Number(new URLSearchParams(location.search).get('qa3dBearing'));return new URLSearchParams(location.search).has('qa3dBearing')&&Number.isFinite(n)&&Math.abs(n)<=360?n:-25;})()});}
       await Promise.all([loadMonth(), loadViewport()]);
       if(new URLSearchParams(location.search).get('view')==='3d')void threeDimensionalControls?.requestMode('3d');
       if(new URLSearchParams(location.search).has("diagnostics")) {

@@ -1,0 +1,26 @@
+import type {BuildingComponent,Identity} from './building-mesh-renderer';
+import {nativePaintSignature} from './progressive-native-signature';
+import {QUARTIER670_DATA as D,QUARTIER670_SHA} from './quartier670-data';
+type Leaf=(c:BuildingComponent)=>string|undefined;
+const key=(c:Identity)=>c.objectId+'|'+c.partId;
+const same=(a:any,b:any):boolean=>Array.isArray(a)||ArrayBuffer.isView(a)?(Array.isArray(b)||ArrayBuffer.isView(b))&&(a as any).length===(b as any).length&&Array.from(a as ArrayLike<number>).every((v,i)=>Object.is(v,(b as any)[i])):JSON.stringify(a)===JSON.stringify(b);
+const model=(c:Identity)=>D.models.find((m:any)=>key(c)===key(m.identity));
+export const bremenQuartier670Identity=(c:Identity&{city?:string})=>(c.city===undefined||c.city==='bremen')&&!!model(c);
+export const bremenQuartier670CarrierIdentity=(c:Identity&{city?:string})=>(c.city===undefined||c.city==='bremen')&&key(c)===key(D.sourceCarrier);
+export const bremenQuartier670HeldIdentity=(c:Identity&{city?:string})=>bremenQuartier670Identity(c)&&!bremenQuartier670CarrierIdentity(c);
+function sourceUnchanged(c:BuildingComponent,m:any,leaf:Leaf){return c.city==='bremen'&&leaf(c)===m.identity.leafSHA256&&nativePaintSignature(c)===m.identity.signature&&['origin','componentGeometry','sourceFeature'].every(k=>same((c as any)[k],m.source[k]))&&c.batches.length===m.source.batches.length&&c.batches.every((b,bi)=>(['positions','normals','indices','color']as const).every(k=>same(b[k],m.source.batches[bi][k])));}
+function ready(rows:BuildingComponent[],leaf:Leaf){return D.models.every((m:any)=>{const a=rows.filter(c=>c.city==='bremen'&&key(c)===key(m.identity));return a.length===1&&sourceUnchanged(a[0],m,leaf);});}
+const displayBatch=(b:any)=>({positions:new Float32Array(b.positions),normals:new Float32Array(b.normals),indices:new Uint32Array(b.indices),color:[.78,.79,.755]as[number,number,number],paint:new Float32Array(b.paint),frames:new Float32Array(b.frames)});
+export function bremenQuartier670Reconstruction(components:BuildingComponent[],nativeLeafSHA?:Leaf){
+ const stats={objects:0,vertices:0,triangles:0,originalVertices:0,sourceRetained:true as const,actualVisualAccepted:false as const,components:[]as any[]};
+ if(!nativeLeafSHA||!ready(components,nativeLeafSHA))return{components,stats};
+ const mapped=components.map(c=>{const m=c.city==='bremen'?model(c):undefined;if(!m)return c;const batches=m.display.map(displayBatch);const vertices=batches.reduce((n:number,b:any)=>n+b.positions.length/3,0),triangles=batches.reduce((n:number,b:any)=>n+b.indices.length/3,0);stats.objects++;stats.vertices+=vertices;stats.triangles+=triangles;stats.originalVertices+=c.batches.reduce((n,b)=>n+b.positions.length/3,0);stats.components.push({objectId:c.objectId,partId:c.partId,sourcePartId:c.partId,patchSHA256:QUARTIER670_SHA,vertices,triangles,geometryRole:m.role});return{...c,batches,displayEstimates:{...c.displayEstimates,bremenQuartier670:{patchSHA256:QUARTIER670_SHA,officialBuildingId:D.officialId,sourceRetained:true,nativeSourceIdentityUnchanged:true,geometryRole:m.role,sourceCarrier:D.sourceCarrier,officialGroundDatumM:D.groundDatumM,officialBodyGeometry:true,photoEstimatedBalconies:20,colourCoverageComplete:true,detail70Implemented:true,facadeDimensionsPhotoApproximate:true,actualVisualAccepted:false}}};});
+ return{components:mapped,stats};
+}
+function finite(c:BuildingComponent,m:any){const mark=c.displayEstimates?.bremenQuartier670 as any;if(c.city!=='bremen'||mark?.patchSHA256!==QUARTIER670_SHA||!['origin','componentGeometry','sourceFeature'].every(k=>same((c as any)[k],m.source[k]))||c.batches.length!==m.display.length)return false;return c.batches.every((b,bi)=>['positions','normals','indices'].every(k=>(b as any)[k].length===m.display[bi][k].length&&Array.from((b as any)[k]as ArrayLike<number>).every((v,j)=>Object.is(v,k==='indices'?m.display[bi][k][j]:Math.fround(m.display[bi][k][j])))));}
+export function bremenQuartier670BaseMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){
+ const carrier=components.find(c=>c.city==='bremen'&&bremenQuartier670CarrierIdentity(c));if(!carrier||!finite(carrier,model(carrier)))return{objects:0,vertices:0,actualVisualAccepted:false};
+ let offset=0,objects=0,vertices=0;for(const c of components){const m=c.city==='bremen'?model(c):undefined;const ok=!!m&&finite(c,m);if(ok&&c.batches.length)objects++;c.batches.forEach((b,bi)=>{const n=b.positions.length/3;if(ok){paint.set(m.display[bi].paint,offset*4);frames.set(m.display[bi].frames,offset*5);vertices+=n;}offset+=n;});}return{objects,vertices,actualVisualAccepted:false};
+}
+// Native SOURCE remains at the original identity; this is an owner reconstruction, never a derived SOURCE.
+export function bremenQuartier670DisplayCertificate(c:BuildingComponent|undefined){if(!c||c.city!=='bremen'||!bremenQuartier670Identity(c))return null;const m=model(c);if(!finite(c,m))throw Error('Bremen Quartier670 finite DISPLAY certificate mismatch');return{patchSHA256:QUARTIER670_SHA,officialBuildingId:D.officialId,sourceRetained:true,sourceCarrier:D.sourceCarrier,nativeIdentity:{objectId:c.objectId,partId:c.partId},geometryRole:m.role,displayVertices:c.batches.reduce((n,b)=>n+b.positions.length/3,0),displayTriangles:c.batches.reduce((n,b)=>n+b.indices.length/3,0),actualVisualAccepted:false};}

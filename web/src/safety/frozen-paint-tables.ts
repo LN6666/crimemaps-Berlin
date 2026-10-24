@@ -2,7 +2,7 @@ import manifest from './frozen-paint-table-manifest.json';
 
 type Descriptor={path:string;sha256:string;bytes:number};
 type Read=(path:string,signal:AbortSignal,max:number)=>Promise<Uint8Array>;
-const MAX_TABLE_BYTES=32*1024**2,MAX_TOTAL_BYTES=700*1024**2;
+const MAX_TABLE_BYTES=64*1024**2,MAX_TOTAL_BYTES=900*1024**2;
 
 /** Preserve frozen numeric data without asking the JS bundler to concatenate it.
  * Each table is verified before any frozen implementation can observe it.

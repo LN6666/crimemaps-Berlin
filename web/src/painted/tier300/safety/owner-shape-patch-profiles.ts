@@ -94,5 +94,144 @@ export const OWNER_SHAPE_PATCH_PROFILES = [
     "max_height_m": 19.7,
     "tile_key": "owner-shape-S795",
     "geometryRole": "owner-authorized-reconstruction"
-  }
+  },
+{
+  "number": "BE-MarkischesMuseum-Tower1",
+  "id": "BE-MarkischesMuseum-Tower1",
+  "tile_key": "BE-MarkischesMuseum-Tower1",
+  "enabled": true,
+  "family": 21101,
+  "city": "berlin",
+  "objectId": "osm/relation/1652105",
+  "partId": "osm/relation/1652105/component/1c193c65d5110158e1c2/owner-photoapprox-supplement-20261023-tower",
+  "sourcePartId": "osm/relation/1652105/component/1c193c65d5110158e1c2",
+  "origin": [
+    13.419146300000001,
+    52.512346050000005
+  ],
+  "path": "/safety/buildings3d/owner-shape-patches/BE-MarkischesMuseum-Tower1.json",
+  "bytes": 8148,
+  "sha256": "7aa104c0eedf0ae13d23339cc1657f51490c675ec3b9c96193611671bd115401",
+  "vertices": 36,
+  "triangles": 12,
+  "max_height_m": 59,
+  "bbox": [
+    13.41473156966103,
+    52.51361480402755,
+    13.414972173693407,
+    52.51374146648261
+  ],
+  "notNative": true,
+  "owner_authorized": true,
+  "geometryRole": "owner-authorized-reconstruction",
+  "photoApprox": true,
+  "additiveOnly": true,
+  "retainNative": true,
+  "holdNative": false,
+  "repairExistingTarget": "S007",
+  "geometrySignature": "180903aa"
+}
+,
+{
+  "number": "S166-Body70",
+  "id": "S166-Body70",
+  "tile_key": "S166-Body70",
+  "enabled": true,
+  "family": 44190,
+  "city": "cologne",
+  "objectId": "osm/way/23482434",
+  "partId": "osm/way/23482434/component/d902900a8498058f62f6/owner-photoapprox-s166-body70",
+  "sourcePartId": "osm/way/23482434/component/d902900a8498058f62f6",
+  "origin": [
+    6.964658200000001,
+    50.931173400000006
+  ],
+  "path": "/safety/buildings3d/owner-shape-patches/S166-Body70.json",
+  "bytes": 4951,
+  "sha256": "02918bf4b4f00ca7851def01425d8b7585ca411fdc5ace870912b9ad89dde371",
+  "vertices": 45,
+  "triangles": 25,
+  "max_height_m": 8,
+  "bbox": [
+    6.964382599385743,
+    50.93075540305281,
+    6.964933800614261,
+    50.93159140220312
+  ],
+  "notNative": true,
+  "owner_authorized": true,
+  "geometryRole": "owner-authorized-reconstruction",
+  "photoApprox": true,
+  "retainNative": true,
+  "atomicDisplayReplacement": true,
+  "geometrySignature": "95a779e5"
+},
+{
+  "number": "S166-GlassEnd70",
+  "id": "S166-GlassEnd70",
+  "tile_key": "S166-GlassEnd70",
+  "enabled": true,
+  "family": 44190,
+  "city": "cologne",
+  "objectId": "osm/way/23482434",
+  "partId": "osm/way/23482434/component/d902900a8498058f62f6/owner-photoapprox-s166-glassend70",
+  "sourcePartId": "osm/way/23482434/component/d902900a8498058f62f6",
+  "origin": [
+    6.964658200000001,
+    50.931173400000006
+  ],
+  "path": "/safety/buildings3d/owner-shape-patches/S166-GlassEnd70.json",
+  "bytes": 3343,
+  "sha256": "a5781ddf3ec3663c47001166c4a89b29b1c836ecd6a6732dfe09d6b2abbfcd72",
+  "vertices": 36,
+  "triangles": 12,
+  "max_height_m": 8.04,
+  "bbox": [
+    6.9646785787664385,
+    50.93072833848666,
+    6.964913952047709,
+    50.93081053938794
+  ],
+  "notNative": true,
+  "owner_authorized": true,
+  "geometryRole": "owner-authorized-reconstruction",
+  "photoApprox": true,
+  "retainNative": true,
+  "atomicDisplayReplacement": true,
+  "geometrySignature": "3eaa8116"
+},
+{
+  "number": "S166-RoofCourt70",
+  "id": "S166-RoofCourt70",
+  "tile_key": "S166-RoofCourt70",
+  "enabled": true,
+  "family": 44190,
+  "city": "cologne",
+  "objectId": "osm/way/23482434",
+  "partId": "osm/way/23482434/component/d902900a8498058f62f6/owner-photoapprox-s166-roofcourt70",
+  "sourcePartId": "osm/way/23482434/component/d902900a8498058f62f6",
+  "origin": [
+    6.964658200000001,
+    50.931173400000006
+  ],
+  "path": "/safety/buildings3d/owner-shape-patches/S166-RoofCourt70.json",
+  "bytes": 472140,
+  "sha256": "6bc70b27e26e3669407938f90db843363dac6b3e8a21e8d139905001b9ebfe2e",
+  "vertices": 7524,
+  "triangles": 2508,
+  "max_height_m": 10.889999999999999,
+  "bbox": [
+    6.964411528875445,
+    50.93086598277371,
+    6.9648808597494,
+    50.931551068465886
+  ],
+  "notNative": true,
+  "owner_authorized": true,
+  "geometryRole": "owner-authorized-reconstruction",
+  "photoApprox": true,
+  "retainNative": true,
+  "atomicDisplayReplacement": true,
+  "geometrySignature": "98df4201"
+}
 ] as const;
