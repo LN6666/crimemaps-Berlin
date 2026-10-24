@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Deliver 29 source-bound reviewed translation corrections with strict, idempotent field patching; preserve private source bodies and publication gates.
+
 - Add a source-bound Munich official-section review ledger preserving action phases, unknown incident counts and unresolved geometry without changing the independent provider lane or authorizing publication.
 
 - Show successful map selections in a compact floating information panel, preserving source links, callbacks and pagination when sidebars are outside the preview viewport. Reveal selected area information without changing its zoom or boundary rules.
