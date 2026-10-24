@@ -13,5 +13,6 @@
   "preview": "Die Prüfung ist noch unvollständig. Diese Einschätzung bezieht sich auf das bisher geprüfte Material.",
   "pending": "Kategorien noch in Prüfung",
   "model": "Gemini 3.5 Flash Lite · Gespeicherte Einschätzung",
-  "saved": "Eine Prüfung auf neue Daten ist alle drei Tage vorgesehen. Sind geprüfte neue Daten verfügbar, werden die Einschätzungen aktualisiert. Beim Lesen wird keine KI-Anfrage gestellt."
+  "saved": "Das Lesen dieser gespeicherten Einschätzung löst keine KI-Anfrage aus. Sie wird mit geprüften neuen Daten aktualisiert.",
+  "insufficient": "Zu wenig Daten"
 }

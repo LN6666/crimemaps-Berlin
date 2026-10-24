@@ -11,15 +11,15 @@ export interface WindowCatalogue {version:'macro-window-summary-v1';mapping_sha2
  publication_dates_sha256:string;as_of:string;timezone:'Europe/Berlin';date_basis:'police_announcement_publication';
  inclusive_calendar_days:true;unknown_dates_excluded:true;scopes:readonly {key:string;total_selected_records:number;
  unknown_publication_dates:number;windows:readonly BriefWindow[]}[]}
-export interface CachedBrief {period:BriefPeriod;status:'awaiting_labels'|'generated_preview'|'generated';
+export interface CachedBrief {period:BriefPeriod;status:'awaiting_labels'|'generated_preview'|'generated'|'insufficient_data';
  zh:string;en:string;de:string;referenced_tags:readonly string[]}
-export interface BriefCatalogue {version:'cached-city-briefs-v1';model:'gemini-3.5-flash-lite';input_sha256:string;
+export interface BriefCatalogue {version:'cached-city-briefs-v1'|'cached-city-briefs-v2';model:'gemini-3.5-flash-lite';input_sha256:string;
  mapping_sha256:string;overlay_sha256:string;publication_dates_sha256:string;as_of:string;generated_at:string;
  visitor_model_calls:0;scopes:readonly {key:string;briefs:readonly CachedBrief[]}[]}
 const count=(n:number)=>Number.isSafeInteger(n)&&n>=0;
 const hash=(s:string)=>/^[a-f0-9]{64}$/.test(s);
 export function validateBriefCatalogues(w:WindowCatalogue,b:BriefCatalogue){
- if(w.version!=='macro-window-summary-v1'||b.version!=='cached-city-briefs-v1'||b.model!=='gemini-3.5-flash-lite'||
+ if(w.version!=='macro-window-summary-v1'||!['cached-city-briefs-v1','cached-city-briefs-v2'].includes(b.version)||b.model!=='gemini-3.5-flash-lite'||
   w.timezone!=='Europe/Berlin'||w.date_basis!=='police_announcement_publication'||!w.inclusive_calendar_days||
   !w.unknown_dates_excluded||!/^2026-\d{2}-\d{2}$/.test(w.as_of)||b.as_of!==w.as_of||b.visitor_model_calls!==0||
   !hash(b.input_sha256)||!Number.isFinite(Date.parse(b.generated_at)))throw Error('Invalid cached brief metadata');
@@ -51,9 +51,10 @@ export function validateBriefCatalogues(w:WindowCatalogue,b:BriefCatalogue){
       throw Error('Invalid window tag counts');
    }
    const brief=briefs.find(i=>i.period===window.period);
-   if(!brief||!['awaiting_labels','generated_preview','generated'].includes(brief.status)||
+   if(!brief||!['awaiting_labels','generated_preview','generated','insufficient_data'].includes(brief.status)||
     (brief.status==='generated'&&window.fully_evaluated_records!==window.records)||
     (brief.status==='generated_preview'&&!window.records_with_any_evaluation)||
+    (brief.status==='insufficient_data'&&(b.version!=='cached-city-briefs-v2'||window.records!==0||brief.referenced_tags.length!==0))||
     new Set(brief.referenced_tags).size!==brief.referenced_tags.length||brief.referenced_tags.some(tag=>
       !MACRO_TAGS.includes(tag as typeof MACRO_TAGS[number])||!window.tags.find(t=>t.tag===tag)?.counts.supported)||
     ['zh','en','de'].some(l=>typeof brief[l as 'zh'|'en'|'de']!=='string'||brief[l as 'zh'|'en'|'de'].trim().length<8||
@@ -93,7 +94,7 @@ export function mountCachedBriefs(parent:HTMLElement,locale:'zh'|'en'|'de'){
   prose.textContent=b[locale];date.textContent=`${w.start} — ${w.end} · ${c.date}`;
   const n=new Intl.NumberFormat(locale);coverage.textContent=c.counts.replace('{records}',n.format(w.records)).replace('{evaluated}',n.format(w.fully_evaluated_records));
   unknown.hidden=!scope.unknown_publication_dates;unknown.textContent=c.unknown.replace('{unknown}',n.format(scope.unknown_publication_dates));
-  status.textContent=(b.status==='awaiting_labels'?c.pending:c.model)+(b.status==='generated_preview'?` · ${c.preview}`:'')+` · ${c.saved}`;
+  status.textContent=(b.status==='insufficient_data'?c.insufficient:b.status==='awaiting_labels'?c.pending:c.model)+(b.status==='generated_preview'?` · ${c.preview}`:'')+` · ${c.saved}`;
  };
  select.addEventListener('change',update);
  return {setCatalogues(w:WindowCatalogue,b:BriefCatalogue){windows=null;briefs=null;root.hidden=true;validateBriefCatalogues(w,b);windows=w;briefs=b;update();},

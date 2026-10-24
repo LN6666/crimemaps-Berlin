@@ -13,5 +13,6 @@
   "preview": "Review coverage is still incomplete. This brief describes the material assessed so far.",
   "pending": "Awaiting label review",
   "model": "Gemini 3.5 Flash Lite · Saved brief",
-  "saved": "Update checks are scheduled every three days. Briefs are refreshed when verified new batches are available. Reading a brief makes no AI request."
+  "saved": "Reading this saved brief makes no AI request. It is refreshed when verified data are available.",
+  "insufficient": "Insufficient data"
 }
