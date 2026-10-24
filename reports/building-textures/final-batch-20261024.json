@@ -1170,7 +1170,7 @@
       "provider": "infill",
       "path": "painted/infill/safety/three-dimensional-map.ts",
       "sourceSHA256": "311e122e1cffd0ec5a70bb7df45f7e16d4e35b0847e9908c73b288a97fa1e36a",
-      "integratedSHA256": "73cad25995647cf64d4f4ed8f58fba8bd9464b5051d534fc360765a688cdcc02"
+      "integratedSHA256": "d97ddbf57d4b2eca10bfdd25b044ccd7d7cc6f460084ab18d86c3dce16bb5f88"
     },
     {
       "provider": "infill",
@@ -6636,7 +6636,7 @@
       "provider": "bremen",
       "path": "painted/bremen/safety/three-dimensional-map.ts",
       "sourceSHA256": "5b58eda2e14f1e1a402db3ae578ff3cf0d099e8543a8090609357940f3d5b831",
-      "integratedSHA256": "bb55502b7ad7fb8f3041ea3bb486b20cd93a240383508e965dfa51a266f4aa21"
+      "integratedSHA256": "4eedbe40a9c496f6d2bef0723559366bdab74ca159b2e46740e083b6ef190a39"
     },
     {
       "provider": "bremen",
@@ -11996,5 +11996,10 @@
       "sourceSHA256": "37165f1ad30e35c4bc6056c7e2166a0baba45f1e3613109a880243e7fe992fad",
       "integratedSHA256": "a4d6ee53e433f8fe2dc486012b872f069388700ba121549bdb75acb56df6f008"
     }
-  ]
+  ],
+  "integrationReadiness": {
+    "supplementalDrawWarmupMs": 8000,
+    "originalStandaloneMs": 2000,
+    "reason": "Multiple renderer layers need additional bounded shader frames; readiness still requires actual pick-ready GPU state. Camera deadlines and acceptance conditions are unchanged."
+  }
 }
