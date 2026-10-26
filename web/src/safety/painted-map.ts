@@ -81,14 +81,16 @@ export function installThreeDimensionalMap(options: Options): Actual {
   const reflectionGroup=planarReflectionGroup(()=>providerOrder.map(provider=>renderers.get(provider)));
   const renderer = new Proxy({} as Engine, {
     get(_target, property) {
+      if(property==='residentVertexCount'){let count=0;for(const provider of providerOrder)count+=renderers.get(provider)?.residentVertexCount??0;return count;}
       const engines = providerOrder.map(p => renderers.get(p)).filter((r): r is Engine => !!r);
       if(property==='getPlanarReflectionRevision')return reflectionGroup.getPlanarReflectionRevision;
       if(property==='renderPlanarReflection')return reflectionGroup.renderPlanarReflection;
       if (property === 'layer') return renderers.get('city')?.layer ?? engines[0]?.layer;
       if (property === 'stats') {
-        const stats = engines.map(r => r.stats);
-        const first = renderers.get('city')?.stats ?? stats[0];
-        return {...first, components: stats.reduce((n, s) => n + (s.components ?? 0), 0), vertices: stats.reduce((n, s) => n + (s.vertices ?? 0), 0), paintProviders: Object.fromEntries([...renderers].map(([p,r])=>[p,r.stats]))};
+        const snapshots = new Map([...renderers].map(([provider,r])=>[provider,r.stats] as const));
+        const stats = providerOrder.flatMap(provider=>{const value=snapshots.get(provider);return value?[value]:[];});
+        const first = snapshots.get('city') ?? stats[0];
+        return {...first, components: stats.reduce((n, s) => n + (s.components ?? 0), 0), vertices: stats.reduce((n, s) => n + (s.vertices ?? 0), 0), paintProviders: Object.fromEntries(snapshots)};
       }
       if (property === 'nativeGroupDisplay') return renderers.get('city')?.nativeGroupDisplay;
       if (property === 'selected') return engines.map(r=>r.selected).find(Boolean);
