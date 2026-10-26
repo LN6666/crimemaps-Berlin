@@ -489,14 +489,35 @@ const viewportSources=new Set(['hex','candidate-roads','scenes','source-poi-refe
 const viewportSourceData=new Map<string,FC>();
 const viewportRenderInputs:Record<string,{available:number;transferred:number}>={};
 const deferredSourceData=new Map<string,FC>();
+// Only the four current-period sources are remembered, never previous periods.
+// Their source objects and immutable feature identities define an exact replay.
+type ViewportSubmission={source:maplibregl.GeoJSONSource;full:FC;visible:FC;onError:()=>void};
+const submittedViewportSources=new Map<string,ViewportSubmission>();
+let announcementSourceInputs:readonly unknown[]|undefined;
+function forgetViewportSubmission(id:string,expected?:ViewportSubmission){
+  const submitted=submittedViewportSources.get(id);
+  if(!submitted||(expected&&submitted!==expected))return;
+  submitted.source.off('error',submitted.onError);submittedViewportSources.delete(id);
+}
+function clearViewportSubmissions(){for(const id of submittedViewportSources.keys())forgetViewportSubmission(id);}
 function setSource(id: string, fc: FC) {
   if(viewportSources.has(id))viewportSourceData.set(id,fc);
-  if(mapGPUUnavailable){deferredSourceData.set(id,fc);return;}
+  if(mapGPUUnavailable){clearViewportSubmissions();deferredSourceData.set(id,fc);return;}
   deferredSourceData.delete(id);
   if(viewportSources.has(id)){
     const b=map.getBounds(),visible=viewportRenderData(fc,[b.getWest(),b.getSouth(),b.getEast(),b.getNorth()]);
     viewportRenderInputs[id]={available:fc.features.length,transferred:visible.features.length};
-    (map.getSource(id) as maplibregl.GeoJSONSource).setData(visible);
+    const source=map.getSource(id) as maplibregl.GeoJSONSource,previous=submittedViewportSources.get(id);
+    if(previous?.source===source&&previous.full===fc&&previous.visible.features.length===visible.features.length&&
+       previous.visible.features.every((feature,index)=>feature===visible.features[index]))return;
+    forgetViewportSubmission(id);
+    // MapLibre reports worker failures as source error events while setData may
+    // still resolve. Register before submission, and bind invalidation to this
+    // exact source/submission so a replaced source cannot invalidate its successor.
+    const submitted:ViewportSubmission={source,full:fc,visible,onError:()=>forgetViewportSubmission(id,submitted)};
+    source.on('error',submitted.onError);submittedViewportSources.set(id,submitted);
+    try{void source.setData(visible).catch(error=>{forgetViewportSubmission(id,submitted);console.error(error);});}
+    catch(error){forgetViewportSubmission(id,submitted);throw error;}
   }else (map.getSource(id) as maplibregl.GeoJSONSource).setData(fc);
 }
 function focusRoad(event: PoliceEvent) {
@@ -1041,7 +1062,16 @@ function refresh() {
     map.getZoom() >= data.metadata.zoom_threshold ? "detail" : "overview";
   const selectedYear=el<HTMLSelectElement>("year").value, category=el<HTMLSelectElement>("category").value;
   const yearIds=new Set(annual?.year===selectedYear ? annual.countable_event_ids.filter(id=>category==="all"||annual!.event_categories[id]?.includes(category)) : []);
-  activeHex = annual?.year===selectedYear ? filteredHex(annual.hex[mode],yearIds) : empty();
+  // POI completion changes data.pois, not the current announcement geometry.
+  // All inputs to the four derived sources are replaced atomically by loaders.
+  const sourceInputs=[data.events,month,annual,monthKey(),category,selectedYear,mode];
+  if(!announcementSourceInputs||sourceInputs.some((value,index)=>value!==announcementSourceInputs![index])){
+    activeHex = annual?.year===selectedYear ? filteredHex(annual.hex[mode],yearIds) : empty();
+    activeRoads = candidateRoads(rows);
+    activeScenes = sceneFeatures(rows);
+    activeSourcePois = sourcePoiReferences(rows,month?.source_poi_reference_features);
+    announcementSourceInputs=sourceInputs;
+  }
   el("year-hex-title").textContent=t("legend.yearHex",{year:selectedYear});
   activePois = styledPois(
     data,
@@ -1052,8 +1082,6 @@ function refresh() {
   );
   const noHighlightedPlaces = el<HTMLInputElement>("highlight").checked && !activePois.features.some(f=>f.properties.association_announcement_count>0);
   el("highlight-note").textContent = (noHighlightedPlaces ? t("legend.highlightNone")+" " : "")+t("legend.highlightNote");
-  activeRoads = candidateRoads(rows);
-  activeScenes = sceneFeatures(rows);
   const roleLabels: Record<string,string> = {incident:t("legend.incident"),discovery:t("legend.discovery"),operation:t("legend.operation"),context:t("legend.context")};
   const presentRoles = [...new Set(activeScenes.features.map(f => String(f.properties.role_group)))];
   el("scene-availability").textContent = t("legend.available", {types:presentRoles.map(role => roleLabels[role] ?? roleLabels.context).join(" · ") || t("legend.noGeometry")});
@@ -1061,7 +1089,6 @@ function refresh() {
   el("transit-availability").textContent = transitAvailable ? "" : t("legend.noTransit");
   el("transit-availability").hidden = transitAvailable;
 
-  activeSourcePois=sourcePoiReferences(rows,month?.source_poi_reference_features);
   setSource("hex", activeHex);
   setSource("pois", renderPois(activePois));
   setSource("poi-centers", poiCenters(activePois));
@@ -2187,7 +2214,7 @@ window.addEventListener("pagehide", (event) => {
   monthRequest.abort();
   yearRequest.abort();yearReportRequest.abort();
   viewportRequest.abort();
-  document.removeEventListener('visibilitychange',syncThreeDimensionalVisibility);threeDimensionalMotion.removeEventListener('change',syncThreeDimensionalMotion);dedicatedDestroyed=true;dedicatedWanted=false;dedicatedInitRequest.abort();dedicatedAppearance?.destroy();dedicatedNote.remove();environmentDestroyed=true;environmentWanted=false;environmentRequest.abort();environmentScene?.destroy();localPalaceGarden?.destroy();threeDimensionalRecovery?.destroy();mapRecoveryNotice.destroy();deferredSourceData.clear();viewportSourceData.clear();threeDimensionalScenery?.destroy();threeDimensionalControls?.destroy();sceneControls?.destroy();sceneRenderQuality?.destroy();sceneFrameClock?.destroy();building3dInteraction?.destroy();threeDimensional?.destroy();baseShopLabels?.destroy();osmClickInspection?.destroy();publicTransitOverlay?.destroy();electoralOverlay?.destroy();geographyBase?.destroy();
+  document.removeEventListener('visibilitychange',syncThreeDimensionalVisibility);threeDimensionalMotion.removeEventListener('change',syncThreeDimensionalMotion);dedicatedDestroyed=true;dedicatedWanted=false;dedicatedInitRequest.abort();dedicatedAppearance?.destroy();dedicatedNote.remove();environmentDestroyed=true;environmentWanted=false;environmentRequest.abort();environmentScene?.destroy();localPalaceGarden?.destroy();threeDimensionalRecovery?.destroy();mapRecoveryNotice.destroy();deferredSourceData.clear();viewportSourceData.clear();clearViewportSubmissions();announcementSourceInputs=undefined;threeDimensionalScenery?.destroy();threeDimensionalControls?.destroy();sceneControls?.destroy();sceneRenderQuality?.destroy();sceneFrameClock?.destroy();building3dInteraction?.destroy();threeDimensional?.destroy();baseShopLabels?.destroy();osmClickInspection?.destroy();publicTransitOverlay?.destroy();electoralOverlay?.destroy();geographyBase?.destroy();
   clearTimeout(viewportTimer);
   clearInterval(freshnessTimer);
   methodsPanel.destroy();
