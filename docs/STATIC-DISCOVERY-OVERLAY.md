@@ -43,3 +43,7 @@ bounded; the new inventory and acceptance are outside it. Update the trusted
 acceptance digest only for the audited new release, then use the existing Pages
 workflow. Successful public HTTP checks establish that discovery files are
 online; they do not establish actual search-engine indexing.
+
+## Search Console ownership file
+
+Berlin retains the owner-authorized `google73948d3ce3a710e9.html` in `web/public/`, so Vite copies the exact 53 bytes to subsequent builds. The static discovery generator copies those same SHA-256-pinned bytes into historical-runtime overlays. The file establishes ownership only; verification and sitemap submission happen separately in Search Console. Existing runtime and data remain immutable.

@@ -35,3 +35,5 @@
 - Add local OSM extraction, conservative street matching, 1,100/275 m hexes and typed POI associations.
 - Add month/viewport-based MapLibre loading with bounded caches and request cancellation.
 - Add explicit source coverage, kbO original-map links, testing and maintainer documentation.
+
+- Preserve the exact Berlin Search Console ownership file in normal builds and strictly verified static overlays.
