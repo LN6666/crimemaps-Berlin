@@ -58,5 +58,19 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--site", type=Path, required=True)
     parser.add_argument("--city", required=True)
+    parser.add_argument("--acceptance", type=Path)
+    parser.add_argument("--expected-sha256")
+    parser.add_argument("--integrity", type=Path)
+    parser.add_argument("--commit")
     args = parser.parse_args()
+    if args.acceptance and json.loads(args.acceptance.read_text()).get("schema_version") == 2:
+        from verify_release import acceptance
+        from static_site_overlay import verify_overlay
+        accepted = acceptance(args.acceptance, args.expected_sha256, args.city,
+                              "LN6666/crimemaps-" + args.city.capitalize(), args.commit)
+        result = verify_overlay(args.site, args.integrity, accepted, args.city, args.commit)
+        if result["profile_contract"] == "accepted_pre_profile_runtime_inventory_preserved":
+            print(json.dumps({"city": args.city, "profile_contract": result["profile_contract"],
+                              "protected_runtime_files": result["protected_runtime_files"], "verified": True}))
+            raise SystemExit(0)
     print(json.dumps(verify(args.site, args.city), sort_keys=True))
