@@ -1,0 +1,14 @@
+/* Load after the map's compact navigation rules: a whole-year label needs more
+   space than the old 64–100px month field. Preserve the other compact controls. */
+#app > header .toolbar #month {width:100%;min-width:0;max-width:none;field-sizing:fixed;}
+@media (min-width:761px) and (min-height:501px), (min-width:1001px) {
+  #app > header > div:first-child {flex:0 1 340px;min-width:min(240px,100%);max-width:340px;}
+  #app > header .toolbar {flex:1 1 600px;min-width:0;max-width:100%;flex-wrap:wrap;}
+  #app > header .toolbar > label:has(#month) {flex:1 1 18rem;min-width:18rem;max-width:24rem;}
+}
+@media (max-width:760px), (pointer:coarse) and (max-height:500px) and (max-width:1100px) {
+  #app > header .toolbar {width:100%;grid-template-columns:minmax(0,1fr) max-content max-content;}
+  #app > header .toolbar > label:has(#month) {grid-column:1 / -1;grid-row:3;min-width:0;max-width:100%;width:100%;}
+  #app > header .toolbar > #overview {grid-row:4;}
+  #app > header .toolbar > #sources {grid-row:4;}
+}

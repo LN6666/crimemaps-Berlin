@@ -11,7 +11,7 @@ const temporary = await mkdtemp(join(tmpdir(), "crimemaps-browser-fixture-"));
 try {
   const fixtureWeb = join(temporary, "web");
   await mkdir(fixtureWeb);
-  for (const path of ["src", "index.html", "package.json", "tsconfig.json", "vite.config.ts"])
+  for (const path of ["src", "index.html", "package.json", "tsconfig.json", "vite.config.ts", "frozen-initializer-chunks.json"])
     await cp(join(web, path), join(fixtureWeb, path), {recursive:true});
   await symlink(resolve(web, "node_modules"), join(fixtureWeb, "node_modules"), "dir");
   await cp(resolve(web, "../config"), join(temporary, "config"), {recursive:true});
@@ -30,7 +30,7 @@ try {
   Object.assign(config, {city:"berlin", repository:"crimemaps-Berlin", base_path:"/crimemaps-Berlin/"});
   await writeFile(join(temporary, "city-config.json"), JSON.stringify(config));
   const result = spawnSync("npm", ["run", "build"], {
-    cwd:fixtureWeb, env:{...process.env, VITE_BASE_PATH:"/"}, stdio:"inherit",
+    cwd:fixtureWeb, env:{...process.env, VITE_BASE_PATH:"/", CRIMEMAPS_BUILD_PURPOSE:"code-check"}, stdio:"inherit",
   });
   if (result.error) throw result.error;
   if (result.status !== 0) throw Error(`Fixture build exited ${result.status}`);

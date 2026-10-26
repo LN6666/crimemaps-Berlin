@@ -446,7 +446,7 @@ export const NATIVE_PART_DISPLAY_PROFILES:readonly NativePartDisplayProfile[]=[
     "city": "berlin",
     "relationId": 7502290,
     "name": "Brandenburger Tor",
-    "indexSHA": "e3281c57b1525bd659efe469e4926a212b967ac2abb4e4729e5dd9e34b55cce3",
+    "indexSHA": "29245a801a13b4b5214224decd265307d3b3a5821629c0b7e7b94c1f635c82c0",
     "sourcePBF": "190b13a01866247ef5bd7f0af9436f123629f6923768f7a3629a266562eab553",
     "boundarySHA": "86ec3d642cf1455e1d207dfaa6a06d0ab6ce1799c64802b16114d2223a81453c",
     "sourceSnapshot": "2026-09-25T20:24:36Z",

@@ -1,6 +1,8 @@
-import {C327_FIXTURE as F} from './c327-fixture';
-import type {C318Component as C,C318Context as X} from './c318-display';
-const eq=(a:ArrayLike<number>,b:ArrayLike<number>)=>a.length===b.length&&Array.from(b).every((v,i)=>a[i]===v);
-function matches(c:C,p:typeof F.patch){return c.city===p.city&&c.objectId===p.objectId&&c.partId===p.partId&&eq(c.origin,p.origin)&&JSON.stringify(c.componentGeometry)===JSON.stringify(p.componentGeometry)&&JSON.stringify(c.sourceFeature?.properties)===JSON.stringify(p.sourceFeature?.properties)&&c.batches.length===p.batches.length&&c.batches.every((b,i)=>eq(b.positions,p.batches[i].positions)&&eq(b.normals,p.batches[i].normals)&&eq(b.indices,p.batches[i].indices)&&eq(b.color,p.batches[i].color));}
-export const c327HasMaterialBinding=(c:C)=>matches(c,F.patch);
-export function applyC327MaterialFrames(rows:readonly C[],color:Float32Array,paint:Float32Array,x:X){const gate=!x.signal?.aborted&&x.city==='munich'&&x.indexSHA===F.indexSHA&&x.sourcePBF===F.sourcePBF&&x.boundarySHA===F.boundarySHA&&x.sourceSnapshot===F.sourceSnapshot&&x.pathsReady.color;let at=0,painted=0;for(const c of rows){const enabled=gate&&c327HasMaterialBinding(c)&&x.materialReady(c);for(let bi=0;bi<c.batches.length;bi++){const b=c.batches[bi];for(let i=0;i<b.positions.length;i+=3){if(enabled){const X=b.positions[i],Z=b.positions[i+2],u=X*.389+Z*.921,n=X*.921-Z*.389;color.set([.83,.80,.72,2],at*4);paint.set([u,b.positions[i+1],n,1,F.families[bi]],at*5);painted++;}at++;}}}return{painted,reconstructed:true};}
+import {createLazyCityMaterial,type CityMaterialWait} from './lazy-city-material';
+type Implementation=typeof import('./c327-display-implementation');
+const ids=new Set(["munich|osm/way/244969498|osm/way/244969498/component/c9afe2bfdbda14dd88e5/owner-shape-C327"]);
+const needed=(c:{city:string;objectId:string;partId:string})=>ids.has(c.city+'|'+c.objectId+'|'+c.partId);
+const route=createLazyCityMaterial<Implementation>("c327-display",()=>import('./c327-display-implementation'));
+export const prepareC327MaterialFrames=(signal:AbortSignal,wait?:CityMaterialWait)=>route.prepare(signal,wait);
+export const c327HasMaterialBinding:Implementation["c327HasMaterialBinding"]=c=>{const module=route.value();return module?module.c327HasMaterialBinding(c):needed(c)?route.required().c327HasMaterialBinding(c):false;};
+export const applyC327MaterialFrames:Implementation["applyC327MaterialFrames"]=(rows,color,paint,x)=>{const module=route.value();if(module)return module.applyC327MaterialFrames(rows,color,paint,x);if(!x.signal?.aborted&&x.city==="munich"&&rows.some(needed))return route.required().applyC327MaterialFrames(rows,color,paint,x);return {"painted":0,"reconstructed":true};};

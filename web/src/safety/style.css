@@ -600,9 +600,9 @@ dialog .close { position: sticky; top: 0; background: white; z-index: 1; }
     font-size: 1rem; font-weight: 600; line-height: 1.5;
   }
   .mobile-view-settings > summary::-webkit-details-marker { display: none; }
-  .mobile-view-settings > summary > span:first-child { display: flex; flex: 1; gap: 6px; min-width: 0; }
+  .mobile-view-settings > summary > span:first-child { display: flex; flex-wrap: wrap; flex: 1; gap: 6px; min-width: 0; }
   .mobile-view-city { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-  .mobile-view-period { flex: 0 0 auto; white-space: nowrap; }
+  .mobile-view-period { flex: 1 1 12rem; min-width: 0; max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
   .mobile-disclosure-icon { flex: 0 0 auto; }
   .mobile-view-settings[open] .mobile-disclosure-icon { transform: rotate(180deg); }
   .toolbar {
@@ -610,7 +610,7 @@ dialog .close { position: sticky; top: 0; background: white; z-index: 1; }
     grid-template-columns: repeat(2, minmax(0, 1fr));
     margin-top: 10px;
   }
-  .toolbar .city-switch { grid-column: 1 / -1; }
+  .toolbar .city-switch, .toolbar > label:has(#month) { grid-column: 1 / -1; }
   .city-switch select, select { min-width: 0; width: 100%; }
   /* 16px inputs avoid automatic focus zoom in mobile Safari. Browser zoom stays available. */
   input[type="text"], input:not([type]), textarea, select { font-size: 1rem; min-height: 44px; }

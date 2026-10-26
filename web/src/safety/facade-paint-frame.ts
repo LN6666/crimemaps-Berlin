@@ -11,7 +11,7 @@ import type {BuildingComponent} from './building-mesh-renderer';
 
 /** Display templates. These choices do not change raw source architecture or measured geometry. */
 const rathausHamburg = new Set(['142944431','255885434','255885435','284404494','284404495','255659998','284404483','284404484','284404485','284404486','284404487','284404488','284404490','284404492','284404493','284404496','284404497','284404498','284404499','284404500']);
-export const PAINT_FAMILIES = ['原材色','砖墙与拱窗','古典石材与柱式','哥特式窗拱与扶壁线','巴洛克墙面与窗套','木构与灰泥','工业砖墙与大窗','玻璃幕墙','砖基座与玻璃上部','普通现代墙面'] as const;
+export {PAINT_FAMILIES} from './facade-paint-families';
 export function paintFamily(c:BuildingComponent):number {
  const progressive=progressiveAdmission(c);if(progressive)return progressive.preserveUnboundNeutral?0:-98;if(isRejectedProgressivePaint(c))return 0;
  if(!isDescribedBuilding(c))return 0;

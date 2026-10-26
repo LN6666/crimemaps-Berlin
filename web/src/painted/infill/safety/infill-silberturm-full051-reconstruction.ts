@@ -1,9 +1,9 @@
-import {readFrozenTable} from '../../../safety/frozen-paint-tables';
+import {readFrozenTableAsync} from '../../../safety/frozen-paint-tables';
 import type {BuildingComponent,Identity} from './building-mesh-renderer';
 import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
 import {nativePaintSignature} from './progressive-native-signature';
-const SOURCE:Record<string,any>=readFrozenTable("f79b08c9af2ee2f68d27faec7de0c3720fd797ce6f9a03e5afe926eb123f51af");
-const DISPLAY:Record<string,any>=readFrozenTable("75ca031fc03795f03e4ead934e2b1fe932ae9b6fb117477198a7f30d4a913d29");
+const SOURCE:Record<string,any>=(await readFrozenTableAsync("f79b08c9af2ee2f68d27faec7de0c3720fd797ce6f9a03e5afe926eb123f51af","painted/infill/safety/infill-silberturm-full051-reconstruction.ts",0));
+const DISPLAY:Record<string,any>=(await readFrozenTableAsync("75ca031fc03795f03e4ead934e2b1fe932ae9b6fb117477198a7f30d4a913d29","painted/infill/safety/infill-silberturm-full051-reconstruction.ts",0));
 const IDS=[{"city": "frankfurt", "objectId": "osm/way/11527403", "partId": "osm/way/11527403/component/fee6c96118bb2d2026ed", "signature": "9e8e305f"}, {"city": "frankfurt", "objectId": "osm/way/1333665177", "partId": "osm/way/1333665177/component/99431b409b420a8d7aaf", "signature": "6575e5e1"}, {"city": "frankfurt", "objectId": "osm/way/1333665178", "partId": "osm/way/1333665178/component/d0bb3638297923b38320", "signature": "10c25968"}, {"city": "frankfurt", "objectId": "osm/way/1333665179", "partId": "osm/way/1333665179/component/8d793be1b44c3c28f21f", "signature": "4930fa3e"}];
 export const infillSilberturmIdentity=(c:Identity)=>IDS.some(i=>i.objectId===c.objectId&&i.partId===c.partId);
 const equalSource=(c:BuildingComponent,s:any)=>nativePaintSignature(c)===s.geometrySignature&&JSON.stringify(c.origin)===JSON.stringify(s.origin)&&JSON.stringify(c.componentGeometry)===JSON.stringify(s.componentGeometry)&&JSON.stringify(c.sourceFeature)===JSON.stringify(s.sourceFeature)&&c.batches.length===s.batches.length&&c.batches.every((b,bi)=>['positions','normals','indices','color'].every(k=>{const a=(b as any)[k],e=s.batches[bi][k];return a?.length===e?.length&&Array.from(a as ArrayLike<number>).every((v,j)=>Object.is(v,e[j]));}));

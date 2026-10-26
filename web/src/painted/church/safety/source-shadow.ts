@@ -1,6 +1,7 @@
-/** Fixed schematic sunlight. Admission belongs to the offline native city compiler.
+/** Legacy fixed-vector proof remains the source admission gate. Runtime display additionally
+ * verifies current date/time solar projection against the same municipal boundary.
  * Original source geometry/tags and the actual roof/wall picking triangles are unchanged. */
-export const SOURCE_SHADOW_DESCRIPTION={zh:'阴影采用固定方向的示意光照。',en:'Shadows use a fixed illustrative light direction.',de:'Die Schatten verwenden eine feste, schematische Lichtrichtung.'} as const;
+export const SOURCE_SHADOW_DESCRIPTION={zh:'阴影按所选日期和时间的太阳方向及高度投影；近地平线或未通过市界核验时不绘制。',en:'Shadows follow the selected date/time solar direction and altitude; they are withheld near the horizon or without municipal-boundary coverage.',de:'Schatten folgen Sonnenrichtung und -höhe des gewählten Datums und der Uhrzeit; nahe dem Horizont oder ohne geprüfte Stadtgrenzenabdeckung werden sie ausgeblendet.'} as const;
 export const SOURCE_SHADOW_VECTOR=[.35,.22] as const;
 export type SourceShadowAdmission={schema_version:1;city:string;objectId:string;partId:string;source_boundary_sha256:string;fixed_vector:[number,number];swept_bbox:[number,number,number,number];swept_bbox_actual_city_covered:true;includes_growth_zero_to_one:true;triangle_count:number;status:'display-schematic'};
 const cityIDs=new Set(['berlin','hamburg','munich','cologne','frankfurt','dusseldorf','stuttgart','leipzig','dortmund','bremen','essen','dresden','hannover','nuremberg']);
@@ -25,8 +26,8 @@ export function sourceShadowOpacity(surfaceOpacity:number,context:'normal'|'rout
 }
 export const SOURCE_SHADOW_VERTEX_GLSL=`#version 300 es
 precision highp float;
-in vec3 a_position;in float a_selected;uniform mat4 u_matrix;out float v_growth;
-void main(){float growth=mod(a_selected,2.);v_growth=growth;vec3 p=vec3(a_position.x+.35*a_position.y*growth,.015,a_position.z+.22*a_position.y*growth);gl_Position=u_matrix*vec4(p,1.);}`;
+in vec3 a_position;in float a_selected;uniform mat4 u_matrix;uniform vec2 u_shadow_vector;out float v_growth;
+void main(){float growth=mod(a_selected,2.);v_growth=growth;vec3 p=vec3(a_position.x+u_shadow_vector.x*max(0.,a_position.y*growth),.03,a_position.z+u_shadow_vector.y*max(0.,a_position.y*growth));gl_Position=u_matrix*vec4(p,1.);}`;
 export const SOURCE_SHADOW_FRAGMENT_GLSL=`#version 300 es
 precision mediump float;in float v_growth;uniform float u_shadow_opacity;out vec4 color;
-void main(){color=vec4(.12,.14,.16,u_shadow_opacity*v_growth);}`;
+void main(){color=vec4(u_shadow_opacity*v_growth,0.,0.,1.);}`;

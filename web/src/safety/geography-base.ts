@@ -36,6 +36,7 @@ const COPY={
 export function installGeographyBase(options:{map:MapView;host:HTMLElement;city:string;locale:'zh'|'en'|'de';fetchJSON:(path:string,signal:AbortSignal,policy?:'no-store')=>Promise<unknown>;fetchBytes?:(path:string,signal:AbortSignal,policy?:'no-store')=>Promise<Uint8Array>;onChange:(ref:CommunityReference)=>void}){
  const {map,host,city,locale}=options,c=COPY[locale],abort=new AbortController();
  let ref=communityReference(null,city),level:Level|undefined,levels:Level[]=[],selected:FC['features'][number]|undefined,lastPoint:number[]|undefined,enabled=true,revision=0;
+ let suspended=false;const deferredSources=new Map<string,FC>();
  let areaLookup=createAreaLookup(ref.boundaries.features);
  const cache=new Map<string,CommunityReference>();
  const geometryHashByLevel=new Map<string,string>();
@@ -156,16 +157,16 @@ export function installGeographyBase(options:{map:MapView;host:HTMLElement;city:
   panel.hidden=false;clampPanel();handle.focus();
  }
  details.onclick=()=>{if(metricState==='error')metricAttemptKey='';showDetails();};
- const set=(id:string,data:FC)=>(map.getSource(id) as GeoJSONSource|undefined)?.setData(data);
+ const set=(id:string,data:FC)=>{if(suspended){deferredSources.set(id,data);return;}deferredSources.delete(id);(map.getSource(id) as GeoJSONSource|undefined)?.setData(data);};
  let hoveredId:string|undefined;
  const clearHover=()=>{if(hoveredId===undefined)return;hoveredId=undefined;set('community-hover',empty());set('community-names',empty());};
  function locateAt(point:number[]){cancelSemantic();references.cancel();lastPoint=point;selected=areaLookup.find(point);name.textContent=selected?`${level?.label??ref.metadata.division_level??''} · ${selected.properties.name}`:ref.available?c.outside:c.missing;details.disabled=!selected;}
- function chooseAt(point:number[]){locateAt(point);if(selected)revealSelectedInformation(bar);if(!selected||map.getZoom()>=(level?.overview_zoom??13))return;
+ function chooseAt(point:number[]){locateAt(point);if(selected)revealSelectedInformation(bar);if(suspended||!selected||map.getZoom()>=(level?.overview_zoom??13))return;
   let west=180,east=-180,south=90,north=-90;
   const scan=(v:any)=>{if(typeof v[0]==='number'){west=Math.min(west,v[0]);east=Math.max(east,v[0]);south=Math.min(south,v[1]);north=Math.max(north,v[1]);}else v.forEach(scan);};
   scan((selected.geometry as any).coordinates);map.fitBounds([[west,south],[east,north]],{padding:36,maxZoom:level?.overview_zoom??13,duration:650});
  }
- function visibility(value=enabled){enabled=value;for(const id of ['community-hit','community-line','community-label','community-hover'])if(map.getLayer(id))map.setLayoutProperty(id,'visibility',enabled&&ref.available?'visible':'none');if(!enabled)clearHover();}
+ function visibility(value=enabled){enabled=value;if(suspended)return;for(const id of ['community-hit','community-line','community-label','community-hover'])if(map.getLayer(id))map.setLayoutProperty(id,'visibility',enabled&&ref.available?'visible':'none');if(!enabled)clearHover();}
  async function change(next:Level){cancelSemantic();references.cancel();context.destroy();metricRequest.abort();metricAttemptKey='';metricSelection++;activeComparisons=undefined;activeLayerCategories.clear();const ticket=++revision;level=next;name.textContent=c.loading;clearHover();panel.hidden=true;details.disabled=true;selected=undefined;metrics={};metricState='absent';ref=communityReference(null,city);areaLookup=createAreaLookup(ref.boundaries.features);set('communities',empty());visibility();
   let nextRef=cache.get(next.id);
   if(!nextRef){try{
@@ -184,7 +185,7 @@ export function installGeographyBase(options:{map:MapView;host:HTMLElement;city:
 
  }
  select.onchange=()=>{const next=levels.find(l=>l.id===select.value);if(next)void change(next);};
- map.on('mousemove',e=>{if(!enabled||!ref.available||map.getZoom()>=(level?.overview_zoom??13)){clearHover();return;}const f=overviewArea(areaLookup,[e.lngLat.lng,e.lngLat.lat],map.getZoom(),level?.overview_zoom??13,enabled&&ref.available);if(f?.properties.id===hoveredId)return;hoveredId=f?.properties.id;set('community-hover',{type:'FeatureCollection',features:f?[f]:[]});set('community-names',{type:'FeatureCollection',features:f?ref.labels.features.filter(p=>p.properties.id===f.properties.id):[]});});
+ map.on('mousemove',e=>{if(suspended)return;if(!enabled||!ref.available||map.getZoom()>=(level?.overview_zoom??13)){clearHover();return;}const f=overviewArea(areaLookup,[e.lngLat.lng,e.lngLat.lat],map.getZoom(),level?.overview_zoom??13,enabled&&ref.available);if(f?.properties.id===hoveredId)return;hoveredId=f?.properties.id;set('community-hover',{type:'FeatureCollection',features:f?[f]:[]});set('community-names',{type:'FeatureCollection',features:f?ref.labels.features.filter(p=>p.properties.id===f.properties.id):[]});});
  map.getCanvas().addEventListener('mouseleave',clearHover);map.on('zoomstart',clearHover);
  async function load(){
   try{const manifest=await options.fetchJSON('/safety/geography/index.json',abort.signal) as any;
@@ -198,5 +199,5 @@ export function installGeographyBase(options:{map:MapView;host:HTMLElement;city:
   select.replaceChildren(...levels.map(l=>{const o=document.createElement('option');o.value=l.id;o.textContent=l.label;return o;}));select.disabled=levels.length<2;await change(levels[0]);
  }
  map.resize();
- return {hasArea:()=>enabled&&Boolean(selected),isOverview:()=>map.getZoom()<(level?.overview_zoom??13),load,locateAt,chooseAt,showDetails,visibility,get metricsCacheStats(){return shardLoader.cacheStats;},destroy(){semanticRefresh.destroy();semanticProjection.destroy();geometryHashByLevel.clear();references.destroy();metricRequest.abort();context.destroy();abort.abort();choices.destroy();window.removeEventListener('resize',clampPanel);window.visualViewport?.removeEventListener('resize',clampPanel);window.visualViewport?.removeEventListener('scroll',clampPanel);panel.remove();toolbar.remove();bar.remove();}};
+ return {suspend(){suspended=true;},resume(){if(!suspended)return;suspended=false;for(const[id,fc]of deferredSources)set(id,fc);visibility();},hasArea:()=>enabled&&Boolean(selected),isOverview:()=>map.getZoom()<(level?.overview_zoom??13),load,locateAt,chooseAt,showDetails,visibility,get metricsCacheStats(){return shardLoader.cacheStats;},destroy(){deferredSources.clear();semanticRefresh.destroy();semanticProjection.destroy();geometryHashByLevel.clear();references.destroy();metricRequest.abort();context.destroy();abort.abort();choices.destroy();window.removeEventListener('resize',clampPanel);window.visualViewport?.removeEventListener('resize',clampPanel);window.visualViewport?.removeEventListener('scroll',clampPanel);panel.remove();toolbar.remove();bar.remove();}};
 }

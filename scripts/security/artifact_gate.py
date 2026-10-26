@@ -5,9 +5,11 @@ Checksums prove byte integrity against a trusted detached digest, not source tru
 protection from an attacker controlling both the trusted build and deployment.
 """
 import argparse
+import gzip
 import hashlib
 import json
 import re
+import zlib
 import xml.etree.ElementTree as ET
 from html.parser import HTMLParser
 from pathlib import Path
@@ -19,6 +21,50 @@ PRIVATE = {"raw_html", "article_body", "source_body", "raw_body", "full_body", "
 FORBIDDEN_PARTS = {".runtime", ".git", "node_modules", "src", "test_suite", "reviews", "review", "archives", "archive", "source-downloads"}
 SECRET = re.compile(rb"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|\bgh[pousr]_[A-Za-z0-9]{30,}\b|\bgithub_pat_[A-Za-z0-9_]{60,}\b|\bAKIA[A-Z0-9]{16}\b")
 SVG_TAGS = set("svg g path circle ellipse line polyline polygon rect text tspan title desc defs linearGradient radialGradient stop clipPath mask use".split())
+
+# Only the existing city data transports are gzip. Executable/archive suffixes
+# remain forbidden; decoded JSON receives the same content checks as raw JSON.
+MAX_GZIP_FILE_BYTES = 64 * 1024**2
+MAX_GZIP_TOTAL_BYTES = 4_000_000_000
+
+
+def compressed_json_path(relative, city):
+    hashed = [
+        r"safety/lossless/(?P<sha>[a-f0-9]{64})\.json\.gz",
+        r"safety/buildings3d/painted-tables/(?P<prefix>[a-f0-9]{2})/(?P<sha>[a-f0-9]{64})\.json\.gz",
+        r"safety/buildings3d/capability-native-lod1-(?P<sha>[a-f0-9]{64})\.json\.gz",
+        rf"safety/buildings3d/{city}/(?:partition|roof500|roof500-partition)-(?P<sha>[a-f0-9]{{64}})\.json\.gz",
+        rf"safety/environment/{city}/(?:environment|partition)-(?P<sha>[a-f0-9]{{64}})\.json\.gz",
+    ]
+    for pattern in hashed:
+        match = re.fullmatch(pattern, relative)
+        if match:
+            values = match.groupdict()
+            if values.get("prefix", values["sha"][:2]) != values["sha"][:2]:
+                raise ValueError("Compressed asset prefix differs from SHA")
+            return values["sha"]
+    if re.fullmatch(rf"safety/buildings3d/{city}/(?:flat|roof)-[0-9]{{5}}\.json\.gz", relative):
+        return None
+    if city == "berlin" and re.fullmatch(r"safety/buildings3d/berlin/appearance-reichstag-west(?:-aligned)?-[a-f0-9]{16}\.json\.gz", relative):
+        return None
+    raise ValueError("Unsupported compressed artifact path")
+
+
+def check_gzip_json(path, limit):
+    raw = bytearray()
+    with path.open("rb") as compressed:
+        if compressed.read(4) != b"\x1f\x8b\x08\x00":
+            raise ValueError("Unsupported gzip metadata/header")
+    with gzip.open(path, "rb") as stream:
+        while chunk := stream.read(min(1024 * 1024, limit - len(raw) + 1)):
+            if len(raw) + len(chunk) > limit:
+                raise ValueError("Compressed JSON exceeds decoded artifact budget")
+            raw.extend(chunk)
+    if SECRET.search(raw):
+        raise ValueError("Credential signature found; details suppressed")
+    check_json(json.loads(raw))
+    return {"encoding": "gzip", "decoded_bytes": len(raw),
+            "decoded_sha256": hashlib.sha256(raw).hexdigest()}
 
 def digest(path):
     h = hashlib.sha256()
@@ -113,6 +159,7 @@ def scan(root, city, commit):
     files = {}
     total = 0
     generations = set()
+    decoded_total = 0
     for path in sorted(root.rglob("*")):
         relative = path.relative_to(root).as_posix()
         parts = path.relative_to(root).parts
@@ -124,7 +171,9 @@ def scan(root, city, commit):
             raise ValueError("Private/unsupported artifact path")
         if any(part.startswith(".") for part in parts) and relative not in {".nojekyll", ".well-known/security.txt"}:
             raise ValueError("Hidden artifact path forbidden")
-        if path.suffix.lower() not in ALLOWED and relative != ".nojekyll":
+        compressed = path.suffix.lower() == ".gz"
+        named_sha = compressed_json_path(relative, city) if compressed else None
+        if path.suffix.lower() not in ALLOWED and relative != ".nojekyll" and not compressed:
             raise ValueError("Unsupported artifact extension")
         if re.search(r"(?i)(?:sqlite|credentials|source[-_]review|review[-_]decisions|scope[-_]decisions|scene[-_]decisions|geometry[-_]decisions|map[-_]decisions|source[-_]packet|owner[-_]review)", relative):
             raise ValueError("Private audit/credential file forbidden")
@@ -133,6 +182,13 @@ def scan(root, city, commit):
         if total > 900_000_000 or size > 100_000_000 or len(files) >= 100_000:
             raise ValueError("Artifact exceeds bounded Pages budget")
         suffix = path.suffix.lower()
+        physical_sha = digest(path)
+        decoded = {}
+        if compressed:
+            if named_sha is not None and physical_sha != named_sha:
+                raise ValueError("Compressed asset filename SHA differs")
+            decoded = check_gzip_json(path, min(MAX_GZIP_FILE_BYTES, MAX_GZIP_TOTAL_BYTES - decoded_total))
+            decoded_total += decoded["decoded_bytes"]
         if suffix in {".html", ".js", ".mjs", ".css", ".json", ".geojson", ".txt", ".xml", ".svg"}:
             raw = path.read_bytes()
             if SECRET.search(raw):
@@ -149,7 +205,7 @@ def scan(root, city, commit):
         for part in parts:
             if re.fullmatch(r"[a-f0-9]{16}-\d{8}T\d{6}", part):
                 generations.add(part)
-        files[relative] = {"sha256": digest(path), "bytes": size}
+        files[relative] = {"sha256": physical_sha, "bytes": size, **decoded}
     if "index.html" not in files or len(generations) > 1:
         raise ValueError("Missing entrance or multiple data generations")
     return {"schema_version": 1, "city": city, "code_commit": commit, "total_bytes": total, "files": files}
@@ -185,7 +241,7 @@ def main():
             result = verify(args.artifact, args.expected, args.expected_sha256, args.city, args.commit)
             receipt_hash = args.expected_sha256
         print(json.dumps({"ok": True, "city": args.city, "files": len(result["files"]), "bytes": result["total_bytes"], "receipt_sha256": receipt_hash}))
-    except (ValueError, OSError, ET.ParseError, UnicodeError) as error:
+    except (ValueError, OSError, ET.ParseError, UnicodeError, zlib.error) as error:
         parser.exit(1, f"Artifact gate rejected: {error}\n")
 
 if __name__ == "__main__":

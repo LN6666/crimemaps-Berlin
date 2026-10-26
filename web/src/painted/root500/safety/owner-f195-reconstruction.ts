@@ -1,4 +1,4 @@
-import {readFrozenTable} from '../../../safety/frozen-paint-tables';
+import {readFrozenTableAsync} from '../../../safety/frozen-paint-tables';
 import type {BuildingComponent,Identity,MeshBatch} from './building-mesh-renderer';
 import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
 import {nativePaintSignature} from './progressive-native-signature';
@@ -7,7 +7,7 @@ export const F195_IDS=[{"objectId":"osm/way/892621414","partId":"osm/way/8926214
 export const F195_RECONSTRUCTION_SHA='ca4568bab975cde541a65e405f6d36ff558408668ba40e083614f9ab33e5c838';
 export const ownerF195Identity=(c:Identity)=>F195_IDS.some(t=>t.objectId===c.objectId&&t.partId===c.partId);
 const ORIGIN=[9.1814, 48.7781],A=[0.9089227448498921, -0.4169645595185973],B=[0.4169645595185973, 0.9089227448498921];
-const ROOF=readFrozenTable("25d707d7fc570ef5fd7a2b5d917d185e51ddc72ecba92727407b39f3df95291b") as Array<Array<[number,number,number]>>;
+const ROOF=(await readFrozenTableAsync("25d707d7fc570ef5fd7a2b5d917d185e51ddc72ecba92727407b39f3df95291b","painted/root500/safety/owner-f195-reconstruction.ts",0)) as Array<Array<[number,number,number]>>;
 const offset=(c:BuildingComponent)=>[(c.origin[0]-ORIGIN[0])*111320*Math.cos(ORIGIN[1]*Math.PI/180),(c.origin[1]-ORIGIN[1])*111320];
 const uv=(c:BuildingComponent,x:number,z:number)=>{const d=offset(c);x+=d[0];z+=d[1];return[x*A[0]+z*A[1],x*B[0]+z*B[1]];};
 const xyz=(c:BuildingComponent,u:number,y:number,v:number)=>{const d=offset(c);return[u*A[0]+v*B[0]-d[0],y,u*A[1]+v*B[1]-d[1]];};

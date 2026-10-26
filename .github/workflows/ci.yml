@@ -34,7 +34,16 @@ jobs:
           node-version: '22'
       - run: npm --prefix web ci
       - run: npm --prefix web run build
+        env:
+          CRIMEMAPS_BUILD_PURPOSE: code-check
+      - run: npm --prefix web run test:city-data-profile
+      - run: npm --prefix web run test:shared-native-source
+      - run: npm --prefix web run test:facade-controller-retention
+      - run: npm --prefix web run test:owner-city-boundary
+      - run: npm --prefix web run test:building-detail-residency
+      - run: npm --prefix web run test:material-program-lifecycle
       - run: npm --prefix web run test:navigation
       - run: npm --prefix web run test:statistics
       - run: npm --prefix web run test:painting
+      - run: npm --prefix web run test:scene-runtime
       - run: cd web && npx playwright install --with-deps chromium && npm test

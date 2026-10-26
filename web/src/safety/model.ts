@@ -1,3 +1,4 @@
+import {publicationPeriodIncludes} from './publication-period';
 import {t} from "./i18n";
 import type {
   FeatureCollection,
@@ -507,7 +508,7 @@ export function monthEvents(
   category: string,
 ): PoliceEvent[] {
   return data.events.filter(
-    (e) => displayMonth(e) === month && (category === "all" || e.category === category),
+    (e) => publicationPeriodIncludes(month,displayMonth(e)) && (category === "all" || e.category === category),
   );
 }
 export function filteredHex(source: FC, ids: Set<string>): FC {

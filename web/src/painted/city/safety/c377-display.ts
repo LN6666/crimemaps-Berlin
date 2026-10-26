@@ -1,6 +1,8 @@
-import {C377_FIXTURE as F} from './c377-fixture';
-import type {C318Component as C,C318Context as X} from './c318-display';
-const eq=(a:ArrayLike<number>,b:ArrayLike<number>)=>a.length===b.length&&Array.from(b).every((v,i)=>a[i]===v);
-function matches(c:C,p:typeof F.patch){return c.city===p.city&&c.objectId===p.objectId&&c.partId===p.partId&&eq(c.origin,p.origin)&&JSON.stringify(c.componentGeometry)===JSON.stringify(p.componentGeometry)&&JSON.stringify(c.sourceFeature?.properties)===JSON.stringify(p.sourceFeature?.properties)&&c.batches.length===p.batches.length&&c.batches.every((b,i)=>eq(b.positions,p.batches[i].positions)&&eq(b.normals,p.batches[i].normals)&&eq(b.indices,p.batches[i].indices)&&eq(b.color,p.batches[i].color));}
-export const c377HasMaterialBinding=(c:C)=>matches(c,F.patch);
-export function applyC377MaterialFrames(rows:readonly C[],color:Float32Array,paint:Float32Array,x:X){const gate=!x.signal?.aborted&&x.city==='munich'&&x.indexSHA===F.indexSHA&&x.sourcePBF===F.sourcePBF&&x.boundarySHA===F.boundarySHA&&x.sourceSnapshot===F.sourceSnapshot&&x.pathsReady.color;let at=0,painted=0;for(const c of rows){const enabled=gate&&c377HasMaterialBinding(c)&&x.materialReady(c);for(let bi=0;bi<c.batches.length;bi++){const b=c.batches[bi];for(let i=0;i<b.positions.length;i+=3){if(enabled){const X=b.positions[i],Z=b.positions[i+2],u=X*.9877899751337579-Z*.1557914151205071,n=X*.1557914151205071+Z*.9877899751337579;color.set([.83,.80,.72,2],at*4);paint.set([u,b.positions[i+1],n,1,F.families[bi]],at*5);painted++;}at++;}}}return{painted,reconstructed:true};}
+import {createLazyCityMaterial,type CityMaterialWait} from './lazy-city-material';
+type Implementation=typeof import('./c377-display-implementation');
+const ids=new Set(["munich|osm/way/14186618|osm/way/14186618/component/985eb2d4ec4c581129f5/owner-shape-C377"]);
+const needed=(c:{city:string;objectId:string;partId:string})=>ids.has(c.city+'|'+c.objectId+'|'+c.partId);
+const route=createLazyCityMaterial<Implementation>("c377-display",()=>import('./c377-display-implementation'));
+export const prepareC377MaterialFrames=(signal:AbortSignal,wait?:CityMaterialWait)=>route.prepare(signal,wait);
+export const c377HasMaterialBinding:Implementation["c377HasMaterialBinding"]=c=>{const module=route.value();return module?module.c377HasMaterialBinding(c):needed(c)?route.required().c377HasMaterialBinding(c):false;};
+export const applyC377MaterialFrames:Implementation["applyC377MaterialFrames"]=(rows,color,paint,x)=>{const module=route.value();if(module)return module.applyC377MaterialFrames(rows,color,paint,x);if(!x.signal?.aborted&&x.city==="munich"&&rows.some(needed))return route.required().applyC377MaterialFrames(rows,color,paint,x);return {"painted":0,"reconstructed":true};};

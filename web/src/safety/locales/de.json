@@ -86,7 +86,7 @@
   "legend.pois": "Orte im Umfeld",
   "legend.highlight": "Intensitätsstufen der Ortsbezüge anzeigen (I–XV)",
   "legend.highlightNone": "Im aktuellen Filter und geladenen Kartenausschnitt gibt es keine verknüpften Meldungen; daher erscheinen keine römischen Zahlen.",
-  "legend.highlightNote": "Die Kategorieauswahl blendet Einrichtungen ein oder aus. Dieser Schalter zeigt oder verbirgt nur kleine römische Zahlen direkt unter den Mittelpunkten; Mittelpunkte und Flächenfarben bleiben gleich. I–XV quantifizieren die ursprüngliche Darstellungsintensität in 15 Stufen anhand unterschiedlicher, quellenbelegter Meldungsbezüge im gewählten Monat und in der Meldungskategorie. Die Zahlen sind weder Meldungszahlen noch Straftatenzahlen oder Risikostufen: V bezeichnet nur die fünfte Stufe. Ohne Bezug erscheint keine Zahl. Ein Klick öffnet die tatsächliche Anzahl, Meldungsliste und Berechnung.",
+  "legend.highlightNote": "Die Kategorieauswahl blendet Einrichtungen ein oder aus. Dieser Schalter zeigt oder verbirgt nur kleine römische Zahlen direkt unter den Mittelpunkten; Mittelpunkte und Flächenfarben bleiben gleich. I–XV quantifizieren die ursprüngliche Darstellungsintensität in 15 Stufen anhand unterschiedlicher, quellenbelegter Meldungsbezüge im gewählten Zeitraum und in der Meldungskategorie. Die Zahlen sind weder Meldungszahlen noch Straftatenzahlen oder Risikostufen: V bezeichnet nur die fünfte Stufe. Ohne Bezug erscheint keine Zahl. Ein Klick öffnet die tatsächliche Anzahl, Meldungsliste und Berechnung.",
   "legend.resolution": "Seitenlänge: {metres} m · Wechselt mit der Zoomstufe",
   "selection.prompt": "Sechseck, Einrichtung, Ort aus einer Meldung oder Straße auswählen",
   "selection.intro": "Auf die Karte klicken, um Meldungen und Quellen anzusehen.",
@@ -153,7 +153,7 @@
   "report.sourcePlaceTypes": "In der Quelle genannte Arten von Orten: {types}",
   "coverage.filtered": "Aktuelle Filter · Berücksichtigte Meldungen",
   "coverage.noMonth": "Kein Datenpaket für diesen Monat",
-  "coverage.countPoints": "In diesem Monat haben {countable} Meldungen einen geeigneten Referenzort; {without} haben keinen, davon {references} mit Bezugsgeometrie. Die Hexagone fassen geeignete Meldungen des ganzen Jahres zusammen.",
+  "coverage.countPoints": "Im gewählten Zeitraum haben {countable} Meldungen einen geeigneten Referenzort; {without} haben keinen, davon {references} mit Bezugsgeometrie. Die Hexagone fassen geeignete Meldungen des ganzen Jahres zusammen.",
   "coverage.located": "Auf der Karte verortet: {located}; Lage unbekannt: {unresolved}; bei {roads} Meldungen kann die genannte Straße angezeigt werden",
   "coverage.noPointList": "Meldungen ohne geeignete Ortsangabe für die Zählung: {count} · Liste anzeigen",
   "coverage.unresolvedList": "Meldungen mit unzureichenden Ortsangaben: {count} · Liste anzeigen",
@@ -762,5 +762,6 @@
   "selection.geography.land": "Landfläche",
   "selection.geography.place": "Ort",
   "report.dataProvider": "Datenanbieter",
-  "report.providerSummary": "Zusammenfassung von {provider} · keine vollständige Polizeimeldung"
+  "report.providerSummary": "Zusammenfassung von {provider} · keine vollständige Polizeimeldung",
+  "filter.yearToDate": "Bisheriges Jahr (gespeicherte Monate)"
 }

@@ -1,9 +1,9 @@
-import {readFrozenTable} from '../../../safety/frozen-paint-tables';
+import {readFrozenTableAsync} from '../../../safety/frozen-paint-tables';
 import type {BuildingComponent,Identity} from './building-mesh-renderer';
 import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
 import {decodeBuildingShard} from './building-mesh-codec';
-const DISPLAY_LIST:any[]=readFrozenTable("8e86b1bd41ba3e66019029d0c250717f7a484b88ebebb37b918e08e6f4be1bb6");
-const SOURCE_SHARD:any=readFrozenTable("ef6aa3af04f88158d20d51e6dad903876e4f6895f14dca1388533bc0667bbb26");
+const DISPLAY_LIST:any[]=(await readFrozenTableAsync("8e86b1bd41ba3e66019029d0c250717f7a484b88ebebb37b918e08e6f4be1bb6","painted/bremen/safety/infill-essen-rathaus-galerie.ts",0));
+const SOURCE_SHARD:any=(await readFrozenTableAsync("ef6aa3af04f88158d20d51e6dad903876e4f6895f14dca1388533bc0667bbb26","painted/bremen/safety/infill-essen-rathaus-galerie.ts",0));
 const ORIGINAL=decodeBuildingShard(SOURCE_SHARD,"essen").components;
 export const INFILL_GALERIE_SHA="8e86b1bd41ba3e66019029d0c250717f7a484b88ebebb37b918e08e6f4be1bb6";
 export const infillGalerieIdentity=(c:Identity&{city?:string})=>(c.city===undefined||c.city==='essen')&&ORIGINAL.some(s=>s.objectId===c.objectId&&s.partId===c.partId);
