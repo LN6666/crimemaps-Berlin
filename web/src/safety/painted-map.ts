@@ -1,3 +1,4 @@
+import type {ContextRecoveryOptions} from './recovery-resident-reuse';
 import {createSharedNativeSourcePool} from './shared-native-source';
 import {planarReflectionGroup} from './planar-reflection-group';
 import type {installThreeDimensionalMap as CityInstaller} from '../painted/city/safety/three-dimensional-map';
@@ -77,6 +78,14 @@ export function installThreeDimensionalMap(options: Options): Actual {
   const lifetime = new AbortController();
   let frozenInitialization:ReturnType<typeof beginFrozenPaintTableInitialization>|undefined;
   const startFrozenInitialization=(signal:AbortSignal)=>frozenInitialization=beginFrozenPaintTableInitialization(fetchBytes,signal,providerOrder,error=>{if(!destroyed&&!signal.aborted&&!(error instanceof DOMException&&error.name==='AbortError')){lastError=String(error);options.onState?.({mode:managers.get('city')?.mode??'2d',status:'error'});}});
+
+  let recoveryFrozenStamp:string|undefined;
+  function quietFrozenStamp(){
+    const state=frozenPaintTableStats();
+    if(!frozenInitialization?.active||state.active||state.queued||state.pendingInitializers||state.activePhysicalBytes||state.declaredInFlightRawBytes)return;
+    return JSON.stringify([state.completedInitializers,state.parses]);
+  }
+  const recoveryTransportIdle=()=>wanted==='3d'&&preparing===0&&managers.size===providerOrder.length&&active===0&&queue.length===0&&inflight.size===0&&!request.signal.aborted;
 
   const reflectionGroup=planarReflectionGroup(()=>providerOrder.map(provider=>renderers.get(provider)));
   const renderer = new Proxy({} as Engine, {
@@ -161,7 +170,7 @@ export function installThreeDimensionalMap(options: Options): Actual {
 
   async function requestMode(next: '2d' | '3d', external: AbortSignal) {
     external.throwIfAborted(); if (destroyed) throw abort();
-    wanted=next;request.abort();let own=request=new AbortController();
+    recoveryFrozenStamp=undefined;wanted=next;request.abort();let own=request=new AbortController();
     const ticket=++transition;preparing=ticket;
     const cancel=()=>own.abort();external.addEventListener('abort',cancel,{once:true});
     try {
@@ -198,8 +207,17 @@ export function installThreeDimensionalMap(options: Options): Actual {
       const combined=renderers.size?{...first,components:stats.reduce((n,value)=>n+(value.components??0),0),vertices:stats.reduce((n,value)=>n+(value.vertices??0),0),paintProviders:Object.fromEntries(providerOrder.flatMap(provider=>{const value=snapshots.get(provider)?.renderer;return value?[[provider,value]]:[];}))}:undefined;
       return {...city,modeTransitionPending:preparing!==0,lastError,ownerReconstruction:{notNative:true as const,geometryAdded:[...snapshots.values()].reduce((sum,value)=>sum+(value.ownerReconstruction?.geometryAdded??0),0),components:[...snapshots.values()].flatMap(value=>value.ownerReconstruction?.components??[])},paintProviders:Object.fromEntries(snapshots),frozenTableInputs:frozenPaintTableStats(),sharedNativeSources:nativeSources.stats,sharedTransport:{active,peakConcurrency:peak,reads,queued:queue.length,cachedBytes,cachedAssets:byteCache.size},renderer:combined,rendererScreenSamples:providerOrder.flatMap(provider=>snapshots.get(provider)?.rendererScreenSamples??[]),revision:renderer.getRevision(),selected:renderers.size?renderer.selected:undefined};
     },
-    suspend(){request.abort();frozenInitialization?.close();managers.forEach(m=>m.suspend());},
-    resume(){if(destroyed)return;const incomplete=wanted==='3d'&&providerOrder.some(p=>managers.get(p)?.wantedMode!=='3d');if(wanted==='3d'&&managers.size){request.abort();request=new AbortController();startFrozenInitialization(request.signal);}managers.forEach(m=>m.resume());if(incomplete)void requestMode('3d',new AbortController().signal).catch(()=>{});},
+    suspend(settings?:ContextRecoveryOptions){
+      const stamp=settings?.contextRecovery&&recoveryTransportIdle()?quietFrozenStamp():undefined;
+      recoveryFrozenStamp=stamp;const keep=stamp!==undefined;
+      if(!keep){request.abort();frozenInitialization?.close();}
+      managers.forEach(m=>m.suspend(keep?settings:undefined));return keep;
+    },
+    resume(settings?:ContextRecoveryOptions){if(destroyed)return;const incomplete=wanted==='3d'&&providerOrder.some(p=>managers.get(p)?.wantedMode!=='3d');
+      const keep=settings?.contextRecovery===true&&recoveryFrozenStamp!==undefined&&recoveryTransportIdle()&&quietFrozenStamp()===recoveryFrozenStamp;recoveryFrozenStamp=undefined;
+      if(!keep&&wanted==='3d'&&managers.size){request.abort();request=new AbortController();startFrozenInitialization(request.signal);}
+      managers.forEach(m=>m.resume(keep?settings:undefined));if(incomplete)void requestMode('3d',new AbortController().signal).catch(()=>{});
+    },
     destroy(){if(destroyed)return;destroyed=true;request.abort();nativeSources.destroy();frozenInitialization?.close();lifetime.abort();inflight.forEach(p=>p.controller.abort());managers.forEach(m=>m.destroy());inflight.clear();clearBytes();pump();},
   } as Actual;
 }

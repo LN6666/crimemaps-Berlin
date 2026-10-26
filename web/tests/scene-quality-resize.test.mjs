@@ -72,10 +72,13 @@ const CameraFixture=new Function(stripTypeScriptTypes(`
  }`,{mode:'strip'})+'\nreturn CameraFixture;')();
 // Use the actual city request, camera completion and movement cancellation code.
 // Only asset/GPU readiness and the clock are stubs; no fixture abort is injected.
-const cityTransition=new Function(stripTypeScriptTypes(`
+const residentSource=await fs.readFile(path.join(webRoot,'src/safety/recovery-resident-reuse.ts'),'utf8');
+const {createRecoveryResidentReuse}=await import('data:text/javascript;base64,'+Buffer.from(stripTypeScriptTypes(residentSource,{mode:'strip'})).toString('base64'));
+const cityTransition=new Function('createRecoveryResidentReuse',stripTypeScriptTypes(`
 function cityTransition(map){
  let destroyed=false,suspended=false,revision=0,request=new AbortController(),
      mode='2d',wantedMode='2d',preparingTicket,ownCameraStartingTicket,cameraMotionTicket,lastError;
+ const recoveryResident=createRecoveryResidentReuse(()=>undefined);
  const stages=[],announcements=[],options={manageCamera:true,onState:value=>announcements.push(value)};
  const renderer={setEnabled(){},suspendSelection(){}};
  const pageIsHidden=()=>false,visibleReadinessDeadline=()=>()=>{};
@@ -90,7 +93,7 @@ function cityTransition(map){
  map.on('movestart',moveStarted);map.on('moveend',moved);
  return{requestMode,stages,announcements,get aborted(){return request.signal.aborted;},get revision(){return revision;}};
 }
-`,{mode:'strip'})+'\nreturn cityTransition;')();
+`,{mode:'strip'})+'\nreturn cityTransition;')(createRecoveryResidentReuse);
 test('actual city camera transition is not aborted by a DPR-generated nested movement cycle',async()=>{
  const f=fixture(),previousMatchMedia=globalThis.matchMedia,trace=[];
  try{
