@@ -1,3 +1,4 @@
+import type {ContextRecoveryOptions} from './recovery-resident-reuse';
 import {reichstagAppearanceVertexReservation} from './reichstag-appearance-budget';
 import {checkedSceneEnvironment,type SceneEnvironmentState} from './scene-environment-state';
 import type {installThreeDimensionalMap as InstallActualMap} from './three-dimensional-map';
@@ -52,8 +53,8 @@ export function installThreeDimensionalMap(options:Options,loadModule:()=>Promis
   get paintLayers(){return actual?.paintLayers??[];},
   getRevision:()=>actual?.getRevision()??{generation:0,viewRevision:0},
   cacheStats(){if(actual)return {...actual.cacheStats(),lazyAdapterError:lastError};const b=options.map.getBounds();return{lastError,visibleLoadsPending:0,ownerReconstruction:{components:[],geometryAdded:0,notNative:true as const},sourceEdgeAssemblyDisplay:{groups:[],errors:[]},lazyAdapterError:lastError,logicalLeafRequestGuard:mobile?64:128,visibleVertexLimit:mobile?100000:200000,reservedAppearanceVertices,nativeAdmissionVertexLimit,viewportBounds:[b.getWest(),b.getSouth(),b.getEast(),b.getNorth()],mode:'2d',wantedMode:wanted,metadataPages:undefined,tiles:0,bytes:0,physicalBytes:0,inflatedJSONBytes:0,retainedPayloadEstimateBytes:0,visibleRetainedPayloadEstimateBytes:0,stagingRetainedPayloadEstimateBytes:0,cachePlusVisibleConservativeEstimateBytes:0,cacheVisibleStagingConservativeEstimateBytes:0,physicalShardFetchTransientMaxBytes:2*1024**2,measurement:'serialized-bytes-and-retained-payload-estimate-not-heap',active:0,peakConcurrency:0,loadCount:0,visibleShardIds:[],partial:false,selected:undefined,revision:{generation:0,viewRevision:0},renderer:undefined,rendererScreenSamples:[],zoom:options.map.getZoom(),pitch:options.map.getPitch(),queued:0};},
-  suspend(){if(destroyed)return;suspended=true;modeRequest.abort();revision++;actual?.suspend();},
-  resume(){if(destroyed)return;suspended=false;if(actual)actual.resume();else if(wanted==='3d')void requestMode('3d',new AbortController().signal).catch(()=>{});},
+  suspend(settings?:ContextRecoveryOptions){if(destroyed)return false;suspended=true;const keep=actual?.suspend(settings)===true;if(!keep){modeRequest.abort();revision++;}return keep;},
+  resume(settings?:ContextRecoveryOptions){if(destroyed)return;suspended=false;if(actual)actual.resume(settings);else if(wanted==='3d')void requestMode('3d',new AbortController().signal).catch(()=>{});},
   destroy(){if(destroyed)return;destroyed=true;modeRequest.abort();revision++;actual?.destroy();}
  };
 }

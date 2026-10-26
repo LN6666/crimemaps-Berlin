@@ -4,6 +4,7 @@ import {fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
 import {stripTypeScriptTypes} from 'node:module';
 import {build} from 'esbuild';
+import ts from 'typescript';
 
 // Place in web/tests. Optional first argument is the actual web/ root.
 const root=path.resolve(process.argv[2]??fileURLToPath(new URL('../',import.meta.url)));
@@ -15,6 +16,8 @@ const deferred=()=>{let resolve;const promise=new Promise(r=>resolve=r);return{p
 const providerOrder=['root500','delegated500','tier300','church','city'];
 const importTS=async text=>import('data:text/javascript;base64,'+Buffer.from(stripTypeScriptTypes(text,{mode:'strip'})).toString('base64'));
 const {installCustomLayerRecovery}=await importTS(raw.recovery);
+const {createRecoveryResidentReuse}=await importTS(await fs.readFile(sourceRoot+'/safety/recovery-resident-reuse.ts','utf8'));
+function actualMethod(source,name){const ast=ts.createSourceFile('lifecycle.ts',source,ts.ScriptTarget.Latest,true);const found=[];function visit(node){if(ts.isMethodDeclaration(node)&&node.name.getText(ast)===name)found.push(node.getText(ast));ts.forEachChild(node,visit);}visit(ast);assert.equal(found.length,1,'actual '+name+' method');return found[0];}
 const poolBuild=await build({entryPoints:[sourceRoot+'/safety/shared-native-source.ts'],bundle:true,platform:'node',format:'esm',target:'es2022',write:false});
 const {createSharedNativeSourcePool}=await import('data:text/javascript;base64,'+Buffer.from(poolBuild.outputFiles[0].text).toString('base64'));
 
@@ -28,8 +31,12 @@ const V2_RESUME="resume(){if(destroyed)return;const incomplete=wanted==='3d'&&pr
 const V1_RESUME=V2_RESUME.replace("if(wanted==='3d'&&managers.size){request.abort();request=new AbortController();","if(wanted==='3d'&&managers.size){request=new AbortController();");
 function exactReplace(source,before,after){assert.equal(source.split(before).length-1,1,'one expected historical-control boundary');return source.replace(before,after);}
 function negativePainted(source,version='original'){
- assert(source.includes(V2_PICK)&&source.includes(V2_RESUME),'actual source contains reviewed V2 boundaries');
- return version==='v1'?exactReplace(source,V2_RESUME,V1_RESUME):exactReplace(exactReplace(source,V2_PICK,OLD_PICK),V2_RESUME,OLD_RESUME);
+ assert(source.includes(V2_PICK),'actual source contains reviewed provider readiness boundary');
+ const currentResume=actualMethod(source,'resume');
+ // Inverse only the historical cancellation defect; keep the new optional
+ // context-only path intact. These scenarios call ordinary resume().
+ const uncancelled=exactReplace(currentResume,'request.abort();request=new AbortController();','request=new AbortController();');
+ return version==='v1'?exactReplace(source,currentResume,uncancelled):exactReplace(exactReplace(source,V2_PICK,OLD_PICK),currentResume,OLD_RESUME);
 }
 function mainReady(source,patched){
  const found=source.match(/isReady:(\(\)=>threeDimensional\?\.wantedMode!=='3d'\|\|Boolean\(threeDimensional\?\.mode==='3d'&&threeDimensional.renderer\?\.isPickReady\(\)\)),onReady:/);
@@ -50,20 +57,22 @@ async function buildAggregate(factory,patched,version='v2'){
 // moved() implementations below are taken verbatim from the current city owner.
 const city=await fs.readFile(sourceRoot+'/painted/city/safety/three-dimensional-map.ts','utf8');
 const movedSource=city.split('\n').find(s=>s.includes('const moved=()=>'));
-const resumeBody=city.match(/,resume\(\)\{(.*?)\},destroy\(\)/s)?.[1];
-const suspendBody=city.match(/,suspend\(\)\{(.*?)\},resume\(\)/s)?.[1];
-assert(movedSource&&resumeBody&&suspendBody);
+const resumeMethod=actualMethod(city,'resume'),suspendMethod=actualMethod(city,'suspend');
+assert(movedSource);
 
 async function run({patched,phase='city-before-mode',blockProvider='city',version='v2',repeatResume=false,asyncModes=false,followingAction='none'}){
  globalThis.document={hidden:false};globalThis.location={hostname:'test.invalid'};
  const reached=deferred(),gate=deferred(),records=new Map(),events=[],handlers=new Map(),layers=new Map();let firstBlocked=true;
  const map={on(t,fn){const hs=handlers.get(t)??new Set();hs.add(fn);handlers.set(t,hs);},off(t,fn){handlers.get(t)?.delete(fn);},emit(t){events.push(t);for(const fn of handlers.get(t)??[])fn();},isStyleLoaded:()=>true,getLayer:id=>layers.get(id),addLayer(l){layers.set(l.id,l);},removeLayer:id=>layers.delete(id),triggerRepaint(){}};
- const sourceResume=`return function(){${resumeBody}}`;
- const sourceSuspend=`return function(){${suspendBody}}`;
+ const sourceResume='return '+stripTypeScriptTypes('(function'+resumeMethod.slice('resume'.length)+')',{mode:'strip'})+';';
+ const sourceSuspend='return '+stripTypeScriptTypes('(function'+suspendMethod.slice('suspend'.length)+')',{mode:'strip'})+';';
  const sourceMoved=stripTypeScriptTypes(movedSource,{mode:'strip'});
  const factory=(provider,options)=>{
    let mode='2d',wantedMode='2d',suspended=false,destroyed=false,revision=0,request=new AbortController(),renderer,cameraMotionTicket,lastError;
    let calls=0,resumes=0,ready=false;
+   // No completed visible batch in this deliberately interrupted owner fixture.
+   // Use the real reuse helper: ordinary resume must take its invalidation path.
+   const recoveryResident=createRecoveryResidentReuse(()=>undefined);
    const announce=status=>{options.onState?.({mode,status});return{mode,status};};
    const visible=async(signal,ticket)=>{signal.throwIfAborted();if(ticket!==revision||destroyed||suspended)throw new DOMException('Aborted','AbortError');ready=true;announce('ready');return{status:'ready'};};
    const requestMode=async(next,signal)=>{
