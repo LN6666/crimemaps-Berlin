@@ -39,3 +39,5 @@
 - Preserve the exact Berlin Search Console ownership file in normal builds and strictly verified static overlays.
 
 - Integrate material-family program specialization and bounded environment state restoration; retain fine2x/far0.125x water timing and add regression checks. This source change does not publish the new runtime or city data.
+
+- Bound tier300 missing-family compilation per render and read dedicated-building vertex budgets without full diagnostic stats; preserve water timing, admission threshold and visual/data contracts. Source only, no runtime deployment.
