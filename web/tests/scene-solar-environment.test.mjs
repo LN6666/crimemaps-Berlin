@@ -92,6 +92,23 @@ test('environment phase freezes when hidden, offscreen or reduced and resumes wi
   assert.ok(Math.abs(motion.stats.elapsedSeconds - .15) < 1e-12);
   assert.equal(motion.stats.timers, 0); motion.destroy(); assert.equal(motion.frame(100500, 24).active, false);
 });
+test('active environment time follows elapsed time at low or irregular frame cadence', () => {
+  for (const times of [[0,50,100,250,1000,2500], [0,500,1000,1500,2000,2500], [0,2500]]) {
+    const motion=createEnvironmentMotion(); motion.setEnabled(true);
+    for (const now of times) motion.frame(now,24);
+    assert.equal(motion.stats.elapsedSeconds,2.5);
+    assert.equal(motion.stats.timers,0); assert.equal(motion.stats.animationFrames,0);
+  }
+});
+test('all inactive modes discard paused time, and unchanged state does not reset active time', () => {
+  for (const [method,paused,resumed] of [['setEnabled',false,true],['setVisible',false,true],['setReducedMotion',true,false],['setOffscreen',true,false]]) {
+    const motion=createEnvironmentMotion(); motion.setEnabled(true); motion.frame(0,24); motion.frame(500,24);
+    motion[method](paused); assert.equal(motion.frame(60000,24).active,false);
+    motion[method](resumed); assert.equal(motion.frame(120000,24).seconds,.5);
+    motion[method](resumed); assert.equal(motion.frame(120500,24).seconds,1);
+    assert.equal(motion.frame(120501,24).changed,false);
+  }
+});
 test('quality caps physical pixels without enlarging CSS dimensions', () => {
   const width = 1920, height = 1080, ratio = sceneDrawingPixelRatio(width, height, 3, 'balanced');
   assert.ok(ratio <= 1.5); assert.ok(width * height * ratio * ratio <= 6000000.001);

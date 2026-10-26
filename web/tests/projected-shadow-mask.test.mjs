@@ -24,13 +24,13 @@ function mockGL(){
  values.set(gl.STENCIL_WRITEMASK,255);values.set(gl.STENCIL_BACK_WRITEMASK,127);values.set(gl.VIEWPORT,[7,9,640,480]);values.set(gl.DRAW_FRAMEBUFFER_BINDING,{scene:true});values.set(gl.CURRENT_PROGRAM,{coverage:true});values.set(gl.VERTEX_ARRAY_BINDING,{source:true});values.set(gl.ACTIVE_TEXTURE,gl.TEXTURE0+3);values.set(gl.DEPTH_WRITEMASK,false);values.set(gl.DEPTH_FUNC,gl.LEQUAL);values.set(gl.DEPTH_RANGE,[.1,.9]);values.set(gl.COLOR_WRITEMASK,[true,true,true,true]);values.set(gl.BLEND_SRC_RGB,gl.SRC_ALPHA);values.set(gl.BLEND_DST_RGB,gl.ONE_MINUS_SRC_ALPHA);values.set(gl.BLEND_SRC_ALPHA,gl.ONE);values.set(gl.BLEND_DST_ALPHA,gl.ONE_MINUS_SRC_ALPHA);values.set(gl.BLEND_EQUATION_RGB,gl.FUNC_ADD);values.set(gl.BLEND_EQUATION_ALPHA,gl.FUNC_ADD);values.set(gl.MAX_TEXTURE_SIZE,8192);for(const k of [gl.DEPTH_TEST,gl.STENCIL_TEST,gl.SCISSOR_TEST,gl.BLEND])enabled.add(k);
  textures.set(gl.TEXTURE0,{mapTexture:true});samplers.set(gl.TEXTURE0,{mapSampler:true});
  const resource=kind=>{const v={id:++serial,kind};created.push(v);return v;};
- Object.assign(gl,{created,deleted,uniforms,textureAllocations:[],scene:[1,1,1],sceneDepth:[1,.2,1],mask:[0,0,0],composites:0,lost:false,stencilWrites:0,
-  getParameter(k){if(k===gl.TEXTURE_BINDING_2D)return textures.get(values.get(gl.ACTIVE_TEXTURE))??null;if(k===gl.SAMPLER_BINDING)return samplers.get(values.get(gl.ACTIVE_TEXTURE))??null;return values.get(k);},isEnabled:k=>enabled.has(k),isContextLost:()=>gl.lost,
+ Object.assign(gl,{created,deleted,uniforms,textureAllocations:[],scene:[1,1,1],sceneDepth:[1,.2,1],mask:[0,0,0],composites:0,lost:false,stencilWrites:0,blendEquationCalls:[],
+  getParameter(k){if(gl.lost)return null;if(k===gl.TEXTURE_BINDING_2D)return textures.get(values.get(gl.ACTIVE_TEXTURE))??null;if(k===gl.SAMPLER_BINDING)return samplers.get(values.get(gl.ACTIVE_TEXTURE))??null;return values.get(k);},isEnabled:k=>enabled.has(k),isContextLost:()=>gl.lost,
   enable:k=>enabled.add(k),disable:k=>enabled.delete(k),activeTexture:k=>values.set(gl.ACTIVE_TEXTURE,k),bindTexture:(_,v)=>textures.set(values.get(gl.ACTIVE_TEXTURE),v),bindSampler:(unit,v)=>samplers.set(gl.TEXTURE0+unit,v),
   createProgram:()=>resource('program'),createShader:()=>resource('shader'),createFramebuffer:()=>resource('framebuffer'),createTexture:()=>resource('texture'),createVertexArray:()=>resource('vao'),deleteProgram:v=>deleted.push(v),deleteShader:v=>deleted.push(v),deleteFramebuffer:v=>deleted.push(v),deleteTexture:v=>deleted.push(v),deleteVertexArray:v=>deleted.push(v),
   shaderSource(){},compileShader(){},attachShader(){},linkProgram(){},getShaderParameter:()=>true,getProgramParameter:()=>true,getShaderInfoLog:()=>'',getProgramInfoLog:()=>'',
   stencilMaskSeparate:(face,mask)=>values.set(face===gl.FRONT?gl.STENCIL_WRITEMASK:gl.STENCIL_BACK_WRITEMASK,mask),useProgram:v=>values.set(gl.CURRENT_PROGRAM,v),bindVertexArray:v=>values.set(gl.VERTEX_ARRAY_BINDING,v),bindFramebuffer:(_,v)=>values.set(gl.DRAW_FRAMEBUFFER_BINDING,v),viewport:(...v)=>values.set(gl.VIEWPORT,v),depthMask:v=>values.set(gl.DEPTH_WRITEMASK,v),depthFunc:v=>values.set(gl.DEPTH_FUNC,v),colorMask:(...v)=>values.set(gl.COLOR_WRITEMASK,v),
-  blendEquationSeparate(a,b){values.set(gl.BLEND_EQUATION_RGB,a);values.set(gl.BLEND_EQUATION_ALPHA,b);},blendFuncSeparate(a,b,c,d){for(const [k,v]of [[gl.BLEND_SRC_RGB,a],[gl.BLEND_DST_RGB,b],[gl.BLEND_SRC_ALPHA,c],[gl.BLEND_DST_ALPHA,d]])values.set(k,v);},
+  blendEquationSeparate(a,b){gl.blendEquationCalls.push([a,b]);values.set(gl.BLEND_EQUATION_RGB,a);values.set(gl.BLEND_EQUATION_ALPHA,b);},blendFuncSeparate(a,b,c,d){for(const [k,v]of [[gl.BLEND_SRC_RGB,a],[gl.BLEND_DST_RGB,b],[gl.BLEND_SRC_ALPHA,c],[gl.BLEND_DST_ALPHA,d]])values.set(k,v);},
   texImage2D:(...v)=>gl.textureAllocations.push(v),texParameteri(){},framebufferTexture2D(){},checkFramebufferStatus:()=>gl.FRAMEBUFFER_COMPLETE,clearBufferfv:()=>gl.mask.fill(0),getUniformLocation:(_,name)=>name,uniform1f:(k,v)=>uniforms.set(k,v),uniform2f:(k,...v)=>uniforms.set(k,v),uniformMatrix4fv:(k,_t,v)=>uniforms.set(k,Array.from(v)),uniform1i:(k,v)=>uniforms.set(k,v),uniform3f:(k,...v)=>uniforms.set(k,v),uniform3fv:(k,v)=>uniforms.set(k,v),uniform2fv:(k,v)=>uniforms.set(k,v),
   coverage(pixels,alpha){assert.equal(textures.get(gl.TEXTURE0).mapTexture,true);assert.equal(values.get(gl.CURRENT_PROGRAM).coverage,true);assert.equal(enabled.has(gl.STENCIL_TEST),false);assert.equal(enabled.has(gl.DEPTH_TEST),false);assert.equal(values.get(gl.DEPTH_WRITEMASK),false);assert.equal(values.get(gl.BLEND_EQUATION_RGB),gl.MAX);for(const i of pixels)gl.mask[i]=Math.max(gl.mask[i],Math.round(alpha*255)/255);},
   drawArrays(){gl.composites++;if(enabled.has(gl.STENCIL_TEST)&&(values.get(gl.STENCIL_WRITEMASK)||values.get(gl.STENCIL_BACK_WRITEMASK)))gl.stencilWrites++;assert.equal(values.get(gl.DRAW_FRAMEBUFFER_BINDING).scene,true);assert.equal(values.get(gl.DEPTH_WRITEMASK),false);assert.equal(values.get(gl.BLEND_EQUATION_RGB),gl.FUNC_ADD);const p=uniforms.get('u_plane'),range=uniforms.get('u_depth_range');for(let i=0;i<3;i++){const z=p[0]*(i-1)+p[2],depth=range[0]+(range[1]-range[0])*(z*.5+.5);if(depth<=gl.sceneDepth[i])if(values.get(gl.COLOR_WRITEMASK)[0])gl.scene[i]=uniforms.get('u_shadow_colour')[0]*gl.mask[i]+gl.scene[i]*(1-gl.mask[i]);}},
@@ -67,4 +67,42 @@ test('all eight source renderer shadow hooks use one union with the exact upload
   assert.equal(run(gl,mask,topDown,0),0,name);assert.equal(mask.stats.bytes,0,name);assert.equal(run(gl,mask,topDown,.08),1,name);assert.equal(gl.composites,1,name);assert.deepEqual(gl.uniforms.get('u_matrix'),Array.from(new Float32Array(topDown)),name);
   assert.ok(source.includes('function releaseShadowGPU(){shadowMask.release();'),name);mask.release();assert.equal(mask.stats.bytes,0,name);
  }
+});
+
+// Model the documented lost-context getParameter(null) boundary. These are
+// controlled API timings, not a claim to reproduce the native GPU-process exit.
+test('loss during mask allocation aborts before coverage or composite and retains no new owner',()=>{
+ const gl=mockGL(),mask=createProjectedShadowMask(),create=gl.createVertexArray;let coverage=0;
+ gl.createVertexArray=()=>{const value=create();gl.lost=true;return value;};
+ assert.equal(mask.draw(gl,topDown,.03,()=>coverage++),false);
+ assert.equal(coverage,0);assert.equal(gl.composites,0);assert.equal(mask.stats.contexts,0);
+ assert.deepEqual(gl.blendEquationCalls,[]);
+ for(const resource of gl.created)assert(gl.deleted.includes(resource),'partially allocated handles are abandoned');
+});
+test('loss while reading a snapshot never restores null enums or composites',()=>{
+ const gl=mockGL(),mask=createProjectedShadowMask(),read=gl.getParameter;let coverage=0;
+ gl.getParameter=k=>{if(k===gl.BLEND_EQUATION_ALPHA)gl.lost=true;return read(k);};
+ assert.equal(mask.draw(gl,topDown,.03,()=>coverage++),false);
+ assert.equal(coverage,0);assert.equal(gl.composites,0);assert.deepEqual(gl.blendEquationCalls,[]);mask.release();
+});
+test('loss during target storage allocation stops before coverage and invalid state restoration',()=>{
+ const gl=mockGL(),mask=createProjectedShadowMask(),allocate=gl.texImage2D;let coverage=0;
+ gl.texImage2D=(...args)=>{allocate(...args);gl.lost=true;};
+ assert.equal(mask.draw(gl,topDown,.03,()=>coverage++),false);
+ assert.equal(coverage,0);assert.equal(gl.composites,0);assert.deepEqual(gl.blendEquationCalls,[]);mask.release();
+});
+test('loss after coverage skips composite and restore, keeping cross-owner release balanced',()=>{
+ const gl=mockGL(),a=createProjectedShadowMask(),b=createProjectedShadowMask();
+ assert.equal(a.draw(gl,topDown,.03,()=>gl.coverage([0],.08)),true);
+ gl.blendEquationCalls.length=0;const composites=gl.composites;
+ assert.equal(b.draw(gl,topDown,.03,()=>{gl.coverage([0],.08);gl.lost=true;}),false);
+ assert.equal(gl.composites,composites);assert.deepEqual(gl.blendEquationCalls,[[gl.MAX,gl.MAX]]);
+ a.release();assert.equal(gl.deleted.filter(x=>x.kind==='texture').length,0);
+ b.release();assert.equal(gl.deleted.filter(x=>x.kind==='texture').length,1);assert.equal(gl.deleted.filter(x=>x.kind==='framebuffer').length,1);
+});
+test('loss during final state restoration cannot turn a completed composite into a success report',()=>{
+ const gl=mockGL(),mask=createProjectedShadowMask(),use=gl.useProgram;
+ gl.useProgram=program=>{use(program);if(program?.coverage)gl.lost=true;};
+ assert.equal(mask.draw(gl,topDown,.03,()=>gl.coverage([0],.08)),false);
+ assert.equal(gl.composites,1);assert(gl.blendEquationCalls.every(pair=>pair.every(Number.isInteger)));mask.release();
 });
