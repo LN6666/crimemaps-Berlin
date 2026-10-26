@@ -7,6 +7,7 @@ import ts from 'typescript';
 
 const web=path.resolve(process.env.RECOVERY_REUSE_SOURCE_ROOT??fileURLToPath(new URL('../',import.meta.url)));
 const providers=['root500','delegated500','tier300','church','city','infill','bremen'];
+const {createVisiblePreparationGate}=compile(fs.readFileSync(new URL('../src/safety/visible-preparation-gate.ts',import.meta.url),'utf8'),{});
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
 const deferred=()=>{let resolve;const promise=new Promise(r=>resolve=r);return {promise,resolve};};
 function collect(ast,predicate){const result=[];function visit(node){if(predicate(node))result.push(node);ts.forEachChild(node,visit);}visit(ast);return result;}
@@ -19,7 +20,7 @@ const selection=(candidates)=>({candidates,requiredLeafIds:[],protectedCacheKeys
 // drawn and suspension/resumption. Only asset reads/renderer setup and imported
 // geometry/material planners are isolated: the 7 full city catalogs and WebGL
 // are unrelated to this lifecycle regression. No recovery predicate is copied.
-function harness(provider){
+function harness(provider,managerOptions={}){
  const filename=path.join(web,`src/painted/${provider}/safety/three-dimensional-map.ts`),text=fs.readFileSync(filename,'utf8'),ast=ts.createSourceFile(filename,text,ts.ScriptTarget.Latest,true);
  const f=collect(ast,n=>ts.isFunctionDeclaration(n)&&n.name?.text==='installThreeDimensionalMap');assert.equal(f.length,1);
  const changes=[];const visibleNode=collect(f[0],n=>ts.isFunctionDeclaration(n)&&n.name?.text==='visible')[0];changes.push([visibleNode.body.getStart(ast)+1,visibleNode.body.getStart(ast)+1,'__fixture.pending++;try{']);changes.push([visibleNode.body.end-1,visibleNode.body.end-1,'}finally{__fixture.pending--;}']);
@@ -40,11 +41,11 @@ function harness(provider){
  const rows=[component];let block,materialRevision=0,packedGeneration=0,enabled=false,loaded=[];
  const renderer={layer:{id:'fixture-'+provider},setBatches(next,g){counts.packs++;loaded=next;packedGeneration=g;},async prepareBatches(next){counts.prepares++;return {components:next};},setEnabled(value){enabled=value;},isPickReady:()=>enabled,getReadinessDiagnostic:()=>({ready:enabled}),getFrozenF231Metadata547:()=>[],get residentVertexCount(){return loaded.length*3;},getRevision:()=>({generation:packedGeneration,viewRevision:materialRevision}),getSourceComponent:()=>loaded[0],suspendSelection(){},setPageHidden(){},setReducedMotion(){},setOpacityContext(){},destroy(){loaded=[];},diagnosticScreenSamples:()=>[],get stats(){throw Error('recovery must not construct full renderer diagnostics');}};
  const map={on(event,fn){if(!handlers.has(event))handlers.set(event,new Set());handlers.get(event).add(fn);},off(event,fn){handlers.get(event)?.delete(fn);},emit(event){for(const fn of [...handlers.get(event)??[]])fn();},getBounds:()=>({getWest:()=>view.bounds[0],getSouth:()=>view.bounds[1],getEast:()=>view.bounds[2],getNorth:()=>view.bounds[3]}),getCenter:()=>view.center,getZoom:()=>view.zoom,getBearing:()=>view.bearing,getPitch:()=>view.pitch,getVerticalFieldOfView:()=>view.fov,getCanvas:()=>canvas,isMoving:()=>view.moving,getLayer:()=>false,removeLayer(){},triggerRepaint(){counts.repaints++;},stop(){},easeTo(){},getStyle:()=>({layers:[]})};
- const fixture={pending:0,s434Pending:false,modelVerified:true,renderer,manifest:{source_snapshot:'fixture',source_pbf_sha256:'source',city_boundary:{sha256:'boundary'},shards:[{id:'fixture',tile_key:'fixture',sha256:'leaf',bytes:100,vertices:3,bbox:[13,52,14,53],lod:1}]},boundary:{type:'Polygon',coordinates:[]},async read(_asset,signal){counts.reads++;if(block){const gate=block;block=undefined;gate.started.resolve();await Promise.race([gate.release.promise,new Promise((_,reject)=>signal.addEventListener('abort',()=>reject(new DOMException('Aborted','AbortError')),{once:true}))]);}signal.throwIfAborted();return rows;}};
+ const fixture={pending:0,s434Pending:false,modelVerified:true,renderer,manifest:{source_snapshot:'fixture',source_pbf_sha256:'source',city_boundary:{sha256:'boundary'},shards:[{id:'fixture',tile_key:'fixture',sha256:'leaf',bytes:100,vertices:3,bbox:[13,52,14,53],lod:1}]},boundary:{type:'Polygon',coordinates:[]},async read(_asset,signal){counts.reads++;if(fixture.readOverride)return fixture.readOverride(_asset,signal,rows);if(block){const gate=block;block=undefined;gate.started.resolve();await Promise.race([gate.release.promise,new Promise((_,reject)=>signal.addEventListener('abort',()=>reject(new DOMException('Aborted','AbortError')),{once:true}))]);}signal.throwIfAborted();return rows;}};
  const env={...helper(),location:{search:"",hostname:"test.invalid"},__fixture:fixture,matchMedia:()=>({matches:false}),pageIsHidden:()=>false,visibleReadinessDeadline:()=>()=>{},THREE_D_DECODED_PAYLOAD_LIMITS:{desktop:1e6,mobile:1e6},estimateRetainedBuildingPayload:()=>({retainedPayloadEstimateBytes:64}),ownerShapePatchProfiles:()=>[],ownerShapePatchMetadata:()=>({components:[],geometryAdded:0}),ownerShapePatchDisplayRows:r=>r,c382BelowgroundDisplayRows:r=>r,modelHeightQuery:()=>({matches:true,verified:fixture.modelVerified}),viewportComponents:r=>r,componentViewportRecord:()=>({vertices:3}),viewportComponentDistance:()=>0,containsPosition:()=>true,sameStageComponents:(a,b)=>!!a&&a.length===b.length&&a.every((x,i)=>x===b[i]),paintIdentityOwner:()=>provider,createS434AggregateLifecycle:()=>({clear(){},packing:()=>undefined,update(){},get pending(){return fixture.s434Pending;}}),mergeShadowAdmissions:()=>undefined,shadowAdmissionForVisibleComponents:r=>r,verifiedInteriorSourceHolds:()=>[],progressiveAdmission:()=>undefined,prepareS528FormalDependency:()=>({candidates:r=>r,leafPriority:()=>0,componentPriority:()=>0,assertChosen(){},viewportRows:(_all,rows)=>rows,reserveAfter:()=>({vertices:0,bytes:0})}),s528DependencyCatalog:()=>[],f331CohortViewportRows277:(_all,rows)=>rows,f331CohortProfileSelected277:()=>false};
  for(const imp of ast.statements.filter(ts.isImportDeclaration))for(const e of imp.importClause?.namedBindings?.elements??[]){const name=e.name.text;if(name in env)continue;if(name.endsWith('VertexReservation'))env[name]=()=>0;else if(name.endsWith('PROFILES'))env[name]=[];else if(name.endsWith('CohortSelection')||name.includes('Residency70')||name==='prepareKOMesseturmSources70')env[name]=selection;else if(/Holds\d+$/.test(name))env[name]=()=>[];else if(/Plan\d+$/.test(name))env[name]=emptyPlan;else if(name.startsWith('supplement'))env[name]=rows=>rows;else if(name.endsWith('DisplayPlan')||name.endsWith('CofacePlan')||name.endsWith('ConnectorPlan')||name.endsWith('CrownPlan'))env[name]=emptyPlan;else if(name.endsWith('ParentReadiness'))env[name]=()=>({active:false,ready:true,entries:new Map()});else env[name]=()=>{throw Error('unisolated domain helper: '+name);};}
- const manager=compile(source,env).installThreeDimensionalMap({map,city:component.city,mobile:false,manageCamera:false,fetchBytes:()=>{throw Error('network forbidden');},onState:s=>states.push(s)});
- async function settle(){for(let i=0;i<200;i++){await new Promise(resolve=>setTimeout(resolve,1));if(fixture.inspect().visibleLoadsPending===0){await tick();return;}}throw Error('manager did not settle');}
+ const manager=compile(source,env).installThreeDimensionalMap({map,city:component.city,mobile:false,manageCamera:false,fetchBytes:()=>{throw Error('network forbidden');},onState:s=>states.push(s),...managerOptions});
+ async function settle(limit=200){for(let i=0;i<limit;i++){await new Promise(resolve=>setTimeout(resolve,1));if(fixture.inspect().visibleLoadsPending===0){await tick();return;}}throw Error('manager did not settle');}
  return {manager,map,view,canvas,counts,states,fixture,renderer,async start(){await manager.requestMode('3d',new AbortController().signal);assert.equal(loaded.length,1);assert.equal(manager.mode,'3d');},settle,materialChanged(){packedGeneration++;},blockNextRead(){block={started:deferred(),release:deferred()};return block;},recover(){manager.suspend({contextRecovery:true});manager.resume({contextRecovery:true});},get loaded(){return loaded;}};
 }
 
@@ -77,8 +78,8 @@ function routingHarness(){
  const hooks={},sessions=[],providersSeen=[];
  const frozen={active:0,queued:0,pendingInitializers:0,activePhysicalBytes:0,declaredInFlightRawBytes:0,completedInitializers:5,parses:10};
  const renderer={setPageHidden(){},setReducedMotion(){},setOpacityContext(){},isPickReady:()=>true,get stats(){throw Error('routing must not read full diagnostics');}};
- const provider=(_name,options)=>{let mode='2d',signal;const record={suspend:[],resume:[]};providersSeen.push(record);return{async requestMode(next,external){signal=external;external.throwIfAborted();mode=next;options.onRenderer(renderer);options.onState({mode,status:'ready'});return{mode,status:'ready'};},get mode(){return mode;},get wantedMode(){return mode;},suspend(flags){record.suspend.push(flags);return flags?.contextRecovery===true&&!signal.aborted;},resume(flags){record.resume.push(flags);},setPageHidden(){},setReducedMotion(){},setOpacityContext(){},destroy(){}};};
- const painted=compile(factorySource('src/safety/painted-map.ts','__hooks.aggregateSignal=()=>request.signal;',true),{__hooks:hooks,__provider:provider,document:{hidden:false},location:{hostname:'test.invalid'},createSharedNativeSourcePool:()=>({client:()=>({}),destroy(){}}),planarReflectionGroup:()=>({}),assetRegistry:{},frozenPaintTableStats:()=>frozen,beginFrozenPaintTableInitialization:(_read,signal)=>{const session={signal,active:true,wait:p=>p,close(){this.active=false;}};sessions.push(session);return session;}}).installThreeDimensionalMap;
+ const provider=(_name,options)=>{let mode='2d',signal;const record={suspend:[],resume:[],prepare:options.runVisiblePreparation};providersSeen.push(record);return{async requestMode(next,external){signal=external;external.throwIfAborted();mode=next;options.onRenderer(renderer);options.onState({mode,status:'ready'});return{mode,status:'ready'};},get mode(){return mode;},get wantedMode(){return mode;},suspend(flags){record.suspend.push(flags);return flags?.contextRecovery===true&&!signal.aborted;},resume(flags){record.resume.push(flags);},setPageHidden(){},setReducedMotion(){},setOpacityContext(){},destroy(){}};};
+ const painted=compile(factorySource('src/safety/painted-map.ts','__hooks.aggregateSignal=()=>request.signal;',true),{__hooks:hooks,__provider:provider,document:{hidden:false},location:{hostname:'test.invalid'},createVisiblePreparationGate,createSharedNativeSourcePool:()=>({client:()=>({}),destroy(){}}),planarReflectionGroup:()=>({}),assetRegistry:{},frozenPaintTableStats:()=>frozen,beginFrozenPaintTableInitialization:(_read,signal)=>{const session={signal,active:true,wait:p=>p,close(){this.active=false;}};sessions.push(session);return session;}}).installThreeDimensionalMap;
  const lazy=compile(factorySource('src/safety/three-dimensional-lazy.ts','__hooks.lazySignal=()=>modeRequest.signal;'),{__hooks:hooks,matchMedia:()=>({matches:false}),reichstagAppearanceVertexReservation:()=>0,checkedSceneEnvironment:x=>x}).installThreeDimensionalMap;
  const manager=lazy({map:{stop(){},easeTo(){}},city:'berlin',mobile:false,fetchBytes:()=>{throw Error('network forbidden');}},async()=>({installThreeDimensionalMap:painted}));
  return{manager,hooks,frozen,sessions,providersSeen,async start(){await manager.requestMode('3d',new AbortController().signal);assert.equal(manager.mode,'3d');assert.equal(providersSeen.length,5);assert.equal(sessions.length,1);}};
@@ -96,4 +97,63 @@ test('actual lazy + aggregate: pending Frozen or ordinary pause still aborts and
 
 test('actual aggregate: Frozen parse generation change during pause rejects old residency',async()=>{
  const h=routingHarness();try{await h.start();const signal=h.hooks.aggregateSignal();assert.equal(h.manager.suspend({contextRecovery:true}),true);h.frozen.parses++;h.manager.resume({contextRecovery:true});assert(signal.aborted);assert.equal(h.sessions.length,2);for(const p of h.providersSeen)assert.equal(p.resume.at(-1),undefined);}finally{h.manager.destroy();}
+});
+
+
+// The same real manager factories exercise the new page gate. The gate itself is
+// not stubbed; only the existing bounded source/renderer fixture is controlled.
+test('page preparation: all seven moveend paths queue before reads and coalesce to latest view',async()=>{
+ const gate=createVisiblePreparationGate(),hs=providers.map(provider=>harness(provider,{runVisiblePreparation:(signal,work)=>gate.run(provider,signal,work)}));
+ const hold=deferred();let occupied;
+ try{
+  for(const h of hs)await h.start();
+  const old=hs.map(h=>({reads:h.counts.reads,loaded:h.loaded}));occupied=gate.run('city',new AbortController().signal,()=>hold.promise);await tick();
+  for(let version=0;version<2;version++)for(const h of hs){h.map.emit('movestart');h.view.center={lng:13.5+version*.01,lat:52.5};h.map.emit('moveend');}
+  await tick();assert.equal(gate.stats.queued,7);
+  hs.forEach((h,i)=>{assert.equal(h.counts.reads,old[i].reads,'queued provider must not admit a source leaf');assert.equal(h.loaded,old[i].loaded,'old display stays usable');});
+  hold.resolve();await occupied;await Promise.all(hs.map(h=>h.settle(2000)));
+  hs.forEach((h,i)=>{assert.equal(h.counts.reads,old[i].reads+1,'only latest view is read');assert.equal(h.loaded.length,1);assert.equal(h.loaded[0].objectId,'osm/way/1');});
+  assert(gate.idle);assert.equal(gate.stats.peakActive,1);assert.equal(gate.stats.peakQueued,7);
+ }finally{hold.resolve();hs.forEach(h=>h.manager.destroy());gate.destroy();await occupied;}
+});
+for(const provider of providers){
+ test(`${provider}: queued preparation cannot reuse recovery; 2D and destroy cancel pending work`,async()=>{
+  const gate=createVisiblePreparationGate(),h=harness(provider,{runVisiblePreparation:(signal,work)=>gate.run(provider,signal,work)}),hold=deferred();let occupied;
+  try{
+   await h.start();occupied=gate.run('city',new AbortController().signal,()=>hold.promise);await tick();const reads=h.counts.reads;
+   h.map.emit('movestart');h.map.emit('moveend');await tick();assert.equal(gate.stats.queued,1);assert.equal(h.counts.reads,reads);
+   assert.equal(h.manager.suspend({contextRecovery:true}),false);assert(h.fixture.inspect().signal.aborted);assert.equal(gate.stats.queued,0);
+   h.manager.resume({contextRecovery:true});await tick();assert.equal(gate.stats.queued,1);assert.equal(h.counts.reads,reads);
+   await h.manager.requestMode('2d',new AbortController().signal);assert.equal(gate.stats.queued,0);assert.equal(h.loaded.length,0);
+   const next=h.manager.requestMode('3d',new AbortController().signal).catch(e=>e);await tick();assert.equal(gate.stats.queued,1);h.manager.destroy();assert.equal((await next).name,'AbortError');assert.equal(gate.stats.queued,0);
+  }finally{hold.resolve();h.manager.destroy();gate.destroy();await occupied;}
+ });
+ test(`${provider}: source failure drains the second real reader before next provider enters`,async()=>{
+  const gate=createVisiblePreparationGate(),h=harness(provider,{runVisiblePreparation:(signal,work)=>gate.run(provider,signal,work)}),slow=deferred(),started=deferred();let next;
+  try{
+   await h.start();const packs=h.counts.packs;h.fixture.manifest.shards.push({...h.fixture.manifest.shards[0],id:'slow',tile_key:'slow'});
+   h.fixture.readOverride=async(asset,_signal,rows)=>{if(asset.id!=='slow')throw Error('fixture source failure');started.resolve();await slow.promise;return rows;};
+   h.map.emit('movestart');h.map.emit('moveend');await started.promise;let entered=false;
+   next=gate.run(provider==='city'?'church':'city',new AbortController().signal,async()=>{entered=true;});await tick();
+   assert.equal(entered,false,'a fail-fast reader rejection must not release active preparation');assert.equal(gate.stats.active,1);
+   slow.resolve();await next;await h.settle();assert.equal(h.counts.packs,packs,'failed request cannot publish a late batch');assert(h.states.some(s=>s.status==='error'));assert(gate.idle);
+  }finally{slow.resolve();h.manager.destroy();gate.destroy();await next;}
+ });
+}
+test('root500: failed reader drains unawaited staged preparation and suppresses late commit',async()=>{
+ const gate=createVisiblePreparationGate(),h=harness('root500',{runVisiblePreparation:(signal,work)=>gate.run('root500',signal,work)}),prepared=deferred(),prepareStarted=deferred();let rejectReader,next;
+ const secondReader=new Promise((_,reject)=>{rejectReader=reject;});
+ try{
+  await h.start();const packs=h.counts.packs;h.fixture.manifest.shards.push({...h.fixture.manifest.shards[0],id:'slow',tile_key:'slow'});
+  h.fixture.readOverride=async(asset,_signal,rows)=>asset.id==='slow'?secondReader:rows;
+  h.renderer.prepareBatches=async components=>{prepareStarted.resolve();await prepared.promise;return {components};};
+  h.map.emit('movestart');h.map.emit('moveend');await prepareStarted.promise;rejectReader(Error('staged source failure'));await tick();let entered=false;
+  next=gate.run('church',new AbortController().signal,async()=>{entered=true;});await tick();assert.equal(entered,false);assert.equal(gate.stats.active,1);
+  prepared.resolve();await next;await h.settle();assert.equal(h.counts.packs,packs);assert(h.states.some(s=>s.status==='error'));assert(gate.idle);
+ }finally{prepared.resolve();rejectReader?.(Error('cleanup'));h.manager.destroy();gate.destroy();await next;}
+});
+test('actual aggregate: active preparation rejects Frozen resident recovery even with idle transport',async()=>{
+ const h=routingHarness(),hold=deferred();let work;
+ try{await h.start();assert(h.providersSeen.every(p=>typeof p.prepare==='function'));const signal=h.hooks.aggregateSignal();work=h.providersSeen[0].prepare(signal,()=>hold.promise).catch(e=>e);await tick();assert.equal(h.manager.suspend({contextRecovery:true}),false);assert(signal.aborted);assert.equal(h.sessions[0].active,false);hold.resolve();assert.equal((await work).name,'AbortError');}
+ finally{hold.resolve();h.manager.destroy();await work;}
 });

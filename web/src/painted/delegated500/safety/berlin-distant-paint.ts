@@ -20,6 +20,21 @@ export function berlinPaulLobeProgramsEqual(assembled:string){
  return true;
 }
 export function berlinPaulLobeRichKey(baseKey:string,shared:boolean){return shared&&berlinDistantFamily(baseKey)!==undefined?'current-family:19401':baseKey;}
+
+/** Two observed Berlin cohorts reach identical complete rich shaders today.
+ * Evaluate the current full assembly, including helper/main/masks, before sharing.
+ * Only keys survive initialization; no specialized source or extra program cache. */
+export function berlinExactRichProgramKeys(assembled:string):ReadonlyMap<string,string>{
+ const keys=new Map<string,string>();
+ for(const families of [[1561,1562,1564,1565,1567,1568,1569,1570],[1571,1572]]){
+  const reference=specializeCurrentPaintFragment(assembled,families[0]);
+  if(families.some(family=>specializeCurrentPaintFragment(assembled,family)!==reference))continue;
+  const canonical='current-family:'+families[0];
+  for(const family of families)keys.set('current-family:'+family,canonical);
+ }
+ return keys;
+}
+
 const route='return bePaulLobe1(base,p,normal,frame,family);';
 const signature='vec3 paintedFacade(';
 const edits:readonly(readonly[string,string])[]=[

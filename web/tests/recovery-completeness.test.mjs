@@ -16,6 +16,7 @@ const deferred=()=>{let resolve;const promise=new Promise(r=>resolve=r);return{p
 const providerOrder=['root500','delegated500','tier300','church','city'];
 const importTS=async text=>import('data:text/javascript;base64,'+Buffer.from(stripTypeScriptTypes(text,{mode:'strip'})).toString('base64'));
 const {installCustomLayerRecovery}=await importTS(raw.recovery);
+const {createVisiblePreparationGate}=await importTS(await fs.readFile(sourceRoot+'/safety/visible-preparation-gate.ts','utf8'));
 const {createRecoveryResidentReuse}=await importTS(await fs.readFile(sourceRoot+'/safety/recovery-resident-reuse.ts','utf8'));
 function actualMethod(source,name){const ast=ts.createSourceFile('lifecycle.ts',source,ts.ScriptTarget.Latest,true);const found=[];function visit(node){if(ts.isMethodDeclaration(node)&&node.name.getText(ast)===name)found.push(node.getText(ast));ts.forEachChild(node,visit);}visit(ast);assert.equal(found.length,1,'actual '+name+' method');return found[0];}
 const poolBuild=await build({entryPoints:[sourceRoot+'/safety/shared-native-source.ts'],bundle:true,platform:'node',format:'esm',target:'es2022',write:false});
@@ -45,12 +46,12 @@ function mainReady(source,patched){
  return manager=>new Function('threeDimensional','return ('+expression+');')(manager);
 }
 async function buildAggregate(factory,patched,version='v2'){
- const key='__fixtureRecovery'+Math.random().toString(16).slice(2);globalThis[key]=factory;globalThis[key+'Pool']=createSharedNativeSourcePool;
+ const key='__fixtureRecovery'+Math.random().toString(16).slice(2);globalThis[key]=factory;globalThis[key+'Pool']=createSharedNativeSourcePool;globalThis[key+'Gate']=createVisiblePreparationGate;
  let source=patched?(version==='v1'?negativePainted(raw.painted,'v1'):raw.painted):negativePainted(raw.painted);
  source=source.replace(/^import .*;\n/gm,'');
- source=`const createSharedNativeSourcePool=globalThis[${JSON.stringify(key+'Pool')}];`+"const planarReflectionGroup=()=>({});const paintOwner=()=> 'city';const assetRegistry={};const beginFrozenPaintTableInitialization=()=>({active:true,wait:p=>p,close(){}});const frozenPaintTableStats=()=>({});\n"+source;
+ source=`const createSharedNativeSourcePool=globalThis[${JSON.stringify(key+'Pool')}];const createVisiblePreparationGate=globalThis[${JSON.stringify(key+'Gate')}];`+"const planarReflectionGroup=()=>({});const paintOwner=()=> 'city';const assetRegistry={};const beginFrozenPaintTableInitialization=()=>({active:true,wait:p=>p,close(){}});const frozenPaintTableStats=()=>({});\n"+source;
  source=source.replace(/import\('\.\.\/painted\/([^/]+)\/safety\/(three-dimensional-map|building-mesh-renderer)'\)/g,(_,p)=>`Promise.resolve({installThreeDimensionalMap:options=>globalThis[${JSON.stringify(key)}](${JSON.stringify(p)},options)})`);
- const mod=await importTS(source);return{...mod,cleanup:()=>{delete globalThis[key];delete globalThis[key+'Pool'];}};
+ const mod=await importTS(source);return{...mod,cleanup:()=>{delete globalThis[key];delete globalThis[key+'Pool'];delete globalThis[key+'Gate'];}};
 }
 
 // The provider stubs isolate transport/GPU work, but their resume/suspend and

@@ -20,11 +20,11 @@ function harness(provider,client){const calls={emptyPacks:0,metadataClears:0,agg
  env.current=(signal,ticket)=>{signal.throwIfAborted();assert.equal(ticket,env.revision);};env.syncNativeCache=()=>{calls.leases++;client.setCached([...cache.values()].map(v=>v.components));};
  if(['root500','delegated500'].includes(provider))env.trimAppearanceCache70=execute(managerNode(provider,'trimAppearanceCache70'),env);
  const remember=execute(managerNode(provider,'remember'),env);
- // Execute the actual visible() prefix, including its overview branch and detail
+ // Execute the actual visible() wrapper and visibleNow() prefix, including overview and detail
  // re-entry reset. Stop at the existing partition resolve boundary: no network,
  // renderer preparation or unrelated city material machinery is simulated here.
- const whole=managerNode(provider,'visible'),cut=whole.indexOf('const paged=');assert(cut>0);const prefix=whole.slice(0,cut)+"return {mode,status:'detail-required'};}finally{visibleLoadsPending--;}}";
- const visible=execute(prefix,env);return{env,calls,selection,remember,view:async(z,activate=false,signal=new AbortController().signal)=>{zoom=z;return visible(signal,1,activate);}};
+ const whole=managerNode(provider,'visibleNow'),cut=whole.indexOf('const paged=');assert(cut>0);const prefix=whole.slice(0,cut)+"return {mode,status:'detail-required'};}";
+ env.visibleNow=execute(prefix,env);const visible=execute(managerNode(provider,'visible'),env);return{env,calls,selection,remember,view:async(z,activate=false,signal=new AbortController().signal)=>{zoom=z;return visible(signal,1,activate);}};
 }
 
 for(const provider of providers)test(`${provider}: real overview branch drops cache leases once; detail re-entry can restore identical full source`,async()=>{
