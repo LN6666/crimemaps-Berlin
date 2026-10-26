@@ -23,6 +23,16 @@ function coordinates(origin: readonly [number, number]) {
   };
 }
 
+/** Packed display material only; these codes never change source land-cover tags.
+ * Conflicting vegetation tags keep the neutral cover instead of claiming lawn. */
+export function greenGroundMaterialRole(tags: Record<string, string>): number {
+  const grass = ['grass', 'meadow', 'village_green'].includes(tags.landuse) || tags.natural === 'grassland' || tags.landcover === 'grass' || tags.surface === 'grass';
+  const wood = tags.natural === 'wood' || ['forest', 'orchard'].includes(tags.landuse) || tags.landcover === 'trees';
+  const lowVegetation = ['scrub', 'heath'].includes(tags.natural);
+  if (Number(grass) + Number(wood) + Number(lowVegetation) !== 1) return 3;
+  return grass ? 4 : wood ? 5 : 6;
+}
+
 /** Source green polygons only, including their holes. No grass blades, park-wide
  * tree scatter, source changes or long-lived cache. Float32 triangle envelopes
  * must remain inside the already verified municipality, including its holes. */
@@ -30,8 +40,12 @@ export function greenGroundGeometry(features: readonly EnvironmentFeature[], ori
   const positions: number[] = [], indices: number[] = [], seen = new Set<string>();
   let admitted = 0, held = 0, omitted = 0;
   const maxVertices = Math.min(ENVIRONMENT_LIMITS.greenVertices, remainingVertices), maxIndices = Math.min(ENVIRONMENT_LIMITS.greenIndices, remainingIndices), projection = coordinates(origin);
-  for (const feature of features) {
-    if (feature.properties.kind !== 'green' || seen.has(feature.id)) continue;
+  // The equal-depth pass keeps the first cover. Draw specific source cover
+  // before general park polygons, with stable ID order inside each class.
+  const ordered = features.filter(f => f.properties.kind === 'green').map(feature => ({feature, role: greenGroundMaterialRole(feature.properties.osmTags)}));
+  ordered.sort((a, b) => Number(a.role === 3) - Number(b.role === 3) || a.feature.id.localeCompare(b.feature.id));
+  for (const {feature, role} of ordered) {
+    if (seen.has(feature.id)) continue;
     seen.add(feature.id);
     if (['asphalt', 'concrete', 'paved', 'paving_stones', 'sett', 'cobblestone', 'metal', 'wood'].includes(feature.properties.osmTags.surface)) { held++; continue; }
     if (!boundary || boundary.boundarySHA256 !== feature.properties.source_boundary_sha256 || !['Polygon', 'MultiPolygon'].includes(feature.geometry.type)) { held++; continue; }
@@ -63,7 +77,7 @@ export function greenGroundGeometry(features: readonly EnvironmentFeature[], ori
       }
       if (!accepted.length) continue;
       const start = positions.length / 7;
-      for (let i = 0; i < xy.length; i += 2) positions.push(xy[i], .01, xy[i + 1], 0, 1, 0, 3);
+      for (let i = 0; i < xy.length; i += 2) positions.push(xy[i], .01, xy[i + 1], 0, 1, 0, role);
       for (const i of accepted) indices.push(start + i);
       admitted++;
     }

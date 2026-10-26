@@ -65,7 +65,7 @@ void main(){
  vec3 base=v_base;
  if(v_role>=2.5){
   // Conservative fallback shares the dedicated green program's material.
-  color=greenGroundColor(v_position,v_normal);
+  color=greenGroundColor(v_position,v_normal,v_role);
  }else if(v_role>1.5){
   // Global decorative wave axis. No source river flow speed/direction is asserted.
   vec2 axis=normalize(vec2(.84,.54)),crossAxis=vec2(-axis.y,axis.x),p=vec2(dot(v_position.xz,axis),dot(v_position.xz,crossAxis));

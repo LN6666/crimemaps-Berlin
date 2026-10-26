@@ -43,3 +43,5 @@
 - Bound tier300 missing-family compilation per render and read dedicated-building vertex budgets without full diagnostic stats; preserve water timing, admission threshold and visual/data contracts. Source only, no runtime deployment.
 
 - Prioritize existing green ground and spatially share the bounded tree budget across native points, rows and disclosed woodland illustrations; retain accepted water timing. Source only; final per-city site capacity and runtime acceptance remain pending.
+
+- Display known ground-cover materials in stable overlap order and avoid equivalent woodland membership traversals within unchanged budgets. Source only; partial coverage, final site capacity and runtime acceptance remain pending.
