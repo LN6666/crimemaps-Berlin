@@ -1,5 +1,5 @@
 /** Reveal existing interactive information only from a deliberate selection callback. */
-export function revealSelectedInformation(target:HTMLElement):boolean {
+export function revealSelectedInformation(target:HTMLElement,options:{focus?:boolean}={}):boolean {
  if(!target.isConnected||target.hidden||!target.childNodes.length)return false;
  const viewport=window.visualViewport,top=viewport?.offsetTop??0,bottom=top+(viewport?.height??innerHeight);
  const header=document.querySelector<HTMLElement>('#app > header');
@@ -12,6 +12,10 @@ export function revealSelectedInformation(target:HTMLElement):boolean {
   if(/auto|scroll|hidden|clip/.test(style.overflowY)){const bounds=parent.getBoundingClientRect();if(r.top<bounds.top||r.top+Math.min(r.height,40)>bounds.bottom)visible=false;}
  }
  if(!visible){target.style.scrollMarginTop=inset+'px';target.scrollIntoView({block:'start',inline:'nearest',behavior:'instant'});}
- if(!target.hasAttribute('tabindex'))target.tabIndex=-1;
- target.focus({preventScroll:true});return true;
+ // Pointer map selections reveal their information without taking keyboard control.
+ if(options.focus!==false){
+  if(!target.hasAttribute('tabindex'))target.tabIndex=-1;
+  target.focus({preventScroll:true});
+ }
+ return true;
 }
