@@ -29,10 +29,23 @@ function translatedRestored(event:PoliceEvent, field:(path:string,value:string)=
  // Work only on the reviewed public display fields, preserving the canonical
  // source object, identifiers, URLs, hashes, geometry and count choices.
  const paths=new Set<string>();restoredFields(event,(path,value)=>{if(typeof value==='string'&&value)paths.add(path);});
+ // Only ancestors of addressed public text can change. Review/geometry branches
+ // outside those paths remain the same read-only source objects.
+ const branches=new Set<string>();
+ for(const path of paths)for(let end=path.lastIndexOf('/');end>0;end=path.lastIndexOf('/',end-1))branches.add(path.slice(0,end));
  const copy=(value:unknown,path:string):unknown=>{
   if(typeof value==='string')return paths.has(path)?field(path,value):value;
-  if(Array.isArray(value))return value.map((v,i)=>copy(v,`${path}/${i}`));
-  if(value&&typeof value==='object')return Object.fromEntries(Object.entries(value).map(([k,v])=>[k,copy(v,`${path}/${k}`)]));
+  if(!branches.has(path))return value;
+  if(Array.isArray(value)){
+   let changed:unknown[]|undefined;
+   value.forEach((child,i)=>{const next=copy(child,`${path}/${i}`);if(next!==child){changed??=value.slice();changed[i]=next;}});
+   return changed??value;
+  }
+  if(value&&typeof value==='object'){
+   const original=value as Record<string,unknown>;let changed:Record<string,unknown>|undefined;
+   for(const key of Object.keys(original)){const next=copy(original[key],`${path}/${key}`);if(next!==original[key]){changed??={...original};changed[key]=next;}}
+   return changed??value;
+  }
   return value;
  };
  const result={...event};
