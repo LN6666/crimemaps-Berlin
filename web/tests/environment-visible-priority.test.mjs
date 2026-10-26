@@ -11,7 +11,7 @@ const sourceSHA='a'.repeat(64),boundarySHA='b'.repeat(64),snapshot='fixture';
 const hash=n=>n.toString(16).padStart(64,'0');
 const square=([w,s,e,n])=>[[w,s],[e,s],[e,n],[w,n],[w,s]];
 const tile=(n,bbox,kinds={tree:1},bytes=1024)=>({id:'tile-'+String(n).padStart(3,'0'),tile_key:String(n),bbox,kinds,feature_count:1,path:'/safety/environment/berlin/tile-'+n+'.json',sha256:hash(n),bytes});
-function payload(t){const kind=t.kinds?.water?'water':t.kinds?.water_line?'water_line':'tree',bbox=t.bbox;return{type:'FeatureCollection',schema_version:1,city:'berlin',features:[{type:'Feature',id:'osm/way/'+Number(BigInt('0x'+t.sha256)),geometry:kind==='water'?{type:'Polygon',coordinates:[square(bbox)]}:kind==='water_line'?{type:'LineString',coordinates:[[bbox[0],bbox[1]],[bbox[2],bbox[3]]]}:{type:'Point',coordinates:[bbox[0],bbox[1]]},properties:{kind,osmTags:{},displayClip:false,source_snapshot:snapshot,source_pbf_sha256:sourceSHA,source_boundary_sha256:boundarySHA}}]};}
+function payload(t){const kind=t.kinds?.water?'water':t.kinds?.water_line?'water_line':t.kinds?.green?'green':'tree',bbox=t.bbox;return{type:'FeatureCollection',schema_version:1,city:'berlin',features:[{type:'Feature',id:'osm/way/'+Number(BigInt('0x'+t.sha256)),geometry:['water','green'].includes(kind)?{type:'Polygon',coordinates:[square(bbox)]}:kind==='water_line'?{type:'LineString',coordinates:[[bbox[0],bbox[1]],[bbox[2],bbox[3]]]}:{type:'Point',coordinates:[bbox[0],bbox[1]]},properties:{kind,osmTags:{},displayClip:false,source_snapshot:snapshot,source_pbf_sha256:sourceSHA,source_boundary_sha256:boundarySHA}}]};}
 function fixture({tiles=[],pages,box=[10,50,10.02,50.02],centre={lng:10.01,lat:50.01},pitch=70,readTile,frameClock}={}){
  const reads=[],allReads=[],publications=[],renderers=[],events=new Map(),layers=new Map();let currentBox=box,currentCentre=centre,zoom=18;
  const createFixtureRenderer=options=>{
@@ -100,4 +100,13 @@ test('late aborted environment reads cannot resurrect 2D resources or overwrite 
    if(reenter){assert.equal(f.manager.stats.cacheTiles,1);assert.equal(f.manager.stats.loads,1);assert.equal(f.manager.stats.state,'ready');}else{assertReleased(f);assert.equal(f.renderers.length,1);}
   }finally{f.manager.destroy();}
  }
+});
+
+
+test('visible green ground is admitted before dense tree point leaves under the same raw-byte cap',async()=>{
+ const pointLeaves=Array.from({length:5},(_,i)=>tile(i+1,[10.009,50.009,10.011,50.011],{tree:1000},1024**2));
+ const green=tile(20,[10,50,10.02,50.02],{green:12},10000),water=tile(21,[10,50,10.02,50.02],{water:1},10000);
+ const paddingGreen=tile(22,[10,50.021,10.02,50.025],{green:12},10000);
+ const f=fixture({tiles:[...pointLeaves,paddingGreen,green,water]});
+ try{f.manager.setMode(true);await until(()=>f.manager.stats.state!=='loading');assert.deepEqual(f.reads.slice(0,2).map(r=>r.asset.id),[water.id,green.id]);assert.ok(f.manager.stats.cacheRawBytes<=4*1024**2);assert.ok(f.reads.length<=32);assert.equal(f.manager.stats.partial,true);assert.ok(f.publications.at(-1).ids.includes('osm/way/20'));}finally{f.manager.destroy();}
 });

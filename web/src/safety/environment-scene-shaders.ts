@@ -1,5 +1,6 @@
 import {SCENE_SURFACE_LIGHT_GLSL} from './scene-surface-light';
 import {GREEN_GROUND_MATERIAL_GLSL} from './environment-green-ground';
+import {TREE_DISPLAY_HORIZONTAL_SCALE_METRES} from './environment-scene-data';
 /** Display-only foliage stays inside the existing5m source-point guard. Water
  * positions/coastlines/holes stay fixed: only its surface shading is animated. */
 export const ENVIRONMENT_SCENE_VERTEX_GLSL = `#version 300 es
@@ -13,7 +14,7 @@ void main(){
  vec3 p=a_position,n=a_normal;float variant=.5;
  if(u_tree==1){
   variant=envHash(a_tree.xy*.017);float angle=variant*6.28318530718,c=cos(angle),s=sin(angle);
-  mat2 rotation=mat2(c,s,-s,c);vec2 size=vec2(mix(.90,1.08,variant),mix(.88,1.06,envHash(a_tree.yx*.023)))*2.;
+  mat2 rotation=mat2(c,s,-s,c);vec2 size=vec2(mix(.90,1.08,variant),mix(.88,1.06,envHash(a_tree.yx*.023)))*${TREE_DISPLAY_HORIZONTAL_SCALE_METRES.toFixed(1)};
   p=vec3((rotation*(a_position.xz*size)).x+a_tree.x,a_position.y*a_tree.z,(rotation*(a_position.xz*size)).y+a_tree.y);
   vec2 nr=rotation*(a_normal.xz/size);n=normalize(vec3(nr.x,a_normal.y/max(a_tree.z,.3),nr.y));
   float crown=smoothstep(.28,.95,a_position.y)*step(.5,a_role),phase=dot(a_tree.xy,vec2(.017,.023));

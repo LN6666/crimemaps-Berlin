@@ -7,14 +7,16 @@ import {viewportQueryBounds} from './three-dimensional-viewport';
 import {estimateRetainedBuildingPayload} from './building-payload-cost';
 import {parseEnvironmentSource,ENVIRONMENT_LIMITS,type EnvironmentSource,type EnvironmentBox} from './environment-scene-data';
 type Asset={path:string;sha256:string;bytes:number;compression?:'gzip';uncompressed_bytes?:number;uncompressed_sha256?:string};
-type Tile=Asset&{id:string;tile_key:string;bbox:EnvironmentBox;feature_count:number;kinds?:Partial<Record<'water'|'water_line',number>>};
+type Tile=Asset&{id:string;tile_key:string;bbox:EnvironmentBox;feature_count:number;kinds?:Partial<Record<'water'|'water_line'|'green',number>>};
 type Manifest={schema_version:1;city:string;source_snapshot:string;source_pbf_sha256:string;city_boundary:Asset;tiles?:Tile[];index_type?:string;partitions?:(Asset&{id:string;bbox:EnvironmentBox})[]};
 type MapSurface={getZoom():number;getPitch():number;getVerticalFieldOfView():number;getCanvas():{clientWidth:number;clientHeight:number};getBounds():{getWest():number;getSouth():number;getEast():number;getNorth():number};getCenter():{lng:number;lat:number};getLayer(id:string):unknown;addLayer(layer:unknown,before?:string):void;removeLayer(id:string):void;on(name:string,fn:()=>void):void;off(name:string,fn:()=>void):void;triggerRepaint():void};
 const overlap=(a:EnvironmentBox,b:EnvironmentBox)=>a[0]<=b[2]&&a[2]>=b[0]&&a[1]<=b[3]&&a[3]>=b[1];
 /** Admission priority only: keep source geometry and all existing byte/count caps.
- * A long river's envelope centre may be remote while its near end is on screen. */
+ * A long river's envelope centre may be remote while its near end is on screen.
+ * Keep visible ground cover before dense point leaves, so a point budget cannot
+ * remove the woodland/lawn beneath it. Existing 32-leaf and byte caps still apply. */
 const environmentBoxDistance=(box:EnvironmentBox,centre:{lng:number;lat:number})=>Math.hypot(Math.max(box[0]-centre.lng,0,centre.lng-box[2])*Math.cos(centre.lat*Math.PI/180),Math.max(box[1]-centre.lat,0,centre.lat-box[3]));
-const environmentTilePriority=(tile:Tile,ground:EnvironmentBox)=>!overlap(tile.bbox,ground)?2:[tile.kinds?.water,tile.kinds?.water_line].some(n=>typeof n==='number'&&Number.isSafeInteger(n)&&n>0)?0:1;
+const environmentTilePriority=(tile:Tile,ground:EnvironmentBox)=>!overlap(tile.bbox,ground)?3:[tile.kinds?.water,tile.kinds?.water_line].some(n=>typeof n==='number'&&Number.isSafeInteger(n)&&n>0)?0:typeof tile.kinds?.green==='number'&&Number.isSafeInteger(tile.kinds.green)&&tile.kinds.green>0?1:2;
 
 export function installEnvironmentScene(options:{map:MapSurface;city:string;mobile?:boolean;read:(asset:string|Asset,signal:AbortSignal,max:number)=>Promise<unknown>;beforeLayer:()=>string|undefined;reflectionSource?:PlanarReflectionSource;frameClock?:DisplayFrameClock;waterAdmission?:{boundarySHA256:string;origin:[number,number];sourcePbfSHA256:string;physicalTileSHA256:readonly string[]}}){
  const {map,city}=options;let reflectionSource=options.reflectionSource;let sceneEnvironment=defaultSceneEnvironment(options.mobile),ownerReducedMotion=false,offscreen=false,unsubscribeFrame:(()=>void)|undefined;const cityNames:Record<string,string>={berlin:'Berlin',bremen:'Bremen',hamburg:'Hamburg',munich:'München',cologne:'Köln',frankfurt:'Frankfurt am Main',dusseldorf:'Düsseldorf',essen:'Essen',dortmund:'Dortmund',hannover:'Hannover',nuremberg:'Nürnberg',stuttgart:'Stuttgart',dresden:'Dresden',leipzig:'Leipzig'};if(!cityNames[city])throw Error('Environment outside supported municipalities');let mode=false,visible=true,destroyed=false,suspended=false,revision=0,request=new AbortController(),manifest:Manifest|undefined,cityOrigin:[number,number]|undefined,cityBoundary:PreparedSolarBoundary|undefined,renderer:ReturnType<typeof import('./environment-scene-renderer').createEnvironmentSceneRenderer>|undefined;
