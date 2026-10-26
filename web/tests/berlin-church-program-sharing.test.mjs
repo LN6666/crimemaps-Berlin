@@ -30,7 +30,7 @@ test('renderer compiles the checked fragment and uses canonical ownership for vi
  assert(source.includes('family=>familyFragmentSource(familySurfaceHelper,family)'));
  assert(source.includes('withResidentReflectionClip(fragment(helper,true)):familyFragmentSource(helper,family)'));
  assert(source.includes('visible=new Set(runs.map(r=>canonicalFamilyProgramKey(override??r.key)))'));
- assert(source.includes('for(const run of runs){const key=canonicalFamilyProgramKey(override??run.key);'));
+ assert(source.includes('for(const run of runs){if(gl!.isContextLost())return;const key=canonicalFamilyProgramKey(override??run.key);'));
  assert(source.includes('familyRuns.map(run=>{const key=canonicalFamilyProgramKey(override??run.key);return{'));
  assert(source.includes('for(const p of familyPrograms.values())gl.deleteProgram(p)'));
 });

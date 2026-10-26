@@ -7,14 +7,16 @@ export function createEnvironmentMotion() {
   const active = () => enabled && visible && !reduced && !offscreen && !destroyed;
   const reset = () => { previous = undefined; lastFrame = -Infinity; };
   return {
-    setEnabled(value: boolean) { enabled = value; reset(); },
-    setVisible(value: boolean) { visible = value; reset(); },
-    setReducedMotion(value: boolean) { reduced = value; reset(); },
-    setOffscreen(value: boolean) { offscreen = value; reset(); },
+    setEnabled(value: boolean) { if (enabled !== value) { enabled = value; reset(); } },
+    setVisible(value: boolean) { if (visible !== value) { visible = value; reset(); } },
+    setReducedMotion(value: boolean) { if (reduced !== value) { reduced = value; reset(); } },
+    setOffscreen(value: boolean) { if (offscreen !== value) { offscreen = value; reset(); } },
     frame(now: number, fps: number): {seconds: number; changed: boolean; active: boolean} {
       if (!Number.isFinite(now) || !Number.isFinite(fps) || fps <= 0 || !active()) { reset(); return {seconds: elapsed / 1000, changed: false, active: false}; }
       if (previous === undefined) previous = now;
-      const delta = Math.max(0, Math.min(100, now - previous)); previous = now;
+      // Cadence limits repaint frequency, not the passage of active time. Inactive
+      // transitions reset previous, so this never includes a hidden/offscreen pause.
+      const delta = Math.max(0, now - previous); previous = now;
       elapsed += delta;
       const changed = now - lastFrame >= 1000 / Math.min(30, fps) - .01;
       if (changed) { lastFrame = now; frames++; }

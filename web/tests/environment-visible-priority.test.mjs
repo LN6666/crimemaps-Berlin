@@ -26,6 +26,11 @@ function fixture({tiles=[],pages,box=[10,50,10.02,50.02],centre={lng:10.01,lat:5
 }
 async function until(predicate){for(let i=0;i<100;i++){if(predicate())return;await new Promise(resolve=>setImmediate(resolve));}throw Error('Fixture did not settle');}
 
+test('environment prepares the already verified municipality for greenery without another download or building-provider dependency',async()=>{
+ const f=fixture({tiles:[tile(1,[10.005,50.005,10.015,50.015])],pitch:0});
+ try{f.manager.setMode(true);await until(()=>f.manager.stats.state==='ready');const prepared=f.renderers[0].options.verifiedBoundary;assert.equal(prepared.boundarySHA256,boundarySHA);assert.equal(prepared.covers([10,50,10.02,50.02]),true);assert.equal(prepared.covers([8,50,10,51]),false);assert.equal(f.allReads.length,3);assert.equal(f.allReads.filter(p=>p.endsWith('/boundary.json')).length,1);}finally{f.manager.destroy();}
+});
+
 test('ground water wins over closer ground trees and height-padding without changing 32-tile cap',async()=>{
  const water=tile(90,[9,50.005,10.005,50.015],{water:1}),nearWater=tile(91,[10.011,50.008,10.015,50.012],{water_line:1});
  const ground=Array.from({length:25},(_,i)=>tile(i+1,[10.009,50.009,10.011,50.011]));

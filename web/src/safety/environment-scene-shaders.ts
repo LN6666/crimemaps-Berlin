@@ -1,4 +1,5 @@
 import {SCENE_SURFACE_LIGHT_GLSL} from './scene-surface-light';
+import {GREEN_GROUND_MATERIAL_GLSL} from './environment-green-ground';
 /** Display-only foliage stays inside the existing5m source-point guard. Water
  * positions/coastlines/holes stay fixed: only its surface shading is animated. */
 export const ENVIRONMENT_SCENE_VERTEX_GLSL = `#version 300 es
@@ -20,7 +21,7 @@ void main(){
   p.x+=wind*.83*sin(u_environment_time*1.15+phase);p.z+=wind*.55*sin(u_environment_time*.91+phase+1.6);
  }
  float foliageVariant=fract(variant+a_role*.37);
- v_base=a_role<.5?vec3(.27,.21,.14):a_role<1.5?mix(vec3(.17,.29,.11),vec3(.31,.43,.19),foliageVariant):vec3(.245,.365,.435);
+ v_base=a_role<.5?vec3(.27,.21,.14):a_role<1.5?mix(vec3(.12,.235,.095),vec3(.275,.335,.14),foliageVariant):a_role<2.5?vec3(.245,.365,.435):vec3(.43,.47,.245);
  v_reflection_clip=u_environment_reflection_matrix*vec4(p,1.);v_position=p;v_normal=n;v_role=a_role;if(u_environment_shadow_pass==1)p=vec3(p.x+u_environment_shadow_vector.x*max(0.,p.y),.03,p.z+u_environment_shadow_vector.y*max(0.,p.y));gl_Position=u_matrix*vec4(p,1.);
 }`;
 export const ENVIRONMENT_SCENE_FRAGMENT_GLSL = `#version 300 es
@@ -30,11 +31,23 @@ uniform float u_environment_time;uniform float u_environment_water_detail;unifor
 uniform vec3 u_environment_eye;uniform vec3 u_environment_view_direction;uniform float u_environment_perspective;
 out vec4 color;
 ${SCENE_SURFACE_LIGHT_GLSL}
+${GREEN_GROUND_MATERIAL_GLSL}
 float waterHash(vec2 q){vec3 p=fract(vec3(q.xyx)*.1031);p+=dot(p,p.yzx+33.33);return fract((p.x+p.y)*p.z);}
 // Value noise and its analytical gradient. Phase rates are decorative, not measured flow.
 vec3 waterNoiseGradient(vec2 p){
  vec2 cell=floor(p),f=fract(p),u=f*f*(3.-2.*f),du=6.*f*(1.-f);
  float a=waterHash(cell),b=waterHash(cell+vec2(1.,0.)),c=waterHash(cell+vec2(0.,1.)),d=waterHash(cell+vec2(1.));
+ float k=a-b-c+d;
+ return vec3(a+(b-a)*u.x+(c-a)*u.y+k*u.x*u.y,du.x*((b-a)+k*u.y),du.y*((c-a)+k*u.x));
+}
+// Far facets evolve locally as well as drifting. Each lattice corner has its
+// own smooth phase/rate; neighbouring cells share the same corner value, so
+// glints grow and recede without tile seams or synchronized white flashes.
+float waterEvolvingCorner(float seed,float time){return .5+.5*sin(time*(.95+seed*.8)+seed*6.28318530718);}
+vec3 waterEvolvingNoiseGradient(vec2 p,float time){
+ vec2 cell=floor(p),f=fract(p),u=f*f*(3.-2.*f),du=6.*f*(1.-f);
+ float a=waterEvolvingCorner(waterHash(cell),time),b=waterEvolvingCorner(waterHash(cell+vec2(1.,0.)),time);
+ float c=waterEvolvingCorner(waterHash(cell+vec2(0.,1.)),time),d=waterEvolvingCorner(waterHash(cell+vec2(1.)),time);
  float k=a-b-c+d;
  return vec3(a+(b-a)*u.x+(c-a)*u.y+k*u.x*u.y,du.x*((b-a)+k*u.y),du.y*((c-a)+k*u.x));
 }
@@ -49,10 +62,13 @@ float waterFineCoverage(float value,float level,float halfWidth){
 void main(){
  if(u_environment_shadow_pass==1){color=vec4(u_environment_shadow_opacity,0.,0.,1.);return;}
  vec3 base=v_base;
- if(v_role>1.5){
+ if(v_role>=2.5){
+  // Conservative fallback shares the dedicated green program's material.
+  color=greenGroundColor(v_position,v_normal);
+ }else if(v_role>1.5){
   // Global decorative wave axis. No source river flow speed/direction is asserted.
   vec2 axis=normalize(vec2(.84,.54)),crossAxis=vec2(-axis.y,axis.x),p=vec2(dot(v_position.xz,axis),dot(v_position.xz,crossAxis));
-  float t=u_environment_time*2.5,detail=clamp(u_environment_water_detail,0.,2.);
+  float waterTime=u_environment_time*2.0,t=waterTime*2.5,detail=clamp(u_environment_water_detail,0.,2.);
   // Crossed noise domains share a broad axis, but drift independently so short
   // bright fragments change shape instead of translating as synchronized bands.
   mat2 crossDomain=mat2(.9396926,.3420201,-.3420201,.9396926);
@@ -64,8 +80,10 @@ void main(){
   // One fixed lower-frequency band replaces only unresolved fine coverage.
   // Its coordinates never depend on derivatives: all fwidth/dFdx below are
   // first derivatives of position/noise, not derivatives of derivative-scaled UVs.
-  vec2 qFar=p*vec2(.055,.22)-t*vec2(.017,-.043);
-  vec3 farNoise=waterNoiseGradient(qFar);float farVisibility=waterBandVisibility(qFar),farWeight=1.-max(aa,ab);
+  // Distant glints drift and evolve at one sixteenth of the fine-ripple clock speed.
+  float farTime=u_environment_time*.125;
+  vec2 qFar=p*vec2(.055,.22)-(farTime*2.5)*vec2(.017,-.043);
+  vec3 farNoise=waterEvolvingNoiseGradient(qFar,farTime);float farVisibility=waterBandVisibility(qFar),farWeight=1.-max(aa,ab);
   slope+=.22*farNoise.yz*vec2(.055,.22)*farVisibility*farWeight;
   float fragments=waterFineCoverage(a.x,.51,.085)*smoothstep(.28,.78,b.x)*aa;
   float flecks=waterFineCoverage(b.x,.54,.045)*smoothstep(.32,.76,a.x)*ab;
@@ -98,9 +116,13 @@ void main(){
   lit+=vec3(.79,.83,.83)*specular*(.18+.62*sparkle);
   color=vec4(lit,1.);
  }else{
-  // Stable per-crown and per-lobe greens; no manufactured source tree positions.
-  float leaf=waterNoiseGradient(v_position.xz*1.8+vec2(v_position.y*2.1,0.)).x;
-  base*=mix(.88,1.07,leaf)*mix(.96,1.02,clamp(normalize(v_normal).y*.5+.5,0.,1.));
+  // Stable dark-green/olive lobes carry the crown shape. Gentle broad variation
+  // avoids bright per-leaf speckling; trunks keep their untextured source display.
+  if(v_role>.5){
+   vec2 crown=v_position.xz*.6+vec2(v_position.y*.7,0.);
+   float leaf=waterNoiseGradient(crown).x;
+   base*=mix(1.,mix(.96,1.025,leaf),waterBandVisibility(crown));
+  }
   color=vec4(sceneSurfaceLight(base,normalize(v_normal),v_position.y),1.);
  }
 }`;

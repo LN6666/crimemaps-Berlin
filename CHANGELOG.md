@@ -37,3 +37,5 @@
 - Add explicit source coverage, kbO original-map links, testing and maintainer documentation.
 
 - Preserve the exact Berlin Search Console ownership file in normal builds and strictly verified static overlays.
+
+- Integrate material-family program specialization and bounded environment state restoration; retain fine2x/far0.125x water timing and add regression checks. This source change does not publish the new runtime or city data.
