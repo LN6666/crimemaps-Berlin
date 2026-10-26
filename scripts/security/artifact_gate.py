@@ -197,7 +197,15 @@ def scan(root, city, commit):
                 check_json(json.loads(raw))
             if suffix == ".svg":
                 check_svg(raw)
-            if suffix == ".html":
+            # Google's ownership response is plain text with an .html suffix.
+            # Exempt only this exact city/path/content; executable HTML still
+            # requires the ordinary restrictive CSP checks below.
+            ownership_response = (
+                city == "berlin"
+                and relative == "google73948d3ce3a710e9.html"
+                and raw == b"google-site-verification: google73948d3ce3a710e9.html"
+            )
+            if suffix == ".html" and not ownership_response:
                 parser = StaticHTML()
                 parser.feed(raw.decode("utf-8"))
                 if not parser.csp:

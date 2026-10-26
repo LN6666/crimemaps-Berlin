@@ -202,6 +202,15 @@ def build(site: Path, city_id: str, catalog_path: Path) -> dict:
     for location in sitemap_urls:
         ET.SubElement(ET.SubElement(root, '{' + namespace + '}url'), '{' + namespace + '}loc').text = location
     xml = ET.tostring(root, encoding='unicode', xml_declaration=True)
+    # Keep the exact owner-authorized Search Console token in both normal Vite
+    # builds (web/public) and historical-runtime static overlay builds.
+    if city_id == 'berlin':
+        verification_name = 'google73948d3ce3a710e9.html'
+        verification = Path(__file__).resolve().parents[2] / 'web/public' / verification_name
+        token = verification.read_bytes()
+        if hashlib.sha256(token).hexdigest() != 'a047a8d6bbc909251495e58f51e09cadb3ea9ea6b2c5210905b7e749bb3e9333':
+            raise ValueError('Search Console verification token differs from authorized bytes')
+        prepared[verification_name] = token.decode('ascii')
     projected_added_bytes = sum(len(v.encode()) - ((site / k).stat().st_size if (site / k).exists() else 0) for k, v in prepared.items()) + len(CSS.encode()) + len(xml.encode())
     before = measure(site)
     if before['total_bytes'] + projected_added_bytes >= GROWTH_BUDGET:
