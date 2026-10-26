@@ -13,6 +13,7 @@ import sys
 import tarfile
 import tempfile
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "security"))
 from artifact_gate import verify  # noqa: E402
 
@@ -81,18 +82,7 @@ def fresh_prelaunch(value: dict, city: str, repository: str, receipt_sha: str, n
         raise ValueError("Prelaunch source check is future-dated or older than 72 hours")
 
 
-def acceptance(path: Path, expected_sha: str, city: str, repository: str, commit: str,
-               *, now: datetime | None = None) -> dict:
-    if not re.fullmatch(r"[0-9a-f]{64}", expected_sha) or sha(path) != expected_sha:
-        raise ValueError("Acceptance differs from the trusted repository digest")
-    value = json.loads(path.read_text())
-    if (city not in NAMES or repository != f"LN6666/crimemaps-{city.capitalize()}"
-            or not re.fullmatch(r"[0-9a-f]{40}", commit)):
-        raise ValueError("Invalid deployment identity")
-    if any(value.get(k) != v for k, v in {"schema_version": 1, "city": city,
-           "repository": repository, "code_commit": commit,
-           "release_status": "accepted_for_publication"}.items()):
-        raise ValueError("Acceptance is stale or belongs to another product")
+def product_checks(value: dict) -> None:
     if value.get("languages") != ["de", "en", "zh"]:
         raise ValueError("All three actual product languages are required")
     checks = value.get("checks", {})
@@ -105,6 +95,27 @@ def acceptance(path: Path, expected_sha: str, city: str, repository: str, commit
     bindings = value.get("input_bindings", {})
     if set(bindings) != BINDINGS or any(not re.fullmatch(r"[0-9a-f]{64}", str(h)) for h in bindings.values()):
         raise ValueError("Current scientific and presentation inputs must be bound")
+
+
+def acceptance(path: Path, expected_sha: str, city: str, repository: str, commit: str,
+               *, now: datetime | None = None) -> dict:
+    if not re.fullmatch(r"[0-9a-f]{64}", expected_sha) or sha(path) != expected_sha:
+        raise ValueError("Acceptance differs from the trusted repository digest")
+    value = json.loads(path.read_text())
+    if (city not in NAMES or repository != f"LN6666/crimemaps-{city.capitalize()}"
+            or not re.fullmatch(r"[0-9a-f]{40}", commit)):
+        raise ValueError("Invalid deployment identity")
+    if value.get("schema_version") == 2:
+        from static_site_overlay import accepted_overlay
+        return accepted_overlay(value, city, repository, commit,
+                                now=now if now is not None else datetime.now(timezone.utc),
+                                historical_validator=acceptance, product_validator=product_checks,
+                                freshness_validator=fresh_prelaunch)
+    if any(value.get(k) != v for k, v in {"schema_version": 1, "city": city,
+           "repository": repository, "code_commit": commit,
+           "release_status": "accepted_for_publication"}.items()):
+        raise ValueError("Acceptance is stale or belongs to another product")
+    product_checks(value)
     if not re.fullmatch(r"[0-9a-f]{64}", value.get("artifact_receipt_sha256", "")):
         raise ValueError("Detached artifact receipt digest missing")
     fresh_prelaunch(value, city, repository, value["artifact_receipt_sha256"],
@@ -169,15 +180,28 @@ def main() -> None:
         parser.add_argument(f"--{argument}", required=True)
     args = parser.parse_args()
     accepted = acceptance(args.acceptance, args.expected_sha256, args.city, args.repository, args.commit)
+    if accepted.get("schema_version") == 2:
+        from static_site_overlay import verify_base_publication_online
+        verify_base_publication_online(accepted)
     unpack(args.archive, args.output)
-    result = verify(args.output, args.receipt, accepted["artifact_receipt_sha256"], args.city, args.commit)
+    if accepted.get("schema_version") == 2:
+        from static_site_overlay import verify_overlay
+        result = verify_overlay(args.output, args.receipt, accepted, args.city, args.commit)
+    else:
+        result = verify(args.output, args.receipt, accepted["artifact_receipt_sha256"], args.city, args.commit)
     manifest = json.loads((args.output / "safety/manifest.json").read_text())
     if manifest.get("schema_version") != 2 or manifest.get("city") != NAMES[args.city]:
         raise ValueError("Public manifest belongs to another city")
     if (args.output / "safety/cities").exists():
         raise ValueError("Shared historical city trees cannot enter a single-city site")
-    print(json.dumps({"city": args.city, "files": len(result["files"]), "bytes": result["total_bytes"],
-                      "accepted_code_commit": args.commit, "publication_checks": "passed"}))
+    output = {"city": args.city, "files": len(result["files"]), "bytes": result["total_bytes"],
+              "publication_checks": "passed"}
+    if accepted.get("schema_version") == 2:
+        output.update(accepted_deployment_commit=args.commit,
+                      runtime_code_commit=accepted["runtime_code_commit"])
+    else:
+        output["accepted_code_commit"] = args.commit
+    print(json.dumps(output))
 
 
 if __name__ == "__main__":

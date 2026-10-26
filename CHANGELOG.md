@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Support deterministic static discovery overlays on a cryptographically pinned, previously deployed runtime, with distinct source commits, unchanged runtime/data inventory, historical GitHub proof and all current acceptance checks.
+
 - Integrate reviewed city data profiles, painted-building resource lifecycle, solar/environment controls and static trilingual discovery pages; retain unmet memory/recovery targets and publication gates.
 
 - Deliver 29 source-bound reviewed translation corrections with strict, idempotent field patching; preserve private source bodies and publication gates.
