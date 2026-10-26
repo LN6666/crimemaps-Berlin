@@ -125,7 +125,7 @@ def verify_overlay(root, receipt, accepted, city, commit):
     base = json.loads(base_text)
     if base.get("schema_version") != 1 or base.get("city") != city or base.get("code_commit") != runtime:
         raise ValueError("Original runtime inventory identity mismatch")
-    catalog = Path(__file__).resolve().parents[2] / "portal/cities.json"
+    catalog = Path(__file__).resolve().parents[2] / "config/discovery-cities.json"
     if digest(catalog) != accepted["catalog_sha256"]:
         raise ValueError("Discovery catalog differs from accepted source")
     entries = ["index.html"] + (["map/index.html"] if city == "berlin" else [])

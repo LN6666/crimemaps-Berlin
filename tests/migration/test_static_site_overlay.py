@@ -56,7 +56,7 @@ def candidate(tmp_path):
     }
     base_acceptance = tmp_path / "base-acceptance.json"
     base_acceptance_hash = dump(base_acceptance, base)
-    build(site, "essen", ROOT / "portal/cities.json")
+    build(site, "essen", ROOT / "config/discovery-cities.json")
     actual = scan(site, "essen", "a" * 40)
     inventory = {
         "schema_version": 2,
@@ -86,7 +86,7 @@ def candidate(tmp_path):
         "base_acceptance_sha256": base_acceptance_hash,
         "runtime_base_integrity_sha256": base_hash,
         "artifact_receipt_sha256": inventory_hash,
-        "catalog_sha256": release.sha(ROOT / "portal/cities.json"),
+        "catalog_sha256": release.sha(ROOT / "config/discovery-cities.json"),
         "checks": checks,
         "input_bindings": bindings,
         "base_publication": {
