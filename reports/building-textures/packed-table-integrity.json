@@ -315,19 +315,27 @@
     "path": "web/src/safety/progressive-paint-admissions.ts",
     "variable": "PROGRESSIVE_ADMISSIONS",
     "sha256": "7da78c3156384cbe2b15916ef730aa580310bd2dc64e63f747f2721830631a35",
-    "literalBytes": 19078291
+    "literalBytes": 19078291,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/7d/7da78c3156384cbe2b15916ef730aa580310bd2dc64e63f747f2721830631a35.json",
+    "sharedInitializer": "web/src/painted/city/safety/progressive-paint-admissions.ts",
+    "reexportSpecifier": "../painted/city/safety/progressive-paint-admissions"
   },
   {
     "path": "web/src/painted/tier300/safety/progressive-feature-cities.ts",
     "variable": "PROGRESSIVE_CITY_EXTRA_GLSL",
     "sha256": "67cda70d1342fb511ab4748e3927b8d00302531d60f22172ae8deec852f6dc85",
-    "literalBytes": 1562712
+    "literalBytes": 1562712,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/67/67cda70d1342fb511ab4748e3927b8d00302531d60f22172ae8deec852f6dc85.json"
   },
   {
     "path": "web/src/painted/tier300/safety/progressive-paint-admissions.ts",
     "variable": "PROGRESSIVE_ADMISSIONS",
     "sha256": "ab07a37cd2caf09ad39126521c9331779ceea67b9524c9ccdbc7318c9d324932",
-    "literalBytes": 3810827
+    "literalBytes": 3810827,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/ab/ab07a37cd2caf09ad39126521c9331779ceea67b9524c9ccdbc7318c9d324932.json"
   },
   {
     "path": "web/src/painted/root500/safety/owner-f006-reconstruction.ts",
@@ -1617,13 +1625,17 @@
     "path": "web/src/painted/city/safety/progressive-feature-cities.ts",
     "variable": "PROGRESSIVE_CITY_EXTRA_GLSL",
     "sha256": "08a966a2685e8ac662b993b7e663eb3680324e4cbb0be4d9f28ad2f90b669866",
-    "literalBytes": 2125641
+    "literalBytes": 2125641,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/08/08a966a2685e8ac662b993b7e663eb3680324e4cbb0be4d9f28ad2f90b669866.json"
   },
   {
     "path": "web/src/painted/city/safety/c311-fixture.ts",
     "variable": "C311_FIXTURE",
     "sha256": "a88742435de1d1ef327b1c44b7a9060951ec4ed3a79e9fd76a489c491b72885d",
-    "literalBytes": 883711
+    "literalBytes": 883711,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/a8/a88742435de1d1ef327b1c44b7a9060951ec4ed3a79e9fd76a489c491b72885d.json"
   },
   {
     "path": "web/src/painted/city/safety/c444-fixture.ts",
@@ -1719,7 +1731,9 @@
     "path": "web/src/painted/city/safety/c320-fixture.ts",
     "variable": "C320_FIXTURE",
     "sha256": "afc126d8ce164f7b65b6a627374551eb8d7762154c2d5ed4dcb99676d21bf3c2",
-    "literalBytes": 961086
+    "literalBytes": 961086,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/af/afc126d8ce164f7b65b6a627374551eb8d7762154c2d5ed4dcb99676d21bf3c2.json"
   },
   {
     "path": "web/src/painted/city/safety/c342-fixture.ts",
@@ -1749,7 +1763,9 @@
     "path": "web/src/painted/city/safety/c312-fixture.ts",
     "variable": "C312_FIXTURE",
     "sha256": "45be88dd808b25514000607724c6a47680c75a1e1fd86d9f1299b6df2770223c",
-    "literalBytes": 673793
+    "literalBytes": 673793,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/45/45be88dd808b25514000607724c6a47680c75a1e1fd86d9f1299b6df2770223c.json"
   },
   {
     "path": "web/src/painted/city/safety/c243-projection-pin.ts",
@@ -1797,7 +1813,9 @@
     "path": "web/src/painted/city/safety/c322-fixture.ts",
     "variable": "C322_FIXTURE",
     "sha256": "3923879136732b1c48b6b16ff381ecb413999092c39e114ddb495d66d921c3ff",
-    "literalBytes": 389419
+    "literalBytes": 389419,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/39/3923879136732b1c48b6b16ff381ecb413999092c39e114ddb495d66d921c3ff.json"
   },
   {
     "path": "web/src/painted/city/safety/c340-fixture.ts",
@@ -1851,7 +1869,9 @@
     "path": "web/src/painted/city/safety/progressive-paint-admissions.ts",
     "variable": "PROGRESSIVE_ADMISSIONS",
     "sha256": "7da78c3156384cbe2b15916ef730aa580310bd2dc64e63f747f2721830631a35",
-    "literalBytes": 19078291
+    "literalBytes": 19078291,
+    "external": true,
+    "assetPath": "/safety/buildings3d/painted-tables/7d/7da78c3156384cbe2b15916ef730aa580310bd2dc64e63f747f2721830631a35.json"
   },
   {
     "path": "web/src/painted/root500/safety/owner-f060-reconstruction.ts",

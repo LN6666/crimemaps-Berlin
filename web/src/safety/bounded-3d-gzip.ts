@@ -2,9 +2,9 @@
 export type ThreeDCompressionDescriptor={compression?:'gzip';uncompressed_bytes?:number;uncompressed_sha256?:string};
 export const THREE_D_INFLATED_SHARD_LIMIT=1024*1024;
 const HASH=/^[a-f0-9]{64}$/;
-export async function inflateBounded3DGzip(compressed:Uint8Array,expectedUncompressed:number,signal:AbortSignal,expectedRawHash?:string):Promise<Uint8Array>{
+export async function inflateBounded3DGzip(compressed:Uint8Array,expectedUncompressed:number,signal:AbortSignal,expectedRawHash?:string,callerByteLimit=THREE_D_INFLATED_SHARD_LIMIT):Promise<Uint8Array>{
  signal.throwIfAborted();
- if(!Number.isSafeInteger(expectedUncompressed)||expectedUncompressed<1||expectedUncompressed>THREE_D_INFLATED_SHARD_LIMIT||!compressed.byteLength||compressed.byteLength>THREE_D_INFLATED_SHARD_LIMIT||expectedRawHash!==undefined&&!HASH.test(expectedRawHash))throw Error('Invalid bounded city3D gzip descriptor');
+ if(!Number.isSafeInteger(callerByteLimit)||callerByteLimit<1||callerByteLimit>64*1024**2||!Number.isSafeInteger(expectedUncompressed)||expectedUncompressed<1||expectedUncompressed>callerByteLimit||!compressed.byteLength||compressed.byteLength>callerByteLimit||expectedRawHash!==undefined&&!HASH.test(expectedRawHash))throw Error('Invalid bounded city3D gzip descriptor');
  if(typeof DecompressionStream==='undefined')throw Error('Native gzip decompression unavailable');
  const stream=new ReadableStream<BufferSource>({start(controller){controller.enqueue(new Uint8Array(compressed));controller.close();}}).pipeThrough(new DecompressionStream('gzip'));
  const reader=stream.getReader();let stopped=false,used=0;const out=new Uint8Array(expectedUncompressed);

@@ -86,7 +86,7 @@
   "legend.pois": "周边场所",
   "legend.highlight": "显示场所关联强度档位（I–XV）",
   "legend.highlightNone": "当前筛选与已加载范围内没有关联公告，因此不显示罗马数字。",
-  "legend.highlightNote": "勾选场所类别用于显示或隐藏设施；本开关只显示或隐藏圆心正下方的小罗马数字，不隐藏圆心，也不改变填充深浅。I–XV把当前月份与公告类别下、来源支持的去重公告关联所对应的原有显示强度量化为15档。罗马数字不是公告数、犯罪次数或风险等级：V仅表示第5档。无关联不显示数字；点击可查看实际去重公告数、公告列表和计算说明。",
+  "legend.highlightNote": "勾选场所类别用于显示或隐藏设施；本开关只显示或隐藏圆心正下方的小罗马数字，不隐藏圆心，也不改变填充深浅。I–XV把当前所选时间范围与公告类别下、来源支持的去重公告关联所对应的原有显示强度量化为15档。罗马数字不是公告数、犯罪次数或风险等级：V仅表示第5档。无关联不显示数字；点击可查看实际去重公告数、公告列表和计算说明。",
   "legend.resolution": "六边形边长{metres}米 · 随缩放切换",
   "selection.prompt": "选择六边形、场所、公告地点或道路范围",
   "selection.intro": "点击地图查看公告与来源。",
@@ -153,7 +153,7 @@
   "report.sourcePlaceTypes": "原文提到的场所类型：{types}",
   "coverage.filtered": "当前筛选 · 已收录公告",
   "coverage.noMonth": "暂无该月数据",
-  "coverage.countPoints": "本月{countable}条公告有统计代表地点；{without}条没有，其中{references}条仍有地点参照范围。年度六边形汇总全年合格公告。",
+  "coverage.countPoints": "当前所选范围{countable}条公告有统计代表地点；{without}条没有，其中{references}条仍有地点参照范围。年度六边形汇总全年合格公告。",
   "coverage.located": "{located}条已定位；{unresolved}条未定位，其中{roads}条可查看道路参照范围",
   "coverage.noPointList": "{count}条没有可用于统计的代表地点 · 查看列表",
   "coverage.unresolvedList": "{count}条地点信息不足 · 查看列表",
@@ -762,5 +762,6 @@
   "selection.geography.land": "地表范围",
   "selection.geography.place": "地点",
   "report.dataProvider": "数据提供方",
-  "report.providerSummary": "{provider}摘要 · 非警方公告全文"
+  "report.providerSummary": "{provider}摘要 · 非警方公告全文",
+  "filter.yearToDate": "全年至今（已保存月份）"
 }

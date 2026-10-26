@@ -47,3 +47,11 @@
   .brand-police { flex-basis: 52px; width: 52px; height: 60px; }
   .brand-caption { font-size: .95rem; }
 }
+
+/* Leave the right-side choices room at desktop widths, including the saved-year
+ * option. The toolbar starts farther left and may wrap within its own boundary. */
+@media (min-width: 761px) and (min-height: 501px), (min-width: 1001px) {
+  #app > header > div:first-child { flex-basis: 340px; min-width: min(240px, 100%); max-width: 340px; }
+  #app > header .toolbar { flex: 1 1 600px; min-width: 0; max-width: 100%; justify-content: flex-end; gap: 8px; }
+  #app > header .toolbar > label:has(#month) { flex: 1 1 18rem; min-width: 18rem; }
+}

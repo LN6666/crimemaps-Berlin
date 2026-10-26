@@ -1,4 +1,4 @@
-import {readFrozenTable} from '../../../safety/frozen-paint-tables';
+import {readFrozenTableAsync} from '../../../safety/frozen-paint-tables';
 import type {BuildingComponent,Identity,MeshBatch} from './building-mesh-renderer';
 import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
 import {nativePaintSignature} from './progressive-native-signature';
@@ -3241,7 +3241,7 @@ const SOURCE:Record<string,any>={"osm/relation/14897/component/1e456c207b32a9f31
     ]
   }
 };
-const DISPLAY:Record<string,Batch[]>=readFrozenTable("a2046f0b156c391ba865864c2624b191387aa192caafd457b0cc30409a8685c1");
+const DISPLAY:Record<string,Batch[]>=(await readFrozenTableAsync("a2046f0b156c391ba865864c2624b191387aa192caafd457b0cc30409a8685c1","painted/root500/safety/owner-f067-reconstruction.ts",0));
 export const F067_RECONSTRUCTION_SHA="a2046f0b156c391ba865864c2624b191387aa192caafd457b0cc30409a8685c1";
 export const ownerF067Identity=(c:Identity)=>F067_IDS.some(i=>i.objectId===c.objectId&&i.partId===c.partId);
 export function ownerF067BaseMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){let offset=0,objects=0,vertices=0;for(const c of components){const match=c.city==='munich'&&ownerF067Identity(c)&&!!c.displayEstimates?.F067Exterior;if(match)objects++;for(const b of c.batches){const count=b.positions.length/3;if(match){const a=b as Batch;for(let j=0;j<count;j++)if(a.writeMask[j]){paint.set(a.paint.slice(j*4,j*4+4),4*(offset+j));frames.set(a.frames.slice(j*5,j*5+5),5*(offset+j));vertices++;}}offset+=count;}}return{objects,vertices,actualVisualAccepted:false};}

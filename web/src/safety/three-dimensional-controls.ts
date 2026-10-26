@@ -36,18 +36,18 @@ export function installThreeDimensionalControls(options: {
   };
   syncFeedbackHost(); mobileStatus.addEventListener('change', syncFeedbackHost);
   const vehicleLabel=document.createElement('label'),vehicleInput=document.createElement('input'),vehicleNote=document.createElement('p');vehicleLabel.className='toggle three-dimensional-vehicle-toggle';vehicleInput.type='checkbox';vehicleInput.checked=options.vehiclesInitiallyRequested!==false;vehicleLabel.append(vehicleInput,document.createTextNode(c.vehicles));vehicleNote.className='three-dimensional-vehicle-note';let reducedVehicles=false;if(options.onVehiclesChange)notices.append(vehicleLabel,vehicleNote);vehicleInput.onchange=()=>{if(!destroyed)options.onVehiclesChange?.(vehicleInput.checked);};
-  let state: ThreeDControlState = { mode: options.initialMode ?? '2d', status: 'ready' }, supported = options.supported !== false, abort = new AbortController(), revision = 0, destroyed = false;
+  let state: ThreeDControlState = { mode: options.initialMode ?? '2d', status: 'ready' }, supported = options.supported !== false, abort = new AbortController(), revision = 0, destroyed = false, mapAvailable = true;
   function render() {
     flat.setAttribute('aria-pressed', String(state.mode === '2d')); three.setAttribute('aria-pressed', String(state.mode === '3d'));
-    group.setAttribute('aria-busy', String(state.status === 'loading')); three.disabled = !supported || state.status === 'loading';
-    retry.hidden = state.status !== 'error' || !supported;
-    status.textContent = !supported ? c.unavailable : state.status === 'ready' ? '' : c[state.status];
+    group.setAttribute('aria-busy', String(mapAvailable && state.status === 'loading')); three.disabled = !mapAvailable || !supported || state.status === 'loading';flat.disabled = !mapAvailable;
+    retry.hidden = !mapAvailable || state.status !== 'error' || !supported;
+    status.textContent = !mapAvailable ? '' : !supported ? c.unavailable : state.status === 'ready' ? '' : c[state.status];
     feedback.dataset.noticeVisible = String(Boolean(status.textContent) || !retry.hidden);
     vehicleInput.disabled=reducedVehicles;vehicleNote.textContent=reducedVehicles?c.reducedVehicles:c.vehicleNote;
-    root.setAttribute('data-view-mode', state.mode); root.setAttribute('data-view-state', state.status);
+    root.setAttribute('data-view-mode', state.mode); root.setAttribute('data-view-state', mapAvailable ? state.status : 'paused');
   }
   async function request(mode: ThreeDViewMode) {
-    if (destroyed || mode === '3d' && !supported) return;
+    if (destroyed || !mapAvailable || mode === '3d' && !supported) return;
     // 2D remains actionable during preparation and cancels that pending transition.
     abort.abort(); abort = new AbortController(); const signal = abort.signal, ticket = ++revision;
     const previousMode = state.mode; state = { mode: previousMode, status: 'loading' }; render();
@@ -69,6 +69,7 @@ export function installThreeDimensionalControls(options: {
     setState(next: ThreeDControlState) { if (destroyed) return; abort.abort(); revision++; state = next; render(); },
     // Authoritative root state for its current loader ticket. Do not abort that request.
     reportState(next: ThreeDControlState) { if (destroyed) return; revision++; state = next; render(); },
+    setMapAvailable(value:boolean){if(destroyed||mapAvailable===value)return;mapAvailable=value;if(!value){abort.abort();revision++;}render();},
     setVehicleReducedMotion(value:boolean){if(destroyed)return;reducedVehicles=value;render();},
     get vehiclesRequested(){return vehicleInput.checked;},
     setSupported(value: boolean) { if (destroyed) return; supported = value; if (!supported) { abort.abort(); revision++; if (state.status === 'loading') state = { mode: state.mode, status: 'ready' }; } render(); },

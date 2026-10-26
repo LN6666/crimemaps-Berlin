@@ -1,9 +1,9 @@
-import {readFrozenTable} from '../../../safety/frozen-paint-tables';
+import {readFrozenTableAsync} from '../../../safety/frozen-paint-tables';
 import type {BuildingComponent,Identity} from './building-mesh-renderer';
 import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
 import {decodeBuildingShard} from './building-mesh-codec';
-const DISPLAY:any=readFrozenTable("884a5230c8385146354e876296f429bc1d5e99da2f7f58a977eaa8a53d362ecc");
-const SOURCE_SHARD:any=readFrozenTable("430157f3e3cca56f8100e852ba513f4e492392c2c281f68cd25813ce178542ce");
+const DISPLAY:any=(await readFrozenTableAsync("884a5230c8385146354e876296f429bc1d5e99da2f7f58a977eaa8a53d362ecc","painted/infill/safety/infill-synagoge-reconstruction.ts",0));
+const SOURCE_SHARD:any=(await readFrozenTableAsync("430157f3e3cca56f8100e852ba513f4e492392c2c281f68cd25813ce178542ce","painted/infill/safety/infill-synagoge-reconstruction.ts",0));
 const ORIGINAL=decodeBuildingShard(SOURCE_SHARD,"essen").components;
 export const INFILL_SYNAGOGE_SHA="884a5230c8385146354e876296f429bc1d5e99da2f7f58a977eaa8a53d362ecc";
 export const infillSynagogeIdentity=(c:Identity&{city?:string})=>(c.city===undefined||c.city==='essen')&&ORIGINAL.some(s=>s.objectId===c.objectId&&s.partId===c.partId);

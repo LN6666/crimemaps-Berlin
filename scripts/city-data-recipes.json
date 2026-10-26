@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "recipes": [
+    {
+      "file": "painted/city/safety/progressive-paint-admissions.ts",
+      "canonicalSHA256": "7da78c3156384cbe2b15916ef730aa580310bd2dc64e63f747f2721830631a35",
+      "occurrence": 0,
+      "selector": "city-rows"
+    },
+    {
+      "file": "painted/city/safety/progressive-feature-cities.ts",
+      "canonicalSHA256": "08a966a2685e8ac662b993b7e663eb3680324e4cbb0be4d9f28ad2f90b669866",
+      "occurrence": 0,
+      "selector": "city-key"
+    },
+    {
+      "file": "painted/root500/safety/progressive-paint-admissions.ts",
+      "canonicalSHA256": "2d556d4a2acaf18e4f59940bb24053f547e10f9c4fd0b251fbe302a2cfc86cd1",
+      "occurrence": 0,
+      "selector": "city-rows"
+    },
+    {
+      "file": "painted/root500/safety/progressive-feature-cities.ts",
+      "canonicalSHA256": "a4d0762be98c9995c3e05ffbea1992099883fd9ec40822abaf6fc12f63acf0aa",
+      "occurrence": 0,
+      "selector": "city-key"
+    },
+    {
+      "file": "painted/delegated500/safety/progressive-paint-admissions.ts",
+      "canonicalSHA256": "83ac1b8fde06a7aed6c533e2766c4eb9fe788061a42f3c2b643542983e9a2a0f",
+      "occurrence": 0,
+      "selector": "city-rows"
+    },
+    {
+      "file": "painted/delegated500/safety/progressive-feature-cities.ts",
+      "canonicalSHA256": "01ede2bb639403eb2aadb59b60ddd59051fff621003e9376231be89c1ee9dc6f",
+      "occurrence": 0,
+      "selector": "city-key"
+    },
+    {
+      "file": "painted/tier300/safety/progressive-paint-admissions.ts",
+      "canonicalSHA256": "ab07a37cd2caf09ad39126521c9331779ceea67b9524c9ccdbc7318c9d324932",
+      "occurrence": 0,
+      "selector": "city-rows"
+    },
+    {
+      "file": "painted/tier300/safety/progressive-feature-cities.ts",
+      "canonicalSHA256": "67cda70d1342fb511ab4748e3927b8d00302531d60f22172ae8deec852f6dc85",
+      "occurrence": 0,
+      "selector": "city-key"
+    },
+    {
+      "file": "painted/root500/safety/progressive-berlin-programs.ts",
+      "canonicalSHA256": "287aa87661490ea6cd983951b372da5a7cdef9071c02110594443afdc77e26ec",
+      "occurrence": 0,
+      "selector": "berlin-catalog"
+    },
+    {
+      "file": "painted/root500/safety/progressive-hamburg-programs.ts",
+      "canonicalSHA256": "ad5d7f17924dde1b30ded4d66364ad28b2be2046c93d4b3f946a588c883931e4",
+      "occurrence": 0,
+      "selector": "hamburg-catalog"
+    },
+    {
+      "file": "painted/delegated500/safety/progressive-berlin-programs.ts",
+      "canonicalSHA256": "b7a6aa49d8c80419702b0c7f24b8e123fba14a146bec56ad89b0b934feb07446",
+      "occurrence": 0,
+      "selector": "berlin-catalog"
+    },
+    {
+      "file": "painted/delegated500/safety/progressive-hamburg-programs.ts",
+      "canonicalSHA256": "2b81132d7703227d17145de11d31644dba634fb6d0ca59f3a0b047fa8a5abe90",
+      "occurrence": 0,
+      "selector": "hamburg-catalog"
+    }
+  ]
+}

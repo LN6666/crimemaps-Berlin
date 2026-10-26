@@ -12,6 +12,8 @@ export interface MethodOptions {
 }
 export interface MethodUpdate {
   month: string;
+  selectedMonths?: readonly string[];
+  periodLabel?: string;
   city: string;
   category?: string;
   category_label?: string;
@@ -110,11 +112,11 @@ export function mountAnnouncementMethods(parent: HTMLElement, options: MethodOpt
       try {
         const wantedIds = new Set(rows.map(row => row.id));
         const stats = announcementStatistics(rows, {...metadata,
-          scope: "loaded_months", selected_months: [current.month],
+          scope: "loaded_months", selected_months: current.selectedMonths ?? [current.month],
           category_filter: current.category ?? "all", count_reference_ids: current.countReferenceIds,
           complete_tag_assessments: metadata.complete_tag_assessments?.filter(item => wantedIds.has(item.id)),
         });
-        line(munich ? "methods.upstreamPeriod" : "methods.period", {month: current.month,
+        line(munich ? "methods.upstreamPeriod" : "methods.period", {month: current.periodLabel ?? current.month,
           category: current.category_label ?? t("methods.allCategories")});
         line(munich ? "methods.upstreamTotal" : "methods.total", {count: stats.loaded_announcements});
         line("methods.mapReferences", {count: stats.map_count_references});

@@ -26,9 +26,16 @@ export function createRathausProxyMasks(){
    gl.uniformBlockBinding(p,index,binding);gl.bindBufferBase(gl.UNIFORM_BUFFER,binding,buffer);draw();
   }finally{gl.bindBufferBase(gl.UNIFORM_BUFFER,binding,oldIndexed);gl.bindBuffer(gl.UNIFORM_BUFFER,oldGeneric);}
  }
+
+ /** Reflection consumes only a mask version already uploaded by an ordinary scene draw. */
+ function withResidentMasks(gl:WebGL2RenderingContext,p:WebGLProgram,draw:()=>void){
+  const index=gl.getUniformBlockIndex(p,'NrProxyMaskBlock');if(index===gl.INVALID_INDEX){draw();return true;}if(ownerGL!==gl||!buffer||uploaded!==version)return false;
+  const binding=gl.getParameter(gl.MAX_UNIFORM_BUFFER_BINDINGS)-1,oldIndexed=gl.getIndexedParameter(gl.UNIFORM_BUFFER_BINDING,binding),oldGeneric=gl.getParameter(gl.UNIFORM_BUFFER_BINDING);
+  try{gl.uniformBlockBinding(p,index,binding);gl.bindBufferBase(gl.UNIFORM_BUFFER,binding,buffer);draw();return true;}finally{gl.bindBufferBase(gl.UNIFORM_BUFFER,binding,oldIndexed);gl.bindBuffer(gl.UNIFORM_BUFFER,oldGeneric);}
+ }
  function covered(c:BuildingComponent,x:number,y:number,z:number){return c.objectId==='osm/relation/147095'&&masks.some(m=>rathausProxyFragmentCovered(m,x,y,z));}
  function detach(){if(ownerGL&&buffer)ownerGL.deleteBuffer(buffer);buffer=undefined;uploaded=-1;ownerGL=undefined;}
- return {configure,withMasks,covered,detach,get origin(){return origin;},get stats(){return{maskCount:masks.length,allocatedCPUBytes:data.byteLength,allocatedGPUBytes:buffer?data.byteLength:0,sourceParentClaim:false,sourceArraysUnchanged:true};}};
+ return {configure,withMasks,withResidentMasks,get residentRevision(){return version+':'+uploaded+':'+Number(Boolean(buffer));},covered,detach,get origin(){return origin;},get stats(){return{maskCount:masks.length,allocatedCPUBytes:data.byteLength,allocatedGPUBytes:buffer?data.byteLength:0,sourceParentClaim:false,sourceArraysUnchanged:true};}};
 }
 export const RATHAUS_PROXY_MASK_GLSL=`
 layout(std140) uniform NrProxyMaskBlock {vec4 u_nr_proxy_rects[128];};

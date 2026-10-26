@@ -1,8 +1,10 @@
+import {createSharedNativeSourcePool} from './shared-native-source';
+import {planarReflectionGroup} from './planar-reflection-group';
 import type {installThreeDimensionalMap as CityInstaller} from '../painted/city/safety/three-dimensional-map';
 import type {PaintProvider} from './paint-ownership';
 import {paintOwner} from './paint-ownership';
 import assetRegistry from './paint-asset-registry.json';
-import {preloadFrozenPaintTables} from './frozen-paint-tables';
+import {beginFrozenPaintTableInitialization,frozenPaintTableStats} from './frozen-paint-tables';
 
 type Options = Parameters<typeof CityInstaller>[0];
 type Actual = ReturnType<typeof CityInstaller>;
@@ -71,11 +73,17 @@ export function installThreeDimensionalMap(options: Options): Actual {
       entry.promise.then(bytes=>{if(cleanup())resolve(bytes);},error=>{if(cleanup())reject(error);});
     });
   }
+  const nativeSources=createSharedNativeSourcePool({read:fetchBytes});
   const lifetime = new AbortController();
+  let frozenInitialization:ReturnType<typeof beginFrozenPaintTableInitialization>|undefined;
+  const startFrozenInitialization=(signal:AbortSignal)=>frozenInitialization=beginFrozenPaintTableInitialization(fetchBytes,signal,providerOrder,error=>{if(!destroyed&&!signal.aborted&&!(error instanceof DOMException&&error.name==='AbortError')){lastError=String(error);options.onState?.({mode:managers.get('city')?.mode??'2d',status:'error'});}});
 
+  const reflectionGroup=planarReflectionGroup(()=>providerOrder.map(provider=>renderers.get(provider)));
   const renderer = new Proxy({} as Engine, {
     get(_target, property) {
       const engines = providerOrder.map(p => renderers.get(p)).filter((r): r is Engine => !!r);
+      if(property==='getPlanarReflectionRevision')return reflectionGroup.getPlanarReflectionRevision;
+      if(property==='renderPlanarReflection')return reflectionGroup.renderPlanarReflection;
       if (property === 'layer') return renderers.get('city')?.layer ?? engines[0]?.layer;
       if (property === 'stats') {
         const stats = engines.map(r => r.stats);
@@ -84,13 +92,13 @@ export function installThreeDimensionalMap(options: Options): Actual {
       }
       if (property === 'nativeGroupDisplay') return renderers.get('city')?.nativeGroupDisplay;
       if (property === 'selected') return engines.map(r=>r.selected).find(Boolean);
-      if (property === 'isPickReady') return () => engines.length > 0 && engines.every(r => r.isPickReady());
+      if (property === 'isPickReady') return () => (wanted !== '3d' || providerOrder.every(p => managers.get(p)?.wantedMode === '3d' && managers.get(p)?.mode === '3d' && renderers.has(p))) && engines.length > 0 && engines.every(r => r.isPickReady());
       if (property === 'diagnosticScreenSamples') return (...args: unknown[]) => engines.flatMap(r => (r.diagnosticScreenSamples as Function)(...args));
       if (property === 'readPaintGPUDiagnostic') return (identities:unknown[]) => Object.fromEntries([...renderers].map(([provider,r])=>[provider,typeof (r as any).readPaintGPUDiagnostic==='function'?Array.from({length:Math.ceil(identities.length/8)},(_,i)=>(r as any).readPaintGPUDiagnostic(identities.slice(i*8,i*8+8))):undefined]));
       if (property === 'getRevision') return () => ({generation: Math.max(0,...engines.map(r=>r.getRevision().generation)),viewRevision: Math.max(0,...engines.map(r=>r.getRevision().viewRevision))});
       if (property === 'pick') return (...args: unknown[]) => engines.map(r => (r.pick as Function)(...args)).filter(Boolean).sort((a,b)=>(a.distance ?? Infinity)-(b.distance ?? Infinity))[0];
       if (typeof property === 'string' && /^(set|clear|suspend|resume|reset)/.test(property)) return (...args: unknown[]) => { for (const r of engines) {const fn=(r as any)[property];if(typeof fn==='function')fn.apply(r,args);} };
-      if (typeof property === 'string' && /^(getComponent|getSourceComponent|getSurfaceComponent|isDerived|readPaintGPU)/.test(property)) return (...args: unknown[]) => {
+      if (typeof property === 'string' && /^(getComponent|getSourceComponent|getSurfaceComponent|getSolarShadowAdmission|isDerived|readPaintGPU)/.test(property)) return (...args: unknown[]) => {
         const identity=args[0] as Parameters<Engine['getSourceComponent']>[0];
         for (const p of providerOrder) {
           const r=renderers.get(p);if(!r)continue;
@@ -108,8 +116,9 @@ export function installThreeDimensionalMap(options: Options): Actual {
     signal.throwIfAborted();if(managers.size)return Promise.resolve();
     if(initializing&&!initializationSignal?.aborted)return initializing;
     const next=(async () => {
-      await preloadFrozenPaintTables(fetchBytes,signal);signal.throwIfAborted();
-      const modules = await Promise.all([
+      const tableSession=frozenInitialization?.active?frozenInitialization:startFrozenInitialization(signal);
+      let modules;try {signal.throwIfAborted();
+      const imports = await tableSession.wait(Promise.allSettled([
         import('../painted/root500/safety/three-dimensional-map'),
         import('../painted/delegated500/safety/three-dimensional-map'),
         import('../painted/tier300/safety/three-dimensional-map'),
@@ -117,12 +126,25 @@ export function installThreeDimensionalMap(options: Options): Actual {
         import('../painted/city/safety/three-dimensional-map'),
         ...(['frankfurt','stuttgart','essen'].includes(options.city)?[import('../painted/infill/safety/three-dimensional-map')]:[]),
         ...(options.city==='bremen'?[import('../painted/bremen/safety/three-dimensional-map')]:[]),
-      ]);
+        // Resolve the corresponding renderer module initializers in the same
+        // lease. Their later public dynamic imports reuse these exact modules.
+        import('../painted/root500/safety/building-mesh-renderer'),
+        import('../painted/delegated500/safety/building-mesh-renderer'),
+        import('../painted/tier300/safety/building-mesh-renderer'),
+        import('../painted/church/safety/building-mesh-renderer'),
+        import('../painted/city/safety/building-mesh-renderer'),
+        ...(['frankfurt','stuttgart','essen'].includes(options.city)?[import('../painted/infill/safety/building-mesh-renderer')]:[]),
+        ...(options.city==='bremen'?[import('../painted/bremen/safety/building-mesh-renderer')]:[]),
+      ]));
+      const failed=imports.find((r):r is PromiseRejectedResult=>r.status==='rejected');if(failed)throw failed.reason;
+      modules=imports.slice(0,providerOrder.length).map(r=>(r as PromiseFulfilledResult<any>).value);
+      } catch(error) {tableSession.close();throw error;}
       if (destroyed||signal.aborted) throw abort();
       modules.forEach((module, index) => {
         const provider = providerOrder[index];
         const assets=(assetRegistry as Record<string,Record<string,string>>)[provider]??{};
-        const manager = module.installThreeDimensionalMap({...options, fetchBytes:(path:string,signal:AbortSignal,max:number)=>fetchBytes(assets[path]??path,signal,max), manageCamera: provider === 'city',
+        const manager = module.installThreeDimensionalMap({...options, nativeSources:nativeSources.client(options.city,path=>assets[path]??path), fetchBytes:(path:string,signal:AbortSignal,max:number)=>fetchBytes(assets[path]??path,signal,max), manageCamera: provider === 'city',
+          awaitPaintInitialization: <T>(operation:Promise<T>)=>{const session=frozenInitialization;if(!session?.active)throw abort();return session.wait(operation);},
           onState: (state: any) => {states.set(provider,state);if(!preparing)options.onState?.(aggregateState());},
           onNativeGroupDisplay: provider === 'city' ? options.onNativeGroupDisplay : undefined,
           onRenderer: (r: any) => {renderers.set(provider,r);r.setPageHidden(hidden);r.setReducedMotion(reduced);r.setOpacityContext(opacityContext);options.onRenderer?.(renderer);},
@@ -137,10 +159,11 @@ export function installThreeDimensionalMap(options: Options): Actual {
 
   async function requestMode(next: '2d' | '3d', external: AbortSignal) {
     external.throwIfAborted(); if (destroyed) throw abort();
-    wanted=next;request.abort();const own=request=new AbortController();
+    wanted=next;request.abort();let own=request=new AbortController();
     const ticket=++transition;preparing=ticket;
     const cancel=()=>own.abort();external.addEventListener('abort',cancel,{once:true});
     try {
+      if(next==='3d')startFrozenInitialization(own.signal);else frozenInitialization?.close();
       if (!managers.size && next==='2d') {const state={mode:next,status:'ready' as const};options.onState?.(state);return state;}
       await ensure(own.signal);own.signal.throwIfAborted();
       // Finish the single camera movement before supplemental managers prepare.
@@ -148,7 +171,7 @@ export function installThreeDimensionalMap(options: Options): Actual {
       own.signal.throwIfAborted();
       for(const p of providerOrder)if(p!=='city')await managers.get(p)!.requestMode(next,own.signal);
       own.signal.throwIfAborted();lastError=undefined;if(next==='2d')clearBytes();const result=aggregateState();options.onState?.(result);return result;
-    } catch(error) {if(location.hostname==='127.0.0.1')console.warn('supplement-3d-transition',String(error),error instanceof Error?error.stack:'');if(!own.signal.aborted){lastError=String(error);own.abort();clearBytes();const rollback=new AbortController();await Promise.allSettled([...managers.values()].map(m=>m.requestMode('2d',rollback.signal)));options.onState?.({mode:'2d',status:'error'});}throw error;}
+    } catch(error) {if(location.hostname==='127.0.0.1')console.warn('supplement-3d-transition',String(error),error instanceof Error?error.stack:'');if(!own.signal.aborted){lastError=String(error);own.abort();clearBytes();const rollback=own=request=new AbortController();await Promise.allSettled([...managers.values()].map(m=>m.requestMode('2d',rollback.signal)));if(ticket===transition&&!destroyed&&!rollback.signal.aborted)options.onState?.({mode:'2d',status:'error'});}throw error;}
     finally {external.removeEventListener('abort',cancel);if(preparing===ticket)preparing=0;}
   }
   return {
@@ -163,9 +186,18 @@ export function installThreeDimensionalMap(options: Options): Actual {
     get renderer(){return renderers.size?renderer:undefined;},get sourceMetadata(){return managers.get('city')?.sourceMetadata;},
     get paintLayers(){return [...renderers.values()].map(r=>r.layer);},
     getRevision:()=>renderer.getRevision(),
-    cacheStats:()=>({...managers.get('city')?.cacheStats(),modeTransitionPending:preparing!==0,lastError,ownerReconstruction:{notNative:true as const,geometryAdded:[...managers.values()].reduce((sum,m)=>sum+(m.cacheStats()?.ownerReconstruction?.geometryAdded??0),0),components:[...managers.values()].flatMap(m=>m.cacheStats()?.ownerReconstruction?.components??[])},paintProviders:Object.fromEntries([...managers].map(([p,m])=>[p,m.cacheStats()])),sharedTransport:{active,peakConcurrency:peak,reads,queued:queue.length,cachedBytes,cachedAssets:byteCache.size},renderer:renderers.size?renderer.stats:undefined,rendererScreenSamples:renderers.size?renderer.diagnosticScreenSamples():[],revision:renderer.getRevision(),selected:renderers.size?renderer.selected:undefined}),
-    suspend(){request.abort();managers.forEach(m=>m.suspend());},
-    resume(){managers.forEach(m=>m.resume());if(!managers.size&&wanted==='3d')void requestMode('3d',new AbortController().signal).catch(()=>{});},
-    destroy(){if(destroyed)return;destroyed=true;request.abort();lifetime.abort();inflight.forEach(p=>p.controller.abort());managers.forEach(m=>m.destroy());inflight.clear();clearBytes();pump();},
+    cacheStats:()=>{
+      // Collect each provider once: its full diagnostic getter also projects
+      // resident screen samples and must not run for every aggregate field.
+      const snapshots=new Map([...managers].map(([provider,manager])=>[provider,manager.cacheStats()]));
+      const city=snapshots.get('city');
+      const stats=providerOrder.flatMap(provider=>{const value=snapshots.get(provider)?.renderer;return value?[value]:[];});
+      const first=city?.renderer??stats[0];
+      const combined=renderers.size?{...first,components:stats.reduce((n,value)=>n+(value.components??0),0),vertices:stats.reduce((n,value)=>n+(value.vertices??0),0),paintProviders:Object.fromEntries(providerOrder.flatMap(provider=>{const value=snapshots.get(provider)?.renderer;return value?[[provider,value]]:[];}))}:undefined;
+      return {...city,modeTransitionPending:preparing!==0,lastError,ownerReconstruction:{notNative:true as const,geometryAdded:[...snapshots.values()].reduce((sum,value)=>sum+(value.ownerReconstruction?.geometryAdded??0),0),components:[...snapshots.values()].flatMap(value=>value.ownerReconstruction?.components??[])},paintProviders:Object.fromEntries(snapshots),frozenTableInputs:frozenPaintTableStats(),sharedNativeSources:nativeSources.stats,sharedTransport:{active,peakConcurrency:peak,reads,queued:queue.length,cachedBytes,cachedAssets:byteCache.size},renderer:combined,rendererScreenSamples:providerOrder.flatMap(provider=>snapshots.get(provider)?.rendererScreenSamples??[]),revision:renderer.getRevision(),selected:renderers.size?renderer.selected:undefined};
+    },
+    suspend(){request.abort();frozenInitialization?.close();managers.forEach(m=>m.suspend());},
+    resume(){if(destroyed)return;const incomplete=wanted==='3d'&&providerOrder.some(p=>managers.get(p)?.wantedMode!=='3d');if(wanted==='3d'&&managers.size){request.abort();request=new AbortController();startFrozenInitialization(request.signal);}managers.forEach(m=>m.resume());if(incomplete)void requestMode('3d',new AbortController().signal).catch(()=>{});},
+    destroy(){if(destroyed)return;destroyed=true;request.abort();nativeSources.destroy();frozenInitialization?.close();lifetime.abort();inflight.forEach(p=>p.controller.abort());managers.forEach(m=>m.destroy());inflight.clear();clearBytes();pump();},
   } as Actual;
 }

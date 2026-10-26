@@ -1,6 +1,8 @@
-import {C345_FIXTURE as F} from './c345-fixture';
-import type {C318Component as C,C318Context as X} from './c318-display';
-const eq=(a:ArrayLike<number>,b:ArrayLike<number>)=>a.length===b.length&&Array.from(b).every((v,i)=>a[i]===v);
-const patchMatch=(c:C)=>{const p=F.patch;return c.city===p.city&&c.objectId===p.objectId&&c.partId===p.partId&&eq(c.origin,p.origin)&&JSON.stringify(c.componentGeometry)===JSON.stringify(p.componentGeometry)&&JSON.stringify(c.sourceFeature?.properties)===JSON.stringify(p.sourceFeature?.properties)&&c.batches.length===p.batches.length&&c.batches.every((b,i)=>eq(b.positions,p.batches[i].positions)&&eq(b.normals,p.batches[i].normals)&&eq(b.indices,p.batches[i].indices)&&eq(b.color,p.batches[i].color));};
-export const c345HasMaterialBinding=(c:C)=>patchMatch(c);
-export function applyC345MaterialFrames(rows:readonly C[],color:Float32Array,paint:Float32Array,x:X){const gate=!x.signal?.aborted&&x.city==='munich'&&x.indexSHA===F.indexSHA&&x.sourcePBF===F.sourcePBF&&x.boundarySHA===F.boundarySHA&&x.sourceSnapshot===F.sourceSnapshot&&x.pathsReady.color;let at=0,painted=0;for(const c of rows){const enabled=gate&&patchMatch(c)&&x.materialReady(c);for(let bi=0;bi<c.batches.length;bi++)for(let i=0;i<c.batches[bi].positions.length;i+=3){if(enabled){color.set(F.patchColors[bi].slice(i/3*4,i/3*4+4),at*4);paint.set(F.patchFrames[bi].slice(i/3*5,i/3*5+5),at*5);if(F.patchColors[bi][i/3*4+3]>.5)painted++;}at++;}}return{painted:painted,geometryAdded:painted>0?F.newGeometryVertices:0,ownerAuthorizedReconstruction:painted>0,sourceArraysUnchanged:true};}
+import {createLazyCityMaterial,type CityMaterialWait} from './lazy-city-material';
+type Implementation=typeof import('./c345-display-implementation');
+const ids=new Set(["munich|osm/relation/61204|osm/relation/61204/component/295e608607d3503aa92d/owner-shape-C345"]);
+const needed=(c:{city:string;objectId:string;partId:string})=>ids.has(c.city+'|'+c.objectId+'|'+c.partId);
+const route=createLazyCityMaterial<Implementation>("c345-display",()=>import('./c345-display-implementation'));
+export const prepareC345MaterialFrames=(signal:AbortSignal,wait?:CityMaterialWait)=>route.prepare(signal,wait);
+export const c345HasMaterialBinding:Implementation["c345HasMaterialBinding"]=c=>{const module=route.value();return module?module.c345HasMaterialBinding(c):needed(c)?route.required().c345HasMaterialBinding(c):false;};
+export const applyC345MaterialFrames:Implementation["applyC345MaterialFrames"]=(rows,color,paint,x)=>{const module=route.value();if(module)return module.applyC345MaterialFrames(rows,color,paint,x);if(!x.signal?.aborted&&x.city==="munich"&&rows.some(needed))return route.required().applyC345MaterialFrames(rows,color,paint,x);return {"painted":0,"geometryAdded":0,"ownerAuthorizedReconstruction":false,"sourceArraysUnchanged":true};};

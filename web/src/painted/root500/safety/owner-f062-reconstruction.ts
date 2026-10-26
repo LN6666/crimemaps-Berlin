@@ -1,11 +1,11 @@
-import {readFrozenTable} from '../../../safety/frozen-paint-tables';
+import {readFrozenTableAsync} from '../../../safety/frozen-paint-tables';
 import type {BuildingComponent,Identity,MeshBatch} from './building-mesh-renderer';
 import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
 import {nativePaintSignature} from './progressive-native-signature';
 type Batch=MeshBatch&{positions:number[];normals:number[];indices:number[];color:number[];frames:number[];paint:number[];writeMask:boolean[];role:number;provenance?:unknown;geometryRole?:string};
 export const F062_IDS=[{"city":"hamburg","objectId":"osm/way/48361392","partId":"osm/way/48361392/component/5e0464c4bd97f0b13631","signature":"6e061a03"},{"city":"hamburg","objectId":"osm/way/362565055","partId":"osm/way/362565055/component/a400868c26bf8a38639c","signature":"b738e65b"},{"city":"hamburg","objectId":"osm/way/362565056","partId":"osm/way/362565056/component/5cb446726adb8a92b519","signature":"d86ecde2"},{"city":"hamburg","objectId":"osm/way/697524432","partId":"osm/way/697524432/component/b0b99c1fbb30d901de75","signature":"bccc6f6c"},{"city":"hamburg","objectId":"osm/way/697624037","partId":"osm/way/697624037/component/09101f5b392b6aabaac4","signature":"a841f15b"}];
-const SOURCE:Record<string,any>=readFrozenTable("75b9ea43a5fa7c6473ecd4ece819a4b2e43a9b7ed00186870c2fef0867b019e3");
-const DISPLAY:Record<string,Batch[]>=readFrozenTable("30989617f90eb265ee3889bb3d807cae650ec99499734c0d28ed69fe12e40646");
+const SOURCE:Record<string,any>=(await readFrozenTableAsync("75b9ea43a5fa7c6473ecd4ece819a4b2e43a9b7ed00186870c2fef0867b019e3","painted/root500/safety/owner-f062-reconstruction.ts",0));
+const DISPLAY:Record<string,Batch[]>=(await readFrozenTableAsync("30989617f90eb265ee3889bb3d807cae650ec99499734c0d28ed69fe12e40646","painted/root500/safety/owner-f062-reconstruction.ts",0));
 export const F062_RECONSTRUCTION_SHA="30989617f90eb265ee3889bb3d807cae650ec99499734c0d28ed69fe12e40646";
 export const ownerF062Identity=(c:Identity)=>F062_IDS.some(i=>i.objectId===c.objectId&&i.partId===c.partId);
 export function ownerF062BaseMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){let offset=0,objects=0,vertices=0;for(const c of components){const match=c.city==='hamburg'&&ownerF062Identity(c)&&!!c.displayEstimates?.F062Exterior;if(match)objects++;for(const b of c.batches){const count=b.positions.length/3;if(match){const a=b as Batch;for(let j=0;j<count;j++)if(a.writeMask[j]){paint.set(a.paint.slice(j*4,j*4+4),4*(offset+j));frames.set(a.frames.slice(j*5,j*5+5),5*(offset+j));vertices++;}}offset+=count;}}return{objects,vertices,actualVisualAccepted:false};}

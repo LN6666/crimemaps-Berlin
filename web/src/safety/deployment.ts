@@ -49,13 +49,13 @@ export function cityDestination(city: CityId, search: string, month?: string, ta
   cityId(city);
   const incoming = new URLSearchParams(search), outgoing = new URLSearchParams();
   addLanguage(outgoing, search);
-  const selected = month && /^\d{4}-(0[1-9]|1[0-2])$/.test(month) ? month : incoming.get("month");
-  if (selected && /^\d{4}-(0[1-9]|1[0-2])$/.test(selected)) outgoing.set("month", selected);
+  const selected = month && /^\d{4}-(all|0[1-9]|1[0-2])$/.test(month) ? month : incoming.get("month");
+  if (selected && /^\d{4}-(all|0[1-9]|1[0-2])$/.test(selected)) outgoing.set("month", selected);
   const url = navigationURL(city === "berlin" ? targets.berlinMapPath : `/${repositoryName(city)}/`, targets);
   url.search = outgoing.toString();
   return url.href;
 }
 export function requestedMonth(search: string, available: readonly string[], fallback: string) {
   const key = new URLSearchParams(search).get("month");
-  return key && available.includes(key) ? key : fallback;
+  return key && /^\d{4}-(all|0[1-9]|1[0-2])$/.test(key) && (available.includes(key) || key.endsWith("-all") && available.some(month=>/^\d{4}-(0[1-9]|1[0-2])$/.test(month)&&month.startsWith(key.slice(0,4)+"-"))) ? key : fallback;
 }

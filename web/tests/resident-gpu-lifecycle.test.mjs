@@ -1,0 +1,39 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {createRequire} from 'node:module';
+const web=fileURLToPath(new URL('../',import.meta.url)),require=createRequire(new URL('../package.json',import.meta.url)),ts=require('typescript'),{build,transform}=require('esbuild');
+const helperPath=path.join(web,'src/safety/resident-gpu-lifecycle.ts'),built=await build({entryPoints:[helperPath],bundle:true,platform:'node',format:'esm',target:'es2022',write:false});
+const {createResidentGPULifecycle}=await import('data:text/javascript;base64,'+Buffer.from(built.outputFiles[0].text).toString('base64'));
+const matrix=new Float32Array([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]);
+const providers=['base','city','root500','delegated500','tier300','church','infill','bremen'];
+function bodyNodes(text){const ast=ts.createSourceFile('renderer.ts',text,ts.ScriptTarget.Latest,true);let initialize,ready,batches;function visit(node){if(ts.isFunctionDeclaration(node)&&node.name?.text==='initializeResidentGPU')initialize=node.getText(ast);if(ts.isPropertyAssignment(node)&&node.name.getText(ast)==='isPickReady')ready=node.initializer.getText(ast);if((ts.isMethodDeclaration(node)||ts.isFunctionDeclaration(node))&&node.name?.getText(ast)==='setBatches')batches=node.body.getText(ast);ts.forEachChild(node,visit);}visit(ast);assert(initialize);assert(ready);return{initialize,ready,batches};}
+async function factory(provider){
+ const file=provider==='base'?path.join(web,'src/safety/building-mesh-renderer.ts'):path.join(web,`src/painted/${provider}/safety/building-mesh-renderer.ts`);const text=await readFile(file,'utf8'),nodes=bodyNodes(text);
+ const compiled=await transform('('+nodes.initialize+')',{loader:'ts',target:'es2022'});const counters={compiled:0,released:0,buffers:0,uploads:0};let owned=false,preflight=false,revision=0,lifecycle;
+ const gl={lost:false,isContextLost(){return this.lost;},createVertexArray:()=>({kind:'vao'}),createBuffer:()=>({kind:'buffer',id:++counters.buffers}),getParameter:()=>16};
+ const values={city:'berlin',gl:undefined,program:undefined,vao:undefined,vertexBuffer:undefined,indexBuffer:undefined,stateBuffer:undefined,paintBuffer:undefined,progressiveBuffer:undefined,enabled:true,pageHidden:false,destroyed:false,partitionPending:false,matrix:undefined,whiteModeEligible:false,baseSurfaceFragment:'base',surfaceFragment:undefined,windowTexture:undefined,diffuseTexture:undefined,c311LastArgs:undefined,geometryPairs:new Map(),paintMode:()=>2,
+  compileGeometryProgram:()=>{counters.compiled++;return{kind:'program',id:counters.compiled};},syncFacadeResources(){},ensureTexturedProgram(){},ensureDiffuseProgram(){},upload(){counters.uploads++;},facadePaintFragmentForCity:()=>'',c311MaterialFragment:value=>value,c312MaterialFragment:value=>value,c313MaterialFragment:value=>value,c318MaterialFragment:value=>value,
+  releaseGPU(){if(values.program)counters.released++;for(const key of ['program','vao','vertexBuffer','indexBuffer','stateBuffer','paintBuffer','progressiveBuffer'])values[key]=undefined;lifecycle?.released();}};
+ const env=new Proxy(values,{has:()=>true,get:(target,key)=>key===Symbol.unscopables?undefined:key in target?target[key]:globalThis[key],set:(target,key,value)=>(target[key]=value,true)});
+ const initialize=Function('env','with(env){return '+compiled.code+'}')(env);const ready=()=>Boolean(values.program&&values.vao&&values.vertexBuffer&&values.indexBuffer&&values.stateBuffer&&!gl.lost);values.gpuReady=ready;
+ lifecycle=createResidentGPULifecycle({bind:context=>values.gl=context,initialize,release:values.releaseGPU,ready,lost:context=>context.isContextLost(),hasResident:()=>owned,needsPreflight:()=>preflight,clearTransient(){values.stateData=new Float32Array();values.partitionPending=false;},revision:()=>revision});values.residentGPU=lifecycle;
+ const readyJS=await transform('('+nodes.ready+')',{loader:'ts',target:'es2022'}),isPickReady=Function('env','with(env){return '+readyJS.code+'}')(env);
+ return{lifecycle,gl,values,counters,isPickReady,nodes,setOwned:value=>owned=value,setPreflight:value=>preflight=value,bump:()=>revision++};
+}
+for(const provider of providers)test(`${provider}: empty/nonempty/empty/resident restore uses the original allocator once and preserves readiness`,async()=>{
+ const f=await factory(provider),h=f.lifecycle;h.attach(f.gl);assert.equal(f.counters.compiled,0);assert.equal(f.counters.buffers,0);assert(!f.isPickReady());assert(h.emptyFrame(matrix));assert(f.isPickReady());f.bump();assert(!f.isPickReady());h.emptyFrame(matrix);assert(f.isPickReady());
+ f.setOwned(true);assert(h.beforeUpload());assert.equal(f.counters.compiled,1);assert(!f.isPickReady());f.values.matrix=matrix;assert(f.isPickReady());h.attach(f.gl);assert.equal(f.counters.compiled,1);
+ f.setOwned(false);h.beforeUpload();assert.equal(f.counters.released,1);assert(!h.stats.initialized);assert(!f.isPickReady());h.emptyFrame(matrix);assert(f.isPickReady());
+ f.setOwned(true);h.beforeUpload();assert.equal(f.counters.compiled,2);f.gl.lost=true;f.values.releaseGPU();h.attach(f.gl);assert.equal(f.counters.compiled,2);assert(!f.isPickReady());f.gl.lost=false;h.attach(f.gl);assert.equal(f.counters.compiled,3);h.attach(f.gl);assert.equal(f.counters.compiled,3);assert.equal(h.stats.initializations,3);
+ f.values.releaseGPU();h.detach();assert(!h.stats.initialized);assert(!h.stats.contextBound);assert.equal(h.stats.ownedTimers,0);
+});
+for(const provider of ['base','city'])test(`${provider}: required owner preflight obtains the unchanged Munich attribute path before packing`,async()=>{
+ const f=await factory(provider);f.values.city='munich';f.lifecycle.attach(f.gl);f.setPreflight(true);assert(f.lifecycle.preparePreflight());assert(f.values.c311ShaderActive);assert(f.values.c312ShaderActive);assert(f.values.c311Buffer);assert(f.values.c312Buffer);assert(f.values.c313Buffer);assert.equal(f.counters.compiled,1);
+ assert(!f.lifecycle.emptyFrame(matrix));f.lifecycle.beforeUpload();assert.equal(f.counters.released,0);assert(f.nodes.batches.indexOf('preparePreflight()')<f.nodes.batches.indexOf('c311RefreshContext()'));f.setPreflight(false);f.lifecycle.beforeUpload();assert.equal(f.counters.released,1);
+});
+test('initialization failure preserves retry and clears the re-entry flag',async()=>{const f=await factory('city'),valid=f.values.compileGeometryProgram;f.values.compileGeometryProgram=()=>{throw Error('shader preflight failed');};f.lifecycle.attach(f.gl);f.setOwned(true);assert.throws(()=>f.lifecycle.beforeUpload(),/preflight failed/);assert(!f.lifecycle.stats.initializing);assert(!f.lifecycle.stats.initialized);f.values.compileGeometryProgram=valid;assert(f.lifecycle.beforeUpload());assert.equal(f.counters.compiled,1);});
+test('all independent solar shader implementations use the display receiver above the .02 water surface',async()=>{for(const provider of ['base','city','root500','delegated500','tier300','church']){const p=provider==='base'?path.join(web,'src/safety/source-shadow.ts'):path.join(web,`src/painted/${provider}/safety/source-shadow.ts`),text=await readFile(p,'utf8');assert(text.includes('a_position.y*growth),.03,a_position.z'));assert(!text.includes('a_position.y*growth),.015,a_position.z'));}});
+test('church explicit material program upgrade forces one rebuild rather than being mistaken for a recovery reattach',async()=>{const f=await factory('church');f.setOwned(true);f.lifecycle.attach(f.gl);assert.equal(f.counters.compiled,1);assert(f.lifecycle.rebuild());assert.equal(f.counters.compiled,2);assert.equal(f.counters.released,1);const text=await readFile(path.join(web,'src/painted/church/safety/building-mesh-renderer.ts'),'utf8');assert(text.includes('queueOnlyProgram=false;residentGPU!.rebuild();'));});

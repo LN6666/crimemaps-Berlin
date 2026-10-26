@@ -92,6 +92,16 @@ export class DynamicTranslations {
     incidents:scene.incidents?.map((incident,j)=>({...incident,details:incident.details?this.field(event,`${path}/incidents/${j}/details`,incident.details):incident.details,event_time:incident.event_time?{...incident.event_time,display:this.field(event,`${path}/incidents/${j}/event_time/display`,incident.event_time.display)}:incident.event_time}))};
   })});});
  }
+ /** Keep every event/field tied to its own month's checked translation snapshot.
+  * Identical German text may have different addressed translations in two months. */
+ mergeLoadedMonths(parts:readonly {rows:readonly PoliceEvent[];language:DynamicTranslations}[]) {
+  this.clear();const conflicts=new Set<string>();
+  for(const {rows,language}of parts){
+   for(const [original,translated]of language.lookup){if(conflicts.has(original))continue;const previous=this.lookup.get(original);if(previous!==undefined&&previous!==translated){this.lookup.delete(original);conflicts.add(original);}else this.lookup.set(original,translated);}
+   for(const event of rows){for(const field of fieldsFor(event))this.addressed.set(`${event.id}\0${field.field}`,language.field(event,field.field,field.original));this.missingByEvent.set(event.id,language.missingFor(event));}
+   this.matched+=language.matched;this.missing+=language.missing;
+  }
+ }
  async load(rows:readonly PoliceEvent[],manifest:Manifest,client:DataClient,month:string,locale:Locale,signal:AbortSignal,city=manifest.city.toLowerCase()) {
   this.clear();signal.throwIfAborted();const fields=rows.flatMap(fieldsFor);
   const markMissing=()=>{this.missing=fields.length;for(const e of rows)this.missingByEvent.set(e.id,fieldsFor(e).length);};

@@ -1,0 +1,14 @@
+import type {BuildingComponent,Identity} from './building-mesh-renderer';
+import {createLazyOwnerRoute,type OwnerInitializationWait} from './lazy-owner-route';
+const F027_IDS=[{"city":"berlin","objectId":"osm/way/30926247","partId":"osm/way/30926247/component/dbf8da118f15774620c0","signature":"53c985a2"},{"city":"berlin","objectId":"osm/way/288498850","partId":"osm/way/288498850/component/361621cd6765d80ed983","signature":"b929b6e0"},{"city":"berlin","objectId":"osm/way/288498851","partId":"osm/way/288498851/component/ab49898033604ce324ee","signature":"c49d8a09"},{"city":"berlin","objectId":"osm/way/288498852","partId":"osm/way/288498852/component/a20a2ed9f77caa5a4a19","signature":"a955cecd"},{"city":"berlin","objectId":"osm/way/288498854","partId":"osm/way/288498854/component/bb6b600a5d67ccb9306f","signature":"b1452da7"},{"city":"berlin","objectId":"osm/way/288498855","partId":"osm/way/288498855/component/4ff8c606ed5d3a5ca601","signature":"260575da"},{"city":"berlin","objectId":"osm/way/288498856","partId":"osm/way/288498856/component/e322d27e26dd4f736469","signature":"1d83ad4d"},{"city":"berlin","objectId":"osm/way/288498857","partId":"osm/way/288498857/component/d73ff93318dad54fb5d7","signature":"1b0449a6"},{"city":"berlin","objectId":"osm/way/288498858","partId":"osm/way/288498858/component/13e08da9065b408506dc","signature":"9241e270"},{"city":"berlin","objectId":"osm/way/288498859","partId":"osm/way/288498859/component/969107e256683ba37423","signature":"cf469fd2"},{"city":"berlin","objectId":"osm/way/288498853","partId":"osm/way/288498853/component/21c3833f207c8d4b7b00","signature":"13b20217"}];
+export const ownerF027Identity=(c:Identity)=>F027_IDS.some(i=>i.objectId===c.objectId&&i.partId===c.partId);
+const needed=(c:BuildingComponent)=>c.city==="berlin"&&ownerF027Identity(c);
+const route=createLazyOwnerRoute('ownerF027Reconstruction',needed,false,()=>import('./owner-f027-reconstruction').then(m=>({reconstruct:m.ownerF027Reconstruction,baseMaterials:m.ownerF027BaseMaterials})));
+/** Called at this owner's original chain position, after every preceding builder. */
+export function prepareOwnerF027Reconstruction(components:readonly BuildingComponent[],signal:AbortSignal,wait?:OwnerInitializationWait){signal.throwIfAborted();return components.some(needed)?route.prepare(signal,wait):undefined;}
+export const ownerF027Reconstruction=route.reconstruct;
+export function ownerF027BaseMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){
+ // A later builder may add this identity without this owner's display; the original material pass skips it.
+ if(!components.some(c=>c.city==='berlin'&&ownerF027Identity(c)&&!!c.displayEstimates?.F027Exterior))return{objects:0,vertices:0,actualVisualAccepted:false};
+ return route.baseMaterials(components,paint,frames);
+}

@@ -18,6 +18,9 @@ export function addVectorBasemap(map:Map) {
  for(const layer of layers)map.addLayer(layer,'roads-line');
 }
 export function removeVectorBasemap(map:Map) {
- for(const id of ['basemap-vector-place-labels','basemap-vector-street-labels','basemap-vector-streets','basemap-vector-buildings','basemap-vector-water','basemap-vector-land'])if(map.getLayer(id))map.removeLayer(id);
+ if(!map.getSource(VECTOR_SOURCE))return;
+ // Consumers such as shop records can add layers that also depend on this source.
+ for(const layer of [...(map.getStyle()?.layers??[])].reverse())
+  if('source'in layer&&layer.source===VECTOR_SOURCE&&map.getLayer(layer.id))map.removeLayer(layer.id);
  if(map.getSource(VECTOR_SOURCE))map.removeSource(VECTOR_SOURCE);
 }

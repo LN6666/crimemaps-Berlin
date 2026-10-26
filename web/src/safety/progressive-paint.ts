@@ -2,7 +2,7 @@ import {progressivePaintValidation} from './progressive-paint-validation';
 import {nativePaintSignature} from './progressive-native-signature';
 import {FROZEN_PAINT_IDS} from './frozen-paint-ids';
 import type {BuildingComponent} from './building-mesh-renderer';
-import {PROGRESSIVE_ADMISSIONS,PROGRESSIVE_INPUT_SHA} from './progressive-paint-admissions';
+import {PROGRESSIVE_ADMISSIONS,PROGRESSIVE_INPUT_SHA,PROGRESSIVE_ADMISSION_COUNTS} from './progressive-paint-admissions';
 import {PROGRESSIVE_FEATURE_SHA} from './progressive-feature-glsl';
 export const progressivePaintFingerprints={admissionsSHA256:PROGRESSIVE_INPUT_SHA,featuresSHA256:PROGRESSIVE_FEATURE_SHA};
 export type PaintRGB=readonly[number,number,number];
@@ -39,7 +39,8 @@ export function progressivePaintData(components:BuildingComponent[]):Float32Arra
  for(const c of components){const row=progressiveAdmission(c),componentStart=at;c.batches.forEach((b,bi)=>{const color=row?.batchColors?.[String(bi)]??(b.faceRole==='wall'?row?.wallColor:b.faceRole==='roof'?row?.roofColor:undefined);const start=at;for(let j=0;j<b.positions.length;j+=3){if(color)out.set([...color,row?.ownerSelectedMaterialPriority?2:1],at);at+=4;}for(const range of row?.vertexRanges??[]){if(range.batchIndex!==bi)continue;if(!Number.isSafeInteger(range.firstVertex)||!Number.isSafeInteger(range.vertexCount)||range.firstVertex<0||range.vertexCount<1||range.firstVertex+range.vertexCount>b.positions.length/3||range.color.length!==3||!range.color.every(v=>Number.isFinite(v)&&v>=0&&v<=1))throw Error('Invalid native paint range');for(let j=range.firstVertex;j<range.firstVertex+range.vertexCount;j++)out.set([...range.color,row?.ownerSelectedMaterialPriority?2:1],start+j*4);}});if(row){let coloredVertices=0;for(let j=componentStart+3;j<at;j+=4)if(out[j]>.5)coloredVertices++;renderRecords.push({city:c.city,objectId:c.objectId,partId:c.partId,coloredVertices,sourceVertices:(at-componentStart)/4,featureCarrierVertices:new Set((row.surfaceFrames??[]).flatMap(f=>Array.from({length:f.vertexCount},(_,j)=>f.batchIndex+'|'+(f.firstVertex+j)))).size,geometrySignature:row.geometrySignature,batchColorBindings:row.batchColors??{},vertexRangeColors:row.vertexRanges??[],frameBindings:frameReadback(c,row)});}}
  return out;
 }
-export const progressivePaintCount=admissions.size;
+export const progressivePaintCount=PROGRESSIVE_ADMISSION_COUNTS.global;
+export const progressivePaintCityCount=PROGRESSIVE_ADMISSION_COUNTS.retained;
 
 export function applyProgressiveFrames(components:BuildingComponent[],data:Float32Array<ArrayBuffer>){
  let componentStart=0;

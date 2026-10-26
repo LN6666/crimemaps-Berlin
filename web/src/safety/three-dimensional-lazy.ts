@@ -1,4 +1,5 @@
 import {reichstagAppearanceVertexReservation} from './reichstag-appearance-budget';
+import {checkedSceneEnvironment,type SceneEnvironmentState} from './scene-environment-state';
 import type {installThreeDimensionalMap as InstallActualMap} from './three-dimensional-map';
 type Installer=typeof InstallActualMap;
 type Options=Parameters<Installer>[0];
@@ -6,12 +7,13 @@ type Actual=ReturnType<Installer>&{readonly paintLayers?:{id:string}[]};
 type Module={installThreeDimensionalMap:Installer};
 /** A small 2D initial adapter. The actual owner coordinates the frozen painting
  * implementations and their shared bounded asset transport after first use. */
-export function installThreeDimensionalMap(options:Options,loadModule:()=>Promise<Module>=()=>import('./three-dimensional-map')):Actual{
+export function installThreeDimensionalMap(options:Options,loadModule:()=>Promise<Module>=()=>import('./three-dimensional-map')):Actual&{setSceneEnvironment:(value:SceneEnvironmentState)=>void}{
  const mobile=options.mobile??matchMedia('(max-width:760px)').matches;
  const reservedAppearanceVertices=reichstagAppearanceVertexReservation(options.city),nativeAdmissionVertexLimit=(mobile?100000:200000)-reservedAppearanceVertices;
  let actual:Actual|undefined,modulePromise:Promise<Module>|undefined,destroyed=false,suspended=false;
  let lastError:string|undefined;let ownsUnloaded2DTransition=false;
  let wanted:'2d'|'3d'='2d',revision=0,modeRequest=new AbortController();
+ let sceneEnvironment:SceneEnvironmentState|undefined;
  let hidden:boolean|undefined,reduced:boolean|undefined,opacityContext:'normal'|'route-selection'='normal';
  const aborted=()=>new DOMException('Aborted','AbortError');
  const canceled=(error:unknown)=>!!error&&typeof error==='object'&&'name'in error&&error.name==='AbortError';
@@ -23,7 +25,7 @@ export function installThreeDimensionalMap(options:Options,loadModule:()=>Promis
  async function ensure(signal:AbortSignal){
   if(actual)return actual;
   const module=await waitModule(signal);signal.throwIfAborted();if(destroyed||suspended)throw aborted();
-  if(!actual){actual=module.installThreeDimensionalMap({...options,mobile,onRenderer:renderer=>{if(hidden!==undefined)renderer.setPageHidden(hidden);if(reduced!==undefined)renderer.setReducedMotion(reduced);renderer.setOpacityContext(opacityContext);options.onRenderer?.(renderer);}});if(hidden!==undefined)actual.setPageHidden(hidden);if(reduced!==undefined)actual.setReducedMotion(reduced);actual.setOpacityContext(opacityContext);}
+  if(!actual){actual=module.installThreeDimensionalMap({...options,mobile,onRenderer:renderer=>{if(sceneEnvironment)renderer.setSceneEnvironment(sceneEnvironment);if(hidden!==undefined)renderer.setPageHidden(hidden);if(reduced!==undefined)renderer.setReducedMotion(reduced);renderer.setOpacityContext(opacityContext);options.onRenderer?.(renderer);}});if(hidden!==undefined)actual.setPageHidden(hidden);if(reduced!==undefined)actual.setReducedMotion(reduced);actual.setOpacityContext(opacityContext);}
   return actual;
  }
  async function requestMode(next:'2d'|'3d',external:AbortSignal){
@@ -41,6 +43,7 @@ export function installThreeDimensionalMap(options:Options,loadModule:()=>Promis
   getOwnerReconstructionBinding(identity){return actual?.getOwnerReconstructionBinding(identity);},
   getSourceBinding(identity){return actual?.getSourceBinding(identity);},
   async readAsset(asset,signal,max){signal.throwIfAborted();return (actual??await ensure(signal)).readAsset(asset,signal,max);},
+  setSceneEnvironment(value){sceneEnvironment=checkedSceneEnvironment(value);actual?.renderer?.setSceneEnvironment(sceneEnvironment);},
   setPageHidden(value){hidden=value;actual?.setPageHidden(value);},
   setReducedMotion(value){reduced=value;actual?.setReducedMotion(value);},
   setOpacityContext(value){opacityContext=value;actual?.setOpacityContext(value);},

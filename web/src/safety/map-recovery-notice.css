@@ -1,0 +1,4 @@
+.map-recovery-notice{padding:.65rem;margin:.4rem 0;border:1px solid currentColor;border-radius:.35rem;background:var(--panel-bg,#f7f8f5);color:var(--text,#1c2822)}
+.map-recovery-notice[hidden]{display:none}
+.map-recovery-notice p{margin:0 0 .5rem;line-height:1.5}
+.map-recovery-notice button{margin:.2rem .4rem .2rem 0;min-height:44px;white-space:normal}

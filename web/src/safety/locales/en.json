@@ -86,7 +86,7 @@
   "legend.pois": "Nearby places",
   "legend.highlight": "Show place association intensity bands (I–XV)",
   "legend.highlightNone": "There are no linked announcements in the current filters and loaded area, so no Roman numerals are shown.",
-  "legend.highlightNote": "Category checkboxes show or hide facilities. This switch only shows or hides small Roman numerals directly below centers; centers and fill shading stay unchanged. I–XV quantize the original display intensity into 15 bands using distinct source-supported announcement links for the current month and report category. Numerals are not announcement counts, offence counts or risk levels: V means only the fifth band. No links means no numeral. Click for the actual distinct count, linked announcements and calculation.",
+  "legend.highlightNote": "Category checkboxes show or hide facilities. This switch only shows or hides small Roman numerals directly below centers; centers and fill shading stay unchanged. I–XV quantize the original display intensity into 15 bands using distinct source-supported announcement links for the selected period and report category. Numerals are not announcement counts, offence counts or risk levels: V means only the fifth band. No links means no numeral. Click for the actual distinct count, linked announcements and calculation.",
   "legend.resolution": "Hexagon side: {metres} m · Changes with zoom",
   "selection.prompt": "Select a hexagon, place or road to read the announcements",
   "selection.intro": "Click the map to see reports and their sources.",
@@ -153,7 +153,7 @@
   "report.sourcePlaceTypes": "Place types mentioned in the source: {types}",
   "coverage.filtered": "Current filters · Included announcements",
   "coverage.noMonth": "No data package for this month",
-  "coverage.countPoints": "This month: {countable} reports have a usable representative location; {without} do not, including {references} with reference geometry. The hexagons summarize eligible reports for the whole year.",
+  "coverage.countPoints": "Selected period: {countable} reports have a usable representative location; {without} do not, including {references} with reference geometry. The hexagons summarize eligible reports for the whole year.",
   "coverage.located": "With a location shown: {located}; location unknown: {unresolved}; a mentioned road can be shown for {roads}",
   "coverage.noPointList": "Announcements without a location for the totals: {count} · Show list",
   "coverage.unresolvedList": "Announcements with insufficient location detail: {count} · Show list",
@@ -762,5 +762,6 @@
   "selection.geography.land": "Land area",
   "selection.geography.place": "Place",
   "report.dataProvider": "data provider",
-  "report.providerSummary": "Summary from {provider} · not the full police announcement"
+  "report.providerSummary": "Summary from {provider} · not the full police announcement",
+  "filter.yearToDate": "Year to date (saved months)"
 }

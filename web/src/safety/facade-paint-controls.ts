@@ -1,4 +1,4 @@
-import {PAINT_FAMILIES} from './facade-paint-frame';
+import {PAINT_FAMILIES} from './facade-paint-families';
 export const PAINT_REVISION='owner-selected-303-owner-decisions-v37-20261017';
 let mode=Number(new URLSearchParams(location.search).get('paintMode')??2),family=0;
 if(![0,1,2].includes(mode))mode=2;

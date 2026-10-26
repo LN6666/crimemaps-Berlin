@@ -1,3 +1,4 @@
+import {nullCityDataProfilePlugin} from './city-profile-test-plugin.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
@@ -5,7 +6,7 @@ import {build} from 'esbuild';
 import {createHash} from 'node:crypto';
 
 async function bundle(entry, plugins=[]) {
-  const result=await build({entryPoints:[new URL('../src/safety/'+entry,import.meta.url).pathname],bundle:true,platform:'node',format:'esm',write:false,plugins});
+  const result=await build({entryPoints:[new URL('../src/safety/'+entry,import.meta.url).pathname],bundle:true,platform:'node',format:'esm',write:false,plugins:[nullCityDataProfilePlugin,...plugins]});
   return import('data:text/javascript;base64,'+Buffer.from(result.outputFiles[0].text).toString('base64'));
 }
 const {paintOwner,acceptPaintComponent}=await bundle('paint-ownership.ts');
@@ -63,7 +64,13 @@ test('packed geometry/material tables retain every original byte of numeric data
   for(const row of rows){
     const source=await readFile(new URL('../../'+row.path,import.meta.url),'utf8');
     if(row.external){
-      assert(source.includes('readFrozenTable("'+row.sha256+'")'));
+      let initializer=source;
+      if(row.sharedInitializer){
+        assert(source.includes("from '"+row.reexportSpecifier+"'")||source.includes('from '+JSON.stringify(row.reexportSpecifier)));
+        assert(new RegExp('export\\s*\\{[^}]*\\b'+row.variable+'\\b').test(source));
+        initializer=await readFile(new URL('../../'+row.sharedInitializer,import.meta.url),'utf8');
+      }
+      assert(initializer.includes('readFrozenTable("'+row.sha256+'")')||initializer.includes('readFrozenTableAsync("'+row.sha256+'",'));
       assert(row.assetPath.endsWith('/'+row.sha256+'.json'));
       continue;
     }
@@ -89,8 +96,8 @@ test('pinned final assets use immutable content addresses within each implementa
 
 const providerPlugin={name:'frozen-provider-test-double',setup(build){
   build.onResolve({filter:/\/frozen-paint-tables$/},()=>({path:'frozen-tables',namespace:'test-store'}));
-  build.onLoad({filter:/.*/,namespace:'test-store'},()=>({contents:'export const preloadFrozenPaintTables=async()=>{};',loader:'js'}));
-  build.onResolve({filter:/painted\/[^/]+\/safety\/three-dimensional-map$/},args=>({path:args.path,namespace:'provider'}));
+  build.onLoad({filter:/.*/,namespace:'test-store'},()=>({contents:'export const preloadFrozenPaintTables=async()=>()=>{}; export const beginFrozenPaintTableInitialization=()=>({active:true,wait:p=>p,close(){}}); export const frozenPaintTableStats=()=>({});',loader:'js'}));
+  build.onResolve({filter:/painted\/[^/]+\/safety\/(?:three-dimensional-map|building-mesh-renderer)$/},args=>({path:args.path,namespace:'provider'}));
   build.onLoad({filter:/.*/,namespace:'provider'},args=>({contents:`export const installThreeDimensionalMap=options=>globalThis.__paintProvider(${JSON.stringify(args.path.split('/painted/')[1].split('/')[0])},options);`,loader:'js'}));
 }};
 const {installThreeDimensionalMap}=await bundle('painted-map.ts',[providerPlugin]);
