@@ -2,7 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {build} from 'esbuild';
+import fs from 'node:fs/promises';
+import {build,transform} from 'esbuild';
 const safety=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../src/safety');
 const entry=['environment-woodland-display.ts','environment-scene-data.ts','solar-shadow-admission.ts'].map(f=>'export * from '+JSON.stringify(path.join(safety,f))+';').join('');
 const built=await build({stdin:{contents:entry,resolveDir:safety,loader:'ts'},bundle:true,write:false,platform:'node',format:'esm'});
@@ -75,4 +76,22 @@ test('hundreds of distant loaded exclusions do not exhaust the local polygon bud
  const far=Array.from({length:600},(_,i)=>feature('osm/way/'+(100+i),{landuse:'grass'},[ring(1000+i*25,1000,1010+i*25,1010)])),near=feature('osm/way/2',{surface:'concrete'},[ring(-30,-80,30,80)]),f=forest(),result=sample([...far,near,f],origin,view,boundary,2048,radius);
  assert.ok(result.instances.length>100);assert.equal(result.exclusionPolygons,1);assert.equal(result.sourcePolygons,1);assert.equal(result.reason,'ready');for(const p of result.instances)assert.equal(intersects(p,[-30,-80,30,80]),false);
  const crowded=Array.from({length:limits.polygons+1},(_,i)=>feature('osm/way/'+(1000+i),{surface:'asphalt'},[ring(-20,-20,20,20)])),closed=sample([f,...crowded],origin,view,boundary,2048,radius);assert.equal(closed.instances.length,0);assert.equal(closed.reason,'incomplete-known-exclusions');
+});
+
+test('actual no-boundary plus one-point predicates equal the original four-corner proof for source and exclusion boxes',async()=>{
+ const source=await fs.readFile(path.join(safety,'environment-woodland-display.ts'),'utf8');
+ const lines=['function inRing','const contains','function edgeOverlap','const covers','const intersects'].map(marker=>{const line=source.split('\n').find(line=>line.trimStart().startsWith(marker));assert.ok(line,marker);return line;}).join('\n');
+ const js=await transform(lines,{loader:'ts',target:'es2022'});let checks=0;
+ const overlap=(a,b)=>a[0]<=b[2]&&a[2]>=b[0]&&a[1]<=b[3]&&a[3]>=b[1],actual=new Function('overlaps','tick',js.code+';return {covers,intersects};')(overlap,()=>checks++);
+ const rectangle=(a,b,c,d)=>[[a,b],[c,b],[c,d],[a,d],[a,b]],poly=rings=>({rings:rings.map(points=>({points,box:[Math.min(...points.map(p=>p[0])),Math.min(...points.map(p=>p[1])),Math.max(...points.map(p=>p[0])),Math.max(...points.map(p=>p[1]))]})),box:[Math.min(...rings[0].map(p=>p[0])),Math.min(...rings[0].map(p=>p[1])),Math.max(...rings[0].map(p=>p[0])),Math.max(...rings[0].map(p=>p[1]))]});
+ let referenceChecks=0;
+ const inRing=(r,x,y)=>{if(x<=r.box[0]||x>=r.box[2]||y<=r.box[1]||y>=r.box[3])return false;let inside=false;for(let i=1;i<r.points.length;i++){referenceChecks++;const a=r.points[i-1],b=r.points[i];if((a[1]>y)!==(b[1]>y)&&x<(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0])inside=!inside;}return inside;};
+ const contains=(p,x,y)=>inRing(p.rings[0],x,y)&&!p.rings.slice(1).some(r=>inRing(r,x,y));
+ const edges=(p,b)=>p.rings.some(r=>overlap(r.box,b)&&r.points.slice(1).some((c,i)=>{referenceChecks++;const a=r.points[i];return Math.min(a[0],c[0])<=b[2]&&Math.max(a[0],c[0])>=b[0]&&Math.min(a[1],c[1])<=b[3]&&Math.max(a[1],c[1])>=b[1];}));
+ const oldCovers=(p,b)=>b[0]>p.box[0]&&b[1]>p.box[1]&&b[2]<p.box[2]&&b[3]<p.box[3]&&contains(p,b[0],b[1])&&contains(p,b[2],b[1])&&contains(p,b[2],b[3])&&contains(p,b[0],b[3])&&!edges(p,b);
+ const oldIntersects=(p,b)=>overlap(p.box,b)&&(contains(p,b[0],b[1])||contains(p,b[2],b[1])||contains(p,b[2],b[3])||contains(p,b[0],b[3])||edges(p,b));
+ const shapes=[poly([rectangle(-100,-100,100,100)]),poly([rectangle(-100,-100,100,100),rectangle(-20,-20,20,20)]),poly([[[-100,-100],[100,-100],[100,100],[15,100],[15,0],[-15,0],[-15,100],[-100,100],[-100,-100]]]),poly([rectangle(-1,-1,1,1)])];
+ for(const p of shapes)for(let x=-110;x<=110;x+=11)for(let y=-110;y<=110;y+=11)for(const width of [1,3.014,17,60]){const b=[x-width,y-width,x+width,y+width];assert.equal(actual.covers(p,b),oldCovers(p,b));assert.equal(actual.intersects(p,b),oldIntersects(p,b));}
+ const outside=[-10,-10,10,10];assert.equal(actual.intersects(shapes[3],outside),true,'tiny exclusion fully inside a crown still excludes it');assert.equal(actual.covers(shapes[1],[-30,-30,30,30]),false,'a fully enclosed source hole still rejects the crown');
+ checks=referenceChecks=0;assert.equal(actual.covers(shapes[0],[-3,-3,3,3]),true);assert.equal(oldCovers(shapes[0],[-3,-3,3,3]),true);assert.equal(checks,8);assert.equal(referenceChecks,20,'ordinary interior coverage saves three full ring scans without changing the proof');
 });

@@ -59,3 +59,25 @@ test('row sampling respects remaining instance capacity and skips distant portio
  const far=row('osm/way/7',-1000000,1000000),near=treeRowDisplayInstances([far],origin,bounds(-20,-20,20,20),boundary,2048,2.3);
  assert.ok(near.candidates<=6);assert.ok(near.instances.length>0);assert.equal(near.truncated,false);assert.ok(near.candidates<ENVIRONMENT_LIMITS.treeRowCandidateLimit);
 });
+
+
+test('explicit ground cover wins equal-depth overlap before generic parks without changing geometry or buffers',()=>{
+ const tagged=(id,tags,coordinates)=>({...feature(id,'green','Polygon',coordinates),properties:{...props,kind:'green',osmTags:tags}});
+ const park=tagged('osm/way/0',{leisure:'park'},[ring(-80,-80,80,80)]);
+ const lawn=tagged('osm/way/10',{landuse:'meadow'},[ring(-60,-60,-10,60)]);
+ const wood=tagged('osm/way/20',{natural:'wood'},[ring(10,-60,60,60),ring(20,-10,30,10)]);
+ const shrub=tagged('osm/way/30',{natural:'heath'},[ring(-8,20,8,40)]);
+ const conflict=tagged('osm/way/40',{natural:'scrub',landuse:'grass'},[ring(-8,-40,8,-20)]);
+ const input=[park,wood,conflict,lawn,shrub],before=JSON.stringify(input);
+ const a=greenGroundGeometry(input,origin,viewport,boundary,60000,180000),b=greenGroundGeometry(input.slice().reverse(),origin,viewport,boundary,60000,180000);
+ assert.deepEqual(a,b);assert.equal(a.admitted,5);assert.equal(a.positions.length,24*7);assert.equal(JSON.stringify(input),before);
+ const firstVisibleRole=(x,z)=>{for(let i=0;i<a.indices.length;i+=3){const ids=a.indices.slice(i,i+3),p=ids.map(j=>[a.positions[j*7],a.positions[j*7+2]]),cross=p.map((q,k)=>{const r=p[(k+1)%3];return(r[0]-q[0])*(z-q[1])-(r[1]-q[1])*(x-q[0]);});if(cross.every(n=>n>=0)||cross.every(n=>n<=0))return a.positions[ids[0]*7+6];}};
+ assert.equal(firstVisibleRole(-35,3),4,'explicit meadow takes precedence over enclosing generic park');
+ assert.equal(firstVisibleRole(40,3),5,'woodland has its own ground tone');
+ assert.equal(firstVisibleRole(25,3),3,'woodland hole remains generic park, not wooded material');
+ assert.equal(firstVisibleRole(1,30),6,'source heath is low vegetation');
+ assert.equal(firstVisibleRole(1,-30),3,'conflicting tags do not assert lawn');
+ assert.equal(firstVisibleRole(70,3),3);assert.equal(firstVisibleRole(90,3),undefined);
+ const bounded=greenGroundGeometry([park,lawn],origin,viewport,boundary,4,6);
+ assert.equal(bounded.admitted,1);assert.equal(bounded.omitted,1);assert.equal(bounded.positions[6],4);
+});

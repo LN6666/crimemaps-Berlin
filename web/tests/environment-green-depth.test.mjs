@@ -34,5 +34,5 @@ test('partial green overlap retains both source polygons and their holes, but re
 
 test('only the small dedicated green fragment writes depth and both green paths use identical material',()=>{
  assert.ok(!ENVIRONMENT_SCENE_FRAGMENT_GLSL.includes('gl_FragDepth'));assert.ok(GREEN_GROUND_FRAGMENT_GLSL.includes('gl_FragCoord.xy-u_green_viewport.xy'));assert.ok(GREEN_GROUND_FRAGMENT_GLSL.includes('gl_FragDepth=mix(u_green_depth_range.x,u_green_depth_range.y,z*.5+.5)'));
- assert.ok(ENVIRONMENT_SCENE_FRAGMENT_GLSL.includes(GREEN_GROUND_MATERIAL_GLSL));assert.ok(GREEN_GROUND_FRAGMENT_GLSL.includes(GREEN_GROUND_MATERIAL_GLSL));assert.ok(!/sampler|texture\(/.test(GREEN_GROUND_FRAGMENT_GLSL));assert.ok(GREEN_GROUND_FRAGMENT_GLSL.length<4000);
+ assert.ok(ENVIRONMENT_SCENE_FRAGMENT_GLSL.includes(GREEN_GROUND_MATERIAL_GLSL));assert.ok(GREEN_GROUND_FRAGMENT_GLSL.includes(GREEN_GROUND_MATERIAL_GLSL));assert.ok(!/sampler|texture\(/.test(GREEN_GROUND_FRAGMENT_GLSL));assert.ok(GREEN_GROUND_FRAGMENT_GLSL.includes('greenGroundColor(v_position,v_normal,v_role)'));assert.ok(ENVIRONMENT_SCENE_FRAGMENT_GLSL.includes('greenGroundColor(v_position,v_normal,v_role)'));assert.ok(module.GREEN_GROUND_VERTEX_GLSL.includes('v_role=a_role'));assert.ok(GREEN_GROUND_FRAGMENT_GLSL.length<4000);
 });
