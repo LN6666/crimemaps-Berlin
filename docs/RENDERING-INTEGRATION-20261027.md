@@ -17,3 +17,9 @@ An8-second stationary Chrome comparison at995x467 measured water-uniform updates
 The earlier20-minute RAM protocol did not pass and does not cover this source. Full hardware/WebGL acceptance and product publication are still pending. The retained13 non-Berlin complete candidates still contain Berlin's ownership token; the separately prepared city-aware assembler must remove it from new staging while preserving the exact Berlin response and the current CSP gate.
 
 This source merge does not deploy the new3D or grass data. Publication still requires a real integrated commit, schema1 inventory/archive, all15 product/scientific checks, all5 input bindings, current source freshness and trusted acceptance digest. Existing schema2 static-SEO acceptance cannot admit the new runtime.
+
+## Final family scheduling
+
+City rendering admits at most one missing full-material family program per render. Demand is derived from current runs and Float32 overrides each frame, with no queued work or new timer. Ready runs continue drawing and picking; missing runs are withheld until their own material is ready. Final index order and C290 intersections remain unchanged. Reflection stays incomplete until every required family is ready. Shader assembly, geometry packing, upload and release are byte-identical.
+
+The final two-file delta passed54 affected checks, including the17 migration lifecycle checks, and full TypeScript/Vite validation. A single synchronous compile can still stall; this does not prove a frame-time ceiling or explain every earlier loading spike. Browser/product/RAM acceptance remains separate.
