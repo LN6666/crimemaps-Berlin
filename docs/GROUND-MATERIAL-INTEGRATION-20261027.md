@@ -9,3 +9,7 @@ The9-file packet SHA256 is2a6ed558875dd255e7b350c8d80bd23328321523616b32b2f85621
 Berlin frontend95,748,158 B is708 B above the previous coverage frontend. It is not complete site capacity. Final14 staging must bind latest merged source and reuse the existing post-asset/environment/SEO whole-directory and release/archive gates: strictly below900,000,000 B internally and1,000,000,000 B per site. Prior complete-candidate capacities, ZIP and repository sizes cannot certify this version.
 
 No city data is included. Separately acquired Berlin10911 unsealed delta and Hamburg's local250MiB intermediate stop are excluded; that stop is not a Pages1GB overflow. Previous failed RAM/GPU recovery evidence, partial woodland coverage, token/CSP staging and all schema1/runtime publication gates remain. No runtime is deployed by this source merge.
+
+## Integration assertion synchronization
+
+The complete CI runtime suite caught one old material-motion assertion still expecting a two-argument greenGroundColor call. The existing test now requires the actual third source-role argument, preserving all other static/noise/resource assertions. Production code is unchanged by this synchronization. The initial Berlin suite had295/296 passes; its failed record remains. All53 affected checks pass after the single assertion update; this count overlaps the producer checks rather than adding new independent tests.

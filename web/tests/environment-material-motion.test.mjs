@@ -46,7 +46,7 @@ test('far material keeps existing noise footprint and water lighting/reflection 
 test('green role shares the separate static material with analytic and fallback programs',async()=>{
   const green=bodyAfter('if(v_role>=2.5)'),material=await fs.readFile(new URL('../src/safety/environment-green-ground.ts',import.meta.url),'utf8');
   assert.ok(shader.indexOf('if(v_role>=2.5)')<shader.indexOf('else if(v_role>1.5)'));
-  assert.match(green,/color=greenGroundColor\(v_position,v_normal\)/);
+  assert.match(green,/color=greenGroundColor\(v_position,v_normal,v_role\)/);
   assert.match(material,/sceneSurfaceLight\(base,normalize\(normal\),position.y\),\.60/);
   assert.ok(material.includes('smoothstep(.55,2.5,max(length(dFdx(ground)),length(dFdy(ground))))'),'subpixel grain fades');
   assert.ok(!/u_environment_time|texture\(|v_reflection_clip/.test(material));
