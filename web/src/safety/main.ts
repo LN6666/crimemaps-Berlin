@@ -16,6 +16,7 @@ import {defaultSceneEnvironment,type SceneEnvironmentState} from './scene-enviro
 import {installSceneRenderQuality} from './scene-render-quality';
 import {createDisplayFrameClock} from './display-frame-clock';
 import {installCustomLayerRecovery} from './custom-layer-recovery';
+import {installInitialStyleRecovery} from './initial-style-recovery';
 import {mountMapRecoveryNotice,readMapRecoveryURL,mapRecoveryReloadURL,RECOVERY_TOGGLES} from './map-recovery-notice';
 import './map-recovery-notice.css';
 import {installThreeDimensionalScenery} from './three-dimensional-scenery';
@@ -1427,6 +1428,17 @@ async function start() {
       : t("coverage.official",{discovered:number(manifest.coverage.discovered),fetched:number(manifest.coverage.fetched),pending:number(manifest.coverage.pending)});
     el("freshness").textContent =
       t("coverage.snapshot",{date:date(data.retrieved_at)});
+    const initialMapStyle:maplibregl.StyleSpecification = {
+        version: 8,
+        sources: {},
+        layers: [
+          {
+            id: "background",
+            type: "background",
+            paint: { "background-color": "#edf1ed" },
+          },
+        ],
+      };
     map = new maplibregl.Map({
       container: "map",
       center: mapRetry?.snapshot.camera.center??cityView.center,
@@ -1438,18 +1450,9 @@ async function start() {
       maxTileCacheSize: 64,
       cancelPendingTileRequestsWhileZooming: true,
       refreshExpiredTiles: false,
-      style: {
-        version: 8,
-        sources: {},
-        layers: [
-          {
-            id: "background",
-            type: "background",
-            paint: { "background-color": "#edf1ed" },
-          },
-        ],
-      },
+      style: initialMapStyle,
     });
+    installInitialStyleRecovery(map,initialMapStyle,error=>{console.error(error);mapRecoveryNotice.update('failed');});
     sceneFrameClock=createDisplayFrameClock({requestRepaint:()=>map.triggerRepaint()});
     sceneFrameClock.setPageHidden(document.hidden);
     sceneRenderQuality=installSceneRenderQuality(map,sceneEnvironment.quality);
