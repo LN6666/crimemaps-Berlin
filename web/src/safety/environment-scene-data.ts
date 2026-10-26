@@ -1,6 +1,8 @@
 export type EnvironmentBox=[number,number,number,number];
 export type EnvironmentFeature={type:'Feature';id:string;geometry:{type:'Point'|'LineString'|'MultiLineString'|'Polygon'|'MultiPolygon';coordinates:any};properties:{kind:'tree'|'tree_row'|'water'|'water_line'|'green';osmTags:Record<string,string>;sourceGeometry?:unknown;displayClip:boolean;source_snapshot:string;source_pbf_sha256:string;source_boundary_sha256:string;tree_crown_display_5m_guard?:boolean|null}};
 export type EnvironmentSource={type:'FeatureCollection';schema_version:1;city:string;features:EnvironmentFeature[]};
+/** Display width only; actual source heights and positions stay unchanged. */
+export const TREE_DISPLAY_HORIZONTAL_SCALE_METRES=3;
 export const ENVIRONMENT_LIMITS={tileRawBytes:1024**2,visibleBytes:4*1024**2,cacheBytes:8*1024**2,maxPointsPerTile:50000,desktopTrees:512,mobileTrees:128,waterVertices:60000,waterIndices:180000,greenVertices:20000,greenIndices:60000,treeRowSpacingMetres:10,treeRowSeparationMetres:7,treeRowCandidateLimit:8192};
 export function sourceTreeHeight(raw:Record<string,string>){const value=raw.height?.trim(),m=value?.match(/^([0-9]+(?:\.[0-9]+)?)\s*(m|ft|feet|')?$/i);if(m){const metres=Number(m[1])*(m[2]&&m[2].toLowerCase()!=='m'?.3048:1);if(metres>=.3&&metres<=100)return{metres,status:'source-tag' as const,raw:value};}return{metres:7,status:'display-default' as const,raw:value};}
 /** Original point/line/polygon values remain readonly source data; no individual tree scatter. */
@@ -26,5 +28,5 @@ export function lowPolyTreeMesh():TreeDisplayMesh {
  lobes.forEach(([x,y,z,rx,ry,rz],lobe)=>{for(const ids of faces){const points=ids.map(i=>[x+sphere[i][0]*rx,y+sphere[i][1]*ry,z+sphere[i][2]*rz]),normals=ids.map(i=>[sphere[i][0]/rx,sphere[i][1]/ry,sphere[i][2]/rz]);face(points,normals,1+lobe*.08);}});
  let maxY=0,maxRadius=0;for(let i=0;i<positions.length;i+=7){maxY=Math.max(maxY,positions[i+1]);maxRadius=Math.max(maxRadius,Math.hypot(positions[i],positions[i+2]));}
  for(let i=0;i<positions.length;i+=7){positions[i+1]/=maxY;positions[i+4]*=maxY;const length=Math.hypot(positions[i+3],positions[i+4],positions[i+5]);for(let a=3;a<6;a++)positions[i+a]/=length;}
- return cachedTreeDisplayMesh={positions:new Float32Array(positions),indices:new Uint16Array(indices),vertices:positions.length/7,triangles:indices.length/3,strideBytes:28,horizontalRadiusMetres:maxRadius*2*1.08,role:'source-point-display-schematic',canopy:'five-lobe-cached-display'};
+ return cachedTreeDisplayMesh={positions:new Float32Array(positions),indices:new Uint16Array(indices),vertices:positions.length/7,triangles:indices.length/3,strideBytes:28,horizontalRadiusMetres:maxRadius*TREE_DISPLAY_HORIZONTAL_SCALE_METRES*1.08,role:'source-point-display-schematic',canopy:'five-lobe-cached-display'};
 }

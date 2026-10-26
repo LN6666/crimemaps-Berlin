@@ -16,10 +16,17 @@ const identity=[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1];
 const sceneProjection=(()=>{const lat=52.5*Math.PI/180,unit=40075016.68557849*Math.cos(lat),ax=13.4/360+.5,ay=(1-Math.log(Math.tan(Math.PI/4+lat/2))/Math.PI)/2,unmodel=[unit,0,0,0,0,0,-unit,0,0,unit,0,0,-ax*unit,0,ay*unit,1],angle=.73,c=Math.cos(angle),s=Math.sin(angle),view=[1,0,0,0,0,c,s,0,0,-s,c,0,0,-8,-100,1],near=.1,far=400,f=1.7,p=[f,0,0,0,0,f,0,0,0,0,(far+near)/(near-far),-1,0,0,2*far*near/(near-far),0];return multiply(multiply(p,view),unmodel);})();
 const light=vector=>({shadowVector:vector});
 const square=(x0,y0,x1,y1)=>[[x0,y0],[x1,y0],[x1,y1],[x0,y1],[x0,y0]];
-test('five-lobe geometry is shared, finite, bounded by the source-point guard and keeps actual height',()=>{
+test('five-lobe geometry is shared, finite, bounded by the source-point guard and keeps actual height',async()=>{
  const a=data.lowPolyTreeMesh(),b=data.lowPolyTreeMesh();assert.equal(a,b);assert.equal(a.positions,b.positions);assert.equal(a.triangles,112);assert.ok(a.vertices<500);assert.ok(a.horizontalRadiusMetres+.08<5);
  let top=0;const lobes=new Set();for(let i=0;i<a.positions.length;i+=7){assert.ok(Array.from(a.positions.subarray(i,i+7)).every(Number.isFinite));assert.ok(a.positions[i+1]>=0&&a.positions[i+1]<=1);top=Math.max(top,a.positions[i+1]);assert.ok(Math.abs(Math.hypot(...a.positions.subarray(i+3,i+6))-1)<1e-6);if(a.positions[i+6]>.5)lobes.add(a.positions[i+6]);}
  assert.equal(top,1);assert.equal(lobes.size,5);assert.ok(a.indices.every(i=>i<a.vertices));
+ assert.equal(data.TREE_DISPLAY_HORIZONTAL_SCALE_METRES,3);
+ const shaders=await bundle('environment-scene-shaders.ts'),scale=Number(shaders.ENVIRONMENT_SCENE_VERTEX_GLSL.match(/vec2 size=.*?\*([0-9.]+);/)?.[1]);
+ assert.equal(scale,data.TREE_DISPLAY_HORIZONTAL_SCALE_METRES,'actual GLSL and CPU admission use the same display scale');
+ let packedRadius=0;for(let i=0;i<a.positions.length;i+=7)packedRadius=Math.max(packedRadius,Math.hypot(a.positions[i],a.positions[i+2]));
+ assert.ok(Math.abs(a.horizontalRadiusMetres-packedRadius*scale*1.08)<1e-6);
+ assert.ok(a.horizontalRadiusMetres*2>=5&&a.horizontalRadiusMetres*2<=6,'canopy diameter stays within the accepted display envelope');
+ assert.ok(a.horizontalRadiusMetres+.08<5,'maximum variant plus wind stays inside the preverified source-point guard');
 });
 test('view vector and eye are recovered from actual perspective and orthographic matrices, with cache reuse',()=>{
  const near=.1,far=100,f=1.7,p=[f,0,0,0,0,f,0,0,0,0,(far+near)/(near-far),-1,0,0,2*far*near/(near-far),0],v=identity.slice();v[13]=-3;v[14]=-7;
@@ -64,7 +71,7 @@ async function rendererFixture(options={}){
  const r=m.createEnvironmentSceneRenderer({triggerRepaint(){}},{origin:[13.4,52.5],...options}),gl=fakeGL();r.layer.onAdd({},gl);r.setSceneEnvironment({instantISO:'2026-06-21T12:00:00+02:00',sunlight:true,shadows:true,motion:true,quality:'balanced'});r.setFeatures([point,water],[13.3,52.4,13.5,52.6],new Set([water]));r.setEnabled(true);return{r,gl,point,water,createProjectedShadowMask:m.createProjectedShadowMask};
 }
 test('actual renderer reuses one tree mesh/one extra instanced shadow pass and unchanged water/source coordinates',async()=>{
- const {r,gl,point,water}=await rendererFixture(),before=JSON.stringify([point,water]);r.layer.render(gl,sceneProjection);const shadow=gl.draws.find(d=>d.shadow===1);assert.ok(shadow);assert.equal(shadow.instances,1);assert.equal(shadow.count,112*3);assert.equal(gl.draws.filter(d=>d.shadow===1).length,1);assert.equal(r.stats.drawBatchesMax,5);assert.equal(gl.draws.filter(d=>d.composite).length,1);assert.equal(r.stats.shadowMask.textures,1);
+ const {r,gl,point,water}=await rendererFixture(),before=JSON.stringify([point,water]);r.layer.render(gl,sceneProjection);const shadow=gl.draws.find(d=>d.shadow===1);assert.ok(shadow);assert.equal(shadow.instances,1);assert.equal(shadow.count,112*3);assert.equal(gl.draws.filter(d=>d.shadow===1).length,1);assert.equal(r.stats.drawBatchesMax,5);assert.equal(gl.draws.filter(d=>d.composite).length,1);assert.equal(r.stats.shadowMask.textures,1);assert.equal(gl.uniforms.get('u_environment_shadow_opacity'),.18);
  const shadowBuffer=gl.attributes.get(shadow.vao.id+':3'),count=gl.writes.filter(w=>w.buffer===shadowBuffer).length,waterBefore=r.waterAdmissionEvidence;
  r.setSceneEnvironment({instantISO:'2026-06-21T12:01:00+02:00',sunlight:false,shadows:true,motion:true,quality:'balanced'});assert.equal(gl.writes.filter(w=>w.buffer===shadowBuffer).length,count);r.layer.render(gl,sceneProjection);assert.equal(gl.uniforms.get('u_scene_light_enabled'),0);assert.equal(gl.draws.filter(d=>!d.composite).at(-2).shadow,1);
  r.animationFrame(0);r.animationFrame(100);assert.deepEqual(r.waterAdmissionEvidence.positions,waterBefore.positions);assert.deepEqual(r.waterAdmissionEvidence.indices,waterBefore.indices);assert.equal(JSON.stringify([point,water]),before);assert.ok(r.stats.treeShadows.count===1);
@@ -205,4 +212,22 @@ test('manager render-error callback aborts pending publication and preserves its
  let disabled=false;const values={request:new AbortController(),revision:3,renderer:{setEnabled:v=>{disabled=!v;}},state:'ready',lastError:undefined};
  const env=new Proxy(values,{has:()=>true,get:(o,k)=>k===Symbol.unscopables?undefined:k in o?o[k]:globalThis[k],set:(o,k,v)=>(o[k]=v,true)}),fail=Function('env','with(env){return '+code+'}')(env);fail(Error('actual draw failed'));
  assert.equal(values.request.signal.aborted,true);assert.equal(values.revision,4);assert.equal(disabled,true);assert.equal(values.state,'error');assert.equal(values.lastError,'actual draw failed');assert(source.includes('onRenderError:renderFailed'));
+});
+
+
+test('the actual renderer shares its fixed tree budget across native points, rows and woodland, then clears all three',async()=>{
+ const {r,gl,point,water}=await rendererFixture({mobile:true});
+ const points=Array.from({length:800},(_,i)=>({...point,id:'osm/node/'+(1000+i),geometry:{type:'Point',coordinates:[13.396+(i%40)*.00001,52.496+Math.floor(i/40)*.00001]}}));
+ const wood={...point,id:'osm/way/9100',geometry:{type:'Polygon',coordinates:[square(13.401,52.501,13.404,52.504)]},properties:{...point.properties,kind:'green',osmTags:{natural:'wood'}}};
+ const row={...point,id:'osm/way/9101',geometry:{type:'LineString',coordinates:[[13.405,52.501],[13.405,52.504]]},properties:{...point.properties,kind:'tree_row',osmTags:{natural:'tree_row'}}};
+ const features=[...points,wood,row,water],before=JSON.stringify(features),bounds=[13.39,52.49,13.41,52.51];
+ r.setFeatures(features,bounds,new Set([water]));const a=r.treeDisplayEvidence;
+ assert.equal(r.stats.treeCap,512);assert.ok(r.stats.trees<=512);assert.ok(r.stats.omittedTrees>0);
+ assert.ok(a.some(t=>t.role==='source-point-display-schematic'));assert.ok(a.some(t=>t.role==='source-line-display-schematic-not-source-tree-point'));assert.ok(a.some(t=>t.role==='source-woodland-display-schematic-not-source-tree-point'));
+ assert.equal(r.stats.woodland.instances,a.filter(t=>t.role==='source-woodland-display-schematic-not-source-tree-point').length);
+ assert.equal(r.stats.treeRows.instances,a.filter(t=>t.role==='source-line-display-schematic-not-source-tree-point').length);
+ const treeBuffers=gl.buffers.length;r.layer.render(gl,sceneProjection);assert.equal(gl.draws.filter(d=>d.tree===1&&d.shadow===0).at(-1).instances,r.stats.trees);
+ r.setFeatures([...features].reverse(),bounds,new Set([water]));assert.deepEqual(r.treeDisplayEvidence,a);assert.equal(gl.buffers.length,treeBuffers);assert.equal(JSON.stringify(features),before);
+ assert.ok(a.filter(t=>t.role.includes('woodland')).every(t=>t.id===wood.id&&t.displayId.startsWith('woodland:')));
+ r.setFeatures([],bounds,new Set());assert.equal(r.stats.trees,0);assert.equal(r.stats.woodland.instances,0);assert.equal(r.stats.treeRows.instances,0);r.destroy();assert.deepEqual(r.treeDisplayEvidence,[]);
 });
