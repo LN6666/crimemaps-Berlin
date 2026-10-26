@@ -1,3 +1,4 @@
+import {createVisiblePreparationGate} from './visible-preparation-gate';
 import type {ContextRecoveryOptions} from './recovery-resident-reuse';
 import {createSharedNativeSourcePool} from './shared-native-source';
 import {planarReflectionGroup} from './planar-reflection-group';
@@ -18,6 +19,7 @@ type Engine = NonNullable<Actual['renderer']>;
  */
 export function installThreeDimensionalMap(options: Options): Actual {
   const providerOrder: PaintProvider[] = ['root500', 'delegated500', 'tier300', 'church', 'city', ...(['frankfurt','stuttgart','essen'].includes(options.city)?['infill' as const]:[]), ...(options.city==='bremen'?['bremen' as const]:[])];
+  const preparationGate=createVisiblePreparationGate();
   const managers = new Map<PaintProvider, Actual>();
   const renderers = new Map<PaintProvider, Engine>();
   let hidden = document.hidden, reduced = false, opacityContext: 'normal' | 'route-selection' = 'normal';
@@ -85,7 +87,7 @@ export function installThreeDimensionalMap(options: Options): Actual {
     if(!frozenInitialization?.active||state.active||state.queued||state.pendingInitializers||state.activePhysicalBytes||state.declaredInFlightRawBytes)return;
     return JSON.stringify([state.completedInitializers,state.parses]);
   }
-  const recoveryTransportIdle=()=>wanted==='3d'&&preparing===0&&managers.size===providerOrder.length&&active===0&&queue.length===0&&inflight.size===0&&!request.signal.aborted;
+  const recoveryTransportIdle=()=>preparationGate.idle&&wanted==='3d'&&preparing===0&&managers.size===providerOrder.length&&active===0&&queue.length===0&&inflight.size===0&&!request.signal.aborted;
 
   const reflectionGroup=planarReflectionGroup(()=>providerOrder.map(provider=>renderers.get(provider)));
   const renderer = new Proxy({} as Engine, {
@@ -154,7 +156,7 @@ export function installThreeDimensionalMap(options: Options): Actual {
       modules.forEach((module, index) => {
         const provider = providerOrder[index];
         const assets=(assetRegistry as Record<string,Record<string,string>>)[provider]??{};
-        const manager = module.installThreeDimensionalMap({...options, nativeSources:nativeSources.client(options.city,path=>assets[path]??path), fetchBytes:(path:string,signal:AbortSignal,max:number)=>fetchBytes(assets[path]??path,signal,max), manageCamera: provider === 'city',
+        const manager = module.installThreeDimensionalMap({...options, runVisiblePreparation:(signal:AbortSignal,work:()=>Promise<any>)=>preparationGate.run(provider,signal,work), nativeSources:nativeSources.client(options.city,path=>assets[path]??path), fetchBytes:(path:string,signal:AbortSignal,max:number)=>fetchBytes(assets[path]??path,signal,max), manageCamera: provider === 'city',
           awaitPaintInitialization: <T>(operation:Promise<T>)=>{const session=frozenInitialization;if(!session?.active)throw abort();return session.wait(operation);},
           onState: (state: any) => {states.set(provider,state);if(!preparing)options.onState?.(aggregateState());},
           onNativeGroupDisplay: provider === 'city' ? options.onNativeGroupDisplay : undefined,
@@ -205,7 +207,7 @@ export function installThreeDimensionalMap(options: Options): Actual {
       const stats=providerOrder.flatMap(provider=>{const value=snapshots.get(provider)?.renderer;return value?[value]:[];});
       const first=city?.renderer??stats[0];
       const combined=renderers.size?{...first,components:stats.reduce((n,value)=>n+(value.components??0),0),vertices:stats.reduce((n,value)=>n+(value.vertices??0),0),paintProviders:Object.fromEntries(providerOrder.flatMap(provider=>{const value=snapshots.get(provider)?.renderer;return value?[[provider,value]]:[];}))}:undefined;
-      return {...city,modeTransitionPending:preparing!==0,lastError,ownerReconstruction:{notNative:true as const,geometryAdded:[...snapshots.values()].reduce((sum,value)=>sum+(value.ownerReconstruction?.geometryAdded??0),0),components:[...snapshots.values()].flatMap(value=>value.ownerReconstruction?.components??[])},paintProviders:Object.fromEntries(snapshots),frozenTableInputs:frozenPaintTableStats(),sharedNativeSources:nativeSources.stats,sharedTransport:{active,peakConcurrency:peak,reads,queued:queue.length,cachedBytes,cachedAssets:byteCache.size},renderer:combined,rendererScreenSamples:providerOrder.flatMap(provider=>snapshots.get(provider)?.rendererScreenSamples??[]),revision:renderer.getRevision(),selected:renderers.size?renderer.selected:undefined};
+      return {...city,modeTransitionPending:preparing!==0,lastError,ownerReconstruction:{notNative:true as const,geometryAdded:[...snapshots.values()].reduce((sum,value)=>sum+(value.ownerReconstruction?.geometryAdded??0),0),components:[...snapshots.values()].flatMap(value=>value.ownerReconstruction?.components??[])},paintProviders:Object.fromEntries(snapshots),frozenTableInputs:frozenPaintTableStats(),visiblePreparation:preparationGate.stats,sharedNativeSources:nativeSources.stats,sharedTransport:{active,peakConcurrency:peak,reads,queued:queue.length,cachedBytes,cachedAssets:byteCache.size},renderer:combined,rendererScreenSamples:providerOrder.flatMap(provider=>snapshots.get(provider)?.rendererScreenSamples??[]),revision:renderer.getRevision(),selected:renderers.size?renderer.selected:undefined};
     },
     suspend(settings?:ContextRecoveryOptions){
       const stamp=settings?.contextRecovery&&recoveryTransportIdle()?quietFrozenStamp():undefined;
@@ -218,6 +220,6 @@ export function installThreeDimensionalMap(options: Options): Actual {
       if(!keep&&wanted==='3d'&&managers.size){request.abort();request=new AbortController();startFrozenInitialization(request.signal);}
       managers.forEach(m=>m.resume(keep?settings:undefined));if(incomplete)void requestMode('3d',new AbortController().signal).catch(()=>{});
     },
-    destroy(){if(destroyed)return;destroyed=true;request.abort();nativeSources.destroy();frozenInitialization?.close();lifetime.abort();inflight.forEach(p=>p.controller.abort());managers.forEach(m=>m.destroy());inflight.clear();clearBytes();pump();},
+    destroy(){if(destroyed)return;destroyed=true;request.abort();preparationGate.destroy();nativeSources.destroy();frozenInitialization?.close();lifetime.abort();inflight.forEach(p=>p.controller.abort());managers.forEach(m=>m.destroy());inflight.clear();clearBytes();pump();},
   } as Actual;
 }
