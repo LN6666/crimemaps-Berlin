@@ -10,3 +10,9 @@
 :root[data-theme="light"] .geography-panel.selection-inspector {background:var(--panel,#fff);color:var(--text,#18382e);border-color:#b1c2cb;backdrop-filter:none;-webkit-backdrop-filter:none;}
 :root .geography-panel.selection-inspector > .geography-drag {background:transparent;color:inherit;}
 :root[data-theme="light"] .geography-panel.selection-inspector a {color:#087e72;}
+
+/* The live report node leaves .details when shown in the floating inspector. */
+.selection-inspector #selection .report-body-disclosure {
+  background:transparent;
+  color:inherit;
+}
