@@ -3,16 +3,22 @@ import {GREEN_GROUND_MATERIAL_GLSL} from './environment-green-ground';
 import {TREE_DISPLAY_HORIZONTAL_SCALE_METRES} from './environment-scene-data';
 /** Display-only foliage stays inside the existing5m source-point guard. Water
  * positions/coastlines/holes stay fixed: only its surface shading is animated. */
+// A small display-only foot cue, contained by the existing tree-crown guard.
+export const TREE_CONTACT_DISPLAY_RADIUS_METRES=.9;
+export const TREE_CONTACT_GROUND_HEIGHT_METRES=Math.fround(.015);
+export const TREE_CONTACT_MAX_OPACITY=.06;
 export const ENVIRONMENT_SCENE_VERTEX_GLSL = `#version 300 es
 precision highp float;
 in vec3 a_position;in vec3 a_normal;in float a_role;in vec3 a_tree;
 uniform mat4 u_matrix;uniform mat4 u_environment_reflection_matrix;uniform int u_tree;uniform float u_environment_time;
 uniform float u_environment_wind;uniform highp int u_environment_shadow_pass;uniform vec2 u_environment_shadow_vector;
-out vec3 v_normal;out vec3 v_position;out vec3 v_base;out float v_role;out vec4 v_reflection_clip;
+out vec3 v_normal;out vec3 v_position;out vec3 v_base;out float v_role;out vec4 v_reflection_clip;out vec2 v_contact;
 float envHash(vec2 q){vec3 p=fract(vec3(q.xyx)*.1031);p+=dot(p,p.yzx+33.33);return fract((p.x+p.y)*p.z);}
 void main(){
  vec3 p=a_position,n=a_normal;float variant=.5;
- if(u_tree==1){
+ if(u_environment_shadow_pass==2){
+   p=vec3(a_tree.x+a_position.x*${TREE_CONTACT_DISPLAY_RADIUS_METRES.toFixed(1)},${TREE_CONTACT_GROUND_HEIGHT_METRES.toPrecision(9)},a_tree.y+a_position.z*${TREE_CONTACT_DISPLAY_RADIUS_METRES.toFixed(1)});
+  }else if(u_tree==1){
   variant=envHash(a_tree.xy*.017);float angle=variant*6.28318530718,c=cos(angle),s=sin(angle);
   mat2 rotation=mat2(c,s,-s,c);vec2 size=vec2(mix(.90,1.08,variant),mix(.88,1.06,envHash(a_tree.yx*.023)))*${TREE_DISPLAY_HORIZONTAL_SCALE_METRES.toFixed(1)};
   p=vec3((rotation*(a_position.xz*size)).x+a_tree.x,a_position.y*a_tree.z,(rotation*(a_position.xz*size)).y+a_tree.y);
@@ -23,11 +29,11 @@ void main(){
  }
  float foliageVariant=fract(variant+(a_role-1.)*3.1);
  v_base=a_role<.5?vec3(.27,.21,.14):a_role<1.5?mix(vec3(.15,.27,.105),vec3(.31,.39,.165),foliageVariant):a_role<2.5?vec3(.245,.365,.435):vec3(.43,.47,.245);
- v_reflection_clip=u_environment_reflection_matrix*vec4(p,1.);v_position=p;v_normal=n;v_role=a_role;if(u_environment_shadow_pass==1)p=vec3(p.x+u_environment_shadow_vector.x*max(0.,p.y),.03,p.z+u_environment_shadow_vector.y*max(0.,p.y));gl_Position=u_matrix*vec4(p,1.);
+ v_contact=a_position.xz;v_reflection_clip=u_environment_reflection_matrix*vec4(p,1.);v_position=p;v_normal=n;v_role=a_role;if(u_environment_shadow_pass==1)p=vec3(p.x+u_environment_shadow_vector.x*max(0.,p.y),.03,p.z+u_environment_shadow_vector.y*max(0.,p.y));gl_Position=u_matrix*vec4(p,1.);
 }`;
 export const ENVIRONMENT_SCENE_FRAGMENT_GLSL = `#version 300 es
 precision highp float;
-in vec3 v_normal;in vec3 v_position;in vec3 v_base;in float v_role;in vec4 v_reflection_clip;uniform sampler2D u_environment_reflection;uniform int u_environment_reflection_enabled;
+in vec3 v_normal;in vec3 v_position;in vec3 v_base;in float v_role;in vec4 v_reflection_clip;in vec2 v_contact;uniform sampler2D u_environment_reflection;uniform int u_environment_reflection_enabled;
 uniform float u_environment_time;uniform float u_environment_water_detail;uniform highp int u_environment_shadow_pass;uniform float u_environment_shadow_opacity;
 uniform vec3 u_environment_eye;uniform vec3 u_environment_view_direction;uniform float u_environment_perspective;
 out vec4 color;
@@ -61,7 +67,11 @@ float waterFineCoverage(float value,float level,float halfWidth){
  return clamp(overlap/(2.*halfPixel),0.,1.);
 }
 void main(){
- if(u_environment_shadow_pass==1){color=vec4(u_environment_shadow_opacity,0.,0.,1.);return;}
+ if(u_environment_shadow_pass==2){
+   float r2=dot(v_contact,v_contact);if(r2>=1.)discard;
+   float falloff=1.-r2;color=vec4(${TREE_CONTACT_MAX_OPACITY.toFixed(2)}*falloff*falloff,0.,0.,1.);return;
+  }
+  if(u_environment_shadow_pass==1){color=vec4(u_environment_shadow_opacity,0.,0.,1.);return;}
  vec3 base=v_base;
  if(v_role>=2.5){
   // Conservative fallback shares the dedicated green program's material.
