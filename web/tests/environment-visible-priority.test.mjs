@@ -76,7 +76,7 @@ test('explicit 2D releases environment layer, decoded caches and frame subscript
   f.manager.setMode(false);assertReleased(f);assert.equal(current.removals,1);assert.equal(current.destroys,1);f.manager.destroy();f.manager.destroy();assert.equal(current.destroys,1);assert.equal(clock.subscriptions.size,0);
  }finally{f.manager.destroy();}
 });
-test('visibility, offscreen, context suspend and low-zoom pauses preserve resumable environment resources',async()=>{
+test('visibility, offscreen and context suspend preserve resumable environment resources',async()=>{
  const t=tile(1,[10.005,50.005,10.015,50.015],{water:1}),clock=clockFixture(),f=fixture({tiles:[t],frameClock:clock,pitch:0});
  try{
   f.manager.setMode(true);await until(()=>f.manager.stats.state==='ready');const renderer=f.renderers[0],retained=f.manager.stats.cacheRetainedEstimateBytes;
@@ -84,8 +84,35 @@ test('visibility, offscreen, context suspend and low-zoom pauses preserve resuma
   f.manager.setVisible(false);retainedPause();f.manager.setVisible(true);await until(()=>f.manager.stats.state==='ready');
   f.manager.setOffscreen(true);retainedPause();f.manager.setOffscreen(false);await until(()=>f.manager.stats.state==='ready');
   f.manager.suspend();retainedPause();assert.equal(renderer.reflectionResets,1);f.manager.resume();await until(()=>f.manager.stats.state==='ready');
-  f.setZoom(14);retainedPause();f.setZoom(18);await until(()=>f.manager.stats.state==='ready');
   assert.equal(f.renderers.length,1);assert.equal(f.reads.length,1);assert.equal(renderer.enabled,true);
+ }finally{f.manager.destroy();}
+});
+test('eligible overview releases populated environment resources exactly once and near view rebuilds current settings',async()=>{
+ const t=tile(1,[10.005,50.005,10.015,50.015],{water:1}),page={asset:{id:'page-1',bbox:t.bbox,path:'/safety/environment/berlin/page-1.json',sha256:hash(101),bytes:1024},tiles:[t]},clock=clockFixture(),f=fixture({pages:[page],frameClock:clock,pitch:0});
+ const reflection={fixture:true},environment={instantISO:'2026-06-21T10:00:00.000Z',sunlight:true,shadows:true,motion:false,quality:'balanced'};
+ try{
+  f.manager.setReflectionSource(reflection);f.manager.setReducedMotion(true);f.manager.setSceneEnvironment(environment);f.manager.setMode(true);await until(()=>f.manager.stats.state==='ready');
+  const old=f.renderers[0],retained=f.manager.stats.cacheRetainedEstimateBytes;assert.ok(retained>0);assert.equal(f.manager.stats.metadataRawBytes,1024);
+  const retainedPause=()=>{assert.equal(f.manager.stats.state,'idle');assert.equal(old.destroys,0);assert.equal(old.removals,0);assert.equal(f.manager.customLayer,old.layer);assert.equal(f.manager.stats.cacheRetainedEstimateBytes,retained);assert.equal(f.manager.stats.metadataRawBytes,1024);assert.equal(clock.subscriptions.size,1);};
+  f.manager.setVisible(false);f.setZoom(14);retainedPause();f.manager.setVisible(true);retainedPause();f.setZoom(18);await until(()=>f.manager.stats.state==='ready');
+  f.manager.setOffscreen(true);f.setZoom(14);retainedPause();f.manager.setOffscreen(false);retainedPause();f.setZoom(18);await until(()=>f.manager.stats.state==='ready');
+  f.manager.suspend();f.setZoom(14);retainedPause();f.manager.resume();retainedPause();f.setZoom(18);await until(()=>f.manager.stats.state==='ready');
+  f.setZoom(NaN);retainedPause();f.setZoom(18);await until(()=>f.manager.stats.state==='ready');
+  f.setZoom(14);assertReleased(f);assert.equal(clock.subscriptions.size,0);assert.equal(old.removals,1);assert.equal(old.destroys,1);assert.equal(old.enabled,false);
+  f.setZoom(14);assertReleased(f);assert.equal(old.removals,1);assert.equal(old.destroys,1);
+  f.setZoom(18);await until(()=>f.manager.stats.state==='ready');assert.equal(f.renderers.length,2);assert.equal(clock.subscriptions.size,1);
+  const current=f.renderers[1];assert.notEqual(current,old);assert.equal(current.reflectionSource,reflection);assert.deepEqual(current.environment,environment);assert.equal(current.options.reducedMotion,true);assert.equal(current.enabled,true);
+  for(const suffix of ['/index.json','/boundary.json','/page-1.json','/tile-1.json'])assert.equal(f.allReads.filter(p=>p.endsWith(suffix)).length,2,suffix+' reloaded');
+ }finally{f.manager.destroy();}
+});
+test('late overview-aborted environment read cannot recreate the old layer or publish over the returned near view',async()=>{
+ const t=tile(1,[10.005,50.005,10.015,50.015],{water:1}),waiting=[];let calls=0;
+ const f=fixture({tiles:[t],pitch:0,readTile:(t,signal)=>++calls===1?new Promise(resolve=>waiting.push({resolve,t,signal})):payload(t)});
+ try{
+  f.manager.setMode(true);await until(()=>waiting.length===1);const old=f.renderers[0];f.setZoom(14);assertReleased(f);assert.equal(waiting[0].signal.aborted,true);assert.equal(old.destroys,1);
+  f.setZoom(18);await until(()=>f.manager.stats.state==='ready');const count=f.publications.length;
+  waiting[0].resolve(payload(t));for(let i=0;i<5;i++)await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(f.publications.length,count);assert.equal(old.destroys,1);assert.equal(f.manager.stats.cacheTiles,1);assert.equal(f.manager.stats.state,'ready');assert.equal(f.manager.stats.lastError,undefined);
  }finally{f.manager.destroy();}
 });
 test('late aborted environment reads cannot resurrect 2D resources or overwrite a rebuilt 3D scene',async()=>{
