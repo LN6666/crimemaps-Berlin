@@ -46,7 +46,18 @@ test('real main renders both context and station swatches for the actual mixed s
  assert.equal(byClass(entries[1],'poi-filter-area')[0].style.background,'#2563eb');
  assert.equal(entries[0].textContent,poiName('context','context'));
  assert.equal(entries[1].textContent,poiName('station','station'));
+ assert.equal(label.textContent,entries.map(entry=>entry.textContent).join(''),'actual translated context heading appears once, while both kind labels remain');
  assert.equal(label.children[0].attributes['aria-label'],poiName('source_linked_context','source_linked_context'));
+});
+
+test('mixed scope keeps a distinct heading above all translated kind labels',ctx=>{
+ dom(ctx);
+ const legend=createPoiFilterLegend(catalog,['context','station'],'Mixed source-linked facilities',poiName);
+ const entries=byClass(legend,'poi-filter-kind');
+ assert.deepEqual(entries.map(entry=>entry.dataset.kind),['context','station']);
+ assert.equal(legend.children[0].textContent,'Mixed source-linked facilities');
+ assert.equal(legend.textContent,'Mixed source-linked facilities'+entries.map(entry=>entry.textContent).join(''));
+ assert.equal(byClass(legend,'poi-filter-kinds').length,1);
 });
 
 test('every delivered scope kind has the same outer and deliberately dark center colors as the real rendering model',ctx=>{

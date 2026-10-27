@@ -11,11 +11,13 @@ float greenGroundNoise(vec2 p){
  float k=a-b-c+d;return a+(b-a)*u.x+(c-a)*u.y+k*u.x*u.y;
 }
 vec4 greenGroundColor(vec3 position,vec3 normal,float role){
- vec2 ground=position.xz*.9;
+ vec2 ground=mat2(.8,.6,-.6,.8)*(position.xz*.9);
+ vec2 fine=mat2(.3846154,-.9230769,.9230769,.3846154)*(position.xz*3.7)+vec2(11.4,7.8);
  float grain=greenGroundNoise(ground),coverage=1.-smoothstep(.55,2.5,max(length(dFdx(ground)),length(dFdy(ground))));
+ float fineGrain=greenGroundNoise(fine),fineCoverage=1.-smoothstep(.55,2.5,max(length(dFdx(fine)),length(dFdy(fine))));
  // Three source-backed cover tones; generic parks retain neutral green.
  vec3 cover=role<3.5?vec3(.43,.47,.245):role<4.5?vec3(.47,.51,.265):role<5.5?vec3(.29,.365,.20):vec3(.385,.425,.235);
- vec3 base=cover*mix(1.,mix(.94,1.045,grain),coverage);
+ vec3 base=cover*mix(1.,mix(.965,1.035,grain),coverage)*mix(1.,mix(.975,1.025,fineGrain),fineCoverage);
  return vec4(sceneSurfaceLight(base,normalize(normal),position.y),.60);
 }`;
 

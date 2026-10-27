@@ -21,8 +21,8 @@ void main(){
   float wind=clamp(u_environment_wind,0.,.08)*crown*clamp(a_tree.z/7.,.1,1.);
   p.x+=wind*.83*sin(u_environment_time*1.15+phase);p.z+=wind*.55*sin(u_environment_time*.91+phase+1.6);
  }
- float foliageVariant=fract(variant+a_role*.37);
- v_base=a_role<.5?vec3(.27,.21,.14):a_role<1.5?mix(vec3(.12,.235,.095),vec3(.275,.335,.14),foliageVariant):a_role<2.5?vec3(.245,.365,.435):vec3(.43,.47,.245);
+ float foliageVariant=fract(variant+(a_role-1.)*3.1);
+ v_base=a_role<.5?vec3(.27,.21,.14):a_role<1.5?mix(vec3(.15,.27,.105),vec3(.31,.39,.165),foliageVariant):a_role<2.5?vec3(.245,.365,.435):vec3(.43,.47,.245);
  v_reflection_clip=u_environment_reflection_matrix*vec4(p,1.);v_position=p;v_normal=n;v_role=a_role;if(u_environment_shadow_pass==1)p=vec3(p.x+u_environment_shadow_vector.x*max(0.,p.y),.03,p.z+u_environment_shadow_vector.y*max(0.,p.y));gl_Position=u_matrix*vec4(p,1.);
 }`;
 export const ENVIRONMENT_SCENE_FRAGMENT_GLSL = `#version 300 es
@@ -117,12 +117,14 @@ void main(){
   lit+=vec3(.79,.83,.83)*specular*(.18+.62*sparkle);
   color=vec4(lit,1.);
  }else{
-  // Stable dark-green/olive lobes carry the crown shape. Gentle broad variation
-  // avoids bright per-leaf speckling; trunks keep their untextured source display.
+  // Static leaf-cluster color: two rotated scales soften repeated crown lobes.
+  // Fade each scale at its screen footprint; wind remains the sole tree motion.
   if(v_role>.5){
-   vec2 crown=v_position.xz*.6+vec2(v_position.y*.7,0.);
-   float leaf=waterNoiseGradient(crown).x;
-   base*=mix(1.,mix(.96,1.025,leaf),waterBandVisibility(crown));
+   vec2 crown=mat2(.8,.6,-.6,.8)*(v_position.xz*1.65)+vec2(v_position.y*.9,0.);
+   vec2 fine=mat2(.3846154,-.9230769,.9230769,.3846154)*(v_position.xz*4.2)+vec2(7.3,v_position.y*1.8);
+   float leaf=waterNoiseGradient(crown).x,fineLeaf=waterNoiseGradient(fine).x;
+   base*=mix(1.,mix(.84,1.12,leaf),waterBandVisibility(crown));
+   base*=mix(1.,mix(.93,1.07,fineLeaf),waterBandVisibility(fine));
   }
   color=vec4(sceneSurfaceLight(base,normalize(v_normal),v_position.y),1.);
  }
