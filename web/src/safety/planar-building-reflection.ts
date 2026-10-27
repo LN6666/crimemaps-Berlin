@@ -5,9 +5,13 @@ import type {SceneQuality} from './scene-environment-quality';
  * ORIGINAL world Mercator z below clipPlaneWorldZ, before its camera reflection.
  * Providers preserve touched texture/sampler bindings and do not bind another FBO
  * or change the viewport. Each enforces both budgets BEFORE submitting a draw. */
-export type PlanarReflectionPass={gl:WebGL2RenderingContext;mainMatrix:Float64Array;clipPlaneWorldZ:number;maxTriangles:number;maxDraws:number};
+export type PlanarReflectionPass={purpose?:'solar-depth';gl:WebGL2RenderingContext;mainMatrix:Float64Array;clipPlaneWorldZ:number;maxTriangles:number;maxDraws:number};
 export type PlanarReflectionResult={triangles:number;draws:number;complete:boolean};
+export type SolarShadowCoverage={bounds:readonly [number,number,number,number,number,number];triangles:number;draws:number;complete:boolean;reason?:string};
 export type PlanarReflectionSource={
+ prepareSolarShadow?():void;
+ getSolarShadowCoverage?():SolarShadowCoverage|undefined;
+ getSolarShadowRevision?():string;
  getPlanarReflectionRevision():string;
  renderPlanarReflection(pass:PlanarReflectionPass):PlanarReflectionResult;
 };

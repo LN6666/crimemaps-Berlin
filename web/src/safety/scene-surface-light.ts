@@ -1,9 +1,11 @@
+import {SCENE_SOLAR_SHADOW_GLSL,uploadSceneSolarShadowReceiver} from './scene-solar-shadow';
 /** Apply once AFTER all source colors, facade families and material masks.
  * Source RGB is multiplied, never replaced: a restrained cool sky fill and warm
  * direct light separate unpainted faces without erasing reviewed materials.
  * Solar direction is computed elsewhere; fill and wall-foot contact are display
  * cues, not measured irradiance or ambient occlusion. Night fill is unchanged. */
 export const SCENE_SURFACE_LIGHT_GLSL = `
+${SCENE_SOLAR_SHADOW_GLSL}
 uniform vec3 u_scene_sun_direction;
 uniform float u_scene_daylight;
 uniform float u_scene_light_enabled;
@@ -20,6 +22,7 @@ vec3 sceneSurfaceLight(vec3 base,vec3 normal,float height){
   vec3 n=normalize(normal);
   float day=clamp(u_scene_daylight,0.,1.);
   float facing=max(0.,dot(n,u_scene_sun_direction));
+  facing*=sceneSolarVisibility(facing);
   vec3 light=vec3(sceneSurfaceChannel(.64,.28,n.y,facing,day),
                   sceneSurfaceChannel(.66,.25,n.y,facing,day),
                   sceneSurfaceChannel(.70,.20,n.y,facing,day));
@@ -39,5 +42,6 @@ export function createSceneLightUniforms() {
     gl.uniform3f(row.direction, light.direction[0], light.direction[1], light.direction[2]);
     gl.uniform1f(row.daylight, light.daylight);
     gl.uniform1f(row.enabled, !enabled||light.enabled===false?0:1);
+    uploadSceneSolarShadowReceiver(gl,program);
   };
 }
