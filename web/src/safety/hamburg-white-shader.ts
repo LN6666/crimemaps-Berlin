@@ -6,4 +6,4 @@ void main(){float growth=mod(a_selected,2.);v_growth=growth;v_selected=step(2.,m
 export const HAMBURG_WHITE_FRAGMENT=`#version 300 es
 precision highp float;in vec3 v_color;in vec3 v_normal;in float v_height;in float v_growth;flat in float v_selected;uniform float u_opacity;out vec4 color;
 ${SCENE_SURFACE_LIGHT_GLSL}
-void main(){gl_FragDepth=gl_FragCoord.z;if(v_growth<.005)discard;color=vec4(mix(sceneSurfaceLight(vec3(1.),normalize(v_normal),v_height),vec3(.98,.78,.3),v_selected*.65),u_opacity);}`;
+void main(){gl_FragDepth=gl_FragCoord.z;if(v_growth<.005)discard;color=vec4(mix(sceneSurfaceLight(mix(vec3(.94,.95,.97),vec3(1.,.99,.97),smoothstep(.25,.85,max(0.,normalize(v_normal).y))),normalize(v_normal),v_height),vec3(.98,.78,.3),v_selected*.65),u_opacity);}`;

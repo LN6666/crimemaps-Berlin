@@ -12,9 +12,12 @@ export function createPoiFilterLegend(
   const uniqueKinds=[...new Set(kinds)];
   const entries=document.createElement("span");
   if(uniqueKinds.length>1){
-    const heading=document.createElement("span");
-    heading.textContent=groupLabel;
-    content.append(heading);
+    const firstKind=uniqueKinds[0];
+    if(groupLabel!==kindName(firstKind,catalog[firstKind]?.label??firstKind)){
+      const heading=document.createElement("span");
+      heading.textContent=groupLabel;
+      content.append(heading);
+    }
     entries.className="poi-filter-kinds";
   }
   for(const kind of uniqueKinds){
