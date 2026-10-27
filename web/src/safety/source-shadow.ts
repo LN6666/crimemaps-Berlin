@@ -22,7 +22,7 @@ export function sourceShadowSweptBBox(origin:[number,number],batches:readonly{po
 }
 /** Hide schematic shadows while buildings are faded for routes or election layers. */
 export function sourceShadowOpacity(surfaceOpacity:number,context:'normal'|'route-selection'){
- return context==='normal'&&Number.isFinite(surfaceOpacity)&&surfaceOpacity>=.99&&surfaceOpacity<=1?.08:0;
+ return context==='normal'&&Number.isFinite(surfaceOpacity)&&surfaceOpacity>=.99&&surfaceOpacity<=1?.16:0;
 }
 export const SOURCE_SHADOW_VERTEX_GLSL=`#version 300 es
 precision highp float;
