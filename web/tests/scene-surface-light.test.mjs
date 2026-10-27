@@ -47,10 +47,12 @@ test('night retains previous readable fill and contact is local to wall feet',()
 test('disabled lighting returns source RGB and uniform binding stays cached per program',()=>{
  assert.match(glsl,/if\(u_scene_light_enabled<\.5\)return base;/);
  assert.match(glsl,/return base\*light\*sceneSurfaceContact/);
- const calls=[],locations=[],gl={getUniformLocation(p,name){locations.push([p,name]);return name;},uniform3f(...args){calls.push(args);},uniform1f(...args){calls.push(args);}},program={},other={},bind=createSceneLightUniforms(),light={direction:[.2,.8,-.4],daylight:.3};
- bind(gl,program,light);bind(gl,program,{...light,enabled:false});bind(gl,program,light,false);assert.equal(locations.length,3);
+ const calls=[],locations=[],gl={getUniformLocation(p,name){locations.push([p,name]);return name;},uniform3f(...args){calls.push(args);},uniform1f(...args){calls.push(args);},uniform1i(...args){calls.push(args);}},program={},other={},bind=createSceneLightUniforms(),light={direction:[.2,.8,-.4],daylight:.3};
+ bind(gl,program,light);bind(gl,program,{...light,enabled:false});bind(gl,program,light,false);assert.equal(locations.length,10);
+ assert.deepEqual(calls.filter(row=>row[0]==='u_scene_shadow_map').map(row=>row[1]),[15,15,15]);
+ assert.deepEqual(calls.filter(row=>row[0]==='u_scene_shadow_enabled').map(row=>row[1]),[0,0,0]);
  assert.deepEqual(calls[0],['u_scene_sun_direction',.2,.8,-.4]);assert.deepEqual(calls[1],['u_scene_daylight',.3]);
- assert.deepEqual(calls.filter(row=>row[0]==='u_scene_light_enabled').map(row=>row[1]),[1,0,0]);bind(gl,other,light);assert.equal(locations.length,6);
+ assert.deepEqual(calls.filter(row=>row[0]==='u_scene_light_enabled').map(row=>row[1]),[1,0,0]);bind(gl,other,light);assert.equal(locations.length,20);
 });
 test('all eight native renderers still apply shared lighting after source facade selection',async()=>{
  const paths=['safety',...['bremen','tier300','church','root500','delegated500','infill','city'].map(p=>'painted/'+p+'/safety')];

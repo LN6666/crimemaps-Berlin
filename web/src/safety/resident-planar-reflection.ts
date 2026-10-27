@@ -1,4 +1,5 @@
-export type ResidentPlanarReflectionPass={gl:WebGL2RenderingContext;mainMatrix:Float64Array;clipPlaneWorldZ:number;maxTriangles:number;maxDraws?:number};
+import type {SolarShadowCoverage} from './planar-building-reflection';
+export type ResidentPlanarReflectionPass={purpose?:'solar-depth';gl:WebGL2RenderingContext;mainMatrix:Float64Array;clipPlaneWorldZ:number;maxTriangles:number;maxDraws?:number};
 export type ResidentPlanarReflectionResult={triangles:number;draws:number;complete:boolean};
 export function withResidentReflectionClip(fragment:string){
  const main=/void\s+main\s*\(\s*(?:void\s*)?\)\s*\{/g;if([...fragment.matchAll(main)].length!==1)throw Error('Expected one surface fragment main');
@@ -27,16 +28,30 @@ export type ResidentReflectionComponent={start:number;end:number;box:readonly nu
 export type ResidentReflectionRun<Program>={firstIndex:number;indexCount:number;program:Program|undefined};
 /** Whole accepted resident components only; no new index buffer, triangle prefixes, or material substitutions. */
 export function planResidentReflection<Program>(components:Iterable<ResidentReflectionComponent>,runs:readonly ResidentReflectionRun<Program>[],matrix:ArrayLike<number>,maxTriangles:number,maxDraws:number,indexCount:number,cull=true){
- let complete=true,triangles=0,draws=0;const selected:ResidentReflectionComponent[]=[],plan:{program:Program;firstIndex:number;indexCount:number}[]=[];
+ let complete=true,triangles=0,draws=0,reason:string|undefined;const selected:ResidentReflectionComponent[]=[],plan:{program:Program;firstIndex:number;indexCount:number}[]=[];
  maxTriangles=Number.isFinite(maxTriangles)?Math.max(0,Math.floor(maxTriangles)):0;maxDraws=Number.isFinite(maxDraws)?Math.max(0,Math.floor(maxDraws)):0;
  const ordered=[...runs].sort((a,b)=>a.firstIndex-b.firstIndex);
- for(const c of components){if(cull&&residentReflectionBoxOutside(c.box,matrix))continue;if(!Number.isSafeInteger(c.start)||!Number.isSafeInteger(c.end)||c.start<0||c.end>indexCount||c.end<=c.start||c.start%3||c.end%3){complete=false;continue;}
+ for(const c of components){if(cull&&residentReflectionBoxOutside(c.box,matrix))continue;if(!Number.isSafeInteger(c.start)||!Number.isSafeInteger(c.end)||c.start<0||c.end>indexCount||c.end<=c.start||c.start%3||c.end%3){complete=false;reason??='invalid-component-range';continue;}
   let lo=0,hi=ordered.length;while(lo<hi){const mid=(lo+hi)>>>1;if(ordered[mid].firstIndex+ordered[mid].indexCount<=c.start)lo=mid+1;else hi=mid;}
   let cursor=c.start,ready=true;const rows:typeof plan=[];
-  for(let i=lo;i<ordered.length&&ordered[i].firstIndex<c.end;i++){const run=ordered[i],a=Math.max(c.start,run.firstIndex),b=Math.min(c.end,run.firstIndex+run.indexCount);if(b<=a)continue;if(a!==cursor||!Number.isSafeInteger(a)||!Number.isSafeInteger(b)||a%3||b%3||!run.program){ready=false;break;}cursor=b;rows.push({program:run.program,firstIndex:a,indexCount:b-a});}
-  const count=(c.end-c.start)/3;if(!ready||cursor!==c.end||triangles+count>maxTriangles||draws+rows.length>maxDraws){complete=false;continue;}selected.push(c);plan.push(...rows);triangles+=count;draws+=rows.length;
+  for(let i=lo;i<ordered.length&&ordered[i].firstIndex<c.end;i++){const run=ordered[i],a=Math.max(c.start,run.firstIndex),b=Math.min(c.end,run.firstIndex+run.indexCount);if(b<=a)continue;if(a!==cursor||!Number.isSafeInteger(a)||!Number.isSafeInteger(b)||a%3||b%3||!run.program){ready=false;reason??=!run.program?'missing-program':'run-coverage';break;}cursor=b;rows.push({program:run.program,firstIndex:a,indexCount:b-a});}
+  const count=(c.end-c.start)/3;if(!ready||cursor!==c.end||triangles+count>maxTriangles||draws+rows.length>maxDraws){complete=false;reason??=!ready||cursor!==c.end?'run-coverage':'capture-budget';continue;}selected.push(c);plan.push(...rows);triangles+=count;draws+=rows.length;
  }
  plan.sort((a,b)=>a.firstIndex-b.firstIndex);
- return{plan,components:selected,triangles,draws,complete};
+ return{plan,components:selected,triangles,draws,complete,...(reason?{reason}:{})};
 }
 export function createResidentReflectionObjects(){let next=0;const ids=new WeakMap<object,number>();return(value:object|null|undefined)=>{if(!value)return 0;let id=ids.get(value);if(!id){id=++next;ids.set(value,id);}return id;};}
+
+/** Packed bounds are conservative: material discards may remove fragments, never add geometry.
+ * Callers must mark shader-displaced bounds or unfinished growth/programs incomplete. */
+export function residentSolarShadowCoverage(components:Iterable<ResidentReflectionComponent>,anchor:readonly number[],unit:number,triangles:number,draws:number,complete:boolean,reason?:string):SolarShadowCoverage {
+ const bounds:[number,number,number,number,number,number]=[Infinity,Infinity,Infinity,-Infinity,-Infinity,-Infinity];
+ let valid=anchor.length===2&&anchor.every(Number.isFinite)&&Number.isFinite(unit)&&unit>0;
+ for(const c of components){const b=c.box;if(b.length!==6||!b.every(Number.isFinite)||b[0]>b[3]||b[1]>b[4]||b[2]>b[5]){valid=false;continue;}
+  bounds[0]=Math.min(bounds[0],anchor[0]+b[0]/unit);bounds[3]=Math.max(bounds[3],anchor[0]+b[3]/unit);
+  bounds[1]=Math.min(bounds[1],anchor[1]-b[5]/unit);bounds[4]=Math.max(bounds[4],anchor[1]-b[2]/unit);
+  bounds[2]=Math.min(bounds[2],Math.min(0,b[1])/unit);bounds[5]=Math.max(bounds[5],Math.max(0,b[4])/unit);
+ }
+ valid=valid&&bounds.every(Number.isFinite)&&Number.isSafeInteger(triangles)&&triangles>=0&&Number.isSafeInteger(draws)&&draws>=0;
+ return {bounds:bounds.every(Number.isFinite)?bounds:[0,0,0,0,0,0],triangles,draws,complete:complete&&valid,...(!valid?{reason:'invalid-bounds-or-cost'}:!complete?{reason:reason??'source-incomplete'}:{})};
+}

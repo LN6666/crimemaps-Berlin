@@ -1,4 +1,4 @@
-import {SCENE_SURFACE_LIGHT_GLSL} from './scene-surface-light';
+import {ENVIRONMENT_SURFACE_LIGHT_GLSL} from './scene-surface-light';
 import {GREEN_GROUND_MATERIAL_GLSL} from './environment-green-ground';
 import {TREE_DISPLAY_HORIZONTAL_SCALE_METRES} from './environment-scene-data';
 /** Display-only foliage stays inside the existing5m source-point guard. Water
@@ -37,7 +37,7 @@ in vec3 v_normal;in vec3 v_position;in vec3 v_base;in float v_role;in vec4 v_ref
 uniform float u_environment_time;uniform float u_environment_water_detail;uniform highp int u_environment_shadow_pass;uniform float u_environment_shadow_opacity;
 uniform vec3 u_environment_eye;uniform vec3 u_environment_view_direction;uniform float u_environment_perspective;
 out vec4 color;
-${SCENE_SURFACE_LIGHT_GLSL}
+${ENVIRONMENT_SURFACE_LIGHT_GLSL}
 ${GREEN_GROUND_MATERIAL_GLSL}
 float waterHash(vec2 q){vec3 p=fract(vec3(q.xyx)*.1031);p+=dot(p,p.yzx+33.33);return fract((p.x+p.y)*p.z);}
 // Value noise and its analytical gradient. Phase rates are decorative, not measured flow.
