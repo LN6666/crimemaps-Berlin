@@ -47,6 +47,7 @@ import {appendPublicEventNotes,appendPublicSceneReferenceNote} from "./public-re
 import {mountAnnouncementMethods} from "./methods";
 import {mountUncertaintyPanel} from "./uncertainty-panel";
 import {mountGitHubFooter} from "./github-feedback";
+import {createPoiFilterLegend} from "./poi-filter-legend";
 import "./github-feedback.css";
 import {mountContentTagLauncher} from "./content-tag-launcher";
 import {CONTENT_TAG_COPY} from "./content-tag-copy";
@@ -1413,7 +1414,7 @@ async function start() {
     el<HTMLSelectElement>("month").value = latest.slice(5);
     for (const c of manifest.categories)
       el<HTMLSelectElement>("category").add(new Option(categoryLabel(c), c));
-    const filters=manifest.poi_scope_groups?Object.fromEntries(Object.entries(manifest.poi_scope_groups).map(([key,value])=>[key,{label:t(value.label_key),color:data.catalog.poi_types[value.kinds[0]]?.color??"#64748b"}])):data.catalog.poi_types;
+    const filters=manifest.poi_scope_groups?Object.fromEntries(Object.entries(manifest.poi_scope_groups).map(([key,value])=>[key,{label:t(value.label_key)}])):data.catalog.poi_types;
     for (const [key, value] of Object.entries(filters)) {
       const label = document.createElement("label");
       label.className = "toggle";
@@ -1423,9 +1424,10 @@ async function start() {
       input.checked = ["bar", "nightclub", "station", "shop"].includes(key);
       input.onchange = () => {refresh();void loadViewport();};
       label.append(input);
-      const swatch = document.createElement("i");
-      swatch.style.background = value.color;
-      label.append(swatch, document.createTextNode(poiName(key,value.label)));
+      const groupLabel=poiName(key,value.label);
+      input.setAttribute("aria-label",groupLabel);
+      label.append(createPoiFilterLegend(data.catalog.poi_types,
+        manifest.poi_scope_groups?.[key]?.kinds??[key],groupLabel,poiName));
       el("poi-filters").append(label);
     }
     if(mapRetry){const saved=mapRetry.snapshot;

@@ -272,6 +272,12 @@ p {
   font-size: 12px;
   border-color: #e6b784;
 }
+.poi-filter-legend { min-width: 0; }
+.poi-filter-kinds { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 4px; font-size: 12px; }
+.poi-filter-kind { display: inline-flex; align-items: center; gap: 7px; }
+.poi-filter-swatch { position: relative; display: inline-block; flex: 0 0 18px; width: 18px; height: 18px; }
+.poi-filter-area { position: absolute; inset: 0; border: 1px solid #111827; border-radius: 50%; opacity: 0.25; }
+.poi-filter-center { position: absolute; inset: 6px; border: 1px solid #111827; border-radius: 50%; box-shadow: 0 0 0 2px #fff; }
 i {
   width: 10px;
   height: 10px;
