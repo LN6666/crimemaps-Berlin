@@ -94,6 +94,9 @@ export function installThreeDimensionalMap(options: Options): Actual {
     get(_target, property) {
       if(property==='residentVertexCount'){let count=0;for(const provider of providerOrder)count+=renderers.get(provider)?.residentVertexCount??0;return count;}
       const engines = providerOrder.map(p => renderers.get(p)).filter((r): r is Engine => !!r);
+      if(property==='prepareSolarShadow')return reflectionGroup.prepareSolarShadow;
+      if(property==='getSolarShadowCoverage')return reflectionGroup.getSolarShadowCoverage;
+      if(property==='getSolarShadowRevision')return reflectionGroup.getSolarShadowRevision;
       if(property==='getPlanarReflectionRevision')return reflectionGroup.getPlanarReflectionRevision;
       if(property==='renderPlanarReflection')return reflectionGroup.renderPlanarReflection;
       if (property === 'layer') return renderers.get('city')?.layer ?? engines[0]?.layer;
