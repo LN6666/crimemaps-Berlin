@@ -4,9 +4,8 @@ import {SCENE_SOLAR_SHADOW_GLSL,uploadSceneSolarShadowReceiver} from './scene-so
  * direct light separate unpainted faces without erasing reviewed materials.
  * Solar direction is computed elsewhere; fill and wall-foot contact are display
  * cues, not measured irradiance or ambient occlusion. Night fill is unchanged. */
-export const SCENE_SURFACE_LIGHT_GLSL = `
-${SCENE_SOLAR_SHADOW_GLSL}
-uniform vec3 u_scene_sun_direction;
+const surfaceLight=(solarReceiver:boolean)=>`
+${solarReceiver?SCENE_SOLAR_SHADOW_GLSL+'\n':''}uniform vec3 u_scene_sun_direction;
 uniform float u_scene_daylight;
 uniform float u_scene_light_enabled;
 float sceneSurfaceChannel(float sky,float direct,float normalY,float facing,float day){
@@ -22,12 +21,16 @@ vec3 sceneSurfaceLight(vec3 base,vec3 normal,float height){
   vec3 n=normalize(normal);
   float day=clamp(u_scene_daylight,0.,1.);
   float facing=max(0.,dot(n,u_scene_sun_direction));
-  facing*=sceneSolarVisibility(facing);
-  vec3 light=vec3(sceneSurfaceChannel(.64,.28,n.y,facing,day),
+${solarReceiver?'  facing*=sceneSolarVisibility(facing);\n':''}  vec3 light=vec3(sceneSurfaceChannel(.64,.28,n.y,facing,day),
                   sceneSurfaceChannel(.66,.25,n.y,facing,day),
                   sceneSurfaceChannel(.70,.20,n.y,facing,day));
   return base*light*sceneSurfaceContact(n.y,height,day);
 }`;
+/** Building surfaces draw inside a solar receiver scope and sample the shared depth map. */
+export const SCENE_SURFACE_LIGHT_GLSL = surfaceLight(true);
+/** Environment and green ground keep the projected ground-shadow mask and open no
+ * receiver scope, so they omit the solar-depth sampler and keep their small fragments. */
+export const ENVIRONMENT_SURFACE_LIGHT_GLSL = surfaceLight(false);
 
 export type SceneLightUniforms = {direction: readonly [number, number, number]; daylight: number;enabled?:boolean};
 /** No allocations or uniform lookup in the draw path after first program use. */
