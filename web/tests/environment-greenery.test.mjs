@@ -60,6 +60,32 @@ test('row sampling respects remaining instance capacity and skips distant portio
  assert.ok(near.candidates<=6);assert.ok(near.instances.length>0);assert.equal(near.truncated,false);assert.ok(near.candidates<ENVIRONMENT_LIMITS.treeRowCandidateLimit);
 });
 
+test('row display identities stay attached to the same source-distance samples across overlapping viewport pans',()=>{
+ const f=row('osm/way/17',-150,150),left=bounds(-100,-30,40,30),right=bounds(-40,-30,100,30);
+ const a=treeRowDisplayInstances([f],origin,left,boundary,2048,2.3).instances,b=treeRowDisplayInstances([f],origin,right,boundary,2048,2.3).instances;
+ const position=p=>`${p.x}:${p.z}`,byPosition=new Map(a.map(p=>[position(p),p.rowSample])),byId=new Map(a.map(p=>[p.rowSample,position(p)]));
+ const overlap=b.filter(p=>byPosition.has(position(p)));assert.ok(overlap.length>5);
+ for(const p of overlap)assert.equal(p.rowSample,byPosition.get(position(p)),'one world position keeps its source sample identity');
+ for(const p of b)if(byId.has(p.rowSample))assert.equal(position(p),byId.get(p.rowSample),'one identity never points at a different position');
+});
+
+test('multi-line row identities include the source path and survive clipped or degenerate earlier segments',()=>{
+ const f=feature('osm/way/18','tree_row','MultiLineString',[
+  [geo(-150,-20),geo(-150,-20),geo(-70,-20),geo(-70,-20),geo(150,-20)],
+  [geo(80,80),geo(80,80)],
+  [geo(-150,20),geo(-90,20),geo(-90,20),geo(150,20)],
+ ]),before=JSON.stringify(f);
+ const views=[bounds(-120,-40,30,40),bounds(-30,-40,120,40),bounds(-160,-40,160,40)];
+ const samples=views.map(view=>treeRowDisplayInstances([f],origin,view,boundary,2048,2.3).instances),positions=new Map(),ids=new Map();
+ assert.ok(samples.every(items=>items.length>10));
+ for(const items of samples){assert.equal(new Set(items.map(p=>p.rowSample)).size,items.length,'paths must not reuse an ID');for(const p of items){
+  const position=`${p.x}:${p.z}`;assert.ok(Number.isSafeInteger(p.rowSample));
+  if(positions.has(position))assert.equal(p.rowSample,positions.get(position));else positions.set(position,p.rowSample);
+  if(ids.has(p.rowSample))assert.equal(position,ids.get(p.rowSample));else ids.set(p.rowSample,position);
+ }}
+ assert.equal(JSON.stringify(f),before);assert.ok(samples[2].some(p=>p.z<0)&&samples[2].some(p=>p.z>0));
+});
+
 
 test('explicit ground cover wins equal-depth overlap before generic parks without changing geometry or buffers',()=>{
  const tagged=(id,tags,coordinates)=>({...feature(id,'green','Polygon',coordinates),properties:{...props,kind:'green',osmTags:tags}});

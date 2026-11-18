@@ -41,9 +41,11 @@ test('quality retirement waits for replacement and protects mixed near/far and r
 });
 test('renderer remains syntactically valid and uses the same quality key for main/reflection without changing geometry uploads',async()=>{
  const renderer=fs.readFileSync(path.join(d,'building-mesh-renderer.ts'),'utf8');await transform(renderer,{loader:'ts',format:'esm'});
- assert(renderer.includes('runs=partitionRuns.map(run=>{const baseKey=overrideKey??run.key,key=distantPaintProgramKey(baseKey);'));
+ // Reflection capture runs (solarDepth false) take the same distant quality key as main draw.
+ assert(renderer.includes('runs=partitionRuns.map(run=>{const baseKey=overrideKey??run.key,key=solarDepth&&legacySolarPartitions?baseKey:distantPaintProgramKey(baseKey);'));
  assert(renderer.includes('const baseKey=overrideKey??run.key,key=distantPaintProgramKey(baseKey);let selected='));
- assert(renderer.includes('classifyProjectedDetail(c.box,matrix,viewport,'));assert(renderer.includes('residentRichKeys'));
+ // Projected detail classifies each run against the main draw matrix.
+ assert(renderer.includes('classifyProjectedDetail(c.box,clip,viewport,'));assert(renderer.includes('const next=paintDetailQuality(components,runs,overrideKey,distantMaterialAvailable,matrix,distantQuality);'));assert(renderer.includes('residentRichKeys'));
 });
 // Optional private actual-build check: the caller supplies a locally SHA-verified
 // assembled fragment module. No source payload or private path enters the repo.
@@ -59,27 +61,50 @@ if(process.env.CRIMEMAPS_ASSEMBLED_REVIEW_MODULE)test('actual Berlin assembled f
 });
 
 import {createRequire} from 'node:module';
+import {createDelegatedFixture,DEFAULT_HELPER} from './support/fixtures-delegated-renderer.mjs';
 // Exact complete-source reuse keeps finite cohorts in the existing program owner.
+// The renderer's own main-program preparation, layer render/draw closure, colour
+// program recipes and release path run against the production program owner and
+// context scheduler (support/fixtures-delegated-renderer.mjs). Main preparation
+// submits every visible group at once; the context scheduler paces the builds in
+// its own turns (not one per frame), and a program reaches the draw only after it
+// is published on a later frame. Convergence stays bounded: settle(needed) checks
+// that at most one frame per still-needed program asks for another. The layer render
+// here is the raw object method, without the production guardCustomLayerRender /
+// withSceneSolarShadowReceiver / main-frame completion wrappers.
 {
-const ownWeb=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),web=process.env.CRIMEMAPS_REUSE_SOURCE_ROOT?path.join(process.env.CRIMEMAPS_REUSE_SOURCE_ROOT,'web'):ownWeb,require=createRequire(ownWeb+'/package.json'),{build,transform}=require('esbuild'),ts=require('typescript'),d=web+'/src/painted/delegated500/safety';
+const ownWeb=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),web=process.env.CRIMEMAPS_REUSE_SOURCE_ROOT?path.join(process.env.CRIMEMAPS_REUSE_SOURCE_ROOT,'web'):ownWeb,require=createRequire(ownWeb+'/package.json'),{build}=require('esbuild'),d=web+'/src/painted/delegated500/safety';
 async function load(name){const b=await build({entryPoints:[d+'/'+name+'.ts'],bundle:true,write:false,format:'esm',platform:'node'});return import('data:text/javascript;base64,'+Buffer.from(b.outputFiles[0].text).toString('base64'));}
-const api=await load('berlin-distant-paint'),policy=await load('current-paint-program'),text=fs.readFileSync(d+'/building-mesh-renderer.ts','utf8'),ast=ts.createSourceFile('renderer.ts',text,ts.ScriptTarget.Latest,true),nodes=new Map();
-function visit(n){if(ts.isVariableDeclaration(n)&&ts.isIdentifier(n.name)&&n.initializer&&ts.isArrowFunction(n.initializer)&&!nodes.has(n.name.text))nodes.set(n.name.text,n.initializer.getText(ast));if(ts.isFunctionDeclaration(n)&&n.name)nodes.set(n.name.text,n.getText(ast));ts.forEachChild(n,visit);}visit(ast);
-const names=['draw','uniforms','programOverrideKey','richPaintProgramKey','distantPaintProgramKey','releaseGPU'];
-const js=Object.fromEntries(await Promise.all(names.map(async name=>{assert(nodes.has(name),name);return[name,(await transform('('+nodes.get(name)+')',{loader:'ts',target:'es2022'})).code];})));
+const api=await load('berlin-distant-paint'),policy=await load('current-paint-program'),text=fs.readFileSync(d+'/building-mesh-renderer.ts','utf8');
 const families=[1561,1562,1564,1565,1567,1568,1569,1570,1571,1572],key=f=>'current-family:'+f;
 const material='vec3 rich(vec3 base,vec3 p,vec3 n,vec4 frame,float family){if(family==1567.)return base*.8;return base+vec3(frame.x*.01);}vec3 roof(vec3 base,vec3 p,vec3 n,vec4 frame,float family){return base*.6+vec3(p.x*.01);}';
 const dispatch='vec3 paintedFacade(vec3 base,vec3 p,vec3 normal,vec4 frame,float family){if(family>=1561.&&family<=1570.)return rich(base,p,normal,frame,family);if(family==1571.||family==1572.)return roof(base,p,normal,frame,family);return base;}';
 const main='void main(){vec3 value=paintedFacade(vec3(.5),vec3(1.),vec3(0.,1.,0.),vec4(1.),abs(u_override)>.01?u_override:v_family);if(value.r<0.)discard;}',source=material+dispatch+main;
 const changed=material+dispatch.replace('{','{if(family==1570.)return base;')+main;
-function fixture(assembled=source,override=0){
- let current,n=0,repaints=0;const draws=[],created=[],deleted=[],uniforms=[];
- const g={TRIANGLES:4,UNSIGNED_INT:5125,useProgram:p=>{current=p;},getUniformLocation:(_p,name)=>name,uniform1f:(name,value)=>uniforms.push({program:current,name,value}),uniform2f(){},uniformMatrix4fv(){},drawElements:(_mode,count,_type,offset)=>draws.push({program:current,count,offset}),deleteProgram:p=>deleted.push(p),deleteShader(){},deleteBuffer(){},deleteVertexArray(){}};
- const base={id:0},v={...api,...policy,gl:g,program:base,partitionEnabled:true,currentFamilyPrograms:true,partitionPrograms:new Map(),distantQuality:new Map(),distantMaterialAvailable:false,sharedPaulLobeRichProgram:false,exactRichProgramKeys:api.berlinExactRichProgramKeys?.(assembled)??new Map(),paintMode:()=>2,paintOverride:()=>override,programKey:policy.currentPaintProgramKey,partitionRuns:families.map((family,i)=>({key:key(family),firstIndex:i*3,indexCount:3})),loaded:new Map([['all',{box:[0,0,0,1,1,1],start:0,end:30}]]),matrix:new Float32Array(16),paintBoxOutsideClip:()=>false,paintRunIntersectsVisible:()=>true,updateDistantPaintQuality(){},baseSurfaceFragment:'helper',surfaceFragment:undefined,cityPaintFragment:assembled,currentVisibleProgramCount:0,currentProgramEvictions:0,partitionPending:false,offscreenPaintRunsSkipped:0,diagnostic557:false,finitePaintCompileTrace:false,city:'berlin',progressiveDiagnostic:null,opacity:1,surfaceOpacity:1,anchor:[0,0],materialAnchor:[0,0],materialUnit:1,anchorUnit:1,sceneSun:{},sceneEnvironment:{sunlight:true},reflectionClipUniforms(){},uploadSceneLight(){},uploadFacadeLayouts(){},rathausProxyMasks:{withMasks:(_gl,_program,draw)=>draw(),detach(){}},map:{triggerRepaint(){repaints++;}},residentGPU:{released(){}},reusableVertex673:undefined,viewRevision:0,releaseShadowGPU(){},windowTexture:undefined,diffuseTexture:undefined,facadeAttached:false,vertexBuffer:undefined,indexBuffer:undefined,stateBuffer:undefined,paintBuffer:undefined,progressiveBuffer:undefined,vao:undefined,texturedProgram:undefined,diffuseProgram:undefined,compileGeometryProgram:(_helper,paint,family)=>{const p={id:++n,family,fragment:policy.specializeCurrentPaintFragment(paint,family)};created.push(p);return p;}};
- const env=new Proxy(v,{has:()=>true,get:(target,k)=>k===Symbol.unscopables?undefined:k in target?target[k]:globalThis[k],set:(target,k,value)=>(target[k]=value,true)});
- for(const name of names)v[name]=Function('env','with(env){return '+js[name]+'}')(env);
- const frame=()=>{v.partitionPending=false;const before=created.length;v.draw();return created.length-before;};
- return {v,frame,draws,created,deleted,uniforms,base,repaints:()=>repaints};
+// The renderer's own fragment shell supplies main(); its city paint is the material and dispatch.
+const paint=material+dispatch,changedPaint=material+dispatch.replace('{','{if(family==1570.)return base;');
+// Projected-detail boxes: a large one stays detail, a tiny one classifies distant.
+const LARGE=[-.5,0,-.5,.5,.5,.5],TINY=[0,0,0,.01,.01,.01],identity=()=>new Float64Array([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]);
+async function fixture(assembled=paint,override=0,runFamilies=families){
+ const f=await createDelegatedFixture({city:'berlin',paint:assembled,root:web}),S=f.S,component={objectId:'all',partId:'all',start:0,end:runFamilies.length*3,firstVertex:0,lastVertex:runFamilies.length*3,box:[0,0,0,1,1,1]};
+ f.setScene([component],runFamilies.map((family,i)=>({key:key(family),firstIndex:i*3,indexCount:3})));
+ // Frames that asked for another frame since the fixture, the last settle or the last
+ // rebase (a new GPU generation): the convergence window settle() bounds.
+ let lastRepaint,requested=0;
+ // The resident base program, compiled by the renderer itself before any frame.
+ const rebase=()=>{const previous=S.phase;S.phase='rebase';try{S.program=f.until(()=>S.compileGeometryProgram(DEFAULT_HELPER));}finally{S.phase=previous;}requested=0;return S.program;};
+ const base=rebase();S.paintOverrideValue=override;
+ // One MapLibre frame of the building layer, then one context scheduler turn.
+ const frame=()=>{const before=f.events.length;S.repaint=false;S.phase='render';S.render(f.gl,{defaultProjectionData:{mainMatrix:identity()}});S.phase='preparation';f.advancePreparation(true);S.phase='idle';lastRepaint=S.repaint;if(lastRepaint)requested++;return f.events.length-before;};
+ // Bounded convergence however the scheduler paces builds: the view asks for at most
+ // one more frame per program it still needs, then stops once each is published or failed.
+ const settle=(needed,limit=40)=>{const built=[];for(let i=0;i<limit;i++){built.push(frame());if(!S.partitionPending&&!f.turns.queue.length&&!lastRepaint){assert(requested<=needed,requested+' frames requested another frame for '+needed+' needed programs: '+JSON.stringify(built));requested=0;return built;}}assert.fail('main programs did not settle: '+JSON.stringify(built));};
+ return{v:S,S,f,frame,settle,rebase,base,component,draws:f.driver.draws,uniforms:f.driver.uniforms,deleted:f.driver.deleted,gl:f.gl,
+  // Programs the frames' own visible compiles linked (bootstrap/rebase excluded).
+  created:()=>f.driver.linked.filter(p=>p.origin?.phase==='render'&&!p.failed),group:family=>f.driver.linked.filter(p=>p.origin?.phase==='render'&&!p.failed&&p.metadata?.[2]===family),
+  // Every source build the frames requested ran in a context scheduler turn.
+  scheduled:()=>f.events.filter(e=>e.phase==='render').every(e=>e.builtIn==='preparation'),
+  lastDraws:()=>f.driver.draws.slice(-S.partitionRuns.length),get lastRepaint(){return lastRepaint;}};
 }
 test('exact complete fragment gate keeps original material bodies and falls back for a changed dispatch',()=>{
  assert.equal(typeof api.berlinExactRichProgramKeys,'function');
@@ -91,30 +116,73 @@ test('exact complete fragment gate keeps original material bodies and falls back
  // rather than trusting a cached family certificate from the previous assembly.
  assert.equal(api.berlinExactRichProgramKeys(changed).has(key(1570)),false);
 });
-test('actual renderer creates one program per equal group across frames and preserves all run offsets/uniforms',()=>{
- const f=fixture(),originalRuns=structuredClone(f.v.partitionRuns);assert.equal(f.frame(),1);assert(f.v.partitionPending);assert.equal(f.created.length,1);
- assert(f.draws.slice(0,8).every(r=>r.program===f.created[0]));assert.equal(f.frame(),1);assert.equal(f.v.partitionPending,false);assert.equal(f.created.length,2);assert.equal(f.frame(),0);
+test('actual renderer creates one program per equal group across frames and preserves all run offsets/uniforms',async()=>{
+ const f=await fixture(),originalRuns=structuredClone(f.v.partitionRuns);
+ // The material build derives the exact groups from the real assembled shell.
+ for(const family of families)assert.equal(f.v.exactRichProgramKeys.get(key(family)),family<1571?key(1561):key(1571));
+ f.frame();assert(f.v.partitionPending);assert(f.lastRepaint,'a pending group requests the next frame');
+ // Until its group program is published, every run draws completely with the resident base program.
+ assert.equal(f.draws.length,10);assert(f.draws.every(r=>r.program===f.base));
+ f.settle(2);assert.equal(f.v.partitionPending,false);assert.equal(f.frame(),0,'a settled view builds nothing');assert(f.scheduled(),'every group program builds in a context scheduler turn');
+ const created=f.created();assert.equal(created.length,2,'one program per equal group');const [rich]=f.group(1561),[roof]=f.group(1571);assert(rich&&roof);
  assert.deepEqual(f.v.partitionRuns,originalRuns);assert.deepEqual(f.draws.slice(-10).map(r=>[r.offset,r.count]),families.map((_f,i)=>[i*12,3]));
- assert(f.draws.slice(-10,-2).every(r=>r.program===f.created[0]));assert(f.draws.slice(-2).every(r=>r.program===f.created[1]));
- assert(f.uniforms.filter(u=>u.name==='u_paint_override').every(u=>u.value===0));assert.equal(f.repaints(),1);
+ assert(f.draws.slice(-10,-2).every(r=>r.program===rich));assert(f.draws.slice(-2).every(r=>r.program===roof));
+ assert(f.uniforms.filter(u=>u.name==='u_paint_override').every(u=>u.value===0));assert.equal(f.lastRepaint,false,'no repaint once every group is published');
 });
-test('different complete fragments stay independent and effective override keeps its original value',()=>{
- const changedFixture=fixture(changed);for(let i=0;i<9;i++)assert.equal(changedFixture.frame(),1);assert.equal(changedFixture.created.length,9);assert.equal(changedFixture.v.partitionPrograms.size,9);
- const f=fixture(source,1572);assert.equal(f.frame(),1);assert.equal(f.created.length,1);assert.equal(f.created[0].family,1571);assert(f.draws.every(r=>r.program===f.created[0]));assert(f.uniforms.filter(u=>u.name==='u_paint_override').every(u=>u.value===1572));
+test('different complete fragments stay independent and effective override keeps its original value',async()=>{
+ const changedFixture=await fixture(changedPaint);changedFixture.settle(9);assert.equal(changedFixture.created().length,9);assert.equal(changedFixture.v.partitionPrograms.size,9);assert.equal(changedFixture.frame(),0);assert(changedFixture.scheduled());
+ assert.equal(new Set(changedFixture.lastDraws().map(r=>r.program)).size,9,'nine independent programs draw the ten runs');
+ const f=await fixture(paint,1572);f.settle(1);const created=f.created();assert.equal(created.length,1);assert.equal(created[0].metadata[2],1571);
+ assert(f.lastDraws().every(r=>r.program===created[0]));assert(f.uniforms.filter(u=>u.name==='u_paint_override').every(u=>u.value===1572));
 });
-test('single-owner keys preserve visible protection and release once on eviction/context reset',()=>{
- const f=fixture();f.frame();f.frame();const owners=[...f.v.partitionPrograms.values()];assert.equal(owners.length,2);assert.equal(new Set(owners).size,2);
- const active=new Set(f.v.partitionRuns.map(r=>f.v.distantPaintProgramKey(r.key)));assert.equal(policy.trimInactivePaintPrograms(f.v.partitionPrograms,active,p=>f.v.gl.deleteProgram(p),1),0);
- assert.equal(policy.trimInactivePaintPrograms(f.v.partitionPrograms,new Set(),p=>f.v.gl.deleteProgram(p),1),1);assert.equal(f.deleted.length,1);
+test('single-owner keys preserve visible protection and release once on eviction/context reset',async()=>{
+ const f=await fixture();f.frame();f.frame();f.settle(2);const owners=[...f.v.partitionPrograms.values()];assert.equal(owners.length,2);assert.equal(new Set(owners).size,2);
+ // The renderer's own release path: the program owner deletes a released grant.
+ const release=p=>f.v.programPreparation.releaseProgram(f.gl,p),before=f.deleted.length;
+ const active=new Set(f.v.partitionRuns.map(r=>f.v.distantPaintProgramKey(r.key)));assert.equal(policy.trimInactivePaintPrograms(f.v.partitionPrograms,active,release,1),0);
+ assert.equal(policy.trimInactivePaintPrograms(f.v.partitionPrograms,new Set(),release,1),1);assert.equal(f.deleted.length-before,1);
  f.v.releaseGPU();assert.equal(f.v.partitionPrograms.size,0);for(const p of owners)assert.equal(f.deleted.filter(x=>x===p).length,1);
- f.v.program={id:'new-base'};assert.equal(f.frame(),1);assert.equal(f.frame(),1);assert.equal(f.frame(),0);assert.equal(f.v.partitionPrograms.size,2);f.v.releaseGPU();for(const p of f.created)assert.equal(f.deleted.filter(x=>x===p).length,1);
+ f.rebase();f.settle(2);assert.equal(f.frame(),0);assert.equal(f.v.partitionPrograms.size,2);assert.equal(f.created().length,4,'the new GPU generation built each group once');f.v.releaseGPU();for(const p of f.created())assert.equal(f.deleted.filter(x=>x===p).length,1);
 });
-test('main/reflection/protection share the canonical route; shader/vertex uniforms remain original',()=>{
+test('a failed family compile draws with the base program, is not retried every frame, and may retry after GPU release',async()=>{
+ const logged=[],error=console.error;console.error=(...a)=>logged.push(a.map(String).join(' '));try{
+ const f=await fixture();let attempts=0;f.f.driver.onBuild=origin=>{if(origin.family===1571)attempts++;};f.f.driver.fail=p=>p.metadata?.[2]===1571;
+ assert.doesNotThrow(()=>{f.frame();f.frame();});f.settle(2);assert.equal(attempts,1);assert(f.v.partitionFailures.has(key(1571)));
+ f.draws.length=0;f.frame();assert.equal(attempts,1,'the failed key is not recompiled every frame');assert.equal(f.draws.length,10);
+ const [rich]=f.group(1561);assert(f.draws.slice(0,8).every(r=>r.program===rich));assert(f.draws.slice(-2).every(r=>r.program===f.base),'the failed group draws with the base program');
+ f.v.releaseGPU();assert.equal(f.v.partitionFailures.size,0);f.rebase();f.settle(2);assert.equal(attempts,2,'a new GPU generation may retry');
+ }finally{console.error=error;}
+ assert.equal(logged.filter(m=>m.includes('[delegated500 family shader compile failed]')).length,2,'one log per failed key and GPU generation');
+});
+test('main/reflection/protection share the canonical route; shader/vertex uniforms remain original',async()=>{
  assert(text.includes('residentRichKeys=new Set(partitionRuns.map(run=>richPaintProgramKey(overrideKey??run.key)))'));
- assert(text.includes('runs=partitionRuns.map(run=>{const baseKey=overrideKey??run.key,key=distantPaintProgramKey(baseKey);'));
- assert(text.includes('visibleProgramKeys=new Set(visibleRuns.map(run=>distantPaintProgramKey(overrideKey??run.key)))'));
+ assert(text.includes('runs=partitionRuns.map(run=>{const baseKey=overrideKey??run.key,key=solarDepth&&legacySolarPartitions?baseKey:distantPaintProgramKey(baseKey);'));
+ // Visible keys are the main paint demand's distant-quality keys.
+ assert(text.includes('function mainPaintProgramKeys(demand=mainPaintDemand()){return new Set(demand.runs.map(run=>distantPaintProgramKey(demand.override??run.key)));}'));assert(text.includes('const visibleProgramKeys=mainPaintProgramKeys(demand)'));
  assert(text.includes("gl!.uniform1f(gl!.getUniformLocation(p,'u_paint_override'),paintOverride())"));
- assert(text.includes('specializeCurrentPaintFragment(fragment(helper,paintFragment),currentFamily)'));
+ // The admitted workspace assembles the colour source, then specializes it per family.
+ assert(text.includes('assemble(paintSource){const value=fragment(helper,paintSource);'));assert(text.includes('specializeCurrentPaintProgram(source,families[0],false,!berlinCurrent)'));
+ // Behaviour: a distant Paul-Loebe view draws and captures its reflection with one shared program.
+ const f=await fixture(original+'\n'+dispatcher,0,[19401,19402,19403]);assert.equal(f.v.sharedPaulLobeRichProgram,true);assert.equal(f.v.distantMaterialAvailable,true);
+ f.component.box=TINY;f.frame();f.settle(1);const far=f.v.partitionPrograms.get(F);assert(far,'the distant program is published');
+ assert(f.lastDraws().every(r=>r.program===far));assert.deepEqual(f.v.residentCaptureState(1,false).runs.map(run=>run.program),[far,far,far],'reflection runs use the main quality key');
+});
+test('a failed Paul-Loebe quality program keeps its resident alternate, from the failure frame on, without aliasing it',async()=>{
+ for(const failing of ['distant','rich']){
+  const f=await fixture(original+'\n'+dispatcher,0,[19401,19402,19403]),attempts=[];
+  // The material build itself certifies the shared rich program and the distant contract.
+  assert.equal(f.v.sharedPaulLobeRichProgram,true);assert.equal(f.v.distantMaterialAvailable,true);
+  f.f.driver.onBuild=(_origin,_recipe,sources)=>{attempts.push(sources.fragment.includes('bePaulLobeDistant1(')?'distant':'rich');};
+  f.f.driver.fail=p=>p.fragment.includes('bePaulLobeDistant1(')===(failing==='distant');
+  const quality=q=>{f.component.box=q==='distant'?TINY:LARGE;};
+  quality(failing==='distant'?undefined:'distant');f.settle(1);assert.equal(f.created().length,1);const alternate=f.created()[0];
+  quality(failing==='distant'?'distant':undefined);f.draws.length=0;f.frame();f.frame();
+  assert.equal(f.draws.length,6);assert(f.draws.every(r=>r.program===alternate),failing+': the failed quality draws its resident alternate, including the failure frame');
+  f.settle(1);assert(f.lastDraws().every(r=>r.program===alternate));
+  assert.equal(attempts.filter(a=>a===failing).length,1,'the failed key is not recompiled');assert(!f.deleted.includes(alternate),'the alternate is not retired');
+  assert(f.deleted.every(p=>p.failed),'only the failed link is deleted; no published program is retired');
+  const failedKey=failing==='distant'?F:R;assert(f.v.partitionFailures.has(failedKey));assert(!f.v.partitionPrograms.has(failedKey),'the failed key never aliases the alternate');
+ }
 });
 if(process.env.CRIMEMAPS_EXACT_REVIEW_MODULE)test('actual current Berlin assembled shaders admit only exact complete-source groups',async()=>{
  const {assembledReview,specializeCurrentPaintFragment:split,withResidentReflectionClip}=await import(pathToFileURL(process.env.CRIMEMAPS_EXACT_REVIEW_MODULE));const {source:actual}=assembledReview(),keys=api.berlinExactRichProgramKeys(actual);

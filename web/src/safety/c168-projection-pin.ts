@@ -19,7 +19,7 @@ export const C168_PROJECTION_REGISTRY={
       11.5961587,
       48.162936849999994
     ],
-    "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00992.json.gz",
+    "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00992.json.gz",
     "sourceSHA256": "7a5e2d50725e8becaa1933f24dd5c1f30757ed10f25d43344e703edd2f0b6f7d",
     "geometrySignature": "f759be3e",
     "componentGeometry": {
@@ -96,7 +96,7 @@ export const C168_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/132045223",
       "partId": "osm/way/132045223/component/5281468a6852ac37085a",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00992.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00992.json.gz",
       "sourceLeafSHA256": "7a5e2d50725e8becaa1933f24dd5c1f30757ed10f25d43344e703edd2f0b6f7d",
       "rawSignature": "f759be3e",
       "rawBuffers": [

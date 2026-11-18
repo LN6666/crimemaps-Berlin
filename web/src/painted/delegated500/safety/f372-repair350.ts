@@ -1,6 +1,7 @@
+import type {FrozenDataScope} from '../../../safety/frozen-data-scope';
 import{OWNER_SHAPE_PATCH_PROFILES}from'./owner-shape-patch-profiles';
 import{progressiveAdmission}from'./progressive-paint';
-import type{BuildingComponent}from'./building-mesh-renderer';
+import type{BuildingComponent}from'../../../safety/building-mesh-types';
 import{nativePaintSignature}from'./progressive-native-signature';
 type O343={enabled:boolean;ownerAuthorized:boolean;family:number|null;nativeLeaf:(c:BuildingComponent)=>string|undefined;patchLeaf:(c:BuildingComponent)=>string|undefined;materialReady:(c:BuildingComponent)=>boolean};
 const PINS343=[{"objectId":"osm/relation/1721435","partId":"osm/relation/1721435/component/18b9b68b420084d605a8","origin":[11.079500750000001,49.4529555],"signature":"cdabbf82","leafSHA":"49735c3109ea9931d852256938b21651424d8b76221e07e5c5d49b60a0e76363"},{"objectId":"osm/way/364195648","partId":"osm/way/364195648/component/ec765797ec67b5fbcf00","origin":[11.0796908,49.446685450000004],"signature":"24f252ef","leafSHA":"b0243211808349ebc995b40bdb2db0716e9a29e7508891cb51995b88733e3eba"},{"objectId":"osm/way/364424683","partId":"osm/way/364424683/component/0896646bb01f478e31b8","origin":[11.0796908,49.446685450000004],"signature":"b0b63008","leafSHA":"b0243211808349ebc995b40bdb2db0716e9a29e7508891cb51995b88733e3eba"},{"objectId":"osm/way/364424686","partId":"osm/way/364424686/component/2a6a81e0dc2e61c16244","origin":[11.0796908,49.446685450000004],"signature":"c0cf3f67","leafSHA":"b0243211808349ebc995b40bdb2db0716e9a29e7508891cb51995b88733e3eba"},{"objectId":"osm/way/364424687","partId":"osm/way/364424687/component/f0e939f3c3ed1172d3f3","origin":[11.0796908,49.446685450000004],"signature":"d46ca7cd","leafSHA":"b0243211808349ebc995b40bdb2db0716e9a29e7508891cb51995b88733e3eba"},{"objectId":"osm/way/364424688","partId":"osm/way/364424688/component/af6ef0d468afcc2e9055","origin":[11.0796908,49.446685450000004],"signature":"5b94e7f7","leafSHA":"b0243211808349ebc995b40bdb2db0716e9a29e7508891cb51995b88733e3eba"},{"objectId":"osm/way/364468776","partId":"osm/way/364468776/component/65238203199a5844bca2","origin":[11.0796908,49.446685450000004],"signature":"2da2b26c","leafSHA":"b0243211808349ebc995b40bdb2db0716e9a29e7508891cb51995b88733e3eba"},{"objectId":"osm/way/364468781","partId":"osm/way/364468781/component/f47a87e45a71657aca4e","origin":[11.0796908,49.446685450000004],"signature":"40d990d5","leafSHA":"b0243211808349ebc995b40bdb2db0716e9a29e7508891cb51995b88733e3eba"},{"objectId":"osm/way/364468782","partId":"osm/way/364468782/component/32831772b013195cd8de","origin":[11.0796908,49.446685450000004],"signature":"b00b73f0","leafSHA":"b0243211808349ebc995b40bdb2db0716e9a29e7508891cb51995b88733e3eba"}] as const;
@@ -28,16 +29,16 @@ function paint343(draw:BuildingComponent[],colors:Float32Array,frames:Float32Arr
 }
 
 type Leaf350=(c:BuildingComponent)=>string|undefined;
-function options350(rows:readonly BuildingComponent[],nativeLeaf:Leaf350|undefined,patchLeaf:Leaf350|undefined):O343|undefined{
+function options350(rows:readonly BuildingComponent[],nativeLeaf:Leaf350|undefined,patchLeaf:Leaf350|undefined,scope?:FrozenDataScope):O343|undefined{
  const p=(OWNER_SHAPE_PATCH_PROFILES as readonly any[]).find(x=>x.number===PROFILE343.number)as any;
  if(!nativeLeaf||!patchLeaf||!p||p.enabled!==true||p.family!==1689||p.owner_authorized!==true||p.sha256!==PROFILE343.sha256)return undefined;
- const ready=PINS343.every(pin=>{const c=rows.find(x=>x.partId===pin.partId&&x.objectId===pin.objectId);if(!c)return false;const a=progressiveAdmission(c);return !!a?.surfaceFrames?.length&&a.surfaceFrames.every(f=>f.family===1689)});
+ const ready=PINS343.every(pin=>{const c=rows.find(x=>x.partId===pin.partId&&x.objectId===pin.objectId);if(!c)return false;const a=progressiveAdmission(c,scope);return !!a?.surfaceFrames?.length&&a.surfaceFrames.every(f=>f.family===1689)});
  if(!ready)return undefined;
  return {enabled:p.enabled,ownerAuthorized:p.owner_authorized,family:p.family,nativeLeaf,patchLeaf,materialReady:c=>p.partId===c.partId&&p.geometrySignature===nativePaintSignature(c)&&patchLeaf(c)===p.sha256};
 }
-export function f372Plan350(rows:readonly BuildingComponent[],nativeLeaf:Leaf350|undefined,patchLeaf:Leaf350|undefined){return resident343(rows,options350(rows,nativeLeaf,patchLeaf))}
-export function f372Display350(c:BuildingComponent,rows:BuildingComponent[],nativeLeaf:Leaf350|undefined,patchLeaf:Leaf350|undefined){return c.partId!==PROFILE343.partId||f372Plan350(rows,nativeLeaf,patchLeaf).enabled}
-export function applyF372Repair350(draw:BuildingComponent[],colors:Float32Array,frames:Float32Array,sourceRows:readonly BuildingComponent[],nativeLeaf:Leaf350|undefined,patchLeaf:Leaf350|undefined){return paint343(draw,colors,frames,sourceRows,options350(sourceRows,nativeLeaf,patchLeaf))}
+export function f372Plan350(rows:readonly BuildingComponent[],nativeLeaf:Leaf350|undefined,patchLeaf:Leaf350|undefined,scope?:FrozenDataScope){return resident343(rows,options350(rows,nativeLeaf,patchLeaf,scope))}
+export function f372Display350(c:BuildingComponent,rows:BuildingComponent[],nativeLeaf:Leaf350|undefined,patchLeaf:Leaf350|undefined,scope?:FrozenDataScope){return c.partId!==PROFILE343.partId||f372Plan350(rows,nativeLeaf,patchLeaf,scope).enabled}
+export function applyF372Repair350(draw:BuildingComponent[],colors:Float32Array,frames:Float32Array,sourceRows:readonly BuildingComponent[],nativeLeaf:Leaf350|undefined,patchLeaf:Leaf350|undefined,scope?:FrozenDataScope){return paint343(draw,colors,frames,sourceRows,options350(sourceRows,nativeLeaf,patchLeaf,scope))}
 
 const GALLERY371={"number":"F372-CourtyardGallery370","city":"nuremberg","objectId":"osm/way/221539177","partId":"osm/way/221539177/owner-source-recovery343-bridge/courtyard-gallery370","sourcePartId":"osm/way/221539177/owner-source-recovery343-bridge","id":"F372-CourtyardGallery370","path":"/safety/buildings3d/owner-shape-patches/F372-CourtyardGallery370.json","bytes":366219,"sha256":"ec7fb36bfb7008938d02040f6d536b055ca6d8a59cfcd185262f996e8b7e06cd","vertices":4536,"triangles":1512,"bbox":[11.0785102,49.4525795,11.0807506,49.4534458],"max_height_m":12.7,"geometryRole":"owner-authorized-reconstruction","enabled":true,"defaultEnabled":false,"tile_key":"F372-CourtyardGallery370","geometrySignature":"60997c95","family":1689,"owner_authorized":true,"additiveOnly":true} as const;
 function galleryResident371(rows:readonly BuildingComponent[],patchLeaf:Leaf350|undefined){
@@ -45,8 +46,10 @@ function galleryResident371(rows:readonly BuildingComponent[],patchLeaf:Leaf350|
  const c=rows.find(c=>c.city===GALLERY371.city&&c.objectId===GALLERY371.objectId&&c.partId===GALLERY371.partId);
  return c&&p&&p.enabled===true&&p.family===1689&&p.owner_authorized===true&&Object.keys(GALLERY371).every(k=>JSON.stringify(p[k])===JSON.stringify((GALLERY371 as any)[k]))&&nativePaintSignature(c)===GALLERY371.geometrySignature&&patchLeaf?.(c)===GALLERY371.sha256&&JSON.stringify(c.origin)===JSON.stringify([11.079500750000001, 49.4529555])?c:undefined;
 }
-export function f372GalleryDisplay371(c:BuildingComponent,rows:BuildingComponent[],nativeLeaf:Leaf350|undefined,patchLeaf:Leaf350|undefined){return c.partId!==GALLERY371.partId||f372Plan350(rows,nativeLeaf,patchLeaf).enabled;}
-export function applyF372Gallery371(draw:BuildingComponent[],colors:Float32Array,frames:Float32Array,raw:readonly BuildingComponent[],nativeLeaf:Leaf350|undefined,patchLeaf:Leaf350|undefined){
- if(!f372Plan350(raw,nativeLeaf,patchLeaf).enabled)return;const g=galleryResident371(raw,patchLeaf);let vi=0;
+export function f372GalleryDisplay371(c:BuildingComponent,rows:BuildingComponent[],nativeLeaf:Leaf350|undefined,patchLeaf:Leaf350|undefined,scope?:FrozenDataScope){return c.partId!==GALLERY371.partId||f372Plan350(rows,nativeLeaf,patchLeaf,scope).enabled;}
+export function applyF372Gallery371(draw:BuildingComponent[],colors:Float32Array,frames:Float32Array,raw:readonly BuildingComponent[],nativeLeaf:Leaf350|undefined,patchLeaf:Leaf350|undefined,scope?:FrozenDataScope){
+ if(!f372Plan350(raw,nativeLeaf,patchLeaf,scope).enabled)return;const g=galleryResident371(raw,patchLeaf);let vi=0;
  for(const c of draw)for(const[bi,b]of c.batches.entries())for(let j=0;j<b.positions.length;j+=3,vi++)if(c===g){const x=b.positions[j],z=b.positions[j+2];frames.set([-0.9593430862578178*x+-0.282242524877675*z-(-14.986393944929297),0.282242524877675*x+-0.9593430862578178*z-(4.455448562773451),bi===0?90:91,100,1689],vi*5);colors.set([b.color[0],b.color[1],b.color[2],2],vi*4);}
 }
+
+export const delegated500DataFunctionArities={"f372Plan350":3,"f372Display350":4,"applyF372Repair350":6,"f372GalleryDisplay371":4,"applyF372Gallery371":6} as const;

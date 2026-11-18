@@ -1,39 +1,40 @@
-import type {BuildingComponent,Identity} from './building-mesh-renderer';
-import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
+import type {FrozenDataScope} from '../../../safety/frozen-data-scope';
+import type {FrozenDataRef} from '../../../safety/frozen-data-lease-store';
+import {getRoot500Data as __root500Dependency0,root500DataRefs as __root500DependencyRefs0} from './owner-f135-data';
+import {getRoot500Data as __root500Dependency1,root500DataRefs as __root500DependencyRefs1} from './owner-f135-completion';
+
+import type {BuildingComponent,Identity} from '../../../safety/building-mesh-types';
+import type {OwnerReconstructionStats} from '../../../safety/owner-reconstruction-stats';
 import {nativePaintSignature} from './progressive-native-signature';
-import {F135_BATCHES as F135_OLD_BATCHES,F135_FRAME_ROWS as F135_OLD_FRAMES} from './owner-f135-data';
-import {F135_COMPLETION_BATCHES,F135_COMPLETION_FRAMES,F135_COMPLETION_SHA,ownerF135WestCompletionIdentity,reconstructF135WestCompletion,applyF135WestCompletionMaterials} from './owner-f135-completion';
+import {F135_COMPLETION_SHA,ownerF135WestCompletionIdentity,reconstructF135WestCompletion,applyF135WestCompletionMaterials} from './owner-f135-completion';
 export {ownerF135WestCompletionIdentity};
-const F135_BATCHES=[...F135_OLD_BATCHES,...F135_COMPLETION_BATCHES],F135_FRAME_ROWS=[...F135_OLD_FRAMES,...F135_COMPLETION_FRAMES];
 export const ownerF135Identity=(c:Identity)=>c.objectId==='osm/way/794404905'&&c.partId==='osm/way/794404905/component/9cb52822b1a971cc298e';
 export const F135_RECONSTRUCTION_SHA=F135_COMPLETION_SHA;
-export function ownerF135Reconstruction(components:BuildingComponent[]){
+export function ownerF135Reconstruction(components:BuildingComponent[],$scope?:FrozenDataScope){if(!mayMatchRoot500Data(components)){const stats:OwnerReconstructionStats={objects:0,vertices:0,triangles:0,originalVertices:0,sourceRetained:true,actualVisualAccepted:false,components:[]};return{components:components.map(component=>component),stats:stats};}let __root500DataCell:ReturnType<typeof getRoot500Data>|undefined;const __root500Data=()=>__root500DataCell??=(getRoot500Data($scope));
  const stats:OwnerReconstructionStats={objects:0,vertices:0,triangles:0,originalVertices:0,sourceRetained:true,actualVisualAccepted:false,components:[]};
  const drawable=components.map(c=>{
-  if(c.city==='frankfurt'&&ownerF135WestCompletionIdentity(c))return reconstructF135WestCompletion(c,stats);
+  if(c.city==='frankfurt'&&ownerF135WestCompletionIdentity(c,$scope))return reconstructF135WestCompletion(c,stats,$scope);
   if(c.city!=='frankfurt'||!ownerF135Identity(c))return c;
   if(nativePaintSignature(c)!=='15a8e777'){stats.error='Original F135 signature changed; reconstruction withheld';return c;}
-  const vertices=F135_BATCHES.reduce((n,b)=>n+b.positions.length/3,0),triangles=F135_BATCHES.reduce((n,b)=>n+b.indices.length/3,0);
+  const vertices=__root500Data().F135_BATCHES.reduce((n,b)=>n+b.positions.length/3,0),triangles=__root500Data().F135_BATCHES.reduce((n,b)=>n+b.indices.length/3,0);
   stats.objects++;stats.vertices+=vertices;stats.triangles+=triangles;stats.originalVertices+=c.batches.reduce((n,b)=>n+b.positions.length/3,0);
   stats.components.push({objectId:c.objectId,partId:c.partId,sourcePartId:c.partId,patchSHA256:F135_RECONSTRUCTION_SHA,vertices,triangles,geometryRole:'owner-authorized-reconstruction'});
-  return {...c,batches:F135_BATCHES,displayEstimates:{...c.displayEstimates,ownerAuthorizedReconstruction:{selectedObjectId:'osm/node/144346893',sourceFootprintRetained:true,dimensions:'photo-estimated, not surveyed',originalHeightM:7.5,actualVisualAccepted:false}}};
+  return {...c,batches:__root500Data().F135_BATCHES,displayEstimates:{...c.displayEstimates,ownerAuthorizedReconstruction:{selectedObjectId:'osm/node/144346893',sourceFootprintRetained:true,dimensions:'photo-estimated, not surveyed',originalHeightM:7.5,actualVisualAccepted:false}}};
  });return{components:drawable,stats};
 }
-export function ownerF135BaseMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){
+export function ownerF135BaseMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array,$scope?:FrozenDataScope){if(__root500Demand.length&&!components.some(component=>__root500Demand.some(identity=>identity.objectId===component.objectId&&(identity.partId===null||identity.partId===component.partId))))return ;let __root500DataCell:ReturnType<typeof getRoot500Data>|undefined;const __root500Data=()=>__root500DataCell??=(getRoot500Data($scope));
  let offset=0;
  for(const c of components)for(const [bi,b]of c.batches.entries()){
   const count=b.positions.length/3;
   if(c.city==='frankfurt'&&ownerF135Identity(c)&&c.displayEstimates?.ownerAuthorizedReconstruction){
-   if(F135_FRAME_ROWS[bi].length!==count*5)throw Error('F135 frame length mismatch');
+   if(__root500Data().F135_FRAME_ROWS[bi].length!==count*5)throw Error('F135 frame length mismatch');
    for(let v=0;v<count;v++)paint.set([...b.color,2],(offset+v)*4);
-   frames.set(F135_FRAME_ROWS[bi],offset*5);
+   frames.set(__root500Data().F135_FRAME_ROWS[bi],offset*5);
   }offset+=count;
  }
 }
-
-// Source-preserving paint only for the museum's native Peichl west wing.
-export function ownerF135WestMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){
- applyF135WestCompletionMaterials(components,paint,frames);
+export function ownerF135WestMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array,$scope?:FrozenDataScope){if(__root500Demand.length&&!components.some(component=>__root500Demand.some(identity=>identity.objectId===component.objectId&&(identity.partId===null||identity.partId===component.partId))))return ;
+ applyF135WestCompletionMaterials(components,paint,frames,$scope);
  let offset=0;
  for(const c of components){
   const eligible=c.city==='frankfurt'&&c.objectId==='osm/way/35322719'&&c.partId==='osm/way/35322719/component/b8bc22d879d26164d91c'&&nativePaintSignature(c)==='55280882';
@@ -48,3 +49,19 @@ export function ownerF135WestMaterials(components:BuildingComponent[],paint:Floa
   }
  }
 }
+const __root500MemoKey={};
+const __root500Demand:readonly {objectId:string;partId:string|null}[]=[{"objectId":"osm/way/794404905","partId":"osm/way/794404905/component/9cb52822b1a971cc298e"},{"objectId":"osm/way/35322719","partId":"osm/way/35322719/component/b8bc22d879d26164d91c"}];
+const __root500OwnRefs:readonly FrozenDataRef[]=[];
+export const root500DataRefs:readonly FrozenDataRef[]=[...__root500OwnRefs,...__root500DependencyRefs0,...__root500DependencyRefs1];
+export const root500DataFunctionArities:Record<string,number>={"ownerF135Reconstruction":1,"ownerF135BaseMaterials":3,"ownerF135WestMaterials":3};
+export function mayMatchRoot500Data(components:readonly {city:string;objectId?:string;partId?:string;origin?:readonly number[]}[]){return components.some(component=>["frankfurt"].includes(component.city)&&__root500Demand.some(identity=>identity.objectId===component.objectId&&(identity.partId===null||identity.partId===component.partId)));}
+export async function prepareRoot500Data(components:readonly {city:string;objectId?:string;partId?:string;origin?:readonly number[]}[],signal:AbortSignal,scope:FrozenDataScope){signal.throwIfAborted();if(mayMatchRoot500Data(components))await scope.prepare(root500DataRefs,signal);}
+export function getRoot500Data(scope?:FrozenDataScope){if(!scope)throw Error('owner-f135-reconstruction.ts requires a prepared FrozenDataScope');return scope.memo(__root500MemoKey,()=>{
+const F135_OLD_BATCHES=__root500Dependency0(scope).F135_BATCHES;
+const F135_OLD_FRAMES=__root500Dependency0(scope).F135_FRAME_ROWS;
+const F135_COMPLETION_BATCHES=__root500Dependency1(scope).F135_COMPLETION_BATCHES;
+const F135_COMPLETION_FRAMES=__root500Dependency1(scope).F135_COMPLETION_FRAMES;
+const F135_BATCHES=[...F135_OLD_BATCHES,...F135_COMPLETION_BATCHES];
+const F135_FRAME_ROWS=[...F135_OLD_FRAMES,...F135_COMPLETION_FRAMES];
+return {F135_BATCHES,F135_FRAME_ROWS,F135_OLD_BATCHES,F135_OLD_FRAMES,F135_COMPLETION_BATCHES,F135_COMPLETION_FRAMES,ownerF135Reconstruction:((...args:any[]):any=>ownerF135Reconstruction(args[0],scope)),ownerF135BaseMaterials:((...args:any[]):any=>ownerF135BaseMaterials(args[0],args[1],args[2],scope)),ownerF135WestMaterials:((...args:any[]):any=>ownerF135WestMaterials(args[0],args[1],args[2],scope))};
+});}

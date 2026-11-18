@@ -1,5 +1,5 @@
-import type {BuildingComponent,Identity,MeshBatch} from './building-mesh-renderer';
-import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
+import type {BuildingComponent,Identity,MeshBatch} from '../../../safety/building-mesh-types';
+import type {OwnerReconstructionStats} from '../../../safety/owner-reconstruction-stats';
 import {nativePaintSignature} from './progressive-native-signature';
 type MutableBatch=MeshBatch&{positions:number[];normals:number[];indices:number[];color:number[]};
 export const F064_ID={city:'munich',objectId:'osm/way/28026817',partId:'osm/way/28026817/component/b880d807a746deae9497',signature:'c6293afc',selectedObjectId:'osm/node/11099726845'};

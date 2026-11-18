@@ -32,17 +32,26 @@ export function installThreeDimensionalControls(options: {
   const mobileStatus = matchMedia('(max-width: 760px), (max-width: 1000px) and (max-height: 500px)');
   const syncFeedbackHost = () => {
     const host = mobileStatus.matches && options.statusHost ? options.statusHost : options.noticeHost ?? root;
+    if (feedback.parentElement === host) return;
+    const active = feedback.contains(document.activeElement) ? document.activeElement as HTMLElement : undefined;
     host.append(feedback);
+    if (active?.isConnected && !active.matches(':disabled') && !active.closest('[hidden], [inert]') && active.getClientRects().length) active.focus({ preventScroll: true });
   };
   syncFeedbackHost(); mobileStatus.addEventListener('change', syncFeedbackHost);
   const vehicleLabel=document.createElement('label'),vehicleInput=document.createElement('input'),vehicleNote=document.createElement('p');vehicleLabel.className='toggle three-dimensional-vehicle-toggle';vehicleInput.type='checkbox';vehicleInput.checked=options.vehiclesInitiallyRequested!==false;vehicleLabel.append(vehicleInput,document.createTextNode(c.vehicles));vehicleNote.className='three-dimensional-vehicle-note';let reducedVehicles=false;if(options.onVehiclesChange)notices.append(vehicleLabel,vehicleNote);vehicleInput.onchange=()=>{if(!destroyed)options.onVehiclesChange?.(vehicleInput.checked);};
-  let state: ThreeDControlState = { mode: options.initialMode ?? '2d', status: 'ready' }, supported = options.supported !== false, abort = new AbortController(), revision = 0, destroyed = false, mapAvailable = true;
+  let state: ThreeDControlState = { mode: options.initialMode ?? '2d', status: 'ready' }, settledState: ThreeDControlState = { ...state }, supported = options.supported !== false, abort = new AbortController(), revision = 0, destroyed = false, mapAvailable = true;
+  function focusMode(mode?:ThreeDViewMode) { if (destroyed) return; const target=mode==='2d'||three.disabled?flat:three;if(!target.disabled)target.focus({preventScroll:true}); }
   function render() {
+    const disableThree = !mapAvailable || !supported || state.status === 'loading';
+    const hideRetry = !mapAvailable || state.status !== 'error' || !supported;
+    // Keep keyboard focus on an actionable mode before its trigger is hidden or disabled.
+    if (mapAvailable && (document.activeElement === three && disableThree || document.activeElement === retry && hideRetry)) flat.focus({ preventScroll: true });
     flat.setAttribute('aria-pressed', String(state.mode === '2d')); three.setAttribute('aria-pressed', String(state.mode === '3d'));
-    group.setAttribute('aria-busy', String(mapAvailable && state.status === 'loading')); three.disabled = !mapAvailable || !supported || state.status === 'loading';flat.disabled = !mapAvailable;
-    retry.hidden = !mapAvailable || state.status !== 'error' || !supported;
+    group.setAttribute('aria-busy', String(mapAvailable && state.status === 'loading')); three.disabled = disableThree;flat.disabled = !mapAvailable;
+    retry.hidden = hideRetry;
     status.textContent = !mapAvailable ? '' : !supported ? c.unavailable : state.status === 'ready' ? '' : c[state.status];
     feedback.dataset.noticeVisible = String(Boolean(status.textContent) || !retry.hidden);
+    if (reducedVehicles && !vehicleInput.disabled && document.activeElement === vehicleInput) focusMode('2d');
     vehicleInput.disabled=reducedVehicles;vehicleNote.textContent=reducedVehicles?c.reducedVehicles:c.vehicleNote;
     root.setAttribute('data-view-mode', state.mode); root.setAttribute('data-view-state', mapAvailable ? state.status : 'paused');
   }
@@ -50,30 +59,37 @@ export function installThreeDimensionalControls(options: {
     if (destroyed || !mapAvailable || mode === '3d' && !supported) return;
     // 2D remains actionable during preparation and cancels that pending transition.
     abort.abort(); abort = new AbortController(); const signal = abort.signal, ticket = ++revision;
-    const previousMode = state.mode; state = { mode: previousMode, status: 'loading' }; render();
+    const previousState = { ...settledState }; state = { mode: previousState.mode, status: 'loading' }; render();
     try {
       const result = await options.requestMode(mode, signal);
       if (destroyed || signal.aborted || revision !== ticket) return;
       if (!result || !['2d', '3d'].includes(result.mode) || !['ready', 'partial', 'outside', 'overview', 'error'].includes(result.status)) throw Error('Invalid 3D readiness result');
-      state = result; render();
-    } catch {
+      state = { ...result }; settledState = { ...state }; render();
+    } catch (error) {
       if (destroyed || signal.aborted || revision !== ticket) return;
+      if (error && typeof error === 'object' && 'name' in error && error.name === 'AbortError') {
+        state = previousState; render(); return;
+      }
       // requestMode must preserve/restore the actual last usable map before rejecting.
-      state = { mode: previousMode, status: 'error' }; render();
+      state = { mode: previousState.mode, status: 'error' }; settledState = { ...state }; render();
     }
   }
-  flat.onclick = () => { void request('2d'); }; three.onclick = retry.onclick = () => { void request('3d'); }; render();
+  const chooseMode=(mode:ThreeDViewMode)=>{if(state.mode===mode&&state.status==='ready')return;void request(mode);};
+  flat.onclick = () => chooseMode('2d'); three.onclick = () => chooseMode('3d'); retry.onclick = () => { void request('3d'); }; render();
   return {
     element: root,
     get state(): Readonly<ThreeDControlState> { return { ...state }; },
-    setState(next: ThreeDControlState) { if (destroyed) return; abort.abort(); revision++; state = next; render(); },
-    // Authoritative root state for its current loader ticket. Do not abort that request.
-    reportState(next: ThreeDControlState) { if (destroyed) return; revision++; state = next; render(); },
+    setState(next: ThreeDControlState) { if (destroyed) return; abort.abort(); revision++; state = { ...next }; if (state.status !== 'loading') settledState = { ...state }; render(); },
+    // Loading is progress on the current ticket; only a terminal owner publication
+    // supersedes its awaited result. Neither publication aborts the owner's work.
+    reportState(next: ThreeDControlState) { if (destroyed) return; if (next.status !== 'loading') revision++; state = { ...next }; if (state.status !== 'loading') settledState = { ...state }; render(); },
     setMapAvailable(value:boolean){if(destroyed||mapAvailable===value)return;mapAvailable=value;if(!value){abort.abort();revision++;}render();},
     setVehicleReducedMotion(value:boolean){if(destroyed)return;reducedVehicles=value;render();},
     get vehiclesRequested(){return vehicleInput.checked;},
-    setSupported(value: boolean) { if (destroyed) return; supported = value; if (!supported) { abort.abort(); revision++; if (state.status === 'loading') state = { mode: state.mode, status: 'ready' }; } render(); },
+    setSupported(value: boolean) { if (destroyed) return; supported = value; if (!supported) { abort.abort(); revision++; if (state.status === 'loading') state = { ...settledState }; } render(); },
     requestMode: request,
+    /** Keeps keyboard focus in the mode group after an external retry hides its own trigger. */
+    focus: focusMode,
     destroy() { if (destroyed) return; destroyed = true; abort.abort(); revision++; flat.onclick = three.onclick = retry.onclick = null; vehicleInput.onchange=null;mobileStatus.removeEventListener('change',syncFeedbackHost);feedback.remove();notices.remove(); root.remove(); },
   };
 }

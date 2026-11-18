@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {build} from 'esbuild';
-const paths=['safety',...['bremen','tier300','church','root500','delegated500','infill','city'].map(name=>'painted/'+name+'/safety')];
+const paths=['bremen','tier300','church','root500','delegated500','infill','city'].map(name=>'painted/'+name+'/safety');
 const read=path=>readFile(new URL('../src/'+path,import.meta.url),'utf8');
 const built=await build({entryPoints:[new URL('../src/safety/environment-scene-data.ts',import.meta.url).pathname],bundle:true,platform:'node',format:'esm',write:false});
 const {lowPolyTreeMesh}=await import('data:text/javascript;base64,'+Buffer.from(built.outputFiles[0].text).toString('base64'));
@@ -27,7 +27,7 @@ function assignment(text){const start=text.indexOf('v_color=(u_paint_mode<.5?');
 function evaluate(expression,values){return new Function('u_paint_mode','a_paint_family','paintBase','a_color','neutral','progressiveMaterialAlpha','neutralBase','light','mix','step','abs','return '+expression.replaceAll('vec3(1.)','1.'))(...values,mix,step,Math.abs);}
 const progressive='(u_paint_mode<.5?vec3(1.):u_paint_mode<1.5||abs(a_paint_family)<.5?mix(paintBase,vec3(1.),neutral*(1.-step(1.5,u_paint_mode)*step(1.5,progressiveMaterialAlpha))):paintBase)*light';
 const church='(u_paint_mode<.5?vec3(1.):u_paint_mode<1.5||abs(a_paint_family)<.5?mix(a_color,vec3(1.),neutral):a_color)*light';
-test('all eight actual vertex expressions retain their existing white/neutral guards and leave colored materials unchanged',async()=>{
+test('all seven actual vertex expressions retain their existing white/neutral guards and leave colored materials unchanged',async()=>{
  for(const path of paths){const text=await read(path+'/building-mesh-renderer.ts'),expression=assignment(text),original=path.includes('/church/')?church:progressive;
   assert.equal(expression.replaceAll('neutralBase','vec3(1.)'),original,path);
   assert(text.includes('vec3 neutralBase=mix(vec3(.94,.95,.97),vec3(1.,.99,.97),smoothstep(.25,.85,max(0.,v_normal.y)));'),path);
@@ -44,7 +44,7 @@ test('all eight actual vertex expressions retain their existing white/neutral gu
 });
 
 test('white base gives a subtle warm top/cool wall before the unchanged directional light, including the Hamburg-only program',async()=>{
- const text=await read('safety/building-mesh-renderer.ts');const definition=text.match(/vec3 neutralBase=mix\(vec3\(([^)]+)\),vec3\(([^)]+)\),smoothstep\(([^,]+),([^,]+),max\(0\.,v_normal\.y\)\)\);/);assert(definition);
+ const text=await read('painted/city/safety/building-mesh-renderer.ts');const definition=text.match(/vec3 neutralBase=mix\(vec3\(([^)]+)\),vec3\(([^)]+)\),smoothstep\(([^,]+),([^,]+),max\(0\.,v_normal\.y\)\)\);/);assert(definition);
  const wall=definition[1].split(',').map(Number),roof=definition[2].split(',').map(Number),lo=+definition[3],hi=+definition[4];
  const smooth=y=>{const t=Math.min(1,Math.max(0,(Math.max(0,y)-lo)/(hi-lo)));return t*t*(3-2*t);};
  assert(roof[0]>roof[2]);assert(wall[2]>wall[0]);

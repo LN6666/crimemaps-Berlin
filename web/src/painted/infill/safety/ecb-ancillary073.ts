@@ -1,16 +1,22 @@
-import type {BuildingComponent,Identity,MeshBatch} from './building-mesh-renderer';
-import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
+import {infillResourceIdentityCandidate} from './infill-resource-header-metadata';
+import {prepareInfillDataResources} from './infill-owner-preparation';
+import {scopedInfillValue} from './infill-data-contract';
+import type {InfillDataModule,InfillDataPreparationContext} from './infill-data-contract';
+import type {FrozenDataRef} from '../../../safety/frozen-data-lease-store';
+import type {FrozenDataScope} from '../../../safety/frozen-data-scope';
+import type {BuildingComponent,Identity,MeshBatch} from "../../../safety/building-mesh-types";
+import type {OwnerReconstructionStats} from '../../../safety/owner-reconstruction-stats';
 import {nativePaintSignature} from './progressive-native-signature';
 import {ownerDisplayFingerprint} from './owner-display-fingerprint';
-import {ECB_ANCILLARY_SHA073,ECB_ANCILLARY_NATIVE073,ECB_ANCILLARY_DATA073} from './ecb-ancillary073-data';
+import {ECB_ANCILLARY_SHA073,ECB_ANCILLARY_NATIVE073,getECB_ANCILLARY_DATA073 as __infillDataDependency0} from './ecb-ancillary073-data';
 export {ECB_ANCILLARY_SHA073} from './ecb-ancillary073-data';
 type Native=(typeof ECB_ANCILLARY_NATIVE073)[number];
 type PaintedBatch=MeshBatch&{paint:number[];frames:number[]};
 const key=(c:Identity)=>c.objectId+'|'+c.partId;
-const pins=new Map(ECB_ANCILLARY_NATIVE073.map(r=>[key(r),r]));
-const displays=new Map(ECB_ANCILLARY_DATA073.map(r=>[key(r),r]));
-const owned=new WeakMap<BuildingComponent,{source:BuildingComponent;fingerprint:string}>();
-export const ecbAncillary073Identity=(c:Identity)=>pins.has(key(c));
+
+
+
+
 function equal(a:unknown,b:unknown):boolean{
  if(typeof b==='number')return typeof a==='number'&&Number.isFinite(a)&&Object.is(a,b);
  if(b===null||typeof b!=='object')return a===b;
@@ -20,26 +26,72 @@ function equal(a:unknown,b:unknown):boolean{
 function exactNative(c:BuildingComponent,r:Native):boolean{
  try{const f=ownerDisplayFingerprint(c);return c.city==='frankfurt'&&equal(c.origin,r.origin)&&equal(c.componentGeometry,r.componentGeometry)&&equal(c.sourceFeature,r.sourceFeature)&&c.batches.length===r.batches.length&&c.batches.every((b,i)=>(b.faceRole??null)===r.batches[i].faceRole&&(['positions','normals','indices','color'] as const).every(k=>equal(b[k],r.batches[i][k])))&&nativePaintSignature(c)===r.signature&&f.fingerprint===r.fingerprint&&f.vertices===r.vertices&&f.indices===r.indices;}catch{return false;}
 }
-function exactOwned(c:BuildingComponent):boolean{
- const p=owned.get(c);if(!p)return false;try{return c.city==='frankfurt'&&ownerDisplayFingerprint(c).fingerprint===p.fingerprint&&exactNative(p.source,pins.get(key(c))!)&&(c.displayEstimates?.infillEcbAncillary073 as {patchSHA?:string}|undefined)?.patchSHA===ECB_ANCILLARY_SHA073;}catch{return false;}
-}
+
 /** Seven independently present exact SOURCEs. Main ECB, accepted hall and press are never claimed.
  * Open roof SOURCEs retain an open lower volume; their0.20m fascia is labelled a photo estimate.
  * The small unmeasured booth retains its original native arrays/7.5m display estimate.
  */
-export function ecbAncillary073Reconstruction(components:BuildingComponent[]){
+
+/** Private exact output only. Families occupy frame[4], separate from RGB and alpha. */
+
+
+import * as __infillResourceDependency0 from './ecb-ancillary073-data';
+const infillDataMemoKey=Object.freeze({});
+const infillOwnDataRefs:readonly FrozenDataRef[]=[];
+export const infillDataRefs:readonly FrozenDataRef[]=infillOwnDataRefs;
+export const infillDataMemoKeys:readonly object[]=[infillDataMemoKey];
+export function getInfillData(scope:FrozenDataScope|undefined){if(!scope)throw Error("ecb-ancillary073.ts requires a prepared FrozenDataScope");return scope.memo(infillDataMemoKey,()=>{
+const __infillRead_ECB_ANCILLARY_DATA073=scopedInfillValue(()=>__infillDataDependency0(scope));
+const __infillRead_pins=scopedInfillValue(()=>new Map(ECB_ANCILLARY_NATIVE073.map(r=>[key(r),r])));
+const __infillRead_displays=scopedInfillValue(()=>new Map(__infillRead_ECB_ANCILLARY_DATA073().map(r=>[key(r),r])));
+const __infillRead_owned=scopedInfillValue(()=>new WeakMap<BuildingComponent,{source:BuildingComponent;fingerprint:string}>());
+const ecbAncillary073Identity=(c:Identity)=>__infillRead_pins().has(key(c));
+function exactOwned(c:BuildingComponent):boolean{
+ const p=__infillRead_owned().get(c);if(!p)return false;try{return c.city==='frankfurt'&&ownerDisplayFingerprint(c).fingerprint===p.fingerprint&&exactNative(p.source,__infillRead_pins().get(key(c))!)&&(c.displayEstimates?.infillEcbAncillary073 as {patchSHA?:string}|undefined)?.patchSHA===ECB_ANCILLARY_SHA073;}catch{return false;}
+}
+function ecbAncillary073Reconstruction(components:BuildingComponent[]){
  const stats:OwnerReconstructionStats={objects:0,vertices:0,triangles:0,originalVertices:0,sourceRetained:true,actualVisualAccepted:false,components:[]};
  const groups=new Map<string,BuildingComponent[]>();for(const c of components)if(c.city==='frankfurt'&&ecbAncillary073Identity(c)){const a=groups.get(key(c))??[];a.push(c);groups.set(key(c),a);}
- const valid=new Set<BuildingComponent>(),rejected:string[]=[];for(const[k,cs]of groups){const c=cs[0];if(cs.length===1&&(owned.has(c)?exactOwned(c):exactNative(c,pins.get(k)!)))valid.add(c);else rejected.push(k);}
+ const valid=new Set<BuildingComponent>(),rejected:string[]=[];for(const[k,cs]of groups){const c=cs[0];if(cs.length===1&&(__infillRead_owned().has(c)?exactOwned(c):exactNative(c,__infillRead_pins().get(k)!)))valid.add(c);else rejected.push(k);}
  let changed=false;const out=components.map(c=>{
-  if(!valid.has(c)||owned.has(c))return c;const d=displays.get(key(c))!,r=pins.get(key(c))!;
+  if(!valid.has(c)||__infillRead_owned().has(c))return c;const d=__infillRead_displays().get(key(c))!,r=__infillRead_pins().get(key(c))!;
   const batches:PaintedBatch[]=d.batches.map(b=>({...b,positions:[...b.positions],normals:[...b.normals],indices:[...b.indices],color:[...b.color]as[number,number,number],paint:[...b.paint],frames:[...b.frames],faceRole:'mixed' as const}));
   const result:BuildingComponent={...c,origin:d.origin as [number,number],batches,displayEstimates:{...c.displayEstimates,infillEcbAncillary073:{patchSHA:ECB_ANCILLARY_SHA073,sourceRetained:true,sourceGeometryAltered:false,noSourceRecovery:true,independentPresentSOURCEOnly:true,geometryRole:d.role,officialBody:d.measuredBodySuffix,absoluteVerticalDatumM:98.601,datumCRS:'EPSG7423 ETRS89+EVRF2007 gravity H',coordinates:'renderer East/Up/North',originalHeightUnmeasured:d.originalHeightUnmeasured,smallBoothNativePositionsNormalsAndOriginUnchanged:d.originalHeightUnmeasured,smallBoothDisplayWindingOnlyCorrected:d.originalHeightUnmeasured,openCanopyThicknessPhotoEstimateM:d.role.startsWith('open-')?.2:undefined,unknownOpeningsNotInvented:true,acceptedHallAndMainAndPressExcluded:true,actualVisualAccepted:false,detail70Accepted:false,quality500Accepted:false}}};
-  owned.set(result,{source:c,fingerprint:ownerDisplayFingerprint(result).fingerprint});changed=true;stats.objects++;stats.vertices+=d.vertices;stats.triangles+=d.indices/3;stats.originalVertices+=r.vertices;stats.components.push({objectId:c.objectId,partId:c.partId,sourcePartId:c.partId,patchSHA256:ECB_ANCILLARY_SHA073,vertices:d.vertices,triangles:d.indices/3,geometryRole:'owner-authorized-ECB-ancillary-'+d.role});return result;
+  __infillRead_owned().set(result,{source:c,fingerprint:ownerDisplayFingerprint(result).fingerprint});changed=true;stats.objects++;stats.vertices+=d.vertices;stats.triangles+=d.indices/3;stats.originalVertices+=r.vertices;stats.components.push({objectId:c.objectId,partId:c.partId,sourcePartId:c.partId,patchSHA256:ECB_ANCILLARY_SHA073,vertices:d.vertices,triangles:d.indices/3,geometryRole:'owner-authorized-ECB-ancillary-'+d.role});return result;
  });return{components:changed?out:components,stats,rejected};
 }
-/** Private exact output only. Families occupy frame[4], separate from RGB and alpha. */
-export function ecbAncillary073BaseMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){
+function ecbAncillary073BaseMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){
  const n=components.reduce((s,c)=>s+c.batches.reduce((m,b)=>m+b.positions.length/3,0),0);if(!Number.isSafeInteger(n)||paint.length!==n*4||frames.length!==n*5)throw Error('Invalid ECB ancillary packed lengths');let at=0,objects=0,vertices=0;
- for(const c of components){if(owned.has(c)&&!exactOwned(c))throw Error('Mutated private ECB ancillary DISPLAY');const yes=owned.has(c);if(yes)objects++;for(const b of c.batches){const n=b.positions.length/3;if(yes){const q=b as PaintedBatch;paint.set(q.paint,at*4);frames.set(q.frames,at*5);vertices+=n;}at+=n;}}return{objects,vertices,actualVisualAccepted:false};
+ for(const c of components){if(__infillRead_owned().has(c)&&!exactOwned(c))throw Error('Mutated private ECB ancillary DISPLAY');const yes=__infillRead_owned().has(c);if(yes)objects++;for(const b of c.batches){const n=b.positions.length/3;if(yes){const q=b as PaintedBatch;paint.set(q.paint,at*4);frames.set(q.frames,at*5);vertices+=n;}at+=n;}}return{objects,vertices,actualVisualAccepted:false};
 }
+
+return {get pins(){return __infillRead_pins();},get displays(){return __infillRead_displays();},get owned(){return __infillRead_owned();},ecbAncillary073Identity,ecbAncillary073Reconstruction,ecbAncillary073BaseMaterials};
+});}
+function getpins(scope:FrozenDataScope|undefined){return getInfillData(scope).pins;}
+function getdisplays(scope:FrozenDataScope|undefined){return getInfillData(scope).displays;}
+function getowned(scope:FrozenDataScope|undefined){return getInfillData(scope).owned;}
+export function ecbAncillary073Identity(...args:[...Parameters<ReturnType<typeof getInfillData>['ecbAncillary073Identity']>,scope?:FrozenDataScope]){const scope=args[1] as FrozenDataScope|undefined;if(scope?.stats.disposed)getInfillData(scope);if(!mayMatchInfillData(Array.isArray(args[0])?args[0]:[args[0] as BuildingComponent])&&!hasRetainedInfillOwner(Array.isArray(args[0])?args[0]:[args[0] as BuildingComponent],scope))return ecbAncillary073IdentityCold(args[0],scope);return getInfillData(scope).ecbAncillary073Identity(...args.slice(0,1) as Parameters<ReturnType<typeof getInfillData>['ecbAncillary073Identity']>);}
+export function ecbAncillary073Reconstruction(...args:[...Parameters<ReturnType<typeof getInfillData>['ecbAncillary073Reconstruction']>,scope?:FrozenDataScope]){const scope=args[1] as FrozenDataScope|undefined;if(scope?.stats.disposed)getInfillData(scope);if(!mayMatchInfillData(Array.isArray(args[0])?args[0]:[args[0] as BuildingComponent])&&!hasRetainedInfillOwner(Array.isArray(args[0])?args[0]:[args[0] as BuildingComponent],scope))return ecbAncillary073ReconstructionCold(args[0],scope);return getInfillData(scope).ecbAncillary073Reconstruction(...args.slice(0,1) as Parameters<ReturnType<typeof getInfillData>['ecbAncillary073Reconstruction']>);}
+export function ecbAncillary073BaseMaterials(...args:[...Parameters<ReturnType<typeof getInfillData>['ecbAncillary073BaseMaterials']>,scope?:FrozenDataScope]){const scope=args[3] as FrozenDataScope|undefined;if(scope?.stats.disposed)getInfillData(scope);if(!mayMatchInfillData(Array.isArray(args[0])?args[0]:[args[0] as BuildingComponent])&&!hasRetainedInfillOwner(Array.isArray(args[0])?args[0]:[args[0] as BuildingComponent],scope))return ecbAncillary073BaseMaterialsCold(args[0],args[1],args[2],scope);return getInfillData(scope).ecbAncillary073BaseMaterials(...args.slice(0,3) as Parameters<ReturnType<typeof getInfillData>['ecbAncillary073BaseMaterials']>);}
+export const infillDataFunctionArities={"ecbAncillary073Identity":1,"ecbAncillary073Reconstruction":1,"ecbAncillary073BaseMaterials":3} as const;
+
+export const infillDataDependencies=():readonly InfillDataModule[]=>[__infillResourceDependency0];
+
+function ecbAncillary073IdentityCold(c:Identity,scope?:FrozenDataScope){
+return false;}
+
+function ecbAncillary073ReconstructionCold(components:BuildingComponent[],scope?:FrozenDataScope){const stats:OwnerReconstructionStats={objects:0,vertices:0,triangles:0,originalVertices:0,sourceRetained:true,actualVisualAccepted:false,components:[]};
+const groups=new Map<string,BuildingComponent[]>();
+for(const c of components)if(c.city==='frankfurt'&&ecbAncillary073Identity(c)){const a=groups.get(key(c))??[];a.push(c);groups.set(key(c),a);}
+const valid=new Set<BuildingComponent>(),rejected:string[]=[];
+return {components:components.map(component=>component),stats};}
+
+function ecbAncillary073BaseMaterialsCold(components:BuildingComponent[],paint:Float32Array,frames:Float32Array,scope?:FrozenDataScope){const n=components.reduce((s,c)=>s+c.batches.reduce((m,b)=>m+b.positions.length/3,0),0);
+if(!Number.isSafeInteger(n)||paint.length!==n*4||frames.length!==n*5)throw Error('Invalid ECB ancillary packed lengths');
+let at=0,objects=0,vertices=0;
+return {objects:0,vertices:0,actualVisualAccepted:false};}
+
+function hasRetainedInfillOwner(components:readonly BuildingComponent[],scope?:FrozenDataScope){return !!scope&&!scope.stats.disposed&&components.some(c=>getInfillData(scope).owned.has(c));}
+export function mayMatchInfillData(components:readonly BuildingComponent[]){return components.some(c=>(infillResourceIdentityCandidate("ecb-ancillary073.ts",c)||c.displayEstimates?.infillEcbAncillary073));}
+export async function prepareInfillData(components:readonly BuildingComponent[],signal:AbortSignal,scope:FrozenDataScope,context?:InfillDataPreparationContext){signal.throwIfAborted();if(!mayMatchInfillData(components)&&!hasRetainedInfillOwner(components,scope))return;await prepareInfillDataResources({infillDataRefs,infillDataDependencies},components,signal,scope,context);}
+export const infillDataMetadataFunctions=[] as const;

@@ -19,7 +19,7 @@ export const C171_PROJECTION_REGISTRY={
       13.7275126,
       51.05176135
     ],
-    "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Dresden/safety/buildings3d/dresden/roof-00638.json.gz",
+    "sourceLeaf": "source-evidence/fa989c2df19c3e9bdea5/safety/buildings3d/dresden/roof-00638.json.gz",
     "sourceSHA256": "58cd72924a601d80318b6d3ea4ebf6ab22ff3f3668f14536f809b599aa8aa932",
     "geometrySignature": "cf23d23b",
     "componentGeometry": {
@@ -144,7 +144,7 @@ export const C171_PROJECTION_REGISTRY={
       "city": "dresden",
       "objectId": "osm/way/151773072",
       "partId": "osm/way/151773072/component/d802ff78ca1d98b1ae92",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Dresden/safety/buildings3d/dresden/roof-00638.json.gz",
+      "sourceLeaf": "source-evidence/fa989c2df19c3e9bdea5/safety/buildings3d/dresden/roof-00638.json.gz",
       "sourceLeafSHA256": "58cd72924a601d80318b6d3ea4ebf6ab22ff3f3668f14536f809b599aa8aa932",
       "rawSignature": "cf23d23b",
       "rawBuffers": [

@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from "../../../safety/building-mesh-types";
 /** Two independent 32-bit byte accumulators over the actual GPU float32 representation. No BigInt or mesh/JSON clone. Not a cryptographic SHA. */
 export function ownerDisplayFingerprint(c:BuildingComponent){
  let a=2166136261>>>0,b=2246822519>>>0;const scratch=new DataView(new ArrayBuffer(4));

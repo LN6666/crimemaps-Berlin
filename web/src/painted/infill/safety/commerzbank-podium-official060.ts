@@ -1,32 +1,80 @@
-import type {BuildingComponent,Identity} from './building-mesh-renderer';
-import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
+import {infillResourceIdentityCandidate} from './infill-resource-header-metadata';
+import {prepareInfillDataResources} from './infill-owner-preparation';
+import {scopedInfillValue} from './infill-data-contract';
+import type {InfillDataModule,InfillDataPreparationContext} from './infill-data-contract';
+import type {FrozenDataRef} from '../../../safety/frozen-data-lease-store';
+import type {FrozenDataScope} from '../../../safety/frozen-data-scope';
+import type {BuildingComponent,Identity} from "../../../safety/building-mesh-types";
+import type {OwnerReconstructionStats} from '../../../safety/owner-reconstruction-stats';
 import {ownerDisplayFingerprint} from './owner-display-fingerprint';
 import {commerzbankPodiumExactNative060} from './commerzbank-podium-native060';
-import {COMMERZBANK_PODIUM_OFFICIAL_SHA060,COMMERZBANK_PODIUM_OFFICIAL_DATA060} from './commerzbank-podium-official060-data';
+import {COMMERZBANK_PODIUM_OFFICIAL_SHA060,getCOMMERZBANK_PODIUM_OFFICIAL_DATA060 as __infillDataDependency0} from './commerzbank-podium-official060-data';
 export {COMMERZBANK_PODIUM_OFFICIAL_SHA060} from './commerzbank-podium-official060-data';
-const models=new Map<string,(typeof COMMERZBANK_PODIUM_OFFICIAL_DATA060)[number]>(COMMERZBANK_PODIUM_OFFICIAL_DATA060.map(r=>[r.objectId+'|'+r.partId,r]));
-const owned=new WeakMap<BuildingComponent,{source:BuildingComponent;fingerprint:string}>();
-export function commerzbankPodiumOfficial060Identity(c:Identity):boolean{return models.has(c.objectId+'|'+c.partId);}
-function exactOwned(c:BuildingComponent){const r=owned.get(c);if(!r)return false;try{return ownerDisplayFingerprint(c).fingerprint===r.fingerprint;}catch{return false;}}
+
+
+
+
 /** Five verified HVBG solids under two unchanged native SOURCE identities. Ground
  * polygons are omitted from DISPLAY. The existing23 tower/fan/steps are untouched.
  * No estimated source height or generic box is substituted for official levels. */
-export function commerzbankPodiumOfficial060Reconstruction(components:BuildingComponent[]){
+
+/** Never trusts a public marker: only this module's privately owned, unchanged
+ * clones can write RGBA/family attributes. Original native buffers stay untouched. */
+
+
+import * as __infillResourceDependency0 from './commerzbank-podium-official060-data';
+const infillDataMemoKey=Object.freeze({});
+const infillOwnDataRefs:readonly FrozenDataRef[]=[];
+export const infillDataRefs:readonly FrozenDataRef[]=infillOwnDataRefs;
+export const infillDataMemoKeys:readonly object[]=[infillDataMemoKey];
+export function getInfillData(scope:FrozenDataScope|undefined){if(!scope)throw Error("commerzbank-podium-official060.ts requires a prepared FrozenDataScope");return scope.memo(infillDataMemoKey,()=>{
+const __infillRead_COMMERZBANK_PODIUM_OFFICIAL_DATA060=scopedInfillValue(()=>__infillDataDependency0(scope));
+const __infillRead_models=scopedInfillValue(()=>new Map<string,(ReturnType<typeof __infillRead_COMMERZBANK_PODIUM_OFFICIAL_DATA060>)[number]>(__infillRead_COMMERZBANK_PODIUM_OFFICIAL_DATA060().map(r=>[r.objectId+'|'+r.partId,r])));
+const __infillRead_owned=scopedInfillValue(()=>new WeakMap<BuildingComponent,{source:BuildingComponent;fingerprint:string}>());
+function commerzbankPodiumOfficial060Identity(c:Identity):boolean{return __infillRead_models().has(c.objectId+'|'+c.partId);}
+function exactOwned(c:BuildingComponent){const r=__infillRead_owned().get(c);if(!r)return false;try{return ownerDisplayFingerprint(c).fingerprint===r.fingerprint;}catch{return false;}}
+function commerzbankPodiumOfficial060Reconstruction(components:BuildingComponent[]){
  const stats:OwnerReconstructionStats={objects:0,vertices:0,triangles:0,originalVertices:0,sourceRetained:true,actualVisualAccepted:false,components:[]},seen=new Set<string>();
  const selected=components.filter(c=>c.city==='frankfurt'&&commerzbankPodiumOfficial060Identity(c));
  // The two official groups are independent. Never reconstruct a missing SOURCE or wait for its neighbour.
  for(const c of selected){const key=c.objectId+'|'+c.partId;if(seen.has(key)){stats.error='Commerzbank podium duplicate exact native identity; original rows retained';return{components,stats};}seen.add(key);
-  if(!(owned.has(c)?exactOwned(c):commerzbankPodiumExactNative060(c))){stats.error='Commerzbank podium requires unchanged exact native SOURCE or private unchanged official DISPLAY';return{components,stats};}}
- const drawable=components.map(c=>{if(c.city!=='frankfurt'||!commerzbankPodiumOfficial060Identity(c)||owned.has(c))return c;const m=models.get(c.objectId+'|'+c.partId)!;
+  if(!(__infillRead_owned().has(c)?exactOwned(c):commerzbankPodiumExactNative060(c))){stats.error='Commerzbank podium requires unchanged exact native SOURCE or private unchanged official DISPLAY';return{components,stats};}}
+ const drawable=components.map(c=>{if(c.city!=='frankfurt'||!commerzbankPodiumOfficial060Identity(c)||__infillRead_owned().has(c))return c;const m=__infillRead_models().get(c.objectId+'|'+c.partId)!;
   const batches=m.batches.map(b=>({positions:[...b.positions],normals:[...b.normals],indices:[...b.indices],color:[...b.color] as [number,number,number],frames:[...b.frames],paint:[...b.paint]}));
   const out:BuildingComponent={...c,batches,displayEstimates:{...c.displayEstimates,infillCommerzbankPodiumOfficial060:{patchSHA:COMMERZBANK_PODIUM_OFFICIAL_SHA060,officialBuildingIds:m.officialBodies.map(b=>b.officialBuildingId),officialSharedDatumAbsoluteM:m.officialBodies[0].sharedDatumAbsoluteM,sourceRetained:true,originalNativeHeightMetres:7.5,originalNativeHeightWasUnknownDisplayDefault:true,geometrySource:'HVBG INSPIRE Building geometry3DLoD2; source polygons retained independently',groundFacesOmitted:true,actualVisualAccepted:false,detail70Accepted:false,remainingLimits:'Photographic curved crown/entrance-height transitions and approximately2percent source/official plan discrepancies remain unaccepted; no whole-compound500 completion claim.'}}};
-  owned.set(out,{source:c,fingerprint:ownerDisplayFingerprint(out).fingerprint});const vertices=batches.reduce((n,b)=>n+b.positions.length/3,0),triangles=batches.reduce((n,b)=>n+b.indices.length/3,0);stats.objects++;stats.vertices+=vertices;stats.triangles+=triangles;stats.originalVertices+=c.batches.reduce((n,b)=>n+b.positions.length/3,0);stats.components.push({objectId:c.objectId,partId:c.partId,sourcePartId:c.partId,patchSHA256:COMMERZBANK_PODIUM_OFFICIAL_SHA060,vertices,triangles,geometryRole:'owner-authorized-official-podium-display'});return out;
+  __infillRead_owned().set(out,{source:c,fingerprint:ownerDisplayFingerprint(out).fingerprint});const vertices=batches.reduce((n,b)=>n+b.positions.length/3,0),triangles=batches.reduce((n,b)=>n+b.indices.length/3,0);stats.objects++;stats.vertices+=vertices;stats.triangles+=triangles;stats.originalVertices+=c.batches.reduce((n,b)=>n+b.positions.length/3,0);stats.components.push({objectId:c.objectId,partId:c.partId,sourcePartId:c.partId,patchSHA256:COMMERZBANK_PODIUM_OFFICIAL_SHA060,vertices,triangles,geometryRole:'owner-authorized-official-podium-display'});return out;
  });return{components:drawable,stats};
 }
-/** Never trusts a public marker: only this module's privately owned, unchanged
- * clones can write RGBA/family attributes. Original native buffers stay untouched. */
-export function commerzbankPodiumOfficial060BaseMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){
+function commerzbankPodiumOfficial060BaseMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){
  const total=components.reduce((n,c)=>n+c.batches.reduce((m,b)=>m+b.positions.length/3,0),0);if(!Number.isSafeInteger(total)||paint.length!==total*4||frames.length!==total*5)throw Error('Invalid Commerzbank official podium paint buffer lengths');let at=0,objects=0,vertices=0;
  for(const c of components){const match=exactOwned(c);if(match)objects++;for(const b of c.batches){const n=b.positions.length/3;if(match){paint.set((b as unknown as {paint:number[]}).paint,at*4);frames.set((b as unknown as {frames:number[]}).frames,at*5);vertices+=n;}at+=n;}}
  return{objects,vertices,actualVisualAccepted:false};
 }
+
+return {get models(){return __infillRead_models();},get owned(){return __infillRead_owned();},commerzbankPodiumOfficial060Identity,commerzbankPodiumOfficial060Reconstruction,commerzbankPodiumOfficial060BaseMaterials};
+});}
+function getmodels(scope:FrozenDataScope|undefined){return getInfillData(scope).models;}
+function getowned(scope:FrozenDataScope|undefined){return getInfillData(scope).owned;}
+export function commerzbankPodiumOfficial060Identity(...args:[...Parameters<ReturnType<typeof getInfillData>['commerzbankPodiumOfficial060Identity']>,scope?:FrozenDataScope]){const scope=args[1] as FrozenDataScope|undefined;if(scope?.stats.disposed)getInfillData(scope);if(!mayMatchInfillData(Array.isArray(args[0])?args[0]:[args[0] as BuildingComponent])&&!hasRetainedInfillOwner(Array.isArray(args[0])?args[0]:[args[0] as BuildingComponent],scope))return commerzbankPodiumOfficial060IdentityCold(args[0],scope);return getInfillData(scope).commerzbankPodiumOfficial060Identity(...args.slice(0,1) as Parameters<ReturnType<typeof getInfillData>['commerzbankPodiumOfficial060Identity']>);}
+export function commerzbankPodiumOfficial060Reconstruction(...args:[...Parameters<ReturnType<typeof getInfillData>['commerzbankPodiumOfficial060Reconstruction']>,scope?:FrozenDataScope]){const scope=args[1] as FrozenDataScope|undefined;if(scope?.stats.disposed)getInfillData(scope);if(!mayMatchInfillData(Array.isArray(args[0])?args[0]:[args[0] as BuildingComponent])&&!hasRetainedInfillOwner(Array.isArray(args[0])?args[0]:[args[0] as BuildingComponent],scope))return commerzbankPodiumOfficial060ReconstructionCold(args[0],scope);return getInfillData(scope).commerzbankPodiumOfficial060Reconstruction(...args.slice(0,1) as Parameters<ReturnType<typeof getInfillData>['commerzbankPodiumOfficial060Reconstruction']>);}
+export function commerzbankPodiumOfficial060BaseMaterials(...args:[...Parameters<ReturnType<typeof getInfillData>['commerzbankPodiumOfficial060BaseMaterials']>,scope?:FrozenDataScope]){const scope=args[3] as FrozenDataScope|undefined;if(scope?.stats.disposed)getInfillData(scope);if(!mayMatchInfillData(Array.isArray(args[0])?args[0]:[args[0] as BuildingComponent])&&!hasRetainedInfillOwner(Array.isArray(args[0])?args[0]:[args[0] as BuildingComponent],scope))return commerzbankPodiumOfficial060BaseMaterialsCold(args[0],args[1],args[2],scope);return getInfillData(scope).commerzbankPodiumOfficial060BaseMaterials(...args.slice(0,3) as Parameters<ReturnType<typeof getInfillData>['commerzbankPodiumOfficial060BaseMaterials']>);}
+export const infillDataFunctionArities={"commerzbankPodiumOfficial060Identity":1,"commerzbankPodiumOfficial060Reconstruction":1,"commerzbankPodiumOfficial060BaseMaterials":3} as const;
+
+export const infillDataDependencies=():readonly InfillDataModule[]=>[__infillResourceDependency0];
+
+function commerzbankPodiumOfficial060IdentityCold(c:Identity,scope?:FrozenDataScope){
+return false;}
+
+function commerzbankPodiumOfficial060ReconstructionCold(components:BuildingComponent[],scope?:FrozenDataScope){const stats:OwnerReconstructionStats={objects:0,vertices:0,triangles:0,originalVertices:0,sourceRetained:true,actualVisualAccepted:false,components:[]},seen=new Set<string>();
+const selected=components.filter(c=>c.city==='frankfurt'&&commerzbankPodiumOfficial060Identity(c));
+return {components:components,stats};}
+
+function commerzbankPodiumOfficial060BaseMaterialsCold(components:BuildingComponent[],paint:Float32Array,frames:Float32Array,scope?:FrozenDataScope){const total=components.reduce((n,c)=>n+c.batches.reduce((m,b)=>m+b.positions.length/3,0),0);
+if(!Number.isSafeInteger(total)||paint.length!==total*4||frames.length!==total*5)throw Error('Invalid Commerzbank official podium paint buffer lengths');
+let at=0,objects=0,vertices=0;
+return {objects:0,vertices:0,actualVisualAccepted:false};}
+
+function hasRetainedInfillOwner(components:readonly BuildingComponent[],scope?:FrozenDataScope){return !!scope&&!scope.stats.disposed&&components.some(c=>getInfillData(scope).owned.has(c));}
+export function mayMatchInfillData(components:readonly BuildingComponent[]){return components.some(c=>(infillResourceIdentityCandidate("commerzbank-podium-official060.ts",c)));}
+export async function prepareInfillData(components:readonly BuildingComponent[],signal:AbortSignal,scope:FrozenDataScope,context?:InfillDataPreparationContext){signal.throwIfAborted();if(!mayMatchInfillData(components)&&!hasRetainedInfillOwner(components,scope))return;await prepareInfillDataResources({infillDataRefs,infillDataDependencies},components,signal,scope,context);}
+export const infillDataMetadataFunctions=[] as const;

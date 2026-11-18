@@ -1,4 +1,7 @@
 // Own exact source/UV pins only; historical configuration unknown; candidate unapplied.
+type C217ExactTuple001 = readonly [0, 0, 1];
+type C217ExactTuple010 = readonly [0, 1, 0];
+type C217ExactTuple100 = readonly [1, 0, 0];
 export const C217_PROJECTION_REGISTRY={
   "schemaVersion": 1,
   "scope": "Single original Kaufinger Tor618v foldedpassagebody, one exact roof adapter; no parenthide or neighbor absorption",
@@ -19,7 +22,7 @@ export const C217_PROJECTION_REGISTRY={
       11.0796908,
       49.446685450000004
     ],
-    "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Nuremberg/safety/buildings3d/nuremberg/roof-00569.json.gz",
+    "sourceLeaf": "source-evidence/f3a903a9d425483911f5/safety/buildings3d/nuremberg/roof-00569.json.gz",
     "sourceSHA256": "b0243211808349ebc995b40bdb2db0716e9a29e7508891cb51995b88733e3eba",
     "geometrySignature": "61925810",
     "componentGeometry": {
@@ -204,7 +207,7 @@ export const C217_PROJECTION_REGISTRY={
       "city": "nuremberg",
       "objectId": "osm/relation/102689",
       "partId": "osm/relation/102689/component/a438315e83dd9090304a",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Nuremberg/safety/buildings3d/nuremberg/roof-00569.json.gz",
+      "sourceLeaf": "source-evidence/f3a903a9d425483911f5/safety/buildings3d/nuremberg/roof-00569.json.gz",
       "sourceLeafSHA256": "b0243211808349ebc995b40bdb2db0716e9a29e7508891cb51995b88733e3eba",
       "rawSignature": "61925810",
       "rawBuffers": [
@@ -258,12 +261,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -278,12 +281,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -298,12 +301,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -318,12 +321,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -338,12 +341,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -358,12 +361,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -378,12 +381,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -398,12 +401,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -418,12 +421,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -438,12 +441,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -458,12 +461,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -478,12 +481,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -498,12 +501,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -518,12 +521,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -538,12 +541,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -558,12 +561,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -578,12 +581,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -598,12 +601,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -618,12 +621,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -638,12 +641,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -658,12 +661,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -678,12 +681,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -698,12 +701,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -718,12 +721,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -738,12 +741,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -758,12 +761,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -778,12 +781,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -798,12 +801,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -818,12 +821,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -838,12 +841,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -858,12 +861,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -878,12 +881,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -898,12 +901,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -918,12 +921,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -938,12 +941,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -958,12 +961,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -978,12 +981,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -998,12 +1001,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1018,12 +1021,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1038,12 +1041,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1058,12 +1061,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1078,12 +1081,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1098,12 +1101,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1118,12 +1121,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1138,12 +1141,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1158,12 +1161,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1178,12 +1181,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1198,12 +1201,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1218,12 +1221,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1238,12 +1241,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1258,12 +1261,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1278,12 +1281,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1298,12 +1301,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1318,12 +1321,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1338,12 +1341,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1358,12 +1361,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1378,12 +1381,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1398,12 +1401,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1418,12 +1421,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1438,12 +1441,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1458,12 +1461,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1478,12 +1481,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1498,12 +1501,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1518,12 +1521,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1538,12 +1541,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1558,12 +1561,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1578,12 +1581,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1598,12 +1601,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1618,12 +1621,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1638,12 +1641,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1658,12 +1661,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1678,12 +1681,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1698,12 +1701,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1718,12 +1721,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1738,12 +1741,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1758,12 +1761,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1778,12 +1781,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1798,12 +1801,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1818,12 +1821,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1838,12 +1841,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1858,12 +1861,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1878,12 +1881,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1898,12 +1901,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1918,12 +1921,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1938,12 +1941,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1958,12 +1961,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1978,12 +1981,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -1998,12 +2001,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2018,12 +2021,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2038,12 +2041,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2058,12 +2061,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2078,12 +2081,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2098,12 +2101,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2118,12 +2121,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2138,12 +2141,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2158,12 +2161,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2178,12 +2181,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2198,12 +2201,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2218,12 +2221,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2238,12 +2241,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2258,12 +2261,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2278,12 +2281,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2298,12 +2301,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2318,12 +2321,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2338,12 +2341,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2358,12 +2361,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2378,12 +2381,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2398,12 +2401,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2418,12 +2421,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2438,12 +2441,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2458,12 +2461,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2478,12 +2481,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2498,12 +2501,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2518,12 +2521,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2538,12 +2541,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2558,12 +2561,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2578,12 +2581,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2598,12 +2601,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2618,12 +2621,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2638,12 +2641,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2658,12 +2661,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2678,12 +2681,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2698,12 +2701,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2718,12 +2721,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2738,12 +2741,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2758,12 +2761,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2778,12 +2781,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2798,12 +2801,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2818,12 +2821,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2838,12 +2841,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2858,12 +2861,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2878,12 +2881,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2898,12 +2901,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2918,12 +2921,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2938,12 +2941,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2958,12 +2961,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2978,12 +2981,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -2998,12 +3001,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3018,12 +3021,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3038,12 +3041,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3058,12 +3061,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3078,12 +3081,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3098,12 +3101,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3118,12 +3121,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3138,12 +3141,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3158,12 +3161,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3178,12 +3181,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3198,12 +3201,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3218,12 +3221,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3238,12 +3241,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3258,12 +3261,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3278,12 +3281,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3298,12 +3301,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3318,12 +3321,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3338,12 +3341,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3358,12 +3361,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3378,12 +3381,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3398,12 +3401,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3418,12 +3421,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3438,12 +3441,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3458,12 +3461,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3478,12 +3481,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3498,12 +3501,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3518,12 +3521,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3538,12 +3541,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3558,12 +3561,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3578,12 +3581,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3598,12 +3601,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3618,12 +3621,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3638,12 +3641,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3658,12 +3661,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3678,12 +3681,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3698,12 +3701,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3718,12 +3721,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3738,12 +3741,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3758,12 +3761,12 @@ export const C217_PROJECTION_REGISTRY={
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C217ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3778,12 +3781,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3798,12 +3801,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3818,12 +3821,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3838,12 +3841,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3858,12 +3861,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3878,12 +3881,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3898,12 +3901,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3918,12 +3921,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3938,12 +3941,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3958,12 +3961,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3978,12 +3981,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -3998,12 +4001,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -4018,12 +4021,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -4038,12 +4041,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -4058,12 +4061,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -4078,12 +4081,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -4098,12 +4101,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -4118,12 +4121,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -4138,12 +4141,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -4158,12 +4161,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -4178,12 +4181,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -4198,12 +4201,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -4218,12 +4221,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -4238,12 +4241,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -4258,12 +4261,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -4278,12 +4281,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -4298,12 +4301,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -4318,12 +4321,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -4338,12 +4341,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,
@@ -4358,12 +4361,12 @@ export const C217_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C217ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C217ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 15,

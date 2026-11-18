@@ -1,6 +1,14 @@
-import test from'node:test';import assert from'node:assert/strict';import fs from'node:fs';import path from'node:path';import{fileURLToPath}from'node:url';import{createRequire}from'node:module';
+import test from'node:test';import assert from'node:assert/strict';import fs from'node:fs';import path from'node:path';import{fileURLToPath}from'node:url';import{createRequire}from'node:module';import{createTsModuleLoader}from'./support/fixtures-solar-texture-env-ts-modules.mjs';
 const web=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),ts=createRequire(web+'/package.json')('typescript'),safety=web+'/src/safety';
-function evaluate(file){const exports={};new Function('require','exports',ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS}}).outputText)(name=>{const dependencies={'./environment-scene-data':'environment-scene-data.ts','./scene-surface-light':'scene-surface-light.ts','./environment-green-ground':'environment-green-ground.ts','./projected-shadow-mask':'projected-shadow-mask.ts'};assert.ok(Object.hasOwn(dependencies,name),'Unexpected shader test dependency: '+name);return evaluate(safety+'/'+dependencies[name]);},exports);return exports;}
+// The solar receiver (scene-solar-shadow) and the reflection budget now reserve
+// page resources before allocating, so the shader graph reaches the capture
+// demand, depth-preparation budget and render-runtime store/ledger/preparation
+// modules (render-runtime/ imports resolve against their own directory; the
+// program-preparation <-> chunk-resource-store cycle is evaluated once). Every
+// evaluated dependency is still named; anything else is unexpected.
+const dependencies=new Set(['environment-scene-data.ts','projected-shadow-plane.ts','scene-surface-light.ts','environment-green-ground.ts','projected-shadow-mask.ts','scene-solar-shadow.ts','solar-shadow-preparation.ts','capture-resource-demand.ts','render-runtime/chunk-resource-store.ts','render-runtime/resource-budget.ts','render-runtime/program-preparation.ts','render-runtime/preparation-scheduler.ts','render-runtime/submitted-program-completion.ts','render-runtime/diagnostic-snapshot.ts']);
+const loader=createTsModuleLoader({typescript:ts,allow:(file,importer)=>{if(importer===undefined)return true;const name=path.relative(safety,file).split(path.sep).join('/');assert.ok(dependencies.has(name),'Unexpected shader test dependency: '+name);return true;}});
+const evaluate=file=>loader.load(file);
 const shaders=evaluate(safety+'/environment-scene-shaders.ts'),fragment=shaders.ENVIRONMENT_SCENE_FRAGMENT_GLSL;
 function block(source,marker){const start=source.indexOf(marker);assert(start>=0,marker);const open=source.indexOf('{',start);let end=open+1,depth=1;for(;end<source.length&&depth;end++){if(source[end]==='{')depth++;else if(source[end]==='}')depth--;}assert.equal(depth,0);return{start,end,body:source.slice(open+1,end-1)};}
 // Execute the shader's scalar coverage function, supplying its screen derivative.
@@ -31,7 +39,11 @@ test('water contracts survive authorized green/tree material changes without mov
  assert(renderer.includes('ENVIRONMENT_LIMITS.waterVertices')&&renderer.includes('ENVIRONMENT_LIMITS.waterIndices'));
  assert(fragment.includes('if(u_environment_shadow_pass==1){color=vec4(u_environment_shadow_opacity,0.,0.,1.);return;}'));
  for(const source of [shaders.ENVIRONMENT_SCENE_VERTEX_GLSL,fragment])assert(source.includes('uniform highp int u_environment_shadow_pass;'));
- const water=block(fragment,'if(v_role>1.5)').body.replace(/\/\/[^\n]*/g,'');assert.equal((water.match(/waterNoiseGradient\(/g)??[]).length,3);assert.equal((water.match(/waterEvolvingNoiseGradient\(/g)??[]).length,1);assert(water.includes('if(detail>1.5)'));assert.equal((water.match(/\btexture\(/g)??[]).length,1);assert.equal((fragment.match(/uniform sampler2D/g)??[]).length,1);
+ const water=block(fragment,'if(v_role>1.5)').body.replace(/\/\/[^\n]*/g,'');assert.equal((water.match(/waterNoiseGradient\(/g)??[]).length,3);assert.equal((water.match(/waterEvolvingNoiseGradient\(/g)??[]).length,1);assert(water.includes('if(detail>1.5)'));assert.equal((water.match(/\btexture\(/g)??[]).length,1);
+ // The second sampler borrows the existing building depth map for the final
+ // tree draw only; the water branch still samples only its original reflection.
+ assert.deepEqual([...fragment.matchAll(/uniform sampler2D (\w+)/g)].map(row=>row[1]).sort(),['u_environment_reflection','u_scene_shadow_map']);
+ assert(!/u_scene_shadow_map|sceneSolarVisibility|textureLod\(/.test(water));
  for(const marker of ['vec3 waterNoiseGradient(','vec3 waterEvolvingNoiseGradient(']){const noiseBody=block(fragment,marker).body;assert.equal((noiseBody.match(/waterHash\(/g)??[]).length,4);assert(!/\b(?:for|while)\s*\(/.test(noiseBody));}
  assert(!/\b(?:sin|cos|for|while)\s*\(/.test(water));assert(!/base\s*[*+\-\/]=/.test(water),'no advected base-luminance pattern');assert(water.includes('u_environment_eye-v_position'));assert(water.includes('dot(normal,halfway)'));assert(water.includes('u_scene_daylight'));assert(water.includes('waterBandVisibility(q0)')&&water.includes('waterBandVisibility(q1)')&&water.includes('waterBandVisibility(q2)'));
  const reflection=evaluate(safety+'/planar-building-reflection.ts');

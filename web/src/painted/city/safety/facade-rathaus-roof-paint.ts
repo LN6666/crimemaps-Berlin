@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 /** Original roof boundary coordinates drive painted facets; no mesh vertices are created. */
 const edges=new Float32Array(64*4);let edgeCount=0,revision=0,key='';
 const uploaded=new WeakMap<WebGLProgram,number>();

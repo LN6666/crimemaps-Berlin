@@ -1,0 +1,11 @@
+import type {ResourceBudget,ResourceBudgetCost} from './render-runtime/resource-budget';
+import type {DisplayDomain} from './environment-shared-display-contract.mjs';
+export const RING_WIRE_SCHEMA:'crimemaps-shared-display-ring-wire-v1';
+export const RING_WIRE_LIMITS:Readonly<{maxWireBytes:number;maxVertices:number;maxRings:number;maxComponents:number}>;
+export type RingWireBinding=Readonly<{schema:typeof RING_WIRE_SCHEMA;sha256:string;bytes:number;domainSHA256:string;positionsSHA256:string;city:string;featureId:string;inputBundleSHA256:string;sourceFeatureSHA256:string;originalSourceGeometrySHA256:string;approvedDisplayGeometrySHA256:string;nativeDescriptorSHA256:string;boundarySHA256:string;nativeFeatureOrdinal:number;manifestOrdinal:number;role:number;heldCount:number;vertexCount:number;origin:readonly[number,number];cityOrigin:readonly[number,number]}>;
+export function canonicalJSON(value:unknown):string;
+export function sha256Bytes(bytes:Uint8Array):Promise<string>;
+export function decodeSharedDisplayWire(bytes:Uint8Array,trusted:RingWireBinding,options:{budget:ResourceBudget}):Promise<Readonly<{decoded:Readonly<{positions:Float32Array;indices:Uint32Array;vertexCount:number;indexCount:0;origin:readonly[number,number];boundarySHA256:string;sourceFeatureIds:readonly string[]}>;domain:DisplayDomain;release:()=>void}>>;
+export function inspectSharedDisplayWireJSON(wire:unknown,trusted:RingWireBinding):Readonly<{vertexCount:number;indexCount:0;positionBytes:number;metadataBytes:number;scratchBytes:number}>;
+export function decodeVerifiedSharedDisplayJSON(wire:unknown,trusted:RingWireBinding,options:{budget:ResourceBudget}):ReturnType<typeof decodeSharedDisplayWire>;
+export function decodeVerifiedSharedDisplayJSONInStore<T extends {adjust:(costs:readonly ResourceBudgetCost[])=>boolean;signal?:AbortSignal}>(wire:unknown,trusted:RingWireBinding,options:{context:T;keepCosts?:readonly ResourceBudgetCost[];failAdjustment?:(context:T,label:string)=>never}):Promise<Readonly<{decoded:Readonly<{positions:Float32Array;indices:Uint32Array;vertexCount:number;indexCount:0;origin:readonly[number,number];boundarySHA256:string;sourceFeatureIds:readonly string[]}>;domain:DisplayDomain}>>;

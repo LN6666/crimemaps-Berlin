@@ -27,7 +27,7 @@ export default defineConfig({
     reuseExistingServer: false,
   }, {
     env: {CRIMEMAPS_BUILD_PURPOSE:"code-check"},
-    command:`npm run build && npm exec vite preview -- --base ${city.base_path} --host 127.0.0.1 --port 4174`,
+    command:`${process.env.CRIMEMAPS_TEST_PREBUILT === "1" ? "" : "npm run build && "}npm exec vite preview -- --base ${city.base_path} --host 127.0.0.1 --port 4174`,
     url:`http://127.0.0.1:4174${city.base_path}`,
     timeout:180_000,
     reuseExistingServer:false,

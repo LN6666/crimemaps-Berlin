@@ -1,4 +1,5 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {FrozenDataScope} from '../../../safety/frozen-data-scope';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 import {s434AggregateBatchIncluded,type S434AggregateProfile,type ResidentEntry} from './s434-aggregate-display';
 import {ownerF138Reconstruction,F138_RECONSTRUCTION_SHA} from './owner-f138-reconstruction';
 const ids=[['osm/way/72449471','osm/way/72449471/component/2137cfaabe8621cde1a7'],['osm/way/174487228','osm/way/174487228/component/d4cf2fb6cf4d3dc18139']] as const;
@@ -11,7 +12,7 @@ function exactDisplay(actual:BuildingComponent,expected:BuildingComponent){
  return actual.batches.every((b,i)=>['positions','normals','indices','color','paint','frames','writeMask'].every(k=>sameArray((b as unknown as Record<string,ArrayLike<unknown>>)[k],(expected.batches[i] as unknown as Record<string,ArrayLike<unknown>>)[k])));
 }
 /** An attested native cohort may have a different, exact owner display. Never apply the old batch mask to that new display. Recheck actual loaded objects on each stats/frame observation. */
-export function checkS434Owner138Replacement(profile:S434AggregateProfile|null,entries:readonly ResidentEntry[],sources:ReadonlyMap<string,BuildingComponent>,drawable:readonly BuildingComponent[]){
+export function checkS434Owner138Replacement(profile:S434AggregateProfile|null,entries:readonly ResidentEntry[],sources:ReadonlyMap<string,BuildingComponent>,drawable:readonly BuildingComponent[],scope?:FrozenDataScope){
  if(!profile||entries.length!==7)return null;
  const parent=entries.find(e=>e.component.objectId===ids[0][0]&&e.component.partId===ids[0][1])?.component;
  // This requires the genuine WeakMap witness, all seven immutable source identities, source signatures and admissions.
@@ -22,7 +23,7 @@ export function checkS434Owner138Replacement(profile:S434AggregateProfile|null,e
   const matches=drawable.filter(c=>c.city==='frankfurt'&&key(c)===key(source));if(matches.length!==1)return null;const display=matches[0];
   if(ids.some(([oid,pid])=>oid===source.objectId&&pid===source.partId)){
    if(display===source)return null;let expected=expectedDisplays.get(source);
-   if(!expected){const result=ownerF138Reconstruction([source]);if(result.stats.error||result.stats.objects!==1||result.components.length!==1)return null;expected=result.components[0];expectedDisplays.set(source,expected);}
+   if(!expected){const result=ownerF138Reconstruction([source],scope);if(result.stats.error||result.stats.objects!==1||result.components.length!==1)return null;expected=result.components[0];expectedDisplays.set(source,expected);}
    if(!exactDisplay(display,expected))return null;replaced++;
   }else{if(display.batches!==source.batches||display.origin!==source.origin||display.componentGeometry!==source.componentGeometry||display.sourceFeature!==source.sourceFeature)return null;retained++;}
  }

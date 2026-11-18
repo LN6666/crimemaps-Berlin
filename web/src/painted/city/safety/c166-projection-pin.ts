@@ -1,4 +1,6 @@
 // Own exact C166 original source and material pins; no historical converter recovery.
+type C166ExactTuple000 = readonly [0, 0, 0];
+type C166ExactTuple010 = readonly [0, 1, 0];
 export const C166_PROJECTION_REGISTRY={
   "schemaVersion": 1,
   "scope": "C166 exact single237v whole hotel body and folded mansard; separate mall/corridor/CityHall excluded; no parent/profile changes",
@@ -19,7 +21,7 @@ export const C166_PROJECTION_REGISTRY={
       12.3766076,
       51.33740655
     ],
-    "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Leipzig/safety/buildings3d/leipzig/roof-00649.json.gz",
+    "sourceLeaf": "source-evidence/20c73d84d22d21299295/safety/buildings3d/leipzig/roof-00649.json.gz",
     "sourceSHA256": "78526bef6fddd2f30f80a7b1de8ff17adf1f3507be2ce3da8acc2049f55e84bf",
     "geometrySignature": "dbc9df62",
     "componentGeometry": {
@@ -155,7 +157,7 @@ export const C166_PROJECTION_REGISTRY={
       "city": "leipzig",
       "objectId": "osm/way/24376835",
       "partId": "osm/way/24376835/component/4fc54fe9ec53ac1c5c17",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Leipzig/safety/buildings3d/leipzig/roof-00649.json.gz",
+      "sourceLeaf": "source-evidence/20c73d84d22d21299295/safety/buildings3d/leipzig/roof-00649.json.gz",
       "sourceLeafSHA256": "78526bef6fddd2f30f80a7b1de8ff17adf1f3507be2ce3da8acc2049f55e84bf",
       "rawSignature": "dbc9df62",
       "rawBuffers": [
@@ -195,12 +197,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -190.23066888818516,
           "vOrigin": 0,
           "height": 25,
@@ -215,12 +217,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -204.1979021504819,
           "vOrigin": 0,
           "height": 25,
@@ -235,12 +237,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -204.1979021504819,
           "vOrigin": 0,
           "height": 25,
@@ -255,12 +257,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -204.1979021504819,
           "vOrigin": 0,
           "height": 25,
@@ -275,12 +277,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -190.23066888818516,
           "vOrigin": 0,
           "height": 25,
@@ -295,12 +297,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -190.23066888818516,
           "vOrigin": 0,
           "height": 25,
@@ -315,12 +317,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -190.23066888818516,
           "vOrigin": 0,
           "height": 25,
@@ -335,12 +337,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -180.92388962177222,
           "vOrigin": 0,
           "height": 25,
@@ -355,12 +357,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -190.23066888818516,
           "vOrigin": 0,
           "height": 25,
@@ -375,12 +377,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -180.92388962177222,
           "vOrigin": 0,
           "height": 25,
@@ -395,12 +397,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -190.23066888818516,
           "vOrigin": 0,
           "height": 25,
@@ -415,12 +417,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -180.92388962177222,
           "vOrigin": 0,
           "height": 25,
@@ -435,12 +437,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -180.92388962177222,
           "vOrigin": 0,
           "height": 25,
@@ -455,12 +457,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -167.5396035401219,
           "vOrigin": 0,
           "height": 25,
@@ -475,12 +477,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -180.92388962177222,
           "vOrigin": 0,
           "height": 25,
@@ -495,12 +497,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -167.5396035401219,
           "vOrigin": 0,
           "height": 25,
@@ -515,12 +517,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -180.92388962177222,
           "vOrigin": 0,
           "height": 25,
@@ -535,12 +537,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -167.5396035401219,
           "vOrigin": 0,
           "height": 25,
@@ -555,12 +557,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -155.04116111339678,
           "vOrigin": 0,
           "height": 25,
@@ -575,12 +577,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -167.5396035401219,
           "vOrigin": 0,
           "height": 25,
@@ -595,12 +597,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -167.5396035401219,
           "vOrigin": 0,
           "height": 25,
@@ -615,12 +617,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -167.5396035401219,
           "vOrigin": 0,
           "height": 25,
@@ -635,12 +637,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -155.04116111339678,
           "vOrigin": 0,
           "height": 25,
@@ -655,12 +657,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -155.04116111339678,
           "vOrigin": 0,
           "height": 25,
@@ -675,12 +677,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -142.54508756376302,
           "vOrigin": 0,
           "height": 25,
@@ -695,12 +697,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -155.04116111339678,
           "vOrigin": 0,
           "height": 25,
@@ -715,12 +717,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -155.04116111339678,
           "vOrigin": 0,
           "height": 25,
@@ -735,12 +737,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -155.04116111339678,
           "vOrigin": 0,
           "height": 25,
@@ -755,12 +757,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -142.54508756376302,
           "vOrigin": 0,
           "height": 25,
@@ -775,12 +777,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -142.54508756376302,
           "vOrigin": 0,
           "height": 25,
@@ -795,12 +797,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -102.84271499342992,
           "vOrigin": 0,
           "height": 25,
@@ -815,12 +817,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -142.54508756376302,
           "vOrigin": 0,
           "height": 25,
@@ -835,12 +837,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -142.54508756376302,
           "vOrigin": 0,
           "height": 25,
@@ -855,12 +857,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -142.54508756376302,
           "vOrigin": 0,
           "height": 25,
@@ -875,12 +877,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -102.84271499342992,
           "vOrigin": 0,
           "height": 25,
@@ -895,12 +897,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -102.84271499342992,
           "vOrigin": 0,
           "height": 25,
@@ -915,12 +917,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -96.45770452619941,
           "vOrigin": 0,
           "height": 25,
@@ -935,12 +937,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -102.84271499342992,
           "vOrigin": 0,
           "height": 25,
@@ -955,12 +957,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -102.84271499342992,
           "vOrigin": 0,
           "height": 25,
@@ -975,12 +977,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -102.84271499342992,
           "vOrigin": 0,
           "height": 25,
@@ -995,12 +997,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -96.45770452619941,
           "vOrigin": 0,
           "height": 25,
@@ -1015,12 +1017,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -96.45770452619941,
           "vOrigin": 0,
           "height": 25,
@@ -1035,12 +1037,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -83.59500812963414,
           "vOrigin": 0,
           "height": 25,
@@ -1055,12 +1057,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -96.45770452619941,
           "vOrigin": 0,
           "height": 25,
@@ -1075,12 +1077,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -83.59500812963414,
           "vOrigin": 0,
           "height": 25,
@@ -1095,12 +1097,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -96.45770452619941,
           "vOrigin": 0,
           "height": 25,
@@ -1115,12 +1117,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -83.59500812963414,
           "vOrigin": 0,
           "height": 25,
@@ -1135,12 +1137,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -96.45770452619941,
           "vOrigin": 0,
           "height": 25,
@@ -1155,12 +1157,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -67.39675056410609,
           "vOrigin": 0,
           "height": 25,
@@ -1175,12 +1177,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -53.84541875262193,
           "vOrigin": 0,
           "height": 25,
@@ -1195,12 +1197,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -53.84541875262193,
           "vOrigin": 0,
           "height": 25,
@@ -1215,12 +1217,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -53.84541875262193,
           "vOrigin": 0,
           "height": 25,
@@ -1235,12 +1237,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -67.39675056410609,
           "vOrigin": 0,
           "height": 25,
@@ -1255,12 +1257,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -67.39675056410609,
           "vOrigin": 0,
           "height": 25,
@@ -1275,12 +1277,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -67.39675056410609,
           "vOrigin": 0,
           "height": 25,
@@ -1295,12 +1297,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -75.38819925540531,
           "vOrigin": 0,
           "height": 25,
@@ -1315,12 +1317,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -67.39675056410609,
           "vOrigin": 0,
           "height": 25,
@@ -1335,12 +1337,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -75.38819925540531,
           "vOrigin": 0,
           "height": 25,
@@ -1355,12 +1357,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -67.39675056410609,
           "vOrigin": 0,
           "height": 25,
@@ -1375,12 +1377,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -75.38819925540531,
           "vOrigin": 0,
           "height": 25,
@@ -1395,12 +1397,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -83.59500812963414,
           "vOrigin": 0,
           "height": 25,
@@ -1415,12 +1417,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -75.38819925540531,
           "vOrigin": 0,
           "height": 25,
@@ -1435,12 +1437,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -83.59500812963414,
           "vOrigin": 0,
           "height": 25,
@@ -1455,12 +1457,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -75.38819925540531,
           "vOrigin": 0,
           "height": 25,
@@ -1475,12 +1477,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -83.59500812963414,
           "vOrigin": 0,
           "height": 25,
@@ -1495,12 +1497,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -75.38819925540531,
           "vOrigin": 0,
           "height": 25,
@@ -1515,12 +1517,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -36.87844222261256,
           "vOrigin": 0,
           "height": 25,
@@ -1535,12 +1537,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -40.276644769831414,
           "vOrigin": 0,
           "height": 25,
@@ -1555,12 +1557,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -36.87844222261256,
           "vOrigin": 0,
           "height": 25,
@@ -1575,12 +1577,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -40.276644769831414,
           "vOrigin": 0,
           "height": 25,
@@ -1595,12 +1597,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -36.87844222261256,
           "vOrigin": 0,
           "height": 25,
@@ -1615,12 +1617,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -40.276644769831414,
           "vOrigin": 0,
           "height": 25,
@@ -1635,12 +1637,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -33.48985864519922,
           "vOrigin": 0,
           "height": 25,
@@ -1655,12 +1657,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -36.87844222261256,
           "vOrigin": 0,
           "height": 25,
@@ -1675,12 +1677,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -33.48985864519922,
           "vOrigin": 0,
           "height": 25,
@@ -1695,12 +1697,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -36.87844222261256,
           "vOrigin": 0,
           "height": 25,
@@ -1715,12 +1717,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -33.48985864519922,
           "vOrigin": 0,
           "height": 25,
@@ -1735,12 +1737,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -36.87844222261256,
           "vOrigin": 0,
           "height": 25,
@@ -1755,12 +1757,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -50.459109197471555,
           "vOrigin": 0,
           "height": 25,
@@ -1775,12 +1777,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -53.84541875262193,
           "vOrigin": 0,
           "height": 25,
@@ -1795,12 +1797,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -50.459109197471555,
           "vOrigin": 0,
           "height": 25,
@@ -1815,12 +1817,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -53.84541875262193,
           "vOrigin": 0,
           "height": 25,
@@ -1835,12 +1837,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -50.459109197471555,
           "vOrigin": 0,
           "height": 25,
@@ -1855,12 +1857,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -53.84541875262193,
           "vOrigin": 0,
           "height": 25,
@@ -1875,12 +1877,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -29.166553951993706,
           "vOrigin": 0,
           "height": 25,
@@ -1895,12 +1897,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -30.1023754595931,
           "vOrigin": 0,
           "height": 25,
@@ -1915,12 +1917,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -29.166553951993706,
           "vOrigin": 0,
           "height": 25,
@@ -1935,12 +1937,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -30.1023754595931,
           "vOrigin": 0,
           "height": 25,
@@ -1955,12 +1957,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -29.166553951993706,
           "vOrigin": 0,
           "height": 25,
@@ -1975,12 +1977,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -30.1023754595931,
           "vOrigin": 0,
           "height": 25,
@@ -1995,12 +1997,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -33.48985864519922,
           "vOrigin": 0,
           "height": 25,
@@ -2015,12 +2017,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -30.1023754595931,
           "vOrigin": 0,
           "height": 25,
@@ -2035,12 +2037,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -30.1023754595931,
           "vOrigin": 0,
           "height": 25,
@@ -2055,12 +2057,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -30.1023754595931,
           "vOrigin": 0,
           "height": 25,
@@ -2075,12 +2077,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -33.48985864519922,
           "vOrigin": 0,
           "height": 25,
@@ -2095,12 +2097,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -33.48985864519922,
           "vOrigin": 0,
           "height": 25,
@@ -2115,12 +2117,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -50.459109197471555,
           "vOrigin": 0,
           "height": 25,
@@ -2135,12 +2137,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -47.06450426946595,
           "vOrigin": 0,
           "height": 25,
@@ -2155,12 +2157,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -47.06450426946595,
           "vOrigin": 0,
           "height": 25,
@@ -2175,12 +2177,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -47.06450426946595,
           "vOrigin": 0,
           "height": 25,
@@ -2195,12 +2197,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -50.459109197471555,
           "vOrigin": 0,
           "height": 25,
@@ -2215,12 +2217,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -50.459109197471555,
           "vOrigin": 0,
           "height": 25,
@@ -2235,12 +2237,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -40.276644769831414,
           "vOrigin": 0,
           "height": 25,
@@ -2255,12 +2257,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -43.66615062883715,
           "vOrigin": 0,
           "height": 25,
@@ -2275,12 +2277,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -40.276644769831414,
           "vOrigin": 0,
           "height": 25,
@@ -2295,12 +2297,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -43.66615062883715,
           "vOrigin": 0,
           "height": 25,
@@ -2315,12 +2317,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -40.276644769831414,
           "vOrigin": 0,
           "height": 25,
@@ -2335,12 +2337,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -43.66615062883715,
           "vOrigin": 0,
           "height": 25,
@@ -2355,12 +2357,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -43.66615062883715,
           "vOrigin": 0,
           "height": 25,
@@ -2375,12 +2377,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -47.06450426946595,
           "vOrigin": 0,
           "height": 25,
@@ -2395,12 +2397,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -47.06450426946595,
           "vOrigin": 0,
           "height": 25,
@@ -2415,12 +2417,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -47.06450426946595,
           "vOrigin": 0,
           "height": 25,
@@ -2435,12 +2437,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -43.66615062883715,
           "vOrigin": 0,
           "height": 25,
@@ -2455,12 +2457,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -43.66615062883715,
           "vOrigin": 0,
           "height": 25,
@@ -2475,12 +2477,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -11.556070537806894,
           "vOrigin": 0,
           "height": 25,
@@ -2495,12 +2497,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -29.166553951993706,
           "vOrigin": 0,
           "height": 25,
@@ -2515,12 +2517,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -29.166553951993706,
           "vOrigin": 0,
           "height": 25,
@@ -2535,12 +2537,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -29.166553951993706,
           "vOrigin": 0,
           "height": 25,
@@ -2555,12 +2557,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -11.556070537806894,
           "vOrigin": 0,
           "height": 25,
@@ -2575,12 +2577,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -11.556070537806894,
           "vOrigin": 0,
           "height": 25,
@@ -2595,12 +2597,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -8.498758730916608,
           "vOrigin": 0,
           "height": 25,
@@ -2615,12 +2617,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -11.556070537806894,
           "vOrigin": 0,
           "height": 25,
@@ -2635,12 +2637,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -11.556070537806894,
           "vOrigin": 0,
           "height": 25,
@@ -2655,12 +2657,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -11.556070537806894,
           "vOrigin": 0,
           "height": 25,
@@ -2675,12 +2677,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -8.498758730916608,
           "vOrigin": 0,
           "height": 25,
@@ -2695,12 +2697,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -8.498758730916608,
           "vOrigin": 0,
           "height": 25,
@@ -2715,12 +2717,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -3.904717836105649,
           "vOrigin": 0,
           "height": 25,
@@ -2735,12 +2737,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -8.498758730916608,
           "vOrigin": 0,
           "height": 25,
@@ -2755,12 +2757,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -8.498758730916608,
           "vOrigin": 0,
           "height": 25,
@@ -2775,12 +2777,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -8.498758730916608,
           "vOrigin": 0,
           "height": 25,
@@ -2795,12 +2797,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -3.904717836105649,
           "vOrigin": 0,
           "height": 25,
@@ -2815,12 +2817,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -3.904717836105649,
           "vOrigin": 0,
           "height": 25,
@@ -2835,12 +2837,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 25,
@@ -2855,12 +2857,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -3.904717836105649,
           "vOrigin": 0,
           "height": 25,
@@ -2875,12 +2877,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -3.904717836105649,
           "vOrigin": 0,
           "height": 25,
@@ -2895,12 +2897,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -3.904717836105649,
           "vOrigin": 0,
           "height": 25,
@@ -2915,12 +2917,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 25,
@@ -2935,12 +2937,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 25,
@@ -2955,12 +2957,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -116.13995477319037,
           "vOrigin": 0,
           "height": 25,
@@ -2975,12 +2977,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -107.27311207446128,
           "vOrigin": 0,
           "height": 25,
@@ -2995,12 +2997,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -133.74440205590565,
           "vOrigin": 0,
           "height": 25,
@@ -3015,12 +3017,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -155.04116111339678,
           "vOrigin": 0,
           "height": 25,
@@ -3035,12 +3037,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -167.5396035401219,
           "vOrigin": 0,
           "height": 25,
@@ -3055,12 +3057,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -167.5396035401219,
           "vOrigin": 0,
           "height": 25,
@@ -3075,12 +3077,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -155.04116111339678,
           "vOrigin": 0,
           "height": 25,
@@ -3095,12 +3097,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -142.54508756376302,
           "vOrigin": 0,
           "height": 25,
@@ -3115,12 +3117,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -142.54508756376302,
           "vOrigin": 0,
           "height": 25,
@@ -3135,12 +3137,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -190.23066888818516,
           "vOrigin": 0,
           "height": 25,
@@ -3155,12 +3157,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -180.92388962177222,
           "vOrigin": 0,
           "height": 25,
@@ -3175,12 +3177,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -180.92388962177222,
           "vOrigin": 0,
           "height": 25,
@@ -3195,12 +3197,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -67.39675056410609,
           "vOrigin": 0,
           "height": 25,
@@ -3215,12 +3217,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -53.84541875262193,
           "vOrigin": 0,
           "height": 25,
@@ -3235,12 +3237,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -67.39675056410609,
           "vOrigin": 0,
           "height": 25,
@@ -3255,12 +3257,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -40.276644769831414,
           "vOrigin": 0,
           "height": 25,
@@ -3275,12 +3277,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -43.66615062883715,
           "vOrigin": 0,
           "height": 25,
@@ -3295,12 +3297,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -40.276644769831414,
           "vOrigin": 0,
           "height": 25,
@@ -3315,12 +3317,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -142.54508756376302,
           "vOrigin": 0,
           "height": 25,
@@ -3335,12 +3337,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -155.04116111339678,
           "vOrigin": 0,
           "height": 25,
@@ -3355,12 +3357,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -142.54508756376302,
           "vOrigin": 0,
           "height": 25,
@@ -3375,12 +3377,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -167.5396035401219,
           "vOrigin": 0,
           "height": 25,
@@ -3395,12 +3397,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -155.04116111339678,
           "vOrigin": 0,
           "height": 25,
@@ -3415,12 +3417,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -167.5396035401219,
           "vOrigin": 0,
           "height": 25,
@@ -3435,12 +3437,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -155.04116111339678,
           "vOrigin": 0,
           "height": 25,
@@ -3455,12 +3457,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -167.5396035401219,
           "vOrigin": 0,
           "height": 25,
@@ -3475,12 +3477,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -142.54508756376302,
           "vOrigin": 0,
           "height": 25,
@@ -3495,12 +3497,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -142.54508756376302,
           "vOrigin": 0,
           "height": 25,
@@ -3515,12 +3517,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -107.27311207446128,
           "vOrigin": 0,
           "height": 25,
@@ -3535,12 +3537,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -102.84271499342992,
           "vOrigin": 0,
           "height": 25,
@@ -3555,12 +3557,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -107.27311207446128,
           "vOrigin": 0,
           "height": 25,
@@ -3575,12 +3577,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -142.54508756376302,
           "vOrigin": 0,
           "height": 25,
@@ -3595,12 +3597,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -133.74440205590565,
           "vOrigin": 0,
           "height": 25,
@@ -3615,12 +3617,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 25,
@@ -3635,12 +3637,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -180.92388962177222,
           "vOrigin": 0,
           "height": 25,
@@ -3655,12 +3657,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -190.23066888818516,
           "vOrigin": 0,
           "height": 25,
@@ -3675,12 +3677,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -180.92388962177222,
           "vOrigin": 0,
           "height": 25,
@@ -3695,12 +3697,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -171.26254832819606,
           "vOrigin": 0,
           "height": 25,
@@ -3715,12 +3717,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -167.5396035401219,
           "vOrigin": 0,
           "height": 25,
@@ -3735,12 +3737,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -190.23066888818516,
           "vOrigin": 0,
           "height": 25,
@@ -3755,12 +3757,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 25,
@@ -3775,12 +3777,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -195.70150822043158,
           "vOrigin": 0,
           "height": 25,
@@ -3795,12 +3797,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 25,
@@ -3815,12 +3817,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -180.92388962177222,
           "vOrigin": 0,
           "height": 25,
@@ -3835,12 +3837,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -180.92388962177222,
           "vOrigin": 0,
           "height": 25,
@@ -3855,12 +3857,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -67.39675056410609,
           "vOrigin": 0,
           "height": 25,
@@ -3875,12 +3877,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -50.459109197471555,
           "vOrigin": 0,
           "height": 25,
@@ -3895,12 +3897,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -53.84541875262193,
           "vOrigin": 0,
           "height": 25,
@@ -3915,12 +3917,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -30.1023754595931,
           "vOrigin": 0,
           "height": 25,
@@ -3935,12 +3937,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -11.556070537806894,
           "vOrigin": 0,
           "height": 25,
@@ -3955,12 +3957,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -29.166553951993706,
           "vOrigin": 0,
           "height": 25,
@@ -3975,12 +3977,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -11.556070537806894,
           "vOrigin": 0,
           "height": 25,
@@ -3995,12 +3997,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -3.904717836105649,
           "vOrigin": 0,
           "height": 25,
@@ -4015,12 +4017,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -8.498758730916608,
           "vOrigin": 0,
           "height": 25,
@@ -4035,12 +4037,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -3.904717836105649,
           "vOrigin": 0,
           "height": 25,
@@ -4055,12 +4057,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 25,
@@ -4075,12 +4077,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 25,
@@ -4095,12 +4097,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -53.84541875262193,
           "vOrigin": 0,
           "height": 25,
@@ -4115,12 +4117,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -102.84271499342992,
           "vOrigin": 0,
           "height": 25,
@@ -4135,12 +4137,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -67.39675056410609,
           "vOrigin": 0,
           "height": 25,
@@ -4155,12 +4157,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -96.45770452619941,
           "vOrigin": 0,
           "height": 25,
@@ -4175,12 +4177,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -75.38819925540531,
           "vOrigin": 0,
           "height": 25,
@@ -4195,12 +4197,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -83.59500812963414,
           "vOrigin": 0,
           "height": 25,
@@ -4215,12 +4217,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -67.39675056410609,
           "vOrigin": 0,
           "height": 25,
@@ -4235,12 +4237,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -47.06450426946595,
           "vOrigin": 0,
           "height": 25,
@@ -4255,12 +4257,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -50.459109197471555,
           "vOrigin": 0,
           "height": 25,
@@ -4275,12 +4277,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -33.48985864519922,
           "vOrigin": 0,
           "height": 25,
@@ -4295,12 +4297,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -11.556070537806894,
           "vOrigin": 0,
           "height": 25,
@@ -4315,12 +4317,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -30.1023754595931,
           "vOrigin": 0,
           "height": 25,
@@ -4335,12 +4337,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -11.556070537806894,
           "vOrigin": 0,
           "height": 25,
@@ -4355,12 +4357,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -29.166553951993706,
           "vOrigin": 0,
           "height": 25,
@@ -4375,12 +4377,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -3.904717836105649,
           "vOrigin": 0,
           "height": 25,
@@ -4395,12 +4397,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -102.84271499342992,
           "vOrigin": 0,
           "height": 25,
@@ -4415,12 +4417,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -75.38819925540531,
           "vOrigin": 0,
           "height": 25,
@@ -4435,12 +4437,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -96.45770452619941,
           "vOrigin": 0,
           "height": 25,
@@ -4455,12 +4457,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -75.38819925540531,
           "vOrigin": 0,
           "height": 25,
@@ -4475,12 +4477,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -47.06450426946595,
           "vOrigin": 0,
           "height": 25,
@@ -4495,12 +4497,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -67.39675056410609,
           "vOrigin": 0,
           "height": 25,
@@ -4515,12 +4517,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -36.87844222261256,
           "vOrigin": 0,
           "height": 25,
@@ -4535,12 +4537,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -11.556070537806894,
           "vOrigin": 0,
           "height": 25,
@@ -4555,12 +4557,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -33.48985864519922,
           "vOrigin": 0,
           "height": 25,
@@ -4575,12 +4577,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -102.84271499342992,
           "vOrigin": 0,
           "height": 25,
@@ -4595,12 +4597,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -47.06450426946595,
           "vOrigin": 0,
           "height": 25,
@@ -4615,12 +4617,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -75.38819925540531,
           "vOrigin": 0,
           "height": 25,
@@ -4635,12 +4637,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -40.276644769831414,
           "vOrigin": 0,
           "height": 25,
@@ -4655,12 +4657,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -11.556070537806894,
           "vOrigin": 0,
           "height": 25,
@@ -4675,12 +4677,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -36.87844222261256,
           "vOrigin": 0,
           "height": 25,
@@ -4695,12 +4697,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -102.84271499342992,
           "vOrigin": 0,
           "height": 25,
@@ -4715,12 +4717,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -43.66615062883715,
           "vOrigin": 0,
           "height": 25,
@@ -4735,12 +4737,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -47.06450426946595,
           "vOrigin": 0,
           "height": 25,
@@ -4755,12 +4757,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -40.276644769831414,
           "vOrigin": 0,
           "height": 25,
@@ -4775,12 +4777,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -13.95813153466483,
           "vOrigin": 0,
           "height": 25,
@@ -4795,12 +4797,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -11.556070537806894,
           "vOrigin": 0,
           "height": 25,
@@ -4815,12 +4817,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -102.84271499342992,
           "vOrigin": 0,
           "height": 25,
@@ -4835,12 +4837,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -40.276644769831414,
           "vOrigin": 0,
           "height": 25,
@@ -4855,12 +4857,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -43.66615062883715,
           "vOrigin": 0,
           "height": 25,
@@ -4875,12 +4877,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -40.276644769831414,
           "vOrigin": 0,
           "height": 25,
@@ -4895,12 +4897,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -102.84271499342992,
           "vOrigin": 0,
           "height": 25,
@@ -4915,12 +4917,12 @@ export const C166_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C166ExactTuple000,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C166ExactTuple010,
           "uOrigin": -43.66615062883715,
           "vOrigin": 0,
           "height": 25,

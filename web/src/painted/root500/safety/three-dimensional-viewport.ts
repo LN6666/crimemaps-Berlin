@@ -1,18 +1,20 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 export type ComponentViewportBox=[number,number,number,number];
-const records=new WeakMap<BuildingComponent,{bbox:ComponentViewportBox;vertices:number;maxHeightMetres:number}>();
+export type ComponentLocalBox=[number,number,number,number,number,number];
+const records=new WeakMap<BuildingComponent,{bbox:ComponentViewportBox;localBox:ComponentLocalBox;vertices:number;maxHeightMetres:number}>();
 export const viewportBoxesOverlap=(a:ComponentViewportBox,b:ComponentViewportBox)=>a[0]<=b[2]&&a[2]>=b[0]&&a[1]<=b[3]&&a[3]>=b[1];
 /** Same Mercator model transform as renderer, including native roof/eave positions.
  * Display-only admission. Never clips or changes source geometry, identity or tags. */
 export function componentViewportRecord(c:BuildingComponent){
  const hit=records.get(c);if(hit)return hit;
- let x0=Infinity,z0=Infinity,x1=-Infinity,z1=-Infinity,vertices=0,maxHeight=0;
- for(const b of c.batches){vertices+=b.positions.length/3;for(let i=0;i<b.positions.length;i+=3){const x=b.positions[i],z=b.positions[i+2];maxHeight=Math.max(maxHeight,b.positions[i+1]);x0=Math.min(x0,x);x1=Math.max(x1,x);z0=Math.min(z0,z);z1=Math.max(z1,z);}}
+ let x0=Infinity,y0=Infinity,z0=Infinity,x1=-Infinity,y1=-Infinity,z1=-Infinity,vertices=0,maxHeight=0;
+ for(const b of c.batches){vertices+=b.positions.length/3;for(let i=0;i<b.positions.length;i+=3){const x=b.positions[i],y=b.positions[i+1],z=b.positions[i+2];maxHeight=Math.max(maxHeight,y);x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y);z0=Math.min(z0,z);z1=Math.max(z1,z);}}
  const rad=Math.PI/180,R=6378137*Math.cos(c.origin[1]*rad),oy=Math.log(Math.tan(Math.PI/4+c.origin[1]*rad/2)),pad=.1;
  const lon=(x:number)=>c.origin[0]+x/R/rad,lat=(z:number)=>(2*Math.atan(Math.exp(oy+z/R))-Math.PI/2)/rad;
  const bbox:ComponentViewportBox=[lon(x0-pad),lat(z0-pad),lon(x1+pad),lat(z1+pad)];
  if(!vertices||!Number.isSafeInteger(vertices)||!bbox.every(Number.isFinite))throw Error('Invalid native component display envelope');
- const record={bbox,vertices,maxHeightMetres:maxHeight*1.01+.1};records.set(c,record);return record;
+ const localBox:ComponentLocalBox=[x0,y0,z0,x1,y1,z1];
+ const record={bbox,localBox,vertices,maxHeightMetres:maxHeight*1.01+.1};records.set(c,record);return record;
 }
 export type ComponentViewportCamera={pitch:number;verticalFieldOfView:number;aspectRatio:number};
 /** The view cone's maximum downward ray slope bounds the horizontal displacement

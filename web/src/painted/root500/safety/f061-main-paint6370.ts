@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 import {ownerShapePatchProfile} from './owner-shape-patch-display';
 import {nativePaintSignature} from './progressive-native-signature';
 const PIN={"number":"F061-Main6370","enabled":true,"family":1647,"id":"owner-shape-F061-Main6370","city":"hamburg","objectId":"osm/way/45574500","partId":"osm/way/45574500/component/0e5473b3818ee68de406/owner-main-body6370","sourcePartId":"osm/way/45574500/component/0e5473b3818ee68de406","path":"/safety/buildings3d/owner-shape-patches/F061-Main6370.json","bytes":623303,"sha256":"fd4ea17a3de79fe7a670a6f8405692c0f8e93a6dd5e104d4562be89fd1a1c621","geometrySignature":"bb6f888f","sourceNativeGeometrySignature":"4fc8b401","sourceNativeSHA256":"81e960acb9bffd594c4bcf2a8a05cfb4158b7d05ab09fd21a4159a1c74dce7ca","retainNative":true,"notNative":true,"owner_authorized":true,"vertices":4851,"triangles":1617,"max_height_m":14.6,"bbox":[9.9899145,53.5809809,9.9906054,53.5813344],"tile_key":"owner-shape-F061-Main6370"} as const;

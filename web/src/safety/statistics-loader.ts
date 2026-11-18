@@ -1,14 +1,15 @@
 import {assetPath} from "./deployment";
 import {fetchDataJSON} from "./security";
-import {statisticsBinding} from "./statistics-binding";
+import {bindStatisticsSnapshot, statisticsSnapshotContext, type StatisticsSnapshotOptions} from "./statistics-snapshot-context";
 import type {ContentTagSummary} from "./content-tags";
 import type {MacroSummary} from "./macro-tags";
 import type {WindowCatalogue, BriefCatalogue} from "./cached-city-briefs";
 
 /** One bounded, cancellable load per map snapshot. Period changes use the saved data. */
-export async function loadSavedStatistics(city: string, generation: string, announcements: number, signal: AbortSignal) {
+export async function loadSavedStatistics(city: string, generation: string, announcements: number, signal: AbortSignal,
+  options: StatisticsSnapshotOptions = {}) {
   const path = (name: string) => assetPath(`/statistics/${name}.json`);
-  const binding = statisticsBinding(await fetchDataJSON<unknown>(path("manifest"), signal), city, generation, announcements);
+  const snapshot = bindStatisticsSnapshot(await fetchDataJSON<unknown>(path("manifest"), signal), city, generation, announcements, options);
   const [ordinary, macro, windows, briefs] = await Promise.all([
     fetchDataJSON<{summaries: ContentTagSummary[]}>(path("content-tag-summary"), signal),
     fetchDataJSON<{summaries: MacroSummary[]}>(path("macro-tag-summary"), signal),
@@ -16,12 +17,7 @@ export async function loadSavedStatistics(city: string, generation: string, anno
     fetchDataJSON<BriefCatalogue>(path("cached-briefs"), signal),
   ]);
   if (signal.aborted) throw new DOMException("Aborted", "AbortError");
-  if (!Array.isArray(ordinary.summaries) || !Array.isArray(macro.summaries) ||
-      ordinary.summaries.some(item => item.mapping_sha256 !== binding.mapping_sha256) ||
-      macro.summaries.some(item => item.mapping_sha256 !== binding.mapping_sha256) ||
-      windows.mapping_sha256 !== binding.mapping_sha256 || briefs.mapping_sha256 !== binding.mapping_sha256 ||
-      ordinary.summaries.find(item => item.key === city)?.records !== announcements ||
-      macro.summaries.find(item => item.key === city)?.records !== announcements)
-    throw Error("Saved statistics source/count bindings differ from the loaded map");
-  return {binding, ordinary: ordinary.summaries, macro: macro.summaries, windows, briefs};
+  const snapshotContext = statisticsSnapshotContext(snapshot, city, generation, announcements,
+    ordinary.summaries, macro.summaries, windows, briefs);
+  return {binding: snapshot.binding, snapshotContext, ordinary: ordinary.summaries, macro: macro.summaries, windows, briefs};
 }

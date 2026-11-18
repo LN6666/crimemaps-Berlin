@@ -9,7 +9,7 @@ export const C082_PROJECTION_PIN={
   "city": "essen",
   "objectId": "osm/way/1213665656",
   "partId": "osm/way/1213665656/component/05fdd3a4cf1b9edebb88",
-  "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Essen/safety/buildings3d/essen/roof-00719.json.gz",
+  "sourceLeaf": "source-evidence/4ce60b111967d2c66ae0/safety/buildings3d/essen/roof-00719.json.gz",
   "sourceLeafSHA256": "13d99dd5e47b642766bfd49cb6ba5fcc7ab3486f5ef893ede8736c22e9672e1f",
   "rawSignature": "bf777af2",
   "rawBuffers": [

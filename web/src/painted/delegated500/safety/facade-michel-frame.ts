@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 /** Michel-only semantic metadata on unchanged native triangles.
  * Face programs subdivide actual stage heights in fragments; never mix layout
  * identifiers between vertices of one source triangle. Detail admission waits

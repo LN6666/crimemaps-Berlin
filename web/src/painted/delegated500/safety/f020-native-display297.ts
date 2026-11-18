@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 import {nativePaintSignature} from './progressive-native-signature';
 /** Exact relation3792630/source-shared-edge inventory. Hold only redundant root display.
  * Source proof SHA256: d2e865f19215b5f66e74c86e8e8e0a3311713b526b956c7cc05c61dcdd340be5. Source getters and all native arrays remain intact. */

@@ -1,5 +1,5 @@
-import type {BuildingComponent,Identity,MeshBatch} from './building-mesh-renderer';
-import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
+import type {BuildingComponent,Identity,MeshBatch} from '../../../safety/building-mesh-types';
+import type {OwnerReconstructionStats} from '../../../safety/owner-reconstruction-stats';
 import {nativePaintSignature} from './progressive-native-signature';
 type PB=MeshBatch&{positions:number[];normals:number[];indices:number[];color:number[];kind:number};
 export const F182_IDS=[{"objectId": "osm/way/52882422", "partId": "osm/way/52882422/component/ff6cc5f258afb36a89e7", "signature": "38b7a552"}, {"objectId": "osm/way/52882423", "partId": "osm/way/52882423/component/67f53bddf8237550f64e", "signature": "49e01570"}, {"objectId": "osm/way/105654546", "partId": "osm/way/105654546/component/02b2ad0027c1da7d01bb", "signature": "f3432d12"}, {"objectId": "osm/way/276986273", "partId": "osm/way/276986273/component/7f5f8906253f72f0e0c8", "signature": "96d5f657"}];

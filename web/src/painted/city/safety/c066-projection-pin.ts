@@ -9,7 +9,7 @@ export const C066_PROJECTION_PIN={
   "city": "bremen",
   "objectId": "osm/way/247310740",
   "partId": "osm/way/247310740/component/616b372b3780166400bb",
-  "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Bremen/safety/buildings3d/bremen/roof-00873.json.gz",
+  "sourceLeaf": "source-evidence/fcf6c9843f0b42a9112d/safety/buildings3d/bremen/roof-00873.json.gz",
   "sourceLeafSHA256": "98e4bdd203b143a0f28bfd85affffb8bfcab11393d966a448964c78beb4270b9",
   "rawSignature": "ca6f35f0",
   "rawBuffers": [

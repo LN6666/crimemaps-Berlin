@@ -1,5 +1,5 @@
-import type {BuildingComponent,Identity,MeshBatch} from './building-mesh-renderer';
-import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
+import type {BuildingComponent,Identity,MeshBatch} from '../../../safety/building-mesh-types';
+import type {OwnerReconstructionStats} from '../../../safety/owner-reconstruction-stats';
 import {nativePaintSignature} from './progressive-native-signature';
 type PB=MeshBatch&{positions:number[];normals:number[];indices:number[];color:number[];kind:number};
 export const F181_ID={city:'dusseldorf',objectId:'osm/way/45774488',partId:'osm/way/45774488/component/e90259f3a28965f33560',signature:'a40c2360'};

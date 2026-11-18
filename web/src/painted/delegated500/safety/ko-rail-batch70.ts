@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 import {KO_RAIL_COHORT70 as E} from './ko-rail-connection-budget70';
 import {applyKORailConnection70,koRailConnectionReady70} from './ko-rail-connection';
 type Pin=(c:BuildingComponent)=>string|undefined;

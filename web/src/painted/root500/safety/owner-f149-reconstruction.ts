@@ -1,6 +1,6 @@
 export const F149_RECONSTRUCTION_SHA='3ad0e427ec011d7072724689815b426fdff443b3c50bc5e559f2e6793152fb52';
-import type {BuildingComponent,Identity,MeshBatch} from './building-mesh-renderer';
-import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
+import type {BuildingComponent,Identity,MeshBatch} from '../../../safety/building-mesh-types';
+import type {OwnerReconstructionStats} from '../../../safety/owner-reconstruction-stats';
 import {nativePaintSignature} from './progressive-native-signature';
 type PaintBatch=MeshBatch&{positions:number[];normals:number[];indices:number[];color:number[];kind:number;faceEdges?:number[]};
 export const F149_IDS=[{objectId:'osm/way/72843486',partId:'osm/way/72843486/component/b5af7ac674800ae1f111',signature:'28b96785',role:14},{objectId:'osm/way/174789450',partId:'osm/way/174789450/component/9548dd1fa16b1a82e913',signature:'df31f95f',role:15},{objectId:'osm/way/632222013',partId:'osm/way/632222013/component/3d0edf70ebefff3f4aef',signature:'42d873b9',role:0}];

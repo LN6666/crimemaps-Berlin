@@ -4,7 +4,7 @@
 
 ## 目标与当前基线
 
-统一POI/计数/几何/背景覆盖规则；降低数据体积并改善浏览器；完整拆分迁移；整个网站与地图中德英三语；14仓库三语主页/同系列城市图标；真实访问统计与国家累计图；安全、移动、可解释公告指标/免费AI评估、准确性与时效声明、未知地点展示、GitHub公开反馈。柏林保持14城入口。全公众文案使用所有者点名的 humanizer-zh：`/Users/liangjuanning/.codex/skills/humanizer-zh/SKILL.md`。
+统一POI/计数/几何/背景覆盖规则；降低数据体积并改善浏览器；完整拆分迁移；整个网站与地图中德英三语；14仓库三语主页/同系列城市图标；真实访问统计与国家累计图；安全、移动、可解释公告指标/免费AI评估、准确性与时效声明、未知地点展示、GitHub公开反馈。柏林保持14城入口。全公众文案使用所有者点名的 humanizer-zh：`~/.codex/skills/humanizer-zh/SKILL.md`。
 
 所有者同日随后明确取消Cloudflare反馈和统计接入，反馈、评论直接使用各城GitHub Issues与Discussions；这覆盖旧私密渠道与Cloudflare部署要求。实际网页、构建和上线清单不再依赖私密表单、邮箱接收、删除码/admin、Worker/D1/Turnstile或相关密钥，不继续OAuth、资源创建、部署或账户授权；原交付和Git历史保留，不删除用户账户及既有非本项目资源。公开留言需要GitHub账号，账号和文字可公开查看；三语入口说明须提醒勿提交个人信息，不承诺匿名或私密接收。入口首页和14城网页底部增加经典GitHub图标，分别跳转柏林入口仓库和对应城市仓库，保留Issues/Discussions入口、键盘焦点和至少44px触控区域。
 
@@ -12,7 +12,7 @@
 
 14城原批次本地交付均已完成并批准；Frankfurt已于本轮通过最终本地验收并完成原Goal。统一UI投影、单城artifact打包与正式发布仍由migration串行接入，本地交付完成不等于已经上线；已验收不代表背景POI同一范围。不得抹掉来源疑点或借审批消除技术门禁。常规业主批准已有常设授权，无需重复询问。
 
-本轮共享目录：`/Users/liangjuanning/Documents/ChatGPT/CiviFlux/.runtime/review/public-launch-20261003`。机器清单 manifest.json 含所有窗口/ID、14仓库映射、旧城市负责人、通信授权与进度文件。旧完成基线 completion-baseline.json，预存工作区状态/源码哈希保存在同目录，现有大量未提交成果必须保留。
+本轮共享目录：`.runtime/review/public-launch-20261003`。机器清单 manifest.json 含所有窗口/ID、14仓库映射、旧城市负责人、通信授权与进度文件。旧完成基线 completion-baseline.json，预存工作区状态/源码哈希保存在同目录，现有大量未提交成果必须保留。
 
 ## 仓库命名和复用
 

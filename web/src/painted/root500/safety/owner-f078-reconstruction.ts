@@ -1,5 +1,5 @@
-import type {BuildingComponent,Identity} from './building-mesh-renderer';
-import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
+import type {BuildingComponent,Identity} from '../../../safety/building-mesh-types';
+import type {OwnerReconstructionStats} from '../../../safety/owner-reconstruction-stats';
 import {nativePaintSignature} from './progressive-native-signature';
 export const F078_ID={city:'munich',objectId:'osm/way/150797531',partId:'osm/way/150797531/component/0bccb31e9c1a3f1e5381',signature:'f2280ab4'};
 const A=[.9587584129625707,-.2842222819792505],E=[.2842222819792505,.9587584129625707];

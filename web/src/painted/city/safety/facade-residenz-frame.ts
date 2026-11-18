@@ -1,5 +1,5 @@
 import {RESIDENZ_CARRIER_BINDINGS} from './facade-residenz-carrier-bindings';
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 /** Selected original surfaces only. Association evidence is separate from source parent ownership. */
 const ensembleContracts={"23458583":{"part":"osm/way/23458583/component/790ff4766b6c0355be9f","vertices":60,"family":220},"373820851":{"part":"osm/way/373820851/component/8b2dfdae7314de29751c","vertices":55,"family":222},"388187792":{"part":"osm/way/388187792/component/a9e417d67e46b7a64f50","vertices":69,"family":224},"662970966":{"part":"osm/way/662970966/component/3a2912e50612a96d8ada","vertices":55,"family":226},"662970964":{"part":"osm/way/662970964/component/9b28e545517e784def1b","vertices":25,"family":226}} as const;
 export const RESIDENZ_NATIVE_IDS=new Set(['20948',...Object.keys(ensembleContracts),...Object.keys(RESIDENZ_CARRIER_BINDINGS).map(id=>id.split('/').at(-1)!)]);

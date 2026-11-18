@@ -1,0 +1,4 @@
+import type {BuildingComponent,MeshBatch} from '../../../safety/building-mesh-types';
+import {ownerF030Identity} from './owner-f030-identities';
+type Batch=MeshBatch&{positions:number[];normals:number[];indices:number[];color:number[];frames:number[];paint:number[];triangleProvenance:any[]};
+export function ownerF030BaseMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){let offset=0,objects=0,vertices=0;for(const c of components){const match=c.city==='berlin'&&ownerF030Identity(c)&&!!c.displayEstimates?.F030Exterior;if(match)objects++;for(const b of c.batches){const count=b.positions.length/3;if(match){paint.set((b as any).paint,offset*4);frames.set((b as any).frames,offset*5);vertices+=count;}offset+=count;}}return{objects,vertices,actualVisualAccepted:false};}

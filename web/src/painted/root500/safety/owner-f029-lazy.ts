@@ -1,33 +1,17 @@
-import type {BuildingComponent} from './building-mesh-renderer';
-import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
+import type {FrozenDataScope} from '../../../safety/frozen-data-scope';
+import {createLazyOwnerRoute,scopedOwnerBuilder,type OwnerInitializationWait} from './lazy-owner-route';
 import {ownerF029Identity} from './owner-f029-identities';
 export {ownerF029Identity} from './owner-f029-identities';
-type Builder=typeof import('./owner-f029-reconstruction');
-type Wait=<T>(operation:Promise<T>)=>Promise<T>;
-const identityWait:Wait=operation=>operation;
-/** F029 only: preserve its synchronous renderer contract after a shard awaits preparation. */
-export function createOwnerF029Loader(load:()=>Promise<Builder>=()=>import('./owner-f029-reconstruction')){
- let ready:Builder|undefined,pending:Promise<Builder>|undefined;
- const needed=(components:readonly BuildingComponent[])=>components.some(c=>c.city==='berlin'&&ownerF029Identity(c));
- async function prepare(components:readonly BuildingComponent[],signal:AbortSignal,wait:Wait=identityWait){
-  signal.throwIfAborted();if(ready||!needed(components))return;
-  if(!pending){const next=Promise.resolve().then(load);pending=next;void next.catch(()=>{if(pending===next)pending=undefined;});}
-  const operation=wait(pending);
-  const value=await new Promise<Builder>((resolve,reject)=>{
-   let done=false;const cleanup=()=>{if(done)return false;done=true;signal.removeEventListener('abort',cancel);return true;};
-   const cancel=()=>{if(cleanup())reject(signal.reason??new DOMException('Aborted','AbortError'));};
-   signal.addEventListener('abort',cancel,{once:true});if(signal.aborted)cancel();
-   operation.then(value=>{if(cleanup())resolve(value);},error=>{if(cleanup())reject(error);});
-  });
-  signal.throwIfAborted();ready=value;
- }
- function builder(components:readonly BuildingComponent[]){if(ready)return ready;if(needed(components))throw Error('F029 owner builder was not prepared for this shard');}
- return {prepare,
-  reconstruct(components:BuildingComponent[]){const module=builder(components);if(module)return module.ownerF029Reconstruction(components);const stats:OwnerReconstructionStats={objects:0,vertices:0,triangles:0,originalVertices:0,sourceRetained:true,actualVisualAccepted:false,components:[]};return{components:components.map(c=>c),stats};},
-  baseMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){builder(components)?.ownerF029BaseMaterials(components,paint,frames);}
- };
-}
-const loader=createOwnerF029Loader();
-export const prepareOwnerF029Reconstruction=loader.prepare;
-export const ownerF029Reconstruction=loader.reconstruct;
-export const ownerF029BaseMaterials=loader.baseMaterials;
+// F029 keeps its copied no-match container; the shared route replaces the former
+// F029-only loader with the same prepare/cancel/retry behaviour.
+const needed=(c:BuildingComponent)=>c.city==='berlin'&&ownerF029Identity(c);
+const route=createLazyOwnerRoute('ownerF029Reconstruction',needed,true,()=>import('./owner-f029-reconstruction').then(m=>scopedOwnerBuilder(m,'ownerF029Reconstruction','ownerF029BaseMaterials')));
+export function prepareOwnerF029Reconstruction(components:readonly BuildingComponent[],signal:AbortSignal,wait?:OwnerInitializationWait){signal.throwIfAborted();return components.some(needed)?route.prepare(signal,wait):undefined;}
+export const ownerF029Reconstruction=route.reconstruct;
+export function ownerF029BaseMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array,scope?:FrozenDataScope){route.baseMaterials(components,paint,frames,scope);}
+/** Batch-scope hooks for the canonical and infill aggregates: each facade's scope
+ * position (that of its original), the loaded original's data preparation for
+ * the rows that need it, and a module-only start (undefined when loaded or unneeded). */
+export const root500DataFunctionArities:Readonly<Record<string,number>>={"ownerF029Reconstruction":1,"ownerF029BaseMaterials":3};
+export const prepareRoot500Data=route.prepareScope,startRoot500OwnerModule=route.prepareModule;

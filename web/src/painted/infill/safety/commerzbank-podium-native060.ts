@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from "../../../safety/building-mesh-types";
 import {ownerDisplayFingerprint} from './owner-display-fingerprint';
 import {COMMERZBANK_PODIUM_NATIVE060} from './commerzbank-podium-native060-data';
 const pins=new Map<string,(typeof COMMERZBANK_PODIUM_NATIVE060)[number]>(COMMERZBANK_PODIUM_NATIVE060.map(r=>[r.objectId+'|'+r.partId,r]));

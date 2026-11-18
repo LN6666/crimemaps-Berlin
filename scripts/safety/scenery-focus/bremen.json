@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "city": "bremen",
+  "purpose": "Append decorative-schematic road rows near declared 3D acceptance views; the parent subset stays byte-identical. Not traffic data and not a complete road inventory.",
+  "focus": [
+    {
+      "id": "A18-acceptance-idle",
+      "center": [8.8110026, 53.07425825],
+      "radiusMetres": 150,
+      "camera": {
+        "zoom": 18,
+        "pitch": 45,
+        "bearing": -25,
+        "canvasCss": [866, 401]
+      },
+      "evidence": "source-evidence/fa35f02e6a35e5600f67/idle-start-scene-proof.json proof.camera",
+      "decision": "source-evidence/a48623254c443eac4dfa/DECISIONS.md owner decision 2026-11-02 04:03 JST; plan R2 adopted 05:11 JST"
+    }
+  ],
+  "pins": {
+    "roadSourceSHA256": "f33df80daec13fbe4ec2825ac108a5af6c4f1c26917b8abdb55e28ef2ecb4dbc",
+    "sourceInventorySHA256": "77d6323c191a4a3e532936dea7a851bce7cb89073a93231f01184f33080ecdd2",
+    "boundarySHA256": "f19cdeb170cd5cd0b68f88f2ee7605ff0e79b17d6f84478f42cb649039738015",
+    "sourcePbfSHA256": "d436fd27ff5d754e70f77997243370c8c9718a06e1cea711e14840af5522cb3c",
+    "parentIndexSHA256": "3f1b02fb4a9a364de2575de47f9f784346c150dff673419bfaa4fe02861dacd3",
+    "parentDataSHA256": "9902047505b9a6fe14990aec07e7f982923793a8ad3653da55e5239b3bbfe03a",
+    "parentInventorySHA256": "00c1154360141b7f6311b4a880dd9f1b3098bdd9a690ab4924aa34595403df96"
+  }
+}

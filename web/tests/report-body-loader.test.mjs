@@ -17,8 +17,27 @@ async function loadModule(file) {
   return import(`data:text/javascript;base64,${Buffer.from(result.outputFiles[0].text).toString('base64')}`);
 }
 
-const {loadReportBody, clearReportBodyCache, reportBodySourceId} = await loadModule('report-body-loader.ts');
+const {loadReportBody, abortPendingReportBodyLoads, clearReportBodyCache, reportBodySourceId} = await loadModule('report-body-loader.ts');
 const {reportBodyPresentation} = await loadModule('report-body-presentation.ts');
+
+for (const stage of ['month-index', 'body-shard']) {
+  for (const status of [404, 503]) {
+    test(`${stage} HTTP ${status} retains failure without futile missing-file retry`, async (t) => {
+      const id = identity({source_id: `${stage}-${status}`});
+      const data = fixture(id, {en: 'An indexed source body.'});
+      useFetch(t, async (path) => {
+        if (stage === 'body-shard' && !path.includes('/bodies-')) return jsonResponse(data.files.get(path));
+        return jsonResponse({}, status);
+      });
+      await assert.rejects(loadReportBody(id, 'en', new AbortController().signal), error => {
+        assert.equal(error.name, 'ReportBodyLoadError');
+        assert.equal(error.retryable, status !== 404);
+        assert.match(error.message, new RegExp(`HTTP ${status}`));
+        return true;
+      });
+    });
+  }
+}
 
 const sha256 = async (text) => [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text)))]
   .map((byte) => byte.toString(16).padStart(2, '0')).join('');
@@ -194,6 +213,32 @@ test('an aborted disclosure load can be retried for the same source identity', a
   holdBody = false;
   assert.equal((await loadReportBody(id, 'zh', new AbortController().signal)).body, '再次加载成功。');
   assert.equal(requests.filter(({path}) => path.includes('/bodies-')).length, 2);
+});
+
+test('page-wide cancellation during integrity verification cannot publish a completed body', async (t) => {
+  const id = identity({source_id: 'digest-cancellation-test', source_sha256: '2'.repeat(64)});
+  const data = fixture(id, {en: 'Text whose integrity check is still pending.'});
+  useFetch(t, async (path) => data.files.has(path) ? jsonResponse(data.files.get(path)) : jsonResponse({}, 404));
+  const originalDigest = crypto.subtle.digest;
+  let beginDigest;
+  const digestStarted = new Promise((resolve) => { beginDigest = resolve; });
+  let finishDigest;
+  const digestGate = new Promise((resolve) => { finishDigest = resolve; });
+  crypto.subtle.digest = async function (...args) {
+    beginDigest();
+    await digestGate;
+    return originalDigest.apply(this, args);
+  };
+  t.after(() => { crypto.subtle.digest = originalDigest; });
+  const caller = new AbortController();
+  const loading = loadReportBody(id, 'en', caller.signal);
+  await digestStarted;
+  abortPendingReportBodyLoads();
+  assert.equal(caller.signal.aborted, false, 'page-wide cancellation uses its internal signal');
+  finishDigest();
+  await assert.rejects(loading, {name: 'AbortError'});
+  crypto.subtle.digest = originalDigest;
+  assert.equal((await loadReportBody(id, 'en', caller.signal)).body, 'Text whose integrity check is still pending.');
 });
 
 test('report cards keep the original police link and mount the lazy disclosure for each row', async () => {

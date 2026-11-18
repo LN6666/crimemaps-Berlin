@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 import {nativePaintSignature} from './progressive-native-signature';
 import {beTVBaseRepairPlan1} from './be-tv-base-repair';
 import {beTVBaseWestFold70BaseRows} from './be-tv-base-westfold70';

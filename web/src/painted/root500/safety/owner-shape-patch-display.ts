@@ -1,6 +1,7 @@
+import {OWNER_SHAPE_PATCH_FOCUS} from './owner-shape-patch-focus';
 import {nativePaintSignature} from './progressive-native-signature';
 import {OWNER_SHAPE_PATCH_PROFILES} from './owner-shape-patch-profiles';
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 export type OwnerShapePatchProfile=typeof OWNER_SHAPE_PATCH_PROFILES[number];
 export const ownerShapePatchProfiles=(city:string)=>OWNER_SHAPE_PATCH_PROFILES.filter(p=>p.city===city);
 export const ownerShapePatchProfile=(path:string)=>OWNER_SHAPE_PATCH_PROFILES.find(p=>p.path===path);
@@ -19,3 +20,10 @@ export function ownerShapePatchDisplayRows(rows:BuildingComponent[],profileOf:(c
  return rows.filter(c=>(c.partId!=='osm/way/37785744/component/2128d951c12116d7ea0d/owner-source-recovery311-upper'||f058Ready)&&!active.some(p=>c.objectId===p.objectId&&c.partId===p.sourcePartId||('replacesNative'in p&&p.replacesNative.some(r=>c.objectId===r.objectId&&c.partId===r.partId&&nativeLeaf(c)===r.nativeLeafSHA256))));
 }
 export function ownerShapePatchMetadata(rows:BuildingComponent[],profileOf:(c:BuildingComponent)=>OwnerShapePatchProfile|undefined){const components=rows.flatMap(c=>{const p=profileOf(c);return p?[{number:p.number,objectId:c.objectId,partId:c.partId,sourcePartId:p.sourcePartId,patchSHA256:p.sha256,vertices:p.vertices,triangles:p.triangles,geometryRole:'owner-authorized-reconstruction' as const}]:[];});return {components,geometryAdded:components.reduce((n,c)=>n+c.vertices,0),notNative:true as const};}
+
+/** Only the source revision whose full mesh was measured may supply pre-load bounds. */
+export function ownerShapePatchFocusComponents(profile:OwnerShapePatchProfile){
+ const row=OWNER_SHAPE_PATCH_FOCUS.find(row=>row.id===profile.id&&row.city===profile.city&&row.sha256===profile.sha256);
+ if(!row||row.components.some(c=>c.objectId!==profile.objectId||c.partId!==profile.partId))throw Error('Owner shape patch focus source mismatch');
+ return row.components;
+}

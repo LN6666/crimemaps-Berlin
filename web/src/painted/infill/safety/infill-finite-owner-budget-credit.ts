@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from "../../../safety/building-mesh-types";
 import {ownerDisplayFingerprint} from './owner-display-fingerprint';
 import {FINITE_OWNER_BUDGET_DATA,FINITE_OWNER_BUDGET_SHA256} from './infill-finite-owner-budget-data';
 const models=FINITE_OWNER_BUDGET_DATA,byIdentity=new Map<string,typeof models>();

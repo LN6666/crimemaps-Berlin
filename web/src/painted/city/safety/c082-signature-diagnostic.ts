@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 import {boundedBufferSHA256} from './s528-projection-sha256';
 import {nativePaintSignature} from './progressive-native-signature';
 // Diagnostic only: no alternate admission, quantization, rounding or expected-hash update.

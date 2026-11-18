@@ -19,7 +19,7 @@ export const C247_PROJECTION_REGISTRY={
       9.75077425,
       52.3734261
     ],
-    "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Hannover/safety/buildings3d/hannover/flat-00194.json.gz",
+    "sourceLeaf": "source-evidence/60c0bc7bfd502423a8f8/safety/buildings3d/hannover/flat-00194.json.gz",
     "sourceSHA256": "dcab681f7bef586458ffe622df3cbc17dd4e628642c0df73a9ad414b1e40dae8",
     "geometrySignature": "ab5d0d90",
     "componentGeometry": {
@@ -140,7 +140,7 @@ export const C247_PROJECTION_REGISTRY={
       "city": "hannover",
       "objectId": "osm/way/638787444",
       "partId": "osm/way/638787444/component/9a3e0effbc70b63a664a",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Hannover/safety/buildings3d/hannover/roof-00629.json.gz",
+      "sourceLeaf": "source-evidence/60c0bc7bfd502423a8f8/safety/buildings3d/hannover/roof-00629.json.gz",
       "sourceLeafSHA256": "c6cefa6e5f5150a7684472432060615d88978940cd4ece3ef93e926de13bbfc5",
       "rawSignature": "e3f65280",
       "rawBuffers": [

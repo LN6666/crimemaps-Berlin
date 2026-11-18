@@ -1,0 +1,3 @@
+import type {BuildingComponent} from "../../../safety/building-mesh-types";
+// The original material writer needs only displayed component sidecars, not the frozen table.
+export function infillFrankfurtLowOfficeBulk70BaseMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){let offset=0,objects=0,vertices=0;for(const c of components){const match=c.city==='frankfurt'&&!!c.displayEstimates?.infillFrankfurtLowOfficeBulk70;if(match)objects++;for(const b of c.batches){const n=b.positions.length/3;if(match){paint.set((b as any).paint,offset*4);frames.set((b as any).frames,offset*5);vertices+=n;}offset+=n;}}return {objects,vertices,actualVisualAccepted:false};}

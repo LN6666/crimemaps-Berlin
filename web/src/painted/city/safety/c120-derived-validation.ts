@@ -1,4 +1,4 @@
-import type{BuildingComponent}from'./building-mesh-renderer';
+import type{BuildingComponent}from'../../../safety/building-mesh-types';
 import{boundedBufferSHA256}from'./s528-projection-sha256';
 import{C120_PROJECTION_REGISTRY as registry}from'./c120-projection-pin';
 import{C120_DERIVED_FIXTURES as fixtures}from'./c120-derived-normal-fixtures';

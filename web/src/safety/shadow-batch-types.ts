@@ -1,0 +1,1 @@
+export type ShadowBatchAdmission={verifiedBoundarySHA256:string;profile:{schema_version:1;city:string;source_boundary_sha256:string;fixed_vector:readonly number[];swept_bbox_actual_city_covered:true;includes_growth_zero_to_one:true;status:'display-schematic'};components:readonly{objectId:string;partId:string;triangleCount:number}[]};

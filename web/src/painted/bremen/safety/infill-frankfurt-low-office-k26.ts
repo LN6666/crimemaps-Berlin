@@ -1,2 +1,2 @@
-// Identical frozen source and runtime dependency graph; preserve one implementation.
-export * from '../../infill/safety/infill-frankfurt-low-office-k26';
+// Keep the original API while admitting data recipes only for a prepared city.
+export {infillFrankfurtLowOfficeK26Identity,infillFrankfurtLowOfficeK26Reconstruction,infillFrankfurtLowOfficeK26BaseMaterials} from '../../infill/safety/bremen-infill-owner-routes';

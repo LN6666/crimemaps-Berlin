@@ -67,7 +67,7 @@ test("category refresh cannot expose month rows before their translations are re
     await requested;
     // This refresh used to make the untranslated source rows selectable.
     await page.getByRole("combobox", {name: "Report category", exact: true}).selectOption("raub");
-    await expect(page.locator("#map-status")).toContainText("Loading the selected month…");
+    await expect(page.locator("#map-status")).toContainText("Loading the selected period…");
     await expect(page.getByRole("heading", {name: "Fixture announcement", exact: true})).toHaveCount(0);
     releaseTranslation();
     const card = page.getByRole("listitem").filter({has: page.locator(`a[href="${source}"]`)}).first();

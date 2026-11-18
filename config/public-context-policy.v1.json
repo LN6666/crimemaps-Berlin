@@ -379,9 +379,9 @@
   "changes_source_context_semantics_or_matching": false,
   "approved_label_catalog_basis": "Existing deliberately authored public POI type labels with all three locale resources; excludes control labels. This does not approve new source/native identity or category decisions.",
   "label_snapshot_file_sha256": {
-    "/Users/liangjuanning/Documents/ChatGPT/CiviFlux/.runtime/review/public-launch-20261003/language-en/en.json": "27d1c5c20ee39619d9026953be9fd2e7e11ed0ca17535985e38f8fbc0ae08a6b",
-    "/Users/liangjuanning/Documents/ChatGPT/CiviFlux/.runtime/review/public-launch-20261003/language-de/de.json": "dc7ca7c67739af8e0a20865328bba8209bfbe2d634a18c6fc9d0088f180059c0",
-    "/Users/liangjuanning/Documents/ChatGPT/CiviFlux/.runtime/review/public-launch-20261003/language-zh/zh.json": "968167ffd1e84cf05f8978c52b0668793d88c4d1384ec6b5ccb00e0ba618fba2"
+    "source-evidence/e2017ed339b229bae257/en.json": "27d1c5c20ee39619d9026953be9fd2e7e11ed0ca17535985e38f8fbc0ae08a6b",
+    "source-evidence/1b7ddd343e899139ccd6/de.json": "dc7ca7c67739af8e0a20865328bba8209bfbe2d634a18c6fc9d0088f180059c0",
+    "source-evidence/8191e3d111d08096e87c/zh.json": "968167ffd1e84cf05f8978c52b0668793d88c4d1384ec6b5ccb00e0ba618fba2"
   },
   "missing_three_locale_labels": []
 }

@@ -1,4 +1,5 @@
 import {FACADE_PAINT_PRIMITIVE_GLSL} from './facade-paint-primitives';
+import {shaderSourceParts,emitShaderSource,shaderSourceBounds} from '../../../safety/render-runtime/shader-source-budget';
 /**
  * Procedural paint-only facade detail for the native building mesh.
  *
@@ -7,7 +8,7 @@ import {FACADE_PAINT_PRIMITIVE_GLSL} from './facade-paint-primitives';
  * derivatives to be available. It changes fragment colour only; it does not
  * displace or rebuild geometry.
  */
-export const FACADE_PAINT_FRAGMENT_GLSL = `
+const FACADE_PAINT_FRAGMENT_PARTS = shaderSourceParts`
 ${FACADE_PAINT_PRIMITIVE_GLSL}
 vec3 fpSurfaceOnly(vec3 base,vec2 uv,float material);
 vec3 fpLayoutFacade(vec3 base,vec3 p,vec3 normal,vec4 frame,float layoutId);
@@ -794,3 +795,6 @@ vec3 paintedFacade(vec3 base, vec3 p, vec3 normal, vec4 frame, float family) {
   return mix(base, color, detail);
 }
 `;
+
+export function getFacadePaintFragmentGLSL(){return emitShaderSource(FACADE_PAINT_FRAGMENT_PARTS);}
+export function describeFacadePaintSourceBounds(_city?:string,_sourceKey?:string,_scope?:unknown){return shaderSourceBounds(FACADE_PAINT_FRAGMENT_PARTS,{authorityTrace:['church/facade-paint-fragment']});}

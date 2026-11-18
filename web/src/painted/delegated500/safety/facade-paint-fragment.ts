@@ -1,21 +1,24 @@
+import {utf8ByteLength} from '../../../safety/utf8-byte-length';
+import {shaderSourceParts,shaderSourceText,emitShaderSource,shaderSourceBounds,joinShaderSourceParts,type ShaderSourcePart} from '../../../safety/render-runtime/shader-source-budget';
+import type {FrozenDataScope} from '../../../safety/frozen-data-scope';
 import {HC70_GLSL,HC70_DISPATCH,HC70_FAMILIES} from './supplement-hc70';
 import {SUPPLEMENT_BATCH1_GLSL,SUPPLEMENT_BATCH1_DISPATCH,SUPPLEMENT_BATCH1_FAMILIES} from './supplement-batch1';
-import{F340_PROGRAM_SOURCE_SHA,HANNOVER_FAMILIES822,HANNOVER_PROGRAMS822}from'./f340-program822';
-import{f4054Reachable672}from'./f4054-reachable672';
-import{chilehausRect608}from'./chilehaus-rect608';
-import{maritimePartition586}from'./maritime-partition586';
-import{legacyNd169Compile591}from'./legacy-nd169-compile591';
-import{sharedPartition577}from'./shared-partition577';
+import{F340_PROGRAM_SOURCE_SHA,HANNOVER_FAMILIES822,HANNOVER_PROGRAMS822_RESOURCE,getHANNOVER_PROGRAMS822}from'./f340-program822';
+import{f4054Reachable672,f4054Reachable672SourcePart}from'./f4054-reachable672';
+import{chilehausRect608,chilehausRect608SourcePart}from'./chilehaus-rect608';
+import{maritimePartition586,maritimePartition586SourcePart}from'./maritime-partition586';
+import{legacyNd169Compile591SourcePart}from'./legacy-nd169-compile591';
+import{sharedPartition577,sharedPartition577SourcePart}from'./shared-partition577';
 import {F269_RECOVERY_GLSL284} from './f269-recovery-glsl284';
 import {F061_RECOVERY_GLSL279} from './f061-recovery-glsl279';
 import {F061_COURT_GLSL829} from './f061-court-glsl829';
 import {F061_NAVE_GLSL833} from './f061-nave-glsl833';
 import {F063_RECOVERY_GLSL272} from './f063-recovery-glsl272';
-import {BERLIN_PROGRAM_SOURCE_SHA,BERLIN_PROGRAM_FAMILIES,BERLIN_PROGRAM_GLSL} from './progressive-berlin-programs';
-import {PROGRESSIVE_CITY_BASELINE_GLSL,PROGRESSIVE_CITY_EXTRA_GLSL,PROGRESSIVE_CITY_SOURCE_FULL_SHA} from './progressive-feature-cities';
+import {BERLIN_PROGRAM_SOURCE_SHA,BERLIN_PROGRAM_FAMILIES,BERLIN_PROGRAM_GLSL_RESOURCE,getBERLIN_PROGRAM_GLSL} from './progressive-berlin-programs';
+import {PROGRESSIVE_CITY_BASELINE_GLSL,getPROGRESSIVE_CITY_EXTRA_GLSL,PROGRESSIVE_CITY_SOURCE_FULL_SHA} from './progressive-feature-cities';
 import {PROGRESSIVE_FEATURE_GLSL,PROGRESSIVE_FEATURE_SHA} from './progressive-feature-glsl';
 import {FACADE_PAINT_PRIMITIVE_GLSL} from './facade-paint-primitives';
-import {HAMBURG_PROGRAM_SOURCE_SHA,HAMBURG_PROGRAM_FAMILIES,HAMBURG_PROGRAM_GLSL} from './progressive-hamburg-programs';
+import {HAMBURG_PROGRAM_SOURCE_SHA,HAMBURG_PROGRAM_FAMILIES,HAMBURG_PROGRAM_GLSL_RESOURCE,getHAMBURG_PROGRAM_GLSL} from './progressive-hamburg-programs';
 /**
  * Procedural paint-only facade detail for the native building mesh.
  *
@@ -24,7 +27,7 @@ import {HAMBURG_PROGRAM_SOURCE_SHA,HAMBURG_PROGRAM_FAMILIES,HAMBURG_PROGRAM_GLSL
  * derivatives to be available. It changes fragment colour only; it does not
  * displace or rebuild geometry.
  */
-const makeFacadePaintFragment = (progressive:string,dispatchName:string,includeF063=false,includeF061=false,includeF269=false)=>`
+const facadePaintTemplate = (progressive:string|ShaderSourcePart,dispatchName:string,includeF063=false,includeF061=false,includeF269=false)=>shaderSourceParts`
 ${FACADE_PAINT_PRIMITIVE_GLSL}
 ${SUPPLEMENT_BATCH1_GLSL}
 ${HC70_GLSL}
@@ -476,9 +479,9 @@ vec3 fpOrdinaryFacade(vec3 base, float u, float y, float width, float height) {
   return fpLayer(plaster, top, trim, 0.08);
 }
 
-${legacyNd169Compile591(progressive)}
+${legacyNd169Compile591SourcePart(typeof progressive==='string'?shaderSourceText(progressive):progressive)}
 ${includeF063?F063_RECOVERY_GLSL272:''}
-${includeF061?F061_NAVE_GLSL833+F061_COURT_GLSL829+F061_RECOVERY_GLSL279:''}
+${includeF061?joinShaderSourceParts([F061_NAVE_GLSL833,F061_COURT_GLSL829,F061_RECOVERY_GLSL279]):''}
 ${includeF269?F269_RECOVERY_GLSL284:''}
 vec3 paintedFacade(vec3 base, vec3 p, vec3 normal, vec4 frame, float family) {
 ${SUPPLEMENT_BATCH1_DISPATCH}
@@ -487,7 +490,7 @@ ${HC70_DISPATCH}
 ${includeF269?'  if(abs(family-1648.)<.25)return f269Recovery284(base,vec3(frame.x,p.y,frame.y),normal,frame,family);':''}
 ${includeF061?'  if(abs(family-1647.)<.25){if(frame.w>=8330.&&frame.w<8340.)return f061Nave833(base,vec3(frame.x,p.y,frame.y),normal,frame,family);if(frame.w>8290.)return f061Court829(base,vec3(frame.x,p.y,frame.y),normal,frame.w);return f061Tower279(base,vec3(frame.x,p.y,frame.y),normal,frame,family);}':''}
 ${includeF063?'  if(abs(family-1646.)<.25)return f063RecoveredDispatch272(base,vec3(frame.x,p.y,frame.y),normal,frame,family);':''}
-${progressive.includes('vec3 frozenHannover533(')?'  if(family==364.||family==365.||family==366.||family==367.||family==427.||family==428.)return '+dispatchName+'(base,p,normal,frame,floor(family+.5));':''}
+${(typeof progressive!=='string'||progressive.includes('vec3 frozenHannover533('))?'  if(family==364.||family==365.||family==366.||family==367.||family==427.||family==428.)return '+dispatchName+'(base,p,normal,frame,floor(family+.5));':''}
   if (family>=1000.0) return ${dispatchName}(base,p,normal,frame,floor(family+0.5));
   if (family==-98.0 || abs(family)<0.5) return base;
   if (((family>=120.0 && family<=149.0)||(family>=150.0 && family<170.0)||family==171.0||(family>=180.0&&family<=211.0)||(family>=220.0&&family<=233.0)) && frame.z>0.0 && frame.w>0.0) return fpLayoutFacade(base,p,normal,frame,family);
@@ -545,31 +548,93 @@ ${progressive.includes('vec3 frozenHannover533(')?'  if(family==364.||family==36
 }
 `;
 
-export const FACADE_PAINT_FRAGMENT_GLSL = makeFacadePaintFragment(PROGRESSIVE_FEATURE_GLSL,'progressiveFeatureDispatch',true,true,true);
+const makeFacadePaintFragment=(progressive:string,dispatchName:string,includeF063=false,includeF061=false,includeF269=false)=>emitShaderSource(facadePaintTemplate(progressive,dispatchName,includeF063,includeF061,includeF269));
+export function getFacadePaintFragmentGLSL(){return makeFacadePaintFragment(PROGRESSIVE_FEATURE_GLSL,'progressiveFeatureDispatch',true,true,true);}
 export function paintProgramPartitionEnabled(city:string){return (city==='hannover'&&String(F340_PROGRAM_SOURCE_SHA)===PROGRESSIVE_FEATURE_SHA)||(city==='hamburg'&&HAMBURG_PROGRAM_SOURCE_SHA===PROGRESSIVE_FEATURE_SHA)||(city==='berlin'&&String(BERLIN_PROGRAM_SOURCE_SHA)===PROGRESSIVE_FEATURE_SHA);}
 const shared577Enabled=()=>typeof location!=='undefined'&&location.hostname==='127.0.0.1'&&new URLSearchParams(location.search).get('diagnostics')==='1'&&new URLSearchParams(location.search).get('review303')==='44';
-export function paintProgramKey(family:number,city='hamburg'){if(HC70_FAMILIES.has(Math.round(family)))return 'supplement-hc70';if(SUPPLEMENT_BATCH1_FAMILIES.has(Math.round(family)))return 'supplement-batch1';if(city==='hannover')return HANNOVER_FAMILIES822[String(family)]??'base';if(city==='hamburg'&&shared577Enabled()){const shared=sharedPartition577(HAMBURG_PROGRAM_GLSL,family);if(shared)return shared.key;}if(city==='hamburg'&&Math.abs(family-1647)<.25)return 'F061-recovery279';if(city==='hamburg'&&Math.abs(family-1646)<.25)return 'F063-recovery272';return (city==='berlin'?BERLIN_PROGRAM_FAMILIES:HAMBURG_PROGRAM_FAMILIES)[String(family)]??'base';}
-const partitionFragments=new Map<string,string>();
-export function paintProgramFragment(key:string,city='hamburg'){
+export function paintProgramKey(family:number,city='hamburg',scope?:FrozenDataScope){if(HC70_FAMILIES.has(Math.round(family)))return 'supplement-hc70';if(SUPPLEMENT_BATCH1_FAMILIES.has(Math.round(family)))return 'supplement-batch1';if(city==='hannover')return HANNOVER_FAMILIES822[String(family)]??'base';if(city==='hamburg'&&shared577Enabled()){const members=[4980,4981,4982,4983,4984].includes(family)?[4980,4981,4982,4983,4984]:[4920,4921,4922].includes(family)?[4920,4921,4922]:[];if(members.length)scope!.assertSelection(HAMBURG_PROGRAM_GLSL_RESOURCE,members.map(member=>'f'+member));const shared=members.length?sharedPartition577(getHAMBURG_PROGRAM_GLSL(scope),family):undefined;if(shared)return shared.key;}if(city==='hamburg'&&Math.abs(family-1647)<.25)return 'F061-recovery279';if(city==='hamburg'&&Math.abs(family-1646)<.25)return 'F063-recovery272';return (city==='berlin'?BERLIN_PROGRAM_FAMILIES:HAMBURG_PROGRAM_FAMILIES)[String(family)]??'base';}
+export function paintProgramFragment(key:string,city='hamburg',scope?:FrozenDataScope){
+ const partitionFragments=new Map<string,string>();
  if(key==='supplement-batch1'||key==='supplement-hc70')return makeFacadePaintFragment('vec3 progressiveFeatureDispatchCity(vec3 base,vec3 p,vec3 normal,vec4 frame,float family){return base;}','progressiveFeatureDispatchCity');
  const cacheKey=city+':'+key;
- if(city==='hannover'&&String(F340_PROGRAM_SOURCE_SHA)===PROGRESSIVE_FEATURE_SHA){const source=HANNOVER_PROGRAMS822[key];if(source===undefined)throw Error('Unknown finite Hannover partition');let value=partitionFragments.get(cacheKey);if(value===undefined){value=makeFacadePaintFragment(source,'progressiveFeatureDispatchCity');partitionFragments.set(cacheKey,value);}return value;}
+ if(city==='hannover'&&String(F340_PROGRAM_SOURCE_SHA)===PROGRESSIVE_FEATURE_SHA){scope!.assertSelection(HANNOVER_PROGRAMS822_RESOURCE,[key]);const source=getHANNOVER_PROGRAMS822(scope)[key];if(source===undefined)throw Error('Unknown finite Hannover partition');let value=partitionFragments.get(cacheKey);if(value===undefined){value=makeFacadePaintFragment(source,'progressiveFeatureDispatchCity');partitionFragments.set(cacheKey,value);}return value;}
  if(city==='hamburg'&&key==='F061-recovery279'){let own=partitionFragments.get(cacheKey);if(own===undefined){own=makeFacadePaintFragment('vec3 progressiveFeatureDispatchCity(vec3 base,vec3 p,vec3 normal,vec4 frame,float family){return base;}','progressiveFeatureDispatchCity',false,true);partitionFragments.set(cacheKey,own);}return own;}
  if(city==='hamburg'&&key==='F063-recovery272'){let own=partitionFragments.get(cacheKey);if(own===undefined){own=makeFacadePaintFragment('vec3 progressiveFeatureDispatchCity(vec3 base,vec3 p,vec3 normal,vec4 frame,float family){return base;}','progressiveFeatureDispatchCity',true);partitionFragments.set(cacheKey,own);}return own;}
- const shared=city==='hamburg'&&shared577Enabled()&&key.startsWith('shared577-')?sharedPartition577(HAMBURG_PROGRAM_GLSL,Number(key.slice(10))):undefined;
- let source=shared?.source??(city==='berlin'?BERLIN_PROGRAM_GLSL:HAMBURG_PROGRAM_GLSL)[key];if(source===undefined)throw Error('Unknown paint program partition');if(city==='hamburg'&&shared577Enabled()){source=maritimePartition586(source,key)??source;source=chilehausRect608(source,key)??source;source=f4054Reachable672(source,key)??source;}
+ const catalogKeys=key==='shared577-4980'?['f4980','f4981','f4982','f4983','f4984']:key==='shared577-4920'?['f4920','f4921','f4922']:[key];scope!.assertSelection(city==='berlin'?BERLIN_PROGRAM_GLSL_RESOURCE:HAMBURG_PROGRAM_GLSL_RESOURCE,catalogKeys);
+ const shared=city==='hamburg'&&shared577Enabled()&&key.startsWith('shared577-')?sharedPartition577(getHAMBURG_PROGRAM_GLSL(scope),Number(key.slice(10))):undefined;
+ let source=shared?.source??(city==='berlin'?getBERLIN_PROGRAM_GLSL(scope):getHAMBURG_PROGRAM_GLSL(scope))[key];if(source===undefined)throw Error('Unknown paint program partition');if(city==='hamburg'&&shared577Enabled()){source=maritimePartition586(source,key)??source;source=chilehausRect608(source,key)??source;source=f4054Reachable672(source,key)??source;}
  let value=partitionFragments.get(cacheKey);if(value===undefined){value=makeFacadePaintFragment(source,'progressiveFeatureDispatchCity');partitionFragments.set(cacheKey,value);}return value;
 }
-const cityPaintFragments=new Map<string,string>();
-export function facadePaintFragmentForCity(city:string):string {
- const extra=PROGRESSIVE_CITY_SOURCE_FULL_SHA===PROGRESSIVE_FEATURE_SHA?PROGRESSIVE_CITY_EXTRA_GLSL[city]:undefined;
- if(extra===undefined)return FACADE_PAINT_FRAGMENT_GLSL;
+type FacadeSourceObservation={specialized:boolean;baselinePreservedVerbatim:boolean};
+const facadeSourceObservations=new WeakMap<FrozenDataScope,Map<string,FacadeSourceObservation>>();
+function observeFacadePaintSource(city:string,specialized:boolean,scope?:FrozenDataScope){
+ if(!scope||scope.stats.disposed)return;
+ let observations=facadeSourceObservations.get(scope);if(!observations){observations=new Map();facadeSourceObservations.set(scope,observations);}
+ observations.set(city,{specialized,baselinePreservedVerbatim:specialized});
+}
+function facadeSourceMetadata(city:string,scope?:FrozenDataScope){
+ const observed=scope&&!scope.stats.disposed?facadeSourceObservations.get(scope)?.get(city):undefined;
+ return {city,specialized:observed?.specialized??null,sourceSHA256:PROGRESSIVE_FEATURE_SHA,generatedSourceSHA256:PROGRESSIVE_CITY_SOURCE_FULL_SHA,sourceKind:null as 'city'|'full'|'partition'|null,fragmentBytes:null as number|null,fullFragmentBytes:null as number|null,baselinePreservedVerbatim:observed?.baselinePreservedVerbatim??null};
+}
+export function facadePaintFragmentForCity(city:string,scope?:FrozenDataScope):string {
+ const cityPaintFragments=new Map<string,string>();
+ const extra=PROGRESSIVE_CITY_SOURCE_FULL_SHA===PROGRESSIVE_FEATURE_SHA?getPROGRESSIVE_CITY_EXTRA_GLSL(scope)[city]:undefined;
+ observeFacadePaintSource(city,extra!==undefined,scope);
+ if(extra===undefined)return getFacadePaintFragmentGLSL();
  let fragment=cityPaintFragments.get(city);
  if(fragment===undefined){fragment=makeFacadePaintFragment(PROGRESSIVE_CITY_BASELINE_GLSL+extra,'progressiveFeatureDispatchCity',city==='hamburg',city==='hamburg',city==='bremen');cityPaintFragments.set(city,fragment);}
  return fragment;
 }
 
-export function facadePaintSpecializationForCity(city:string){
- const specialized=PROGRESSIVE_CITY_SOURCE_FULL_SHA===PROGRESSIVE_FEATURE_SHA&&PROGRESSIVE_CITY_EXTRA_GLSL[city]!==undefined;
- return {city,specialized,sourceSHA256:PROGRESSIVE_FEATURE_SHA,generatedSourceSHA256:PROGRESSIVE_CITY_SOURCE_FULL_SHA,fragmentBytes:new TextEncoder().encode(facadePaintFragmentForCity(city)).byteLength,fullFragmentBytes:new TextEncoder().encode(FACADE_PAINT_FRAGMENT_GLSL).byteLength,baselinePreservedVerbatim:specialized};
+export function facadePaintSpecializationForCity(city:string,scope?:FrozenDataScope){return facadeSourceMetadata(city,scope);}
+
+/** Facade maps are call-local scratch; prepared plans own the one retained source. */
+export function clearDelegated500PaintSources(_scope?:FrozenDataScope):void{}
+
+export const delegated500DataFunctionArities={"paintProgramKey":2,"paintProgramFragment":2,"facadePaintFragmentForCity":1,"facadePaintSpecializationForCity":1,"describeFacadePaintSource":3,"describeFacadePaintSourceBounds":2} as const;
+
+/** Physical catalogue closure for the original pure family routing. Shared577
+ * must verify every member source before its normalized logical key can win. */
+export function delegated500ProgramCatalogKeys(families:readonly number[],city:string):readonly string[]{
+ const keys=new Set<string>(['base']);
+ for(const family of families){
+  if(HC70_FAMILIES.has(Math.round(family))||SUPPLEMENT_BATCH1_FAMILIES.has(Math.round(family)))continue;
+  if(city==='hannover'){keys.add(HANNOVER_FAMILIES822[String(family)]??'base');continue;}
+  if(city==='hamburg'&&shared577Enabled()){for(const members of [[4980,4981,4982,4983,4984],[4920,4921,4922]])if(members.includes(family))for(const member of members)keys.add('f'+member);}
+  if(city==='hamburg'&&(Math.abs(family-1647)<.25||Math.abs(family-1646)<.25))continue;
+  keys.add((city==='berlin'?BERLIN_PROGRAM_FAMILIES:HAMBURG_PROGRAM_FAMILIES)[String(family)]??'base');
+ }
+ return[...keys];
+}
+
+/** Describe only the source already admitted by the source workspace. */
+export function describeFacadePaintSource(city:string,source:string,kind:'city'|'full'|'partition',scope?:FrozenDataScope){
+ const metadata=facadePaintSpecializationForCity(city,scope),bytes=utf8ByteLength(source);
+ return {...metadata,sourceKind:kind,fragmentBytes:bytes,fullFragmentBytes:kind==='full'?bytes:null};
+}
+
+/** Select the same prepared inputs as the admitted producer. No full paint
+ * output or normalized shared partition is assembled to obtain this bound. */
+export function describeFacadePaintSourceBounds(city:string,sourceKey:string|undefined,scope:FrozenDataScope){
+ let raw:ShaderSourcePart;
+ if(sourceKey===undefined){
+  const extra=PROGRESSIVE_CITY_SOURCE_FULL_SHA===PROGRESSIVE_FEATURE_SHA?getPROGRESSIVE_CITY_EXTRA_GLSL(scope)[city]:undefined;
+  raw=extra===undefined?facadePaintTemplate(PROGRESSIVE_FEATURE_GLSL,'progressiveFeatureDispatch',true,true,true):facadePaintTemplate(joinShaderSourceParts([PROGRESSIVE_CITY_BASELINE_GLSL,extra]),'progressiveFeatureDispatchCity',city==='hamburg',city==='hamburg',city==='bremen');
+ }else{
+  const key=sourceKey,empty='vec3 progressiveFeatureDispatchCity(vec3 base,vec3 p,vec3 normal,vec4 frame,float family){return base;}';
+  if(key==='supplement-batch1'||key==='supplement-hc70')raw=facadePaintTemplate(empty,'progressiveFeatureDispatchCity');
+  else if(city==='hannover'&&String(F340_PROGRAM_SOURCE_SHA)===PROGRESSIVE_FEATURE_SHA){
+   scope.assertSelection(HANNOVER_PROGRAMS822_RESOURCE,[key]);const source=getHANNOVER_PROGRAMS822(scope)[key];if(source===undefined)throw Error('Unknown finite Hannover partition');raw=facadePaintTemplate(source,'progressiveFeatureDispatchCity');
+  }else if(city==='hamburg'&&key==='F061-recovery279')raw=facadePaintTemplate(empty,'progressiveFeatureDispatchCity',false,true);
+  else if(city==='hamburg'&&key==='F063-recovery272')raw=facadePaintTemplate(empty,'progressiveFeatureDispatchCity',true);
+  else{
+   const catalogKeys=key==='shared577-4980'?['f4980','f4981','f4982','f4983','f4984']:key==='shared577-4920'?['f4920','f4921','f4922']:[key];scope.assertSelection(city==='berlin'?BERLIN_PROGRAM_GLSL_RESOURCE:HAMBURG_PROGRAM_GLSL_RESOURCE,catalogKeys);
+   const programs=city==='berlin'?getBERLIN_PROGRAM_GLSL(scope):getHAMBURG_PROGRAM_GLSL(scope);
+   let part=city==='hamburg'&&shared577Enabled()&&key.startsWith('shared577-')?sharedPartition577SourcePart(programs,Number(key.slice(10))):undefined;
+   if(!part){const source=programs[key];if(source===undefined)throw Error('Unknown paint program partition');part=shaderSourceText(source);}
+   if(city==='hamburg'&&shared577Enabled()){part=maritimePartition586SourcePart(part,key);part=chilehausRect608SourcePart(part,key);part=f4054Reachable672SourcePart(part,key);}
+   raw=facadePaintTemplate(part,'progressiveFeatureDispatchCity');
+  }
+ }
+ return shaderSourceBounds(raw,{authorityTrace:['delegated500/facade-paint-fragment',PROGRESSIVE_FEATURE_SHA,PROGRESSIVE_CITY_SOURCE_FULL_SHA,city,sourceKey??'city-or-full']});
 }

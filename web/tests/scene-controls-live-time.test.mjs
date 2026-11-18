@@ -13,6 +13,7 @@ const {sceneSolarLight} = await moduleFor('scene-solar-light.ts');
 class Element {
   constructor(tagName) { this.tagName=tagName;this.children=[];this.dataset={};this.attributes={};this.value='';this.checked=false;this.textContent='';this.className='';this.classList={add: name=>{this.className+=' '+name;}}; }
   append(...children) { for(const child of children){child.parentElement=this;this.children.push(child);} }
+  contains(node) { return node===this||this.children.some(child=>child.contains(node)); }
   setAttribute(name,value) { this.attributes[name]=String(value); }
   getAttribute(name) { return this.attributes[name]??null; }
   remove() { if(this.parentElement){this.parentElement.children=this.parentElement.children.filter(child=>child!==this);this.parentElement=undefined;} }
@@ -103,4 +104,40 @@ test('reduced-motion keeps a minute-scale clock update and destruction releases 
   f.controls.destroy();f.controls.destroy();assert.equal(f.clock.stats.subscriptions,0);assert.equal(f.timers.size,0);
   assert.equal(follow.onchange,null);assert.equal(f.host.children.length,0);
   const count=f.published.length;f.advance(600000);assert.equal(f.published.length,count);
+});
+
+test('same-state publications do not restart the active sunlight playback clock',t=>{
+  const f=fixture(t);f.controls.setMode('3d');
+  const play=f.get(node=>node.className==='scene-play'),start=Date.parse(f.controls.state.instantISO);
+  play.onclick();f.advance(0);
+  for(let frame=0;frame<5;frame++){
+    f.controls.setMode('3d');f.controls.setPageHidden(false);f.advance(125);
+  }
+  assert.equal(f.controls.playback.playing,true);
+  assert.equal(f.published.length,5);
+  assert.equal(Date.parse(f.controls.state.instantISO)-start,5*90000,'the existing 24-hour day still plays in two minutes');
+});
+
+test('real pause transitions retain a fresh first frame without charging paused time to sunlight playback',t=>{
+  const f=fixture(t);f.controls.setMode('3d');
+  f.get(node=>node.className==='scene-play').onclick();f.advance(0);f.advance(125);
+  for(const pause of ['hidden','2d']){
+    const before=Date.parse(f.controls.state.instantISO),count=f.published.length;
+    if(pause==='hidden'){f.doc.hidden=true;f.controls.setPageHidden(true);f.clock.setPageHidden(true);}
+    else f.controls.setMode('2d');
+    f.advance(60000);assert.equal(f.published.length,count);
+    if(pause==='hidden'){f.doc.hidden=false;f.clock.setPageHidden(false);f.controls.setPageHidden(false);}
+    else f.controls.setMode('3d');
+    f.advance(0);
+    assert.equal(Date.parse(f.controls.state.instantISO),before,'the first resumed frame establishes a new time anchor');
+    f.advance(125);assert.equal(Date.parse(f.controls.state.instantISO)-before,90000);
+  }
+});
+
+for(const locale of ['zh','en','de'])test(`only the fixed economy profile is shown in ${locale}`,t=>{
+ const f=fixture(t,{locale});f.controls.setMode('3d');
+ assert.equal(walk(f.host).some(node=>node.tagName==='select'),false);
+ assert.equal(f.controls.state.quality,'economy');
+ assert.match(f.get(node=>node.className==='scene-quality-fixed').textContent,/75%/);
+ f.toggle();assert.equal(f.published.at(-1).quality,'economy');
 });

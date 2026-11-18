@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 
 /** Diagnostic-only copies of decoded native source attributes; not GPU/transformed geometry. */
 export function createNativeSourceReadback(enabled:boolean){

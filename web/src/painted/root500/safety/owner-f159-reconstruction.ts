@@ -1,5 +1,5 @@
-import type {BuildingComponent,Identity,MeshBatch} from './building-mesh-renderer';
-import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
+import type {BuildingComponent,Identity,MeshBatch} from '../../../safety/building-mesh-types';
+import type {OwnerReconstructionStats} from '../../../safety/owner-reconstruction-stats';
 import {nativePaintSignature} from './progressive-native-signature';
 type PB=MeshBatch&{positions:number[];normals:number[];indices:number[];color:number[];kind:number};
 export const F159_IDS=[{"objectId": "osm/way/40454702", "partId": "osm/way/40454702/component/348c4dd3fce51f34fa3f", "signature": "70173827"}, {"objectId": "osm/way/40454713", "partId": "osm/way/40454713/component/25f0a0cc61ac80cd82b3", "signature": "a093a9c7"}, {"objectId": "osm/way/72453159", "partId": "osm/way/72453159/component/f771074f8198a69e5aca", "signature": "00a5b9d7"}, {"objectId": "osm/way/174647747", "partId": "osm/way/174647747/component/713fbf563f69600481b1", "signature": "e5429970"}, {"objectId": "osm/way/689507214", "partId": "osm/way/689507214/component/7bc21e8fd3720f64b3cb", "signature": "5cda0879"}, {"objectId": "osm/way/1544828416", "partId": "osm/way/1544828416/component/f282fa9328892460c6f5", "signature": "86543379"}, {"objectId": "osm/way/1544828417", "partId": "osm/way/1544828417/component/87a4df93f968db722ddc", "signature": "a982f6f4"}];

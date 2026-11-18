@@ -1,9 +1,35 @@
-import {readFrozenTableAsync} from '../../../safety/frozen-paint-tables';
-import type {BuildingComponent,Identity,MeshBatch} from './building-mesh-renderer';
-import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
+import type {FrozenDataScope} from '../../../safety/frozen-data-scope';
+import type {FrozenDataRef} from '../../../safety/frozen-data-lease-store';
+
+import type {BuildingComponent,Identity,MeshBatch} from '../../../safety/building-mesh-types';
+import type {OwnerReconstructionStats} from '../../../safety/owner-reconstruction-stats';
 import {nativePaintSignature} from './progressive-native-signature';
 type Batch=MeshBatch&{positions:number[];normals:number[];indices:number[];color:number[];frames:number[];paint:number[];writeMask:boolean[];role:number;provenance?:unknown;geometryRole?:string};
 export const F067_IDS=[{"city":"munich","objectId":"osm/relation/14897","partId":"osm/relation/14897/component/1e456c207b32a9f31d8a","signature":"ec7f5177"}];
+export const F067_RECONSTRUCTION_SHA="a2046f0b156c391ba865864c2624b191387aa192caafd457b0cc30409a8685c1";
+export const ownerF067Identity=(c:Identity)=>F067_IDS.some(i=>i.objectId===c.objectId&&i.partId===c.partId);
+export function ownerF067BaseMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){let offset=0,objects=0,vertices=0;for(const c of components){const match=c.city==='munich'&&ownerF067Identity(c)&&!!c.displayEstimates?.F067Exterior;if(match)objects++;for(const b of c.batches){const count=b.positions.length/3;if(match){const a=b as Batch;for(let j=0;j<count;j++)if(a.writeMask[j]){paint.set(a.paint.slice(j*4,j*4+4),4*(offset+j));frames.set(a.frames.slice(j*5,j*5+5),5*(offset+j));vertices++;}}offset+=count;}}return{objects,vertices,actualVisualAccepted:false};}
+export function ownerF067Reconstruction(components:BuildingComponent[],$scope?:FrozenDataScope):{components:BuildingComponent[];stats:OwnerReconstructionStats}{if(!mayMatchRoot500Data(components)){const stats:OwnerReconstructionStats={objects:0,vertices:0,triangles:0,originalVertices:0,sourceRetained:true,actualVisualAccepted:false,components:[]};return{components:components.map(component=>component),stats:stats};}let __root500DataCell:ReturnType<typeof getRoot500Data>|undefined;const __root500Data=()=>__root500DataCell??=(getRoot500Data($scope));
+ const stats:OwnerReconstructionStats={objects:0,vertices:0,triangles:0,originalVertices:0,sourceRetained:true,actualVisualAccepted:false,components:[]};
+ const out:BuildingComponent[]=components.map(c=>{
+  if(c.city!=='munich'||!ownerF067Identity(c))return c;
+  const id=F067_IDS.find(i=>i.objectId===c.objectId&&i.partId===c.partId)!,e=(["osm/relation/14897/component/1e456c207b32a9f31d8a"].includes(c.partId)?__root500Data().SOURCE[c.partId]:undefined);
+  const valid=components.filter(x=>x.city===c.city&&x.objectId===c.objectId&&x.partId===c.partId).length===1&&nativePaintSignature(c)===id.signature&&JSON.stringify(c.origin)===JSON.stringify(e.origin)&&JSON.stringify(c.componentGeometry)===JSON.stringify(e.componentGeometry)&&JSON.stringify(c.sourceFeature)===JSON.stringify(e.sourceFeature)&&c.batches.length===e.batches.length&&c.batches.every((b,bi)=>['positions','normals','indices','color'].every(k=>{const a=(b as any)[k],v=e.batches[bi][k];return a?.length===v.length&&Array.from(a as ArrayLike<number>).every((n,j)=>Object.is(n,v[j]));}));
+  if(!valid){stats.error='F067 exact native carrier mismatch: '+c.partId;return c;}
+  const batches=__root500Data().DISPLAY[c.partId].map(b=>({...b,positions:[...b.positions],normals:[...b.normals],indices:[...b.indices],color:[...b.color],frames:[...b.frames],paint:[...b.paint],writeMask:[...b.writeMask]}));
+  const vertices=batches.reduce((s,b)=>s+b.positions.length/3,0),triangles=batches.reduce((s,b)=>s+b.indices.length/3,0);stats.objects++;stats.vertices+=vertices;stats.triangles+=triangles;stats.originalVertices+=c.batches.reduce((s,b)=>s+b.positions.length/3,0);stats.components.push({objectId:c.objectId,partId:c.partId,sourcePartId:c.partId,patchSHA256:F067_RECONSTRUCTION_SHA,vertices,triangles,geometryRole:'owner-authorized-reconstruction'});
+  return{...c,batches,displayEstimates:{...c.displayEstimates,F067Exterior:{sourceRetained:true,sourceOnlyAlias:batches.length===0,patchSHA:F067_RECONSTRUCTION_SHA,sourceGetterGeometryUnchanged:true,displayGeometryIsPhotoDerived:true,fullDescriptionAndCurrentReferenceBound:true,localFacadeFrames:true,independentExactCarrierAdmission:true,justizpalastTwoCourtsOnly:true,originalRelationGetterImmutable:true,accepted38FramesPrivateLegacyExact:true,squareGlassIronDomeOpenLantern66m:true,westAtticNotRebuilt:true}}};
+ });return{components:out,stats};
+}
+const __root500MemoKey={};
+const __root500Demand:readonly {objectId:string;partId:string|null}[]=[{"objectId":"osm/relation/14897","partId":"osm/relation/14897/component/1e456c207b32a9f31d8a"}];
+const __root500OwnRefs:readonly FrozenDataRef[]=[{"canonicalSHA256":"a2046f0b156c391ba865864c2624b191387aa192caafd457b0cc30409a8685c1","file":"painted/root500/safety/owner-f067-reconstruction.ts","occurrence":0,"codec":"json"}];
+export const root500DataRefs:readonly FrozenDataRef[]=[...__root500OwnRefs];
+export const root500DataFunctionArities:Record<string,number>={"ownerF067Reconstruction":1};
+export function mayMatchRoot500Data(components:readonly {city:string;objectId?:string;partId?:string;origin?:readonly number[]}[]){return components.some(component=>["munich"].includes(component.city)&&__root500Demand.some(identity=>identity.objectId===component.objectId&&(identity.partId===null||identity.partId===component.partId)));}
+export async function prepareRoot500Data(components:readonly {city:string;objectId?:string;partId?:string;origin?:readonly number[]}[],signal:AbortSignal,scope:FrozenDataScope){signal.throwIfAborted();if(mayMatchRoot500Data(components))await scope.prepare(root500DataRefs,signal);}
+export function getRoot500Data(scope?:FrozenDataScope){if(!scope)throw Error('owner-f067-reconstruction.ts requires a prepared FrozenDataScope');return scope.memo(__root500MemoKey,()=>{
+
 const SOURCE:Record<string,any>={"osm/relation/14897/component/1e456c207b32a9f31d8a":
   {
     "city": "munich",
@@ -15,7 +41,7 @@ const SOURCE:Record<string,any>={"osm/relation/14897/component/1e456c207b32a9f31
     ],
     "geometrySignature": "ec7f5177",
     "geometryProof": {
-      "leafPath": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/flat-00322.json.gz",
+      "leafPath": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/flat-00322.json.gz",
       "leafSHA256": "04d12178987ad981e3f5dcde2e782256eae07698bad987f22f2f8b81ea0aa0e0"
     },
     "componentGeometry": {
@@ -3241,19 +3267,6 @@ const SOURCE:Record<string,any>={"osm/relation/14897/component/1e456c207b32a9f31
     ]
   }
 };
-const DISPLAY:Record<string,Batch[]>=(await readFrozenTableAsync("a2046f0b156c391ba865864c2624b191387aa192caafd457b0cc30409a8685c1","painted/root500/safety/owner-f067-reconstruction.ts",0));
-export const F067_RECONSTRUCTION_SHA="a2046f0b156c391ba865864c2624b191387aa192caafd457b0cc30409a8685c1";
-export const ownerF067Identity=(c:Identity)=>F067_IDS.some(i=>i.objectId===c.objectId&&i.partId===c.partId);
-export function ownerF067BaseMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){let offset=0,objects=0,vertices=0;for(const c of components){const match=c.city==='munich'&&ownerF067Identity(c)&&!!c.displayEstimates?.F067Exterior;if(match)objects++;for(const b of c.batches){const count=b.positions.length/3;if(match){const a=b as Batch;for(let j=0;j<count;j++)if(a.writeMask[j]){paint.set(a.paint.slice(j*4,j*4+4),4*(offset+j));frames.set(a.frames.slice(j*5,j*5+5),5*(offset+j));vertices++;}}offset+=count;}}return{objects,vertices,actualVisualAccepted:false};}
-export function ownerF067Reconstruction(components:BuildingComponent[]):{components:BuildingComponent[];stats:OwnerReconstructionStats}{
- const stats:OwnerReconstructionStats={objects:0,vertices:0,triangles:0,originalVertices:0,sourceRetained:true,actualVisualAccepted:false,components:[]};
- const out:BuildingComponent[]=components.map(c=>{
-  if(c.city!=='munich'||!ownerF067Identity(c))return c;
-  const id=F067_IDS.find(i=>i.objectId===c.objectId&&i.partId===c.partId)!,e=SOURCE[c.partId];
-  const valid=components.filter(x=>x.city===c.city&&x.objectId===c.objectId&&x.partId===c.partId).length===1&&nativePaintSignature(c)===id.signature&&JSON.stringify(c.origin)===JSON.stringify(e.origin)&&JSON.stringify(c.componentGeometry)===JSON.stringify(e.componentGeometry)&&JSON.stringify(c.sourceFeature)===JSON.stringify(e.sourceFeature)&&c.batches.length===e.batches.length&&c.batches.every((b,bi)=>['positions','normals','indices','color'].every(k=>{const a=(b as any)[k],v=e.batches[bi][k];return a?.length===v.length&&Array.from(a as ArrayLike<number>).every((n,j)=>Object.is(n,v[j]));}));
-  if(!valid){stats.error='F067 exact native carrier mismatch: '+c.partId;return c;}
-  const batches=DISPLAY[c.partId].map(b=>({...b,positions:[...b.positions],normals:[...b.normals],indices:[...b.indices],color:[...b.color],frames:[...b.frames],paint:[...b.paint],writeMask:[...b.writeMask]}));
-  const vertices=batches.reduce((s,b)=>s+b.positions.length/3,0),triangles=batches.reduce((s,b)=>s+b.indices.length/3,0);stats.objects++;stats.vertices+=vertices;stats.triangles+=triangles;stats.originalVertices+=c.batches.reduce((s,b)=>s+b.positions.length/3,0);stats.components.push({objectId:c.objectId,partId:c.partId,sourcePartId:c.partId,patchSHA256:F067_RECONSTRUCTION_SHA,vertices,triangles,geometryRole:'owner-authorized-reconstruction'});
-  return{...c,batches,displayEstimates:{...c.displayEstimates,F067Exterior:{sourceRetained:true,sourceOnlyAlias:batches.length===0,patchSHA:F067_RECONSTRUCTION_SHA,sourceGetterGeometryUnchanged:true,displayGeometryIsPhotoDerived:true,fullDescriptionAndCurrentReferenceBound:true,localFacadeFrames:true,independentExactCarrierAdmission:true,justizpalastTwoCourtsOnly:true,originalRelationGetterImmutable:true,accepted38FramesPrivateLegacyExact:true,squareGlassIronDomeOpenLantern66m:true,westAtticNotRebuilt:true}}};
- });return{components:out,stats};
-}
+const DISPLAY:Record<string,Batch[]>=(scope.borrow<any,any>(__root500OwnRefs[0],value=>value));
+return {SOURCE,DISPLAY,ownerF067Reconstruction:((...args:any[]):any=>ownerF067Reconstruction(args[0],scope))};
+});}

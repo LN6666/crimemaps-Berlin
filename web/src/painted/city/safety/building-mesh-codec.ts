@@ -1,5 +1,5 @@
 import {estimateRetainedBuildingPayload} from './building-payload-cost';
-import type {BuildingComponent,MeshBatch} from './building-mesh-renderer';
+import type {BuildingComponent,MeshBatch} from '../../../safety/building-mesh-types';
 import {unpackLosslessSourceGeometry,type PackedSourceGeometry} from './lossless-source-geometry';
 export type PackedBatch={p:string;p_type:'i16'|'i32';n:string;i:string;i_type:'u16'|'u32';color:[number,number,number]};
 export type PackedFlatMesh={top_indices:string;i_type:'u16'|'u32';min_height_m:number;height_m:number;wall_color:[number,number,number];roof_color:[number,number,number];metric_rounding_m:.001};

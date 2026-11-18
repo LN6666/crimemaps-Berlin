@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 import {ownerShapePatchProfile} from './owner-shape-patch-display';
 import {nativePaintSignature} from './progressive-native-signature';
 const PIN={"number":"F061-Nave834","id":"F061-Nave834","tile_key":"F061-Nave834","city":"hamburg","objectId":"osm/way/45574500","partId":"osm/way/45574500/component/0e5473b3818ee68de406/owner-photoapprox-curved-nave834","sourcePartId":"osm/way/45574500/component/0e5473b3818ee68de406","origin":[9.990259949999999,53.58115765],"path":"/safety/buildings3d/owner-shape-patches/F061-Nave834.json","bytes":448689,"sha256":"bdc29c024c04c16aca93bb41a7fe6fa40209089a4bc905325395759bff18fbcf","vertices":4956,"triangles":1652,"max_height_m":16.8,"bbox":[9.9900879,53.5810265,9.9906054,53.5813344],"geometryRole":"owner-authorized-reconstruction","owner_authorized":true,"enabled":true,"family":1647,"additiveOnly":true,"holdNative":false,"geometrySignature":"514e9cfe"} as const;

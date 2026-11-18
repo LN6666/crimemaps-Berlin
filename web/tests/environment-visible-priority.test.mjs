@@ -12,10 +12,10 @@ const hash=n=>n.toString(16).padStart(64,'0');
 const square=([w,s,e,n])=>[[w,s],[e,s],[e,n],[w,n],[w,s]];
 const tile=(n,bbox,kinds={tree:1},bytes=1024)=>({id:'tile-'+String(n).padStart(3,'0'),tile_key:String(n),bbox,kinds,feature_count:1,path:'/safety/environment/berlin/tile-'+n+'.json',sha256:hash(n),bytes});
 function payload(t){const kind=t.kinds?.water?'water':t.kinds?.water_line?'water_line':t.kinds?.green?'green':'tree',bbox=t.bbox;return{type:'FeatureCollection',schema_version:1,city:'berlin',features:[{type:'Feature',id:'osm/way/'+Number(BigInt('0x'+t.sha256)),geometry:['water','green'].includes(kind)?{type:'Polygon',coordinates:[square(bbox)]}:kind==='water_line'?{type:'LineString',coordinates:[[bbox[0],bbox[1]],[bbox[2],bbox[3]]]}:{type:'Point',coordinates:[bbox[0],bbox[1]]},properties:{kind,osmTags:{},displayClip:false,source_snapshot:snapshot,source_pbf_sha256:sourceSHA,source_boundary_sha256:boundarySHA}}]};}
-function fixture({tiles=[],pages,box=[10,50,10.02,50.02],centre={lng:10.01,lat:50.01},pitch=70,readTile,frameClock}={}){
+function fixture({tiles=[],pages,box=[10,50,10.02,50.02],centre={lng:10.01,lat:50.01},pitch=70,readTile,frameClock,rendererStats={}}={}){
  const reads=[],allReads=[],publications=[],renderers=[],events=new Map(),layers=new Map();let currentBox=box,currentCentre=centre,zoom=18;
  const createFixtureRenderer=options=>{
-  const renderer={options,removals:0,destroys:0,reflectionResets:0,enabled:false,layer:{id:'fixture',onRemove(){renderer.removals++;}},setFeatures(features,bounds){publications.push({ids:features.map(f=>f.id),bounds:[...bounds]});},setEnabled(v){this.enabled=v;},setReflectionSource(v){this.reflectionSource=v;},setSceneEnvironment(v){this.environment=v;},setOffscreen(v){this.offscreen=v;},setVisible(v){this.visible=v;},setReducedMotion(v){this.reducedMotion=v;},resetPlanarReflectionGPU(){this.reflectionResets++;},destroy(){this.destroys++;},stats:{animationActive:false,omittedTrees:0,heldWater:0}};
+  const renderer={options,removals:0,destroys:0,reflectionResets:0,enabled:false,layer:{id:'fixture',onRemove(){renderer.removals++;}},setFeatures(features,bounds,_water,_camera,detail='full'){publications.push({ids:features.map(f=>f.id),kinds:features.map(f=>f.properties.kind),bounds:[...bounds],detail});},setEnabled(v){this.enabled=v;},setReflectionSource(v){this.reflectionSource=v;},setSceneEnvironment(v){this.environment=v;},setOffscreen(v){this.offscreen=v;},setVisible(v){this.visible=v;},setReducedMotion(v){this.reducedMotion=v;},resetPlanarReflectionGPU(){this.reflectionResets++;},destroy(){this.destroys++;},stats:{animationActive:false,omittedTrees:0,heldWater:0,greenGround:{held:0,omitted:0},treeRows:{truncated:false},woodland:{truncated:false},...rendererStats}};
   renderers.push(renderer);return renderer;
  };
  const map={createFixtureRenderer,getZoom:()=>zoom,getPitch:()=>pitch,getVerticalFieldOfView:()=>40,getCanvas:()=>({clientWidth:1200,clientHeight:600}),getCenter:()=>currentCentre,getBounds:()=>({getWest:()=>currentBox[0],getSouth:()=>currentBox[1],getEast:()=>currentBox[2],getNorth:()=>currentBox[3]}),getLayer:id=>layers.get(id),addLayer:l=>layers.set(l.id,l),removeLayer:id=>{layers.get(id)?.onRemove();layers.delete(id);},on:(n,fn)=>events.set(n,fn),off:n=>events.delete(n),triggerRepaint(){}};
@@ -25,6 +25,33 @@ function fixture({tiles=[],pages,box=[10,50,10.02,50.02],centre={lng:10.01,lat:5
  return{manager,reads,allReads,publications,renderers,layers,map,setZoom(value){zoom=value;events.get('moveend')();},move(nextBox,nextCentre){currentBox=nextBox;currentCentre=nextCentre;events.get('moveend')();}};
 }
 async function until(predicate){for(let i=0;i<100;i++){if(predicate())return;await new Promise(resolve=>setImmediate(resolve));}throw Error('Fixture did not settle');}
+
+test('warm pauses reuse the exact published geometry while a changed view still rebuilds',async()=>{
+ const t=tile(1,[10.005,50.005,10.015,50.015],{green:1}),f=fixture({tiles:[t],pitch:0});
+ try{
+  f.manager.setMode(true);await until(()=>f.manager.stats.state==='ready');
+  assert.equal(f.publications.length,1);const renderer=f.renderers[0];
+  for(const [pause,resume] of [[()=>f.manager.setVisible(false),()=>f.manager.setVisible(true)],[()=>f.manager.setOffscreen(true),()=>f.manager.setOffscreen(false)],[()=>f.manager.suspend(),()=>f.manager.resume()]]){
+   pause();assert.equal(renderer.enabled,false);resume();await until(()=>f.manager.stats.state==='ready');
+   assert.equal(renderer.enabled,true);assert.equal(f.publications.length,1,'warm resume must not retriangulate or regenerate unchanged trees');
+  }
+  f.manager.resume();await new Promise(resolve=>setImmediate(resolve));assert.equal(f.publications.length,1);
+  f.move([10.001,50.001,10.021,50.021],{lng:10.011,lat:50.011});await until(()=>f.manager.stats.state==='ready');
+  assert.equal(f.publications.length,2);assert.equal(f.reads.length,1,'changed bounds still select from the valid warm source');
+  f.manager.setMode(false);f.manager.setMode(true);await until(()=>f.manager.stats.state==='ready');assert.equal(f.publications.length,3,'explicit teardown invalidates publication identity');
+ }finally{f.manager.destroy();}
+});
+
+test('one failed environment leaf aborts the sibling before it can publish after the error',async()=>{
+ const a=tile(1,[10.005,50.005,10.008,50.008]),b=tile(2,[10.009,50.009,10.012,50.012]),waiting=[];
+ const f=fixture({tiles:[a,b],pitch:0,readTile:(t,signal)=>t===a?Promise.reject(Error('Rejected leaf')):new Promise(resolve=>waiting.push({resolve,signal}))});
+ try{
+  f.manager.setMode(true);await until(()=>f.manager.stats.state==='error');
+  assert.equal(waiting.length,1);assert.equal(waiting[0].signal.aborted,true);assert.equal(f.manager.stats.lastError,'Rejected leaf');
+  const publications=f.publications.length;waiting[0].resolve(payload(b));for(let i=0;i<5;i++)await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(f.publications.length,publications);assert.equal(f.manager.stats.loads,0);assert.equal(f.manager.stats.state,'error');assert.equal(f.renderers[0].enabled,false);
+ }finally{f.manager.destroy();}
+});
 
 test('environment prepares the already verified municipality for greenery without another download or building-provider dependency',async()=>{
  const f=fixture({tiles:[tile(1,[10.005,50.005,10.015,50.015])],pitch:0});
@@ -64,7 +91,7 @@ function assertReleased(f){
 }
 test('explicit 2D releases environment layer, decoded caches and frame subscription; 3D rebuilds with current settings',async()=>{
  const t=tile(1,[10.005,50.005,10.015,50.015],{water:1}),page={asset:{id:'page-1',bbox:t.bbox,path:'/safety/environment/berlin/page-1.json',sha256:hash(101),bytes:1024},tiles:[t]},clock=clockFixture(),f=fixture({pages:[page],frameClock:clock,pitch:0});
- const reflection={fixture:true},environment={instantISO:'2026-06-21T10:00:00.000Z',sunlight:true,shadows:true,motion:false,quality:'balanced'};
+ const reflection={fixture:true},environment={instantISO:'2026-06-21T10:00:00.000Z',sunlight:true,shadows:true,motion:false,quality:'economy'};
  try{
   f.manager.setReflectionSource(reflection);f.manager.setReducedMotion(true);f.manager.setSceneEnvironment(environment);f.manager.setMode(true);await until(()=>f.manager.stats.state==='ready');
   assert.equal(f.renderers.length,1);assert.equal(clock.subscriptions.size,1);assert.ok(f.manager.stats.cacheRetainedEstimateBytes>0);assert.equal(f.manager.stats.metadataRawBytes,1024);
@@ -87,29 +114,29 @@ test('visibility, offscreen and context suspend preserve resumable environment r
   assert.equal(f.renderers.length,1);assert.equal(f.reads.length,1);assert.equal(renderer.enabled,true);
  }finally{f.manager.destroy();}
 });
-test('eligible overview releases populated environment resources exactly once and near view rebuilds current settings',async()=>{
+test('below-ground-floor view releases populated environment resources exactly once and near view rebuilds current settings',async()=>{
  const t=tile(1,[10.005,50.005,10.015,50.015],{water:1}),page={asset:{id:'page-1',bbox:t.bbox,path:'/safety/environment/berlin/page-1.json',sha256:hash(101),bytes:1024},tiles:[t]},clock=clockFixture(),f=fixture({pages:[page],frameClock:clock,pitch:0});
- const reflection={fixture:true},environment={instantISO:'2026-06-21T10:00:00.000Z',sunlight:true,shadows:true,motion:false,quality:'balanced'};
+ const reflection={fixture:true},environment={instantISO:'2026-06-21T10:00:00.000Z',sunlight:true,shadows:true,motion:false,quality:'economy'};
  try{
   f.manager.setReflectionSource(reflection);f.manager.setReducedMotion(true);f.manager.setSceneEnvironment(environment);f.manager.setMode(true);await until(()=>f.manager.stats.state==='ready');
   const old=f.renderers[0],retained=f.manager.stats.cacheRetainedEstimateBytes;assert.ok(retained>0);assert.equal(f.manager.stats.metadataRawBytes,1024);
   const retainedPause=()=>{assert.equal(f.manager.stats.state,'idle');assert.equal(old.destroys,0);assert.equal(old.removals,0);assert.equal(f.manager.customLayer,old.layer);assert.equal(f.manager.stats.cacheRetainedEstimateBytes,retained);assert.equal(f.manager.stats.metadataRawBytes,1024);assert.equal(clock.subscriptions.size,1);};
-  f.manager.setVisible(false);f.setZoom(14);retainedPause();f.manager.setVisible(true);retainedPause();f.setZoom(18);await until(()=>f.manager.stats.state==='ready');
-  f.manager.setOffscreen(true);f.setZoom(14);retainedPause();f.manager.setOffscreen(false);retainedPause();f.setZoom(18);await until(()=>f.manager.stats.state==='ready');
-  f.manager.suspend();f.setZoom(14);retainedPause();f.manager.resume();retainedPause();f.setZoom(18);await until(()=>f.manager.stats.state==='ready');
+  f.manager.setVisible(false);f.setZoom(10.4);retainedPause();f.manager.setVisible(true);retainedPause();f.setZoom(18);await until(()=>f.manager.stats.state==='ready');
+  f.manager.setOffscreen(true);f.setZoom(10.4);retainedPause();f.manager.setOffscreen(false);retainedPause();f.setZoom(18);await until(()=>f.manager.stats.state==='ready');
+  f.manager.suspend();f.setZoom(10.4);retainedPause();f.manager.resume();retainedPause();f.setZoom(18);await until(()=>f.manager.stats.state==='ready');
   f.setZoom(NaN);retainedPause();f.setZoom(18);await until(()=>f.manager.stats.state==='ready');
-  f.setZoom(14);assertReleased(f);assert.equal(clock.subscriptions.size,0);assert.equal(old.removals,1);assert.equal(old.destroys,1);assert.equal(old.enabled,false);
-  f.setZoom(14);assertReleased(f);assert.equal(old.removals,1);assert.equal(old.destroys,1);
+  f.setZoom(10.4);assertReleased(f);assert.equal(clock.subscriptions.size,0);assert.equal(old.removals,1);assert.equal(old.destroys,1);assert.equal(old.enabled,false);
+  f.setZoom(10.4);assertReleased(f);assert.equal(old.removals,1);assert.equal(old.destroys,1);
   f.setZoom(18);await until(()=>f.manager.stats.state==='ready');assert.equal(f.renderers.length,2);assert.equal(clock.subscriptions.size,1);
   const current=f.renderers[1];assert.notEqual(current,old);assert.equal(current.reflectionSource,reflection);assert.deepEqual(current.environment,environment);assert.equal(current.options.reducedMotion,true);assert.equal(current.enabled,true);
   for(const suffix of ['/index.json','/boundary.json','/page-1.json','/tile-1.json'])assert.equal(f.allReads.filter(p=>p.endsWith(suffix)).length,2,suffix+' reloaded');
  }finally{f.manager.destroy();}
 });
-test('late overview-aborted environment read cannot recreate the old layer or publish over the returned near view',async()=>{
+test('late below-ground-floor-aborted environment read cannot recreate the old layer or publish over the returned near view',async()=>{
  const t=tile(1,[10.005,50.005,10.015,50.015],{water:1}),waiting=[];let calls=0;
  const f=fixture({tiles:[t],pitch:0,readTile:(t,signal)=>++calls===1?new Promise(resolve=>waiting.push({resolve,t,signal})):payload(t)});
  try{
-  f.manager.setMode(true);await until(()=>waiting.length===1);const old=f.renderers[0];f.setZoom(14);assertReleased(f);assert.equal(waiting[0].signal.aborted,true);assert.equal(old.destroys,1);
+  f.manager.setMode(true);await until(()=>waiting.length===1);const old=f.renderers[0];f.setZoom(10.4);assertReleased(f);assert.equal(waiting[0].signal.aborted,true);assert.equal(old.destroys,1);
   f.setZoom(18);await until(()=>f.manager.stats.state==='ready');const count=f.publications.length;
   waiting[0].resolve(payload(t));for(let i=0;i<5;i++)await new Promise(resolve=>setImmediate(resolve));
   assert.equal(f.publications.length,count);assert.equal(old.destroys,1);assert.equal(f.manager.stats.cacheTiles,1);assert.equal(f.manager.stats.state,'ready');assert.equal(f.manager.stats.lastError,undefined);
@@ -136,4 +163,68 @@ test('visible green ground is admitted before dense tree point leaves under the 
  const paddingGreen=tile(22,[10,50.021,10.02,50.025],{green:12},10000);
  const f=fixture({tiles:[...pointLeaves,paddingGreen,green,water]});
  try{f.manager.setMode(true);await until(()=>f.manager.stats.state!=='loading');assert.deepEqual(f.reads.slice(0,2).map(r=>r.asset.id),[water.id,green.id]);assert.ok(f.manager.stats.cacheRawBytes<=4*1024**2);assert.ok(f.reads.length<=32);assert.equal(f.manager.stats.partial,true);assert.ok(f.publications.at(-1).ids.includes('osm/way/20'));}finally{f.manager.destroy();}
+});
+
+test('ground-only zoom keeps native green, skips definite tree/water leaves and conservatively filters unknown or mixed leaves',async()=>{
+ const box=[10.005,50.005,10.015,50.015],green=tile(1,box,{green:1}),tree=tile(2,box),water=tile(3,box,{water:1}),row=tile(4,box,{tree_row:1}),mixed=tile(5,box,{green:1,tree:1}),unknownGreen=tile(6,box),unknownTree=tile(7,box),unknownEmpty=tile(8,box,{});
+ mixed.feature_count=2;delete unknownGreen.kinds;delete unknownTree.kinds;
+ const f=fixture({tiles:[tree,water,row,mixed,green,unknownGreen,unknownTree,unknownEmpty],pitch:0,readTile:t=>{
+  if(t===unknownGreen||t===unknownEmpty)return payload({...t,kinds:{green:1}});
+  if(t===mixed){const p=payload(t);p.features.push({...payload(tree).features[0],id:'osm/node/50'});return p;}
+  return payload(t);
+ }});
+ try{
+  f.setZoom(14.5);f.manager.setMode(true);await until(()=>f.manager.stats.state==='ready');
+  assert.deepEqual(f.reads.map(r=>r.asset.id).sort(),[green,mixed,unknownGreen,unknownTree,unknownEmpty].map(t=>t.id).sort());
+  const published=f.publications.at(-1);assert.equal(published.detail,'ground');assert.deepEqual(published.ids.slice().sort(),['osm/way/1','osm/way/5','osm/way/6','osm/way/8']);assert.ok(published.kinds.every(k=>k==='green'));
+  assert.ok(f.manager.stats.cacheRawBytes<=4*1024**2);assert.ok(f.manager.stats.cacheRetainedEstimateBytes<=24*1024**2);
+  f.setZoom(14.999);await until(()=>f.manager.stats.state==='ready');assert.equal(f.publications.at(-1).detail,'ground');assert.equal(f.renderers.length,1);
+  f.setZoom(15);await until(()=>f.manager.stats.state==='ready');assert.equal(f.publications.at(-1).detail,'full');assert.ok(f.publications.at(-1).kinds.includes('water'));assert.ok(f.publications.at(-1).kinds.includes('tree'));assert.equal(f.reads.length,8,'cached source leaves are reused across the tier boundary');
+  f.setZoom(10.499);assertReleased(f);
+ }finally{f.manager.destroy();}
+});
+
+test('full to ground clears old trees and water before a pending leaf resolves; the old tier cannot publish late',async()=>{
+ const water=tile(1,[10.005,50.005,10.015,50.015],{water:1}),green=tile(2,[11.005,51.005,11.015,51.015],{green:1}),waiting=[];
+ const f=fixture({tiles:[water,green],pitch:0,readTile:(t,signal)=>t===water?payload(t):new Promise(resolve=>waiting.push({resolve,signal}))});
+ try{
+  f.manager.setMode(true);await until(()=>f.manager.stats.state==='ready');assert.deepEqual(f.publications.at(-1).kinds,['water']);
+  f.move([11,51,11.02,51.02],{lng:11.01,lat:51.01});await until(()=>waiting.length===1);
+  f.setZoom(14.75);assert.equal(f.publications.at(-1).detail,'ground');assert.deepEqual(f.publications.at(-1).ids,[],'old full-layer geometry is cleared synchronously, before network completion');
+  await until(()=>waiting.length===2);assert.equal(waiting[0].signal.aborted,true);waiting[1].resolve(payload(green));await until(()=>f.manager.stats.state==='ready');
+  const count=f.publications.length;waiting[0].resolve(payload(green));for(let i=0;i<5;i++)await new Promise(resolve=>setImmediate(resolve));assert.equal(f.publications.length,count);assert.deepEqual(f.publications.at(-1).kinds,['green']);assert.equal(f.publications.at(-1).detail,'ground');assert.equal(f.manager.stats.loads,2);
+ }finally{f.manager.destroy();}
+});
+
+test('ground to full rejects a late ground request without removing the newly restored water',async()=>{
+ const green=tile(1,[10.005,50.005,10.015,50.015],{green:1}),water=tile(2,green.bbox,{water:1}),waiting=[];let greenReads=0;
+ const f=fixture({tiles:[green,water],pitch:0,readTile:(t,signal)=>t===green&&++greenReads===1?new Promise(resolve=>waiting.push({resolve,signal})):payload(t)});
+ try{
+  f.setZoom(14.75);f.manager.setMode(true);await until(()=>waiting.length===1);assert.equal(f.reads.length,1);
+  f.setZoom(15);await until(()=>f.manager.stats.state==='ready');assert.equal(waiting[0].signal.aborted,true);assert.equal(f.publications.at(-1).detail,'full');assert.ok(f.publications.at(-1).kinds.includes('water'));
+  const count=f.publications.length;waiting[0].resolve(payload(green));for(let i=0;i<5;i++)await new Promise(resolve=>setImmediate(resolve));assert.equal(f.publications.length,count);assert.equal(f.manager.stats.cacheTiles,2);assert.equal(f.manager.stats.loads,2);assert.equal(f.manager.stats.lastError,undefined);
+ }finally{f.manager.destroy();}
+});
+
+test('green ground held or omitted geometry reports partial coverage in both zoom tiers',async()=>{
+ for(const zoom of [14.75,15])for(const reason of ['held','omitted']){
+  const f=fixture({tiles:[tile(1,[10.005,50.005,10.015,50.015],{green:1})],pitch:0,rendererStats:{greenGround:{held:0,omitted:0,[reason]:1}}});
+  try{f.setZoom(zoom);f.manager.setMode(true);await until(()=>f.manager.stats.state!=='loading');assert.equal(f.manager.stats.state,'partial',reason+' at '+zoom);assert.equal(f.manager.stats.partial,true);}finally{f.manager.destroy();}
+ }
+});
+
+for(const kind of ['treeRows','woodland'])test(`upstream tree candidate truncation in ${kind} reports partial even without final selection omissions`,async()=>{
+ const f=fixture({tiles:[tile(1,[10.005,50.005,10.015,50.015])],pitch:0,rendererStats:{[kind]:{truncated:true}}});
+ try{
+  f.manager.setMode(true);await until(()=>f.manager.stats.state!=='loading');
+  assert.equal(f.manager.stats.renderer.omittedTrees,0);assert.equal(f.manager.stats.renderer.heldWater,0);assert.deepEqual(f.manager.stats.renderer.greenGround,{held:0,omitted:0});
+  assert.equal(f.manager.stats.state,'partial');assert.equal(f.manager.stats.partial,true);
+  f.renderers[0].stats[kind].truncated=false;f.setZoom(18);await until(()=>f.manager.stats.state!=='loading');
+  assert.equal(f.manager.stats.state,'ready','current renderer result clears previous truncation');assert.equal(f.manager.stats.partial,false);
+ }finally{f.manager.destroy();}
+});
+
+test('upstream tree candidate truncation flags false preserve ready coverage',async()=>{
+ const f=fixture({tiles:[tile(1,[10.005,50.005,10.015,50.015])],pitch:0});
+ try{f.manager.setMode(true);await until(()=>f.manager.stats.state!=='loading');assert.equal(f.manager.stats.state,'ready');assert.equal(f.manager.stats.partial,false);assert.equal(f.manager.stats.renderer.treeRows.truncated,false);assert.equal(f.manager.stats.renderer.woodland.truncated,false);}finally{f.manager.destroy();}
 });

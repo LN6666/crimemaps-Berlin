@@ -72,6 +72,42 @@
       "canonicalSHA256": "2b81132d7703227d17145de11d31644dba634fb6d0ca59f3a0b047fa8a5abe90",
       "occurrence": 0,
       "selector": "hamburg-catalog"
+    },
+    {
+      "file": "painted/bremen/safety/progressive-paint-admissions.ts",
+      "canonicalSHA256": "d94bfab58ea8a0cecba91b0180cc362dc4f3e963c00b5a03dba0a56326afbe83",
+      "occurrence": 0,
+      "selector": "city-rows"
+    },
+    {
+      "file": "painted/bremen/safety/progressive-feature-cities.ts",
+      "canonicalSHA256": "48a9a6aa86b1a9caa9d2f98eb8ff949c48ff7a517ff8a0cadb4ecb9d5dc9fff9",
+      "occurrence": 0,
+      "selector": "city-key"
+    },
+    {
+      "file": "painted/infill/safety/progressive-paint-admissions.ts",
+      "canonicalSHA256": "bf6c0c7678fb129cb3fbf9946a3ca9a491370a8489022e5c492ce7e8fd60f651",
+      "occurrence": 0,
+      "selector": "city-rows"
+    },
+    {
+      "file": "painted/infill/safety/progressive-feature-cities.ts",
+      "canonicalSHA256": "5a379ad3a88ac198f5d21e8367b988d427e12bc27611eeebecd703dafa2d2eb6",
+      "occurrence": 0,
+      "selector": "city-key"
+    },
+    {
+      "file": "painted/bremen/safety/repairs-data.ts",
+      "canonicalSHA256": "b40c1ec6557093160bf7624960966ed6e4f15810ec28f6598a0de638e56a5a6f",
+      "occurrence": 0,
+      "selector": "model-targets"
+    },
+    {
+      "file": "painted/infill/safety/infill-frankfurt-low-office-bulk70-data.ts",
+      "canonicalSHA256": "579c18a51df9cc16083ff4de6ca02e456692fefb5ce869bdee36b3a0fa63d66e",
+      "occurrence": 0,
+      "selector": "group-targets"
     }
   ]
 }

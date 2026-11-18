@@ -1,5 +1,5 @@
 import {nativePaintSignature} from './progressive-native-signature';
-import type {BuildingComponent,Identity} from './building-mesh-renderer';
+import type {BuildingComponent,Identity} from '../../../safety/building-mesh-types';
 export type NativeMember=Identity&{leafSHA:string;geometryFingerprint:string;nativePaintSignature?:string};
 export type NativePartDisplayProfile={city:string;relationId:number;name:string;indexSHA:string;sourcePBF:string;boundarySHA:string;sourceSnapshot:string;outline:NativeMember;declaredPartIds:readonly string[];compiledParts:readonly NativeMember[];missingPartIds:readonly string[];unknownPartIds:readonly string[];ownershipUnverifiedPartIds:readonly string[];completenessClaim:false;requireAllCompiledResident?:true;requireAllMaterialReady?:true;fullPartWallsFromGround?:true;footprintCoverageEvidence?:string;groundBodyEvidence?:string;displayIntent?:string};
 export type NativeDisplayBinding={city:string;indexSHA:string;sourcePBF:string;boundarySHA:string;sourceSnapshot:string;leafSHA:(c:BuildingComponent)=>string|undefined;materialReady?:(c:BuildingComponent)=>boolean};

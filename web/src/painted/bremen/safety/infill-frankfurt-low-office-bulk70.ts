@@ -1,2 +1,2 @@
-// Identical frozen source and runtime dependency graph; preserve one implementation.
-export * from '../../infill/safety/infill-frankfurt-low-office-bulk70';
+// Keep the exact predicate/material writer available without evaluating Frankfurt geometry.
+export * from './infill-frankfurt-low-office-bulk70-lazy';

@@ -1,6 +1,8 @@
 import {PAINT_FAMILIES} from './facade-paint-families';
 export const PAINT_REVISION='owner-selected-303-owner-decisions-v37-20261017';
-let mode=Number(new URLSearchParams(location.search).get('paintMode')??2),family=0;
+// Read once at module evaluation in the browser, exactly as before; a module graph
+// evaluated without a location (Node cold-import checks) keeps the default mode.
+let mode=Number(typeof location==='undefined'?2:new URLSearchParams(location.search).get('paintMode')??2),family=0;
 if(![0,1,2].includes(mode))mode=2;
 export const paintMode=()=>mode;
 export const paintOverride=()=>family;
@@ -14,11 +16,48 @@ const samples=[
  ['munich-residenz','慕尼黑王宫','Munich','11.5793096,48.14116675'],
  ['berlin-reichstag','柏林国会大厦','Berlin','13.3762,52.5186'],
 ] as const;
+const FACADE_TOOL_HOSTS=['127.0.0.1','localhost','[::1]','::1'];
+/** The experimental toolbar is its own local review tool, never a side effect
+ * of diagnostics=1 alone: it keeps the existing local-host + diagnostics=1
+ * environment and additionally needs facadeTools=1. Public hosts never install
+ * it. The paint mode state above is independent of this gate and is the one
+ * state every painted renderer reads. A sample= alone never opens it; facade
+ * review links (review303 exports, this toolbar's own sample navigation)
+ * carry facadeTools=1. */
+export function facadePaintToolsRequested(query:URLSearchParams=new URLSearchParams(location.search),hostname:string=location.hostname){
+ if(!FACADE_TOOL_HOSTS.includes(hostname)||query.get('diagnostics')!=='1')return false;
+ return query.get('facadeTools')==='1';
+}
+/** review303 links typed or bookmarked before facadeTools existed (the first
+ * city of a capture round is opened by hand; url() only generates the later
+ * ones) ask for mapOnly, which only this toolbar implements. Without it the
+ * capture canvas keeps the side-panel layout and the 303 captures change size
+ * and framing. Where the switch would open the toolbar (local host and
+ * diagnostics=1), such a link without any facadeTools parameter maps to its
+ * own href with facadeTools=1 appended, every other parameter kept as typed.
+ * An explicit facadeTools value is never rewritten; the review303 exporter
+ * refuses to capture on that page instead. */
+export function review303FacadeSwitchURL(href:string){
+ const url=new URL(href),query=url.searchParams;
+ if(!query.has('review303')||query.get('mapOnly')!=='1'||query.has('facadeTools'))return undefined;
+ const switched=new URLSearchParams(query);switched.set('facadeTools','1');
+ if(!facadePaintToolsRequested(switched,url.hostname))return undefined;
+ url.search+='&facadeTools=1';return url.href;
+}
 export function installFacadePaintControls(){
- const query=new URLSearchParams(location.search),bar=document.createElement('section');bar.id='facade-paint-toolbar';bar.setAttribute('aria-label','立面绘制试验');
+ const query=new URLSearchParams(location.search);
+ // main.ts calls this synchronously once start() awaits its first fetch, before
+ // any map, WebGL context or shader exists, so the reload is requested before
+ // any GPU work starts.
+ const switchURL=query.has('review303')?review303FacadeSwitchURL(location.href):undefined;
+ if(switchURL){location.replace(switchURL);return;}
+ // Paint state above is shared by renderers; only the experimental UI is local.
+ if(!facadePaintToolsRequested(query))return;
+ const bar=document.createElement('section');bar.id='facade-paint-toolbar';bar.setAttribute('aria-label','立面绘制试验');
  Object.assign(bar.style,{position:'fixed',bottom:'8px',left:'210px',right:'230px',zIndex:'9999',padding:'8px',borderRadius:'8px',background:'#faf8f2',color:'#282d31',boxShadow:'0 2px 14px #0004',font:'13px sans-serif',display:'flex',gap:'6px',alignItems:'center',flexWrap:'wrap'});
  const title=document.createElement('strong');title.textContent='原地图 · 立面绘制';bar.append(title);
- const sample=document.createElement('select');sample.setAttribute('aria-label','示范建筑');for(const [id,name] of samples){const o=document.createElement('option');o.value=id;o.textContent=name;sample.append(o);}sample.value=query.get('sample')??'hamburg-rathaus';sample.onchange=()=>{const s=samples.find(s=>s[0]===sample.value)!;location.href=`/crimemaps-${s[2]}/map/?lang=zh&diagnostics=1&view=3d&qa3dFocus=${s[3]}&sample=${s[0]}&paintMode=${mode}&mapOnly=${document.body.dataset.facadeMapOnly==='true'?1:0}`;};bar.append(sample);
+ // Without a listed sample= the selector shows a neutral placeholder; no city's landmark is preselected.
+ const sample=document.createElement('select');sample.setAttribute('aria-label','示范建筑');const unselected=document.createElement('option');unselected.value='';unselected.textContent='选择示范建筑';unselected.disabled=true;sample.append(unselected);for(const [id,name] of samples){const o=document.createElement('option');o.value=id;o.textContent=name;sample.append(o);}const requested=query.get('sample');sample.value=samples.find(s=>s[0]===requested)?.[0]??'';sample.onchange=()=>{const s=samples.find(s=>s[0]===sample.value);if(!s)return;location.href=`/crimemaps-${s[2]}/map/?lang=zh&diagnostics=1&facadeTools=1&view=3d&qa3dFocus=${s[3]}&sample=${s[0]}&paintMode=${mode}&mapOnly=${document.body.dataset.facadeMapOnly==='true'?1:0}`;};bar.append(sample);
  const update=()=>{for(const button of bar.querySelectorAll<HTMLButtonElement>('button[data-mode]'))button.setAttribute('aria-pressed',String(Number(button.dataset.mode)===mode));document.dispatchEvent(new Event('facade-paint-change'));};
  for(const [name,value]of [['白模',0],['原来上色',1],['立面绘制',2]]as const){const b=document.createElement('button');b.textContent=name;b.dataset.mode=String(value);b.onclick=()=>{mode=value;const u=new URL(location.href);u.searchParams.set('paintMode',String(mode));history.replaceState(null,'',u);update();};bar.append(b);}
  const styles=document.createElement('select');styles.setAttribute('aria-label','材质绘制');const automatic=document.createElement('option');automatic.value='0';automatic.textContent='按立面配置';styles.append(automatic);for(let i=1;i<PAINT_FAMILIES.length;i++){const o=document.createElement('option');o.value=String(i);o.textContent=PAINT_FAMILIES[i];styles.append(o);}styles.onchange=()=>{family=-Number(styles.value);update();};styles.hidden=true;

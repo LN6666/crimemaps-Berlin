@@ -1,2 +1,2 @@
-// Identical frozen source and runtime dependency graph; preserve one implementation.
-export * from '../../infill/safety/infill-silberturm-full051-materials';
+// Keep the original API while admitting data recipes only for a prepared city.
+export {silberturmSpecificMaterials050} from '../../infill/safety/bremen-infill-owner-routes';

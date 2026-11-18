@@ -1,2 +1,2 @@
-// Identical frozen source and runtime dependency graph; preserve one implementation.
-export * from '../../infill/safety/infill-c032-original-runtime';
+// Keep the original API while admitting data recipes only for a prepared city.
+export {infillC032OriginalIdentity,infillC032OriginalBaseMaterials,infillC032OriginalStatus,infillC032OriginalRejections} from '../../infill/safety/bremen-infill-owner-routes';

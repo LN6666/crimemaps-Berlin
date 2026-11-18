@@ -30,8 +30,10 @@ def district_road_reference(groups: list[list[dict]], *, objects: dict, border, 
     boundary = boundary_rows[0]; tags = boundary.get("tags", {})
     district = shape(boundary["geometry"])
     district_name = tags.get("name")
+    # Bremen also maps source-named Ortsteile at OSM administrative level 11.
+    district_admin_levels = {"10", "11"} if city == "bremen" else {"10"}
     if ("administrative_boundary" not in boundary.get("roles", [])
-            or tags.get("boundary") != "administrative" or tags.get("admin_level") != "10"
+            or tags.get("boundary") != "administrative" or tags.get("admin_level") not in district_admin_levels
             or not isinstance(district_name, str) or not district_name.strip()
             or district_name not in boundary.get("names", [])
             or district.geom_type not in {"Polygon", "MultiPolygon"}

@@ -1,5 +1,5 @@
-import {projectedShadowDepthPlane} from './projected-shadow-mask';
-import {SCENE_SURFACE_LIGHT_GLSL} from './scene-surface-light';
+import {projectedShadowDepthPlane} from './projected-shadow-plane';
+import {ENVIRONMENT_SURFACE_LIGHT_GLSL} from './scene-surface-light';
 
 /** One material definition for both the normal green pass and its conservative
  * raster-depth fallback. Source park/wood coverage is not a claim of lawn. */
@@ -11,6 +11,9 @@ float greenGroundNoise(vec2 p){
  float k=a-b-c+d;return a+(b-a)*u.x+(c-a)*u.y+k*u.x*u.y;
 }
 vec4 greenGroundColor(vec3 position,vec3 normal,float role){
+ // Explicit declared paving is a separate opaque neutral matte display. The
+ // source surface tag is retained; no surveyed colour or paver pattern is asserted.
+ if(role==7.)return vec4(sceneSurfaceLight(vec3(.46,.46,.46),normalize(normal),position.y),1.);
  vec2 ground=mat2(.8,.6,-.6,.8)*(position.xz*.9);
  vec2 fine=mat2(.3846154,-.9230769,.9230769,.3846154)*(position.xz*3.7)+vec2(11.4,7.8);
  float grain=greenGroundNoise(ground),coverage=1.-smoothstep(.55,2.5,max(length(dFdx(ground)),length(dFdy(ground))));
@@ -35,7 +38,7 @@ precision highp float;
 in vec3 v_position;in vec3 v_normal;in float v_role;
 uniform vec3 u_green_depth_plane;uniform vec4 u_green_viewport;uniform vec2 u_green_depth_range;
 out vec4 color;
-${SCENE_SURFACE_LIGHT_GLSL}
+${ENVIRONMENT_SURFACE_LIGHT_GLSL}
 ${GREEN_GROUND_MATERIAL_GLSL}
 void main(){
  vec2 ndc=(gl_FragCoord.xy-u_green_viewport.xy)/u_green_viewport.zw*2.-1.;

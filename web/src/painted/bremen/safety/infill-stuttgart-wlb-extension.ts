@@ -1,2 +1,2 @@
-// Identical frozen source and runtime dependency graph; preserve one implementation.
-export * from '../../infill/safety/infill-stuttgart-wlb-extension';
+// Keep the original API while admitting data recipes only for a prepared city.
+export {infillWlbExtensionIdentity,infillWlbExtensionReconstruction,infillWlbExtensionBaseMaterials} from '../../infill/safety/bremen-infill-owner-routes';

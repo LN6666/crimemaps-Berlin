@@ -1,10 +1,11 @@
 import {infillBulkBudgetCredit} from './infill-bulk-budget-credit';
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from "../../../safety/building-mesh-types";
+import type {FrozenDataScope} from '../../../safety/frozen-data-scope';
 /** Retained packed mesh buffers only; source records and JS/driver heap are separate existing budgets. */
 export const OWNER_DISPLAY_BUDGET_LIMITS=Object.freeze({desktop:Object.freeze({nativeVertices:200000,nativeIndices:1200000,extraVertices:200000,extraIndices:600000}),mobile:Object.freeze({nativeVertices:100000,nativeIndices:600000,extraVertices:100000,extraIndices:300000})});
 export type OwnerDisplayBudgetDiagnostic={reason:'owner-display-delta';vertexCap:number;indexCap:number;nativeVertexCap:number;nativeIndexCap:number;ownerAllowanceVertices:number;ownerAllowanceIndices:number;hardVertexCap:number;hardIndexCap:number;packedCPUBytesUpperBound:number;packedGPUBytesUpperBound:number;uploadStaticTransientBytesUpperBound:number;originalSourceVertices:number;originalSourceIndices:number;ownerDeltaVertices:number;ownerDeltaIndices:number;beforeVertices:number;beforeIndices:number;afterVertices:number;afterIndices:number;protectedComponents:number;protectedVertices:number;protectedIndices:number;retiredOrdinaryComponents:number;retiredOrdinaryVertices:number;retiredOrdinaryIndices:number;sourceRetained:true;sourceComponentsUnmodified:true;bulkCatalogueReserve?:ReturnType<typeof infillBulkBudgetCredit>};
 /** Admit only a finite measured display/recovery delta on top of the unchanged native admission cap. Never retire protected or ordinary rows to hide an over-budget owner. */
-export function fitOwnerDisplayBudget(components:BuildingComponent[],vertexCap:number,options:{vertices:number;indices:number;originalSourceVertices:number;originalSourceIndices:number;ownerDeltaVertices:number;ownerDeltaIndices:number;protected:(c:BuildingComponent)=>boolean;batchIncluded:(c:BuildingComponent,bi:number)=>boolean}){
+export function fitOwnerDisplayBudget(components:BuildingComponent[],vertexCap:number,options:{vertices:number;indices:number;originalSourceVertices:number;originalSourceIndices:number;ownerDeltaVertices:number;ownerDeltaIndices:number;protected:(c:BuildingComponent)=>boolean;batchIncluded:(c:BuildingComponent,bi:number)=>boolean},scope?:FrozenDataScope){
  const policy=vertexCap===200000?OWNER_DISPLAY_BUDGET_LIMITS.desktop:vertexCap===100000?OWNER_DISPLAY_BUDGET_LIMITS.mobile:undefined;
  const fail=(reason:string)=>new Error('Visible mesh budget exceeded: count='+options.vertices+' ic='+options.indices+' nativeCap='+vertexCap+' ownerDeltaV='+options.ownerDeltaVertices+' ownerDeltaI='+options.ownerDeltaIndices+' ('+reason+'; all rows retained; commit withheld)');
  if(!policy)throw fail('unknown native budget policy');
@@ -13,7 +14,7 @@ export function fitOwnerDisplayBudget(components:BuildingComponent[],vertexCap:n
  if(options.indices%3||options.originalSourceIndices%3||options.ownerDeltaIndices%3)throw fail('non-triangle index statistics');
  if(options.originalSourceVertices>policy.nativeVertices||options.originalSourceIndices>policy.nativeIndices)throw fail('original admission exceeds unchanged native cap');
  if(options.ownerDeltaVertices < -options.originalSourceVertices||options.ownerDeltaIndices < -options.originalSourceIndices)throw fail('impossible negative display delta');
- const bulkReserve=infillBulkBudgetCredit(components);
+ const bulkReserve=infillBulkBudgetCredit(components,scope);
  const extraV=Math.max(0,options.ownerDeltaVertices),extraI=Math.max(0,options.ownerDeltaIndices);
  if(extraV>policy.extraVertices+bulkReserve.vertices||extraI>policy.extraIndices+bulkReserve.indices)throw fail('display delta exceeds finite owner allowance');
  if(options.vertices>options.originalSourceVertices+options.ownerDeltaVertices||options.indices>options.originalSourceIndices+options.ownerDeltaIndices)throw fail('filtered display exceeds measured original plus delta');

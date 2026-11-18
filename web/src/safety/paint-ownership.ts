@@ -6,7 +6,7 @@ import orangerieSupplement from '../painted/tier300/safety/supplement-orangerie-
 import tvBaseSupplement from '../painted/root500/safety/supplement-tv-base-ownership.json';
 import registry from './paint-ownership-registry.json';
 import {paintFamily} from '../painted/church/safety/facade-paint-frame';
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from './building-mesh-types';
 
 export type PaintProvider = 'root500' | 'delegated500' | 'tier300' | 'city' | 'church' | 'infill' | 'bremen';
 const parts = registry.parts as Record<string, {provider: PaintProvider; target: string; origin?: number[]}>;

@@ -1,12 +1,16 @@
 import {infillBulkBudgetCredit} from './infill-bulk-budget-credit';
 import {infillOwner055BudgetCredit} from './infill-owner055-budget-credit';
 import {infillFiniteOwnerBudgetCredit} from './infill-finite-owner-budget-credit';
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from "../../../safety/building-mesh-types";
+import type {FrozenDataScope} from '../../../safety/frozen-data-scope';
+import type {InfillDataModule} from './infill-data-contract';
+import * as bulkBudget from './infill-bulk-budget-credit';
+import * as owner055Budget from './infill-owner055-budget-credit';
 /** Retained packed mesh buffers only; source records and JS/driver heap are separate existing budgets. */
 export const OWNER_DISPLAY_BUDGET_LIMITS=Object.freeze({desktop:Object.freeze({nativeVertices:200000,nativeIndices:1200000,extraVertices:200000,extraIndices:600000}),mobile:Object.freeze({nativeVertices:100000,nativeIndices:600000,extraVertices:100000,extraIndices:300000})});
 export type OwnerDisplayBudgetDiagnostic={reason:'owner-display-delta';vertexCap:number;indexCap:number;nativeVertexCap:number;nativeIndexCap:number;ownerAllowanceVertices:number;ownerAllowanceIndices:number;hardVertexCap:number;hardIndexCap:number;packedCPUBytesUpperBound:number;packedGPUBytesUpperBound:number;uploadStaticTransientBytesUpperBound:number;originalSourceVertices:number;originalSourceIndices:number;ownerDeltaVertices:number;ownerDeltaIndices:number;beforeVertices:number;beforeIndices:number;afterVertices:number;afterIndices:number;protectedComponents:number;protectedVertices:number;protectedIndices:number;retiredOrdinaryComponents:number;retiredOrdinaryVertices:number;retiredOrdinaryIndices:number;sourceRetained:true;sourceComponentsUnmodified:true;bulkCatalogueReserve?:ReturnType<typeof infillBulkBudgetCredit>;additionalOwnerReserve?:ReturnType<typeof infillOwner055BudgetCredit>;finiteCatalogueReserve?:ReturnType<typeof infillFiniteOwnerBudgetCredit>};
 /** Admit only a finite measured display/recovery delta on top of the unchanged native admission cap. Never retire protected or ordinary rows to hide an over-budget owner. */
-export function fitOwnerDisplayBudget(components:BuildingComponent[],vertexCap:number,options:{vertices:number;indices:number;originalSourceVertices:number;originalSourceIndices:number;ownerDeltaVertices:number;ownerDeltaIndices:number;protected:(c:BuildingComponent)=>boolean;batchIncluded:(c:BuildingComponent,bi:number)=>boolean}){
+export function fitOwnerDisplayBudget(components:BuildingComponent[],vertexCap:number,options:{vertices:number;indices:number;originalSourceVertices:number;originalSourceIndices:number;ownerDeltaVertices:number;ownerDeltaIndices:number;protected:(c:BuildingComponent)=>boolean;batchIncluded:(c:BuildingComponent,bi:number)=>boolean},scope?:FrozenDataScope){
  const policy=vertexCap===200000?OWNER_DISPLAY_BUDGET_LIMITS.desktop:vertexCap===100000?OWNER_DISPLAY_BUDGET_LIMITS.mobile:undefined;
  let reserveDetails='';
  const fail=(reason:string)=>new Error('Visible mesh budget exceeded: count='+options.vertices+' ic='+options.indices+' nativeCap='+vertexCap+' ownerDeltaV='+options.ownerDeltaVertices+' ownerDeltaI='+options.ownerDeltaIndices+' ('+reason+reserveDetails+'; all rows retained; commit withheld)');
@@ -16,7 +20,7 @@ export function fitOwnerDisplayBudget(components:BuildingComponent[],vertexCap:n
  if(options.indices%3||options.originalSourceIndices%3||options.ownerDeltaIndices%3)throw fail('non-triangle index statistics');
  if(options.originalSourceVertices>policy.nativeVertices||options.originalSourceIndices>policy.nativeIndices)throw fail('original admission exceeds unchanged native cap');
  if(options.ownerDeltaVertices < -options.originalSourceVertices||options.ownerDeltaIndices < -options.originalSourceIndices)throw fail('impossible negative display delta');
- const bulkReserve=infillBulkBudgetCredit(components),additionalOwnerReserve=infillOwner055BudgetCredit(components),finiteCatalogueReserve=infillFiniteOwnerBudgetCredit(components);
+ const bulkReserve=infillBulkBudgetCredit(components,scope),additionalOwnerReserve=infillOwner055BudgetCredit(components,scope),finiteCatalogueReserve=infillFiniteOwnerBudgetCredit(components);
  reserveDetails='; policyExtraV='+policy.extraVertices+' policyExtraI='+policy.extraIndices+' bulkCreditV='+bulkReserve.vertices+' bulkCreditI='+bulkReserve.indices+' owner055CreditV='+additionalOwnerReserve.vertices+' owner055CreditI='+additionalOwnerReserve.indices+' finiteCatalogueV='+finiteCatalogueReserve.vertices+' finiteCatalogueI='+finiteCatalogueReserve.indices;
  const extraV=Math.max(0,options.ownerDeltaVertices),extraI=Math.max(0,options.ownerDeltaIndices);
  if(extraV>policy.extraVertices+bulkReserve.vertices+additionalOwnerReserve.vertices+finiteCatalogueReserve.vertices||extraI>policy.extraIndices+bulkReserve.indices+additionalOwnerReserve.indices+finiteCatalogueReserve.indices)throw fail('display delta exceeds finite owner allowance');
@@ -32,3 +36,12 @@ export function fitOwnerDisplayBudget(components:BuildingComponent[],vertexCap:n
 }
 /** Geographic source bounds, never far-away vendor/tile origin. Protect the unpainted object under the current focus. */
 export function sourceBoundsContainFocus(c:BuildingComponent,focus:{lng:number;lat:number}|undefined){if(!focus||!Number.isFinite(focus.lng)||!Number.isFinite(focus.lat))return false;let west=Infinity,south=Infinity,east=-Infinity,north=-Infinity;for(const ring of c.componentGeometry.coordinates)for(const p of ring){west=Math.min(west,p[0]);east=Math.max(east,p[0]);south=Math.min(south,p[1]);north=Math.max(north,p[1]);}return focus.lng>=west&&focus.lng<=east&&focus.lat>=south&&focus.lat<=north;}
+
+export const infillDataRefs=[] as const;
+export const infillDataMemoKeys=[] as const;
+export const infillDataDependencies=():readonly InfillDataModule[]=>[bulkBudget,owner055Budget];
+export const infillDataFunctionArities={fitOwnerDisplayBudget:3} as const;
+/** Reserve proof runs on final DISPLAY rows, after original reconstruction. */
+export async function prepareInfillData(components:readonly BuildingComponent[],signal:AbortSignal,scope:FrozenDataScope):Promise<void>{
+ signal.throwIfAborted();await bulkBudget.prepareInfillData(components,signal,scope);signal.throwIfAborted();await owner055Budget.prepareInfillData(components,signal,scope);signal.throwIfAborted();
+}

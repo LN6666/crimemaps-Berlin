@@ -3,8 +3,27 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {createRequire} from 'node:module';
 import {build} from 'esbuild';
+import {balancedBlock,codeStatements,orderedFragments} from './support/fixtures-solar-texture-env-ts-modules.mjs';
 const webRoot=path.dirname(path.dirname(fileURLToPath(import.meta.url))),projectRoot=path.dirname(webRoot);
+const ts=createRequire(path.join(webRoot,'package.json'))('typescript');
+// balancedBlock scans text: it takes the first occurrence of its marker and does
+// not recognise regular-expression literals, so a brace inside one would shift
+// the block. parsedBlock also requires the marker to occur exactly once and the
+// scanned block to be the very block the TypeScript parser sees there, so a
+// duplicated marker (an interface signature, say) or such a brace fails here
+// instead of silently slicing another body.
+function parsedBlock(tree,marker){
+ assert.equal(tree.text.split(marker).length-1,1,`source marker occurs exactly once: ${marker}`);
+ const block=balancedBlock(tree.text,marker);let node=tree;
+ while(!(ts.isBlock(node)&&node.getStart(tree)===block.open)){
+  node=ts.forEachChild(node,child=>child.pos<=block.open&&block.open<child.end?child:undefined);
+  assert.ok(node,`a parsed block starts at the brace after ${marker}`);
+ }
+ assert.equal(node.end,block.end,`the parsed block after ${marker} ends where the text scan ends`);
+ return{...block,node};
+}
 async function bundle(name){const result=await build({entryPoints:[path.join(webRoot,'src/safety',name)],bundle:true,write:false,platform:'node',format:'esm',target:'es2022'});return import('data:text/javascript;base64,'+Buffer.from(result.outputFiles[0].text).toString('base64'));}
 const solar=await bundle('scene-solar-light.ts');
 const {createEnvironmentMotion}=await bundle('environment-motion.ts');
@@ -111,13 +130,13 @@ test('all inactive modes discard paused time, and unchanged state does not reset
 });
 test('quality caps physical pixels without enlarging CSS dimensions', () => {
   const width = 1920, height = 1080, ratio = sceneDrawingPixelRatio(width, height, 3, 'balanced');
-  assert.ok(ratio <= 1.5); assert.ok(width * height * ratio * ratio <= 6000000.001);
-  assert.equal(sceneDrawingPixelRatio(400, 800, 3, 'detail'), 2);
-  assert.equal(sceneDrawingPixelRatio(400, 800, 1, 'detail'), 1);
-  assert.deepEqual(['economy','balanced','detail'].map(q=>SCENE_QUALITY_PROFILES[q].maxDrawingPixels),[3000000,6000000,12000000]);
+  assert.ok(ratio <= .75); assert.ok(width * height * ratio * ratio <= 3000000.001);
+  assert.equal(sceneDrawingPixelRatio(400, 800, 3, 'detail'), .75);
+  assert.equal(sceneDrawingPixelRatio(400, 800, 1, 'detail'), .75);
+  assert.deepEqual(Object.keys(SCENE_QUALITY_PROFILES),['economy']);
   for(const quality of ['economy','balanced','detail']) {
     const actual=sceneDrawingPixelRatio(3840,2160,3,quality);
-    assert.ok(3840*2160*actual*actual<=SCENE_QUALITY_PROFILES[quality].maxDrawingPixels+.001);
+    assert.ok(3840*2160*actual*actual<=SCENE_QUALITY_PROFILES.economy.maxDrawingPixels+.001);
   }
 });
 test('Berlin noon uses the correct side of both DST transitions', () => {
@@ -163,19 +182,42 @@ test('all renderer candidates use time-dependent solar uniforms without a fixed 
   const receipt={files:[{"path": "web/src/safety/building-mesh-renderer.ts"}, {"path": "web/src/painted/bremen/safety/building-mesh-renderer.ts"}, {"path": "web/src/painted/tier300/safety/building-mesh-renderer.ts"}, {"path": "web/src/painted/church/safety/building-mesh-renderer.ts"}, {"path": "web/src/painted/root500/safety/building-mesh-renderer.ts"}, {"path": "web/src/painted/delegated500/safety/building-mesh-renderer.ts"}, {"path": "web/src/painted/infill/safety/building-mesh-renderer.ts"}, {"path": "web/src/painted/city/safety/building-mesh-renderer.ts"}, {"path": "web/src/painted/bremen/safety/three-dimensional-map.ts"}, {"path": "web/src/painted/tier300/safety/three-dimensional-map.ts"}, {"path": "web/src/painted/church/safety/three-dimensional-map.ts"}, {"path": "web/src/painted/root500/safety/three-dimensional-map.ts"}, {"path": "web/src/painted/delegated500/safety/three-dimensional-map.ts"}, {"path": "web/src/painted/infill/safety/three-dimensional-map.ts"}, {"path": "web/src/painted/city/safety/three-dimensional-map.ts"}]};
   const rendererFiles=receipt.files.filter(row=>row.path.endsWith('/building-mesh-renderer.ts'));
   assert.equal(rendererFiles.length,8);
+  // The shared entry is now a pure re-export of the city implementation, and
+  // the seven family renderers keep chunked resident indices. Each check runs
+  // on the owning function body rather than anywhere in a 140-360 KB file.
+  const sharedEntry='web/src/safety/building-mesh-renderer.ts',cityRenderer='web/src/painted/city/safety/building-mesh-renderer.ts';let implementations=0;
   for(const row of rendererFiles) {
     const text=await fs.readFile(path.join(projectRoot,row.path),'utf8');
-    assert.ok(text.includes('const solarVector=sceneSun.shadowVector;'),row.path);
-    assert.ok(text.includes('residentSolarShadowRanges(sceneSunOrigin,loaded.values(),sceneSun,solarBoundary,generation,indices.length)'),row.path);
+    if(row.path===sharedEntry){assert.deepEqual(codeStatements(text),["export * from '../painted/city/safety/building-mesh-renderer';"],row.path);assert.ok(rendererFiles.some(other=>other.path===cityRenderer),'the re-exported city implementation is checked below');continue;}
+    implementations++;
+    // Daylight and verified-boundary gates, then the independent resident proof over all scene chunks, then the signature cache.
+    const tree=ts.createSourceFile(row.path,text,ts.ScriptTarget.Latest,false,ts.ScriptKind.TS);
+    const update=parsedBlock(tree,'function updateSolarShadowIndices()').body;
+    orderedFragments(update,["if(!sceneSun.shadowVector)return clear('sun-below-shadow-altitude');","if(!solarBoundary)return clear('awaiting-matching-verified-boundary');",'residentSolarShadowRanges(sceneSunOrigin,loaded.values(),sceneSun,solarBoundary,generation,sceneIndexCount())']);
+    assert.match(update,/if\(signature===solarShadowSignature\)(?:\{publishAdmission\(\);)?return false;/,row.path);
+    // The shadow-vector uniform has exactly one source: the current sun.
+    const vectorUniforms=[...text.matchAll(/'u_shadow_vector'/g)].length,sunUniforms=[...text.matchAll(/const vector=sceneSun\.shadowVector;context\.uniform2f\(context\.getUniformLocation\(\w+,'u_shadow_vector'\),vector\?\.\[0\]\?\?0,vector\?\.\[1\]\?\?0\)/g)].length;
+    assert.ok(sunUniforms>0&&sunUniforms===vectorUniforms,row.path);
+    // Every solar state change rebuilds the indices, uploads changed shadows, then
+    // repaints at once: between the upload and the repaint only the family's own
+    // program-demand bookkeeping may run, never a return or another call.
+    const solarRefresh=/^if\(updateSolarShadowIndices\(\)\)uploadShadow\(\);(?:reconcileProgramDemand\(\);|pruneProgramPreparation\(\);)?map\.triggerRepaint\(\);/;
+    const refreshes=(marker,lead)=>{const body=parsedBlock(tree,marker).body,at=orderedFragments(body,[...lead,'if(updateSolarShadowIndices())uploadShadow();']).at(-1);assert.match(body.slice(at),solarRefresh,`${row.path}: ${marker}`);return body;};
+    assert.match(refreshes('setSolarShadowBoundary(value:SolarShadowBoundary)',[]),/^const next=prepareSolarShadowBoundary\(value\);solarBoundary=next;/,row.path);
+    refreshes('setSunlightInstant(instantISO:string)',['sceneSun=next;']);
+    refreshes('setSceneEnvironment(value:SceneEnvironmentState)',['if(nextReduced!==reducedMotion){reducedMotion=nextReduced;needsBirth=true;']);
     assert.ok(text.includes("geometryRole:'accepted-resident-display-mesh'"),row.path);
     assert.ok(text.includes('minimumShadowSolarAltitudeDegrees:SCENE_SHADOW_MIN_ALTITUDE_DEGREES'),row.path);
-    assert.ok(text.includes('if(signature===solarShadowSignature)return false;'),row.path);
-    assert.ok(text.includes('if(updateSolarShadowIndices())uploadShadow();map.triggerRepaint();'),row.path);
-    assert.ok(text.includes('if(nextReduced!==reducedMotion){reducedMotion=nextReduced;needsBirth=true;'),row.path);
     assert.ok(!text.includes("solarShadowMode='fixed-display-schematic'"),row.path);
     assert.ok(!text.includes('sceneEnvironment.sunlight?sceneSun.shadowVector:SOURCE_SHADOW_VECTOR'),row.path);
-    assert.ok(text.includes('fixedShadowIndices=new Uint32Array();fixedShadowRanges=[];solarShadowAdmittedKeys.clear();solarBoundary=undefined;'),row.path);
+    // Reset drops the fixed-shadow state the family declares - its index array, or
+    // the byte count of families without one, and its fixed range list when it has
+    // one - then the admitted keys and the boundary.
+    const fixedIndices=/\bfixedShadowIndices\b/.test(text)?'fixedShadowIndices=new Uint32Array\\(\\);':'fixedShadowIndexBytes=0;';
+    const fixedRanges=/\bfixedShadowRanges\b/.test(text)?'fixedShadowRanges=\\[\\];':'';
+    assert.match(text,new RegExp(fixedIndices+fixedRanges+'solarShadowAdmittedKeys\\.clear\\(\\);solarBoundary=undefined;'),row.path);
   }
+  assert.equal(implementations,7);
   const managerFiles=receipt.files.filter(row=>row.path.endsWith('/three-dimensional-map.ts'));
   assert.equal(managerFiles.length,7);
   for(const row of managerFiles) {

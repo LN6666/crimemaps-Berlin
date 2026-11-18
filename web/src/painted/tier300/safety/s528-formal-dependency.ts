@@ -19,7 +19,7 @@ export function prepareS528FormalDependency<S extends Leaf>(catalog:readonly S[]
   dependencies=LEAVES.map(expected=>{const found=catalog.filter(s=>s.sha256===expected.sha256);if(found.length!==1)throw Error('S528 required leaf absent or ambiguous: '+expected.id);const s=found[0];if(s.id!==expected.id||s.path!==expected.path||s.tile_key!==expected.tile_key||s.bytes!==expected.bytes||s.vertices!==expected.vertices||s.lod!==1)throw Error('S528 required leaf descriptor mismatch');return s;});active=true;
  }
  const leafPriority=(a:S,b:S)=>active?Number(leafHashes.has(b.sha256 as any))-Number(leafHashes.has(a.sha256 as any)):0;
- return {active,
+ return {active,requiredLeafIds:dependencies.map(s=>s.id),
   candidates(original:S[]):S[]{if(!active)return original;const next=original.slice();for(const s of dependencies)if(!next.some(n=>n.sha256===s.sha256))next.push(s);return next;},
   leafPriority,
   assertChosen(chosen:readonly S[]){if(active&&dependencies.some(d=>!chosen.includes(d)))throw Error('S528 formal dependency exceeds unchanged leaf/byte budget');},

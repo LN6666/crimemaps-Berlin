@@ -1,3 +1,4 @@
+import type {FrozenDataScope} from '../../../safety/frozen-data-scope';
 import type {BuildingComponent} from './building-mesh-renderer';
 import type {ProgressiveAdmission} from './progressive-paint';
 import {progressiveAdmission} from './progressive-paint';
@@ -14,7 +15,8 @@ const allowedFamilies:Readonly<Record<string,readonly number[]>>={
 };
 const rgb=(c:readonly number[]|undefined)=>!!c&&c.length===3&&c.every(v=>Number.isFinite(v)&&v>=0&&v<=1);
 /** Rendering-route readiness only. Unknown native-base finish remains unknown. */
-export function s020FullOriginalBatchRouteReady(c:BuildingComponent,row:ProgressiveAdmission|undefined=progressiveAdmission(c)){
+export function s020FullOriginalBatchRouteReady(c:BuildingComponent,row:ProgressiveAdmission|undefined=undefined,scope?:FrozenDataScope){
+ if(row===undefined)row=progressiveAdmission(c,scope);
  const families=allowedFamilies[c.objectId];
  if(!row||!families||row.city!==c.city||row.objectId!==c.objectId||row.partId!==c.partId||row.origin[0]!==c.origin[0]||row.origin[1]!==c.origin[1]||row.geometrySignature!==nativePaintSignature(c))return false;
  for(const f of row.surfaceFrames??[]){const b=c.batches[f.batchIndex];if(!b||!Number.isSafeInteger(f.firstVertex)||!Number.isSafeInteger(f.vertexCount)||f.firstVertex<0||f.vertexCount<1||f.firstVertex+f.vertexCount>b.positions.length/3||!families.includes(f.family)||f.width<=0||f.height<=0||![...f.uAxis,...f.vAxis,f.uOrigin,f.vOrigin,f.width,f.height].every(Number.isFinite))return false;}
@@ -32,7 +34,8 @@ export function s020FullOriginalBatchRouteReady(c:BuildingComponent,row:Progress
 }
 function canonical(v:unknown):string{if(Array.isArray(v))return '['+v.map(canonical).join(',')+']';if(v&&typeof v==='object')return '{'+Object.entries(v as Record<string,unknown>).sort(([a],[b])=>a.localeCompare(b)).map(([k,x])=>JSON.stringify(k)+':'+canonical(x)).join(',')+'}';return JSON.stringify(v)??'undefined';}
 /** Only this reviewed multipolygon outline. Never broadens the way-only planner. */
-export function s020RelationOutlineDisplayPlan(components:readonly BuildingComponent[],profiles:readonly S020RelationOutlineProfile[],binding:SourceEdgeAssemblyBinding,admission:AdmissionReader=progressiveAdmission):SourceEdgeAssemblyDisplayPlan{
+export function s020RelationOutlineDisplayPlan(components:readonly BuildingComponent[],profiles:readonly S020RelationOutlineProfile[],binding:SourceEdgeAssemblyBinding,admission:AdmissionReader|undefined=undefined,scope?:FrozenDataScope):SourceEdgeAssemblyDisplayPlan{
+ if(admission===undefined)admission=c=>progressiveAdmission(c,scope);
  const plan:SourceEdgeAssemblyDisplayPlan={hiddenOutlines:[],groups:[],errors:[]};
  if(binding.city!=='berlin')return plan;
  const expected=S020_RELATION_OUTLINE_PROFILES[0],outline=components.find(c=>key(c)===key(expected.outline));if(!outline)return plan;

@@ -14,7 +14,7 @@ export function prepareS434CohortSelection<T extends Shard>(base:readonly T[],ca
  const required=new Set(selected.map(s=>s.id)),candidates=enabled?[...selected,...base.filter(s=>!required.has(s.id))]:[...base];
  const stages={rawCandidate:new Map<number,number[]>(),viewportEligible:new Map<number,number[]>(),afterCohortViewport:new Map<number,number[]>()};
  const counts=(rows:readonly GroupComponent[])=>E.members.map(e=>rows.filter(c=>c.city==='frankfurt'&&c.objectId===e.objectId&&c.partId===e.partId).length);
- return {triggered,enabled,reason,candidates,
+ return {triggered,enabled,reason,requiredLeafIds:enabled?selected.map(s=>s.id):[],candidates,
   note(stage:keyof typeof stages,slot:number,rows:readonly GroupComponent[]){if(triggered)stages[stage].set(slot,counts(rows));},
   priority(a:GroupComponent,b:GroupComponent){return enabled?Number(s434CohortMember(b))-Number(s434CohortMember(a)):0;},
   viewportRows<TC extends GroupComponent>(raw:readonly TC[],visible:readonly TC[]):TC[]{if(!enabled)return [...visible];const set=new Set(visible);return raw.filter(c=>set.has(c)||s434CohortMember(c));},

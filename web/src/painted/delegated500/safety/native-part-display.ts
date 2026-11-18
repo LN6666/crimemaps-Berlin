@@ -1,4 +1,4 @@
-import type {BuildingComponent,Identity} from './building-mesh-renderer';
+import type {BuildingComponent,Identity} from '../../../safety/building-mesh-types';
 export type NativeMember=Identity&{leafSHA:string;geometryFingerprint:string};
 export type NativePartDisplayProfile={city:string;relationId?:number;sourceOutlineGroupId?:string;name:string;indexSHA:string;sourcePBF:string;boundarySHA:string;sourceSnapshot:string;outline:NativeMember;declaredPartIds:readonly string[];compiledParts:readonly NativeMember[];missingPartIds:readonly string[];unknownPartIds:readonly string[];ownershipUnverifiedPartIds:readonly string[];completenessClaim:false;requireAllPartsResident?:true};
 export type NativeDisplayBinding={city:string;indexSHA:string;sourcePBF:string;boundarySHA:string;sourceSnapshot:string;leafSHA:(c:BuildingComponent)=>string|undefined};

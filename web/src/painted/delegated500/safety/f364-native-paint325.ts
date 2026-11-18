@@ -1,4 +1,4 @@
-import type{BuildingComponent}from'./building-mesh-renderer';
+import type{BuildingComponent}from'../../../safety/building-mesh-types';
 import{nativePaintSignature}from'./progressive-native-signature';
 // Copy beside production safety modules; root supplies exact current signature.
 // Candidate family null; no allocation and no derived meshes admitted.

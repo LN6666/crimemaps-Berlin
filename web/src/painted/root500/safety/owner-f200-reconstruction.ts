@@ -1,5 +1,5 @@
-import type {BuildingComponent,Identity,MeshBatch} from './building-mesh-renderer';
-import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
+import type {BuildingComponent,Identity,MeshBatch} from '../../../safety/building-mesh-types';
+import type {OwnerReconstructionStats} from '../../../safety/owner-reconstruction-stats';
 import {nativePaintSignature} from './progressive-native-signature';
 type PB=MeshBatch&{positions:number[];normals:number[];indices:number[];color:number[];kind:number};
 export const F200_IDS=[{"objectId":"osm/way/3937059","partId":"osm/way/3937059/component/af47915f2d94af416ef0","signature":"7b4256d7"},{"objectId":"osm/way/27153443","partId":"osm/way/27153443/component/8c558dc9a10e19d836ca","signature":"74152b54"},{"objectId":"osm/way/80504032","partId":"osm/way/80504032/component/2011d0522359162ebab2","signature":"6bb6a37f"},{"objectId":"osm/way/80504034","partId":"osm/way/80504034/component/dafa6d89513d55bae3c4","signature":"4ed0f778"},{"objectId":"osm/way/80504035","partId":"osm/way/80504035/component/1cba72258bff170668f7","signature":"ae3c60ae"},{"objectId":"osm/way/80592710","partId":"osm/way/80592710/component/8083f739d1a2bc7e8da2","signature":"4c152f89"},{"objectId":"osm/way/167511046","partId":"osm/way/167511046/component/b1048e9a274d2edd27b6","signature":"6950a05d"},{"objectId":"osm/way/334574350","partId":"osm/way/334574350/component/1eace869a911c11465d7","signature":"9019e318"}];

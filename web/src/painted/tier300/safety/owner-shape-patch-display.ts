@@ -1,3 +1,4 @@
+import {OWNER_SHAPE_PATCH_FOCUS} from './owner-shape-patch-focus';
 import {OWNER_SHAPE_PATCH_PROFILES} from './owner-shape-patch-profiles';
 import type {BuildingComponent} from './building-mesh-renderer';
 export type OwnerShapePatchProfile=typeof OWNER_SHAPE_PATCH_PROFILES[number];
@@ -17,3 +18,9 @@ export function ownerShapePatchDisplayRows(rows:BuildingComponent[],profileOf:(c
  return rows.filter(c=>!active.some(p=>c.objectId===p.objectId&&c.partId===p.sourcePartId||('replacesNative'in p&&p.replacesNative.some(r=>c.objectId===r.objectId&&c.partId===r.partId&&nativeLeaf(c)===r.nativeLeafSHA256))));
 }
 export function ownerShapePatchMetadata(rows:BuildingComponent[],profileOf:(c:BuildingComponent)=>OwnerShapePatchProfile|undefined){const components=rows.flatMap(c=>{const p=profileOf(c);return p?[{number:p.number,objectId:c.objectId,partId:c.partId,sourcePartId:p.sourcePartId,patchSHA256:p.sha256,vertices:p.vertices,triangles:p.triangles,geometryRole:'owner-authorized-reconstruction' as const}]:[];});return {components,geometryAdded:components.reduce((n,c)=>n+c.vertices,0),notNative:true as const};}
+
+export function ownerShapePatchFocusComponents(profile:OwnerShapePatchProfile){
+ const row=OWNER_SHAPE_PATCH_FOCUS.find(row=>row.id===profile.id&&row.city===profile.city&&row.sha256===profile.sha256);
+ if(!row||row.components.some(c=>c.objectId!==profile.objectId||c.partId!==profile.partId))throw Error('Owner shape patch focus source mismatch');
+ return row.components;
+}

@@ -1,3 +1,5 @@
+import {resolvePoiDisplayStyle} from './poi-display-style';
+
 type PoiCatalog=Record<string,{color:string;label:string}>;
 
 /** Scope groups control filtering; colors still describe each feature's actual kind. */
@@ -27,11 +29,8 @@ export function createPoiFilterLegend(
     const swatch=document.createElement("span");
     swatch.className="poi-filter-swatch";
     swatch.setAttribute("aria-hidden","true");
-    // Match styledPois, including unknown kinds and the deliberately darker center.
-    const color=catalog[kind]?.color??"#64748b";
-    const centerColor=/^#[0-9a-f]{6}$/i.test(color)
-      ? "#"+color.slice(1).match(/../g)!.map(channel=>Math.round(parseInt(channel,16)*0.6).toString(16).padStart(2,"0")).join("")
-      : "#3c4653";
+    // Use the same display policy as styledPois, including legacy fallbacks.
+    const {color,centerColor}=resolvePoiDisplayStyle(kind,catalog[kind]?.color);
     const area=document.createElement("span");
     area.className="poi-filter-area";
     area.style.background=color;

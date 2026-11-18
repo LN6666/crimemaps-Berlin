@@ -1,4 +1,5 @@
 // Own exact source/UV pins only; historical configuration unknown; candidate unapplied.
+type C059ExactTuple010 = readonly [0, 1, 0];
 export const C059_PROJECTION_REGISTRY={
   "schemaVersion": 1,
   "scope": "Löwenturm exact28vendor roof; 2flat sources unchanged",
@@ -19,7 +20,7 @@ export const C059_PROJECTION_REGISTRY={
       11.573980200000001,
       48.1358471
     ],
-    "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/flat-00350.json.gz",
+    "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/flat-00350.json.gz",
     "sourceSHA256": "d37a596a4fbf047468f0b23ca347519129777f22b58aa26ce004109c04e040aa",
     "geometrySignature": "97bab2cd",
     "componentGeometry": {
@@ -193,7 +194,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400330581",
       "partId": "osm/way/400330581/component/7407342de5fcaab91765",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "4b883783",
       "rawBuffers": [
@@ -237,7 +238,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -257,7 +258,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -277,7 +278,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -297,7 +298,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -320,7 +321,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400330582",
       "partId": "osm/way/400330582/component/f8781535126a4a4dc44b",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "01db5e8b",
       "rawBuffers": [
@@ -364,7 +365,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -384,7 +385,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -404,7 +405,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -424,7 +425,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -444,7 +445,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -467,7 +468,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400330583",
       "partId": "osm/way/400330583/component/f35ef7e6b476728995d4",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "ae18abc5",
       "rawBuffers": [
@@ -511,7 +512,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -531,7 +532,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -551,7 +552,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -571,7 +572,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -594,7 +595,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400330584",
       "partId": "osm/way/400330584/component/115dc476eab602878972",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "440f3bc0",
       "rawBuffers": [
@@ -638,7 +639,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -658,7 +659,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -678,7 +679,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -698,7 +699,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -718,7 +719,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -741,7 +742,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400330585",
       "partId": "osm/way/400330585/component/8891f00f9acc0a2d32cb",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "73b51fa9",
       "rawBuffers": [
@@ -785,7 +786,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -805,7 +806,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -825,7 +826,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -848,7 +849,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400330586",
       "partId": "osm/way/400330586/component/fe384155c1755ed74465",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "b718ecd0",
       "rawBuffers": [
@@ -892,7 +893,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -912,7 +913,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -932,7 +933,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -952,7 +953,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -972,7 +973,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -995,7 +996,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400330587",
       "partId": "osm/way/400330587/component/628893cd3574c94a319b",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "bd41b371",
       "rawBuffers": [
@@ -1039,7 +1040,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1059,7 +1060,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1079,7 +1080,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1099,7 +1100,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1119,7 +1120,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1142,7 +1143,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400330588",
       "partId": "osm/way/400330588/component/f11aa8345b79ec3f5188",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "dcbdaa9f",
       "rawBuffers": [
@@ -1186,7 +1187,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1206,7 +1207,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1226,7 +1227,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1246,7 +1247,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1266,7 +1267,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1289,7 +1290,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400330589",
       "partId": "osm/way/400330589/component/ab7fde51f8e929fbfaf6",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "dceb95f2",
       "rawBuffers": [
@@ -1333,7 +1334,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1353,7 +1354,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1373,7 +1374,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1396,7 +1397,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400330591",
       "partId": "osm/way/400330591/component/fbc50d90fee6993324a2",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "101ec35f",
       "rawBuffers": [
@@ -1440,7 +1441,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1460,7 +1461,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1480,7 +1481,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1500,7 +1501,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1520,7 +1521,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1543,7 +1544,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400330592",
       "partId": "osm/way/400330592/component/d210f8d3c9e1f7c20781",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "9db553e8",
       "rawBuffers": [
@@ -1587,7 +1588,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1607,7 +1608,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1627,7 +1628,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1647,7 +1648,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1667,7 +1668,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1690,7 +1691,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400331609",
       "partId": "osm/way/400331609/component/2a6cef0e4d6061d913cc",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "e91ffc79",
       "rawBuffers": [
@@ -1734,7 +1735,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1754,7 +1755,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1774,7 +1775,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1794,7 +1795,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1814,7 +1815,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1837,7 +1838,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400331610",
       "partId": "osm/way/400331610/component/df5d54258d5b7988527f",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "d68d4409",
       "rawBuffers": [
@@ -1881,7 +1882,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1901,7 +1902,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1921,7 +1922,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1941,7 +1942,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1961,7 +1962,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -1984,7 +1985,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400331611",
       "partId": "osm/way/400331611/component/94019d6097a3acad05fd",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "e1bea758",
       "rawBuffers": [
@@ -2028,7 +2029,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2048,7 +2049,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2068,7 +2069,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2088,7 +2089,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2108,7 +2109,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2131,7 +2132,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400331612",
       "partId": "osm/way/400331612/component/f13a77f8af01412f56ea",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "dc5403f7",
       "rawBuffers": [
@@ -2175,7 +2176,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2195,7 +2196,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2215,7 +2216,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2235,7 +2236,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2255,7 +2256,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2278,7 +2279,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400331613",
       "partId": "osm/way/400331613/component/694999cc9a041fc0fb7b",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "5c167139",
       "rawBuffers": [
@@ -2322,7 +2323,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2342,7 +2343,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2362,7 +2363,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2382,7 +2383,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2402,7 +2403,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2425,7 +2426,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400331614",
       "partId": "osm/way/400331614/component/b24e3f9e7356c47f91a9",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "5ed31587",
       "rawBuffers": [
@@ -2469,7 +2470,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2489,7 +2490,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2509,7 +2510,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2529,7 +2530,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2549,7 +2550,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2572,7 +2573,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400331615",
       "partId": "osm/way/400331615/component/f12bcdb646b9378f38ae",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "d3baa789",
       "rawBuffers": [
@@ -2616,7 +2617,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2636,7 +2637,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2656,7 +2657,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2676,7 +2677,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2696,7 +2697,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2719,7 +2720,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400331619",
       "partId": "osm/way/400331619/component/67678eb7d5132ca83306",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "d9db9240",
       "rawBuffers": [
@@ -2763,7 +2764,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2783,7 +2784,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2803,7 +2804,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2823,7 +2824,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2843,7 +2844,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2866,7 +2867,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400331623",
       "partId": "osm/way/400331623/component/d2a774547c9dc2612c8d",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "8b711f38",
       "rawBuffers": [
@@ -2910,7 +2911,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2930,7 +2931,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2950,7 +2951,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2970,7 +2971,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -2990,7 +2991,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3013,7 +3014,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400331627",
       "partId": "osm/way/400331627/component/3dfa1bd6f376b22d07da",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "5bf72206",
       "rawBuffers": [
@@ -3057,7 +3058,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3077,7 +3078,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3097,7 +3098,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3117,7 +3118,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3137,7 +3138,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3160,7 +3161,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400331631",
       "partId": "osm/way/400331631/component/d69886661a94f2b356d4",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "4455fc7e",
       "rawBuffers": [
@@ -3204,7 +3205,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3224,7 +3225,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3244,7 +3245,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3264,7 +3265,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3284,7 +3285,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3307,7 +3308,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400331634",
       "partId": "osm/way/400331634/component/0e5310c5678683d86eb4",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "37fce375",
       "rawBuffers": [
@@ -3351,7 +3352,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3371,7 +3372,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3391,7 +3392,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3411,7 +3412,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3431,7 +3432,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3454,7 +3455,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400331638",
       "partId": "osm/way/400331638/component/5773749c0d1f3ff513f0",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "a9a5ab93",
       "rawBuffers": [
@@ -3498,7 +3499,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3518,7 +3519,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3538,7 +3539,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3558,7 +3559,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3578,7 +3579,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3601,7 +3602,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400331642",
       "partId": "osm/way/400331642/component/522856051607d14deb10",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "3e146646",
       "rawBuffers": [
@@ -3645,7 +3646,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3665,7 +3666,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3685,7 +3686,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3705,7 +3706,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3725,7 +3726,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3748,7 +3749,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400331645",
       "partId": "osm/way/400331645/component/f1ed2bcb232bfef5ffe6",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "f3d94345",
       "rawBuffers": [
@@ -3792,7 +3793,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3812,7 +3813,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3832,7 +3833,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3852,7 +3853,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3872,7 +3873,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3895,7 +3896,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400331646",
       "partId": "osm/way/400331646/component/4f82ddc804c5004496fb",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "64eef92b",
       "rawBuffers": [
@@ -3939,7 +3940,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3959,7 +3960,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3979,7 +3980,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -3999,7 +4000,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -4019,7 +4020,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -4042,7 +4043,7 @@ export const C059_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/400331647",
       "partId": "osm/way/400331647/component/246c7e99cd137050a3e1",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00945.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00945.json.gz",
       "sourceLeafSHA256": "14d1c5b87463bdfb0d3b7094a96b29d109f9a676297bffc99877909762a16444",
       "rawSignature": "03883cc5",
       "rawBuffers": [
@@ -4086,7 +4087,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -4106,7 +4107,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -4126,7 +4127,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -4146,7 +4147,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,
@@ -4166,7 +4167,7 @@ export const C059_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C059ExactTuple010,
           "uOrigin": -2.5403713872057208,
           "vOrigin": 0,
           "width": 5.080744341229844,

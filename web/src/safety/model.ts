@@ -1,4 +1,5 @@
 import {publicationPeriodIncludes} from './publication-period';
+import {resolvePoiDisplayStyle} from './poi-display-style';
 import {t} from "./i18n";
 import type {
   FeatureCollection,
@@ -98,6 +99,13 @@ export interface SceneLocation {
 export interface SourceStage {
   incident_id:string;details?:string;event_time?:EventTime;category?:string;formal_location_ids?:string[];
 }
+/** A source's own sections and quoted phases; these are not incident counts. */
+export interface SourceSection {
+  incident_id:string;
+  original_section_heading:string;
+  source_stated_time:string[];
+  phases:{quote_de:string;time_de?:string|null}[];
+}
 export interface SourceRelationship {
   source_id:string;source_sha256:string;related_source_id:string;related_source_url:string;relation:string;
 }
@@ -140,6 +148,7 @@ export interface PoliceEvent {
   source_supporting_materials?: { source_url: string; source_sha256: string; label: string; note: string }[];
   map_review_note?: string;
   source_incidents?:SourceStage[];
+  source_sections?:SourceSection[];
   published_at_source_literal?:string;
   published_at_timezone_basis?:string;
   month_basis?:string;
@@ -279,6 +288,9 @@ export function transitGeometryLabel(scene: SceneLocation): string {
     return t("transit.trackInterval");
   if (scene.geometry_usage === "carrier_line_reference_only")
     return t("transit.carrierLine");
+  if (scene.geometry_usage === "source_road_reference_only" &&
+      scene.geocode_method === "osm_stationary_road_reference")
+    return t("geometry.stationaryRoadReference");
   if (scene.geometry_usage === "source_road_reference_only")
     if (scene.actual_non_transit_extent_known === false)
       return t("transit.roadExtent");
@@ -577,18 +589,14 @@ export function styledPois(
         const associationRoman=["","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII","XIII","XIV","XV"][associationLevel];
         const displayKind = f.properties.scope_category ? f.properties.kind
           : (f.properties.context_kinds ?? [f.properties.kind]).find((kind:string) => kinds.has(kind)) ?? f.properties.kind;
-        const categoryColor=data.catalog.poi_types[displayKind]?.color ?? "#64748b";
-        const centerColor=/^#[0-9a-f]{6}$/i.test(categoryColor)
-          ? "#"+categoryColor.slice(1).match(/../g)!.map(channel=>Math.round(parseInt(channel,16)*0.6).toString(16).padStart(2,"0")).join("")
-          : "#3c4653";
+        const displayStyle=resolvePoiDisplayStyle(displayKind,data.catalog.poi_types[displayKind]?.color);
         return {
           ...f,
           properties: {
             ...f.properties,
             display_kind: displayKind,
-            center_color:centerColor,
-            color:
-              data.catalog.poi_types[displayKind]?.color ?? "#64748b",
+            center_color:displayStyle.centerColor,
+            color:displayStyle.color,
             count: n,
             candidate_count: c,
             context_count: x,

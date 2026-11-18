@@ -1,0 +1,6 @@
+import type {BuildingComponent,Identity,MeshBatch} from '../../../safety/building-mesh-types';
+type Batch=MeshBatch&{positions:number[];normals:number[];indices:number[];color:number[];frames:number[];paint:number[];writeMask:boolean[];role:number};
+export const F005_IDS=[{"city":"berlin","objectId":"osm/relation/3619","partId":"osm/relation/3619/component/7aee3a67fcdcc3c39cdc","signature":"f2f384fd"},{"city":"berlin","objectId":"osm/way/15968753","partId":"osm/way/15968753/component/df262f9aa259b5dd8f1b","signature":"1add8f38"}];
+export const F005_RECONSTRUCTION_SHA="f14f47b43723850e908eaced8b17e1ac4b9d0734cb88b4c9e0bcdb04a4dade29";
+export const ownerF005Identity=(c:Identity)=>F005_IDS.some(i=>i.objectId===c.objectId&&i.partId===c.partId);
+export function ownerF005BaseMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){let offset=0,objects=0,vertices=0;for(const c of components){const match=c.city==='berlin'&&ownerF005Identity(c)&&!!c.displayEstimates?.F005Exterior;if(match)objects++;for(const b of c.batches){const count=b.positions.length/3;if(match){const a=b as Batch;for(let j=0;j<count;j++)if(a.writeMask[j]){paint.set(a.paint.slice(j*4,j*4+4),4*(offset+j));frames.set(a.frames.slice(j*5,j*5+5),5*(offset+j));vertices++;}}offset+=count;}}return{objects,vertices,actualVisualAccepted:false};}

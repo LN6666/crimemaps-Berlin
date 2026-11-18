@@ -1,4 +1,4 @@
-import type {BuildingComponent,Identity} from './building-mesh-renderer';
+import type {BuildingComponent,Identity} from '../../../safety/building-mesh-types';
 import type {ProgressiveAdmission} from './progressive-paint';
 import {nativePaintSignature} from './progressive-native-signature';
 import {FROZEN_PAINT_IDS} from './frozen-paint-ids';

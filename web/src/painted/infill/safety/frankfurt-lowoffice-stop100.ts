@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from "../../../safety/building-mesh-types";
 import {ownerDisplayFingerprint} from './owner-display-fingerprint';
 import {isFacadeLandmark} from './facade-landmark-registry';
 import {FRANKFURT_LOWOFFICE_STOP100} from './frankfurt-lowoffice-stop100-data';

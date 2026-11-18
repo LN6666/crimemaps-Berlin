@@ -15,7 +15,7 @@ export const C120_PROJECTION_REGISTRY={
       9.981029249999999,
       53.5502834
     ],
-    "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Hamburg/safety/buildings3d/hamburg/roof-01947.json.gz",
+    "sourceLeaf": "source-evidence/93ec18793944fb847a5b/safety/buildings3d/hamburg/roof-01947.json.gz",
     "sourceSHA256": "3f2ccaf158e2d98c454b1bdfb76f36110803ab0211143957674698308ac5de3f",
     "geometrySignature": "bcb6c96d",
     "componentGeometry": {
@@ -151,7 +151,7 @@ export const C120_PROJECTION_REGISTRY={
       "city": "hamburg",
       "objectId": "osm/way/45098481",
       "partId": "osm/way/45098481/component/9548ee16f20c8364680c",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Hamburg/safety/buildings3d/hamburg/roof-01947.json.gz",
+      "sourceLeaf": "source-evidence/93ec18793944fb847a5b/safety/buildings3d/hamburg/roof-01947.json.gz",
       "sourceLeafSHA256": "3f2ccaf158e2d98c454b1bdfb76f36110803ab0211143957674698308ac5de3f",
       "rawSignature": "bcb6c96d",
       "rawBuffers": [

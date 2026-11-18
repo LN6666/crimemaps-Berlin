@@ -1,4 +1,7 @@
-import {PROGRESSIVE_CITY_BASELINE_GLSL,PROGRESSIVE_CITY_EXTRA_GLSL,PROGRESSIVE_CITY_SOURCE_FULL_SHA} from './progressive-feature-cities';
+import {utf8ByteLength} from '../../../safety/utf8-byte-length';
+import {shaderSourceParts,emitShaderSource,shaderSourceBounds,joinShaderSourceParts,type ShaderSourcePart} from '../../../safety/render-runtime/shader-source-budget';
+import type {FrozenDataScope} from '../../../safety/frozen-data-scope';
+import {PROGRESSIVE_CITY_BASELINE_GLSL,getPROGRESSIVE_CITY_EXTRA_GLSL,PROGRESSIVE_CITY_SOURCE_FULL_SHA} from './progressive-feature-cities';
 import {PROGRESSIVE_FEATURE_GLSL,PROGRESSIVE_FEATURE_SHA} from './progressive-feature-glsl';
 import {FACADE_PAINT_PRIMITIVE_GLSL} from './facade-paint-primitives';
 /**
@@ -9,7 +12,7 @@ import {FACADE_PAINT_PRIMITIVE_GLSL} from './facade-paint-primitives';
  * derivatives to be available. It changes fragment colour only; it does not
  * displace or rebuild geometry.
  */
-const makeFacadePaintFragment = (progressive:string,dispatchName:string)=>`
+const facadePaintTemplate = (progressive:string|ShaderSourcePart,dispatchName:string)=>shaderSourceParts`
 ${FACADE_PAINT_PRIMITIVE_GLSL}
 vec3 fpSurfaceOnly(vec3 base,vec2 uv,float material);
 vec3 fpLayoutFacade(vec3 base,vec3 p,vec3 normal,vec4 frame,float layoutId);
@@ -519,17 +522,62 @@ vec3 paintedFacade(vec3 base, vec3 p, vec3 normal, vec4 frame, float family) {
 }
 `;
 
-export const FACADE_PAINT_FRAGMENT_GLSL = makeFacadePaintFragment(PROGRESSIVE_FEATURE_GLSL,'progressiveFeatureDispatch');
-const cityPaintFragments=new Map<string,string>();
-export function facadePaintFragmentForCity(city:string):string {
- const extra=PROGRESSIVE_CITY_SOURCE_FULL_SHA===PROGRESSIVE_FEATURE_SHA?PROGRESSIVE_CITY_EXTRA_GLSL[city]:undefined;
- if(extra===undefined)return FACADE_PAINT_FRAGMENT_GLSL;
- let fragment=cityPaintFragments.get(city);
- if(fragment===undefined){fragment=makeFacadePaintFragment(PROGRESSIVE_CITY_BASELINE_GLSL+extra,'progressiveFeatureDispatchCity');cityPaintFragments.set(city,fragment);}
+const makeFacadePaintFragment=(progressive:string,dispatchName:string)=>emitShaderSource(facadePaintTemplate(progressive,dispatchName));
+export function getFacadePaintFragmentGLSL(_scope?:FrozenDataScope){return makeFacadePaintFragment(PROGRESSIVE_FEATURE_GLSL,'progressiveFeatureDispatch');}
+const RECIPE_KEY={};
+type FacadeSourceObservation={specialized:boolean;baselinePreservedVerbatim:boolean};
+const facadeSourceObservations=new WeakMap<FrozenDataScope,Map<string,FacadeSourceObservation>>();
+function observeFacadePaintSource(city:string,specialized:boolean,scope?:FrozenDataScope){
+ if(!scope||scope.stats.disposed)return;
+ let observations=facadeSourceObservations.get(scope);if(!observations){observations=new Map();facadeSourceObservations.set(scope,observations);}
+ observations.set(city,{specialized,baselinePreservedVerbatim:specialized});
+}
+function facadeSourceMetadata(city:string,scope?:FrozenDataScope){
+ const observed=scope&&!scope.stats.disposed?facadeSourceObservations.get(scope)?.get(city):undefined;
+ return {city,specialized:observed?.specialized??null,sourceSHA256:PROGRESSIVE_FEATURE_SHA,generatedSourceSHA256:PROGRESSIVE_CITY_SOURCE_FULL_SHA,sourceKind:null as 'city'|'full'|'partition'|null,fragmentBytes:null as number|null,fullFragmentBytes:null as number|null,baselinePreservedVerbatim:observed?.baselinePreservedVerbatim??null};
+}
+type SourceScratch={depth:number;cityPaintFragments:Map<string,string>};
+const sourceScratch=new WeakMap<FrozenDataScope,SourceScratch>();
+/** Generated source strings belong only to this synchronous build stack. */
+export function withCityPaintSources<T>(scope:FrozenDataScope|undefined,build:()=>T):T{
+ if(!scope)return build();
+ if(scope.stats.disposed)throw new DOMException('Frozen data scope was released','AbortError');
+ let scratch=sourceScratch.get(scope);if(!scratch){scratch={depth:0,cityPaintFragments:new Map()};sourceScratch.set(scope,scratch);}
+ scratch.depth++;
+ try{return build();}finally{if(--scratch.depth===0){scratch.cityPaintFragments.clear();sourceScratch.delete(scope);}}
+}
+function createRecipe(scope:FrozenDataScope){
+ function cityPaintFragments(){const scratch=scope&&sourceScratch.get(scope);if(!scratch)throw Error('City source build requires an active preparation workspace');return scratch.cityPaintFragments;}
+
+function facadePaintFragmentForCity(city:string):string {
+ const extra=PROGRESSIVE_CITY_SOURCE_FULL_SHA===PROGRESSIVE_FEATURE_SHA?getPROGRESSIVE_CITY_EXTRA_GLSL(scope)[city]:undefined;
+ observeFacadePaintSource(city,extra!==undefined,scope);
+ if(extra===undefined)return getFacadePaintFragmentGLSL(scope);
+ let fragment=cityPaintFragments().get(city);
+ if(fragment===undefined){fragment=makeFacadePaintFragment(PROGRESSIVE_CITY_BASELINE_GLSL+extra,'progressiveFeatureDispatchCity');cityPaintFragments().set(city,fragment);}
  return fragment;
 }
 
-export function facadePaintSpecializationForCity(city:string){
- const specialized=PROGRESSIVE_CITY_SOURCE_FULL_SHA===PROGRESSIVE_FEATURE_SHA&&PROGRESSIVE_CITY_EXTRA_GLSL[city]!==undefined;
- return {city,specialized,sourceSHA256:PROGRESSIVE_FEATURE_SHA,generatedSourceSHA256:PROGRESSIVE_CITY_SOURCE_FULL_SHA,fragmentBytes:new TextEncoder().encode(facadePaintFragmentForCity(city)).byteLength,fullFragmentBytes:new TextEncoder().encode(FACADE_PAINT_FRAGMENT_GLSL).byteLength,baselinePreservedVerbatim:specialized};
+function facadePaintSpecializationForCity(city:string){return facadeSourceMetadata(city,scope);}
+
+return{facadePaintFragmentForCity,facadePaintSpecializationForCity};
+}
+function recipe(scope:FrozenDataScope){if(!scope)throw Error('City shader source requires a prepared frozen data scope');return scope.memo(RECIPE_KEY,()=>createRecipe(scope));}
+export function facadePaintFragmentForCity(city:string,scope:FrozenDataScope){return withCityPaintSources(scope,()=>recipe(scope).facadePaintFragmentForCity(city));}
+export function facadePaintSpecializationForCity(city:string,scope?:FrozenDataScope){return facadeSourceMetadata(city,scope);}
+export function clearCityPreparedProgramSources(scope:FrozenDataScope){if(scope.stats.disposed)return;const scratch=sourceScratch.get(scope);if(!scratch)return;scratch.cityPaintFragments.clear();if(!scratch.depth)sourceScratch.delete(scope);}
+export const MODULE_SCOPE_ARITY={getFacadePaintFragmentGLSL:0,facadePaintFragmentForCity:1,facadePaintSpecializationForCity:1,describeFacadePaintSource:3,describeFacadePaintSourceBounds:2} as const;
+
+/** Describe only the source already admitted by the source workspace. */
+export function describeFacadePaintSource(city:string,source:string,kind:'city'|'full'|'partition',scope?:FrozenDataScope){
+ const metadata=facadePaintSpecializationForCity(city,scope),bytes=utf8ByteLength(source);
+ return {...metadata,sourceKind:kind,fragmentBytes:bytes,fullFragmentBytes:kind==='full'?bytes:null};
+}
+
+/** Count the selected input fragments and the original literal template before
+ * either the baseline/extra concatenation or full facade join occurs. */
+export function describeFacadePaintSourceBounds(city:string,_sourceKey:string|undefined,scope:FrozenDataScope){
+ const extra=PROGRESSIVE_CITY_SOURCE_FULL_SHA===PROGRESSIVE_FEATURE_SHA?getPROGRESSIVE_CITY_EXTRA_GLSL(scope)[city]:undefined;
+ const progressive=extra===undefined?PROGRESSIVE_FEATURE_GLSL:joinShaderSourceParts([PROGRESSIVE_CITY_BASELINE_GLSL,extra]);
+ return shaderSourceBounds(facadePaintTemplate(progressive,extra===undefined?'progressiveFeatureDispatch':'progressiveFeatureDispatchCity'),{authorityTrace:['city/facade-paint-fragment',PROGRESSIVE_FEATURE_SHA,PROGRESSIVE_CITY_SOURCE_FULL_SHA,city]});
 }

@@ -6,6 +6,7 @@ import {mkdtemp,readFile,writeFile,rm,mkdir} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {pathToFileURL,fileURLToPath} from 'node:url';
+import {nullCityDataProfilePlugin} from './city-profile-test-plugin.mjs';
 const web=fileURLToPath(new URL('../',import.meta.url)),source=path.join(web,'src/safety');
 const require=createRequire(new URL('../package.json',import.meta.url));
 const {build:esbuild}=require('esbuild');
@@ -85,15 +86,46 @@ test('later module initializers remain supported after the initial import wait f
 });
 
 test('painted-map cancels cold import ownership, retries the same import, and maintains late-reader sessions through 2D/suspend/resume/destroy',async t=>{
- const names={begin:'__begin'+Math.random().toString(16).slice(2),factory:'__factory'+Math.random().toString(16).slice(2),gate:'__gate'+Math.random().toString(16).slice(2)};
+ const names={begin:'__begin'+Math.random().toString(16).slice(2),factory:'__factory'+Math.random().toString(16).slice(2),gate:'__gate'+Math.random().toString(16).slice(2),owner:'__owner'+Math.random().toString(16).slice(2)};
  const savedDocument=globalThis.document,savedLocation=globalThis.location;globalThis.document={hidden:false};globalThis.location={hostname:'test.invalid'};t.after(()=>{globalThis.document=savedDocument;globalThis.location=savedLocation;for(const key of Object.values(names))delete globalThis[key];});
  const store=createFrozenInitializerStore([]),sessions=[],calls=[];let releaseGate,created=0;globalThis[names.gate]=new Promise(resolve=>releaseGate=resolve);
  globalThis[names.begin]=(read,signal,_providers,onFailure)=>{const session=store.begin(read,signal,{tables:[],initializers:{}},onFailure);sessions.push(session);return session;};
  globalThis[names.factory]=(provider,options)=>{created++;let mode='2d';const renderer={layer:{id:provider},stats:{vertices:3,components:1},getRevision:()=>({generation:1,viewRevision:1}),setPageHidden(){},setReducedMotion(){},setOpacityContext(){},diagnosticScreenSamples:()=>[],isPickReady:()=>true};return{async requestMode(next,signal){signal.throwIfAborted();calls.push([provider,next,options.manageCamera]);mode=next;options.onRenderer?.(renderer);return{mode,status:'ready'};},get mode(){return mode;},setPageHidden(){},setReducedMotion(){},setOpacityContext(){},cacheStats:()=>({}),suspend(){},resume(){},destroy(){calls.push([provider,'destroy']);}};};
+ // The compositor's per-map frozen resource owner is an inert recording double
+ // here: this case observes initializer sessions only (resource ownership is
+ // covered by frozen-data-resource-owner). Its client/destroy calls are checked.
+ const owners=[];globalThis[names.owner]=options=>{const owner={options,clients:[],destroyed:0,client(provider){const client={provider,dispose(){}};owner.clients.push(client);return client;},stats:{},destroy(){owner.destroyed++;}};owners.push(owner);return owner;};
  const contents=await readFile(path.join(source,'painted-map.ts'),'utf8');
- const result=await esbuild({stdin:{contents,resolveDir:source,sourcefile:'painted-map.ts',loader:'ts'},bundle:true,platform:'node',format:'esm',target:'es2022',write:false,plugins:[{name:'stream-map-lifecycle',setup(build){build.onResolve({filter:/^\.\/frozen-paint-tables$/},()=>({path:'store',namespace:'fixture'}));build.onLoad({filter:/.*/,namespace:'fixture'},()=>({contents:`export const beginFrozenPaintTableInitialization=(...args)=>globalThis[${JSON.stringify(names.begin)}](...args);export const frozenPaintTableStats=()=>({});`,loader:'js'}));build.onResolve({filter:/painted\/[^/]+\/safety\/(?:three-dimensional-map|building-mesh-renderer)$/},args=>({path:args.path,namespace:'provider'}));build.onLoad({filter:/.*/,namespace:'provider'},args=>({contents:`await globalThis[${JSON.stringify(names.gate)}]; export const installThreeDimensionalMap=options=>globalThis[${JSON.stringify(names.factory)}](${JSON.stringify(args.path.split('/painted/')[1].split('/')[0])},options);`,loader:'js'}));}}]});
- const {installThreeDimensionalMap}=await import('data:text/javascript;base64,'+Buffer.from(result.outputFiles[0].text).toString('base64'));const manager=installThreeDimensionalMap({map:{},city:'berlin',fetchBytes:async()=>new Uint8Array([1])});
+ // The null development city profile is the explicit unit-test input for
+ // virtual:crimemaps-city-data; publication builds keep Vite's profile gate.
+ const result=await esbuild({stdin:{contents,resolveDir:source,sourcefile:'painted-map.ts',loader:'ts'},bundle:true,platform:'node',format:'esm',target:'es2022',write:false,plugins:[nullCityDataProfilePlugin,{name:'stream-map-lifecycle',setup(build){build.onResolve({filter:/^\.\/frozen-paint-tables$/},()=>({path:'store',namespace:'fixture'}));build.onLoad({filter:/.*/,namespace:'fixture'},()=>({contents:`export const beginFrozenPaintTableInitialization=(...args)=>globalThis[${JSON.stringify(names.begin)}](...args);export const frozenPaintTableStats=()=>({});export const createFrozenDataResourceOwner=options=>globalThis[${JSON.stringify(names.owner)}](options);`,loader:'js'}));build.onResolve({filter:/painted\/[^/]+\/safety\/(?:three-dimensional-map|building-mesh-renderer)$/},args=>({path:args.path,namespace:'provider'}));build.onLoad({filter:/.*/,namespace:'provider'},args=>({contents:`await globalThis[${JSON.stringify(names.gate)}]; export const installThreeDimensionalMap=options=>globalThis[${JSON.stringify(names.factory)}](${JSON.stringify(args.path.split('/painted/')[1].split('/')[0])},options);`,loader:'js'}));}}]});
+ // The compositor subscribes to map render events (retired-resource collection,
+ // one-frame camera waits); a recording map lets destroy prove it unsubscribes.
+ const listeners=new Set(),map={on:(_type,listener)=>listeners.add(listener),off:(_type,listener)=>listeners.delete(listener),triggerRepaint(){}};
+ const {installThreeDimensionalMap}=await import('data:text/javascript;base64,'+Buffer.from(result.outputFiles[0].text).toString('base64'));const manager=installThreeDimensionalMap({map,city:'berlin',mobile:false,fetchBytes:async()=>new Uint8Array([1])});
+ assert.equal(owners.length,1);assert.equal(owners[0].options.city,'berlin');
  const first=manager.requestMode('3d',signal()),canceled=assert.rejects(first,/abort/i);await tick();await manager.requestMode('2d',signal());await canceled;assert.equal(created,0);assert.equal(store.stats.sessionActive,false);
  const retry=manager.requestMode('3d',signal());releaseGate();await deadline(retry);assert.equal(created,5);assert.equal(store.stats.sessionActive,true);assert.equal(calls.filter(row=>row[2]===true).length,1);
  manager.suspend();assert.equal(store.stats.sessionActive,false);manager.resume();assert.equal(store.stats.sessionActive,true);await manager.requestMode('2d',signal());assert.equal(store.stats.sessionActive,false);await manager.requestMode('3d',signal());assert.equal(store.stats.sessionActive,true);assert.equal(created,5);manager.destroy();assert.equal(store.stats.sessionActive,false);assert.equal(calls.filter(row=>row[1]==='destroy').length,5);
+ assert.deepEqual(owners[0].clients.map(client=>client.provider),['root500','delegated500','tier300','church','city'],'one resource client per created provider');assert.equal(owners[0].destroyed,1,'the per-map resource owner is destroyed once');
+ assert.equal(listeners.size,0,'destroy removes every map listener the compositor registered');
+});
+
+
+test('resolved-input diagnostics count actual handoffs, preserve history after raw release, and retain only eight scalar rows',async()=>{
+ const fixtures=Array.from({length:12},(_,i)=>fixture(JSON.stringify({id:i,text:'x'.repeat(100+i)})));
+ const rows=fixtures.map((f,i)=>({f,file:file(i)}));rows.push({f:fixtures[0],file:'painted/bremen/safety/owner-other.ts'});
+ const store=createFrozenInitializerStore(fixtures.map(f=>f.d));
+ const session=store.begin(async path=>fixtures.find(f=>f.d.path===path).bytes,signal(),selection(rows));
+ await session.wait(Promise.all(rows.map(({f,file})=>store.read(f.d.sha256,file))));session.close();
+ const stats=store.stats,proof=stats.resolvedInputs;
+ assert.equal(stats.retainedBytes,0);assert.equal(stats.parses,13);
+ assert.equal(proof.scope,'cumulative-logical-json-input-not-retained-heap');
+ assert.equal(proof.resolvedJSONBytes,rows.reduce((total,{f})=>total+f.d.bytes,0));
+ assert.equal(proof.byProvider.root500.initializers,12);assert.deepEqual(proof.byProvider.bremen,{initializers:1,logicalJSONBytes:fixtures[0].d.bytes});
+ assert.equal(proof.limit,8);assert.equal(proof.largest.length,8);assert.equal(proof.largest[0].bytes,fixtures[11].d.bytes);
+ assert(proof.firstResolveMs<=proof.lastResolveMs&&proof.maxDecodeParseMs>=0);
+ for(const row of proof.largest){assert.equal(row.sessionEpoch,1);assert(row.resolvedAtMs>=row.decodeParseStartMs);assert(row.decodeParseElapsedMs>=0);assert(!('value' in row));}
+ proof.byProvider.root500.logicalJSONBytes=-1;proof.largest[0].bytes=-1;
+ assert(store.stats.resolvedInputs.byProvider.root500.logicalJSONBytes>0);assert(store.stats.resolvedInputs.largest[0].bytes>0);
 });

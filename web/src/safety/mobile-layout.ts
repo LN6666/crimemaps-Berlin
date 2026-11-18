@@ -62,8 +62,19 @@ export function installMobileLayout(root: HTMLElement, options: {
   toolbar?.addEventListener("change", updateViewSummary, { signal });
   window.addEventListener("pageshow", updateViewSummary, { signal });
   settings.addEventListener("toggle", () => notifyLayout(), { signal });
+  function setDisclosureOpen(disclosure: HTMLDetailsElement, summary: HTMLElement, open: boolean) {
+    // Move focus before hiding the active content at a mobile breakpoint.
+    if (!open && disclosure.open && disclosure.contains(document.activeElement) && document.activeElement !== summary) summary.focus({ preventScroll: true });
+    disclosure.open = open;
+  }
+  function closeOnEscape(event: KeyboardEvent, disclosure: HTMLDetailsElement, summary: HTMLElement) {
+    if (event.defaultPrevented || event.key !== "Escape" || !mobile.matches || !disclosure.open) return;
+    event.preventDefault();
+    summary.focus({ preventScroll: true });
+    disclosure.open = false;
+  }
   settings.addEventListener("keydown", event => {
-    if (event.key === "Escape" && mobile.matches && settings.open) { event.preventDefault(); settings.open = false; settingsSummary.focus(); }
+    closeOnEscape(event, settings, settingsSummary);
   }, { signal });
   const notesHost = document.createElement("div");
   notesHost.className = "mobile-map-notes";
@@ -71,8 +82,8 @@ export function installMobileLayout(root: HTMLElement, options: {
     const marker = document.createComment("map note position"); note.before(marker); return { note, marker };
   });
   function adaptHeader() {
-    settings.open = !mobile.matches;
-    basemapSettings.open = !mobile.matches || (basemapError ? !basemapError.hidden : false);
+    setDisclosureOpen(settings, settingsSummary, !mobile.matches);
+    setDisclosureOpen(basemapSettings, basemapSummary, !mobile.matches || (basemapError ? !basemapError.hidden : false));
     if (mobile.matches) { detailsRegion.prepend(notesHost); for (const { note } of movedNotes) notesHost.append(note); }
     else { for (const { note, marker } of movedNotes) marker.after(note); notesHost.remove(); }
     updateViewSummary();
@@ -85,6 +96,9 @@ export function installMobileLayout(root: HTMLElement, options: {
   const basemapContent = document.createElement("div");
   basemapContent.className = "mobile-basemap-content";
   if (basemapPicker) { basemapContent.append(...basemapPicker.childNodes); basemapSettings.append(basemapSummary, basemapContent); basemapPicker.append(basemapSettings); }
+  basemapSettings.addEventListener("keydown", event => {
+    closeOnEscape(event, basemapSettings, basemapSummary);
+  }, { signal });
   const basemapError = root.querySelector<HTMLElement>("#basemap-error");
   const errorObserver = new MutationObserver(() => { if (basemapError && !basemapError.hidden) basemapSettings.open = true; });
   if (basemapError) errorObserver.observe(basemapError, { attributes: true, attributeFilter: ["hidden"] });

@@ -1,5 +1,9 @@
+import {readRenderProgramLifecycle,releaseRecentPrograms} from './render-runtime/program-preparation';
+import {configureResidentNormalCompression} from './render-runtime/resident-geometry';
 import {captureRecoveryControls,restoreRecoveryControls} from './map-recovery-controls';
 import {planarReflectionGroup} from './planar-reflection-group';
+import {createSceneProofGate} from './scene-proof-gate';
+import {installSceneSolarShadowLayer} from './scene-solar-shadow-layer';
 import {loadSelectedPeriod} from './selected-period';
 import {viewportRenderData} from './viewport-render-data';
 import {isYearPublicationPeriod,savedPublicationMonths} from './publication-period';
@@ -10,12 +14,17 @@ import {installLocalLifecycleDiagnostics} from './local-lifecycle-diagnostics';
 import {installLongCopyDisclosure} from './long-copy-disclosure';
 import './long-copy-disclosure.css';
 import {installThreeDimensionalMap} from './three-dimensional-lazy';
+import {getPageChunkResourceStore} from './render-runtime/chunk-resource-store';
+import {cityCacheIdleTiers} from './city-cache-retention';
+import {withRenderDiagnosticSnapshot} from './render-runtime/diagnostic-snapshot';
+import type {ResourceByteAcquireOptions} from './resource-byte-transport';
 import {installThreeDimensionalControls} from './three-dimensional-controls';
 import {installSceneControls} from './scene-controls';
 import {defaultSceneEnvironment,type SceneEnvironmentState} from './scene-environment-state';
 import {installSceneRenderQuality} from './scene-render-quality';
 import {createDisplayFrameClock} from './display-frame-clock';
-import {installCustomLayerRecovery} from './custom-layer-recovery';
+import {installCustomLayerRecovery,type RecoveryReadyProvider,type RecoveryReadySnapshot,type RecoveryTerminalRecord} from './custom-layer-recovery';
+import {installIdleContextReclamation,contextReclamationResourcesIdle} from './idle-context-reclamation';
 import {installInitialStyleRecovery} from './initial-style-recovery';
 import {mountMapRecoveryNotice,readMapRecoveryURL,mapRecoveryReloadURL,RECOVERY_TOGGLES} from './map-recovery-notice';
 import './map-recovery-notice.css';
@@ -41,18 +50,27 @@ import "./analytics.css";
 import {catalogSummary,loadCatalogTranslations} from "./catalog-translations";
 import {DynamicTranslations} from "./dynamic-translations";
 import {reportSummaryPresentation} from "./report-summary";
-import {abortPendingReportBodyLoads,loadReportBody,reportBodySourceId,type ReportBodyIdentity,type ReportBodyLocale} from "./report-body-loader";
+import {locationScopeTranslationKey} from "./location-scope-presentation";
+import {abortPendingReportBodyLoads,loadReportBody,reportBodySourceId,ReportBodyLoadError,type ReportBodyIdentity,type ReportBodyLocale} from "./report-body-loader";
 import {pendingReportBodyLabel,reportBodyPresentation} from "./report-body-presentation";
 import {appendPublicEventNotes,appendPublicSceneReferenceNote} from "./public-report-notes";
 import {mountAnnouncementMethods} from "./methods";
 import {mountUncertaintyPanel} from "./uncertainty-panel";
 import {mountGitHubFooter} from "./github-feedback";
 import {createPoiFilterLegend} from "./poi-filter-legend";
+import {collectPoiHitChoices,poiHitChoiceLabels} from "./poi-hit-choices";
+import {installPlaceSearch} from "./place-search";
+import {appendReportListPager} from "./report-list-pager";
 import "./github-feedback.css";
 import {mountContentTagLauncher} from "./content-tag-launcher";
 import {CONTENT_TAG_COPY} from "./content-tag-copy";
 import {loadSavedStatistics} from "./statistics-loader";
-import {mountDatedTagStatistics, type DatedTagCatalogue, type DatedTagBindings} from "./dated-tag-statistics";
+import {loadProviderCatalogue} from './provider-label-windows';
+import {mountProviderLabelPanel,providerUnavailable} from './provider-label-panel';
+import {mountDatedTagStatistics, type DatedTagCatalogue} from "./dated-tag-statistics";
+import {bindDatedStatisticsSnapshot, type DatedStatisticsBuildBinding} from "./dated-statistics-snapshot";
+import {selectAvailablePeriod} from "./available-period-selection";
+import {sourceRecordSummary, sourceRecordSummaryText, sourceRecordFreshnessText} from "./source-record-summary";
 import "./content-tag-launcher.css";
 import {installMobileLayout} from "./mobile-layout";
 import {t,locale,localeCode,number,date,html,cityName,poiName,sourceContextName,languageURL} from "./i18n";
@@ -150,11 +168,6 @@ const precisionLabels: Record<string, string> = {
   city: t("precision.city"),
   unknown: t("precision.unknown"),
 };
-const locationScopeLabels: Record<string, string> = {
-  in_city: t("scope.in_city"),
-  outside_city: t("scope.outside_city",{city:localizedCity}),
-  unresolved_no_upstream_coordinate: t("scope.unresolved_no_upstream_coordinate"),
-};
 const sourceStatusLabels: Record<string, string> = {
   polizeikarte_complete_365_day_snapshot: t("sourceStatus.polizeikarte_complete_365_day_snapshot"),
   complete_official_archive_source_and_geometry_reviewed: t("sourceStatus.complete_official_archive_source_and_geometry_reviewed"),
@@ -187,6 +200,10 @@ app.innerHTML = `<header><div><span class="brand">${currentCity === "berlin" ? "
 <dialog id="drawer"><button id="close-dialog" class="close">${html(t("action.close"))}</button><div id="drawer-content"></div></dialog>`;
 const el = <T extends HTMLElement = HTMLElement>(id: string) =>
   document.getElementById(id) as T;
+const reportsButton=document.createElement('button');reportsButton.type='button';reportsButton.id='read-reports';
+reportsButton.textContent=t('report.listOpen',{count:number(0)});reportsButton.disabled=true;
+reportsButton.setAttribute('aria-haspopup','dialog');reportsButton.setAttribute('aria-controls','drawer');
+el('coverage').after(reportsButton);reportsButton.onclick=()=>openReportsDialog(reportsButton);
 mountBrand(app.querySelector<HTMLElement>(".brand")!);
 const cityHeading=app.querySelector<HTMLHeadingElement>('header h1')!;
 const headingContainer=cityHeading.parentElement!;
@@ -294,8 +311,14 @@ const nativeGroupNotice=document.createElement('p');nativeGroupNotice.className=
 const reportNativeGroupFallback=()=>{nativeGroupNotice.textContent=({zh:'部分建筑细节未能核验，当前显示原始来源模型。',en:'Some building details could not be verified. The source model is shown.',de:'Einige Gebäudedetails konnten nicht geprüft werden. Das Quellmodell wird angezeigt.'})[locale];nativeGroupNotice.hidden=false;};
 let threeDimensionalControls:ReturnType<typeof installThreeDimensionalControls>|undefined;
 let building3dInteraction:ReturnType<typeof installBuilding3dInteraction>|undefined;
+// The page store and its ledger, configured once with this device's profile.
+// The review303 entry may reach it at module top level, before the 3D adapter
+// exists; the adapter, its owner and the page installers receive this store.
+let pageResourceProfile:'mobile'|'desktop'|undefined;
+function pageResourceStore(){pageResourceProfile??=matchMedia('(max-width:760px)').matches?'mobile':'desktop';return getPageChunkResourceStore({profile:pageResourceProfile,cacheIdleTiersMs:cityCacheIdleTiers(currentCity)});}
 let buildingInformation:typeof import('./building-3d-information')|undefined;
-let buildingInformationPending:{signal:AbortSignal;promise:Promise<typeof import('./building-3d-information')>}|undefined;
+// The metadata session's table ingress: one byte transport per page on the page store.
+let buildingInformationPending:{signal:AbortSignal;promise:Promise<typeof import('./building-3d-information')>}|undefined,buildingInformationIngress:import('./frozen-paint-tables').FrozenTableIngress|undefined;
 function waitForBuildingInformation(operation:Promise<typeof import('./building-3d-information')>,signal:AbortSignal){
  signal.throwIfAborted();return new Promise<typeof import('./building-3d-information')>((resolve,reject)=>{
   let done=false;const finish=()=>{if(done)return false;done=true;signal.removeEventListener('abort',cancel);return true;};
@@ -308,9 +331,12 @@ function ensureBuildingInformation(signal:AbortSignal):Promise<typeof import('./
  signal.throwIfAborted();if(buildingInformation)return Promise.resolve(buildingInformation);
  if(buildingInformationPending&&!buildingInformationPending.signal.aborted)return waitForBuildingInformation(buildingInformationPending.promise,signal);
  const promise=(async()=>{
-  const {beginFrozenPaintTableInitialization}=await import('./frozen-paint-tables');signal.throwIfAborted();
+  const [{beginFrozenPaintTableInitialization},{createResourceByteTransport}]=await Promise.all([import('./frozen-paint-tables'),import('./resource-byte-transport')]);signal.throwIfAborted();
+  // The 'city' initializer inputs are admitted on the page ledger, each with its
+  // read envelope, through this page's one metadata transport (same reader).
+  if(!buildingInformationIngress){const resourceStore=pageResourceStore();buildingInformationIngress={acquireBytes:createResourceByteTransport({namespace:'building-information-v1',resourceStore,read:(path,request,max)=>boundedDataBytes(assetPath(path),request,max,'default')}).acquireBytes,budget:resourceStore.budget};}
   // This metadata phase completes before requestMode creates its renderer session.
-  const session=beginFrozenPaintTableInitialization((path,request,max)=>boundedDataBytes(assetPath(path),request,max,'default'),signal,['city']);
+  const session=beginFrozenPaintTableInitialization(buildingInformationIngress,signal,['city']);
   try{const module=await session.wait(import('./building-3d-information'));signal.throwIfAborted();buildingInformation=module;return module;}finally{session.close();}
  })();const pending={signal,promise};buildingInformationPending=pending;
  void promise.finally(()=>{if(buildingInformationPending===pending)buildingInformationPending=undefined;}).catch(()=>{});
@@ -318,20 +344,128 @@ function ensureBuildingInformation(signal:AbortSignal):Promise<typeof import('./
 }
 let threeDimensionalClick=0;
 let threeDimensionalRecovery:ReturnType<typeof installCustomLayerRecovery>|undefined;
+let idleContextReclamation:ReturnType<typeof installIdleContextReclamation>|undefined;
+let recoveryTerminalProof:HTMLOutputElement|undefined;
+// Metadata loads before the lazy renderer owner sees the requested mode. Keep
+// only this request's readiness outcome so its initial 2D state cannot pass 3D.
+let threeDimensionalPreparation:{mode:'2d'|'3d';handedOff?:true;failure?:string}|undefined;
+let contextRecoveryPreparation:typeof threeDimensionalPreparation;
+/** Only a real new loss may treat a completed fallback as the retained 2D view.
+ * Keep the failed preparation for diagnostics. A new request creates another
+ * object, so even an identical error message cannot inherit this baseline. */
+function beginMainContextRecovery(){
+ contextRecoveryPreparation=undefined;
+ const preparation=threeDimensionalPreparation;
+ if(preparation&&(preparation.failure===undefined||!preparation.handedOff))return;
+ if(threeDimensional?.beginContextRecovery())contextRecoveryPreparation=preparation;
+}
+async function requestThreeDimensionalMode(mode:'2d'|'3d',signal:AbortSignal){
+ signal.throwIfAborted();if(mode==='3d')idleContextReclamation?.on3DRequested();const preparation:NonNullable<typeof threeDimensionalPreparation>=threeDimensionalPreparation={mode};
+ try{
+  // This request supersedes any earlier 3D fallback; only its own outcome may report one.
+  mapRecoveryNotice.setThreeDFallback(false);
+  if(mapGPUUnavailable){mapRecoveryNotice.update('failed');throw Error('Map graphics unavailable');}
+  threeDimensionalRecovery?.retry();
+  if(mode==='3d'){await ensureBuildingInformation(signal);signal.throwIfAborted();dedicatedAppearance?.retry();}
+  const operation=threeDimensional!.requestMode(mode,signal);preparation.handedOff=true;const result=await operation;
+  signal.throwIfAborted();if(threeDimensionalPreparation!==preparation)throw new DOMException('Superseded map mode request','AbortError');
+  if(mode==='2d')building3dInteraction?.suspend();else building3dInteraction?.resume();
+  if(threeDimensionalPreparation===preparation)threeDimensionalPreparation=undefined;
+  return result;
+ }catch(error){
+  if(threeDimensionalPreparation===preparation){
+   if(signal.aborted||error&&typeof error==='object'&&'name'in error&&error.name==='AbortError'){
+    // Once handed off, the existing owner/context restore path retains intent.
+    // An interrupted metadata phase has no owner yet and remains incomplete.
+    if(preparation.handedOff)threeDimensionalPreparation=undefined;
+   }else preparation.failure=String(error);
+  }
+  throw error;
+ }
+}
+function readMainDrawReadiness():RecoveryReadySnapshot{
+ const draw:RecoveryReadySnapshot=threeDimensional?.getDrawReadinessSnapshot()??{ready:false,preparing:true,providers:[]};
+ const preparation=threeDimensionalPreparation===contextRecoveryPreparation?undefined:threeDimensionalPreparation,mode=threeDimensional?.mode??'2d',wantedMode=preparation?.mode??threeDimensional?.wantedMode??'2d';
+ const failure=preparation?preparation.failure:draw.failure;
+ const ready=!failure&&!preparation&&draw.ready&&!draw.preparing&&mode===wantedMode;
+ return {...draw,mode,wantedMode,ready,preparing:!failure&&!ready,failure};
+}
+function currentMainRecoveryReady(){
+ const draw=readMainDrawReadiness();
+ if(draw.failure)throw Error(draw.failure);
+ return draw.ready;
+}
+/** One boundary snapshot. Manager observations retain their own timestamps;
+ * they explain the live renderer tuple and are never the recovery-ready gate. */
+function readRecoveryReadySnapshot():RecoveryReadySnapshot{
+ const draw=readMainDrawReadiness();
+ const records=new Map<string,Record<string,unknown>>((threeDimensional?.getManagerDrawReadiness()??[]).map(value=>[value.provider,value.record] as const));
+ const number=(value:unknown)=>typeof value==='number'&&Number.isFinite(value)?value:null;
+ const object=(value:unknown)=>value&&typeof value==='object'?value as Record<string,unknown>:{};
+ const boolean=(value:unknown)=>typeof value==='boolean'?value:null;
+ const preparations=new Map((threeDimensional?.getRecoveryPreparationStats?.()??[]).map(value=>[value.provider,object(value)] as const));
+ const providers=(draw.providers??[]).map(provider=>{
+  const progress=preparations.get(provider.provider),budget=object(progress?.budget);
+  const preparation:RecoveryReadyProvider['preparation']=progress?{pending:number(progress.pending),failed:number(progress.failed),ready:number(progress.ready),waitingForBudget:boolean(budget.waitingForAvailability),jobs:(Array.isArray(progress.pendingResources)?progress.pendingResources:[]).slice(0,8).map(value=>{const job=object(value),timing=object(job.timing);return{resource:typeof job.resource==='string'?job.resource.slice(0,160):undefined,phase:typeof job.phase==='string'?job.phase.slice(0,40):undefined,priority:typeof job.priority==='string'?job.priority.slice(0,24):undefined,queuedAtMs:number(timing.queuedAtMs),startedAtMs:number(timing.startedAtMs)};})}:undefined;
+  const row={...provider,...(preparation?{preparation}:{})};
+  const record=records.get(provider.provider);if(!record)return row;
+  const handoff=object(record.handoff),timing=object(record.timing);
+  const manager:NonNullable<RecoveryReadyProvider['manager']>={ticket:number(record.ticket),phase:typeof record.phase==='string'?record.phase:undefined,stage:typeof record.stage==='string'?record.stage:undefined,
+   expectedGeneration:number(record.expectedGeneration)??number(handoff.expectedGeneration),publishedGeneration:number(handoff.publishedGeneration),published:boolean(record.published)??boolean(handoff.actuallyPublished),mainReady:boolean(record.mainReady)??boolean(handoff.mainReady),
+   startedAtMs:number(timing.startedAtMs),observedAtMs:number(timing.observedAtMs),elapsedWallMs:number(timing.elapsedWallMs),visibleBudgetMs:number(timing.visibleBudgetMs)};
+  return {...row,manager};
+ });
+ return {...draw,providers};
+}
+function publishRecoveryTerminal(record:RecoveryTerminalRecord){
+ if(location.hostname!=='127.0.0.1'||!new URLSearchParams(location.search).has('diagnostics'))return;
+ if(!recoveryTerminalProof){recoveryTerminalProof=document.createElement('output');recoveryTerminalProof.id='map-recovery-terminal-proof';recoveryTerminalProof.hidden=true;app.append(recoveryTerminalProof);}
+ recoveryTerminalProof.textContent=JSON.stringify(record);
+}
+let buildingSolarShadow:ReturnType<typeof installSceneSolarShadowLayer>|undefined;
 let threeDimensionalScenery:ReturnType<typeof installThreeDimensionalScenery>|undefined;
 const threeDimensionalMotion=matchMedia('(prefers-reduced-motion:reduce)');
 let sceneEnvironment=defaultSceneEnvironment(matchMedia('(max-width:760px)').matches);
 let sceneControls:ReturnType<typeof installSceneControls>|undefined;
+// The verified economy policy is fixed for every page and device.
+configureResidentNormalCompression(true);
 let sceneRenderQuality:ReturnType<typeof installSceneRenderQuality>|undefined;
 let sceneFrameClock:ReturnType<typeof createDisplayFrameClock>|undefined;
-const syncSceneEnvironment=(state:SceneEnvironmentState)=>{sceneEnvironment={...state};if(mapGPUUnavailable)return;sceneRenderQuality?.setQuality(state.quality);threeDimensional?.setSceneEnvironment(state);environmentScene?.setSceneEnvironment(state);dedicatedAppearance?.setSceneEnvironment(state);sceneFrameClock?.wake();};
+let sceneViewportVisible=true,sceneViewportObserver:IntersectionObserver|undefined;
+const syncSceneVisibility=()=>{
+ const visible=!document.hidden&&!mapGPUUnavailable,paused=!visible||!sceneViewportVisible;
+ if(paused)building3dInteraction?.cancelPending();
+ threeDimensional?.setPageHidden(document.hidden);threeDimensional?.setViewportVisible(sceneViewportVisible);
+ dedicatedAppearance?.setPageHidden(paused);buildingSolarShadow?.setPageHidden(paused);
+ threeDimensionalScenery?.setVisible(visible);environmentScene?.setVisible(visible);localPalaceGarden?.setVisible(visible);
+ sceneControls?.setPageHidden(paused);sceneFrameClock?.setPageHidden(paused);
+};
+const syncSceneViewportVisibility=(visible:boolean)=>{
+ if(sceneViewportVisible===visible)return;
+ sceneViewportVisible=visible;
+ environmentScene?.setOffscreen(!visible);threeDimensionalScenery?.setViewportVisible(visible);
+ syncSceneVisibility();
+};
+const syncSceneEnvironment=(state:SceneEnvironmentState)=>{sceneEnvironment={...state};if(mapGPUUnavailable){buildingSolarShadow?.setSceneEnvironment(sceneEnvironment);return;}sceneRenderQuality?.setQuality(state.quality);threeDimensional?.setSceneEnvironment(state);environmentScene?.setSceneEnvironment(state);dedicatedAppearance?.setSceneEnvironment(state);buildingSolarShadow?.setSceneEnvironment(sceneEnvironment);sceneFrameClock?.wake();};
 let localPalaceGarden:ReturnType<typeof installPalaceGarden>|undefined;
 let environmentScene:ReturnType<typeof import('./environment-scene-manager').installEnvironmentScene>|undefined;
 let environmentWanted=false,environmentDestroyed=false,environmentSuspended=false,environmentLoad:Promise<void>|undefined,environmentRequest=new AbortController(),environmentStatus='idle';
 const syncEnvironmentMode=(value:boolean)=>{environmentWanted=value;if(!value){environmentRequest.abort();environmentScene?.setMode(false);return;}if(environmentScene){environmentScene.setMode(true);return;}if(environmentLoad||environmentDestroyed||environmentSuspended||document.hidden)return;
- const request=environmentRequest=new AbortController();environmentStatus='loading';environmentLoad=(async()=>{const [module,registry]=await Promise.all([import('./environment-scene-manager'),import('./environment-city-admission')]);request.signal.throwIfAborted();if(environmentDestroyed||!environmentWanted||environmentSuspended||threeDimensional?.mode!=='3d')return;
- const admission=registry.environmentWaterAdmission(currentCity);if(!admission){environmentStatus='city-source-not-installed';return;}const profile=await threeDimensional!.readAsset(admission,request.signal,1024**2) as Parameters<typeof module.installEnvironmentScene>[0]['waterAdmission'];request.signal.throwIfAborted();if(environmentDestroyed||!environmentWanted||environmentSuspended||threeDimensional?.mode!=='3d')return;
- environmentScene=module.installEnvironmentScene({map,city:currentCity,mobile:matchMedia('(max-width:760px)').matches,read:(asset,signal,max)=>threeDimensional!.readAsset(asset,signal,max),beforeLayer:()=>threeDimensional?.renderer?.layer.id,waterAdmission:profile,frameClock:sceneFrameClock});environmentScene.setReflectionSource(planarReflectionGroup(()=>[dedicatedAppearance,threeDimensional?.renderer]));environmentScene.setSceneEnvironment(sceneEnvironment);environmentScene.setVisible(!document.hidden);environmentScene.setReducedMotion(threeDimensionalMotion.matches);environmentScene.setMode(true);environmentStatus='installed';
+ const request=environmentRequest=new AbortController();environmentStatus='loading';environmentLoad=(async()=>{const [module,registry,budgets,bytes]=await Promise.all([import('./environment-scene-manager'),import('./environment-city-admission'),import('./environment-resource-budget'),import('./resource-byte-transport')]);request.signal.throwIfAborted();if(environmentDestroyed||!environmentWanted||environmentSuspended||threeDimensional?.mode!=='3d')return;
+ const admission=registry.environmentWaterAdmission(currentCity);if(!admission){environmentStatus='city-source-not-installed';return;}
+ // The 3D owner's readiness first, holding nothing. Then one claim on its page store lists the profile's reader copy, decoded text and parsed value plus the read's minted envelope; it waits on the ledger holding nothing (never a timer) and an unfit claim fails at once. The byte transport takes that claim as the read's admission and shrinks it in place at delivery; a refused delivery is retried once with the envelope it names.
+ await threeDimensional!.ensureReady(request.signal);request.signal.throwIfAborted();if(environmentDestroyed||!environmentWanted||environmentSuspended||threeDimensional?.mode!=='3d')return;
+ const profileStore=threeDimensional!.resourceStore,keep=budgets.environmentJsonReadCosts(admission,'water admission profile');
+ let profileClaim:Awaited<ReturnType<typeof budgets.admitEnvironmentCosts>>,profile:Parameters<typeof module.installEnvironmentScene>[0]['waterAdmission'];
+ for(let minimumBytes=0;;){const envelope=bytes.resourceByteAdmittedEnvelope(admission.path,admission.bytes,minimumBytes),claim=await budgets.admitEnvironmentCosts(profileStore.budget,[...keep,...envelope],'water admission profile',request.signal);
+  try{profile=await threeDimensional!.readAsset(admission,request.signal,admission.bytes,{admitted:claim,envelope,keep}) as Parameters<typeof module.installEnvironmentScene>[0]['waterAdmission'];profileClaim=claim;break;}
+  catch(error){claim.release();if(minimumBytes||!(error instanceof bytes.ResourceByteDeliveryRefusedError)||error.unfit)throw error;minimumBytes=error.envelopeBytes;}}
+ try{
+ request.signal.throwIfAborted();if(environmentDestroyed||!environmentWanted||environmentSuspended||threeDimensional?.mode!=='3d')return;
+ // One synchronous segment: the claim shrinks in place to the environment manager's own take-over cost (environmentWaterProfileCost, the same identity, estimate and category), the manager takes that identity over for no byte, and the finally then returns only this claim. A shrink (the retained cost within the claim's current bytes) cannot be refused, so its refusal is a programming error. Only a retained estimate beyond the read's own upper bound grows the claim; refused on a full ledger, it leaves the environment manager's documented fallback (charged at its first refresh).
+ if(profile!==null&&typeof profile==='object'){const retained=budgets.environmentWaterProfileCost(profile);if(!profileClaim.adjust([retained])&&retained.bytes<=profileClaim.bytes)throw Error('The water profile claim could not shrink to its retained value');}
+ environmentScene=module.installEnvironmentScene({map,city:currentCity,mobile:matchMedia('(max-width:760px)').matches,read:(asset,signal,max,admitted?:ResourceByteAcquireOptions)=>threeDimensional!.readAsset(asset,signal,max,admitted),ensureRead:(signal:AbortSignal)=>threeDimensional!.ensureReady(signal),resourceStore:threeDimensional!.resourceStore,beforeLayer:()=>threeDimensional?.renderer?.layer.id,waterAdmission:profile,frameClock:sceneFrameClock});environmentScene.setReflectionSource(planarReflectionGroup(()=>[dedicatedAppearance,threeDimensional?.renderer],{labels:['dedicated','painted']}));environmentScene.setSceneEnvironment(sceneEnvironment);environmentScene.setVisible(!document.hidden);environmentScene.setOffscreen(!sceneViewportVisible);environmentScene.setReducedMotion(threeDimensionalMotion.matches);environmentScene.setMode(true);environmentStatus='installed';
+ }finally{profileClaim.release();}
  })().catch(()=>{if(!request.signal.aborted)environmentStatus='error';}).finally(()=>{environmentLoad=undefined;if(request.signal.aborted&&environmentWanted&&!environmentDestroyed&&!environmentSuspended&&!document.hidden)syncEnvironmentMode(true);});};
 
 let dedicatedAppearance:ReturnType<typeof import('./dedicated-reichstag-manager').installDedicatedReichstag>|undefined;
@@ -341,9 +475,9 @@ const appendDedicatedAttribution=(panel?:HTMLElement)=>{if(!dedicatedAppearance?
 const dedicatedStatus=(status:string)=>{if(status==='ready')appendDedicatedAttribution();else app.querySelectorAll('.dedicated-reichstag-attribution').forEach(n=>n.remove());dedicatedNote.hidden=!['partial','error','source-unbound'].includes(status);dedicatedNote.textContent=({zh:'此视野未显示部分专属建筑细节，原始建筑仍可查看。',en:'Some dedicated building detail is not shown in this view. The original building remains available.',de:'Ein Teil der besonderen Gebäudedetails wird in dieser Ansicht nicht gezeigt. Das ursprüngliche Gebäude bleibt verfügbar.'})[locale];if(!dedicatedNote.hidden&&!dedicatedNote.isConnected)app.querySelector('.three-dimensional-notices')?.append(dedicatedNote);};
 const syncDedicatedAppearanceMode=(value:boolean)=>{dedicatedWanted=value;if(!value){dedicatedInitRequest.abort();dedicatedAppearance?.sync();dedicatedNote.hidden=true;return;}if(currentCity!=='berlin'||dedicatedDestroyed||document.hidden||mapGPUUnavailable)return;if(dedicatedAppearance){dedicatedAppearance.sync();return;}if(dedicatedInit)return;const own=dedicatedInitRequest=new AbortController();
  dedicatedInit=(async()=>{const module=await import('./dedicated-reichstag-manager');own.signal.throwIfAborted();if(dedicatedDestroyed||!dedicatedWanted||mapGPUUnavailable||document.hidden||threeDimensional?.mode!=='3d')return;
- dedicatedAppearance=module.installDedicatedReichstag({map,snapshot:()=>{const renderer=threeDimensional?.renderer,binding=threeDimensional?.getSourceBinding(module.REICHSTAG_OWNER);return {city:currentCity,mode:threeDimensional?.mode??'2d',generation:renderer?.getRevision().generation??0,nativeVertices:renderer?.residentVertexCount??0,vertexLimit:matchMedia('(max-width:760px)').matches?100000:200000,binding:binding?.city==='berlin'?{...binding,city:'berlin' as const}:undefined,display:renderer?.getComponentDisplayState(module.REICHSTAG_OWNER)};},read:(asset,signal,max)=>threeDimensional!.readAsset(asset,signal,max),beforeLayer:()=>map.getStyle().layers?.find(l=>['scene-point-halo','scene-point','source-poi-reference-point','poi-center','poi-association-label','poi-point','kbo-navigation-point','kbo-navigation-label'].includes(l.id))?.id,onStatus:dedicatedStatus});dedicatedAppearance.setSceneEnvironment(sceneEnvironment);dedicatedAppearance.setPageHidden(document.hidden);dedicatedAppearance.sync();
+ dedicatedAppearance=module.installDedicatedReichstag({map,snapshot:()=>{const renderer=threeDimensional?.renderer,binding=threeDimensional?.getSourceBinding(module.REICHSTAG_OWNER);return {city:currentCity,mode:threeDimensional?.mode??'2d',generation:renderer?.getRevision().generation??0,nativeVertices:renderer?.residentVertexCount??0,vertexLimit:matchMedia('(max-width:760px)').matches?100000:200000,binding:binding?.city==='berlin'?{...binding,city:'berlin' as const}:undefined,display:renderer?.getComponentDisplayState(module.REICHSTAG_OWNER)};},read:(asset,signal,max)=>threeDimensional!.readAsset(asset,signal,max),beforeLayer:()=>map.getStyle().layers?.find(l=>['scene-point-halo','scene-point','source-poi-reference-point','poi-center-halo','poi-center','poi-association-label','poi-point-halo','poi-point','kbo-navigation-point','kbo-navigation-label'].includes(l.id))?.id,onStatus:dedicatedStatus});dedicatedAppearance.setSceneEnvironment(sceneEnvironment);dedicatedAppearance.setPageHidden(document.hidden||mapGPUUnavailable||!sceneViewportVisible);dedicatedAppearance.sync();
  })().catch(()=>{if(!own.signal.aborted)dedicatedStatus('error');}).finally(()=>{dedicatedInit=undefined;if(own.signal.aborted&&dedicatedWanted&&!dedicatedDestroyed&&!document.hidden&&!mapGPUUnavailable)syncDedicatedAppearanceMode(true);});};
-const syncThreeDimensionalVisibility=()=>{threeDimensionalRecovery?.setPageHidden(document.hidden);if(mapGPUUnavailable)return;sceneFrameClock?.setPageHidden(document.hidden||mapGPUUnavailable);sceneControls?.setPageHidden(document.hidden||mapGPUUnavailable);threeDimensional?.setPageHidden(document.hidden||mapGPUUnavailable);threeDimensionalScenery?.setVisible(!document.hidden&&!mapGPUUnavailable);environmentScene?.setVisible(!document.hidden&&!mapGPUUnavailable);localPalaceGarden?.setVisible(!document.hidden&&!mapGPUUnavailable);dedicatedAppearance?.setPageHidden(document.hidden||mapGPUUnavailable);if(document.hidden)dedicatedInitRequest.abort();else if(dedicatedWanted)syncDedicatedAppearanceMode(true);if(document.hidden)environmentRequest.abort();else if(environmentWanted)syncEnvironmentMode(true);};
+const syncThreeDimensionalVisibility=()=>{idleContextReclamation?.setHidden(document.hidden);threeDimensionalRecovery?.setPageHidden(document.hidden);syncSceneVisibility();if(mapGPUUnavailable)return;if(document.hidden)dedicatedInitRequest.abort();else if(dedicatedWanted)syncDedicatedAppearanceMode(true);if(document.hidden)environmentRequest.abort();else if(environmentWanted)syncEnvironmentMode(true);};
 const syncThreeDimensionalMotion=()=>{sceneControls?.setReducedMotion(threeDimensionalMotion.matches);if(mapGPUUnavailable)return;threeDimensional?.setReducedMotion(threeDimensionalMotion.matches);threeDimensionalControls?.setVehicleReducedMotion(threeDimensionalMotion.matches);threeDimensionalScenery?.setReducedMotion(threeDimensionalMotion.matches);environmentScene?.setReducedMotion(threeDimensionalMotion.matches);};
 document.addEventListener('visibilitychange',syncThreeDimensionalVisibility);threeDimensionalMotion.addEventListener('change',syncThreeDimensionalMotion);
 let basicOsmPanel:HTMLElement|undefined;
@@ -351,13 +485,13 @@ let baseShopLabels:ReturnType<typeof installBaseShopLabels>|undefined;
 function communityVisibility() {if(mapGPUUnavailable)return;geographyBase?.visibility(el<HTMLInputElement>("community-toggle").checked);}
 function communityDialog(id:string,_relatedKbo?:number) {geographyBase?.showDetails(id);}
 const mobileLayout=installMobileLayout(app,{labels:{filters:t("mobile.filters"),showFilters:t("mobile.showFilters"),hideFilters:t("mobile.hideFilters"),map:t("mobile.map"),details:t("mobile.details"),skipToMap:t("mobile.skipToMap")},onLayoutChange:()=>map?.resize()});
-const selectionInspector=installSelectionInspector(el('selection'),app.querySelector<HTMLElement>('.map-wrap')!,locale);
+const selectionInspector=installSelectionInspector(el('selection'),app.querySelector<HTMLElement>('.map-wrap')!,locale,()=>map?.getCanvas());
 const longCopyDisclosure=installLongCopyDisclosure(app,locale);
 const statisticsNames = Object.fromEntries(cityIds.map(city => [city, cityName(city, city)]));
 statisticsNames.all14 = {zh:"14城合计",en:"14-city total",de:"Gesamt: 14 Städte"}[locale];
 const statisticsReportUrls: Record<string, string> = {};
 const datedBuildBinding = import.meta.env.VITE_DATED_STATISTICS_BINDING
-  ? JSON.parse(import.meta.env.VITE_DATED_STATISTICS_BINDING) as {city:string;generation:string;records:number;source_versions:DatedTagBindings}
+  ? JSON.parse(import.meta.env.VITE_DATED_STATISTICS_BINDING) as DatedStatisticsBuildBinding
   : undefined;
 const savedStatisticsEnabled = import.meta.env.VITE_SAVED_STATISTICS === "true";
 // Build this UI only into artifacts that actually contain the checked saved-statistics assets.
@@ -372,9 +506,10 @@ async function loadStatistics() {
   if (!savedStatisticsEnabled || statisticsReady || !statisticsPanel) return;
   if (statisticsRequest.signal.aborted) statisticsRequest = new AbortController();
   const signal = statisticsRequest.signal;
+  statisticsPanel.setSnapshotContext(null);
   try {
     const snapshot = await loadSavedStatistics(currentCity, manifest.generation,
-      Object.values(manifest.months).reduce((sum, month) => sum + month.count, 0), signal);
+      Object.values(manifest.months).reduce((sum, month) => sum + month.count, 0), signal, {allowHistoricalSnapshot:true});
     if (signal.aborted) return;
     for (const key of Object.keys(statisticsReportUrls)) delete statisticsReportUrls[key];
     if (snapshot.binding.static_reports_checked)
@@ -383,12 +518,30 @@ async function loadStatistics() {
     statisticsPanel.setSummaries(snapshot.ordinary, statisticsNames, currentCity);
     statisticsPanel.setMacroSummaries(snapshot.macro);
     statisticsPanel.setCachedBriefs(snapshot.windows, snapshot.briefs);
+    statisticsPanel.setSnapshotContext(snapshot.snapshotContext);
     statisticsReady = true;
   } catch {
     if (signal.aborted) return;
     // An absent/stale optional overlay leaves the map usable and shows the existing unavailable copy.
     try { statisticsPanel.setSummaries([], statisticsNames, currentCity); } catch { /* cleared before validation */ }
   }
+}
+
+let providerLabelsPanel:ReturnType<typeof mountProviderLabelPanel>|undefined;
+const providerLabelsRequest=new AbortController();
+function mountProviderLabelsEntry(){
+  if(!manifest.metadata.provider_card_label_windows)return;
+  const button=document.createElement('button');button.type='button';
+  button.textContent=locale==='zh'?'查看第三方卡片标签与展示时段':locale==='de'?'Merkmale und Anzeigezeiträume der Drittanbieter-Karten öffnen':'View third-party card labels and display periods';
+  button.addEventListener('click',()=>{button.disabled=true;void loadProviderLabels().finally(()=>{if(providerLabelsPanel)button.remove();else button.disabled=false;});});
+  el("methods-panel").append(button);
+}
+async function loadProviderLabels(){
+  if(!manifest.metadata.provider_card_label_windows)return;
+  try{
+    const catalogue=await loadProviderCatalogue(manifest.metadata,currentCity,manifest.generation,client,providerLabelsRequest.signal);
+    if(catalogue&&!providerLabelsRequest.signal.aborted)providerLabelsPanel=mountProviderLabelPanel(el("methods-panel"),catalogue,locale,statisticsNames,currentCity);
+  }catch{if(!providerLabelsRequest.signal.aborted){const notice=document.createElement('p');notice.textContent=providerUnavailable(locale);el("methods-panel").append(notice);}}
 }
 
 // Count-only dated statistics are bound independently from cached model prose.
@@ -407,11 +560,15 @@ async function loadDatedStatistics() {
       throw Error("Dated statistics belong to another map snapshot");
     const catalogue = await fetchDataJSON<DatedTagCatalogue>(assetPath("/statistics/dated-tag-statistics.json"), signal);
     if (signal.aborted) return;
+    const context = bindDatedStatisticsSnapshot(catalogue, datedBuildBinding,
+      {city:currentCity, generation:manifest.generation, records}, {allowHistoricalSnapshot:true});
     if (!datedStatisticsPanel.setCatalogue(catalogue, datedBuildBinding.source_versions)) return;
     datedStatisticsPanel.setScope(currentCity);
+    datedStatisticsPanel.setSnapshotContext(context);
     if (floatingDatedStatisticsPanel) {
       if (!floatingDatedStatisticsPanel.setCatalogue(catalogue, datedBuildBinding.source_versions)) return;
       floatingDatedStatisticsPanel.setScope(currentCity);
+      floatingDatedStatisticsPanel.setSnapshotContext(context);
     }
     datedStatisticsReady = true;
   } catch {
@@ -452,25 +609,43 @@ let annualReportCache:{key:string;rows:PoliceEvent[];missing:Map<string,number>}
 let viewportRequest = new AbortController();
 let viewportTimer: ReturnType<typeof setTimeout>;
 let currentMode = "";
-let searchIndex:
-  | { id: string; name: string; kind: string; scope_category?:string; center: [number, number] }[]
-  | undefined;
-let searchLoading: Promise<void> | undefined;
+type SearchPlace = {id:string;name:string;kind:string;scope_category?:string;center:[number,number]};
+let placeSearch:ReturnType<typeof installPlaceSearch>|undefined;
 const searchRequest=new AbortController();
 let pendingRecoverySelection=mapRetry?.snapshot.selection??null;
-const mapRecoveryNotice=mountMapRecoveryNotice({host:app.querySelector<HTMLElement>('.controls')!,locale,onReports:()=>{
- const ids=events().map(e=>e.id),panel=openDialog(t('report.scenes'));let page=0;
- const render=()=>{panel.replaceChildren();text('h2',t('selection.announcementCount',{count:number(ids.length)}),panel);listReports(panel,ids.slice(page*20,(page+1)*20));
-  const nav=document.createElement('nav');panel.append(nav);const previous=text('button','←',nav) as HTMLButtonElement,next=text('button','→',nav) as HTMLButtonElement;
-  previous.type=next.type='button';previous.setAttribute('aria-label',t('unknown.previous'));next.setAttribute('aria-label',t('unknown.next'));previous.disabled=page===0;next.disabled=(page+1)*20>=ids.length;
-  previous.onclick=()=>{page--;render();};next.onclick=()=>{page++;render();};};render();
-},onRetry:()=>{
+const mapRecoveryNotice=mountMapRecoveryNotice({host:app.querySelector<HTMLElement>('.controls')!,locale,onReports:()=>openReportsDialog(),onRetry:()=>{
  const center=map.getCenter(),snapshot={camera:{center:[center.lng,center.lat] as [number,number],zoom:map.getZoom(),bearing:map.getBearing()},category:el<HTMLSelectElement>('category').value,
   toggles:Object.fromEntries(RECOVERY_TOGGLES.map(id=>[id,el<HTMLInputElement>(id).checked])),poiKinds:[...document.querySelectorAll<HTMLInputElement>('#poi-filters input:checked')].map(input=>input.value),selection:selected??pendingRecoverySelection,controls:captureRecoveryControls(app),basemap:el<HTMLSelectElement>('basemap').value,vehicles:threeDimensionalControls?.vehiclesRequested};
  history.replaceState(null,'',mapRecoveryReloadURL(location.href,monthKey(),snapshot));location.reload();
-}});
+},onRetryThreeD:()=>retryThreeDimensionalMap()});
+type ThreeDimensionalState=Parameters<NonNullable<Parameters<typeof installThreeDimensionalMap>[0]['onState']>>[0];
+/** A rolled-back 3D request is explained once, in the page notice, while the controls
+ * show the usable 2D map. The compositor reports it only for its newest request; any
+ * later mode request or 3D state clears it. Camera, period, filters and report
+ * selection are not touched here. */
+function reportThreeDimensionalState(state:ThreeDimensionalState){
+ if(state.fallback){idleContextReclamation?.on2DReady();building3dInteraction?.suspend();threeDimensionalControls?.reportState({mode:'2d',status:'ready'});mapRecoveryNotice.setThreeDFallback(true);return;}
+ if(state.status==='ready'){if(state.mode==='3d')idleContextReclamation?.on3DReady();else idleContextReclamation?.on2DReady();}
+ threeDimensionalControls?.reportState(state);if(state.mode==='3d')mapRecoveryNotice.setThreeDFallback(false);
+}
+/** Retry in place through the ordinary request ticket; no reload or URL snapshot. */
+function retryThreeDimensionalMap(){void threeDimensionalControls?.requestMode('3d');threeDimensionalControls?.focus();}
 function monthKey() {
   return `${el<HTMLSelectElement>("year").value}-${el<HTMLSelectElement>("month").value}`;
+}
+/** Keep controls on saved packages before loading or serializing a period. */
+function normalizeAvailablePeriod() {
+  const year = el<HTMLSelectElement>("year"), month = el<HTMLSelectElement>("month");
+  const years = [...new Set(Object.keys(manifest.months)
+    .filter(key=>/^\d{4}-(0[1-9]|1[0-2])$/.test(key)).map(key=>key.slice(0,4)))].sort();
+  if (!years.includes(year.value)) year.value = years.at(-1) ?? "";
+  const selectedPeriod = selectAvailablePeriod(manifest.months, year.value, month.value);
+  year.disabled = !years.length;
+  month.disabled = !selectedPeriod.available;
+  for (const option of month.options)
+    option.disabled = !selectedPeriod.available || (option.value !== "all" && !selectedPeriod.months.includes(option.value));
+  month.value = selectedPeriod.available ? selectedPeriod.month : "";
+  return selectedPeriod.available;
 }
 function periodLabel() {const key=monthKey();return isYearPublicationPeriod(key)?`${key.slice(0,4)} · ${t("filter.yearToDate")}`:key;}
 function events() {
@@ -566,10 +741,10 @@ function appendLazyReportBody(parent:HTMLElement,event:PoliceEvent) {
     source_sha256:String(event.source_sha256??""),
   };
   const language=locale as ReportBodyLocale;
-  const copy:Record<ReportBodyLocale,{loading:string;failed:string;retry:string;identity:string}>={
-    de:{loading:"Volltext wird geladen …",failed:"Der Volltext ist derzeit nicht verfügbar.",retry:"Erneut versuchen",identity:"Für diese Quellenfassung sind keine vollständigen Quelldaten hinterlegt."},
-    en:{loading:"Loading full text …",failed:"The full text is currently unavailable.",retry:"Try again",identity:"No complete source record is available for this revision."},
-    zh:{loading:"正在加载正文…",failed:"目前无法加载正文。",retry:"重试",identity:"此来源版本没有可用的完整正文记录。"},
+  const copy:Record<ReportBodyLocale,{loading:string;failed:string;retry:string;identity:string;rejected:string}>={
+    de:{loading:"Volltext wird geladen …",failed:"Der Volltext ist derzeit nicht verfügbar.",retry:"Erneut versuchen",identity:"Für diese Quellenfassung sind keine vollständigen Quelldaten hinterlegt.",rejected:"Der Text für diese Quellenfassung konnte nicht verifiziert werden. Siehe Zusammenfassung oder Originalquelle."},
+    en:{loading:"Loading full text …",failed:"The full text is currently unavailable.",retry:"Try again",identity:"No complete source record is available for this revision.",rejected:"The text for this source revision could not be verified. See the summary or original source link."},
+    zh:{loading:"正在加载正文…",failed:"目前无法加载正文。",retry:"重试",identity:"此来源版本没有可用的完整正文记录。",rejected:"无法核验此来源版本的正文。请查看摘要或原文链接。"},
   };
   const disclosure=document.createElement("details");
   disclosure.className="report-body-disclosure";
@@ -616,8 +791,11 @@ function appendLazyReportBody(parent:HTMLElement,event:PoliceEvent) {
         content.dataset.state="idle";
         return;
       }
-      text("small",error instanceof Error&&error.message==="identity"?copy[language].identity:copy[language].failed,content);
+      const missingIdentity=error instanceof Error&&error.message==="identity";
+      const rejected=error instanceof ReportBodyLoadError&&!error.retryable;
+      text("small",missingIdentity?copy[language].identity:rejected?copy[language].rejected:copy[language].failed,content);
       content.dataset.state="failed";
+      if(missingIdentity||rejected)return;
       const retry=text("button",copy[language].retry,content) as HTMLButtonElement;
       retry.type="button";
       retry.className="report-body-retry";
@@ -668,11 +846,23 @@ function listReports(parent: HTMLElement, ids: string[], displayOverride?:Police
     appendLazyReportBody(card,e);
     if(missingOverride ? missingOverride.get(e.id) : dynamicText.missingFor(e))text("small",t("report.translationMissing"),card);
     const publicFields=new Set(e.public_display_fields??[]);
+    if(publicFields.has("source_sections") && e.source_sections?.length){
+      const disclosure=document.createElement("details");disclosure.className="source-sections";card.append(disclosure);
+      text("summary",({de:"Abschnitte der Quelle",en:"Source sections",zh:"来源分节"} as const)[locale],disclosure);
+      for(const section of e.source_sections){
+        const item=document.createElement("section");disclosure.append(item);
+        text("h5",section.original_section_heading,item);
+        if(section.source_stated_time.length)text("small",t("report.originalTime",{times:section.source_stated_time.join("; ")}),item);
+        const phases=document.createElement("ol");item.append(phases);
+        for(const phase of section.phases){const entry=document.createElement("li");phases.append(entry);if(phase.time_de)text("small",t("report.originalTime",{times:phase.time_de}),entry);text("span",phase.quote_de,entry);}
+      }
+    }
     if (publicFields.has("map_review_note") && e.map_review_note) text("p", t("source.mapReview",{note:e.map_review_note}), card);
     appendPublicEventNotes(card,e);
     for(const related of relatedSourceLinks(e))link(card,t("sourceRevision.related",{id:related.related_source_id}),related.related_source_url);
     if (e.published_at_source_literal) text("small", t("time.publicationLiteral",{date:e.published_at_source_literal}), card);
     if (e.published_at_timezone_basis === "Europe/Berlin") text("small",t("time.publicationZoneNote"),card);
+    else if (e.published_at_timezone_basis === "not_explicit_in_source") text("small",t("time.publicationZoneUnknownNote"),card);
     for (const attachment of publicFields.has("source_attachments") ? e.source_attachments ?? [] : []) {
       const disclosure = document.createElement("details"); card.append(disclosure);
       text("summary", t("attachment.details",{pages:attachment.page_count}), disclosure);
@@ -708,8 +898,8 @@ function listReports(parent: HTMLElement, ids: string[], displayOverride?:Police
         text("small", t("report.aiLead",{label,quote:tag.evidence_quote}), card);
     }
     text("p", e.location_label, card);
-    if (e.location_scope && locationScopeLabels[e.location_scope])
-      text("small", locationScopeLabels[e.location_scope], card);
+    const scopeKey = locationScopeTranslationKey(e);
+    if (scopeKey) text("small", t(scopeKey,{city:localizedCity}), card);
     if (e.scene_locations?.length) {
       const heading = text("small", t("report.scenes"), card);
       heading.className = "scene-heading";
@@ -850,6 +1040,21 @@ function listReports(parent: HTMLElement, ids: string[], displayOverride?:Police
       );
   }
 }
+function appendPagedReports(parent:HTMLElement,ids:string[]) {
+  return appendReportListPager(parent,ids,{
+    previous:t('unknown.previous'),next:t('unknown.next'),navigationLabel:t('report.listTitle'),
+    pageLabel:(page,pages)=>t('unknown.page',{page:number(page),pages:number(pages)}),
+    renderPage:(host,pageIds)=>listReports(host,pageIds),beforePage:abortPendingReportBodyLoads,
+  });
+}
+function openReportsDialog(returnFocus?:HTMLElement) {
+  const ids=events().map(e=>e.id),panel=openDialog(t('report.listTitle'),returnFocus);
+  const category=el<HTMLSelectElement>('category').value;
+  text('p',`${periodLabel()} · ${category==='all'?t('filter.allReports'):categoryLabel(category)}`,panel);
+  text('h3',t('selection.announcementCount',{count:number(ids.length)}),panel);
+  text('p',t('coverage.partial'),panel).className='hint';
+  appendPagedReports(panel,ids);
+}
 function showSelection() {
   abortPendingReportBodyLoads();
   if(!selected&&!basicOsmPanel)selectionInspector.close();
@@ -866,7 +1071,7 @@ function showSelection() {
     return;
   }
   if(!mapGPUUnavailable)osmClickInspection?.clear();
-  if(!mapGPUUnavailable&&selected.type==="poi"){const objectId=selected.id;const object=activePois.features.find(f=>String(f.properties.id)===objectId);if(object)osmClickInspection?.highlight(object);}
+  if(!mapGPUUnavailable&&selected.type==="poi"){const objectId=selected.id;const object=activePois.features.find(f=>String(f.properties.id)===objectId);if(object)osmClickInspection?.highlight(object,{preserveCategoryColor:true});}
   if(selected.type==="report"){
     const ids=selected.ids.filter(id=>data.events.some(e=>e.id===id));
     text("h2",t("selection.announcementCount",{count:number(ids.length)}),panel);
@@ -933,11 +1138,20 @@ function showSelection() {
     text("p",t("selection.yearHexSize",{year:el<HTMLSelectElement>("year").value,metres:number(p.edge_m)}),panel);
     text("p",t("selection.outcomeUnknown"),panel).className="hint";
     const ids=[...(p.event_ids??[])].sort((a:string,b:string)=>(annual?.event_months[b]??"").localeCompare(annual?.event_months[a]??"")||a.localeCompare(b));
-    const list=text("div","",panel);let page=0;
-    const controls=text("nav","",panel),previous=text("button",t("selection.yearPrevious"),controls),label=text("span","",controls),next=text("button",t("selection.yearNext"),controls);
-    const render=()=>{yearReportRequest.abort();yearReportRequest=new AbortController();const signal=yearReportRequest.signal;list.replaceChildren();label.textContent=t("selection.yearPage",{page:number(page+1),pages:number(Math.max(1,Math.ceil(ids.length/20)))});(previous as HTMLButtonElement).disabled=page===0;(next as HTMLButtonElement).disabled=(page+1)*20>=ids.length;
-      text("p",t("selection.yearLoading"),list);void annualReports(ids.slice(page*20,page*20+20),signal).then(value=>{if(signal.aborted||selected!==selection||!list.isConnected)return;list.replaceChildren();listReports(list,ids,value.rows,value.missing);}).catch(error=>{if(!signal.aborted){console.error(error);list.replaceChildren();text("p",t("map.loadFailed"),list);}});};
-    previous.onclick=()=>{page--;render();};next.onclick=()=>{page++;render();};render();return;
+    appendReportListPager(panel,ids,{
+      previous:t("selection.yearPrevious"),next:t("selection.yearNext"),
+      navigationLabel:t("legend.yearHex",{year:el<HTMLSelectElement>("year").value}),
+      pageLabel:(page,pages)=>t("selection.yearPage",{page:number(page),pages:number(pages)}),
+      beforePage:()=>{abortPendingReportBodyLoads();yearReportRequest.abort();yearReportRequest=new AbortController();},
+      renderPage:(list,pageIds)=>{
+        const signal=yearReportRequest.signal;
+        text("p",t("selection.yearLoading"),list);
+        void annualReports(pageIds,signal).then(value=>{
+          if(signal.aborted||selected!==selection||!list.isConnected)return;
+          list.replaceChildren();listReports(list,pageIds,value.rows,value.missing);
+        }).catch(error=>{if(!signal.aborted){console.error(error);list.replaceChildren();text("p",t("map.loadFailed"),list);}});
+      },
+    });return;
   }
   setSource("reported-sections", {
     type: "FeatureCollection",
@@ -958,62 +1172,47 @@ function showSelection() {
     )
   )
     text("p", t("selection.reportedSection"), panel);
-  if (selected.type === "hex") {
-    text("p", t("selection.hex"), panel).className = "eyebrow";
-    text("h2", t("selection.announcementCount",{count:number(p.count)}), panel);
-    text("p", t("selection.hexSize",{metres:number(p.edge_m),month:monthKey()}), panel);
-    const rows = data.events.filter((e) =>
-      (p.event_ids as string[]).includes(e.id),
-    );
-    const counts: Record<string, number> = {};
-    for (const e of rows) counts[e.category] = (counts[e.category] ?? 0) + 1;
-    for (const [key, n] of Object.entries(counts))
-      text("p", `${categoryLabel(key)}　${n}`, panel);
-    text("p", t("selection.outcomeUnknown"), panel).className =
-      "hint";
-  } else {
-    text(
-      "p",
-      poiName(p.display_kind??p.kind,data.catalog.poi_types[p.display_kind??p.kind]?.label ?? p.kind),
-      panel,
-    ).className = "eyebrow";
-    text("h2", p.name, panel);
-    text("p",t("selection.poiAssociationLevel",{count:number(p.association_announcement_count??0),level:p.association_roman||"—"}),panel);
-    const levelMethod=text("details","",panel);
-    text("summary",t("selection.poiLevelMethod"),levelMethod);
-    text("p",t("selection.poiLevelFormula"),levelMethod);
-    text(
-      "p",
-      poiGeometryLabel(p.geometry_mode),
-      panel,
-    );
-    text(
-      "p",
-      t("selection.poiCounts",{mentions:number(p.count),candidates:number(p.candidate_count),contexts:number(p.context_count??0)}),
-      panel,
-    );
-    text("p", t("selection.poiNote"), panel).className =
-      "hint";
-    if (p.opening_hours) text("p", t("selection.openingHours",{hours:p.opening_hours}), panel);
-    for (const [key,value] of [["selection.address",p.address],["selection.phone",p.phone]])
-      if(typeof value==="string" && value.trim()) text("p",t(String(key),{value}),panel);
-    if(typeof p.website==="string") link(panel,t("selection.website"),p.website);
-    link(panel, t("selection.osm"), p.source_url);
-    const sources = data.catalog.sources.filter((s) =>
-      Array.isArray(s.poi_types) && s.poi_types.includes(p.kind),
-    );
-    const details = document.createElement("details");
-    panel.append(details);
-    text(
-      "summary",
-      t("selection.poiSources",{count:number(sources.length)}),
-      details,
-    );
-    for (const s of sources) {
-      text("p", `${s.country} · ${s.place} · ${s.evidence_type}`, details);
-      link(details, s.publisher, s.url);
-      text("p", catalogSummary(s), details);
-    }
+  text(
+    "p",
+    poiName(p.display_kind??p.kind,data.catalog.poi_types[p.display_kind??p.kind]?.label ?? p.kind),
+    panel,
+  ).className = "eyebrow";
+  text("h2", p.name, panel);
+  text("p",t("selection.poiAssociationLevel",{count:number(p.association_announcement_count??0),level:p.association_roman||"—"}),panel);
+  const levelMethod=text("details","",panel);
+  text("summary",t("selection.poiLevelMethod"),levelMethod);
+  text("p",t("selection.poiLevelFormula"),levelMethod);
+  text(
+    "p",
+    poiGeometryLabel(p.geometry_mode),
+    panel,
+  );
+  text(
+    "p",
+    t("selection.poiCounts",{mentions:number(p.count),candidates:number(p.candidate_count),contexts:number(p.context_count??0)}),
+    panel,
+  );
+  text("p", t("selection.poiNote"), panel).className =
+    "hint";
+  if (p.opening_hours) text("p", t("selection.openingHours",{hours:p.opening_hours}), panel);
+  for (const [key,value] of [["selection.address",p.address],["selection.phone",p.phone]])
+    if(typeof value==="string" && value.trim()) text("p",t(String(key),{value}),panel);
+  if(typeof p.website==="string") link(panel,t("selection.website"),p.website);
+  link(panel, t("selection.osm"), p.source_url);
+  const sources = data.catalog.sources.filter((s) =>
+    Array.isArray(s.poi_types) && s.poi_types.includes(p.kind),
+  );
+  const details = document.createElement("details");
+  panel.append(details);
+  text(
+    "summary",
+    t("selection.poiSources",{count:number(sources.length)}),
+    details,
+  );
+  for (const s of sources) {
+    text("p", `${s.country} · ${s.place} · ${s.evidence_type}`, details);
+    link(details, s.publisher, s.url);
+    text("p", catalogSummary(s), details);
   }
   if (!(p.event_ids ?? []).length) text("p", t("selection.noLinkedReports"), panel).className="hint";
   listReports(panel, p.event_ids ?? []);
@@ -1059,6 +1258,8 @@ function refresh() {
     rows = events(),
     ids = new Set(rows.map((e) => e.id)),
     countable = countableEventIds(rows);
+  reportsButton.textContent=t('report.listOpen',{count:number(rows.length)});
+  reportsButton.disabled=monthLoading||!rows.length;
   const mode =
     map.getZoom() >= data.metadata.zoom_threshold ? "detail" : "overview";
   const selectedYear=el<HTMLSelectElement>("year").value, category=el<HTMLSelectElement>("category").value;
@@ -1152,7 +1353,7 @@ function refresh() {
             : t("coverage.roadUnknownNote"),
         p,
       );
-      listReports(
+      appendPagedReports(
         p,
         unmapped.map((e) => e.id),
       );
@@ -1298,6 +1499,7 @@ function ensureYear():Promise<void> {
   annualLoading=(async()=>{try{const value=await client.year(year,signal);if(!signal.aborted&&year===el<HTMLSelectElement>("year").value)annual=value;}catch(error){if(!signal.aborted)console.error(error);}finally{if(!signal.aborted){annualLoadingKey="";annualLoading=undefined;refresh();}}})();return annualLoading;
 }
 async function loadMonth() {
+  const availablePeriod = normalizeAvailablePeriod();
   selectionInspector.close();basicOsmPanel=undefined;osmClickInspection?.clear();
   abortPendingReportBodyLoads();
   yearReportRequest.abort();void ensureYear();
@@ -1310,6 +1512,7 @@ async function loadMonth() {
   data.months = {};
   dynamicText.clear();
   refresh();
+  if (!availablePeriod) {monthLoading = false; refresh(); return;}
   el("map-status").textContent = t("map.loadingMonth");
   try {
     const value = await loadSelectedPeriod(key,manifest,client,locale,signal,currentCity);
@@ -1390,7 +1593,7 @@ async function start() {
     ))
       el("review-badge").hidden = false;
     client = new DataClient(manifest, cityView.dataRoot);
-    void loadStatistics();void loadDatedStatistics();
+    void loadStatistics();void loadDatedStatistics();mountProviderLabelsEntry();
     data = {
       ...manifest,
       schema_version: 1,
@@ -1412,6 +1615,7 @@ async function start() {
       );
     el<HTMLSelectElement>("year").value = latest.slice(0, 4);
     el<HTMLSelectElement>("month").value = latest.slice(5);
+    normalizeAvailablePeriod();
     for (const c of manifest.categories)
       el<HTMLSelectElement>("category").add(new Option(categoryLabel(c), c));
     const filters=manifest.poi_scope_groups?Object.fromEntries(Object.entries(manifest.poi_scope_groups).map(([key,value])=>[key,{label:t(value.label_key)}])):data.catalog.poi_types;
@@ -1452,11 +1656,13 @@ async function start() {
     }
     const outside = Number(manifest.metadata.known_outside_municipality ?? 0);
     const cityPoints = Number(manifest.metadata.point_entries_in_city ?? 0);
-    el("coverage").textContent = manifest.metadata.upstream_provider === "POLIZEIKARTE"
+    const sourceSummary = manifest.metadata.source_record_counts ? sourceRecordSummary(manifest) : undefined;
+    el("coverage").textContent = sourceSummary ? sourceRecordSummaryText(sourceSummary, locale)
+      : manifest.metadata.upstream_provider === "POLIZEIKARTE"
       ? t("coverage.munich",{fetched:number(manifest.coverage.fetched),points:number(cityPoints),outside:number(outside)})
       : t("coverage.official",{discovered:number(manifest.coverage.discovered),fetched:number(manifest.coverage.fetched),pending:number(manifest.coverage.pending)});
-    el("freshness").textContent =
-      t("coverage.snapshot",{date:date(data.retrieved_at)});
+    el("freshness").textContent = sourceSummary ? sourceRecordFreshnessText(sourceSummary, locale)
+      : t("coverage.snapshot",{date:date(data.retrieved_at)});
     const initialMapStyle:maplibregl.StyleSpecification = {
         version: 8,
         sources: {},
@@ -1483,7 +1689,13 @@ async function start() {
     });
     installInitialStyleRecovery(map,initialMapStyle,error=>{console.error(error);mapRecoveryNotice.update('failed');});
     sceneFrameClock=createDisplayFrameClock({requestRepaint:()=>map.triggerRepaint()});
-    sceneFrameClock.setPageHidden(document.hidden);
+    syncSceneVisibility();
+    const sceneViewport=map.getContainer();
+    sceneViewportObserver=new IntersectionObserver(entries=>{
+      const entry=entries.find(entry=>entry.target===sceneViewport);
+      if(entry)syncSceneViewportVisibility(entry.isIntersecting);
+    });
+    sceneViewportObserver.observe(sceneViewport);
     sceneRenderQuality=installSceneRenderQuality(map,sceneEnvironment.quality);
     localLifecycleDiagnostics?.attachMap(map);
     map.addControl(new maplibregl.NavigationControl(), "bottom-right");
@@ -1601,18 +1813,21 @@ async function start() {
           "circle-stroke-opacity": 0.8,
         },
       });
+      map.addLayer({id:"poi-point-halo",type:"circle",source:"pois",
+        filter:["all",["==",["geometry-type"],"Point"],["!",["has","display_radius_m"]]],
+        paint:{"circle-radius":7,"circle-color":"#ffffff","circle-opacity":0.95}});
       map.addLayer({
         id: "poi-point",
         type: "circle",
         source: "pois",
         filter: ["all", ["==", ["geometry-type"], "Point"], ["!", ["has", "display_radius_m"]]],
         paint: {
-          "circle-radius": 4,
-          "circle-color": ["get", "color"],
+          "circle-radius": 5,
+          "circle-color": ["get", "center_color"],
           "circle-stroke-width": 1,
-          "circle-stroke-color": "#000000",
-          "circle-opacity": ["get", "opacity"],
-          "circle-stroke-opacity": 0.8,
+          "circle-stroke-color": "#111827",
+          "circle-opacity": 1,
+          "circle-stroke-opacity": 1,
         },
       });
       map.addLayer({
@@ -1808,10 +2023,10 @@ async function start() {
       map.addLayer({id:"kbo-navigation-point",type:"circle",source:"kbo-navigation",paint:{"circle-radius":6,"circle-color":"#3c6681","circle-stroke-color":"#fff","circle-stroke-width":2}});
       map.addLayer({id:"kbo-navigation-label",type:"symbol",source:"kbo-navigation",layout:{"text-field":["concat","kbO · ",["get","name"]],"text-size":11,"text-offset":[0,1.2],"text-anchor":"top"},paint:{"text-color":"#244a64","text-halo-color":"#fff","text-halo-width":1.5}});
       map.addLayer({id:"poi-center-halo",type:"circle",source:"poi-centers",paint:{
-        "circle-radius":5,"circle-color":"#ffffff","circle-opacity":0.9}});
+        "circle-radius":7,"circle-color":"#ffffff","circle-opacity":0.95}});
       map.addLayer({id:"poi-center",type:"circle",source:"poi-centers",paint:{
-        "circle-radius":3,"circle-color":["get","center_color"],"circle-opacity":1,
-        "circle-stroke-color":"#000000","circle-stroke-width":1,"circle-stroke-opacity":1}});
+        "circle-radius":5,"circle-color":["get","center_color"],"circle-opacity":1,
+        "circle-stroke-color":"#111827","circle-stroke-width":1,"circle-stroke-opacity":1}});
       map.addLayer({id:"poi-association-label",type:"symbol",source:"poi-centers",
         filter:["!=",["get","association_roman"],""],
         layout:{"text-field":["get","association_roman"],"text-size":10,
@@ -1836,7 +2051,7 @@ async function start() {
       const dimensionHost=app.querySelector<HTMLElement>('.geography-dimensions')!;
       dimensionHost.replaceChildren();
       app.querySelector<HTMLElement>('.controls')?.append(nativeGroupNotice);
-      threeDimensional=installThreeDimensionalMap({map,city:currentCity,onNativeGroupDisplay:plan=>{
+      threeDimensional=installThreeDimensionalMap({map,city:currentCity,resourceStore:pageResourceStore(),onNativeGroupDisplay:plan=>{
         const ticket=++nativeOutlineTicket;
         nativeGroupNotice.hidden=!plan.errors.length&&!plan.groups.length;
         if(plan.errors.length)reportNativeGroupFallback();
@@ -1869,20 +2084,36 @@ async function start() {
         }).catch(()=>{if(!nativeOutlineDisposed&&ticket===nativeOutlineTicket&&threeDimensional?.wantedMode==='3d'){
           nativeGroupNotice.textContent=(plan.groups.some(g=>g.residentPartCount>0)?{zh:'建筑部件仍在显示，展示不完整；地面轮廓信息暂不可用。',en:'Building parts remain visible in an incomplete display; ground-outline information is temporarily unavailable.',de:'Gebäudeteile bleiben unvollständig sichtbar; Informationen zum Grundriss sind vorübergehend nicht verfügbar.'}:{zh:'当前尚无已载入部件；地面轮廓信息暂不可用，原始来源详情仍保留。',en:'No building parts are currently loaded; ground-outline information is temporarily unavailable. Original source details are retained.',de:'Derzeit sind keine Gebäudeteile geladen; Informationen zum Grundriss sind vorübergehend nicht verfügbar. Die ursprünglichen Quellangaben bleiben erhalten.'})[locale];nativeGroupNotice.hidden=false;
         }});
-      },onRenderer:renderer=>{renderer.setSceneEnvironment(sceneEnvironment);renderer.setPageHidden(document.hidden);renderer.setOpacity(app.querySelector<HTMLInputElement>('.electoral-controls input[type="checkbox"]')?.checked ? .35 : 1);renderer.setOpacityContext(publicTransitOverlay?.routeSelection?'route-selection':'normal');if(!building3dInteraction)building3dInteraction=installBuilding3dInteraction({provider:renderer,city:currentCity,locale,inspection:osmClickInspection!,loadedShopRecords:()=>[...activePois.features.filter(f=>f.geometry.type==='Point'),...(baseShopLabels?.getLoadedShopRecords()??[])],onChooseShop:record=>{const current=activePois.features.find(f=>String(f.properties?.id)===String(record.properties?.id));if(current){selected={type:'poi',id:String(current.properties.id)};showSelection();}else osmClickInspection?.inspect(record);},onSurfaceLocation:point=>geographyBase?.locateAt(point),onBuildingPanel:(result,panel)=>{const information=buildingInformation!.appendBuilding3dInformation(panel,result,locale,threeDimensional?.sourceMetadata);const nativeGroup=nativeDisplayModule?.nativeGroupForIdentity(threeDimensional?.renderer?.nativeGroupDisplay,nativeDisplayProfiles?.NATIVE_PART_DISPLAY_PROFILES??[],result.component);if(nativeGroup)nativeOutlineGround?.appendGroupNotice(panel,nativeGroup);if(result.component.objectId==='osm/relation/8990774'&&result.component.partId==='osm/relation/8990774/component/35b9af608ec3d7abc1c1')appendDedicatedAttribution(information);mobileLayout.revealDetails();panel.scrollIntoView({block:'start',inline:'nearest'});if(new URLSearchParams(location.search).has('diagnostics')){let proof=app.querySelector<HTMLOutputElement>('#building-3d-pick-proof');if(!proof){proof=document.createElement('output');proof.id='building-3d-pick-proof';proof.hidden=true;app.append(proof);}proof.textContent=JSON.stringify(result.hit);}}});},fetchBytes:(path,signal,max)=>boundedDataBytes(assetPath(path),signal,max,path.endsWith('/index.json')?'no-store':'default'),onState:state=>{sceneControls?.setMode(state.mode);threeDimensionalControls?.reportState(state);threeDimensionalScenery?.setMode(state.mode==='3d');syncEnvironmentMode(state.mode==='3d');localPalaceGarden?.setMode(state.mode==='3d');syncDedicatedAppearanceMode(state.mode==='3d');const url=new URL(location.href);if(state.mode==='3d')url.searchParams.set('view','3d');else url.searchParams.delete('view');history.replaceState(null,'',url);}});
+      },onRenderer:renderer=>{renderer.setSceneEnvironment(sceneEnvironment);renderer.setPageHidden(document.hidden||mapGPUUnavailable||!sceneViewportVisible);renderer.setOpacity(app.querySelector<HTMLInputElement>('.electoral-controls input[type="checkbox"]')?.checked ? .35 : 1);renderer.setOpacityContext(publicTransitOverlay?.routeSelection?'route-selection':'normal');if(!building3dInteraction)building3dInteraction=installBuilding3dInteraction({provider:renderer,city:currentCity,locale,inspection:osmClickInspection!,loadedShopRecords:()=>[...activePois.features.filter(f=>f.geometry.type==='Point'),...(baseShopLabels?.getLoadedShopRecords()??[])],onChooseShop:record=>{const current=activePois.features.find(f=>String(f.properties?.id)===String(record.properties?.id));if(current){selected={type:'poi',id:String(current.properties.id)};showSelection();}else osmClickInspection?.inspect(record);},onSurfaceLocation:point=>geographyBase?.locateAt(point),onBuildingPanel:(result,panel)=>{const information=buildingInformation!.appendBuilding3dInformation(panel,result,locale,threeDimensional?.sourceMetadata);const nativeGroup=nativeDisplayModule?.nativeGroupForIdentity(threeDimensional?.renderer?.nativeGroupDisplay,nativeDisplayProfiles?.NATIVE_PART_DISPLAY_PROFILES??[],result.component);if(nativeGroup)nativeOutlineGround?.appendGroupNotice(panel,nativeGroup);if(result.component.objectId==='osm/relation/8990774'&&result.component.partId==='osm/relation/8990774/component/35b9af608ec3d7abc1c1')appendDedicatedAttribution(information);mobileLayout.revealDetails();panel.scrollIntoView({block:'start',inline:'nearest'});if(new URLSearchParams(location.search).has('diagnostics')){let proof=app.querySelector<HTMLOutputElement>('#building-3d-pick-proof');if(!proof){proof=document.createElement('output');proof.id='building-3d-pick-proof';proof.hidden=true;app.append(proof);}proof.textContent=JSON.stringify(result.hit);}}});},fetchBytes:(path,signal,max)=>boundedDataBytes(assetPath(path),signal,max,path.endsWith('/index.json')?'no-store':'default'),onState:state=>{sceneControls?.setMode(state.mode);reportThreeDimensionalState(state);threeDimensionalScenery?.setMode(state.mode==='3d');syncEnvironmentMode(state.mode==='3d');buildingSolarShadow?.setMode(state.mode==='3d');localPalaceGarden?.setMode(state.mode==='3d');syncDedicatedAppearanceMode(state.mode==='3d');const url=new URL(location.href);if(state.mode==='3d')url.searchParams.set('view','3d');else url.searchParams.delete('view');history.replaceState(null,'',url);}});
       if(currentCity==='munich'&&new URLSearchParams(location.search).get('sample')==='munich-residenz'){localPalaceGarden=installPalaceGarden({map:map as any,beforeId:()=>threeDimensional?.renderer?.layer.id});localPalaceGarden.setMode(threeDimensional.mode==='3d');}
-      threeDimensionalScenery=installThreeDimensionalScenery({map,city:currentCity,locale,host:(app.querySelector<HTMLElement>('.mobile-filter-content')??app.querySelector<HTMLElement>('.controls'))!,read:(asset,signal,max)=>threeDimensional!.readAsset(asset,signal,max),buildingLayer:()=>threeDimensional?.renderer?.layer.id,frameClock:sceneFrameClock,requested:mapRetry?.snapshot.vehicles??!matchMedia('(max-width:760px)').matches,mobile:matchMedia('(max-width:760px)').matches,reducedMotion:threeDimensionalMotion.matches});
-      threeDimensionalControls=installThreeDimensionalControls({vehiclesInitiallyRequested:mapRetry?.snapshot.vehicles??!matchMedia('(max-width:760px)').matches,onVehiclesChange:requested=>threeDimensionalScenery?.setRequested(requested),host:dimensionHost,noticeHost:(app.querySelector<HTMLElement>('.mobile-filter-content')??app.querySelector<HTMLElement>('.controls'))!,statusHost:app.querySelector<HTMLElement>('.controls')!,locale,requestMode:async(mode,signal)=>{
-        if(mapGPUUnavailable){mapRecoveryNotice.update('failed');throw Error('Map graphics unavailable');}
-        threeDimensionalRecovery?.retry();if(mode==='3d'){await ensureBuildingInformation(signal);signal.throwIfAborted();dedicatedAppearance?.retry();}const result=await threeDimensional!.requestMode(mode,signal);
-
-        if(mode==='2d')building3dInteraction?.suspend();else building3dInteraction?.resume();
-        return result;
-      }});
-      sceneControls=installSceneControls({host:app.querySelector<HTMLElement>('.three-dimensional-notices')!,locale,initial:sceneEnvironment,frameClock:sceneFrameClock!,onChange:syncSceneEnvironment});
+      threeDimensionalScenery=installThreeDimensionalScenery({map,city:currentCity,locale,host:(app.querySelector<HTMLElement>('.mobile-filter-content')??app.querySelector<HTMLElement>('.controls'))!,read:(asset,signal,max,admitted?:ResourceByteAcquireOptions)=>threeDimensional!.readAsset(asset,signal,max,admitted),ensureRead:(signal:AbortSignal)=>threeDimensional!.ensureReady(signal),resourceStore:threeDimensional.resourceStore,buildingLayer:()=>threeDimensional?.renderer?.layer.id,frameClock:sceneFrameClock,requested:mapRetry?.snapshot.vehicles??!matchMedia('(max-width:760px)').matches,mobile:matchMedia('(max-width:760px)').matches,reducedMotion:threeDimensionalMotion.matches});
+      threeDimensionalScenery.setViewportVisible(sceneViewportVisible);
+      threeDimensionalControls=installThreeDimensionalControls({vehiclesInitiallyRequested:mapRetry?.snapshot.vehicles??!matchMedia('(max-width:760px)').matches,onVehiclesChange:requested=>threeDimensionalScenery?.setRequested(requested),host:dimensionHost,noticeHost:(app.querySelector<HTMLElement>('.mobile-filter-content')??app.querySelector<HTMLElement>('.controls'))!,statusHost:app.querySelector<HTMLElement>('.controls')!,locale,requestMode:requestThreeDimensionalMode});
+      sceneControls=installSceneControls({host:app.querySelector<HTMLElement>('.three-dimensional-notices')!,locale,initial:sceneEnvironment,frameClock:sceneFrameClock!,onChange:syncSceneEnvironment,focusWhenHidden:()=>threeDimensionalControls?.focus('2d')});
+      syncSceneVisibility();
       restoreRecoveryControls(app,mapRetry?.snapshot.controls,'scene');
+      buildingSolarShadow=installSceneSolarShadowLayer({map,source:planarReflectionGroup(()=>[dedicatedAppearance,threeDimensional?.renderer],{labels:['dedicated','painted']}),solarLight:()=>threeDimensional?.renderer?.sceneSunlight,initial:sceneEnvironment,mobile:matchMedia('(max-width:760px)').matches,pageHidden:document.hidden||mapGPUUnavailable||!sceneViewportVisible,available:()=>!mapGPUUnavailable,beforeId:()=>threeDimensional?.renderer?.layer.id});
+      buildingSolarShadow.setMode(threeDimensional.mode==='3d');
       threeDimensional.setSceneEnvironment(sceneEnvironment);
-      threeDimensionalRecovery=installCustomLayerRecovery({map:map as any,layers:()=>{const rows:{layer:{id:string};beforeId?:()=>string|undefined}[]=[];if(threeDimensional?.renderer)for(const paintLayer of ((threeDimensional as any).paintLayers??[threeDimensional.renderer.layer]))rows.push({layer:paintLayer,beforeId:()=>map.getStyle().layers?.find(l=>['scene-point-halo','scene-point','source-poi-reference-point','poi-center','poi-association-label','poi-point','kbo-navigation-point','kbo-navigation-label'].includes(l.id))?.id});if(threeDimensionalScenery?.customLayer)rows.push({layer:threeDimensionalScenery.customLayer,beforeId:()=>threeDimensional?.renderer?.layer.id});if(localPalaceGarden?.customLayer)rows.push({layer:localPalaceGarden.customLayer,beforeId:()=>threeDimensional?.renderer?.layer.id});if(environmentScene?.customLayer)rows.push({layer:environmentScene.customLayer,beforeId:()=>threeDimensional?.renderer?.layer.id});if(dedicatedAppearance?.customLayer)rows.push({layer:dedicatedAppearance.customLayer,beforeId:()=>map.getStyle().layers?.find(l=>['scene-point-halo','scene-point','source-poi-reference-point','poi-center','poi-association-label','poi-point','kbo-navigation-point','kbo-navigation-label'].includes(l.id))?.id});return rows;},onLost:()=>{mapGPUUnavailable=true;mapRecoveryNotice.update('waiting');threeDimensionalControls?.setMapAvailable(false);sceneFrameClock?.setPageHidden(true);sceneControls?.setPageHidden(true);dedicatedInitRequest.abort();dedicatedAppearance?.suspend();building3dInteraction?.cancelPending();baseShopLabels?.suspend();viewportRequest.abort();geographyBase?.suspend();publicTransitOverlay?.suspend();electoralOverlay?.suspend();threeDimensional?.suspend({contextRecovery:true});threeDimensionalScenery?.suspend();environmentSuspended=true;environmentRequest.abort();environmentScene?.suspend();localPalaceGarden?.suspend();refresh();},pageHidden:document.hidden,onTimeout:()=>mapRecoveryNotice.update('failed'),onLayersRestored:signal=>{signal.throwIfAborted();mapGPUUnavailable=false;for(const [id,fc]of deferredSourceData)setSource(id,fc);geographyBase?.resume();communityVisibility();syncSceneEnvironment(sceneEnvironment);syncThreeDimensionalMotion();threeDimensional?.renderer?.setOpacity(app.querySelector<HTMLInputElement>('.electoral-controls input[type="checkbox"]')?.checked ? .35 : 1);sceneFrameClock?.setPageHidden(document.hidden);sceneControls?.setPageHidden(document.hidden);dedicatedAppearance?.resume();if(dedicatedWanted)syncDedicatedAppearanceMode(true);publicTransitOverlay?.resume();electoralOverlay?.resume();baseShopLabels?.resume();refresh();void loadViewport();threeDimensional?.resume({contextRecovery:true});threeDimensionalScenery?.resume();environmentSuspended=false;environmentScene?.resume();localPalaceGarden?.resume();if(environmentWanted)syncEnvironmentMode(true);},isReady:()=>threeDimensional?.wantedMode!=='3d'||Boolean(threeDimensional?.mode==='3d'&&threeDimensional.renderer?.isPickReady()),onReady:()=>{mapRecoveryNotice.update('ready');threeDimensionalControls?.setMapAvailable(true);threeDimensionalControls?.reportState({mode:threeDimensional?.mode??'2d',status:'ready'});},onError:()=>{mapRecoveryNotice.update('failed');}});
+      threeDimensionalRecovery=installCustomLayerRecovery({map:map as any,layers:()=>{const rows:{layer:{id:string};beforeId?:()=>string|undefined}[]=[];if(threeDimensional?.renderer)for(const paintLayer of ((threeDimensional as any).paintLayers??[threeDimensional.renderer.layer]))rows.push({layer:paintLayer,beforeId:()=>map.getStyle().layers?.find(l=>['scene-point-halo','scene-point','source-poi-reference-point','poi-center-halo','poi-center','poi-association-label','poi-point-halo','poi-point','kbo-navigation-point','kbo-navigation-label'].includes(l.id))?.id});if(threeDimensionalScenery?.customLayer)rows.push({layer:threeDimensionalScenery.customLayer,beforeId:()=>threeDimensional?.renderer?.layer.id});if(localPalaceGarden?.customLayer)rows.push({layer:localPalaceGarden.customLayer,beforeId:()=>threeDimensional?.renderer?.layer.id});if(environmentScene?.customLayer)rows.push({layer:environmentScene.customLayer,beforeId:()=>threeDimensional?.renderer?.layer.id});if(dedicatedAppearance?.customLayer)rows.push({layer:dedicatedAppearance.customLayer,beforeId:()=>map.getStyle().layers?.find(l=>['scene-point-halo','scene-point','source-poi-reference-point','poi-center-halo','poi-center','poi-association-label','poi-point-halo','poi-point','kbo-navigation-point','kbo-navigation-label'].includes(l.id))?.id});if(buildingSolarShadow?.customLayer)rows.push({layer:buildingSolarShadow.customLayer,beforeId:()=>threeDimensional?.renderer?.layer.id});return rows;},onLost:event=>{if(event.reason==='context-lost'){idleContextReclamation?.onLost();beginMainContextRecovery();}mapGPUUnavailable=true;buildingSolarShadow?.suspend();mapRecoveryNotice.update('waiting');threeDimensionalControls?.setMapAvailable(false);syncSceneVisibility();dedicatedInitRequest.abort();dedicatedAppearance?.suspend();building3dInteraction?.cancelPending();baseShopLabels?.suspend();viewportRequest.abort();geographyBase?.suspend();publicTransitOverlay?.suspend();electoralOverlay?.suspend();threeDimensional?.suspend({contextRecovery:true});threeDimensionalScenery?.suspend();environmentSuspended=true;environmentRequest.abort();environmentScene?.suspend();localPalaceGarden?.suspend();refresh();},pageHidden:document.hidden,onTimeout:()=>mapRecoveryNotice.update('failed'),onLayersRestored:signal=>{signal.throwIfAborted();mapGPUUnavailable=false;for(const [id,fc]of deferredSourceData)setSource(id,fc);geographyBase?.resume();communityVisibility();syncSceneEnvironment(sceneEnvironment);syncThreeDimensionalMotion();threeDimensional?.renderer?.setOpacity(app.querySelector<HTMLInputElement>('.electoral-controls input[type="checkbox"]')?.checked ? .35 : 1);syncSceneVisibility();dedicatedAppearance?.resume();if(dedicatedWanted)syncDedicatedAppearanceMode(true);publicTransitOverlay?.resume();electoralOverlay?.resume();baseShopLabels?.resume();refresh();void loadViewport();threeDimensional?.resume({contextRecovery:true});buildingSolarShadow?.resume();threeDimensionalScenery?.resume();environmentSuspended=false;environmentScene?.resume();localPalaceGarden?.resume();if(environmentWanted)syncEnvironmentMode(true);},isReady:currentMainRecoveryReady,readReadySnapshot:readRecoveryReadySnapshot,onTerminal:publishRecoveryTerminal,onReady:()=>{idleContextReclamation?.onReady();mapRecoveryNotice.update('ready');threeDimensionalControls?.setMapAvailable(true);threeDimensionalControls?.reportState({mode:threeDimensional?.mode??'2d',status:'ready'});},onError:()=>{idleContextReclamation?.onError();mapRecoveryNotice.update('failed');}});
+      idleContextReclamation=installIdleContextReclamation({map,idleMs:20000,hidden:document.hidden,
+        eligible:()=>{
+          // A settled failed 3D handoff keeps its diagnostic, but no longer owns
+          // preparation. Its rolled-back 2D resources still use the normal
+          // retirement and idle gates; metadata failures/pending work stay blocked.
+          const preparation=threeDimensionalPreparation;
+          if(document.hidden||mapGPUUnavailable||preparation&&(!preparation.handedOff||preparation.failure===undefined)||map.isMoving()||threeDimensional?.mode!=='2d'||threeDimensional.wantedMode!=='2d')return false;
+          const store=threeDimensional.resourceStore,stats=store.stats,categories=store.budget.stats.categories;
+          // Recent executables have no time expiry: waiting for their program
+          // charge before context loss would wait forever. After the normal
+          // 2D idle/resource gates, drop only unused cached program references.
+          // Live linked executables keep their charge and still block below.
+          if(!contextReclamationResourcesIdle(stats,{...categories,program:undefined}))return false;
+          releaseRecentPrograms(store);
+          return contextReclamationResourcesIdle(store.stats,store.budget.stats.categories);
+        },
+        reservePreview:bytes=>{const result=threeDimensional!.resourceStore.budget.tryReserve({category:'unmeasured-browser',bytes,precision:'estimate',label:'Bounded 2D frame cover during graphics context reclamation'},{evict:false});return result.ok?result.reservation:undefined;},
+      });
       syncThreeDimensionalMotion();
       map.on('movestart',()=>{threeDimensionalClick++;building3dInteraction?.cancelPending();});
       const syncBuildingOpacity=()=>{if(mapGPUUnavailable)return;const election=app.querySelector<HTMLInputElement>('.electoral-controls input[type="checkbox"]');threeDimensional?.renderer?.setOpacity(election?.checked ? .35 : 1);};
@@ -1915,35 +2146,145 @@ async function start() {
         const detailProof=document.createElement("output");detailProof.id="map-detail-proof";detailProof.hidden=true;app.append(detailProof);
         if(location.hostname==='127.0.0.1'){
           const sceneProof=document.createElement('output');sceneProof.id='scene-render-proof';sceneProof.hidden=true;app.append(sceneProof);
-          let sceneProofLast=-Infinity,sceneProofSequence=0,sceneProofRevision='',sceneProofSamples:{objectId:string;partId:string;screenBox:number[]}[]=[],sceneProofModules:Promise<void>|undefined;
+          // The LOD selection records, read on demand only: never serialized into the 4 Hz proof.
+          Object.defineProperty(sceneProof,'buildingDetailSelection',{get:()=>threeDimensional?.getBuildingDetailSelectionSnapshots()??Object.freeze([])});
+          Object.defineProperty(sceneProof,'buildingDetailSolar',{get:()=>threeDimensional?.getBuildingDetailSolarSnapshot()});
+          // Bounded page-ledger proof: the page store with its ledger, at most 16
+          // ledger holders, the compositor's retained executables, program waits,
+          // dispatch and last readiness timeout, and the building reflection's
+          // budget fields. Read from the same rows the proof already holds.
+          const sceneResources=(programStats:readonly unknown[]|undefined,environment:unknown)=>{
+            const store=threeDimensional?.resourceStore;
+            const stats=environment as {buildingReflection?:Record<string,unknown>;renderer?:{buildingReflection?:Record<string,unknown>}}|undefined,reflection=stats?.buildingReflection??stats?.renderer?.buildingReflection;
+            return{store:store?.stats,holders:store?.budget.holders?.(16),...threeDimensional?.getResourceDiagnostics(programStats),
+              buildingReflection:reflection&&{budgetOmissions:Array.isArray(reflection.budgetOmissions)?reflection.budgetOmissions.slice(0,16):[],targetBudgetWaits:reflection.targetBudgetWaits,waitingForTargetBudget:reflection.waitingForTargetBudget,preparationBudgetWaits:reflection.preparationBudgetWaits,waitingForPreparationBudget:reflection.waitingForPreparationBudget}};
+          };
+          const sceneProofGate=createSceneProofGate();
+          let sceneProofSequence=0,sceneProofRevision='',sceneProofSamples:{objectId:string;partId:string;screenBox:number[]}[]=[],sceneProofModules:Promise<void>|undefined;
           let sceneFrozenModule:typeof import('./frozen-paint-tables')|undefined,sceneTimingModule:typeof import('./qa-custom-layer-render-timing')|undefined;
-          const publishSceneProof=()=>{
-            const now=performance.now();if(now-sceneProofLast<250)return;sceneProofLast=now;
+          let sceneCameraKey:string|undefined,sceneCameraMoveRevision=0,sceneCameraLastMoveUTC:string|null=null,sceneCameraTrackingLost=false,sceneProofDisposed=false;
+          // An idle page may keep its last render proof after resource retirement.
+          // Read the current ledger on demand without requesting a frame, collecting
+          // resources or overwriting the last actual render-event witness.
+          Object.defineProperty(sceneProof,'resourceLedgerNow',{get:()=>{
+            if(sceneProofDisposed)return undefined;
+            return withRenderDiagnosticSnapshot(()=>{
+              const store=threeDimensional?.resourceStore;
+              // Read the installed renderers now, even when 2D has not drawn a
+              // new frame. Reuse these exact rows for the bounded budget digest.
+              // Creation/deletion counters describe issued calls, not driver RAM.
+              const programPreparation=threeDimensional?.getRecoveryPreparationStats();
+              const renderResources=threeDimensional?.getResourceDiagnostics(programPreparation);
+              return{schemaVersion:1,timeOrigin:performance.timeOrigin,monotonicMs:performance.now(),utc:new Date().toISOString(),mode:threeDimensional?.mode??'2d',wantedMode:threeDimensional?.wantedMode??'2d',storeDestroyed:store?.destroyed,store:store?.stats,holders:store?.budget.holders?.(16),sharedNativeSources:threeDimensional?.getNativeSourceDiagnostics(),programPreparation,programLifecycle:readRenderProgramLifecycle(),renderResources,measurement:'On-demand current logical resource ledger and renderer ownership/deletion-call diagnostics; no frame, collection or GPU completion requested. Deletion calls do not prove driver reclamation. Physical memory is measured separately.'};
+            });
+          }});
+          // Keep the exact pre-rollback failure readable after the page is idle
+          // in 2D; do not substitute a later ledger refusal for that error.
+          Object.defineProperty(sceneProof,'contextReclamation',{get:()=>sceneProofDisposed?undefined:idleContextReclamation?.stats});
+          Object.defineProperty(sceneProof,'transitionFailure',{get:()=>sceneProofDisposed?undefined:threeDimensional?.getResourceDiagnostics([]).transitionFailure});
+          function disposeSceneProof(){
+            if(sceneProofDisposed)return;sceneProofDisposed=true;
+            map.off('move',captureSceneCamera);map.off('resize',captureSceneCamera);map.off('render',publishSceneProof);map.off('moveend',publishSettledSceneProof);map.off('idle',publishSettledSceneProof);map.off('remove',disposeSceneProof);sceneProof.dataset.disposed='true';
+          }
+          function captureSceneCamera(){
+            if(sceneProofDisposed)return;
+            if(!new URLSearchParams(location.search).has('diagnostics')){disposeSceneProof();return;}
+            const center=map.getCenter(),canvas=map.getCanvas(),rect=canvas.getBoundingClientRect();
+            const pose=[center.lng,center.lat,map.getZoom(),map.getPitch(),map.getBearing(),rect.width,rect.height,canvas.width,canvas.height,devicePixelRatio];
+            const known=pose.every(Number.isFinite);
+            if(known){
+              const key=JSON.stringify(pose);
+              if(sceneCameraKey!==undefined&&key!==sceneCameraKey){sceneCameraMoveRevision++;sceneCameraLastMoveUTC=new Date().toISOString();}
+              sceneCameraKey=key;
+            }else if(sceneCameraKey!==undefined)sceneCameraTrackingLost=true;
+            // First known pose is a baseline. An unknown gap cannot certify continuous stillness.
+            const finite=(value:number)=>Number.isFinite(value)?value:null;
+            const [lng,lat,zoom,pitch,bearing,cssWidth,cssHeight,canvasWidth,canvasHeight,dpr]=pose.map(finite);
+            return{center:[lng,lat],zoom,pitch,bearing,moving:map.isMoving(),moveRevision:known&&!sceneCameraTrackingLost?sceneCameraMoveRevision:null,lastMoveUTC:sceneCameraLastMoveUTC,viewport:{cssWidth,cssHeight,canvasWidth,canvasHeight,dpr}};
+          }
+          // Owner keys avoid full diagnostics; provider readiness reuses existing
+          // cached visibility/program-run checks, not a constant-cost scalar read.
+          const sceneSettlementKey=()=>{
+            const camera=captureSceneCamera(),draw=readMainDrawReadiness(),playback=sceneControls?.playback;
+            const providers=(draw?.providers??[]).map(p=>[p.provider,p.managerPresent,p.rendererPresent,p.mode,p.wantedMode,p.ready,p.preparing,p.failure,p.generation] as const);
+            return [camera?.moveRevision,camera?.moving,sceneCameraKey,
+              sceneEnvironment.instantISO,sceneEnvironment.sunlight,sceneEnvironment.shadows,sceneEnvironment.motion,sceneEnvironment.quality,
+              playback?.playing,playback?.followingCurrentTime,playback?.mode,playback?.reduced,
+              threeDimensional?.mode,threeDimensional?.wantedMode,threeDimensionalPreparation?.mode,threeDimensionalPreparation?.failure,
+              threeDimensionalRecovery?.state,threeDimensionalRecovery?.revision,mapGPUUnavailable,document.hidden,
+              draw.mode,draw.wantedMode,draw.ready,draw.preparing,draw.failure,providers,sceneFrameClock?.stats.timerPending,
+              environmentStatus,environmentScene?.getProofSettlementKey(),threeDimensionalScenery?.getProofSettlementKey(),buildingSolarShadow?.getProofSettlementKey()] as const;
+          };
+          const publishSceneProof=(settled?:unknown)=>{
+            const now=performance.now();
+            sceneProofGate.publish(now,settled===true,sceneSettlementKey,()=>{
+            const camera=captureSceneCamera();if(!camera)return false;
             const renderer=threeDimensional?.renderer;
             if(!sceneProofModules&&(renderer||threeDimensional?.wantedMode==='3d'))sceneProofModules=Promise.all([import('./frozen-paint-tables'),import('./qa-custom-layer-render-timing')]).then(([frozen,timing])=>{sceneFrozenModule=frozen;sceneTimingModule=timing;}).catch(()=>{});
             const revision=renderer?.getRevision(),revisionKey=JSON.stringify(revision??null);
             if(revisionKey!==sceneProofRevision){sceneProofRevision=revisionKey;sceneProofSamples=renderer?.diagnosticScreenSamples().slice(0,3).map(({objectId,partId,screenBox})=>({objectId,partId,screenBox}))??[];}
             const solarAdmissions=sceneProofSamples.map(identity=>{const value=renderer?.getSolarShadowAdmission(identity);return{...identity,...(value?{resident:value.resident,admitted:value.admitted,enabled:value.enabled,mode:value.mode,boundarySHA256:value.boundarySHA256,geometryRole:value.geometryRole,packedBounds:value.packedBounds,instantISO:value.instantISO}:{})};});
-            sceneProof.textContent=JSON.stringify({sequence:++sceneProofSequence,monotonicMs:now,utc:new Date().toISOString(),documentHidden:document.hidden,gpuUnavailable:mapGPUUnavailable,mode:threeDimensional?.mode??'2d',wantedMode:threeDimensional?.wantedMode??'2d',revision,scene:{settings:sceneEnvironment,playback:sceneControls?.playback,clock:sceneFrameClock?.stats,quality:sceneRenderQuality?.stats,sunlight:renderer?.sceneSunlight,representativeSolarAdmissions:solarAdmissions},frozenTableInputs:sceneFrozenModule?.frozenPaintTableStats(),environment:{installation:environmentStatus,...environmentScene?.stats},scenery:threeDimensionalScenery?.stats,renderCallbacks:sceneTimingModule?.qaCustomLayerRenderTiming(),measurement:'Native render-event snapshot at most 4 Hz; no owned timer/repaint. Heap is measured separately with browser CDP. Solar samples refresh on renderer revision; polygons and report bodies omitted.'});
+            withRenderDiagnosticSnapshot(()=>{
+            const programPreparation=renderer?.getProgramPreparationStats(),environmentStats=environmentScene?.stats;
+            sceneProof.textContent=JSON.stringify({schemaVersion:1,recovery:threeDimensionalRecovery?.state,recoveryRevision:threeDimensionalRecovery?.revision,recoveryReady:threeDimensionalRecovery?.lastReady,recoveryThreshold:threeDimensionalRecovery?.lastThreshold,sequence:++sceneProofSequence,monotonicMs:now,utc:new Date().toISOString(),documentHidden:document.hidden,gpuUnavailable:mapGPUUnavailable,mode:threeDimensional?.mode??'2d',wantedMode:threeDimensional?.wantedMode??'2d',revision,camera,scene:{settings:sceneEnvironment,playback:sceneControls?.playback,clock:sceneFrameClock?.stats,quality:sceneRenderQuality?.stats,sunlight:renderer?.sceneSunlight,representativeSolarAdmissions:solarAdmissions,solarShadow:buildingSolarShadow?.stats},programPreparation,managerDrawReadiness:threeDimensional?.getManagerDrawReadiness(),frozenTableInputs:sceneFrozenModule?.frozenPaintTableStats(),frozenDataResources:threeDimensional?.getFrozenDataResourceStats(),environment:{installation:environmentStatus,...environmentStats},scenery:threeDimensionalScenery?.stats,resources:sceneResources(programPreparation,environmentStats),renderCallbacks:sceneTimingModule?.qaCustomLayerRenderTiming(),measurement:'Native render-event snapshot at most 4 Hz plus deduplicated settlement-transition observations; no owned timer/repaint. A moveend/idle state is not a new GPU-completion witness. Initializer bytes are cumulative logical JSON input, not retained heap. Process memory is measured separately. Solar samples refresh on renderer revision; polygons and report bodies omitted. resources: logical page-ledger bytes and bounded owner rows, not physical memory.'});
+            });
+            return true;
+            });
           };
-          map.on('render',publishSceneProof);map.once('remove',()=>{map.off('render',publishSceneProof);sceneProof.dataset.disposed='true';});publishSceneProof();
+          // A sub-250ms transition can otherwise leave the final idle page
+          // permanently showing its penultimate moving snapshot. Read the
+          // settled state once; do not create an idle timer or request a frame.
+          // Readiness can also settle after the final moveend, within the render
+          // throttle. MapLibre's natural idle event captures that final state.
+          // This remains a state observation, not a new GPU-completion witness.
+          // Natural idle can recur on every animation frame. Only a changed
+          // settlement key may bypass 250 ms; identical idle events do no full work.
+          const publishSettledSceneProof=()=>publishSceneProof(true);
+          map.on('move',captureSceneCamera);map.on('resize',captureSceneCamera);map.on('render',publishSceneProof);map.on('moveend',publishSettledSceneProof);map.on('idle',publishSettledSceneProof);map.once('remove',disposeSceneProof);publishSceneProof();
         }
-        if(location.hostname==='127.0.0.1'){const check=document.createElement('button');check.id='qa-context-recovery';check.textContent='Local check: GPU pause and recovery';const gl=map.getCanvas().getContext('webgl2'),extension=gl?.getExtension('WEBGL_lose_context');check.disabled=!extension;check.onclick=()=>{extension?.loseContext();setTimeout(()=>extension?.restoreContext(),1000);};app.querySelector('.three-dimensional-notices')?.append(check);}
-        let growthFrames:unknown[]=[];let wasGrowing=false;let frameTimes:number[]=[];let measuredFrames={frames:0,elapsedMs:0,meanFrameMs:0,maxFrameGapMs:0,scope:'map-render-events-during-camera-motion'};map.on('movestart',()=>{frameTimes=[];});map.on('render',()=>{if(map.isMoving()&&frameTimes.length<240)frameTimes.push(performance.now());const growth=threeDimensional?.renderer?.growthSnapshot();if(growth?.enabled&&growth.ready&&!growth.pageHidden&&(growth.activeBirths>0||wasGrowing)){growthFrames.push({timeMs:performance.now(),...growth,evidence:'source-owned growth state after native MapLibre render event'});if(growthFrames.length>120)growthFrames.shift();}wasGrowing=Boolean(growth?.enabled&&growth.ready&&growth.activeBirths>0);});map.on('moveend',()=>{const gaps=frameTimes.slice(1).map((n,i)=>n-frameTimes[i]);measuredFrames={frames:frameTimes.length,elapsedMs:frameTimes.length>1?frameTimes.at(-1)!-frameTimes[0]:0,meanFrameMs:gaps.length?gaps.reduce((a,b)=>a+b,0)/gaps.length:0,maxFrameGapMs:gaps.length?Math.max(...gaps):0,scope:'map-render-events-during-camera-motion'};});
+        if(location.hostname==='127.0.0.1'){
+          const check=document.createElement('button');check.id='qa-context-recovery';check.textContent='Local check: GPU pause and recovery';
+          const gl=map.getCanvas().getContext('webgl2'),extension=gl?.getExtension('WEBGL_lose_context');check.disabled=!extension;
+          type RecoveryAction={sequence:number;timeOrigin:number;lossRequestedAtMs:number;restoreRequestedAtMs:number|null};
+          let recoveryActionSequence=0,recoveryAction:RecoveryAction|undefined;
+          Object.defineProperty(check,'recoveryTerminal',{get:()=>threeDimensionalRecovery?.lastTerminal});
+          Object.defineProperty(check,'recoveryThreshold',{get:()=>threeDimensionalRecovery?.lastThreshold});
+          Object.defineProperty(check,'recoveryReady',{get:()=>threeDimensionalRecovery?.lastReady});
+          Object.defineProperty(check,'recoveryAction',{get:()=>recoveryAction?{...recoveryAction}:undefined});
+          check.onclick=()=>{
+            const action:RecoveryAction=recoveryAction={sequence:++recoveryActionSequence,timeOrigin:performance.timeOrigin,lossRequestedAtMs:performance.now(),restoreRequestedAtMs:null};
+            extension?.loseContext();setTimeout(()=>{action.restoreRequestedAtMs=performance.now();extension?.restoreContext();},1000);
+          };
+          app.querySelector('.three-dimensional-notices')?.append(check);
+        }
+        let growthFrames:unknown[]=[];let wasGrowing=false;let frameTimes:number[]=[];let measuredFrames={frames:0,elapsedMs:0,meanFrameMs:0,maxFrameGapMs:0,scope:'map-render-events-during-camera-motion'};map.on('movestart',()=>{frameTimes=[];});
+        map.on('render',()=>{
+          if(map.isMoving()&&frameTimes.length<240)frameTimes.push(performance.now());
+          const renderer=threeDimensional?.renderer,sampling=renderer?.getGrowthSamplingState();
+          // Sample every active frame and the first settled frame, without scanning idle geometry.
+          const growth=(sampling?.activeBirths??0)>0||wasGrowing?renderer?.growthSnapshot():undefined;
+          if(growth?.enabled&&growth.ready&&!growth.pageHidden&&(growth.activeBirths>0||wasGrowing)){
+            growthFrames.push({timeMs:performance.now(),...growth,evidence:'source-owned growth state after native MapLibre render event'});
+            if(growthFrames.length>120)growthFrames.shift();
+          }
+          wasGrowing=Boolean(growth?.enabled&&growth.ready&&growth.activeBirths>0);
+        });
+        map.on('moveend',()=>{const gaps=frameTimes.slice(1).map((n,i)=>n-frameTimes[i]);measuredFrames={frames:frameTimes.length,elapsedMs:frameTimes.length>1?frameTimes.at(-1)!-frameTimes[0]:0,meanFrameMs:gaps.length?gaps.reduce((a,b)=>a+b,0)/gaps.length:0,maxFrameGapMs:gaps.length?Math.max(...gaps):0,scope:'map-render-events-during-camera-motion'};});
         const transitScreenSamples=()=>{const samples:{id:unknown;point:number[]}[]=[];const rect=map.getCanvas().getBoundingClientRect();for(const group of ['metro','tram','bus','extra']){const layer='public-transit-'+group+'-lines';if(!map.getLayer(layer))continue;for(const feature of map.queryRenderedFeatures({layers:[layer]})){const lines=feature.geometry.type==='LineString'?[feature.geometry.coordinates]:feature.geometry.type==='MultiLineString'?feature.geometry.coordinates:[];for(const line of lines){for(let i=1;i<line.length&&samples.length<12;i++){const a=map.project(line[i-1] as [number,number]),b=map.project(line[i] as [number,number]),x=(a.x+b.x)/2,y=(a.y+b.y)/2;if(x>50&&x<rect.width-50&&y>80&&y<rect.height-50){samples.push({id:feature.properties.id,point:[rect.left+x,rect.top+y]});break;}}if(samples.length>=12)return samples;}}}return samples;};
         let detailProofLast=-Infinity;detailProof.dataset.maximumSnapshotHz="1";
-        map.on("idle",()=>{const now=performance.now();if(now-detailProofLast<1000)return;detailProofLast=now;const idleCapture=localLifecycleDiagnostics?.recordIdle();detailProof.textContent=JSON.stringify({...(idleCapture?{idleCapture}:{}),transitScreenSamples:transitScreenSamples(),buildingGrowthFrames:growthFrames,renderFrames:measuredFrames,cache:client.cacheStats,renderInputs:viewportRenderInputs,losslessData:{status:losslessDataStatus,...losslessData?.stats},threeDimensional:threeDimensional?.cacheStats(),nativeGroups:{ground:nativeOutlineGround?.diagnostics,groups:threeDimensional?.renderer?.nativeGroupDisplay?.groups.map(g=>({relationId:g.relationId,name:g.name,outline:{objectId:g.outline.objectId,partId:g.outline.partId,sourceHeight:g.outline.sourceFeature.properties?.height},declaredPartCount:g.declaredPartCount,compiledPartCount:g.compiledPartCount,residentPartCount:g.residentPartCount,missingPartIds:g.missingPartIds,unknownPartIds:g.unknownPartIds,ownershipUnverifiedPartIds:g.ownershipUnverifiedPartIds,viewportMissingPartIds:g.viewportMissingPartIds,complete:g.complete})),errors:threeDimensional?.renderer?.nativeGroupDisplay?.errors},scenery:threeDimensionalScenery?.stats,dedicatedAppearance:dedicatedAppearance?.stats,localPalaceGarden:localPalaceGarden?.stats,environment:{installation:environmentStatus,...environmentScene?.stats},sceneRendering:{settings:sceneEnvironment,quality:sceneRenderQuality?.stats,clock:sceneFrameClock?.stats},recovery:threeDimensionalRecovery?.state,transit:{cache:publicTransitOverlay?.cacheStats(),rendered:Object.fromEntries(["metro","tram","bus","extra"].map(g=>{const id="public-transit-"+g+"-lines";return[g,map.getLayer(id)?map.queryRenderedFeatures({layers:[id]}).length:0];}))},translations:{matched:dynamicText.matched,missing:dynamicText.missing},circles:(map.getLayer("poi-circle")?map.queryRenderedFeatures({layers:["poi-circle"]}):[]).map(f=>({id:f.properties.id,name:f.properties.name,radius:f.properties.display_radius_m})),month:monthKey()});if(map.getLayer("basemap-vector-place-labels"))output.textContent=JSON.stringify(map.queryRenderedFeatures({layers:["basemap-vector-place-labels"]}).map(f=>({name:f.properties.name,localized:f.properties[`name_${locale}`]??null,display:f.properties[`name_${locale}`]??f.properties.name})));});
+        map.on("idle",()=>{if(location.hostname==='127.0.0.1'&&new URLSearchParams(location.search).get('diagnostics')==='compact')return;const now=performance.now();if(now-detailProofLast<1000)return;detailProofLast=now;const idleCapture=localLifecycleDiagnostics?.recordIdle();detailProof.textContent=JSON.stringify({...(idleCapture?{idleCapture}:{}),transitScreenSamples:transitScreenSamples(),buildingGrowthFrames:growthFrames,renderFrames:measuredFrames,cache:client.cacheStats,renderInputs:viewportRenderInputs,losslessData:{status:losslessDataStatus,...losslessData?.stats},threeDimensional:threeDimensional?.cacheStats(),nativeGroups:{ground:nativeOutlineGround?.diagnostics,groups:threeDimensional?.renderer?.nativeGroupDisplay?.groups.map(g=>({relationId:g.relationId,name:g.name,outline:{objectId:g.outline.objectId,partId:g.outline.partId,sourceHeight:g.outline.sourceFeature.properties?.height},declaredPartCount:g.declaredPartCount,compiledPartCount:g.compiledPartCount,residentPartCount:g.residentPartCount,missingPartIds:g.missingPartIds,unknownPartIds:g.unknownPartIds,ownershipUnverifiedPartIds:g.ownershipUnverifiedPartIds,viewportMissingPartIds:g.viewportMissingPartIds,complete:g.complete})),errors:threeDimensional?.renderer?.nativeGroupDisplay?.errors},scenery:threeDimensionalScenery?.stats,dedicatedAppearance:dedicatedAppearance?.stats,localPalaceGarden:localPalaceGarden?.stats,environment:{installation:environmentStatus,...environmentScene?.stats},sceneRendering:{settings:sceneEnvironment,quality:sceneRenderQuality?.stats,clock:sceneFrameClock?.stats,solarShadow:buildingSolarShadow?.stats},recovery:threeDimensionalRecovery?.state,transit:{cache:publicTransitOverlay?.cacheStats(),rendered:Object.fromEntries(["metro","tram","bus","extra"].map(g=>{const id="public-transit-"+g+"-lines";return[g,map.getLayer(id)?map.queryRenderedFeatures({layers:[id]}).length:0];}))},translations:{matched:dynamicText.matched,missing:dynamicText.missing},circles:(map.getLayer("poi-circle")?map.queryRenderedFeatures({layers:["poi-circle"]}):[]).map(f=>({id:f.properties.id,name:f.properties.name,radius:f.properties.display_radius_m})),month:monthKey()});if(map.getLayer("basemap-vector-place-labels"))output.textContent=JSON.stringify(map.queryRenderedFeatures({layers:["basemap-vector-place-labels"]}).map(f=>({name:f.properties.name,localized:f.properties[`name_${locale}`]??null,display:f.properties[`name_${locale}`]??f.properties.name})));});
       }
       map.on("click", async (e) => {
         if (expired) return;
+        const threeClick=++threeDimensionalClick;
         selectionInspector.close();
         // Real report markers keep priority; selected stations precede ordinary venue points.
         const transitIncidentLayers=["scene-point","scene-point-halo","source-poi-reference-point"].filter(id=>map.getLayer(id));
         const transitIncidentHit=transitIncidentLayers.length&&map.queryRenderedFeatures(e.point,{layers:transitIncidentLayers}).length;
         if(!transitIncidentHit&&publicTransitOverlay?.inspectStopAt(e.point)){
-          selected=null;pendingSearchPoiId=null;basicOsmPanel=undefined;osmClickInspection?.clear();return;
+          if(building3dInteraction)building3dInteraction.clear();else osmClickInspection?.clear();
+          selected=null;pendingSearchPoiId=null;basicOsmPanel=undefined;return;
         }
-        const threeClick=++threeDimensionalClick;
         const annotations=['scene-point','scene-point-halo','source-poi-reference-point','poi-center','poi-association-label','poi-point','kbo-navigation-point','kbo-navigation-label',SHOP_LABEL_LAYER].filter(id=>map.getLayer(id));
         const annotationHit=annotations.length>0&&map.queryRenderedFeatures(e.point,{layers:annotations}).length>0;
         if(threeDimensional?.mode==='3d'&&building3dInteraction&&!annotationHit){
@@ -2014,16 +2355,16 @@ async function start() {
           }
         };
 
-        const centerHits=fs.filter(f=>["poi-center","poi-association-label"].includes(f.layer.id) && typeof f.properties.id==="string");
-        if(centerHits.length){
-          const centerIds=[...new Set(centerHits.map(f=>String(f.properties.id)))];
-          if(centerIds.length===1){selected={type:"poi",id:centerIds[0]};finishSelection();return;}
+        const poiChoiceResult=collectPoiHitChoices(fs,activePois.features);
+        const poiChoiceLabels=poiHitChoiceLabels(poiChoiceResult.choices,activePois.features,kind=>t(`selection.poiGeometry.${kind}`));
+        if(poiChoiceResult.choices.some(choice=>choice.centerHit)){
+          const {choices,centerPrimary}=poiChoiceResult;
+          if(choices.length===1&&centerPrimary){selected={type:"poi",id:centerPrimary.id};finishSelection();return;}
           const panel=openDialog(t("selection.multiplePois"));
           text("p",t("selection.multiplePoisNote"),panel);
-          for(const id of centerIds){
-            const poi=activePois.features.find(f=>f.properties.id===id);
-            const button=text("button",String(poi?.properties.name??id),panel);
-            button.onclick=()=>{selected={type:"poi",id};el<HTMLDialogElement>("drawer").close();finishSelection();};
+          for(const choice of choices){
+            const button=text("button",poiChoiceLabels.get(choice.id)??choice.name,panel);
+            button.onclick=()=>{selected={type:"poi",id:choice.id};el<HTMLDialogElement>("drawer").close();finishSelection();};
           }
           return;
         }
@@ -2049,19 +2390,18 @@ async function start() {
         }
         const references=fs.filter(f=>SOURCE_POI_CLICK_LAYERS.includes(f.layer.id));
         if(references.length){selected={type:"source_poi",ids:sceneEventIds(references)};finishSelection();return;}
-        const poiHits=new Map<string,typeof fs[number]>();
-        for(const hit of fs)if(hit.layer.id.startsWith("poi-")&&typeof hit.properties.id==="string")poiHits.set(hit.properties.id,hit);
-        if(poiHits.size>1){
+        const poiChoices=poiChoiceResult.choices;
+        if(poiChoices.length>1){
           const panel=openDialog(t("selection.multiplePois"));
           text("p",t("selection.multiplePoisNote"),panel);
-          for(const[id,hit]of [...poiHits].sort((a,b)=>String(a[1].properties.name??a[0]).localeCompare(String(b[1].properties.name??b[0])))){
-            const chosen=activePois.features.find(f=>f.properties.id===id);const name=String(chosen?.properties.name??hit.properties.name??id);const button=text("button",name,panel);
-            button.onclick=()=>{selected={type:"poi",id};el<HTMLDialogElement>("drawer").close();finishSelection();};
+          for(const choice of poiChoices){
+            const button=text("button",poiChoiceLabels.get(choice.id)??choice.name,panel);
+            button.onclick=()=>{selected={type:"poi",id:choice.id};el<HTMLDialogElement>("drawer").close();finishSelection();};
           }
           return;
         }
-        const poiHit=[...poiHits.values()][0];
-        if(poiHit){selected={type:"poi",id:String(poiHit.properties.id)};finishSelection();return;}
+        const poiChoice=poiChoices[0];
+        if(poiChoice){selected={type:"poi",id:poiChoice.id};finishSelection();return;}
         const shopLabelHit=fs.find(f=>f.layer.id===SHOP_LABEL_LAYER);
         if(shopLabelHit){osmClickInspection?.inspect(shopLabelHit);return;}
         if(threeDimensional?.mode==='3d'&&!annotationHit&&nativeOutlineGround?.inspectAt(e.point))return;
@@ -2122,7 +2462,7 @@ async function start() {
       if (loaded) setRoadVisibility();
     };
     for (const id of ["year", "month"])
-      el(id).onchange = () => {const url=new URL(location.href);url.searchParams.set("month",monthKey());history.replaceState(null,"",url.href);pendingRecoverySelection=null;void loadMonth();};
+      el(id).onchange = () => {if(normalizeAvailablePeriod()){const url=new URL(location.href);url.searchParams.set("month",monthKey());history.replaceState(null,"",url.href);}pendingRecoverySelection=null;void loadMonth();};
     el("overview").onclick = () => {if(!mapGPUUnavailable)map.flyTo({ center: cityView.center, zoom: 10.5 });};
     el("sources").onclick = sourcesDialog;
     if (cityView.kbo) el("kbo").onclick = () => kboDialog();
@@ -2147,57 +2487,26 @@ async function start() {
     }, 300000);
     el<HTMLDialogElement>("drawer").addEventListener("close",clearClosedReportDialog);
     el("close-dialog").onclick = () => el<HTMLDialogElement>("drawer").close();
-    let searchTimer: ReturnType<typeof setTimeout>;
-    el<HTMLInputElement>("search").oninput = () => {
-      clearTimeout(searchTimer);
-      searchTimer = setTimeout(async () => {
-        const q = el<HTMLInputElement>("search")
-          .value.trim()
-          .toLocaleLowerCase();
-        const box = el("search-results");
-        box.replaceChildren();
-        if (q.length < 2) return;
-        if (!searchIndex) {
-          searchLoading ??= client
-            .json<typeof searchIndex>(`${client.base}/search.json`,searchRequest.signal)
-            .then((v) => {
-              searchIndex = v;
-            })
-            .catch(() => {
-              text("p", t("search.failed"), box);
-              searchLoading = undefined;
-            });
-          await searchLoading;
+    el("search").setAttribute("aria-controls","search-results");
+    el("search-results").setAttribute("role","region");
+    el("search-results").setAttribute("aria-label",t("search.results"));
+    placeSearch=installPlaceSearch<SearchPlace>(el<HTMLInputElement>("search"),el("search-results"),{
+      loadIndex:()=>client.json<SearchPlace[]>(`${client.base}/search.json`,searchRequest.signal),
+      label:f=>`${f.name} · ${poiName(f.kind,data.catalog.poi_types[f.kind]?.label ?? f.kind)}`,
+      noResults:t("search.noResults"),failed:t("search.failed"),
+      onSelect:f=>{
+        el<HTMLInputElement>("poi-toggle").checked=true;
+        for (const input of document.querySelectorAll<HTMLInputElement>("#poi-filters input")) {
+          input.disabled=false;
+          if (input.value === (f.scope_category??f.kind) || (!f.scope_category&&manifest.poi_scope_groups?.[input.value]?.kinds.includes(f.kind))) input.checked = true;
         }
-        if (
-          el<HTMLInputElement>("search").value.trim().toLocaleLowerCase() !== q
-        )
-          return;
-        const matches = (searchIndex ?? [])
-          .filter((f) => f.name.toLocaleLowerCase().includes(q))
-          .slice(0, 8);
-        if (!matches.length) text("p", t("search.noResults"), box);
-        for (const f of matches) {
-          const b = text(
-            "button",
-            `${f.name} · ${poiName(f.kind,data.catalog.poi_types[f.kind]?.label ?? f.kind)}`,
-            box,
-          );
-          b.onclick = () => {
-            el<HTMLInputElement>("poi-toggle").checked=true;
-            for (const input of document.querySelectorAll<HTMLInputElement>("#poi-filters input")) {
-              input.disabled=false;
-              if (input.value === (f.scope_category??f.kind) || (!f.scope_category&&manifest.poi_scope_groups?.[input.value]?.kinds.includes(f.kind))) input.checked = true;
-            }
-            pendingSearchPoiId = f.id;
-            selected = { type: "poi", id: f.id };
-            refresh();
-            if(!mapGPUUnavailable)map.flyTo({ center: f.center, zoom: 16 });
-            box.replaceChildren();
-          };
-        }
-      }, 160);
-    };
+        pendingSearchPoiId = f.id;
+        selected = { type: "poi", id: f.id };
+        refresh();
+        selectionInspector.open();
+        if(!mapGPUUnavailable)map.flyTo({ center: f.center, zoom: 16 });
+      },
+    });
   } catch (error) {
     console.error(error);
     el("coverage").textContent = t("map.loadFailed");
@@ -2205,25 +2514,27 @@ async function start() {
     if(new URLSearchParams(location.search).has("review303")){const diagnostic=document.createElement("pre");diagnostic.id="review303-bootstrap-error";diagnostic.textContent="Map initialization: "+String(error);el("map-status").append(diagnostic);void fetch("/__review303_capture/city-bootstraperror.json",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({capturedAt:new Date().toISOString(),status:"map-bootstrap-error",error:String(error),city:currentCity})}).catch(()=>{});}
   }
 }
-window.addEventListener("pageshow",(event)=>{el<HTMLSelectElement>("language").value=locale;if(event.persisted&&loaded){threeDimensionalRecovery?.setPageHidden(document.hidden);if(mapGPUUnavailable){refresh();return;}sceneFrameClock?.setPageHidden(document.hidden||mapGPUUnavailable);sceneControls?.setPageHidden(document.hidden||mapGPUUnavailable);map.resize();dedicatedAppearance?.resume();if(dedicatedWanted)syncDedicatedAppearanceMode(true);electoralOverlay?.resume();publicTransitOverlay?.resume();threeDimensional?.resume();threeDimensionalScenery?.resume();environmentSuspended=false;environmentScene?.resume();localPalaceGarden?.resume();if(environmentWanted)syncEnvironmentMode(true);void loadMonth();void loadViewport();void loadStatistics();void loadDatedStatistics();}});
+window.addEventListener("pageshow",(event)=>{el<HTMLSelectElement>("language").value=locale;if(event.persisted&&loaded){idleContextReclamation?.setHidden(document.hidden);threeDimensionalRecovery?.setPageHidden(document.hidden);if(mapGPUUnavailable){refresh();return;}syncSceneVisibility();map.resize();dedicatedAppearance?.resume();if(dedicatedWanted)syncDedicatedAppearanceMode(true);electoralOverlay?.resume();publicTransitOverlay?.resume();threeDimensional?.resume();buildingSolarShadow?.resume();threeDimensionalScenery?.resume();environmentSuspended=false;environmentScene?.resume();localPalaceGarden?.resume();if(environmentWanted)syncEnvironmentMode(true);void loadMonth();void loadViewport();void loadStatistics();void loadDatedStatistics();}});
 window.addEventListener("pagehide", (event) => {
-  abortPendingReportBodyLoads();threeDimensionalRecovery?.setPageHidden(true);
+  abortPendingReportBodyLoads();idleContextReclamation?.setHidden(true);building3dInteraction?.cancelPending();threeDimensionalRecovery?.setPageHidden(true);
   if(!event.persisted){bootstrapRequest.abort();setLocalDataTransport(undefined);losslessData?.clear();}
-  sceneFrameClock?.setPageHidden(true);sceneControls?.setPageHidden(true);statisticsRequest.abort();datedStatisticsRequest.abort();dedicatedInitRequest.abort();dedicatedAppearance?.suspend();electoralOverlay?.suspend();publicTransitOverlay?.suspend();threeDimensional?.suspend();threeDimensionalScenery?.suspend();environmentSuspended=true;environmentRequest.abort();environmentScene?.suspend();localPalaceGarden?.suspend();
+  sceneFrameClock?.setPageHidden(true);sceneControls?.setPageHidden(true);buildingSolarShadow?.suspend();statisticsRequest.abort();datedStatisticsRequest.abort();dedicatedInitRequest.abort();dedicatedAppearance?.suspend();electoralOverlay?.suspend();publicTransitOverlay?.suspend();threeDimensional?.suspend();threeDimensionalScenery?.suspend();environmentSuspended=true;environmentRequest.abort();environmentScene?.suspend();localPalaceGarden?.suspend();
   if(event.persisted){monthRequest.abort();yearRequest.abort();yearReportRequest.abort();annualLoadingKey="";annualLoading=undefined;viewportRequest.abort();clearTimeout(viewportTimer);return;}
+  sceneViewportObserver?.disconnect();sceneViewportObserver=undefined;
   nativeOutlineDisposed=true;++nativeOutlineTicket;nativeOutlineGround?.destroy();nativeGroupNotice.remove();
   searchRequest.abort();
+  placeSearch?.destroy();placeSearch=undefined;
   monthRequest.abort();
   yearRequest.abort();yearReportRequest.abort();
   viewportRequest.abort();
-  document.removeEventListener('visibilitychange',syncThreeDimensionalVisibility);threeDimensionalMotion.removeEventListener('change',syncThreeDimensionalMotion);dedicatedDestroyed=true;dedicatedWanted=false;dedicatedInitRequest.abort();dedicatedAppearance?.destroy();dedicatedNote.remove();environmentDestroyed=true;environmentWanted=false;environmentRequest.abort();environmentScene?.destroy();localPalaceGarden?.destroy();threeDimensionalRecovery?.destroy();mapRecoveryNotice.destroy();deferredSourceData.clear();viewportSourceData.clear();clearViewportSubmissions();announcementSourceInputs=undefined;threeDimensionalScenery?.destroy();threeDimensionalControls?.destroy();sceneControls?.destroy();sceneRenderQuality?.destroy();sceneFrameClock?.destroy();building3dInteraction?.destroy();threeDimensional?.destroy();baseShopLabels?.destroy();osmClickInspection?.destroy();publicTransitOverlay?.destroy();electoralOverlay?.destroy();geographyBase?.destroy();
+  document.removeEventListener('visibilitychange',syncThreeDimensionalVisibility);threeDimensionalMotion.removeEventListener('change',syncThreeDimensionalMotion);buildingSolarShadow?.destroy();dedicatedDestroyed=true;dedicatedWanted=false;dedicatedInitRequest.abort();dedicatedAppearance?.destroy();dedicatedNote.remove();environmentDestroyed=true;environmentWanted=false;environmentRequest.abort();environmentScene?.destroy();localPalaceGarden?.destroy();idleContextReclamation?.destroy();threeDimensionalRecovery?.destroy();mapRecoveryNotice.destroy();deferredSourceData.clear();viewportSourceData.clear();clearViewportSubmissions();announcementSourceInputs=undefined;threeDimensionalScenery?.destroy();threeDimensionalControls?.destroy();sceneControls?.destroy();sceneRenderQuality?.destroy();sceneFrameClock?.destroy();building3dInteraction?.destroy();threeDimensional?.destroy();baseShopLabels?.destroy();osmClickInspection?.destroy();publicTransitOverlay?.destroy();electoralOverlay?.destroy();geographyBase?.destroy();
   clearTimeout(viewportTimer);
   clearInterval(freshnessTimer);
   methodsPanel.destroy();
   uncertaintyPanel.destroy();
   githubFooter.destroy();
   analyticsPanel.destroy();
-  statisticsPanel?.destroy();datedStatisticsPanel?.destroy();floatingDatedStatisticsPanel?.destroy();
+  statisticsPanel?.destroy();datedStatisticsPanel?.destroy();floatingDatedStatisticsPanel?.destroy();providerLabelsRequest.abort();providerLabelsPanel?.destroy();
   longCopyDisclosure.destroy();
   selectionInspector.destroy();
   mobileLayout.destroy();
