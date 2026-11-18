@@ -47,7 +47,13 @@ test('light routing metadata is the complete ordered SHA-bound 80-group / 101-mo
  const f=await fixture();try{
   const ordered=f.BULK70_IDENTITY_GROUPS.flatMap(group=>group.identities.map(identity=>[group.queueId,identity.objectId,identity.partId]));assert.equal(f.BULK70_IDENTITY_GROUPS.length,80);assert.equal(ordered.length,101);assert.equal(new Set(ordered.map(row=>JSON.stringify(row.slice(1)))).size,101);
   assert.equal(hash(JSON.stringify(ordered)),'974d9d426c80bb4e9e379fba4b8792a1f919c7b220aa80038679d2353650231a');assert.equal(f.BULK70_IDENTITY_INPUT.orderedIdentitySHA256,hash(JSON.stringify(ordered)));assert.equal(f.BULK70_IDENTITY_INPUT.bytes,48529632);
-  const descriptor=JSON.parse(await readFile(path.join(web,'src/safety/frozen-paint-table-manifest.json'),'utf8')).find(row=>row.sha256===f.BULK70_IDENTITY_INPUT.sha256);assert.equal(descriptor.bytes,f.BULK70_IDENTITY_INPUT.bytes);
+  const aliases=JSON.parse(await readFile(path.join(web,'src/safety/frozen-paint-source-aliases.json'),'utf8'));
+  const binding=aliases[f.BULK70_IDENTITY_INPUT.sha256];
+  assert.equal(binding.sourceBytes,f.BULK70_IDENTITY_INPUT.bytes);
+  const manifest=JSON.parse(await readFile(path.join(web,'src/safety/frozen-paint-table-manifest.json'),'utf8'));
+  const descriptor=manifest.find(row=>row.sha256===binding.sha256);
+  assert.ok(descriptor.bytes>0&&descriptor.bytes<binding.sourceBytes);
+  assert.ok(!manifest.some(row=>row.sha256===f.BULK70_IDENTITY_INPUT.sha256));
   const dataSource=await readFile(path.join(web,'src/painted/infill/safety/infill-frankfurt-low-office-bulk70-data.ts'),'utf8');assert(dataSource.includes("export {LOW_OFFICE_SHA} from './infill-frankfurt-low-office-bulk70-metadata'"));assert(dataSource.includes('{canonicalSHA256:"'+f.BULK70_IDENTITY_INPUT.sha256+'",file:"painted/infill/safety/infill-frankfurt-low-office-bulk70-data.ts",occurrence:0,codec:\'json\'}'),'the scoped data module binds exactly the SHA-bound frozen table');assert.equal(f.LOW_OFFICE_SHA,'579c18a51df9cc16083ff4de6ca02e456692fefb5ce869bdee36b3a0fa63d66e');
   const original=await readFile(path.join(web,'src/painted/infill/safety/infill-frankfurt-low-office-bulk70.ts'),'utf8'),ast=ts.createSourceFile('bulk70.ts',original,ts.ScriptTarget.Latest,true);let predicate;
   (function visit(node){if(ts.isVariableDeclaration(node)&&node.name.getText(ast)==='infillFrankfurtLowOfficeBulk70Identity')predicate=node.initializer.getText(ast);ts.forEachChild(node,visit);})(ast);

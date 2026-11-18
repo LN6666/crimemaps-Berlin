@@ -141,7 +141,7 @@ export function mountContentTagLauncher(parent: HTMLElement, options: {
   let suppressClick=false;
   const clicked=(event:MouseEvent)=>{
     if(suppressClick && event.detail!==0) {suppressClick=false;return;}
-    suppressClick=false; setOpen(drawer.hidden);
+    suppressClick=false; setOpen(Boolean(drawer.hidden));
   };
   trigger.addEventListener("click",clicked);
   trigger.addEventListener("pointerdown",event=>{

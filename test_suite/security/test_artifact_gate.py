@@ -554,13 +554,17 @@ class ArtifactTests(unittest.TestCase):
                 gate.check_json(value, painted_table_sha256=digest)
 
     def test_current_frozen_palette_variant_retains_exact_provenance_scope(self):
-        sha = "d94bfab58ea8a0cecba91b0180cc362dc4f3e963c00b5a03dba0a56326afbe83"
+        original_sha = "d94bfab58ea8a0cecba91b0180cc362dc4f3e963c00b5a03dba0a56326afbe83"
+        sha = "f6a72d1fd39dd43a920ef5fdb666877614042c1ce76b659eda456fa4ae1dc109"
+        aliases = json.loads((HERE / 'web/src/safety/frozen-paint-source-aliases.json').read_text())
+        self.assertEqual(aliases[original_sha], {'sha256': sha, 'sourceBytes': 13411281})
         manifest = json.loads((HERE / 'web/src/safety/frozen-paint-table-manifest.json').read_text())
+        self.assertFalse(any(entry['sha256'] == original_sha for entry in manifest))
         rows = [entry for entry in manifest if entry['sha256'] == sha]
         self.assertEqual(len(rows), 1)
-        self.assertEqual(rows[0]['bytes'], 13411281)
+        self.assertEqual(rows[0]['bytes'], 13109575)
         self.assertEqual(rows[0]['transport']['sha256'],
-                         '80a327fcee8085f0d59d67f35b477edc2adf3bf8c81161317e677ee88739a873')
+                         'a48d9f265312728fd1b711baeab5ae877206b6c72b537841fa2373836c200ab4')
         value = palette_provenance_fixture()
         original = copy.deepcopy(value)
         gate.check_json(value, painted_table_sha256=sha)
@@ -588,6 +592,14 @@ class ArtifactTests(unittest.TestCase):
             "7ff08cb8b054694b1e31bf0d243ffb5cd9eebb27f0e2f03159314d05f8ba105a",
             "0d0fef767520d12c46dc01f4e647e78c02494ae485128947b59da3d1e3b246eb",
             "4568938b48880e52bd690758d8d44df2e9bff4ded295fa5c0009584be17b8b02",
+            "a3f12e54799fea3729f2855162de0f35fa5c8735a76d30d8ebeac82931bae86b",
+            "0744663c2483a62249034326a089487488b07b18245cf7e4a44e8bfd6eba3e69",
+            "acdcc4cc2eda5c06538a711182745580d2bb1e0085dc302bcdfebf129b43c83f",
+            "64c671814144ccc7250ed62f2f176ace8251e8017dcc689d043bfeb986b3f13c",
+            "fbcaa964ee6d5d9d853055b60a44d5f265899608cc1a32efb5e9238128f1f8f1",
+            "a3f34a187f8f4287a7bd4c0250d8e8362126d4022c03164d9c47f816ea02ebf5",
+            "1c749ffd266676aacb7f92738ee80bd67582b18fb654df558b6e816889923d0d",
+            "edaa74e40f759c3bd2dca5b64d20806d7423b2795899249886999888dd1c6d92",
         ]:
             value = palette_provenance_fixture(row=2)
             gate.check_json(value, painted_table_sha256=sha)

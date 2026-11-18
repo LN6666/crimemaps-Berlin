@@ -29,6 +29,11 @@ try {
   const config = JSON.parse(await readFile(join(web, "../city-config.json"), "utf8"));
   Object.assign(config, {city:"berlin", repository:"crimemaps-Berlin", base_path:"/crimemaps-Berlin/"});
   await writeFile(join(temporary, "city-config.json"), JSON.stringify(config));
+  // The temporary Berlin site needs the public verification response even
+  // when its tests run in another city's repository.
+  const ownershipName = "google73948d3ce3a710e9.html";
+  await mkdir(join(fixtureWeb, "public"));
+  await writeFile(join(fixtureWeb, "public", ownershipName), `google-site-verification: ${ownershipName}`);
   const result = spawnSync("npm", ["run", "build"], {
     cwd:fixtureWeb, env:{...process.env, VITE_BASE_PATH:"/", CRIMEMAPS_BUILD_PURPOSE:"code-check"}, stdio:"inherit",
   });

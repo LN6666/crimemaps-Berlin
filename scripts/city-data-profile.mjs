@@ -51,6 +51,26 @@ function writeAsset(output,assets,descriptor,packed){
  const p=descriptor.transport??descriptor,relative=checkedPath(p.path),destination=path.join(output,'assets',relative);
  if(!assets.has(p.path)){fs.mkdirSync(path.dirname(destination),{recursive:true});fs.writeFileSync(destination,packed);assets.set(p.path,{path:p.path,sha256:p.sha256,bytes:p.bytes,source:path.posix.join('assets',relative)});}
 }
+function checkPublishedPaintedTables(siteDirectory,runtime,apply){
+ const base=path.join(siteDirectory,'safety/buildings3d/painted-tables');
+ if(!fs.existsSync(base))return;
+ if(!fs.lstatSync(base).isDirectory()||fs.realpathSync(base)!==path.join(fs.realpathSync(siteDirectory),'safety/buildings3d/painted-tables'))throw Error('Unsafe published painted-table directory');
+ const allowed=new Set(runtime.map(d=>(d.transport??d).path));
+ for(const prefix of fs.readdirSync(base,{withFileTypes:true})){
+  if(!prefix.isDirectory()||!/^[a-f0-9]{2}$/.test(prefix.name))throw Error('Unexpected painted-table directory entry');
+  const directory=path.join(base,prefix.name);
+  for(const entry of fs.readdirSync(directory,{withFileTypes:true})){
+   if(!entry.isFile())throw Error('Unexpected painted-table file type');
+   const route='/safety/buildings3d/painted-tables/'+prefix.name+'/'+entry.name;
+   checkedPath(route);
+   if(allowed.has(route))continue;
+   if(!apply)throw Error('Unreferenced painted table remains in publication');
+   const target=path.join(directory,entry.name),digest=entry.name.split('.')[0];
+   if(digest.slice(0,2)!==prefix.name||hash(fs.readFileSync(target))!==digest)throw Error('Unreferenced painted table content address differs');
+   fs.unlinkSync(target);
+  }
+ }
+}
 function partitionRoute(route,raw,{targetBytes,descriptors,physical,emit}){
  const kind=route.selector==='city-rows'?'object-rows':envelopeSelector(route.selector)?envelopeKind(route.selector):['berlin-catalog','hamburg-catalog'].includes(route.selector)?'record-keys':undefined;
  if(!kind)return;
@@ -215,6 +235,7 @@ export function applyCityDataProfile({profilePath,buildDirectory,siteDirectory,a
  if(!Array.isArray(overlay.removeCanonical)||overlay.removeCanonical.length!==expectedRemovals.size||!isDeepStrictEqual(new Map(overlay.removeCanonical.map(d=>[d.path,d])),expectedRemovals))throw Error('City canonical removal dependency closure mismatch');
  for(const a of overlay.assets){const relative=checkedPath(a.path),source=path.join(path.dirname(profilePath),a.source),bytes=fs.readFileSync(source);if(hash(bytes)!==a.sha256||bytes.length!==a.bytes)throw Error('Projected asset hash mismatch');const target=path.join(siteDirectory,relative);if(apply){fs.mkdirSync(path.dirname(target),{recursive:true});if(fs.existsSync(target)&&hash(fs.readFileSync(target))!==a.sha256)throw Error('Existing projected asset conflict');fs.copyFileSync(source,target);}if(!fs.existsSync(target)||hash(fs.readFileSync(target))!==a.sha256)throw Error('Projected city asset missing from publication');}
  for(const a of overlay.removeCanonical){const target=path.join(siteDirectory,checkedPath(a.path));if(fs.existsSync(target)){if(!apply)throw Error('Foreign canonical input remains in publication');const bytes=fs.readFileSync(target);if(hash(bytes)!==a.sha256||bytes.length!==a.bytes)throw Error('Canonical removal binding mismatch');fs.unlinkSync(target);}}
+ checkPublishedPaintedTables(siteDirectory,runtime,apply);
  const receipt={schemaVersion:1,city:profile.city,profileSHA256,runtimeTableManifestSHA256,profileEnabled:true,selectedAssets:overlay.assets.map(({source,...a})=>a),excludedCanonicalInputs:overlay.removeCanonical};if(apply){fs.copyFileSync(runtimeManifestPath,path.join(siteDirectory,'city-data-tables.json'));writeJSON(path.join(siteDirectory,'city-data-profile-receipt.json'),receipt);fs.copyFileSync(profilePath,path.join(siteDirectory,'city-data-profile.json'));fs.copyFileSync(path.join(buildDirectory,'city-data-build-receipt.json'),path.join(siteDirectory,'city-data-build-receipt.json'));}return receipt;
 }
 function cli(){const args=process.argv.slice(2),mode=args.shift(),options={assetRoots:[]};for(let i=0;i<args.length;i++){const key=args[i];if(key==='--all'||key==='--apply'){options[key.slice(2)]=true;continue;}if(!args[i+1])throw Error('Missing CLI argument');const v=args[++i];if(key==='--asset-root')options.assetRoots.push(path.resolve(v));else options[key.slice(2)]=v;}

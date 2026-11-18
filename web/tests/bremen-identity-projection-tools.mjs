@@ -25,14 +25,17 @@ export function verifiedProjectionInputSpec(ref,{manifest,maxRawBytes}={}){
  if(!ref||!shaPattern.test(ref.canonicalSHA256)||ref.codec!=='json'||typeof ref.file!=='string'||!ref.file||ref.file.length>256||ref.file.startsWith('/')||ref.file.includes('\\')||ref.file.includes('\0')||ref.file.split('/').some(part=>!part||part==='.'||part==='..')||!Number.isSafeInteger(ref.occurrence)||ref.occurrence<0)fail('invalid canonical SHA/file/occurrence/codec reference');
  if(!positiveInteger(maxRawBytes))fail('maxRawBytes must be an explicit positive safe integer');
  if(!manifest||!Array.isArray(manifest.tables)||!manifest.initializers||Array.isArray(manifest.initializers)||typeof manifest.initializers!=='object')fail('tables and authoritative selected-provider initializer bindings are required');
- const initializers=own(manifest.initializers,ref.canonicalSHA256)?manifest.initializers[ref.canonicalSHA256]:undefined;
+ const alias=own(manifest.aliases,ref.canonicalSHA256)?manifest.aliases[ref.canonicalSHA256]:undefined;
+ if(alias&&(!shaPattern.test(alias.sha256)||!positiveInteger(alias.sourceBytes)))fail('invalid source-to-public projection');
+ const publishedSHA=alias?.sha256??ref.canonicalSHA256;
+ const initializers=own(manifest.initializers,publishedSHA)?manifest.initializers[publishedSHA]:undefined;
  const count=own(initializers,ref.file)?initializers[ref.file]:undefined;
  if(!positiveInteger(count)||ref.occurrence>=count)fail('ref file/occurrence is outside the selected provider initializer bindings');
- const matches=manifest.tables.filter(row=>row?.sha256===ref.canonicalSHA256);
+ const matches=manifest.tables.filter(row=>row?.sha256===publishedSHA);
  if(matches.length!==1)fail('canonical SHA must resolve to exactly one raw manifest descriptor');
  const descriptor=matches[0];
  const expectedPath=(sha,gzip=false)=>'/safety/buildings3d/painted-tables/'+sha.slice(0,2)+'/'+sha+'.json'+(gzip?'.gz':'');
- if(!positiveInteger(descriptor.bytes)||descriptor.bytes>maxRawBytes||descriptor.path!==expectedPath(ref.canonicalSHA256))fail('invalid raw descriptor or raw byte budget exceeded');
+ if(!positiveInteger(descriptor.bytes)||descriptor.bytes>maxRawBytes||descriptor.path!==expectedPath(publishedSHA))fail('invalid raw descriptor or raw byte budget exceeded');
  const raw=Object.freeze({path:descriptor.path,sha256:descriptor.sha256,bytes:descriptor.bytes});
  let physical=raw;
  if(descriptor.transport!==undefined){
@@ -40,7 +43,7 @@ export function verifiedProjectionInputSpec(ref,{manifest,maxRawBytes}={}){
   if(!transport||!shaPattern.test(transport.sha256)||transport.encoding!=='gzip'||!positiveInteger(transport.bytes)||transport.path!==expectedPath(transport.sha256,true))fail('invalid gzip transport descriptor');
   physical=Object.freeze({path:transport.path,sha256:transport.sha256,bytes:transport.bytes,encoding:'gzip'});
  }
- return Object.freeze({ref:Object.freeze({canonicalSHA256:ref.canonicalSHA256,file:ref.file,occurrence:ref.occurrence,codec:ref.codec}),raw,physical});
+ return Object.freeze({ref:Object.freeze({canonicalSHA256:ref.canonicalSHA256,file:ref.file,occurrence:ref.occurrence,codec:ref.codec}),raw,physical,...(alias?{sourceBytes:alias.sourceBytes}:{})});
 }
 
 async function readExactAsset(assetRoot,descriptor){

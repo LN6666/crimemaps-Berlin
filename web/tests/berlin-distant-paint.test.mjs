@@ -85,8 +85,8 @@ const changed=material+dispatch.replace('{','{if(family==1570.)return base;')+ma
 const paint=material+dispatch,changedPaint=material+dispatch.replace('{','{if(family==1570.)return base;');
 // Projected-detail boxes: a large one stays detail, a tiny one classifies distant.
 const LARGE=[-.5,0,-.5,.5,.5,.5],TINY=[0,0,0,.01,.01,.01],identity=()=>new Float64Array([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]);
-async function fixture(assembled=paint,override=0,runFamilies=families){
- const f=await createDelegatedFixture({city:'berlin',paint:assembled,root:web}),S=f.S,component={objectId:'all',partId:'all',start:0,end:runFamilies.length*3,firstVertex:0,lastVertex:runFamilies.length*3,box:[0,0,0,1,1,1]};
+async function fixture(assembled=paint,override=0,runFamilies=families,city='berlin'){
+ const f=await createDelegatedFixture({city,paint:assembled,root:web}),S=f.S,component={objectId:'all',partId:'all',start:0,end:runFamilies.length*3,firstVertex:0,lastVertex:runFamilies.length*3,box:[0,0,0,1,1,1]};
  f.setScene([component],runFamilies.map((family,i)=>({key:key(family),firstIndex:i*3,indexCount:3})));
  // Frames that asked for another frame since the fixture, the last settle or the last
  // rebase (a new GPU generation): the convergence window settle() bounds.
@@ -158,8 +158,23 @@ test('a failed family compile draws with the base program, is not retried every 
  }finally{console.error=error;}
  assert.equal(logged.filter(m=>m.includes('[delegated500 family shader compile failed]')).length,2,'one log per failed key and GPU generation');
 });
+test('Dresden does not look up offscreen rich programs for an absent Berlin distant program',async()=>{
+ const f=await fixture(paint,0,[1683,3657],'dresden'),visibleKey=key(1683),offscreenKey=key(3657);
+ const visible={...f.component,objectId:'visible',partId:'a',box:LARGE,start:0,end:3};
+ const hidden={...f.component,objectId:'hidden',partId:'b',box:[20,20,20,21,21,21],start:3,end:6};
+ f.f.setScene([visible,hidden],[{key:visibleKey,firstIndex:0,indexCount:3},{key:offscreenKey,firstIndex:3,indexCount:3}]);
+ const checked=[],richKey=f.v.richPaintProgramKey;
+ f.v.richPaintProgramKey=baseKey=>{checked.push(baseKey);return richKey(baseKey);};
+ f.frame();
+ assert.deepEqual(f.v.mainPaintDemand().runs.map(run=>run.key),[visibleKey]);
+ assert.equal(f.v.partitionPrograms.has(F),false);
+ assert(checked.includes(visibleKey));assert.equal(checked.filter(value=>value===offscreenKey).length,0);
+ assert.deepEqual(f.lastDraws().map(row=>[row.offset,row.count]),[[0,3]]);
+ f.v.releaseGPU();
+});
+
 test('main/reflection/protection share the canonical route; shader/vertex uniforms remain original',async()=>{
- assert(text.includes('residentRichKeys=new Set(partitionRuns.map(run=>richPaintProgramKey(overrideKey??run.key)))'));
+ assert(text.includes('new Set(partitionRuns.map(run=>richPaintProgramKey(overrideKey??run.key)))'));
  assert(text.includes('runs=partitionRuns.map(run=>{const baseKey=overrideKey??run.key,key=solarDepth&&legacySolarPartitions?baseKey:distantPaintProgramKey(baseKey);'));
  // Visible keys are the main paint demand's distant-quality keys.
  assert(text.includes('function mainPaintProgramKeys(demand=mainPaintDemand()){return new Set(demand.runs.map(run=>distantPaintProgramKey(demand.override??run.key)));}'));assert(text.includes('const visibleProgramKeys=mainPaintProgramKeys(demand)'));

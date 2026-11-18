@@ -1,4 +1,5 @@
 import type {FrozenDataDescriptor,FrozenDataPartition} from './frozen-data-lease-store';
+import sourceAliases from './frozen-paint-source-aliases.json';
 export type FrozenDescriptor=FrozenDataDescriptor;
 type Dependencies={providers:Record<string,string[]>;initializers:Record<string,Record<string,Record<string,number>>>};
 export type CityFrozenProfile={schemaVersion:1;city:string;selectorVersion:string;routes:Array<{file:string;canonicalSHA256:string;canonicalBytes:number;occurrence:number;selector:string;descriptor:FrozenDescriptor;canonicalCount:number;retainedCount:number;orderedSelectionSHA256:string;exception?:string;partition?:FrozenDataPartition}>};
@@ -40,6 +41,13 @@ function expectedBindings(dependencies:Dependencies,city:string,version:string){
  * of a descriptor SHA. Canonical provenance and physical/raw integrity stay separate. */
 export function createCityFrozenProfile(manifest:readonly FrozenDescriptor[],dependencies:Dependencies,profile:CityFrozenProfile|null,city:string){
  const canonical=new Map(manifest.map(d=>[d.sha256,d])),descriptors=new Map(canonical),routes=new Map<string,CityFrozenProfile['routes'][number]>();
+ const aliases:Readonly<Record<string,{sha256:string;sourceBytes:number}>>=sourceAliases;
+ // A code-owned ref can identify the original evidence. Only the verified
+ // public descriptor can enter the active resource store or select a URL.
+ function publicSource(sha:string){
+  const replacement=Object.hasOwn(aliases,sha)?aliases[sha].sha256:undefined;
+  return replacement&&canonical.has(replacement)?replacement:sha;
+ }
  const key=(file:string,sha:string,occurrence:number)=>file+'|'+sha+'|'+occurrence;
  function addDescriptor(descriptor:FrozenDescriptor){const prior=descriptors.get(descriptor.sha256);if(prior&&JSON.stringify(prior)!==JSON.stringify(descriptor))throw Error('Conflicting selected table descriptor');descriptors.set(descriptor.sha256,descriptor);}
  if(profile){
@@ -77,6 +85,7 @@ export function createCityFrozenProfile(manifest:readonly FrozenDescriptor[],dep
   if(expected.size)throw Error('Incomplete city data profile');
  }
  function resolve(sha:string,file:string,occurrence=0){
+  sha=publicSource(sha);
   const selected=routes.get(key(file,sha,occurrence));if(selected)return selected.descriptor.sha256;
   if(profile&&[...routes.values()].some(r=>r.file===file))throw Error('City data initializer binding mismatch');
   return sha;
@@ -86,14 +95,14 @@ export function createCityFrozenProfile(manifest:readonly FrozenDescriptor[],dep
   for(const sha of input.tables){const initializers=input.initializers?.[sha];if(!initializers)throw Error('Missing frozen initializer binding');for(const [file,n]of Object.entries(initializers))for(let i=0;i<n;i++){const selected=resolve(sha,file,i),row=refs[selected]??={};row[file]=(row[file]??0)+1;}}
   return{tables:Object.keys(refs).sort(),initializers:refs};
  }
- const partition=(sha:string,file:string,occurrence=0)=>routes.get(key(file,sha,occurrence))?.partition;
- function rowCounts(sha:string,file:string,fallback:number){const r=routes.get(key(file,sha,0));return r?{global:r.canonicalCount,retained:r.retainedCount,city}:{global:fallback,retained:fallback,city:undefined};}
+ const partition=(sha:string,file:string,occurrence=0)=>routes.get(key(file,publicSource(sha),occurrence))?.partition;
+ function rowCounts(sha:string,file:string,fallback:number){const r=routes.get(key(file,publicSource(sha),0));return r?{global:r.canonicalCount,retained:r.retainedCount,city}:{global:fallback,retained:fallback,city:undefined};}
  const stats=()=>({enabled:Boolean(profile),city:profile?.city,selectorVersion:profile?.selectorVersion,admissions:Object.fromEntries([...routes.values()].filter(r=>r.selector==='city-rows').map(r=>[r.file,{global:r.canonicalCount,retained:r.retainedCount,canonicalSHA256:r.canonicalSHA256,selectedSHA256:r.descriptor.sha256}]))});
  // Only this deployed city's active provider allowlist becomes a store registry.
  // Canonical identity metadata is separate; no all-city projection accumulation.
  let effectiveDescriptors=[...descriptors.values()];
  if(profile){const needed=new Set<string>();for(const provider of activeProviders(city))for(const [sha,refs]of Object.entries(dependencies.initializers[provider]??{}))for(const [file,n]of Object.entries(refs))for(let i=0;i<n;i++){needed.add(resolve(sha,file,i));for(const part of partition(sha,file,i)?.parts??[])needed.add(part.descriptor.sha256);}effectiveDescriptors=[...needed].map(sha=>{const d=descriptors.get(sha);if(!d)throw Error('Missing selected city descriptor');return d;});}
  const effective=new Set(effectiveDescriptors.map(d=>d.sha256));
- const resolveLegacy=(sha:string)=>{if(effective.has(sha))return sha;const selected=new Set([...routes.values()].filter(r=>r.canonicalSHA256===sha).map(r=>r.descriptor.sha256));if(selected.size===1)return [...selected][0];throw Error('Ambiguous legacy city table binding');};
+ const resolveLegacy=(sha:string)=>{sha=publicSource(sha);if(effective.has(sha))return sha;const selected=new Set([...routes.values()].filter(r=>r.canonicalSHA256===sha).map(r=>r.descriptor.sha256));if(selected.size===1)return [...selected][0];throw Error('Ambiguous legacy city table binding');};
  return{descriptors:effectiveDescriptors,resolve,resolveLegacy,selection,partition,rowCounts,stats};
 }

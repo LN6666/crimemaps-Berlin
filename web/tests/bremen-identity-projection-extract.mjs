@@ -14,19 +14,20 @@ const planFile=args.get('--plan');
 if(typeof planFile!=='string'||!path.isAbsolute(planFile))throw Error('Explicit absolute --plan is required');
 const planText=fs.readFileSync(planFile,'utf8'),plan=JSON.parse(planText);
 const manifest={tables:JSON.parse(fs.readFileSync(path.join(web,'src/safety/frozen-paint-table-manifest.json'),'utf8')),initializers:JSON.parse(fs.readFileSync(path.join(web,'src/safety/frozen-paint-table-dependencies.json'),'utf8')).initializers.bremen};
+manifest.aliases=JSON.parse(fs.readFileSync(path.join(web,'src/safety/frozen-paint-source-aliases.json'),'utf8'));
 const excluded=new Set(['candidateCohort','extraGLSL','berlinGLSL','hamburgGLSL']);
 const selected=Object.entries(plan.resources).filter(([alias])=>!excluded.has(alias));
 const maxRawBytes=6326501,totalRawBytes=44407456;
 if(selected.length!==41||new Set(selected.map(([,ref])=>ref.canonicalSHA256)).size!==41)throw Error('The authorized projection has exactly 41 unique canonical inputs');
 let rawTotal=0;
-const inputs=selected.map(([alias,ref])=>{const verified=verifiedProjectionInputSpec(ref,{manifest,maxRawBytes});if(verified.raw.bytes!==ref.rawBytes)throw Error('Plan raw size differs from manifest: '+alias);rawTotal+=verified.raw.bytes;return{alias,...verified};});
-if(rawTotal!==totalRawBytes)throw Error('Authorized raw total changed');
+const inputs=selected.map(([alias,ref])=>{const verified=verifiedProjectionInputSpec(ref,{manifest,maxRawBytes});if((verified.sourceBytes??verified.raw.bytes)!==ref.rawBytes)throw Error('Plan raw size differs from manifest: '+alias);rawTotal+=verified.raw.bytes;return{alias,...verified};});
+if(inputs.reduce((sum,input)=>sum+(input.sourceBytes??input.raw.bytes),0)!==totalRawBytes)throw Error('Authorized raw total changed');
 if(!args.has('--extract')){
- process.stdout.write(JSON.stringify({mode:'metadata-only',inputs:inputs.length,rawTotal,rawMax:Math.max(...inputs.map(input=>input.raw.bytes)),actualTablesRead:0})+'\n');
+ process.stdout.write(JSON.stringify({mode:'metadata-only',inputs:inputs.length,rawTotal,sourceTotal:totalRawBytes,rawMax:Math.max(...inputs.map(input=>input.raw.bytes)),actualTablesRead:0})+'\n');
 }else{
  const assetRoot=args.get('--asset-root'),output=args.get('--output');
  if(typeof assetRoot!=='string'||!path.isAbsolute(assetRoot)||typeof output!=='string'||!path.isAbsolute(output))throw Error('Extraction requires absolute --asset-root and --output');
- const receipt={schema:1,planSHA256:hash(planText),rawTotal,maxRawBytes,inputs:[],values:{}};
+ const receipt={schema:1,planSHA256:hash(planText),rawTotal,sourceTotal:totalRawBytes,maxRawBytes,inputs:[],values:{}};
  for(const input of inputs){
   // Exactly one verified parsed table lives in this block. Only fresh scalar
   // identity metadata survives it; no original model/array is retained.

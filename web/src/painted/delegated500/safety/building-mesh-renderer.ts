@@ -1709,12 +1709,15 @@ const layer={id,type:'custom' as const,renderingMode:'3d' as const,onAdd(_map:un
   drawFrame++;if(casterRetryHeld){casterRetry=false;casterRetryHeld=false;}offscreenPaintRunsSkipped=0;casterVisibleKnown=true;if(casterRetry){casterRetry=false;solarDepthRevision++;}
   const demand=mainPaintDemand(),visibleComponents=demand.components,visibleRuns=demand.runs,overrideKey=demand.override;offscreenPaintRunsSkipped=partitionRuns.length-visibleRuns.length;
   updateDistantPaintQuality(visibleComponents,visibleRuns,overrideKey);
-   const visibleProgramKeys=mainPaintProgramKeys(demand),protectedProgramKeys=mainProtectedProgramKeys(demand),residentRichKeys=new Set(partitionRuns.map(run=>richPaintProgramKey(overrideKey??run.key)));currentVisibleProgramCount=visibleProgramKeys.size;
+   const visibleProgramKeys=mainPaintProgramKeys(demand),protectedProgramKeys=mainProtectedProgramKeys(demand);currentVisibleProgramCount=visibleProgramKeys.size;
+   // Only a resident distant program may need protection or retirement when its rich replacements arrive.
+   const residentRichKeys=partitionPrograms.has(BERLIN_DISTANT_PAUL_LOBE_KEY)
+    ?new Set(partitionRuns.map(run=>richPaintProgramKey(overrideKey??run.key))):undefined;
    // Keep the previous quality until the replacement is compiled. It also stays
    // the complete coloured fallback while that replacement waits its turn:
    // prepareMainPrograms starts at most one visible compile per frame and the
    // context scheduler paces the rest.
-  if(partitionPrograms.has(BERLIN_DISTANT_PAUL_LOBE_KEY)&&[...residentRichKeys].some(key=>berlinDistantFamily(key)!==undefined&&!partitionPrograms.has(key)))protectedProgramKeys.add(BERLIN_DISTANT_PAUL_LOBE_KEY);
+  if(residentRichKeys&&[...residentRichKeys].some(key=>berlinDistantFamily(key)!==undefined&&!partitionPrograms.has(key)))protectedProgramKeys.add(BERLIN_DISTANT_PAUL_LOBE_KEY);
   lastPartitionDrawKeys=new Set(protectedProgramKeys);
   for(const key of activeCaptureProgramKeys())protectedProgramKeys.add(key);
   if(currentFamilyPrograms)currentProgramEvictions+=trimInactivePaintPrograms(partitionPrograms,protectedProgramKeys,p=>programPreparation.releaseProgram(gl!,p));programIdleRetirement.synchronize();
@@ -1726,7 +1729,7 @@ const layer={id,type:'custom' as const,renderingMode:'3d' as const,onAdd(_map:un
    if(currentFamilyPrograms&&partitionPrograms.has(key)){partitionPrograms.delete(key);partitionPrograms.set(key,selected!);}
    const traceKey601=key+':'+run.firstIndex+':'+run.indexCount+':'+(selected===program?'fallback':'partition');const trace601=diagnostic557&&!seenDraw601.has(traceKey601)&&seenDraw601.size<256;const started601=trace601?performance.now():0;const mark601=(phase:string)=>{if(trace601)recordDraw601({key,actualProgram:selected===program?'base':key,firstIndex:run.firstIndex,indexCount:run.indexCount,phase,elapsedMs:performance.now()-started601});};if(trace601)seenDraw601.add(traceKey601);mark601('uniform-enter');uniforms(selected!);mark601('uniform-return');mark601('draw-enter');if(!drawSceneRange(mainTriangles,selected!,run.firstIndex,run.indexCount))mainDrawComplete=false;mark601('draw-return');mark601('mask-return');
   }
-  if(currentFamilyPrograms)currentProgramEvictions+=retireBerlinDistantAlternates(partitionPrograms,visibleProgramKeys,p=>programPreparation.releaseProgram(gl!,p),residentRichKeys);
+  if(currentFamilyPrograms&&residentRichKeys)currentProgramEvictions+=retireBerlinDistantAlternates(partitionPrograms,visibleProgramKeys,p=>programPreparation.releaseProgram(gl!,p),residentRichKeys);
   // A missing visible program whose compile this frame waits on the page ledger
   // with a held wake (recorded by prepareMainPrograms) is repainted by the
   // owner's onAvailable wake; only other missing programs keep the frame poll.

@@ -3,7 +3,7 @@
   "recipes": [
     {
       "file": "painted/city/safety/progressive-paint-admissions.ts",
-      "canonicalSHA256": "7da78c3156384cbe2b15916ef730aa580310bd2dc64e63f747f2721830631a35",
+      "canonicalSHA256": "c1ce8ba1dd8d157ad079684730ade06e26f71b5b94b8d7ae8387c99ea92b9101",
       "occurrence": 0,
       "selector": "city-rows"
     },
@@ -15,7 +15,7 @@
     },
     {
       "file": "painted/root500/safety/progressive-paint-admissions.ts",
-      "canonicalSHA256": "2d556d4a2acaf18e4f59940bb24053f547e10f9c4fd0b251fbe302a2cfc86cd1",
+      "canonicalSHA256": "c02e4f43ca3f30318bb92f2b65fbdbbc2350b41601acf089a13cc566497283f5",
       "occurrence": 0,
       "selector": "city-rows"
     },
@@ -27,7 +27,7 @@
     },
     {
       "file": "painted/delegated500/safety/progressive-paint-admissions.ts",
-      "canonicalSHA256": "83ac1b8fde06a7aed6c533e2766c4eb9fe788061a42f3c2b643542983e9a2a0f",
+      "canonicalSHA256": "2602fa46a69a0dfd94b1794b1fe32869f618a8dda701f5ab88bba0db827a268a",
       "occurrence": 0,
       "selector": "city-rows"
     },
@@ -39,7 +39,7 @@
     },
     {
       "file": "painted/tier300/safety/progressive-paint-admissions.ts",
-      "canonicalSHA256": "ab07a37cd2caf09ad39126521c9331779ceea67b9524c9ccdbc7318c9d324932",
+      "canonicalSHA256": "c4f4859aa87aa5bce35a83138839b309b6ec22cba65fbc4b369894ebc2058f61",
       "occurrence": 0,
       "selector": "city-rows"
     },
@@ -75,7 +75,7 @@
     },
     {
       "file": "painted/bremen/safety/progressive-paint-admissions.ts",
-      "canonicalSHA256": "d94bfab58ea8a0cecba91b0180cc362dc4f3e963c00b5a03dba0a56326afbe83",
+      "canonicalSHA256": "f6a72d1fd39dd43a920ef5fdb666877614042c1ce76b659eda456fa4ae1dc109",
       "occurrence": 0,
       "selector": "city-rows"
     },
@@ -87,7 +87,7 @@
     },
     {
       "file": "painted/infill/safety/progressive-paint-admissions.ts",
-      "canonicalSHA256": "bf6c0c7678fb129cb3fbf9946a3ca9a491370a8489022e5c492ce7e8fd60f651",
+      "canonicalSHA256": "bdc8cda78d49ab563e50faa03b83604c3090dd049855f18e930268b986ac7e82",
       "occurrence": 0,
       "selector": "city-rows"
     },
@@ -105,7 +105,7 @@
     },
     {
       "file": "painted/infill/safety/infill-frankfurt-low-office-bulk70-data.ts",
-      "canonicalSHA256": "579c18a51df9cc16083ff4de6ca02e456692fefb5ce869bdee36b3a0fa63d66e",
+      "canonicalSHA256": "d648131f34efe5e02abbf65890f2099940ea002a77d5075dcef60f83fd668418",
       "occurrence": 0,
       "selector": "group-targets"
     }

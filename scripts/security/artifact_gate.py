@@ -158,6 +158,17 @@ def palette_provenance(item, path, root, table_sha256):
         "7ff08cb8b054694b1e31bf0d243ffb5cd9eebb27f0e2f03159314d05f8ba105a": 2,
         "0d0fef767520d12c46dc01f4e647e78c02494ae485128947b59da3d1e3b246eb": 2,
         "4568938b48880e52bd690758d8d44df2e9bff4ded295fa5c0009584be17b8b02": 2,
+        # Same Frankfurt evidence records after replacing workstation paths with public source identifiers.
+        "bdc8cda78d49ab563e50faa03b83604c3090dd049855f18e930268b986ac7e82": 88,
+        "f6a72d1fd39dd43a920ef5fdb666877614042c1ce76b659eda456fa4ae1dc109": 88,
+        "a3f12e54799fea3729f2855162de0f35fa5c8735a76d30d8ebeac82931bae86b": 2,
+        "0744663c2483a62249034326a089487488b07b18245cf7e4a44e8bfd6eba3e69": 2,
+        "acdcc4cc2eda5c06538a711182745580d2bb1e0085dc302bcdfebf129b43c83f": 2,
+        "64c671814144ccc7250ed62f2f176ace8251e8017dcc689d043bfeb986b3f13c": 2,
+        "fbcaa964ee6d5d9d853055b60a44d5f265899608cc1a32efb5e9238128f1f8f1": 2,
+        "a3f34a187f8f4287a7bd4c0250d8e8362126d4022c03164d9c47f816ea02ebf5": 2,
+        "1c749ffd266676aacb7f92738ee80bd67582b18fb654df558b6e816889923d0d": 2,
+        "edaa74e40f759c3bd2dca5b64d20806d7423b2795899249886999888dd1c6d92": 2,
     }.get(table_sha256)
     if (row is None or not isinstance(root, list) or len(root) <= row
             or path is None or len(path) != 3

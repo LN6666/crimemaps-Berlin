@@ -87,6 +87,15 @@ async function frozenRefs(url,seen=new Set()){
 }
 test('packed geometry/material tables retain every original byte of numeric data',async()=>{
   const rows=JSON.parse(await readFile(new URL('../../reports/building-textures/packed-table-integrity.json',import.meta.url)));
+  const aliases=JSON.parse(await readFile(new URL('../src/safety/frozen-paint-source-aliases.json',import.meta.url)));
+  const tables=JSON.parse(await readFile(new URL('../src/safety/frozen-paint-table-manifest.json',import.meta.url)));
+  const registered=new Map(tables.map(d=>[d.sha256,d]));
+  assert.equal(registered.size,tables.length);
+  const destinations=new Set();
+  for(const [sourceSHA,alias] of Object.entries(aliases)){
+    assert(!registered.has(sourceSHA)&&registered.has(alias.sha256)&&!destinations.has(alias.sha256));
+    destinations.add(alias.sha256);
+  }
   for(const row of rows){
     const source=await readFile(new URL('../../'+row.path,import.meta.url),'utf8');
     if(row.external){
@@ -108,7 +117,16 @@ test('packed geometry/material tables retain every original byte of numeric data
         const refs=await frozenRefs(new URL('../../'+initializerPath,import.meta.url));
         assert(refs.some(ref=>ref.canonicalSHA256===row.sha256&&ref.file===initializerPath.replace(/^web\/src\//,'')&&Number.isSafeInteger(ref.occurrence)&&ref.occurrence>=0&&ref.codec==='json'),initializerPath+' binds '+row.variable+' by content address ('+row.sha256+')');
       }
-      assert(row.assetPath.endsWith('/'+row.sha256+'.json'));
+      const prefix='/safety/buildings3d/painted-tables/';
+      assert.equal(row.assetPath,prefix+row.sha256.slice(0,2)+'/'+row.sha256+'.json');
+      const alias=aliases[row.sha256],descriptor=registered.get(alias?.sha256??row.sha256);
+      assert.ok(descriptor,row.path+' has a registered public table');
+      assert.equal(alias?.sourceBytes??descriptor.bytes,row.literalBytes);
+      assert.equal(descriptor.path,prefix+descriptor.sha256.slice(0,2)+'/'+descriptor.sha256+'.json');
+      const transport=descriptor.transport;
+      assert.equal(transport.encoding,'gzip');
+      assert.equal(transport.path,prefix+transport.sha256.slice(0,2)+'/'+transport.sha256+'.json.gz');
+      assert.ok(transport.bytes>0&&descriptor.bytes>0);
       continue;
     }
     const at=source.indexOf('JSON.parse(',source.indexOf('const '+row.variable));
