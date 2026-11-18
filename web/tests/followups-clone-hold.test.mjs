@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {adoptRuntime,page,blockerFor,rowTable,leaseNeed,frozenMap,drained,until,deadline,settle} from './support/ingress-adopt-fixtures.mjs';
+import {adoptRuntime,page,blockerFor,rowTable,leaseNeed,frozenMap,drained,deadline,settle} from './support/ingress-adopt-fixtures.mjs';
+import {waitForResourceState as until} from './support/wait-for-resource-state.mjs';
 import {NORMALIZE_EXPANSION,CLONE_HOLD_EXPANSION} from './support/core-frozen-fixtures.mjs';
 
 // followups (DECISIONS 2026-11-02 08:56): the calibrated 13x normalize

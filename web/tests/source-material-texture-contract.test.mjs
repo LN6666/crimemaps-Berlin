@@ -6,6 +6,7 @@ import vm from 'node:vm';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {build} from 'esbuild';
+import {waitForResourceState} from './support/wait-for-resource-state.mjs';
 
 // Contract checks for the shared source-material runtime beyond the provider
 // fixtures (resident-facade-texture covers the loss-during-binding and HEAD
@@ -75,7 +76,7 @@ function draw(r,g){const at=g.readyUniforms.length;let drawn=false;r.withResiden
 const category=(budget,name)=>({...(budget.stats.categories[name]??{bytes:0,exactBytes:0,estimatedBytes:0})});
 const texture=budget=>category(budget,'texture');
 function drained(p){p.store.evictRecent();p.store.collectRetired();assert.equal(p.budget.stats.bytes,0,'every charge returns once the last consumer and the recent entries are gone');}
-async function until(condition,turns=100){for(let i=0;i<turns&&!condition();i++)await new Promise(resolve=>setImmediate(resolve));return condition();}
+async function settle(turns){for(let i=0;i<turns;i++)await new Promise(resolve=>setImmediate(resolve));}
 async function collected(ref){for(let i=0;i<10;i++){await new Promise(resolve=>setImmediate(resolve));gc();}return ref.deref()===undefined;}
 
 test('an explicit re-attach binds the kept texture in the same call: real pixels on its first draw, no read, allocation or upload, each byte charged once',async()=>{
@@ -137,7 +138,7 @@ for(const [order,steps] of Object.entries(orders))test(`${order}: an unexpired t
     assert.deepEqual({allocated:g.created.length,uploads:g.uploads.length},{allocated,uploads});
    }else{
     if(hold){assert.equal(r.stats.ready,false,'a full ledger waits without sampling a deleted texture');hold.release();hold=undefined;}
-    assert.equal(await until(()=>r.stats.ready),true,'the actual reload becomes ready');
+    await waitForResourceState(()=>r.stats.ready,'the actual reload to become ready');
     assert.equal(p.counts.reads,2,'one reload after cache eviction');
    }
    assert.deepEqual(draw(r,g),{drawn:true,ready:[1]});
@@ -153,7 +154,7 @@ test('stopped texture expires at17s while an active shared renderer stays protec
   r.setEnabled(true);r.attach(g);assert.equal(await r.load(),true);
   r.setEnabled(false);r.detach();now=16999;p.store.collectRetired();assert.equal(r.stats.keptTextureObjects,1);
   now=17000;p.store.collectRetired();assert.equal(r.stats.keptTextureObjects,0);assert.equal(p.budget.stats.bytes,0);
-  r.setEnabled(true);r.attach(g);assert.equal(await until(()=>r.stats.ready),true);assert.equal(p.counts.reads,2);
+  r.setEnabled(true);r.attach(g);await waitForResourceState(()=>r.stats.ready,'the reattached texture to become ready');assert.equal(p.counts.reads,2);
   peer.setEnabled(true);peer.attach(g);assert.equal(peer.stats.ready,true);
   r.setEnabled(false);r.detach();now+=21000;p.store.collectRetired();
   assert.deepEqual(draw(peer,g),{drawn:true,ready:[1]},'another renderer still owns the shared texture');
@@ -239,10 +240,10 @@ test('a refused upload waits with its pixels evictable: pressure reclaims them m
  p.store.evictRecent();
  assert.equal(p.bitmaps[0].closed,true,'pressure reclaims the pixels while the upload waits');
  assert.equal(p.budget.stats.bytes,hold.bytes,'nothing else stays charged for the waiting texture');
- await until(()=>false,4);
+ await settle(4);
  assert.deepEqual({error:r.stats.error,reads:p.counts.reads,listeners:p.budget.stats.availabilityListeners},{error:'texture-budget-pending',reads:1,listeners:1},'the freed pixels alone cannot fit the whole upload working set: the wait goes on, no read starts');
  hold.release();
- assert.equal(await until(()=>r.stats.ready),true,'the woken load reads again and uploads');
+ await waitForResourceState(()=>r.stats.ready,'the woken load to read again and upload');
  assert.deepEqual({error:r.stats.error,reads:p.counts.reads,listeners:p.budget.stats.availabilityListeners},{error:undefined,reads:2,listeners:0});
  assert.deepEqual(draw(r,g),{drawn:true,ready:[1]});
  assert.deepEqual(g.uploads.filter(row=>row.closed),[],'no upload read closed pixels');
@@ -253,11 +254,11 @@ test('a load admits the byte transport read envelope together with its decode en
  // The decode envelope alone would fit, but not beside the transport's read envelope.
  const limit=MiB,p=page({limitBytes:limit}),r=p.runtime({transported:true});
  const hold=p.budget.reserve({category:'metadata',bytes:limit-LOAD+1,precision:'exact',label:'unrelated'});
- r.setEnabled(true);await until(()=>false,4);
+ r.setEnabled(true);await settle(4);
  assert.deepEqual({error:r.stats.error,construction:category(p.budget,'construction').bytes,read:category(p.budget,'read').bytes,transportReads:p.counts.transportReads,consumers:p.transport.stats.consumers,listeners:p.budget.stats.availabilityListeners},
   {error:'texture-budget-pending',construction:0,read:0,transportReads:0,consumers:0,listeners:1},'the texture waits for its whole working set with nothing held');
  hold.release();
- assert.equal(await until(()=>r.stats.loads===1),true,'released capacity wakes the same load');
+ await waitForResourceState(()=>r.stats.loads===1,'released capacity to wake the same load');
  assert.deepEqual({error:r.stats.error,pixels:r.stats.cityCacheEntries,transportReads:p.counts.transportReads,consumers:p.transport.stats.consumers,listeners:p.budget.stats.availabilityListeners},{error:undefined,pixels:1,transportReads:1,consumers:0,listeners:0});
  r.destroy();drained(p);
 });
@@ -279,7 +280,7 @@ test('a synchronous admission inside an availability wave cannot take the read e
  r.setEnabled(true);
  assert.deepEqual({bytes:p.budget.stats.bytes,read:category(p.budget,'read').bytes,construction:category(p.budget,'construction').bytes,admitted:p.transport.stats.admittedReads,listeners:p.budget.stats.availabilityListeners,waves:waves.length},
   {bytes:limit,read:2*ASSET,construction:DECODE,admitted:1,listeners:1,waves:0},'one claim lists both envelopes: the transport reserved nothing more, registered no wait, and nothing returned to the ledger');
- assert.equal(await until(()=>r.stats.loads===1),true,'the same load completes without waiting');
+ await waitForResourceState(()=>r.stats.loads===1,'the same load to complete');
  off();
  assert.ok(waves.length>0,'delivery and decode returned bytes in waves');
  assert.ok(waves.every(row=>row.read<=ASSET),'no wave ran while the read envelope was charged');
@@ -297,10 +298,10 @@ test('two runtimes cannot wait on each other: an upload waiting beside its pixel
  b.attach(g);assert.equal(b.stats.error,'texture-budget-pending','b waits for its mip chain');
  // In one synchronous task the unrelated claim leaves and a starts its load.
  hold.release();hold=undefined;a.setEnabled(true);a.attach(g);
- assert.equal(await until(()=>a.stats.ready),true,'a reads, decodes and uploads instead of waiting for its read envelope beside its decode envelope');
+ await waitForResourceState(()=>a.stats.ready,'a to read, decode and upload while b waits');
  assert.deepEqual({error:b.stats.error,pixels:b.stats.cityCacheEntries},{error:'texture-budget-pending',pixels:0},'b waits with nothing held: its evictable pixels made room for a');
  a.destroy();
- assert.equal(await until(()=>b.stats.ready),true,'once a leaves, b reads its pixels again and uploads');
+ await waitForResourceState(()=>b.stats.ready,'b to read its pixels again and upload once a leaves');
  assert.deepEqual({reads:p.counts.reads,listeners:p.budget.stats.availabilityListeners},{reads:2,listeners:0});
  assert.deepEqual(draw(b,g),{drawn:true,ready:[1]});
  assert.deepEqual(g.uploads.filter(row=>row.closed),[],'no upload read closed pixels');
@@ -340,8 +341,8 @@ test('128px textures upload resized pixels, share only at the same size, switch 
 test('changing size during decode cannot publish stale pixels under the new size',async()=>{
  const p=page(),g=fakeGL();let finish;
  const r=p.runtime({decodeBitmap:(_blob,options)=>options.resizeWidth===256?new Promise(resolve=>{finish=()=>resolve({width:256,height:256,closed:false,close(){this.closed=true;}});}):Promise.resolve({width:128,height:128,close(){}})});
- r.setEnabled(true);r.attach(g);await until(()=>!!finish);assert.equal(typeof finish,'function');
- r.setUploadSize(128);assert.equal(await r.load(),true);finish();await until(()=>false,5);
+ r.setEnabled(true);r.attach(g);await waitForResourceState(()=>!!finish,'the first bitmap decode to start');assert.equal(typeof finish,'function');
+ r.setUploadSize(128);assert.equal(await r.load(),true);finish();await settle(5);
  assert.equal(r.stats.uploadWidth,128);assert.equal(g.uploads.filter(u=>u.source?.width===256).length,0);
  assert.equal(draw(r,g).drawn,true);r.destroy();drained(p);
 });

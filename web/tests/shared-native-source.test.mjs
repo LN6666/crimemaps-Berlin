@@ -12,6 +12,11 @@ const ts=createRequire(S+'/web/package.json')('typescript');
 function loader(overrides={}){
  const loaded=new Map();
  function load(relative){
+  if(relative.endsWith('.json')){
+   if(overrides[relative])return overrides[relative];
+   const location=fs.existsSync(path.join(C,relative))?path.join(C,relative):path.join(S,relative);
+   return{default:JSON.parse(fs.readFileSync(location,'utf8'))};
+  }
   const file=relative.endsWith('.ts')?relative:relative+'.ts';if(loaded.has(file))return loaded.get(file);
   if(overrides[file])return overrides[file];
   const location=fs.existsSync(path.join(C,file))?path.join(C,file):path.join(S,file),source=fs.readFileSync(location,'utf8');
@@ -35,6 +40,80 @@ function component(city='berlin',id='osm/way/1',part='osm/way/1/component/test')
 }
 function asset(raw){const bytes=new TextEncoder().encode(JSON.stringify(raw));return{bytes,descriptor:{path:'/safety/buildings3d/test.json',bytes:bytes.length,sha256:hash(bytes)}};}
 function source(city='berlin',components=[component(city)]){return{schema_version:1,city,components,shadow_profile:{schema_version:1,city,status:'display-schematic'},shadow_admitted_component_indices:[0],discarded_top_level_payload:['must not survive ingress']};}
+
+const ownerTransports='web/src/safety/painted-owner-geometry-transports.json';
+const ownerResolver='web/src/safety/painted-owner-geometry-transport.ts';
+const paintedPath=sha=>'/safety/buildings3d/painted-assets/'+sha.slice(0,2)+'/'+sha+'.json';
+
+test('all published owner routes retain the signed profile identity and select their listed physical byte count and hash',()=>{
+ const mapping=load(ownerTransports).default,{paintedOwnerGeometryTransport}=load(ownerResolver);
+ const providers=load('web/src/safety/paint-asset-registry.json').default;
+ const routes=new Map(Object.entries(providers).flatMap(([provider,paths])=>Object.entries(paths).map(([logical,physical])=>[physical,{provider,logical}])));
+ const counts={city:0,delegated500:0};
+ for(const [sha,entry] of Object.entries(mapping)){
+  const physical=paintedPath(entry.publicSHA256),registered=routes.get(physical);
+  assert.ok(registered,'missing published owner asset '+physical);counts[registered.provider]++;
+  const owner={path:registered.logical,sha256:sha,bytes:entry.sourceBytes};
+  assert.deepEqual(paintedOwnerGeometryTransport(owner,physical),{path:physical,sha256:entry.publicSHA256,bytes:entry.publicBytes});
+  assert.equal(paintedOwnerGeometryTransport(owner,paintedPath(sha)),owner,'the historical URL retains its declared source');
+  assert.equal(owner.sha256,sha,'the focus, material and proof identity is unchanged');
+  assert.throws(()=>paintedOwnerGeometryTransport({...owner,bytes:owner.bytes+1},physical),/declared source descriptor/);
+ }
+ assert.deepEqual(counts,{city:57,delegated500:12});
+});
+
+test('old and publicly projected owner bytes in one pool have independent verified identities, leases and read ceilings',async()=>{
+ const row=component(),oldBody=source('berlin',[row]),previous=asset(oldBody);
+ const publicBody=structuredClone(oldBody);publicBody.components[0].sourceFeature.properties.reference='portable-evidence';
+ const published=asset(publicBody),oldSHA=previous.descriptor.sha256,newSHA=published.descriptor.sha256;
+ const oldPath=paintedPath(oldSHA),newPath=paintedPath(newSHA);
+ const owner={...previous.descriptor,path:'/safety/buildings3d/owner-shape-patches/fixture.json'};
+ const mapping={[oldSHA]:{sourceBytes:previous.bytes.length,publicBytes:published.bytes.length,publicSHA256:newSHA}};
+ const {paintedOwnerGeometryTransport:resolve}=loader({[ownerTransports]:{default:mapping}})(ownerResolver);
+ const requests=[],signal=new AbortController().signal;
+ const pool=createSharedNativeSourcePool({read:async(path,signal,max)=>{
+  signal.throwIfAborted();requests.push([path,max]);return path===newPath?published.bytes:previous.bytes;
+ }});
+ const historical=pool.client('berlin',()=>oldPath,resolve),current=pool.client('berlin',()=>newPath,resolve);
+ const first=await historical.read(owner,signal,200000),second=await current.read(owner,signal,200000);
+ try{
+  assert.equal(first.contentKey,historical.contentKey(owner));assert.equal(second.contentKey,current.contentKey(owner));
+  assert.notEqual(first.contentKey,second.contentKey,'two verified payloads cannot share a canonical entry');
+  assert.deepEqual(requests,[[oldPath,previous.bytes.length],[newPath,published.bytes.length]]);
+  assert.deepEqual(Array.from(first.raw.components[0].batches[0].positions),Array.from(second.raw.components[0].batches[0].positions));
+  assert.equal(first.raw.components[0].sourceFeature.properties.reference,undefined);
+  assert.equal(second.raw.components[0].sourceFeature.properties.reference,'portable-evidence');
+  assert.equal(first.physicalBytes,previous.bytes.length);assert.equal(second.physicalBytes,published.bytes.length);
+  await assert.rejects(current.read({...owner,compression:'gzip'},signal,200000),/declared source descriptor/);
+  assert.equal(requests.length,2,'an invalid descriptor cannot hit or issue a read');
+ }finally{first.release();second.release();pool.destroy();}
+ const broken=published.bytes.slice();broken[broken.length-1]^=1;
+ const corrupt=createSharedNativeSourcePool({read:async()=>broken});
+ try{await assert.rejects(corrupt.client('berlin',()=>newPath,resolve).read(owner,signal,200000),/hash\/size mismatch/);}
+ finally{corrupt.destroy();}
+});
+
+test('the compositor installs the projected descriptors on both owner managers and its generic asset reader',async t=>{
+ const {createCompositorHarness,page,mapStub}=await import('./support/compositor-main-harness.mjs');
+ const {api,fixture}=await (await createCompositorHarness())(t);
+ const mapping=load(ownerTransports).default,providers=load('web/src/safety/paint-asset-registry.json').default;
+ for(const [provider,city,name] of [['city','munich','C370'],['delegated500','nuremberg','F363-EastSourceCopy518']]){
+  const logical='/safety/buildings3d/owner-shape-patches/'+name+'.json',p=page(api),signal=new AbortController().signal;
+  const physical=providers[provider][logical],pair=Object.entries(mapping).find(([,row])=>paintedPath(row.publicSHA256)===physical);assert.ok(pair);
+  const [sourceSHA,entry]=pair,owner={path:logical,sha256:sourceSHA,bytes:entry.sourceBytes};
+  const projected={path:physical,sha256:entry.publicSHA256,bytes:entry.publicBytes};
+  const compositor=api.installCompositor({map:mapStub(fixture),city,mobile:false,resourceStore:p.resourceStore,fetchBytes:p.read});
+  try{
+   await compositor.ensureReady(signal);
+   const manager=fixture.captured.get(provider).options.nativeSources;
+   assert.equal(manager.contentKey(owner),manager.contentKey(projected),'ordinary owner acquisition and its pressure key see the physical descriptor');
+   const admit={admitted:{},envelope:[],keep:[]};
+   await compositor.readAsset(owner,signal,owner.bytes,admit);
+   assert.deepEqual(fixture.assetReads.at(-1).args,[projected,signal,owner.bytes,admit]);
+   assert.deepEqual(owner,{path:logical,sha256:sourceSHA,bytes:entry.sourceBytes});
+  }finally{compositor.destroy();}
+ }
+});
 
 test('ready native reads avoid completion objects and release their final parent after a throwing callback',async()=>{
  const budget=createResourceBudget(),resources=createChunkResourceStore({budget,recentMaxEntries:0}),a=asset(source());

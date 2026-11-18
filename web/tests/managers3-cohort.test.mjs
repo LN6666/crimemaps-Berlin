@@ -11,7 +11,8 @@
 // browser or GPU.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {shard,network,cohortManager,until,outcome,tick} from './support/managers3-fixtures.mjs';
+import {shard,network,cohortManager,outcome,tick} from './support/managers3-fixtures.mjs';
+import {waitForResourceState as until} from './support/wait-for-resource-state.mjs';
 
 const cities={root500:'berlin',infill:'frankfurt',bremen:'bremen',tier300:'berlin',church:'berlin',delegated500:'berlin'};
 const settle=async(turns=40)=>{for(let i=0;i<turns;i++)await tick();};
@@ -38,7 +39,12 @@ async function blockedCohort(provider,{block='after-first-admitted',...options}=
 /** Delivers every read the cohort asks for until the request settles. */
 async function finish(m){
  const {net,a,b}=m;
- for(let round=0;round<40&&await outcome(m.run,2)==='pending';round++){for(const leaf of [a,b])if(net.pending(leaf.leaf.path).length)net.deliver(leaf.leaf.path,leaf.bytes);await settle(10);}
+ let settled=false;
+ m.run.then(()=>{settled=true;},()=>{settled=true;});
+ await until(()=>{
+  for(const leaf of [a,b])if(net.pending(leaf.leaf.path).length)net.deliver(leaf.leaf.path,leaf.bytes);
+  return settled;
+ },'the cohort request to finish after its source reads');
  const state=await m.run;assert.equal(state.mode,'3d');assert.equal(m.manager.mode,'3d');assert.equal(m.states.at(-1).status,'ready');
 }
 

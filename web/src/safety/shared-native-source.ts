@@ -468,9 +468,14 @@ export function createSharedNativeSourcePool(options:{read:(path:string,signal:A
   const cost=value.raw.decodedPayloadCost;
   return cost.typedBufferBytes+cost.estimatedJsContainerBytes+estimateRetainedBuildingPayload(value.verified).retainedPayloadEstimateBytes;
  }
- function client(city:string,resolvePath:(path:string)=>string=(path=>path)):NativeSourceClient{
+ function client(city:string,resolvePath:(path:string)=>string=(path=>path),
+                 transportDescriptor?:(source:NativeSourceDescriptor,route:string)=>NativeSourceDescriptor):NativeSourceClient{
   const ownerKey='native-source-client:'+ ++nextNativeClient,pending=new Set<()=>void>(),cachePins=new Map<string,NativeSourceResult>(),waiting:ParkedRows=new Map();
   const views=new WeakMap<readonly BuildingComponent[],string>(),liveResults=new Map<string,Set<NativeSourceResult>>(),listeners=new Set<()=>void>();let closed=false;
+  // Distinct verified payloads must have distinct cache and pressure keys.
+  // Most registries change only the path, which does not affect this key.
+  const contentKey=(asset:NativeSourceDescriptor)=>nativeSourceContentKey(city,
+   transportDescriptor?transportDescriptor(asset,resolvePath(asset.path)):asset);
   function onUnparked(listener:()=>void){
    if(closed||destroyed)return()=>{};const own=()=>listener();listeners.add(own);unparkListeners.add(own);
    return()=>{listeners.delete(own);unparkListeners.delete(own);};
@@ -485,10 +490,11 @@ export function createSharedNativeSourcePool(options:{read:(path:string,signal:A
   async function acquire(asset:NativeSourceDescriptor,signal:AbortSignal,vertexCap:number,role:ChunkResourceRole='source',admission?:NativeSourceAdmission):Promise<NativeSourceResult>{
    signal.throwIfAborted();if(closed||destroyed)throw aborted();if(!Number.isSafeInteger(vertexCap)||vertexCap<1||vertexCap>VERTICES)throw Error('Invalid native source consumer budget');
    if(admission&&admission.context.budget!==resources.budget)throw Error('Native consumer admission belongs to another page budget');
-   const key=nativeSourceContentKey(city,asset),controller=new AbortController(),cancel=()=>controller.abort(signal.reason??aborted());pending.add(cancel);signal.addEventListener('abort',cancel,{once:true});
+   const route=resolvePath(asset.path),transport=transportDescriptor?.(asset,route)??asset;
+   const key=nativeSourceContentKey(city,transport),controller=new AbortController(),cancel=()=>controller.abort(signal.reason??aborted());pending.add(cancel);signal.addEventListener('abort',cancel,{once:true});
    let base:ChunkResourceLease<NativeSourceValue>|undefined,view:ChunkResourceLease<ProviderValue>|undefined;
    try{
-    const resolvedAsset={...asset,path:resolvePath(asset.path)};
+    const resolvedAsset=transport.path===route?transport:{...transport,path:route};
     for(;;){
      try{base=canonical(city,resolvedAsset,role,controller.signal);}
      catch(error){
@@ -538,7 +544,7 @@ export function createSharedNativeSourcePool(options:{read:(path:string,signal:A
   function parkedBytes(key:string){const shared=parked.get(key)?.bytes,own=waiting.get(key)?.bytes;return shared===undefined&&own===undefined?undefined:Math.max(shared??0,own??0);}
   // Manifest leaves are stable objects: their content keys are derived once.
   const keys=new WeakMap<object,string>();
-  function keyOf(asset:NativeSourceDescriptor){let key=keys.get(asset);if(key===undefined){key=nativeSourceContentKey(city,asset);keys.set(asset,key);}return key;}
+  function keyOf(asset:NativeSourceDescriptor){let key=keys.get(asset);if(key===undefined){key=contentKey(asset);keys.set(asset,key);}return key;}
   function parkedNeed(asset:NativeSourceDescriptor){return parkedBytes(keyOf(asset));}
   /** IA-R1: see NativeSourceCohort and the pool's cohort registry. */
   function cohort(demand?:NativeSourceDemandPark):NativeSourceCohort{
@@ -612,14 +618,14 @@ export function createSharedNativeSourcePool(options:{read:(path:string,signal:A
         writer.open();writer.value(age);writer.value(row.complete);writer.value(Math.max(0,probe.held()));writer.value(pending.length);
         let parked=0;
         for(const item of pending)if(item.asset){
-         const dropKey=writer.reserveTemp(keyBytes);try{parked+=parkedBytes(nativeSourceContentKey(city,item.asset))??0;}finally{dropKey();}
+         const dropKey=writer.reserveTemp(keyBytes);try{parked+=parkedBytes(contentKey(item.asset))??0;}finally{dropKey();}
         }
         writer.value(parked);writer.open();
         for(const item of pending){
          if(item.asset){
           const dropKey=writer.reserveTemp(keyBytes);
           try{
-           const key=nativeSourceContentKey(city,item.asset);writer.value(key.slice(0,256));
+           const key=contentKey(item.asset);writer.value(key.slice(0,256));
            const dropPrivate=writer.reserveTemp(privateBytes);
            try{writer.value(JSON.stringify(['native-private-v2',ownerKey,key]).slice(0,256));}finally{dropPrivate();}
           }finally{dropKey();}
@@ -716,7 +722,7 @@ export function createSharedNativeSourcePool(options:{read:(path:string,signal:A
      return awaitCohortRoom(footprint??reason.requiredBytes,signal,footprint?undefined:above,footprint?margin:undefined,diagnostic?(required,available)=>{diagnostic.requiredBytes=required;diagnostic.availableWithRecentBytes=available;diagnostic.observedAtMs=performance.now();diagnostic.checks++;}:undefined).then(({how,level,requiredBytes})=>{if(diagnostic){diagnostic.state='resumed';diagnostic.resumeKind=how;}registeredLevel=how==='registration'?level:undefined;if(footprint)registeredMargin=level-requiredBytes;}).finally(()=>{retryWaitingCount--;if(diagnostic){if(diagnostic.state==='waiting')diagnostic.state=signal.aborted?'aborted':'failed';diagnostic.finishedAtMs=performance.now();retryWaitDiagnostics.delete(diagnostic);}waitingForRoom=false;unpark?.();unparked();});
     }};
   }
-  const result:NativeSourceClient={ownerKey,resources,residentSourceBytes(key){const cost=costs.get(key);return cost?cost.typed+cost.estimated:undefined;},parkedNeed,cohort,onUnparked,acquireResource<T>(request:ChunkResourceRequest<T>){if(closed||destroyed)throw aborted();return resources.acquire(request);},contentKey:asset=>nativeSourceContentKey(city,asset),acquire,read:(a,s,c)=>acquire(a,s,c),setCached,destroy(){if(closed)return;setCached([]);closed=true;for(const listener of listeners)unparkListeners.delete(listener);listeners.clear();for(const cancel of [...pending])cancel();pending.clear();for(const values of [...liveResults.values()])for(const value of [...values])if(value.role==='source'||value.role==='cache')value.release();clients.delete(result);}};
+  const result:NativeSourceClient={ownerKey,resources,residentSourceBytes(key){const cost=costs.get(key);return cost?cost.typed+cost.estimated:undefined;},parkedNeed,cohort,onUnparked,acquireResource<T>(request:ChunkResourceRequest<T>){if(closed||destroyed)throw aborted();return resources.acquire(request);},contentKey,acquire,read:(a,s,c)=>acquire(a,s,c),setCached,destroy(){if(closed)return;setCached([]);closed=true;for(const listener of listeners)unparkListeners.delete(listener);listeners.clear();for(const cancel of [...pending])cancel();pending.clear();for(const values of [...liveResults.values()])for(const value of [...values])if(value.role==='source'||value.role==='cache')value.release();clients.delete(result);}};
   clients.add(result);return result;
  }
  return{client,resources,get stats(){let typed=0,estimated=0;for(const c of costs.values()){typed+=c.typed;estimated+=c.estimated;}return{entries:costs.size,holders,active,peakConcurrency:peak,queued:queue.length,reads,decodes,hits,transportAttempts,capacityWaits,unfit,deliveryRefusals,unadmittedDeliveries,parkedSources:parked.size,cohorts:cohorts.size,cohortYields,cohortReclaims,cohortReturnedBytes,cohortWaits,cohortUnfit,retryWaitingCount,retryWaitDiagnostics:[...retryWaitDiagnostics].map(row=>({...row})),retryWaitDiagnosticsTruncated:retryWaitingCount>retryWaitDiagnostics.size,retryAttemptHistory:retryAttemptHistory.map(row=>({...row})),retryAttemptHistoryDropped,uniqueTypedBufferBytes:typed,uniqueSourcePayloadEstimateBytes:typed+estimated,providerPrivateMetadataExcluded:true,rendererStagingAndPreparedComponentsExcluded:true,measurement:'page-store-native-source-subset-not-whole-page-or-heap'};},destroy(){if(destroyed)return;destroyed=true;for(const c of [...clients])c.destroy();for(const task of [...queue])if(task.signal.aborted)task.cancel?.();resources.evictRecent();pump();}};

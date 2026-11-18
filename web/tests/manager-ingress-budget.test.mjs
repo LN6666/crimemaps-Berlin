@@ -1,3 +1,4 @@
+import {managerEvent,nextCapacityRegistration,outcomeOf,until} from './support/manager-admission-waits.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -25,12 +26,6 @@ const tick=()=>new Promise(resolve=>setImmediate(resolve));
 const flush=async(rounds=8)=>{for(let i=0;i<rounds;i++)await tick();};
 const deferred=()=>{let resolve,reject;const promise=new Promise((yes,no)=>{resolve=yes;reject=no;});return{promise,resolve,reject};};
 const state=async promise=>{let value='pending';promise.then(()=>{value='fulfilled';},()=>{value='rejected';});await tick();return value;};
-// Bounded fixture wait (event-loop turns, no timer) for a state the fixture drives.
-const until=async(predicate,rounds=400)=>{for(let i=0;i<rounds;i++){if(predicate())return;await tick();}assert.fail('bounded fixture event did not occur');};
-// A promise's outcome within bounded turns: 'fulfilled', the error name, or 'pending'.
-// A regression that leaves work waiting fails its assertion instead of hanging.
-async function outcomeOf(promise,rounds=400){let value='pending';promise.then(()=>{value='fulfilled';},error=>{value=error?.name??String(error);});for(let i=0;i<rounds&&value==='pending';i++)await tick();return value;}
-
 // CommonJS view of the actual TypeScript runtime, cached before execution so the
 // store/program-preparation function cycle resolves like the bundled page.
 function loader(){
@@ -295,7 +290,8 @@ test('valid work waits on availability with its signal and resumes; an invalidat
   for(const transport of [false,true]){
    const p=manager(family,{transport,limitBytes:16*MiB,shards:700}),N=p.docs.index.byteLength,work=28*N+64,gate=p.budget.reserve({category:'construction',bytes:16*MiB-2*MiB-N-1024,precision:'estimate'});
    assert(N>150_000&&N<MiB&&work>2*MiB,family+' fixture index needs a working set larger than its envelope');
-   const pending=p.ensure(new AbortController().signal);await flush(16);
+   const registration=nextCapacityRegistration(p.budget),pending=p.ensure(new AbortController().signal);
+   await managerEvent(registration,family+' parse working-set wait');
    assert.equal(await state(pending),'pending',family);assert.equal(p.net.calls.length,1,family);assert(!p.events.some(([kind])=>kind==='digest'),family+' no SHA copy before admission');
    assert.deepEqual([p.budget.stats.categories.read?.bytes??0,p.budget.stats.availabilityListeners],[transport?p.docs.index.byteLength:0,1],family+' the refused working set returned its exact read and waits holding nothing; only the transport\'s bounded recent copy stays');
    gate.release();await pending;assert.ok(p.scope.manifest,family);assert.equal(p.scope.manifest.shards.length,700,family);assert.equal(p.budget.stats.availabilityListeners,0,family);p.page?.destroy();
@@ -395,7 +391,7 @@ test('destroy, a context-loss suspend and page hiding abort ensure() through the
   blocker.release();a.page?.destroy();
   // destroy() while the boundary read is in flight beside the held manifest estimate.
   const b=manager(family,{transport,hold:new Set(['/safety/buildings3d/berlin/city-boundary.json'])}),reading=b.ensure(b.scope.request.signal);
-  await until(()=>b.net.calls.length===2);assert(b.budget.stats.categories.metadata?.bytes>0,label+' manifest estimate held during the boundary read');
+  await managerEvent(b.net.whenStarted('/safety/buildings3d/berlin/city-boundary.json'),label+' boundary read');assert(b.budget.stats.categories.metadata?.bytes>0,label+' manifest estimate held during the boundary read');
   b.destroy();assert.equal(await outcomeOf(reading),'AbortError',label+' destroy aborts the reading ensure');await flush();
   assert(b.net.calls[1].signal.aborted,label+' boundary network read cancelled');
   let settled=view(b.budget);
@@ -407,8 +403,9 @@ test('destroy, a context-loss suspend and page hiding abort ensure() through the
    const m=manager(family,{transport,limitBytes:32*MiB,boundaryPoints:40_000}),B=m.docs.boundary.byteLength,work=28*B+64;
    const gate=m.budget.reserve({category:'mask',bytes:20*MiB,precision:'estimate'},{label:'fixture gate'});
    assert(work>12*MiB&&B+work<31*MiB,label+' fixture boundary working set waits beside the gate yet fits the whole ledger');
-   const running=m.ensure(m.scope.request.signal);
-   await until(()=>m.net.calls.length===1&&m.budget.stats.availabilityListeners===1);
+   const registration=nextCapacityRegistration(m.budget),running=m.ensure(m.scope.request.signal);
+   await managerEvent(registration,label+' '+interruption+' boundary wait');
+   assert.equal(m.net.calls.length,1,label);assert.equal(m.budget.stats.availabilityListeners,1,label);
    assert.deepEqual(kinds(m.events),['read /safety/buildings3d/index.json','digest','decode','parse'],label+' '+interruption+': the boundary stage (read envelope and working set) waits before its read, holding nothing');
    assert.equal(await state(running),'pending',label+' '+interruption);
    interrupt(m);assert.equal(await outcomeOf(running),'AbortError',label+' '+interruption+' aborts the waiting ensure');await flush();
@@ -447,10 +444,10 @@ test('managers that each hold a manifest estimate do not wait on one another for
  const B=estimates[0].boundaryBytes,work=28*B+64,held=estimates[0].manifest+estimates[1].manifest;
  const limitBytes=held+B+work-Math.floor(Math.min(estimates[0].manifest,estimates[1].manifest)/2)+4096;
  const shared=pageFixture({transport:true,limitBytes,...settings}),pair=['root500','infill'].map(family=>manager(family,{shared}));
- const outcomes=pair.map(()=>'pending'),running=pair.map((m,i)=>m.ensure(m.scope.request.signal).then(()=>{outcomes[i]='fulfilled';},error=>{outcomes[i]=error;}));
+ const running=pair.map(m=>m.ensure(m.scope.request.signal).then(()=>'fulfilled',error=>error));
  try{
-  await until(()=>!outcomes.includes('pending')).catch(()=>{});
-  assert.deepEqual([...outcomes],['fulfilled','fulfilled'],'neither manager may wait for capacity the other holds while it waits; ledger '+JSON.stringify(view(shared.budget)));
+  const outcomes=await managerEvent(Promise.all(running),'both shared bootstraps to settle');
+  assert.deepEqual(outcomes,['fulfilled','fulfilled'],'neither manager may wait for capacity the other holds while it waits; ledger '+JSON.stringify(view(shared.budget)));
  }finally{for(const m of pair)m.scope.request.abort();await Promise.all(running);for(const m of pair)m.destroy();shared.page.destroy();}
 });
 

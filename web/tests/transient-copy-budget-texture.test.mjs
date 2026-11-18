@@ -4,6 +4,7 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {build} from 'esbuild';
+import {waitForResourceState as until} from './support/wait-for-resource-state.mjs';
 
 const safety=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../src/safety');
 const built=await build({stdin:{contents:"export {createSourceMaterialTexture} from './source-material-texture';export {createResourceByteTransport} from './resource-byte-transport';export {createChunkResourceStore} from './render-runtime/chunk-resource-store';export {createResourceBudget} from './render-runtime/resource-budget';",resolveDir:safety},bundle:true,write:false,format:'esm',platform:'node'});
@@ -46,12 +47,12 @@ test('a transport-owned PNG read is charged once: transport envelope before read
  f.texture.setEnabled(true);
  assert.deepEqual(category(f.budget,'read'),{bytes:2*A,exactBytes:0,estimatedBytes:2*A},'only the transport reserves the raw read');
  assert.deepEqual(category(f.budget,'construction'),{bytes:2*A+DECODE,exactBytes:0,estimatedBytes:2*A+DECODE},'copy, Blob, full decode and resized output are admitted before reading');
- await settle();assert.equal(f.reads.length,1);assert.equal(f.reads[0].max,A);
- f.reads[0].resolve();await settle(8);
+ await until(()=>f.reads.length===1,'the PNG read to start');assert.equal(f.reads[0].max,A);
+ f.reads[0].resolve();await until(()=>f.decodes.length===1,'PNG verification and header checks to reach the decoder');
  assert.equal(f.decodes.length,1,'decode starts after the hash/header checks');
  assert.deepEqual(category(f.budget,'read'),{bytes:A,exactBytes:A,estimatedBytes:0},'transport and texture share the exact buffer identity');
  assert.equal(category(f.budget,'construction').bytes,2*A+DECODE);
- f.decodes[0].resolve();await settle(8);
+ f.decodes[0].resolve();await until(()=>f.texture.stats.loads===1,'the decoded bitmap to be retained');
  assert.equal(category(f.budget,'construction').bytes,0,'construction envelope exits after decode');
  assert.deepEqual(category(f.budget,'texture'),{bytes:BITMAP,exactBytes:0,estimatedBytes:BITMAP},'only the resized bitmap remains before upload');
  f.texture.attach(f.gl);
@@ -64,7 +65,9 @@ test('a transport-owned PNG read is charged once: transport envelope before read
 test('a full recent subset after upload drops the functional bitmap pin instead of keeping it pinned or pending',async()=>{
  const f=harness({recentLimitBytes:4096});
  f.texture.attach(f.gl);f.texture.setEnabled(true);
- await settle();f.reads[0].resolve();await settle(8);f.decodes[0].resolve();await settle(8);
+ await until(()=>f.reads.length===1,'the PNG read to start');f.reads[0].resolve();
+ await until(()=>f.decodes.length===1,'the verified PNG to reach the decoder');f.decodes[0].resolve();
+ await until(()=>f.texture.stats.ready,'the decoded bitmap to upload');
  const stats=f.texture.stats;
  assert.equal(stats.ready,true);assert.equal(stats.error,undefined);
  assert.equal(stats.cityCacheEntries,0);assert.equal(stats.retainedBitmapLogicalRGBABytes,0);
@@ -83,12 +86,12 @@ test('a post-read envelope rejection waits for capacity instead of latching a pe
  // A direct reader may return a view whose underlying buffer is larger than the asset.
  const f=harness({transport:false,limitBytes:limit,recentLimitBytes:MiB,assetBytes:A,readBytes:async(bytes)=>{reads++;const larger=new Uint8Array(64*A);larger.set(bytes);return new Uint8Array(larger.buffer,0,A);}});
  const hold=f.budget.reserve({category:'metadata',bytes:filler,precision:'exact'});
- f.texture.setEnabled(true);await settle(8);
+ f.texture.setEnabled(true);await until(()=>f.budget.stats.availabilityListeners===1,'the rejected read to subscribe for capacity');
  assert.equal(reads,1);assert.equal(f.texture.stats.error,'texture-budget-pending');assert.equal(f.decodes.length,0);
  assert.equal(f.budget.stats.availabilityListeners,1);
- hold.release();await settle(8);
+ hold.release();await until(()=>f.decodes.length===1,'the retried read to verify its PNG and reach decoding');
  assert.equal(reads,2,'released capacity wakes the same texture work');
- assert.equal(f.decodes.length,1);f.decodes[0].resolve();await settle(8);
+ assert.equal(f.decodes.length,1);f.decodes[0].resolve();await until(()=>f.texture.stats.loads===1,'the retried load to finish');
  assert.equal(f.texture.stats.loads,1);assert.equal(f.texture.stats.error,undefined);
  f.texture.destroy();f.store.evictRecent();assert.equal(f.budget.stats.bytes,0);
 });
@@ -104,10 +107,10 @@ test('a release between a rejected post-read admission and its wait subscription
  // The failed production returns its envelope before the texture's catch runs;
  // an unrelated owner frees its claim in that gap, which no subscriber hears.
  const off=f.budget.onAvailable(()=>{if(!hold)return;const claim=hold;hold=undefined;off();claim.release();});
- f.texture.setEnabled(true);await settle(8);
+ f.texture.setEnabled(true);await until(()=>f.decodes.length===1,'the retry after the released claim to reach decoding');
  assert.equal(hold,undefined,'the unrelated claim was released inside the gap');
  assert.equal(counter.reads,2,'subscribing rechecks capacity instead of sleeping on a missed hint');
- assert.equal(f.decodes.length,1);f.decodes[0].resolve();await settle(8);
+ assert.equal(f.decodes.length,1);f.decodes[0].resolve();await until(()=>f.texture.stats.loads===1,'the decoded retry to finish');
  assert.equal(f.texture.stats.loads,1);assert.equal(f.texture.stats.error,undefined);assert.equal(f.budget.stats.availabilityListeners,0);
  f.texture.destroy();f.store.evictRecent();assert.equal(f.budget.stats.bytes,0);
 });
@@ -115,7 +118,7 @@ test('a release between a rejected post-read admission and its wait subscription
 test('a bitmap working set that can never fit the page ledger is reported as not fitting instead of waiting',async()=>{
  // Before any read: raw envelope, copy/Blob, full decode and resized output exceed the ledger.
  const small=harness({limitBytes:4*MiB,recentLimitBytes:MiB});
- small.texture.setEnabled(true);await settle(8);
+ small.texture.setEnabled(true);await until(()=>Boolean(small.texture.stats.error),'the pre-read refusal to be recorded');
  assert.equal(small.reads.length,0,'no transport read is queued for work that cannot fit');
  assert.match(small.texture.stats.error,/does not fit the page resource ledger/);
  assert.equal(small.budget.stats.availabilityListeners,0);assert.equal(small.budget.stats.bytes,0);
@@ -123,7 +126,7 @@ test('a bitmap working set that can never fit the page ledger is reported as not
  // After a direct read: the underlying buffer beside the decode envelope cannot fit.
  const A=4096,limit=8*MiB,counter={reads:0};
  const f=harness({transport:false,limitBytes:limit,recentLimitBytes:MiB,assetBytes:A,readBytes:viewReader(limit,counter)});
- f.texture.setEnabled(true);await settle(8);
+ f.texture.setEnabled(true);await until(()=>Boolean(f.texture.stats.error),'the oversized delivered buffer to be reported');
  assert.equal(counter.reads,1);assert.match(f.texture.stats.error,/does not fit the page resource ledger/);
  assert.equal(f.budget.stats.availabilityListeners,0,'no wait remains for an impossible working set');
  const probe=f.budget.reserve({category:'metadata',bytes:1024,precision:'exact'});probe.release();await settle(8);
@@ -135,13 +138,13 @@ test('a hint that cannot cover a waiting direct read does not download it again'
  const A=4096,decodeCost=2*A+DECODE,limit=64*A+decodeCost,counter={reads:0};
  const f=harness({transport:false,limitBytes:limit,recentLimitBytes:MiB,assetBytes:A,readBytes:viewReader(64*A,counter)});
  const large=f.budget.reserve({category:'metadata',bytes:32*A,precision:'exact'}),small=f.budget.reserve({category:'metadata',bytes:A,precision:'exact'});
- f.texture.setEnabled(true);await settle(8);
+ f.texture.setEnabled(true);await until(()=>f.budget.stats.availabilityListeners===1,'the direct read to wait for capacity');
  assert.equal(counter.reads,1);assert.equal(f.texture.stats.error,'texture-budget-pending');
  small.release();await settle(8);
  assert.equal(counter.reads,1,'the released claim cannot make room for the buffer and decode envelope');
  assert.equal(f.budget.stats.availabilityListeners,1,'the work keeps waiting for a sufficient hint');
- large.release();await settle(8);
- assert.equal(counter.reads,2);assert.equal(f.decodes.length,1);f.decodes[0].resolve();await settle(8);
+ large.release();await until(()=>f.decodes.length===1,'sufficient capacity to permit verification and decoding');
+ assert.equal(counter.reads,2);assert.equal(f.decodes.length,1);f.decodes[0].resolve();await until(()=>f.texture.stats.loads===1,'the decoded retry to finish');
  assert.equal(f.texture.stats.loads,1);assert.equal(f.texture.stats.error,undefined);
  f.texture.destroy();f.store.evictRecent();assert.equal(f.budget.stats.bytes,0);
 });

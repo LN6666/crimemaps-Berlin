@@ -1,7 +1,8 @@
+import {observedWhileHeld,outcomeOf,until} from './support/manager-admission-waits.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import ts from 'typescript';
-import {families,MiB,flush,until,deferred,outcomeOf,sum,view,pageFixture,manager,sources,declared,
+import {families,MiB,flush,deferred,sum,view,pageFixture,manager,sources,declared,
  resourceByteAdmittedEnvelope,ResourceBudgetExceededError,ResourceByteDeliveryRefusedError,environmentJsonReadCosts,
  budgetModule,createResourceBudget,createChunkResourceStore} from './support/managers-stage2-ingress.mjs';
 
@@ -109,7 +110,7 @@ test('readAsset with an admission completes while both fetch slots hold compatib
   const admitted=m.readAsset(profileAsset,new AbortController().signal,MiB,{admitted:claim,envelope,keep});
   assert.equal(await outcomeOf(admitted),'fulfilled',family+' the caller-admitted read needs no slot and no capacity');
   assert.deepEqual(await admitted,JSON.parse(new TextDecoder().decode(profileRaw)),family);
-  assert.deepEqual(await Promise.all(legacy.map(read=>outcomeOf(read,20))),['pending','pending'],family);
+  assert.deepEqual(await Promise.all(legacy.map(read=>observedWhileHeld(read,20))),['pending','pending'],family);
   blocker.release();assert.deepEqual(await Promise.all(legacy.map(read=>outcomeOf(read))),['fulfilled','fulfilled'],family);
   claim.release();m.destroy();m.page.destroy();
  }

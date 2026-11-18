@@ -1,3 +1,4 @@
+import {managerEvent,nextCapacityRegistration,observedWhileHeld,outcomeOf,until} from './support/manager-admission-waits.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -25,10 +26,6 @@ const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
 const flush=async(rounds=8)=>{for(let i=0;i<rounds;i++)await tick();};
 const deferred=()=>{let resolve,reject;const promise=new Promise((yes,no)=>{resolve=yes;reject=no;});return{promise,resolve,reject};};
-// Bounded fixture wait (event-loop turns, no timer) for a state the fixture drives.
-const until=async(predicate,rounds=400)=>{for(let i=0;i<rounds;i++){if(predicate())return;await tick();}assert.fail('bounded fixture event did not occur');};
-async function outcomeOf(promise,rounds=400){let value='pending';promise.then(()=>{value='fulfilled';},error=>{value=error?.name??String(error);});for(let i=0;i<rounds&&value==='pending';i++)await tick();return value;}
-
 // CommonJS view of the actual TypeScript runtime. A seeded loader shares the
 // ledger module (and so its error classes) while giving a page its own solar and
 // admission module instances, as one browser page has.
@@ -80,8 +77,8 @@ test('a refused admission waits holding nothing, wakes only on a wave that can h
  withoutTimers(t);const {admission}=pageModules(),budget=createResourceBudget({limitBytes:10*MiB,recentLimitBytes:MiB});
  const blockers=[3,3,3].map(n=>budget.reserve({category:'construction',bytes:n*MiB,precision:'estimate'}));
  const wait=admission.awaitManagerCapacity(budget,6*MiB,new AbortController().signal);
- assert.equal(await outcomeOf(wait,8),'pending');assert.equal(budget.stats.availabilityListeners,1,'one registration');
- blockers[0].release();assert.equal(await outcomeOf(wait,8),'pending','4 MiB free cannot hold 6 MiB: the registration stays');assert.equal(budget.stats.availabilityListeners,1);
+ assert.equal(await observedWhileHeld(wait,8),'pending');assert.equal(budget.stats.availabilityListeners,1,'one registration');
+ blockers[0].release();assert.equal(await observedWhileHeld(wait,8),'pending','4 MiB free cannot hold 6 MiB: the registration stays');assert.equal(budget.stats.availabilityListeners,1);
  blockers[1].release();assert.equal(await outcomeOf(wait),'fulfilled','7 MiB free holds the work');assert.equal(budget.stats.availabilityListeners,0);
  const controller=new AbortController(),aborted=admission.awaitManagerCapacity(budget,8*MiB,controller.signal);await tick();
  assert.equal(budget.stats.availabilityListeners,1);controller.abort();assert.equal(await outcomeOf(aborted),'AbortError');assert.equal(budget.stats.availabilityListeners,0);
@@ -94,7 +91,7 @@ test('retryManagerAdmission reruns its work only after a fitting wave, and settl
  const blocker=budget.reserve({category:'mask',bytes:7*MiB,precision:'estimate'});let runs=0;
  const work=async()=>{runs++;const admitted=budget.tryReserve({category:'construction',bytes:2*MiB,precision:'estimate'});if(!admitted.ok)throw new admission.ManagerAdmissionRetry(2*MiB,'fixture working set');admitted.reservation.release();return 'done';};
  const running=admission.retryManagerAdmission(budget,new AbortController().signal,work);
- assert.equal(await outcomeOf(running,8),'pending');assert.deepEqual([runs,budget.stats.bytes,budget.stats.availabilityListeners],[1,7*MiB,1],'the refused work holds nothing while it waits');
+ assert.equal(await observedWhileHeld(running,8),'pending');assert.deepEqual([runs,budget.stats.bytes,budget.stats.availabilityListeners],[1,7*MiB,1],'the refused work holds nothing while it waits');
  blocker.release();assert.equal(await running,'done');assert.equal(runs,2);assert.equal(budget.stats.availabilityListeners,0);
  await assert.rejects(admission.retryManagerAdmission(budget,new AbortController().signal,async()=>{throw TypeError('not an admission');}),TypeError);
  const held=budget.reserve({category:'mask',bytes:7*MiB,precision:'estimate'}),controller=new AbortController(),waiting=admission.retryManagerAdmission(budget,controller.signal,work);
@@ -160,7 +157,7 @@ test('the solar boundary index is admitted before a lease returns; a refused ind
  const index=solar.solarShadowBoundaryIndexBytes(value)+solar.SOLAR_BOUNDARY_INDEX_MODEL.wrapperEstimateBytes;
  const fixture=production(budget,{bytes:MiB}),blocker=budget.reserve({category:'mask',bytes:16*MiB-MiB-index+1,precision:'estimate'});
  const pending=admission.acquireManagerBootstrap({budget,key:'k',signal:new AbortController().signal,produce:fixture.produce,solarBoundary:()=>value});await flush();
- assert.equal(await outcomeOf(pending,8),'pending');assert.equal(solar.currentSolarShadowBoundary(hash),undefined,'nothing is allocated before admission');
+ assert.equal(await observedWhileHeld(pending,8),'pending');assert.equal(solar.currentSolarShadowBoundary(hash),undefined,'nothing is allocated before admission');
  assert.deepEqual([budget.stats.bytes,budget.stats.availabilityListeners],[blocker.bytes,1],'the refused index released the lease: the value claim is returned while it waits');
  blocker.release();const lease=await pending;assert.equal(fixture.calls.length,2,'the value is produced again after the wait');
  assert.ok(solar.currentSolarShadowBoundary(hash));assert.equal(view(budget).shadow,index,'exact index plus its wrapper estimate, charged once');
@@ -181,7 +178,7 @@ test('a manager joining a ready bootstrap whose solar index was evicted waits fo
  assert.equal(solar.currentSolarShadowBoundary(hash),undefined,'two more boundary hashes evicted it from the two-entry cache');
  const blocker=budget.reserve({category:'mask',bytes:budget.stats.availableBytes-(I-1),precision:'estimate',label:'other holders'});
  const joining=admission.acquireManagerBootstrap({budget,key:'k',signal:new AbortController().signal,produce:fixture.produce,solarBoundary:()=>value});
- assert.equal(await outcomeOf(joining,50),'pending','the index does not fit yet');
+ assert.equal(await observedWhileHeld(joining,50),'pending','the index does not fit yet');
  assert.deepEqual([budget.stats.availabilityListeners,admission.managerBootstrapStats(budget).entries[0].leases],[1,1],'the joiner returned its lease and waits holding nothing');
  assert(blocker.adjust({category:'mask',bytes:blocker.bytes-2*I,precision:'estimate',label:'other holders'}));
  const free=budget.stats.availableBytes;assert(free>=I&&free<C+I,'room for the index, not for the value and the index');
@@ -202,7 +199,7 @@ test('a joiner waiting for an evicted index ends its wait on a wave once another
  // insertion evicts `older` from the two-entry cache.
  const blocker=budget.reserve({category:'mask',bytes:budget.stats.availableBytes-(I-2)+olderBytes,precision:'estimate',label:'other holders'});
  const joining=admission.acquireManagerBootstrap({budget,key:'k',signal:new AbortController().signal,produce:fixture.produce,solarBoundary:()=>value});
- assert.equal(await outcomeOf(joining,50),'pending');
+ assert.equal(await observedWhileHeld(joining,50),'pending');
  // Another holder's synchronous preparation caches the index (charged once room exists).
  solar.prepareSolarShadowBoundary(value,{budget});assert.ok(solar.currentSolarShadowBoundary(hash));assert.equal(solar.currentSolarShadowBoundary(older.boundarySHA256),undefined);
  assert(blocker.adjust({category:'mask',bytes:blocker.bytes-1,precision:'estimate',label:'other holders'}));
@@ -240,7 +237,7 @@ test('a refusal right after a wait that ended at registration waits for a wave: 
  // condition). The fixture stops after 1000 runs so that a loop fails, not hangs.
  const work=async()=>{runs++;if(runs>=1000)return 'looped';throw new admission.ManagerAdmissionRetry(MiB,'fixture refusal beside free bytes');};
  const controller=new AbortController(),running=admission.retryManagerAdmission(budget,controller.signal,work);
- assert.equal(await outcomeOf(running,50),'pending');
+ assert.equal(await observedWhileHeld(running,50),'pending');
  assert.deepEqual([runs,budget.stats.availabilityListeners],[2,1],'one retry at registration, then one registration waiting for a wave');
  budget.reserve({category:'mask',bytes:1024,precision:'estimate'}).release();await flush();
  assert.deepEqual([runs,budget.stats.availabilityListeners],[4,1],'a wave reruns it, room at the next registration once more, then it waits again');
@@ -425,8 +422,9 @@ test('the boundary stage is admitted at once before its read, or waits holding n
  for(const transport of [false,true])for(const family of ['root500','city']){
   const label=family+(transport?' transport':' raw'),m=manager(family,{transport,limitBytes:32*MiB,boundaryPoints:40_000}),B=m.docs.boundary.byteLength,work=28*B+64,envelope=8*MiB;
   const gate=m.budget.reserve({category:'mask',bytes:20*MiB,precision:'estimate'},{label:'fixture gate'});
-  const running=m.ensure(m.scope.request.signal);
-  await until(()=>m.net.calls.length===1&&m.budget.stats.availabilityListeners===1);await flush();
+  const registration=nextCapacityRegistration(m.budget),running=m.ensure(m.scope.request.signal);
+  await managerEvent(registration,label+' boundary capacity registration');
+  assert.equal(m.net.calls.length,1,label);assert.equal(m.budget.stats.availabilityListeners,1,label);
   assert.deepEqual(kinds(m.events),['read /safety/buildings3d/index.json','digest','decode','parse'],label+': no boundary read while its stage cannot be admitted');
   const waiting=view(m.budget);
   assert.deepEqual([waiting.bytes-waiting.recent,waiting.metadata,waiting.construction,waiting.decoded],[20*MiB,0,0,0],label+': the manifest estimate is returned while it waits');
@@ -513,7 +511,7 @@ test('the only wait inside readAsset is the page transport\'s own envelope admis
   const blocker=m.budget.reserve({category:'mask',bytes:s.limitBytes-(s.bytes-s.recentBytes)-(2*P-1),precision:'estimate',label:'other page holders'}),held=view(m.budget);
   assert.equal(m.budget.stats.availableBytes+m.budget.stats.recentBytes,2*P-1,family+' the envelope does not fit');
   const reading=m.readAsset(profileAsset,new AbortController().signal,profileAsset.bytes);
-  assert.equal(await outcomeOf(reading,50),'pending',family);
+  assert.equal(await observedWhileHeld(reading,50),'pending',family);
   const waiting=view(m.budget);
   assert.deepEqual([waiting.bytes,waiting.reservations,waiting.listeners,m.page.stats.consumers],[held.bytes,held.reservations,1,1],family+' one transport registration; nothing charged by the manager while it waits');
   blocker.release();assert.equal(await outcomeOf(reading),'fulfilled',family);assert.equal(m.budget.stats.availabilityListeners,0);
@@ -531,7 +529,7 @@ test('destroy cancels a transport readAsset through the family\'s fetch lifetime
   if(sources.get(family).lifetime){
    assert.equal(await outcomeOf(reading),'AbortError',family+' the fetch lifetime cancels the read at once');assert(call.signal.aborted,family+' the transport read is cancelled');
   }else{
-   assert.equal(await outcomeOf(reading,20),'pending',family+' this family\'s destroy does not cancel active fetches');
+   assert.equal(await observedWhileHeld(reading,20),'pending',family+' this family\'s destroy does not cancel active fetches');
    call.gate.resolve();assert.equal(await outcomeOf(reading),'AbortError',family+' a lease delivered after destroy is returned');
   }
   assert.equal(caller.signal.aborted,false,family+' the caller\'s controller is not aborted');

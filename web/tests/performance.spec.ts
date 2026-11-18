@@ -56,7 +56,7 @@ test("named place links remain candidates and do not affect other POIs", () => {
   expect(fc.features[1].properties.association_count).toBe(0);
 });
 
-test("overview loads no POI geometry, month switching clears missing months", async ({
+test("overview loads no POI geometry and switching to a saved empty month clears the results", async ({
   page,
 }) => {
   await page.route("https://tile.openstreetmap.org/**", (route) =>
@@ -115,7 +115,7 @@ test("overview loads no POI geometry, month switching clears missing months", as
           generation: "0123456789abcdef-20260927T120000",
           retrieved_at: "2026-09-27T12:00:00Z",
           coverage: { discovered: 2, fetched: 2, pending: 0, failed: 0 },
-          months: { "2026-09": { count: 2 } },
+          months: { "2026-08": { count: 0 }, "2026-09": { count: 2 } },
           years: {"2026":{path:"years/2026.json",announcement_count:2,countable_announcement_count:1,sha256:"0000000000000000000000000000000000000000000000000000000000000000"}},
           categories: ["raub"],
           tile_index: { pois: [], roads: [] },
@@ -130,6 +130,9 @@ test("overview loads no POI geometry, month switching clears missing months", as
           metadata: { zoom_threshold: 13 },
         },
       });
+    if (new URL(url).pathname.endsWith("/months/2026-08.json")) {
+      return route.fulfill({json: {event_ids: [], events: [], links: [], hex: {overview: empty, detail: empty}}});
+    }
     if (url.includes("/months/"))
       return route.fulfill({
         json: {
@@ -179,7 +182,7 @@ test("overview loads no POI geometry, month switching clears missing months", as
       });
     return route.fulfill({ json: empty });
   });
-  await page.goto("/?lang=zh");
+  await page.goto("/?lang=zh&month=2026-09");
   await expect(page.locator("#city-switch optgroup")).toHaveCount(1);
   await expect(page.locator("#city-switch option")).toHaveCount(14);
   await expect(page.locator("#city-switch")).toHaveValue("berlin");
@@ -208,9 +211,12 @@ test("overview loads no POI geometry, month switching clears missing months", as
   await expect(page.locator("#selection")).toContainText("Das Fahrzeug wurde beschädigt.");
   expect(errors).toEqual([]);
   expect(requests.filter((url) => url.includes("/months/"))).toHaveLength(1);
+  await expect(page.locator('#month option[value="07"]')).toBeDisabled();
   await page.locator("#month").selectOption("08");
-  await expect(page.locator("#stats .big")).toHaveText("—");
+  await expect(page.locator("#stats .big")).toHaveText("0");
   await page.locator("#month").selectOption("09");
   await expect(page.locator("#stats .big")).toHaveText("2");
-  expect(requests.filter((url) => url.includes("/months/"))).toHaveLength(1);
+  expect(requests.filter((url) => url.includes("/months/2026-09.json"))).toHaveLength(1);
+  expect(requests.filter((url) => url.includes("/months/2026-08.json"))).toHaveLength(1);
+  expect(requests.filter((url) => url.includes("/months/"))).toHaveLength(2);
 });

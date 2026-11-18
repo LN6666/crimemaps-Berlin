@@ -51,7 +51,7 @@ test('POI fill stays visible and uniform while association metadata retains sour
  const ids=new Set(['a','b','c']);const links=['a','b','c'].map(link);const kinds=new Set(['bar']);const before=JSON.stringify(data);
  const normal=styledPois(data,links,ids,kinds,false),highlighted=styledPois(data,links,ids,kinds,true);
  expect(normal.features.map(f=>f.properties.opacity)).toEqual([.25,.25]);expect(highlighted.features.map(f=>f.properties.opacity)).toEqual([.25,.25]);
- expect(highlighted.features.map(f=>f.properties.id)).toEqual(['linked','neutral']);expect(highlighted.features.map(f=>f.properties.center_color)).toEqual(['#0b1f34','#0b1f34']);expect(highlighted.features[1].properties.association_count).toBe(0);
+ expect(highlighted.features.map(f=>f.properties.id)).toEqual(['linked','neutral']);expect(highlighted.features.map(f=>f.properties.center_color)).toEqual(['#e6ab02','#e6ab02']);expect(normal.features.map(f=>f.properties.center_color)).toEqual(highlighted.features.map(f=>f.properties.center_color));expect(highlighted.features[1].properties.association_count).toBe(0);
  expect(styledPois(data,links,new Set(),kinds,true).features.map(f=>f.properties.opacity)).toEqual([.25,.25]);expect(JSON.stringify(data)).toBe(before);
 });
 

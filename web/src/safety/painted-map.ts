@@ -7,6 +7,7 @@ import type {installThreeDimensionalMap as CityInstaller} from '../painted/city/
 import type {PaintProvider} from './paint-ownership';
 import {paintOwner} from './paint-ownership';
 import assetRegistry from './paint-asset-registry.json';
+import {paintedOwnerGeometryTransport} from './painted-owner-geometry-transport';
 import {beginFrozenPaintTableInitialization,createFrozenDataResourceOwner,frozenPaintTableStats} from './frozen-paint-tables';
 import {profileSHA256,buildingDetailCatalog,buildingFocusRegistry} from 'virtual:crimemaps-city-data';
 import type {CustomLayerInterface} from 'maplibre-gl';
@@ -598,7 +599,7 @@ export function installThreeDimensionalMap(options: Options): Actual {
       modules.forEach((module, index) => {
         const provider = providerOrder[index];
         const assets=(assetRegistry as Record<string,Record<string,string>>)[provider]??{};
-        const nativeClient=nativeSources.client(options.city,path=>assets[path]??path);
+        const nativeClient=nativeSources.client(options.city,path=>assets[path]??path,(asset,route)=>paintedOwnerGeometryTransport(asset,route));
         const detailRuntime=detailConfigured?createBuildingDetailRuntime({city:options.city,resolveDetailIndex,readCanonical:nativeClient.read,variantLeavesOnly:true,
           readBytes:fetchBytes,acquireBytes,resourceStore,vertexCap:options.mobile?100000:200000,geometryPositionCap:options.mobile?100000:200000,
           getDemands:index=>detailDemands(index,provider)}):undefined;
@@ -764,6 +765,16 @@ export function installThreeDimensionalMap(options: Options): Actual {
       // A destroy between the resolved readiness and this continuation is an abort.
       if(admission===undefined){await ensure(signal);signal.throwIfAborted();if(destroyed)throw abort();}
       else{signal.throwIfAborted();if(destroyed)throw abort();if(!managers.size)throw Error('A caller-admitted 3D asset read needs ensureReady(signal) before its admission');}
+      // The generic data reader is provided by City. An owner descriptor
+      // may refer to City or Delegated500, and a caller may already have
+      // resolved its URL. Always check the bytes actually selected.
+      if(typeof asset!=='string'&&typeof asset?.path==='string'&&asset.path.startsWith('/safety/buildings3d/')){
+        const routes=assetRegistry as Record<string,Record<string,string>>;
+        const cityRoute=routes.city?.[asset.path]??asset.path;
+        const projected=paintedOwnerGeometryTransport(asset,cityRoute);
+        if(projected!==asset)asset=projected;
+        else if(routes.delegated500?.[asset.path])asset=paintedOwnerGeometryTransport(asset,routes.delegated500[asset.path]);
+      }
       return managers.get('city')!.readAsset(asset,signal,max,admission);
     },
     setPageHidden(value){hidden=value;if(value)modelViewProjection.invalidate();managers.forEach(syncManagerVisibility);},
