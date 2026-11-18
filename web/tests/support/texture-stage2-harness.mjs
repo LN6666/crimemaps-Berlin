@@ -7,6 +7,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
+import {setTimeout as delay} from 'node:timers/promises';
 import {build} from 'esbuild';
 
 export const safety=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../../src/safety');
@@ -45,7 +46,16 @@ export function fakeGL(){
  return g;
 }
 export const settle=async(turns=4)=>{for(let i=0;i<turns;i++)await new Promise(resolve=>setImmediate(resolve));};
-export async function until(condition,turns=200){for(let i=0;i<turns&&!condition();i++)await new Promise(resolve=>setImmediate(resolve));return condition();}
+// Every caller watches a state held until its next test action. Worker-backed
+// hashing and decoding may outlast any fixed number of event-loop turns.
+export async function until(condition) {
+ const deadline = performance.now() + 10_000;
+ while (!condition()) {
+  if (performance.now() >= deadline) return false;
+  await delay(2);
+ }
+ return true;
+}
 export const category=(budget,name)=>({...(budget.stats.categories[name]??{bytes:0,exactBytes:0,estimatedBytes:0})});
 /** Ledger bytes left once every consumer and recent entry is gone. */
 export function drained(p){p.store.evictRecent();p.store.collectRetired();return p.budget.stats.bytes;}

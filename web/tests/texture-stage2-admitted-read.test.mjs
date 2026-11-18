@@ -27,20 +27,31 @@ test('R1: one byte short of the read envelope beside the decode envelope, the lo
 
 // The three facade materials at their real sizes.
 const materials=[{name:'window',bytes:13651,sourceSize:1024},{name:'plaster',bytes:95359,sourceSize:256},{name:'brick',bytes:117467,sourceSize:256}];
-for(const [seed,material] of materials.entries())test(`${material.name}: the bitmap entry is the transport's claim: one envelope during the read, the delivered buffer in its place, nothing waits`,async()=>{
- const p=page({deferred:true}),asset=p.assetFor({seed,bytes:material.bytes,sourceSize:material.sourceSize}),ws=workingSet(material.bytes,material.sourceSize),decodes=[];
- const r=p.runtime({asset,sourceSize:material.sourceSize,decodeBitmap:(_blob,options)=>new Promise(resolve=>decodes.push(()=>resolve({width:options.resizeWidth,height:options.resizeHeight,close(){}})))});
+for(const [seed,material] of materials.entries())test(`${material.name}: the bitmap entry is the transport's claim: one envelope during the read, the delivered buffer in its place, nothing waits`,{timeout:10_000},async()=>{
+ const p=page({deferred:true}),asset=p.assetFor({seed,bytes:material.bytes,sourceSize:material.sourceSize}),ws=workingSet(material.bytes,material.sourceSize);
+ const decodeStarted=Promise.withResolvers(),finishDecode=Promise.withResolvers();
+ let decodeCalls=0;
+ const r=p.runtime({asset,sourceSize:material.sourceSize,async decodeBitmap(_blob,options){
+  decodeCalls++;
+  decodeStarted.resolve();
+  await finishDecode.promise;
+  return {width:options.resizeWidth,height:options.resizeHeight,close(){}};
+ }});
  r.setEnabled(true);
  assert.deepEqual({bytes:p.budget.stats.bytes,read:category(p.budget,'read'),construction:category(p.budget,'construction'),admitted:p.transport.stats.admittedReads,productions:p.transport.stats.admittedProductions,consumers:p.transport.stats.consumers,listeners:p.budget.stats.availabilityListeners},
   {bytes:ws.load,read:{bytes:ws.envelope,exactBytes:0,estimatedBytes:ws.envelope},construction:{bytes:ws.decode,exactBytes:0,estimatedBytes:ws.decode},admitted:1,productions:1,consumers:1,listeners:0},'admitted at once in one claim; the transport reserved nothing more and registered no wait');
  assert.equal(await until(()=>p.network.length===1),true);
  assert.deepEqual({ledgerAtRead:p.network[0].ledgerBytes,max:p.network[0].max},{ledgerAtRead:ws.load,max:material.bytes});
+ // The transport is still blocked, so load() joins the one operation in flight.
+ const loading=r.load();
  p.network[0].resolve();
- assert.equal(await until(()=>decodes.length===1),true,'hash and header checks pass on the delivered bytes');
+ await decodeStarted.promise;
+ assert.equal(decodeCalls,1,'hash and header checks pass on the delivered bytes');
  assert.deepEqual({bytes:p.budget.stats.bytes,read:category(p.budget,'read'),construction:category(p.budget,'construction').bytes,delivered:p.transport.stats.admittedDeliveries},
   {bytes:ws.decode+material.bytes,read:{bytes:material.bytes,exactBytes:material.bytes,estimatedBytes:0},construction:ws.decode,delivered:1},'delivery replaced the envelope by the exact buffer in place');
- decodes[0]();
- assert.equal(await until(()=>r.stats.loads===1),true);
+ finishDecode.resolve();
+ assert.equal(await loading,true);
+ assert.equal(r.stats.loads,1);
  assert.deepEqual({reads:r.stats.reads,decodes:r.stats.decodes,storeHits:r.stats.storeHits,unadmitted:r.stats.unadmittedTransportReads,construction:category(p.budget,'construction').bytes,texture:category(p.budget,'texture'),error:r.stats.error},
   {reads:1,decodes:1,storeHits:0,unadmitted:0,construction:0,texture:{bytes:BITMAP,exactBytes:0,estimatedBytes:BITMAP},error:undefined});
  r.destroy();assert.equal(drained(p),0);
