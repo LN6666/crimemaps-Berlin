@@ -79,6 +79,31 @@ class ArtifactTests(unittest.TestCase):
         self.root = Path(self.temp.name)/'site'; self.root.mkdir()
         self.root.joinpath('index.html').write_text('<meta http-equiv="Content-Security-Policy" content="'+csp.policy()+'"><script type="module" src="/assets/main.js"></script>')
     def tearDown(self): self.temp.cleanup()
+
+    def test_compiled_frontend_rejects_workstation_home_paths(self):
+        cases = {
+            'bundle.js': b'export const source="/Users/builduser/project/mesh.json";',
+            'bundle.mjs': br'export const source="C:\\Users\\builduser\\mesh.json";',
+            'theme.css': b'body{background:url(file://localhost/home/builduser/texture.png)}',
+            'portal.html': self.root.joinpath('index.html').read_bytes() + b'<p>/home/builduser/project</p>',
+        }
+        for name, raw in cases.items():
+            with self.subTest(name=name):
+                target = self.root / name
+                target.write_bytes(raw)
+                try:
+                    with self.assertRaisesRegex(ValueError, 'Workstation home path'):
+                        gate.scan(self.root, 'berlin', COMMIT)
+                finally:
+                    target.unlink()
+
+    def test_compiled_frontend_keeps_public_urls_and_evidence_labels(self):
+        (self.root / 'bundle.mjs').write_bytes(
+            b'export const references=["https://example.org/Users/public/tiles",'
+            b'"https://example.org/home/places/map","source-evidence/7310a/mesh.json"];'
+        )
+        gate.scan(self.root, 'berlin', COMMIT)
+
     def test_new_public_transports_bind_schema_city_and_private_content(self):
         schemas = {
             'regional-source-packed-ordinals': 'B-source-packed-ordinals-v1',

@@ -6,7 +6,7 @@ import {fileURLToPath,pathToFileURL} from 'node:url';
 import {build,transform} from 'esbuild';
 import ts from 'typescript';
 const web=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),d=path.join(web,'src/painted/church/safety');
-const bundle=await build({stdin:{contents:"export * from './src/painted/church/safety/berlin-church-program-sharing';export {currentPaintProgramKey} from './src/painted/delegated500/safety/current-paint-program';export {createProgramPreparationOwner} from './src/safety/render-runtime/program-preparation';export {createResourceBudget} from './src/safety/render-runtime/resource-budget';",resolveDir:web,loader:'ts'},bundle:true,write:false,format:'esm',platform:'node'});
+const bundle=await build({stdin:{contents:"export * from './src/painted/church/safety/berlin-church-program-sharing';export {currentPaintProgramGroups} from './src/safety/current-paint-program-groups';export {withResidentReflectionClip} from './src/safety/resident-planar-reflection';export {currentPaintProgramKey} from './src/painted/delegated500/safety/current-paint-program';export {createProgramPreparationOwner} from './src/safety/render-runtime/program-preparation';export {createResourceBudget} from './src/safety/render-runtime/resource-budget';",resolveDir:web,loader:'ts'},bundle:true,write:false,format:'esm',platform:'node'});
 const api=await import('data:text/javascript;base64,'+Buffer.from(bundle.outputFiles[0].text).toString('base64'));
 test('the incremental comparison consumes one exact family per admission and publishes only a complete match',()=>{
  const comparison=api.createBerlinChurchProgramComparison(),visited=[];
@@ -38,9 +38,23 @@ test('canonical ownership stores one program and deletion occurs once without al
  const deleted=[];for(const p of programs.values())deleted.push(p);programs.clear();assert.equal(deleted.length,1);
 });
 async function rendererComparison(t){
- const source=fs.readFileSync(path.join(d,'building-mesh-renderer.ts'),'utf8'),ast=ts.createSourceFile('church-renderer.ts',source,ts.ScriptTarget.Latest,true),nodes=[];
- const visit=n=>{if(ts.isFunctionDeclaration(n)&&['prepareBerlinFamilyComparison','clearBerlinProgramComparison','publishBerlinFamilySharing'].includes(n.name?.text))nodes.push(n);ts.forEachChild(n,visit);};visit(ast);assert.equal(nodes.length,3);
- const built=await transform(nodes.map(n=>n.getText(ast)).join('\n')+'\nexports.prepare=prepareBerlinFamilyComparison;exports.clear=clearBerlinProgramComparison;',{loader:'ts',format:'cjs'}),exports={},reads=[];
+ const source=fs.readFileSync(path.join(d,'building-mesh-renderer.ts'),'utf8');
+ const ast=ts.createSourceFile('church-renderer.ts',source,ts.ScriptTarget.Latest,true);
+ const names=['prepareBerlinFamilyComparison','clearBerlinProgramComparison','publishBerlinFamilySharing',
+  'compileGeometryProgram','colourProgramRecipe','colourAttributes','mainFamilyProgramKey','mainPaintProgramKeys'];
+ const bindings=new Map();
+ function visit(node){
+  if(names.includes(node.name?.text)){
+   if(ts.isFunctionDeclaration(node))bindings.set(node.name.text,node.getText(ast));
+   if(ts.isVariableDeclaration(node))bindings.set(node.name.text,'const '+node.getText(ast)+';');
+  }
+  ts.forEachChild(node,visit);
+ }
+ visit(ast);
+ assert.deepEqual([...bindings.keys()].sort(),[...names].sort());
+ const exports={},reads=[];
+ const expose='Object.assign(exports,{prepare:prepareBerlinFamilyComparison,clear:clearBerlinProgramComparison,compile:compileGeometryProgram,programKeys:mainPaintProgramKeys});';
+ const built=await transform([...bindings.values(),expose].join('\n'),{loader:'ts',format:'cjs'});
  // The comparison builds each family through the renderer's own prepared
  // source recipe/workspace (the same path compileGeometryProgram submits), on
  // its geometry store's budget, and only while a shared Berlin family is still
@@ -88,10 +102,9 @@ test('renderer compiles the checked fragment and uses canonical ownership for vi
  assert(source.includes('const submitted=withResidentReflectionClip(sourceWorkspace.prepareSource(recipe,[family]).fragment)'));
  assert(source.includes('const result=probe.accept(submitted)'));
  assert(source.includes('const queue=fullColour?false:queueMode,sourceRecipe=churchSourceRecipe(helper,queue)'));
- assert(source.includes('const raw=sourceWorkspace.prepareSource(sourceRecipe,fullColour||queue?[]:[family]).fragment,submitted=withResidentReflectionClip(raw)'));
- assert(source.includes('return{vertex:VERTEX,fragment:submitted,attributes:colourAttributes}'));
+ // The submitted fragment, vertex interface, and city-specific canonical keys
+ // are exercised against the live renderer closures in the following test.
  // One canonical key resolver for visible demand, the main draw and reflection.
- assert(source.includes("const mainFamilyProgramKey=(key:string)=>city==='berlin'?berlinChurchProgramKey(key,berlinSharedFamilyPrograms===true):key"));
  assert(source.includes('const asked=demand.override??run.key,key=mainFamilyProgramKey(asked)'));
  assert(source.includes('visible=mainPaintProgramKeys(demand)'));
  assert(source.includes('for(const run of runs){if(gl!.isContextLost()){mainDrawComplete=false;return;}const key=mainFamilyProgramKey(override??run.key);'));
@@ -99,6 +112,59 @@ test('renderer compiles the checked fragment and uses canonical ownership for vi
  assert(source.includes('program:mainFamilyProgramKey(override??run.key)'));
  assert(!source.includes('canonicalFamilyProgramKey('),'no second canonical-key resolver');
  assert(source.includes('for(const p of familyPrograms.values())programPreparation.releaseProgram(gl,p)'));
+});
+test('the church compiler submits the compared Berlin fragment and the complete Hamburg family group',async t=>{
+ const fixture=await rendererComparison(t),v=fixture.values,key=api.currentPaintProgramKey;
+ const vertex='fixture vertex',raw='precision mediump float;void main(){ }',clipped=api.withResidentReflectionClip(raw);
+ const budgeted=[],built=[],compared=[];
+ Object.assign(v,{city:'berlin',VERTEX:vertex,queueOnlyProgram:false,berlinChurchProgramKey:api.berlinChurchProgramKey,
+  linkedPaint:api.currentPaintProgramGroups('church','berlin'),withResidentReflectionClip:api.withResidentReflectionClip,
+  churchSourceRecipe(helper,queue){
+   assert.equal(helper,'original helper');
+   return {sourceKey:queue?'queue':'paint',sourceBounds:{sourceCharactersUpperBound:1024}};
+  },
+  sourceWorkspace:{
+   programBudget(recipe,_vertex,_attributes,families){budgeted.push([recipe.sourceKey,...families]);return {};},
+   prepareSource(recipe,families){built.push([recipe.sourceKey,...families]);return {fragment:raw};},
+  },
+  createBerlinChurchProgramComparison(){
+   const probe=api.createBerlinChurchProgramComparison();
+   return {get nextFamily(){return probe.nextFamily;},accept(fragment){compared.push(fragment);return probe.accept(fragment);},clear(){probe.clear();}};
+  },
+ });
+ const demand={runs:[208,209,206].map(family=>({key:key(family)}))};
+ assert.deepEqual([...fixture.programKeys(demand)],[key(208),key(209),key(206)]);
+ for(let i=0;i<api.BERLIN_CHURCH_SHARED_FAMILIES.length;i++){
+  fixture.prepare();
+  await until(()=>fixture.owner.stats.pending===0);
+  fixture.prepare();
+ }
+ assert.deepEqual(built,api.BERLIN_CHURCH_SHARED_FAMILIES.map(family=>['paint',family]));
+ assert.deepEqual(compared,api.BERLIN_CHURCH_SHARED_FAMILIES.map(()=>clipped));
+ const verified=fixture.programKeys(demand);
+ assert.deepEqual([...verified],[key(200),key(206)]);
+ assert.equal(verified.requested.get(key(200)),key(208));
+ v.programPreparation={compile(_gl,recipe){return recipe.build();}};
+ function submit(family,requestedFamily,fullColour=false,queue=false){
+  const program=fixture.compile('original helper',family,requestedFamily,fullColour,queue);
+  assert.equal(program.vertex,vertex);
+  assert.deepEqual(program.attributes,['a_position','a_normal','a_color','a_selected','a_paint_frame','a_paint_family']);
+  assert.equal(program.fragment,clipped);
+  return program;
+ }
+ assert.equal(submit(200,208).fragment,compared[0]);
+ assert.deepEqual(budgeted.at(-1),['paint',200]);
+ assert.deepEqual(built.at(-1),budgeted.at(-1));
+ v.city='hamburg';v.linkedPaint=api.currentPaintProgramGroups('church','hamburg');
+ assert.deepEqual([...fixture.programKeys({runs:[{key:key(101)},{key:key(111)}]})],[key(100)]);
+ submit(100,101);
+ assert.deepEqual(budgeted.at(-1),['paint',100,101,102,111,112]);
+ assert.deepEqual(built.at(-1),budgeted.at(-1));
+ for(const [full,queue,recipe] of [[true,false,'paint'],[false,true,'queue']]){
+  submit(0,0,full,queue);
+  assert.deepEqual(budgeted.at(-1),[recipe]);
+  assert.deepEqual(built.at(-1),budgeted.at(-1));
+ }
 });
 // A locally supplied actual Berlin assembly module enables the source-data-bound
 // check without committing generated city payloads or private machine paths.

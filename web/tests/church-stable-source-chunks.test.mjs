@@ -10,6 +10,7 @@ const web=fileURLToPath(new URL('../',import.meta.url)),runtime=createRuntimeLoa
 const packed=runtime.load(path.join(web,'src/painted/delegated500/safety/renderer-packed-chunks.ts'));
 const chunks=runtime.load(path.join(web,'src/safety/renderer-chunk-input.ts'));
 const {exactNativePartDisplay}=runtime.load(path.join(web,'src/painted/church/safety/source-part-display.ts'));
+const {createResidentTriangleDrawBatch}=runtime.load(path.join(web,'src/safety/render-runtime/resident-index-convention.ts'));
 const key=row=>row.objectId+'|'+row.partId;
 const identity=[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1];
 function production(names){
@@ -44,7 +45,9 @@ function fixture(rows){
   const previous=S.sceneChunks,previousBindings=S.sceneChunkBindings,result=api.packBatches(visible,++generation);
   for(const chunk of S.sceneChunks)chunk.geometry={value:{vao:{}}};
   api.releasePackedChunks(previous,previousBindings,new Set(S.sceneChunks.map(chunk=>chunk.masks)));
-  draws.length=0;api.drawSceneRange({},0,api.sceneIndexCount());
+  draws.length=0;
+  const batch=createResidentTriangleDrawBatch(S.gl);
+  try{api.drawSceneRange(batch,{},0,api.sceneIndexCount());}finally{batch.restore();}
   return{result,cpu:S.sceneChunks[0].cpu.value,state:S.sceneChunks[0].stateData,masks:S.sceneChunks[0].masks};
  }
  return{S,api,publish,productions,bindings,draws,budget,destroy(){api.releasePackedChunks(S.sceneChunks,S.sceneChunkBindings);store.destroy();}};

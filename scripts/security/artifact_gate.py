@@ -21,6 +21,15 @@ PRIVATE = {"raw_html", "article_body", "source_body", "raw_body", "full_body", "
 FORBIDDEN_PARTS = {".runtime", ".git", "node_modules", "src", "test_suite", "reviews", "review", "archives", "archive", "source-downloads"}
 SECRET = re.compile(rb"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|\bgh[pousr]_[A-Za-z0-9]{30,}\b|\bgithub_pat_[A-Za-z0-9_]{60,}\b|\bAKIA[A-Z0-9]{16}\b")
 SVG_TAGS = set("svg g path circle ellipse line polyline polygon rect text tspan title desc defs linearGradient radialGradient stop clipPath mask use".split())
+FRONTEND_SUFFIXES = {".html", ".js", ".mjs", ".css"}
+# Match a filesystem reference at its start. A public URL can legitimately
+# contain /Users/ or /home/ after its host or another path component.
+WORKSTATION_HOME = re.compile(
+    rb"(?<![a-z0-9_./%+-])(?:"
+    rb"(?:file://(?:localhost)?)?/(?:Users|home)/[^/\\\r\n\x22\x27\x60<>?#]+/"
+    rb"|(?:file:///)?[a-z]:[\\/]+Users[\\/]+[^/\\\r\n\x22\x27\x60<>?#]+[\\/])",
+    re.IGNORECASE,
+)
 
 # Only the existing city data transports are gzip. Executable/archive suffixes
 # remain forbidden; decoded JSON receives the same content checks as raw JSON.
@@ -302,6 +311,8 @@ def scan(root, city, commit):
             raw = path.read_bytes()
             if SECRET.search(raw):
                 raise ValueError("Credential signature found; details suppressed")
+            if suffix in FRONTEND_SUFFIXES and WORKSTATION_HOME.search(raw):
+                raise ValueError(f"Workstation home path in public frontend: {relative}")
             if suffix in {".json", ".geojson"}:
                 raw_sha256 = hashlib.sha256(raw).hexdigest()
                 check_json(json.loads(raw), painted_table_sha256=(

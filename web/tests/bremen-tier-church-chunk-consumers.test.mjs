@@ -55,12 +55,32 @@ function fixture(provider){
  const source=functions(provider,names)+`\nreturn {${names.join(',')},select(identity){selectedIdentity=identity;paintSelection();},changeScene(){sceneChunks=[];},clearSun(){sceneSun={};}};`,js=ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022}}).outputText;
  const api=new Function(...Object.keys(bindings),js)(...Object.values(bindings));
  const draw=(p,first,count)=>{
-  if(provider!=='tier300')return api[drawName](p,first,count);
+  if(provider==='bremen')return api[drawName](p,first,count);
   const batch=indices.createResidentTriangleDrawBatch(gl);
   try{return api[drawName](batch,p,first,count);}finally{batch.restore();}
  };
- return{...api,draw,chunks,loaded,draws,writes,coverage,programs,requests,uploads,owner,scope,store,preparation,changeRevision(){revision++;}};
+ return{...api,gl,draw,chunks,loaded,draws,writes,coverage,programs,requests,uploads,owner,scope,store,preparation,changeRevision(){revision++;}};
 }
+test('Church queries the provoking vertex once per multi-chunk main or shadow pass and restores the caller',()=>{
+ const f=fixture('church'), modes=[];let mode=2,queries=0;
+ const ext={FIRST_VERTEX_CONVENTION_WEBGL:1,LAST_VERTEX_CONVENTION_WEBGL:2,PROVOKING_VERTEX_WEBGL:3,
+  provokingVertexWEBGL(next){mode=next;}};
+ const getParameter=f.gl.getParameter, drawElements=f.gl.drawElements;
+ f.gl.getParameter=key=>{if(key!==ext.PROVOKING_VERTEX_WEBGL)return getParameter(key);queries++;return mode;};
+ f.gl.drawElements=(...args)=>{modes.push(mode);drawElements(...args);};
+ for(const chunk of f.chunks){
+  chunk.shadow={value:{vao:{indexCount:3}}};chunk.shadowIndexCount=3;
+  for(const vao of [chunk.geometry.value.vao,chunk.shadow.value.vao]){
+   const indexBuffer={};indices.markResidentFirstVertexBuffer(f.gl,indexBuffer,ext);indices.bindResidentIndexConvention(f.gl,vao,indexBuffer);
+  }
+ }
+ assert.equal(f.draw({},0,6),true);
+ assert.deepEqual(modes,[1,1]);assert.equal(mode,2);assert.equal(queries,1,'both main chunks share one driver query');
+ f.drawProjectedShadows(.4);
+ assert.deepEqual(modes,[1,1,1,1]);assert.equal(mode,2);assert.equal(queries,2,'shadow chunks share a separate query before compositing');
+ f.gl.drawElements=()=>{throw Error('draw interrupted');};
+ assert.throws(()=>f.drawProjectedShadows(.4),/draw interrupted/);assert.equal(mode,2,'failed shadow draws also restore the map convention');
+});
 for(const provider of ['bremen','tier300','church']){
  test(provider+' binds local offsets for two chunks and changes state only for the selected chunk',()=>{
   const f=fixture(provider);assert.equal(f.draw({},0,6),true);assert.deepEqual(f.draws.map(d=>[d.vao.n,d.count,d.offset]),[[1,3,0],[2,3,0]]);assert.equal(f.draws[0].matrix[0],Math.fround(.001));assert.equal(f.draws[1].matrix[0],Math.fround(.0005));
