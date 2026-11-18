@@ -39,8 +39,19 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: '22'
-      - run: npm --prefix web ci
-      - run: npm --prefix web run test:resource-budget
+      - id: dependencies
+        run: npm --prefix web ci
+      - name: Resource budget 1 of 4
+        run: npm --prefix web run test:resource-budget -- --part=1/4 --jobs=2 --timings
+      - name: Resource budget 2 of 4
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+        run: npm --prefix web run test:resource-budget -- --part=2/4 --jobs=2 --timings
+      - name: Resource budget 3 of 4
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+        run: npm --prefix web run test:resource-budget -- --part=3/4 --jobs=2 --timings
+      - name: Resource budget 4 of 4
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+        run: npm --prefix web run test:resource-budget -- --part=4/4 --jobs=2 --timings
   browser:
     timeout-minutes: 20
     runs-on: ubuntu-24.04

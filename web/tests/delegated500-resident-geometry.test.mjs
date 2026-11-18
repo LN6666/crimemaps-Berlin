@@ -57,7 +57,16 @@ async function fixture(t,{bootstrap=false}={}){const c=context(),queue=[],masks=
  materialSourceSettled:true,materialSourceFailure:undefined,pendingMaterialBatches:undefined,pendingGeometry:undefined,geometryUploadRevision:0,geometryUploadPending:false,geometryUploadFailure:undefined,shadowUploadPending:false,partitionEnabled:true,currentFamilyPrograms:true,legacySolarPartitions:false,partitionRuns:[],partitionPending:false,paintProgramRuns:(_i,_p)=>[{key:'current-family:7',firstIndex:0,indexCount:3}],programKey:()=> 'base',gpuInitializationPrepared:false,
  residentGeometry:geometry.createResidentGeometryOwner(),shadowGeometry:geometry.createResidentGeometryOwner(),shadowMask:{release(){}},shadowUploadRevision:0,shadowUploadPlan:undefined,shadowUploadedIndexCount:0,shadowIndices:new Uint32Array(),residentPublicationFailure:undefined,captureRuntime:{invalidate(){events.push('invalidate');}},residentGPU:{beforeUpload:()=>true,released(){},published(){}},retireUnloadedBirths(){events.push('retire');},syncFacadeResources(){events.push('textures');},admitShadow(){events.push('shadow');},updateSolarShadowIndices(){},uploadShadow(){events.push('shadow-upload');},clearMaterialSource(){},map:{triggerRepaint(){events.push('repaint');}},windowTexture:undefined,diffuseTexture:undefined,
  merc:undefined,unit:undefined,sceneSolarLight:()=>({instant:'same'}),isFacadeLandmark:()=>false,isSourceOnlyGlassRoof:()=>false,surfaceStyle:undefined,applyPartialGateMask:()=>({}),applyS402ConnectorMask:()=>({}),applyS036NorthCoface:()=>({}),applyS240BaseCoface:()=>({}),applyF151CrownMask:()=>({}),partitionPrograms:new Map(),partitionFailures:new Map(),distantQuality:new Map(),releaseSolarDepth(){},releaseShadowGPU(){},reusableVertex673:undefined,casterRetry:false,casterVisibleKnown:false,casterCompileFrame:-1,facadeAttached:false,textureShaderAttempted:false,diffuseShaderAttempted:false};
- const turn=fn=>{const previous=globalThis.setTimeout;globalThis.setTimeout=work=>(queue.push(work),queue.length);try{return fn();}finally{globalThis.setTimeout=previous;}};
+ let notifyPreparationWork;
+ const turn=fn=>{
+  const previous=globalThis.setTimeout;
+  globalThis.setTimeout=work=>{
+   queue.push(work);
+   notifyPreparationWork?.();
+   return queue.length;
+  };
+  try{return fn();}finally{globalThis.setTimeout=previous;}
+ };
  const owner=preparation.createProgramPreparationOwner('actual delegated geometry fixture',()=>events.push('settled'));
  S.programPreparation={compile:(...args)=>turn(()=>owner.compile(...args)),work:(...args)=>turn(()=>owner.work(...args)),prune:()=>turn(()=>owner.prune()),cancel:()=>turn(()=>owner.cancel()),contextLost:()=>turn(()=>owner.contextLost()),releaseProgram:(...args)=>owner.releaseProgram(...args),acquireReadyProgram:(...args)=>owner.acquireReadyProgram(...args),hasPendingProgram:(...args)=>owner.hasPendingProgram(...args),dispose:()=>owner.dispose(),get stats(){return owner.stats;}};
  const handoffDeclaration=nodes.find(n=>ts.isVariableDeclaration(n)&&n.name.getText(ast)==='programGrantHandoff');assert(handoffDeclaration?.initializer);S.programGrantHandoff=evaluate(handoffDeclaration.initializer.getText(ast),S);
@@ -113,7 +122,29 @@ async function fixture(t,{bootstrap=false}={}){const c=context(),queue=[],masks=
  // The chunk construction's source build runs on the shared context scheduler, whose turn may already sit in
  // this fixture's captured queue (a program compile scheduled it inside a fixture turn): while the actual
  // preparation is awaited, the fixture keeps running its captured turns (as its batch pump below does), bounded.
- const settleWithTurns=async promise=>{let done=false;promise.then(()=>{done=true;},()=>{done=true;});for(let count=0;!done;count++){assert(count<1000,'chunk preparation did not settle');await new Promise(resolve=>setImmediate(resolve));if(!done&&queue.length)turn(()=>queue.shift()());}return promise;};
+ async function settleWithTurns(preparation){
+  assert.equal(notifyPreparationWork,undefined,'one fixture preparation owns the captured queue');
+  let scheduled,watchdog;
+  const pump=new Promise((_,reject)=>{
+   watchdog=setTimeout(()=>reject(new Error('chunk preparation did not settle within 10 seconds')),10_000);
+   function schedule(){
+    if(scheduled || !queue.length)return;
+    scheduled=setImmediate(()=>{
+     scheduled=undefined;
+     try{if(queue.length)turn(queue.shift());schedule();}
+     catch(error){reject(error);}
+    });
+   }
+   notifyPreparationWork=schedule;
+   schedule();
+  });
+  try{return await Promise.race([preparation,pump]);}
+  finally{
+   notifyPreparationWork=undefined;
+   if(scheduled)clearImmediate(scheduled);
+   clearTimeout(watchdog);
+  }
+ }
  // Content keys are page-unique (the page store is shared by every fixture of this file): one key, one source group.
  const chunkInput=rows=>S.fixtureChunkInput??({store:S.residentGeometry.store,groups:[{contentKey:'fixture-source:'+(++fixtureChunkSequence)+':'+rows.map(row=>row.objectId).join(','),components:rows,parents:[],frame:chunkInputAPI.rendererChunkFrame(rows[0].origin,'fixture-frame'),cohortKeys:[],materialAuthority:'fixture-material',recipeAuthority:'fixture-recipe',selectedLOD:0}],cohorts:[]});
  S.setBatches=async(...args)=>{const preparation={nextGeneration:args[1],shadowAdmission:args[2],nativeDisplay:args[3],partialGatePlan:args[4],s402Plan:args[5],s434Plan:args[6],s036Plan:args[7],s240Plan:args[8],f151Plan:args[9]},scope=args[0].length?S.createFrozenDataScope(S.frozenData):undefined,input=args[0].length?chunkInput(args[0]):undefined;let prepared;try{prepared=args[0].length?(S.fixturePackingInput=input.groups.flatMap(group=>[...group.components]),await settleWithTurns(S.prepareBatches(args[0],new AbortController().signal,scope,args[0],input,preparation))):undefined;args[10]=prepared;setPrepared(...args);}finally{scope?.release();}
@@ -129,6 +160,17 @@ async function fixture(t,{bootstrap=false}={}){const c=context(),queue=[],masks=
 // Chunk residency: the canonical 9-float geometry and the separate 1-float state live per published chunk
 // (cpu.value.vertices/indices and the chunk's own stateData); the candidate keeps its own chunk scene until
 // the admitted upload publishes exactly those arrays.
+test('delegated chunk preparation survives a delayed scheduler wake',async t=>{
+ const f=await fixture(t),prepare=f.S.prepareBatches;
+ f.S.prepareBatches=async(...args)=>{
+  // An independent operation may remain pending while many event-loop turns elapse.
+  for(let i=0;i<1100;i++)await new Promise(resolve=>setImmediate(resolve));
+  return prepare(...args);
+ };
+ await f.commit([component('delayed-wake')]);
+ assert.equal(f.S.generation,2);
+ assert.equal(f.S.sceneChunks.length,1);
+});
 test('delegated actual packing stages canonical9/state1 and publishes the same arrays only after admitted upload',async t=>{const f=await fixture(t),{S,c}=f,old=S.snapshotPackedResident(),initialRetired=maskRetirements(old.rathausProxyMasks);assert(old.rathausProxyMasks.stats.allocatedCPUBytes>0,'the initial scratch mask holds its page-ledger mask reservation');await S.setBatches([component()],2);const candidate=S.pendingGeometry;assert(candidate);assert.equal(S.sceneChunks,old.sceneChunks);assert.equal(S.loaded,old.loaded);assert.equal(candidate.state.sceneChunks.length,1);const chunk=candidate.state.sceneChunks[0],packed=chunk.cpu.value;assert.equal(packed.vertices.length,27);assert.equal(chunk.stateData.length,3);assert.equal(c.data.length,0,'no GL allocation/upload before work admission');f.finish();const initialAfterPublish={destroy:initialRetired.destroy,allocatedCPUBytes:old.rathausProxyMasks.stats.allocatedCPUBytes};assert.equal(S.sceneChunks,candidate.state.sceneChunks);assert.equal(S.sceneChunks[0].stateData,chunk.stateData);assert.equal(S.sceneChunks[0].cpu.value.vertices,packed.vertices);assert.equal(S.generation,2);assert.equal(S.pendingGeometry,undefined);assert.equal(S.geometryUploadPending,false,'the admitted upload publishes and consumes its work marker');assert.equal(S.geometryUploadPending,false);assert.equal(f.owner.stats.pending,0);assert.equal(c.data.filter(row=>row.value===packed.vertices).length,1,'the canonical vertex array is uploaded once, without a staging copy');assert.equal(c.data.filter(row=>row.value===chunk.stateData).length,1,'the separate state array is uploaded once');assert.deepEqual([...packed.indices],[0,1,2]);assert.equal(S.loaded.get(keyOf('next')).lastVertex,3);
  // Masks are per chunk: the published scene draws with its chunk's own mask binding, never the empty initial
  // resident's scratch binding.

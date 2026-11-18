@@ -30,6 +30,7 @@ WORKSTATION_HOME = re.compile(
     rb"|(?:file:///)?[a-z]:[\\/]+Users[\\/]+[^/\\\r\n\x22\x27\x60<>?#]+[\\/])",
     re.IGNORECASE,
 )
+WORKSTATION_HOME_TEXT = re.compile(WORKSTATION_HOME.pattern.decode("ascii"), re.IGNORECASE | re.ASCII)
 
 # Only the existing city data transports are gzip. Executable/archive suffixes
 # remain forbidden; decoded JSON receives the same content checks as raw JSON.
@@ -89,7 +90,7 @@ def painted_table_path(relative, raw_sha256=None):
                 and (relative.endswith(".gz") or match[2] == raw_sha256))
 
 
-def check_gzip_json(path, limit, *, painted_table=False, regional=None, translation_city=None):
+def check_gzip_json(path, limit, *, painted_table=False, regional=None, translation_city=None, building_data=False):
     raw = bytearray()
     with path.open("rb") as compressed:
         if compressed.read(4) != b"\x1f\x8b\x08\x00":
@@ -103,7 +104,8 @@ def check_gzip_json(path, limit, *, painted_table=False, regional=None, translat
         raise ValueError("Credential signature found; details suppressed")
     raw_sha256 = hashlib.sha256(raw).hexdigest()
     document = json.loads(raw)
-    check_json(document, painted_table_sha256=raw_sha256 if painted_table else None)
+    check_json(document, painted_table_sha256=raw_sha256 if painted_table else None,
+               building_data=building_data or painted_table)
     if regional is not None:
         if not isinstance(document, dict) or (document.get("city"), document.get("schema")) != regional:
             raise ValueError("Regional asset city/schema binding differs")
@@ -174,28 +176,42 @@ def palette_provenance(item, path, root, table_sha256):
     return expected is not None and item.get("authorization") == expected
 
 
-def check_json(value, *, painted_table_sha256=None):
+def check_building_text(text):
+    if ("/" in text or "\\" in text) and WORKSTATION_HOME_TEXT.search(text):
+        raise ValueError("Workstation home path in public building data")
+
+
+def check_json(value, *, painted_table_sha256=None, building_data=False):
     stack = [(value, ())]
     while stack:
         item, path = stack.pop()
         if isinstance(item, dict):
             provenance = (owner_shape_provenance(item, path)
                           or palette_provenance(item, path, value, painted_table_sha256))
-            for key in item:
-                if str(key).lower() in PRIVATE and not (key == "authorization" and provenance):
+            for key, child in item.items():
+                key = str(key)
+                if key.lower() in PRIVATE and not (key == "authorization" and provenance):
                     raise ValueError("Private JSON field in public artifact")
+                if building_data:
+                    check_building_text(key)
+                    if isinstance(child, str):
+                        check_building_text(child)
                 # Public translation provenance must identify an approved review,
                 # not expose the producer's local filesystem. Do not scan body
                 # text here: quoted source content is not a provenance field.
-                if str(key).lower() == "candidate_source" and isinstance(item[key], str):
-                    if re.match(r"^(?:/|~[/\\]|[A-Za-z]:[/\\]|\\\\|file:)", item[key].strip(), re.I):
+                if key.lower() == "candidate_source" and isinstance(child, str):
+                    if re.match(r"^(?:/|~[/\\]|[A-Za-z]:[/\\]|\\\\|file:)", child.strip(), re.I):
                         raise ValueError("Local filesystem provenance in public artifact")
-            # Only the exact five-level context matters; deeper paths cannot qualify.
-            stack.extend((child, path + (str(key),) if path is not None and len(path) < 5 else None)
-                         for key, child in item.items() if isinstance(child, (dict, list)))
+                if isinstance(child, (dict, list)):
+                    stack.append((child, path + (key,) if path is not None and len(path) < 5 else None))
         elif isinstance(item, list):
-            stack.extend((child, path + (index,) if path is not None and len(path) < 5 else None)
-                         for index, child in enumerate(item) if isinstance(child, (dict, list)))
+            for index, child in enumerate(item):
+                if isinstance(child, (dict, list)):
+                    stack.append((child, path + (index,) if path is not None and len(path) < 5 else None))
+                elif building_data and isinstance(child, str):
+                    check_building_text(child)
+        elif building_data and isinstance(item, str):
+            check_building_text(item)
 
 def check_svg(raw):
     if b"<!DOCTYPE" in raw.upper() or b"<!ENTITY" in raw.upper():
@@ -305,6 +321,7 @@ def scan(root, city, commit):
                 raise ValueError("Regional asset exceeds transport budget")
             decoded = check_gzip_json(path, min(1024**2 if regional else MAX_GZIP_FILE_BYTES, MAX_GZIP_TOTAL_BYTES - decoded_total),
                                       painted_table=painted_table_path(relative), regional=regional,
+                                      building_data=relative.startswith("safety/buildings3d/"),
                                       translation_city=city if re.fullmatch(r"safety/lossless/english3-[a-f0-9]{64}\.json\.gz", relative) else None)
             decoded_total += decoded["decoded_bytes"]
         if suffix in {".html", ".js", ".mjs", ".css", ".json", ".geojson", ".txt", ".xml", ".svg"}:
@@ -315,7 +332,7 @@ def scan(root, city, commit):
                 raise ValueError(f"Workstation home path in public frontend: {relative}")
             if suffix in {".json", ".geojson"}:
                 raw_sha256 = hashlib.sha256(raw).hexdigest()
-                check_json(json.loads(raw), painted_table_sha256=(
+                check_json(json.loads(raw), building_data=relative.startswith("safety/buildings3d/"), painted_table_sha256=(
                     raw_sha256 if painted_table_path(relative, raw_sha256) else None))
             if suffix == ".svg":
                 check_svg(raw)

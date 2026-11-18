@@ -74,6 +74,33 @@ class ArtifactTests(unittest.TestCase):
             gate.check_json({'candidate_source': value})
         gate.check_json({'body': '/Users/quoted/path is part of unchanged source text'})
 
+    def test_building_tables_reject_workstation_paths_in_decoded_strings(self):
+        public = 'source-evidence/7a1476abda58f4294226/mesh.json'
+        raw_cases = [
+            (b'{"groups":[{"models":[{"source":{"provenance":{"leaf":"/Users/fixture/mesh.json"}}}]}]}', True),
+            (br'{"geometryProof":{"leafPath":"\u002fhome\u002ffixture\u002fmesh.json"}}', True),
+            (json.dumps({'evidence': [[r'C:\Users\fixture\mesh.json']]}).encode(), True),
+            (json.dumps({'/Users/fixture/mesh.json': 'record'}).encode(), True),
+            (json.dumps({'geometryProof': {'leafPath': public}, 'see': ['https://example.org/Users/public/mesh.json']}).encode(), False),
+        ]
+        for raw, should_reject in raw_cases:
+            for compressed in (False, True):
+                content = gzip.compress(raw, mtime=0) if compressed else raw
+                sha = hashlib.sha256(content).hexdigest()
+                path = self.root / 'safety/buildings3d/painted-tables' / sha[:2] / (sha + ('.json.gz' if compressed else '.json'))
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(content)
+                try:
+                    with self.subTest(raw=raw, compressed=compressed):
+                        if should_reject:
+                            with self.assertRaisesRegex(ValueError, 'Workstation home path in public building'):
+                                gate.scan(self.root, 'frankfurt', COMMIT)
+                        else:
+                            result = gate.scan(self.root, 'frankfurt', COMMIT)
+                            self.assertIn(path.relative_to(self.root).as_posix(), result['files'])
+                finally:
+                    path.unlink()
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)/'site'; self.root.mkdir()
