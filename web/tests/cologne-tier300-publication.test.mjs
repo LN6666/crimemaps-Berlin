@@ -34,10 +34,8 @@ async function scenario(city,{cancel=false,pressure=false}={}){
    await until(()=>pool.stats.cohortWaits>0,'pending source batch yields under pressure');
    assert.deepEqual(h.loaded.map(row=>row.objectId),initialIds,'pressure does not remove the previous published view');
    blocker.release();foreign?.release();
-   for(let step=0;step<600&&h.counts.packs===initialPacks;step++){
-    for(const source of [a,b,c])if(net.pending(source.leaf.path).length)net.deliver(source.leaf.path,source.bytes);
-    await tick();
-   }
+   const published=until(()=>h.counts.packs>initialPacks,'the reclaimed viewport to publish');
+   await net.respondUntil([a,b,c],published,'publication after source pressure');
    await h.settle();
    assert.equal(h.counts.packs-initialPacks,1,'reclaimed batch completes once after capacity returns');
    assert.equal(h.loaded.length,9,'all three sources survive the pressure retry');

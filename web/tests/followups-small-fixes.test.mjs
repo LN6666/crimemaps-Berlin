@@ -4,7 +4,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {build} from 'esbuild';
 import {nullCityDataProfilePlugin} from './city-profile-test-plugin.mjs';
-import {shard,cohortManager,until,outcome,tick} from './support/managers3-fixtures.mjs';
+import {shard,cohortManager,until,tick} from './support/managers3-fixtures.mjs';
 
 // followups (DECISIONS 2026-11-02 08:56), the second-round source fixes:
 // - Bremen fitOwnerDisplayBudget takes the batch FrozenDataScope as an optional
@@ -81,8 +81,9 @@ test('City manager: detailDemandHeld is true only while every pending load is pa
   await until(()=>net.pending().length>=1,'a read goes to the network once room returns');
   assert.equal(manager.detailDemandHeld,false,'network work is not a parked wait');
   assert(m.counts.repaints>parkedRepaints,'the end of the reported park repaints the map at least once (detailDemand.clear; removing that repaint fails this check)');
-  for(let round=0;round<40&&await outcome(run,2)==='pending';round++){for(const leaf of [a,b])if(net.pending(leaf.leaf.path).length)net.deliver(leaf.leaf.path,leaf.bytes);for(let i=0;i<10;i++)await tick();}
-  assert.equal((await run).mode,'3d');
+  const state=await net.respondUntil([a,b],run,'the City manager to finish both source reads');
+  assert.equal(state.mode,'3d');
+  assert.deepEqual(net.reads.map(row=>row.target),[a.leaf.path,b.leaf.path]);
   assert.equal(manager.detailDemandPending,false);assert.equal(manager.detailDemandHeld,false);
  }finally{manager.destroy();if(blocker.active)blocker.release();}
 });

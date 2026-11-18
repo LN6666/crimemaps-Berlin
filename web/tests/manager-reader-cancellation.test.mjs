@@ -106,7 +106,8 @@ for(const provider of ['root500','infill','bremen'])test(provider+': a cohort yi
  const a=shard('cancel-a',{city,fixture:true}),b=shard('cancel-b',{city});
  const h=cohortManager(provider,[a,b]),parent=new AbortController();let blocker;
  t.after(()=>{parent.abort();blocker?.release();h.manager.destroy();h.pool.destroy();h.gate.destroy();});
- const result=observe(h.manager.requestMode('3d',parent.signal));
+ const run=h.manager.requestMode('3d',parent.signal);
+ const result=observe(run);
  await until(()=>h.net.pending(a.leaf.path).length===1,'first cohort source admitted');
  blocker=h.budget.reserve({category:'construction',bytes:h.budget.stats.availableBytes,precision:'estimate',label:'reader cancellation cohort test'});
  h.net.deliver(a.leaf.path,a.bytes);
@@ -115,13 +116,8 @@ for(const provider of ['root500','infill','bremen'])test(provider+': a cohort yi
  assert.equal(result.done,false);assert.equal(h.pool.stats.cohortYields,1);
  assert.equal(h.gate.idle,true);assert.equal(h.pool.stats.holders,0);assert.equal(h.pool.stats.cohorts,0);
  blocker.release();blocker=undefined;
- // No timers and no fixture timeout settle product work: only actual reads
- // requested by the retried manager are delivered. A stuck request fails boundedly.
- for(let round=0;round<200&&!result.done;round++){
-  for(const leaf of [a,b])if(h.net.pending(leaf.leaf.path).length)h.net.deliver(leaf.leaf.path,leaf.bytes);
-  await tick();
- }
- await completed(result,'the cohort retry completes');assert.equal(result.failed,false,result.error?.stack);
+ await h.net.respondUntil([a,b],run,'the cohort retry to complete');
+ assert.equal(result.failed,false,result.error?.stack);
  assert.equal(h.manager.mode,'3d');assert.equal(h.pool.stats.cohortYields,1);assert.equal(h.pool.stats.cohortWaits,1);
  assert.deepEqual(h.net.reads.map(row=>row.target),[a.leaf.path,a.leaf.path,b.leaf.path]);
 });
