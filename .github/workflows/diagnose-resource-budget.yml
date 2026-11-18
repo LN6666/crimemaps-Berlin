@@ -1,0 +1,74 @@
+name: Diagnose first resource-budget partition
+on:
+  push:
+    branches: [codex/ci-resource-budget-first30-20261118]
+permissions:
+  contents: read
+jobs:
+  first-partition:
+    # The formal resource-budget job stays required. This representative job
+    # retrieves bounded diagnostics before a hung file can consume the job.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: '22'
+      - id: deps
+        run: npm --prefix web ci
+        timeout-minutes: 3
+      - name: Probe official files 01-02
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
+        timeout-minutes: 4
+        run: python3 .github/resource-budget-probe/probe.py --start 0 --count 2 --seconds 30 --out "$RUNNER_TEMP/budget-01-02"
+      - name: Preserve files 01-02 including incomplete cases
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
+        timeout-minutes: 1
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: budget-01-02-${{ github.run_id }}
+          path: ${{ runner.temp }}/budget-01-02
+          retention-days: 3
+          if-no-files-found: error
+      - name: Probe official files 03-10
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
+        timeout-minutes: 4
+        run: python3 .github/resource-budget-probe/probe.py --start 2 --count 8 --seconds 30 --out "$RUNNER_TEMP/budget-03-10"
+      - name: Preserve files 03-10 including incomplete cases
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
+        timeout-minutes: 1
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: budget-03-10-${{ github.run_id }}
+          path: ${{ runner.temp }}/budget-03-10
+          retention-days: 3
+          if-no-files-found: error
+      - name: Probe official files 11-20
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
+        timeout-minutes: 4
+        run: python3 .github/resource-budget-probe/probe.py --start 10 --count 10 --seconds 30 --out "$RUNNER_TEMP/budget-11-20"
+      - name: Preserve files 11-20 including incomplete cases
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
+        timeout-minutes: 1
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: budget-11-20-${{ github.run_id }}
+          path: ${{ runner.temp }}/budget-11-20
+          retention-days: 3
+          if-no-files-found: error
+      - name: Probe official files 21-30
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
+        timeout-minutes: 4
+        run: python3 .github/resource-budget-probe/probe.py --start 20 --count 10 --seconds 30 --out "$RUNNER_TEMP/budget-21-30"
+      - name: Preserve files 21-30 including incomplete cases
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
+        timeout-minutes: 1
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: budget-21-30-${{ github.run_id }}
+          path: ${{ runner.temp }}/budget-21-30
+          retention-days: 3
+          if-no-files-found: error
