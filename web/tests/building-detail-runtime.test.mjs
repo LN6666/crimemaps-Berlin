@@ -4,17 +4,32 @@ import {createHash} from 'node:crypto';
 import {gzipSync} from 'node:zlib';
 import {build} from 'esbuild';
 
-const bundle = await build({entryPoints: [new URL('../src/safety/building-detail-runtime.ts', import.meta.url).pathname], bundle: true, platform: 'node', format: 'esm', write: false});
-const {createBuildingDetailRuntime, StaleBuildingDetailDemandError} = await import('data:text/javascript;base64,' + Buffer.from(bundle.outputFiles[0].text + '\n//# sourceURL=building-detail-runtime-under-test.js').toString('base64'));
+const bundle = await build({
+  stdin: {
+    contents: "export * from './building-detail-runtime'; export {getPageChunkResourceStore} from './render-runtime/chunk-resource-store';",
+    resolveDir: new URL('../src/safety/', import.meta.url).pathname, loader: 'ts',
+  },
+  bundle: true, platform: 'node', format: 'esm', write: false,
+});
+const {createBuildingDetailRuntime, StaleBuildingDetailDemandError, getPageChunkResourceStore} = await import('data:text/javascript;base64,' + Buffer.from(bundle.outputFiles[0].text + '\n//# sourceURL=building-detail-runtime-under-test.js').toString('base64'));
 const sha = digit => digit.repeat(64), hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const deferred = () => { let resolve, reject; const promise = new Promise((yes, no) => { resolve = yes; reject = no; }); return {promise, resolve, reject}; };
-async function until(predicate) { for (let i = 0; i < 300; i++) { if (predicate()) return; await new Promise(resolve => setImmediate(resolve)); } assert.fail('bounded fixture event did not occur'); }
+function pauseAtCallback() {
+  const entered = deferred(), completion = deferred();
+  return {
+    entered: entered.promise, resume: completion.resolve, reject: completion.reject,
+    wait(value) { entered.resolve(value); return completion.promise; },
+  };
+}
 const streams = {
   positions: {codec: 'vertex', count: 4, stride: 12, decodedBytes: 48, sha256: 'ccc97f68ac9d33c51f8267a805fa1b679f03818d19fc71a35c3285ffdc8ef4b3', data: 'ofr/+gD/X+gAgQIAACwAAABUAAAACN/AAIZ/AACPj6wA/gACAAAAAAAAAAAAAAAAgOrW/D0AAEjBAAAA'},
   normals: {codec: 'vertex', count: 4, stride: 12, decodedBytes: 48, sha256: '3ba85a1b18357b59d0e491fc3b4d9f9d697e54b3836dc4d5a263a71c94643a26', data: 'of/6/wAAGRoAAAgHAABqlgD/fgAA/wAAAIL/AAAAGRoAAAgHAP+VaQCB/4IAAAAAAAAAAAAAAACAAACAPwAAAAAAAAA='},
   indices: {codec: 'index-sequence', count: 6, stride: 4, decodedBytes: 24, sha256: '7daa62fa3584c0ab83d56383f6c5ba18d3451a2b72b144bec8c6c348fa5c3eb1', data: '0QgGBAgGAgAAAAA='},
 };
 function fixture() {
+  // Each fixture represents a fresh page. Runtimes within it still share the real store.
+  const resourceStore = getPageChunkResourceStore({}, {});
+  const createRuntime = options => createBuildingDetailRuntime({...options, resourceStore});
   const bindings = {sourcePBFSHA256: sha('3'), boundarySHA256: sha('4'), compilerSHA256: sha('5'), sourceSnapshot: 'fixture', materialSHA256: sha('6'), producerSHA256: sha('7'), protectionSHA256: sha('8'), sourceEquivalenceSHA256: sha('9')};
   const polygon = {type: 'Polygon', coordinates: [[[13, 52], [13.001, 52], [13, 52.001], [13, 52]]]};
   const component = {objectId: 'osm/way/1', partId: 'component/1', city: 'berlin', origin: [13, 52], componentGeometry: polygon, sourceFeature: {type: 'Feature', geometry: polygon, properties: {name: 'source'}}};
@@ -35,8 +50,13 @@ function fixture() {
   let mode = 'far', canonicalReleases = 0, metadataReads = 0;
   const demands = () => mode === 'near' ? [{pass: 'picking', maxErrorCssPx: .5, maxErrorDrawingBufferPx: 1, project: () => undefined}] : [{pass: 'main', maxErrorCssPx: .5, maxErrorDrawingBufferPx: 1,
     project: () => ({matrix: [.01, 0, 0, 0, 0, .01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], viewport: {cssWidth: 100, cssHeight: 100, drawingBufferWidth: 200, drawingBufferHeight: 200}})}];
-  const readCanonical = async (asset, signal) => { reads.push(['canonical', asset.path]); if (hooks.holdCanonical) await hooks.holdCanonical.promise; return {raw: nearRaw, verified: {shadow_profile: {canonical: true}}, physicalBytes: 100, release() { canonicalReleases++; }}; };
-  const runtime = createBuildingDetailRuntime({city: 'berlin', vertexCap: 100,
+  const readCanonical = async (asset, signal) => {
+    reads.push(['canonical', asset.path]);
+    if (hooks.holdCanonical) await hooks.holdCanonical.wait(signal);
+    return {raw: nearRaw, verified: {shadow_profile: {canonical: true}}, physicalBytes: 100,
+      release() { canonicalReleases++; hooks.onCanonicalRelease?.(); }};
+  };
+  const runtime = createRuntime({city: 'berlin', vertexCap: 100,
     async resolveDetailIndex(indexSHA, leaf, signal) { metadataReads++; assert.equal(indexSHA, sha('1')); assert.equal(leaf.id, canonical.id); signal.throwIfAborted(); return hooks.noIndex ? undefined : indexDocument; },
     async readBytes(path, signal) { reads.push(['variant', path]); signal.throwIfAborted(); return physical; },
     readCanonical,
@@ -49,31 +69,34 @@ function fixture() {
       async prepare(source, resource, {signal}) {
         const record = {resource, signal, bitExact: Object.is(source.raw.components[0].batches[0].positions[0], -0)}; preparations.push(record);
         if (hooks.failPrepare) throw Error('SOURCE/prepare failed');
-        if (hooks.holdPrepare) await hooks.holdPrepare.promise;
+        if (hooks.holdPrepare) await hooks.holdPrepare.wait(record);
         return {value: {level: resource.level, handle: preparations.length}, release() { releases.push(resource.level); }};
       },
       async publish(prepared, resource, context) {
-        const gate = hooks.holdPublish ? deferred() : undefined; fences.push({prepared, resource, ...context, gate});
-        if (gate) await gate.promise;
+        const fence = {prepared, resource, ...context};
+        fences.push(fence);
+        if (hooks.holdPublish) await hooks.holdPublish.wait(fence);
         context.signal.throwIfAborted();
         publications.push(resource?.level);
       },
     });
     return owner;
   }
-  return {runtime, canonical, indexDocument, document, physical, demands, readCanonical, hooks, reads, preparations, releases, fences, publications, resolve, resident, setMode(value) { mode = value; }, get canonicalReleases() { return canonicalReleases; }, get metadataReads() { return metadataReads; }};
+  return {runtime, createRuntime, canonical, indexDocument, document, physical, demands, readCanonical, hooks, reads, preparations, releases, fences, publications, resolve, resident, setMode(value) { mode = value; }, get canonicalReleases() { return canonicalReleases; }, get metadataReads() { return metadataReads; }};
 }
 
-test('runtime to source to real 1.3 decoder prepares exact attributes, then retires source only after the drawable fence', async () => {
-  const f = fixture(), owner = await f.resident(); f.hooks.holdPublish = true;
-  const first = owner.refresh(); await until(() => f.fences.length === 1);
+test('runtime to source to real 1.3 decoder prepares exact attributes, then retires source only after the drawable fence', {timeout: 30_000}, async () => {
+  const f = fixture(), owner = await f.resident(); f.hooks.holdPublish = pauseAtCallback();
+  const first = owner.refresh(); const coarseFence = await f.hooks.holdPublish.entered;
+  assert.equal(f.fences.length, 1);
   assert.equal(f.preparations[0].bitExact, true); assert.equal(f.preparations[0].resource.level, 'coarse');
   assert.equal(owner.state.status, 'loading'); assert.equal(owner.state.published, undefined); assert.equal(owner.stats.sourceLeases, 1); assert.equal(owner.stats.preparedLeases, 1);
-  assert.deepEqual(Object.keys(f.fences[0].prepared), ['level', 'handle'], 'runtime does not append raw construction inputs to the prepared resident');
-  f.fences[0].gate.resolve(); await first; assert.equal(owner.state.status, 'ready'); assert.equal(owner.stats.sourceLeases, 0); assert.equal(owner.stats.preparedLeases, 1);
-  f.setMode('near'); const next = owner.refresh(); await until(() => f.fences.length === 2);
+  assert.deepEqual(Object.keys(coarseFence.prepared), ['level', 'handle'], 'runtime does not append raw construction inputs to the prepared resident');
+  f.hooks.holdPublish.resume(); await first; assert.equal(owner.state.status, 'ready'); assert.equal(owner.stats.sourceLeases, 0); assert.equal(owner.stats.preparedLeases, 1);
+  f.setMode('near'); f.hooks.holdPublish = pauseAtCallback();
+  const next = owner.refresh(); await f.hooks.holdPublish.entered; assert.equal(f.fences.length, 2);
   assert.equal(owner.state.published.level, 'coarse'); assert.deepEqual(f.releases, []); assert.equal(f.canonicalReleases, 0);
-  f.fences[1].gate.resolve(); await next; assert.equal(f.canonicalReleases, 1); assert.deepEqual(f.releases, ['coarse']);
+  f.hooks.holdPublish.resume(); await next; assert.equal(f.canonicalReleases, 1); assert.deepEqual(f.releases, ['coarse']);
   assert.equal(owner.stats.sourceLeases, 0); assert.equal(owner.stats.preparedLeases, 1); assert.deepEqual(f.reads.map(([kind]) => kind), ['variant', 'canonical']);
   await owner.refresh(); assert.equal(owner.stats.acquisitions, 2, 'same published key does not decode or prepare again');
   f.hooks.holdPublish = false; await owner.destroy(); assert.equal(owner.stats.preparedLeases, 0); assert.deepEqual(f.releases, ['coarse', 'near']);
@@ -83,39 +106,47 @@ test('missing catalogs stay on the caller canonical path; resolved metadata is b
   f.hooks.noIndex = false; const index = await f.resolve(); assert.equal(index.canonicalLeaf.id, 'leaf-1'); assert.equal(f.metadataReads, 2);
   f.indexDocument.canonicalLeaf.id = 'other-leaf'; await assert.rejects(f.resolve(), /leaf descriptor mismatch/); assert.deepEqual(f.reads, []);
 });
-test('prepare failure and camera-demand staleness release new inputs and retain the old success without an automatic retry', async () => {
+test('prepare failure and camera-demand staleness release new inputs and retain the old success without an automatic retry', {timeout: 30_000}, async () => {
   const f = fixture(), owner = await f.resident(); await owner.refresh(); f.setMode('near'); f.hooks.failPrepare = true;
   await assert.rejects(owner.refresh(), /prepare failed/); assert.equal(owner.state.published.level, 'coarse'); assert.equal(owner.stats.sourceLeases, 0); assert.equal(owner.stats.preparedLeases, 1);
-  f.hooks.failPrepare = false; f.hooks.holdPrepare = deferred(); const stale = owner.refresh(); await until(() => f.preparations.length === 3);
-  f.setMode('far'); f.hooks.holdPrepare.resolve(); await assert.rejects(stale, StaleBuildingDetailDemandError);
+  f.hooks.failPrepare = false; f.hooks.holdPrepare = pauseAtCallback(); const stale = owner.refresh();
+  await f.hooks.holdPrepare.entered; assert.equal(f.preparations.length, 3);
+  f.setMode('far'); f.hooks.holdPrepare.resume(); await assert.rejects(stale, StaleBuildingDetailDemandError);
   assert.equal(owner.state.published.level, 'coarse'); assert.equal(owner.stats.sourceLeases, 0); assert.equal(owner.stats.preparedLeases, 1); assert.equal(f.publications.length, 1); assert.equal(owner.stats.acquisitions, 3);
   await owner.destroy();
 });
-test('a rejected or cancelled pending publication fence preserves the old resident and late completion cannot install its resource', async () => {
-  const f = fixture(), owner = await f.resident(); await owner.refresh(); f.setMode('near'); f.hooks.holdPublish = true;
-  const rejected = owner.refresh(); await until(() => f.fences.length === 2); f.fences[1].gate.reject(Error('target not drawable'));
+test('a rejected or cancelled pending publication fence preserves the old resident and late completion cannot install its resource', {timeout: 30_000}, async () => {
+  const f = fixture(), owner = await f.resident(); await owner.refresh(); f.setMode('near'); f.hooks.holdPublish = pauseAtCallback();
+  const rejected = owner.refresh(); await f.hooks.holdPublish.entered; assert.equal(f.fences.length, 2);
+  f.hooks.holdPublish.reject(Error('target not drawable'));
   await assert.rejects(rejected, /not drawable/); assert.equal(owner.state.published.level, 'coarse'); assert.equal(owner.stats.sourceLeases, 0); assert.equal(owner.stats.preparedLeases, 1);
-  const late = owner.refresh(); const lateRejection = assert.rejects(late, StaleBuildingDetailDemandError); await until(() => f.fences.length === 3);
-  f.setMode('far'); await owner.refresh(); assert.equal(f.fences[2].signal.aborted, true); f.fences[2].gate.resolve(); await lateRejection;
+  f.hooks.holdPublish = pauseAtCallback();
+  const late = owner.refresh(); const lateRejection = assert.rejects(late, StaleBuildingDetailDemandError);
+  const lateFence = await f.hooks.holdPublish.entered; assert.equal(f.fences.length, 3);
+  f.setMode('far'); await owner.refresh(); assert.equal(lateFence.signal.aborted, true); f.hooks.holdPublish.resume(); await lateRejection;
   assert.equal(owner.state.published.level, 'coarse'); assert.equal(owner.stats.sourceLeases, 0); assert.equal(owner.stats.preparedLeases, 1); assert.deepEqual(f.publications, ['coarse']);
   f.hooks.holdPublish = false; await owner.destroy();
 });
-test('suspension waits for clearing the drawable publication and resume reacquires only the current desired level', async () => {
-  const f = fixture(), owner = await f.resident(); await owner.refresh(); f.hooks.holdPublish = true;
-  const paused = owner.suspend(); await until(() => f.fences.length === 2); assert.equal(owner.state.published.level, 'coarse'); assert.equal(owner.stats.preparedLeases, 1);
-  f.fences[1].gate.resolve(); await paused; assert.equal(owner.state.published, undefined); assert.equal(owner.stats.preparedLeases, 0);
+test('suspension waits for clearing the drawable publication and resume reacquires only the current desired level', {timeout: 30_000}, async () => {
+  const f = fixture(), owner = await f.resident(); await owner.refresh(); f.hooks.holdPublish = pauseAtCallback();
+  const paused = owner.suspend(); await f.hooks.holdPublish.entered; assert.equal(f.fences.length, 2); assert.equal(owner.state.published.level, 'coarse'); assert.equal(owner.stats.preparedLeases, 1);
+  f.hooks.holdPublish.resume(); await paused; assert.equal(owner.state.published, undefined); assert.equal(owner.stats.preparedLeases, 0);
   f.setMode('near'); f.hooks.holdPublish = false; const resumed = await owner.resume(); assert.equal(resumed.resource.level, 'near'); assert.equal(f.reads.at(-1)[0], 'canonical');
   await owner.destroy(); assert.equal(owner.stats.preparedLeases, 0);
 });
-test('destroy during an uncancellable late canonical read never prepares or publishes and the canonical lease is released once', async () => {
-  const f = fixture(); f.setMode('near'); const owner = await f.resident(); f.hooks.holdCanonical = deferred();
-  const pending = owner.refresh(), rejected = assert.rejects(pending, {name: 'AbortError'}); await until(() => f.reads.length === 1);
-  await owner.destroy(); f.hooks.holdCanonical.resolve(); await rejected;
+test('destroy during an uncancellable late canonical read never prepares or publishes and the canonical lease is released once', {timeout: 30_000}, async () => {
+  const f = fixture(); f.setMode('near'); const owner = await f.resident(); f.hooks.holdCanonical = pauseAtCallback();
+  const released = deferred(); f.hooks.onCanonicalRelease = released.resolve;
+  const pending = owner.refresh(), rejected = assert.rejects(pending, {name: 'AbortError'});
+  const signal = await f.hooks.holdCanonical.entered; assert.equal(f.reads.length, 1);
+  await owner.destroy(); assert.equal(signal.aborted, true); assert.equal(f.canonicalReleases, 0);
+  f.hooks.holdCanonical.resume(); await Promise.all([rejected, released.promise]);
   assert.equal(f.canonicalReleases, 1); assert.equal(f.preparations.length, 0); assert.equal(f.publications.length, 0); assert.equal(owner.stats.sourceLeases, 0); assert.equal(owner.stats.preparedLeases, 0);
 });
 
-test('session two-reader cohort acquires three real meshopt leaves without awaiting adoption or draw readiness', async () => {
+test('session two-reader cohort acquires three real meshopt leaves without awaiting adoption or draw readiness', {timeout: 30_000}, async () => {
   const base = fixture(), documents = new Map(), leaves = [], calls = []; let inFlight = 0, peak = 0;
+  const bothReadersStarted = deferred();
   for (let id = 1; id <= 3; id++) {
     const index = structuredClone(base.indexDocument), canonicalHash = hash(`canonical-${id}`), doc = structuredClone(base.document);
     index.canonicalLeaf = {...index.canonicalLeaf, id: `leaf-${id}`, path: `/safety/buildings3d/canonical-${id}.json`, sha256: canonicalHash};
@@ -126,9 +157,14 @@ test('session two-reader cohort acquires three real meshopt leaves without await
     index.variants[0].asset = {path: `/safety/buildings3d/detail/coarse-${id}.json.gz`, bytes: physical.length, sha256: hash(physical), compression: 'gzip', uncompressed_bytes: raw.length, uncompressed_sha256: hash(raw)};
     documents.set(index.variants[0].asset.path, physical); leaves.push(index);
   }
-  const runtime = createBuildingDetailRuntime({city: 'berlin', vertexCap: 100, getDemands: base.demands,
+  const runtime = base.createRuntime({city: 'berlin', vertexCap: 100, getDemands: base.demands,
     resolveDetailIndex: async (_sha, leaf) => leaves.find(index => index.canonicalLeaf.id === leaf.id), readCanonical: async () => { throw Error('far session uses selected variants only'); },
-    async readBytes(path) { inFlight++; peak = Math.max(peak, inFlight); calls.push(path); await new Promise(resolve => setImmediate(resolve)); inFlight--; return documents.get(path); },
+    async readBytes(path) {
+      inFlight++; peak = Math.max(peak, inFlight); calls.push(path);
+      if (calls.length === 2) bothReadersStarted.resolve();
+      await bothReadersStarted.promise;
+      inFlight--; return documents.get(path);
+    },
   });
   const indexes = await Promise.all(leaves.map(index => runtime.resolveDetailIndex(sha('1'), index.canonicalLeaf, {signal: new AbortController().signal})));
   const session = runtime.openSession({requestId: 17, signal: new AbortController().signal}), union = []; let cursor = 0;
@@ -151,7 +187,7 @@ test('session validates the complete current demand union and releases stale or 
   f.setMode('far'); const failed = f.runtime.openSession({requestId: 21, signal: new AbortController().signal}); await failed.acquireLeaf(index); failed.fail(Error('cohort SOURCE rejected'));
   assert.equal(failed.state.status, 'failed-before-publication'); assert.equal(failed.stats.sourceLeases, 0); failed.finish(); assert.equal(failed.state.status, 'failed-before-publication', 'finally cleanup must not erase the failure outcome');
   const midDocument = structuredClone(f.indexDocument); midDocument.variants[0].level = 'mid';
-  const hysteresis = createBuildingDetailRuntime({city: 'berlin', resolveDetailIndex: async () => midDocument,
+  const hysteresis = f.createRuntime({city: 'berlin', resolveDetailIndex: async () => midDocument,
     readCanonical: async () => { throw Error('selection-only fixture'); }, readBytes: async () => { throw Error('selection-only fixture'); },
     getDemands: () => [{pass: 'main', maxErrorCssPx: 100, maxErrorDrawingBufferPx: 100,
       project: () => ({matrix: [.8, 0, 0, 0, 0, .8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], viewport: {cssWidth: 100, cssHeight: 100, drawingBufferWidth: 100, drawingBufferHeight: 100}})}],
@@ -166,17 +202,30 @@ test('session validates the complete current demand union and releases stale or 
   const defaultSession = hysteresis.openSession({requestId: 24, signal: new AbortController().signal});
   assert.equal((await defaultSession.acquireLeaf(midIndex)).resource.level, 'near'); defaultSession.abort();
 });
-test('session same-key reads share only this request; local abort and late source completion release once without cancelling another session', async () => {
-  const f = fixture(), index = await f.resolve(), gate = deferred(), readerSignals = []; let extraReleases = 0, entered = 0;
-  const runtime = createBuildingDetailRuntime({city: 'berlin', getDemands: f.demands, resolveDetailIndex: async () => undefined,
+test('session same-key reads share only this request; local abort and late source completion release once without cancelling another session', {timeout: 30_000}, async () => {
+  const f = fixture(), index = await f.resolve(), readers = [pauseAtCallback(), pauseAtCallback()], firstReleased = deferred();
+  let reads = 0, extraReleases = 0;
+  const runtime = f.createRuntime({city: 'berlin', getDemands: f.demands, resolveDetailIndex: async () => undefined,
     readCanonical: async () => { throw Error('override only'); }, readBytes: async () => { throw Error('override only'); },
-    async acquireSelected(resource, context) { readerSignals.push(context.signal); const lease = await f.runtime.acquireSelected(resource, context); entered++; await gate.promise; return {get value() { return lease.value; }, release() { extraReleases++; lease.release(); }}; },
+    async acquireSelected(resource, context) {
+      const reader = readers[reads++];
+      assert.ok(reader, 'only one source borrow per session');
+      const lease = await f.runtime.acquireSelected(resource, context);
+      await reader.wait(context.signal);
+      return {get value() { return lease.value; }, release() {
+        extraReleases++; lease.release();
+        if (reader === readers[0]) firstReleased.resolve();
+      }};
+    },
   });
   const external = new AbortController(), first = runtime.openSession({requestId: 30, signal: external.signal}), second = runtime.openSession({requestId: 31, signal: external.signal});
   const pending = first.acquireLeaf(index), rejected = assert.rejects(pending, {name: 'AbortError'}); assert.equal(first.acquireLeaf(index), pending);
-  const alive = second.acquireLeaf(index); await until(() => entered === 2); first.abort(); assert.equal(external.signal.aborted, false);
-  assert.equal(readerSignals[0].aborted, true); assert.equal(readerSignals[1].aborted, false, 'session cancellation releases only its own source consumer');
-  gate.resolve(); await rejected; await alive; assert.equal(extraReleases, 1); assert.equal(first.stats.sourceLeases, 0); assert.equal(second.stats.sourceLeases, 1);
+  const alive = second.acquireLeaf(index);
+  const [firstSignal, secondSignal] = await Promise.all(readers.map(reader => reader.entered));
+  assert.equal(reads, 2); first.abort(); assert.equal(external.signal.aborted, false);
+  assert.equal(firstSignal.aborted, true); assert.equal(secondSignal.aborted, false, 'session cancellation releases only its own source consumer');
+  readers[0].resume(); await Promise.all([rejected, firstReleased.promise]);
+  readers[1].resume(); await alive; assert.equal(extraReleases, 1); assert.equal(first.stats.sourceLeases, 0); assert.equal(second.stats.sourceLeases, 1);
   second.abort(); second.abort(); assert.equal(extraReleases, 2); assert.equal(second.stats.sourceLeases, 0);
 });
 test('session post-adoption readiness failure and abort remain committed without pretending to roll back manager GPU state', async () => {
@@ -197,7 +246,7 @@ test('session streams validated partial subsets across generations while two rea
   const f = fixture(), baseIndex = await f.resolve(), acquired = [], released = [], indexes = [baseIndex, ...[2, 3].map(id => {
     const index = structuredClone(baseIndex); index.canonicalLeaf.id = `leaf-${id}`; index.canonicalLeaf.sha256 = hash(`canonical-${id}`); index.near.asset.sha256 = index.canonicalLeaf.sha256; return index;
   })];
-  const runtime = createBuildingDetailRuntime({city: 'berlin', getDemands: f.demands, resolveDetailIndex: async () => undefined,
+  const runtime = f.createRuntime({city: 'berlin', getDemands: f.demands, resolveDetailIndex: async () => undefined,
     readCanonical: async () => { throw Error('borrow fixture only'); }, readBytes: async () => { throw Error('borrow fixture only'); },
     acquireSelected(resource, {signal}) { const gate = deferred(); acquired.push({resource, signal, gate}); return gate.promise.then(() => ({value: {key: resource.key}, release() { released.push(resource.key); }})); },
   });
@@ -231,16 +280,19 @@ test('session shares only an in-flight promise and reborrows the completed live 
   session.settleReady({generation: 7, ready: true}); session.finish(); assert.equal(session.stats.trackedResources, 0); assert.equal(session.state.status, 'ready');
 });
 
-test('session finish cancels its waiter and releases an uncancellable late lease without reading its value', async () => {
-  const f = fixture(), index = await f.resolve(), gate = deferred(); let entered = false, readerSignal, releases = 0, valueReads = 0;
-  const runtime = createBuildingDetailRuntime({city: 'berlin', getDemands: f.demands, resolveDetailIndex: async () => undefined,
+test('session finish cancels its waiter and releases an uncancellable late lease without reading its value', {timeout: 30_000}, async () => {
+  const f = fixture(), index = await f.resolve(), reader = pauseAtCallback(), released = deferred(); let releases = 0, valueReads = 0;
+  const runtime = f.createRuntime({city: 'berlin', getDemands: f.demands, resolveDetailIndex: async () => undefined,
     readCanonical: async () => { throw Error('override only'); }, readBytes: async () => { throw Error('override only'); },
-    async acquireSelected(resource, context) { readerSignal = context.signal; const lease = await f.runtime.acquireSelected(resource, context); entered = true; await gate.promise;
-      return {get value() { valueReads++; return lease.value; }, release() { releases++; lease.release(); }}; },
+    async acquireSelected(resource, context) {
+      const lease = await f.runtime.acquireSelected(resource, context); await reader.wait(context.signal);
+      return {get value() { valueReads++; return lease.value; }, release() { releases++; lease.release(); released.resolve(); }};
+    },
   });
   const external = new AbortController(), session = runtime.openSession({requestId: 71, signal: external.signal}), pending = session.acquireLeaf(index), rejected = assert.rejects(pending, {name: 'AbortError'});
-  await until(() => entered); session.finish(); session.finish(); assert.equal(readerSignal.aborted, true); assert.equal(external.signal.aborted, false);
-  assert.equal(session.stats.trackedResources, 0); gate.resolve(); await rejected;
+  const readerSignal = await reader.entered; session.finish(); session.finish(); assert.equal(readerSignal.aborted, true); assert.equal(external.signal.aborted, false);
+  assert.equal(session.stats.trackedResources, 0); assert.equal(releases, 0);
+  reader.resume(); await Promise.all([rejected, released.promise]);
   assert.equal(valueReads, 0); assert.equal(releases, 1); assert.equal(session.stats.sourceLeases, 0); assert.equal(session.stats.sourceReleases, 1); assert.equal(session.state.status, 'finished');
 });
 
@@ -253,7 +305,7 @@ test('session adopts one canonical picking target while another real decoded lea
   document.detail_variant.canonicalLeafSHA256 = other.canonicalLeaf.sha256;
   const raw = new TextEncoder().encode(JSON.stringify(document)), physical = new Uint8Array(gzipSync(raw));
   other.variants[0].asset = {path: '/safety/buildings3d/detail/coarse-2.json.gz', bytes: physical.length, sha256: hash(physical), compression: 'gzip', uncompressed_bytes: raw.length, uncompressed_sha256: hash(raw)};
-  const runtime = createBuildingDetailRuntime({city: 'berlin', vertexCap: 100,
+  const runtime = f.createRuntime({city: 'berlin', vertexCap: 100,
     resolveDetailIndex: async (_sha, leaf) => leaf.id === 'leaf-1' ? f.indexDocument : other,
     readCanonical: f.readCanonical,
     async readBytes(path, signal) { signal.throwIfAborted(); assert.equal(path, other.variants[0].asset.path); variantReads.push(path); return physical; },
@@ -270,7 +322,7 @@ test('session adopts one canonical picking target while another real decoded lea
 test('catalogue group metadata conflicts include gzip wire and raw bindings before selected-source acquisition', async () => {
   const f = fixture(), bound = {path: '/safety/buildings3d/detail/groups.json.gz', bytes: 100, sha256: sha('d'), compression: 'gzip', uncompressed_bytes: 1024, uncompressed_sha256: sha('e')}; let releases = 0;
   const resolve = Object.assign(async () => { throw Error('lease-based catalogue path required'); }, {async acquire() { return {value: {...f.indexDocument, groupMetadata: {...bound, uncompressed_sha256: sha('f')}}, groupMetadata: bound, release() { releases++; }}; }});
-  const runtime = createBuildingDetailRuntime({city: 'berlin', resolveDetailIndex: resolve, getDemands: f.demands,
+  const runtime = f.createRuntime({city: 'berlin', resolveDetailIndex: resolve, getDemands: f.demands,
     readCanonical: async () => { throw Error('metadata conflict must precede canonical read'); }, readBytes: async () => { throw Error('metadata conflict must precede variant read'); },
   });
   await assert.rejects(runtime.resolveDetailIndex(sha('1'), f.canonical, {signal: new AbortController().signal}), /catalogue group metadata binding mismatch/); assert.equal(releases, 1);
@@ -281,7 +333,7 @@ test('variant-only integration returns native fallback for unchanged leaves, rel
   const resolver = Object.assign(async () => { throw Error('leased path required'); }, {
     async acquire() { return {value: document, release() { releases++; }}; },
   });
-  const runtime = createBuildingDetailRuntime({city: 'berlin', variantLeavesOnly: true,
+  const runtime = f.createRuntime({city: 'berlin', variantLeavesOnly: true,
     resolveDetailIndex: resolver, getDemands: f.demands,
     readCanonical: async () => { throw Error('resolution must not load geometry'); },
     readBytes: async () => { throw Error('canonical-only resolution must not load group or variant assets'); },

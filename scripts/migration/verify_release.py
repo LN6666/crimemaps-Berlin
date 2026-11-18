@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+from bisect import bisect_left
 from contextlib import contextmanager
 from datetime import datetime, timezone, timedelta
 import gzip
@@ -16,6 +17,8 @@ import tempfile
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "security"))
 from artifact_gate import verify  # noqa: E402
+from pack_release import (ALIAS_DIRECTORY, MAX_ARCHIVE_BYTES, MAX_FILE_BYTES,
+                          MAX_MEMBERS, MAX_SITE_BYTES, trusted_inventory)  # noqa: E402
 
 NAMES = {"berlin": "Berlin", "hamburg": "Hamburg", "munich": "München", "cologne": "Köln",
          "frankfurt": "Frankfurt", "dusseldorf": "Düsseldorf", "stuttgart": "Stuttgart",
@@ -47,10 +50,10 @@ def bounded_tar(archive: Path):
             if not header.strip(b"\0"):
                 break
             count += 1
-            if count > 100_000 or header[156:157] not in {b"\0", b"0", b"5"}:
+            if count > MAX_MEMBERS or header[156:157] not in {b"\0", b"0", b"5"}:
                 raise ValueError("Extended metadata and special TAR members forbidden")
             size = tarfile.nti(header[124:136])
-            if size < 0 or size > 100_000_000:
+            if size < 0 or size > MAX_FILE_BYTES:
                 raise ValueError("TAR header size exceeds budget")
             if header[156:157] == b"5" and size != 0:
                 raise ValueError("Directory TAR member must have zero size")
@@ -123,33 +126,66 @@ def acceptance(path: Path, expected_sha: str, city: str, repository: str, commit
     return value
 
 
-def unpack(archive: Path, output: Path) -> None:
-    if output.exists() or archive.stat().st_size > 450_000_000:
+def unpack(archive: Path, output: Path, *, receipt: Path | None = None,
+           receipt_sha256: str | None = None, city: str | None = None) -> None:
+    if output.exists() or output.is_symlink() or archive.stat().st_size > MAX_ARCHIVE_BYTES:
         raise ValueError("Output exists or archive exceeds transfer budget")
+    files, aliases = None, {}
+    if any(value is not None for value in (receipt, receipt_sha256, city)):
+        if receipt is None or receipt_sha256 is None or city is None:
+            raise ValueError("Expected a city and a trusted detached receipt")
+        files, aliases = trusted_inventory(receipt, receipt_sha256, city)
+    sealed_names = sorted(files) if files is not None else []
     entries = []
     seen = set()
+    present = set()
+    mapped_members = []
     total = 0
     with bounded_tar(archive) as spool, tarfile.open(fileobj=spool, mode="r:") as stream:
         for member in stream:
-            if len(entries) >= 100_000 or not (member.isdir() or member.isfile()):
+            if len(entries) >= MAX_MEMBERS or not (member.isdir() or member.isfile()):
                 raise ValueError("Unsupported archive member or excessive entries")
             name = member.name.rstrip("/") if member.isdir() else member.name
             path = PurePosixPath(name)
-            if (not name or "\\" in name or path.is_absolute() or name != path.as_posix()
+            if (not path.parts or "\\" in name or path.is_absolute() or name != path.as_posix()
                     or any(p in {".", ".."} for p in path.parts)
-                    or path.parts[0] != "site" or name in seen):
+                    or path.parts[0] != "site"):
                 raise ValueError("Noncanonical, duplicate, or unsafe archive path")
-            seen.add(name)
+            relative = path.relative_to("site").as_posix()
+            if path.parts[1:2] == (ALIAS_DIRECTORY,):
+                if not member.isfile() or relative not in aliases:
+                    raise ValueError("Unknown or non-file USTAR alias")
+                relative = aliases[relative]
+                mapped_members.append((member, files[relative]["sha256"]))
+            if relative in seen:
+                raise ValueError("Duplicate archive path")
+            seen.add(relative)
             if len(path.parts) == 1:
                 if not member.isdir():
                     raise ValueError("Archive entrance must be a directory")
                 continue
-            if member.size < 0 or member.size > 100_000_000:
+            if member.size < 0 or member.size > MAX_FILE_BYTES:
                 raise ValueError("Archive member exceeds budget")
+            if member.isdir() and files is not None:
+                prefix = relative + "/"
+                index = bisect_left(sealed_names, prefix)
+                if index == len(sealed_names) or not sealed_names[index].startswith(prefix):
+                    raise ValueError("Archive directory is outside the detached inventory")
+            if member.isfile() and files is not None:
+                if relative not in files or member.size != files[relative]["bytes"]:
+                    raise ValueError("Archive file or size differs from detached inventory")
+                present.add(relative)
             total += member.size
-            if total > 900_000_000:
+            if total > MAX_SITE_BYTES:
                 raise ValueError("Expanded city site exceeds budget")
-            entries.append((member, Path(*path.parts[1:])))
+            entries.append((member, Path(relative)))
+        if files is not None and present != files.keys():
+            raise ValueError("Archive is missing sealed files")
+        # Authenticate any renamed member in the bounded spool before writing public paths.
+        for member, digest in mapped_members:
+            with stream.extractfile(member) as source:
+                if hashlib.file_digest(source, "sha256").hexdigest() != digest:
+                    raise ValueError("USTAR alias content differs from detached inventory")
         output.mkdir(parents=True)
         for member, relative in entries:
             target = output / relative
@@ -183,7 +219,8 @@ def main() -> None:
     if accepted.get("schema_version") == 2:
         from static_site_overlay import verify_base_publication_online
         verify_base_publication_online(accepted)
-    unpack(args.archive, args.output)
+    unpack(args.archive, args.output, receipt=args.receipt,
+           receipt_sha256=accepted["artifact_receipt_sha256"], city=args.city)
     if accepted.get("schema_version") == 2:
         from static_site_overlay import verify_overlay
         result = verify_overlay(args.output, args.receipt, accepted, args.city, args.commit)

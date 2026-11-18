@@ -127,13 +127,17 @@ test('actual renderer creates one program per equal group across frames and pres
  const created=f.created();assert.equal(created.length,2,'one program per equal group');const [rich]=f.group(1561),[roof]=f.group(1571);assert(rich&&roof);
  assert.deepEqual(f.v.partitionRuns,originalRuns);assert.deepEqual(f.draws.slice(-10).map(r=>[r.offset,r.count]),families.map((_f,i)=>[i*12,3]));
  assert(f.draws.slice(-10,-2).every(r=>r.program===rich));assert(f.draws.slice(-2).every(r=>r.program===roof));
- assert(f.uniforms.filter(u=>u.name==='u_paint_override').every(u=>u.value===0));assert.equal(f.lastRepaint,false,'no repaint once every group is published');
+ const overrideValues = new Set(f.uniforms.filter(u => u.name === 'u_paint_override').map(u => u.value));
+ assert.deepEqual(overrideValues, new Set([0]));
+ assert.equal(f.lastRepaint,false,'no repaint once every group is published');
 });
 test('different complete fragments stay independent and effective override keeps its original value',async()=>{
  const changedFixture=await fixture(changedPaint);changedFixture.settle(9);assert.equal(changedFixture.created().length,9);assert.equal(changedFixture.v.partitionPrograms.size,9);assert.equal(changedFixture.frame(),0);assert(changedFixture.scheduled());
  assert.equal(new Set(changedFixture.lastDraws().map(r=>r.program)).size,9,'nine independent programs draw the ten runs');
  const f=await fixture(paint,1572);f.settle(1);const created=f.created();assert.equal(created.length,1);assert.equal(created[0].metadata[2],1571);
- assert(f.lastDraws().every(r=>r.program===created[0]));assert(f.uniforms.filter(u=>u.name==='u_paint_override').every(u=>u.value===1572));
+ assert(f.lastDraws().every(r=>r.program===created[0]));
+ const overrideValues = new Set(f.uniforms.filter(u => u.name === 'u_paint_override').map(u => u.value));
+ assert.deepEqual(overrideValues, new Set([1572]));
 });
 test('single-owner keys preserve visible protection and release once on eviction/context reset',async()=>{
  const f=await fixture();f.frame();f.frame();f.settle(2);const owners=[...f.v.partitionPrograms.values()];assert.equal(owners.length,2);assert.equal(new Set(owners).size,2);
@@ -159,13 +163,13 @@ test('main/reflection/protection share the canonical route; shader/vertex unifor
  assert(text.includes('runs=partitionRuns.map(run=>{const baseKey=overrideKey??run.key,key=solarDepth&&legacySolarPartitions?baseKey:distantPaintProgramKey(baseKey);'));
  // Visible keys are the main paint demand's distant-quality keys.
  assert(text.includes('function mainPaintProgramKeys(demand=mainPaintDemand()){return new Set(demand.runs.map(run=>distantPaintProgramKey(demand.override??run.key)));}'));assert(text.includes('const visibleProgramKeys=mainPaintProgramKeys(demand)'));
- assert(text.includes("gl!.uniform1f(gl!.getUniformLocation(p,'u_paint_override'),paintOverride())"));
- // The admitted workspace assembles the colour source, then specializes it per family.
- assert(text.includes('assemble(paintSource){const value=fragment(helper,paintSource);'));assert(text.includes('specializeCurrentPaintProgram(source,families[0],false,!berlinCurrent)'));
  // Behaviour: a distant Paul-Loebe view draws and captures its reflection with one shared program.
  const f=await fixture(original+'\n'+dispatcher,0,[19401,19402,19403]);assert.equal(f.v.sharedPaulLobeRichProgram,true);assert.equal(f.v.distantMaterialAvailable,true);
  f.component.box=TINY;f.frame();f.settle(1);const far=f.v.partitionPrograms.get(F);assert(far,'the distant program is published');
+ assert(far.fragment.includes('return bePaulLobeDistant1(base,p,normal,frame,family);'), 'the linked fragment selects the distant material');
  assert(f.lastDraws().every(r=>r.program===far));assert.deepEqual(f.v.residentCaptureState(1,false).runs.map(run=>run.program),[far,far,far],'reflection runs use the main quality key');
+ const farOverrides = f.uniforms.filter(u => u.program === far && u.name === 'u_paint_override');
+ assert.deepEqual(new Set(farOverrides.map(u => u.value)), new Set([0]), 'the distant program receives its paint override');
 });
 test('a failed Paul-Loebe quality program keeps its resident alternate, from the failure frame on, without aliasing it',async()=>{
  for(const failing of ['distant','rich']){

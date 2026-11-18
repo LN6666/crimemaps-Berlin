@@ -222,14 +222,36 @@ test('native opaque parent exposes the canonical ancestor to the page recent env
  resources.evictRecent();assert.equal(budget.stats.bytes,0);assert.throws(()=>result.retainResource(),/released/);resources.destroy();
 });
 
+// Observe the real ledger result without registering another budget listener.
+// The native source releases both parent leases and registers its wait in the
+// same synchronous turn as the refused adjustment.
+function observeConsumerRefusal(){
+ const refused=Promise.withResolvers();
+ return {
+  context(production){
+   return {...production,adjust(cost){
+    const accepted=production.adjust(cost);
+    if(!accepted)refused.resolve(true);
+    return accepted;
+   }};
+  },
+  async wait(lease,client,descriptor){
+   const observed=await Promise.race([refused.promise,lease.ready.then(()=>false)]);
+   assert.equal(observed,true,'consumer preparation unexpectedly completed before a refusal');
+   assert(client.parkedNeed(descriptor)>0,'consumer must park only after its actual refusal');
+  }
+ };
+}
+
 test('consumer preparation refusal releases native parents before waiting and retries after real capacity returns',async()=>{
+ const refusal=observeConsumerRefusal();
  const budget=createResourceBudget({limitBytes:32*1024*1024,recentLimitBytes:0}),resources=createChunkResourceStore({budget,recentMaxEntries:0}),a=asset(source());
  const pool=createSharedNativeSourcePool({resourceStore:resources,read:async()=>a.bytes}),client=pool.client('berlin');let blocker,checks=0;
  const owned=resources.acquire({contentKey:'provider-admission',role:'source',estimate:{category:'metadata',bytes:256,precision:'estimate'},
-  async produce(context){const result=await client.acquire(a.descriptor,context.signal,200000,'dependency',{context,costs(value){checks++;assert.equal(value.raw.components[0].objectId,'osm/way/1');if(checks===1)blocker=budget.reserve({category:'metadata',bytes:budget.stats.availableBytes-50,precision:'estimate'});return{category:'metadata',bytes:10000,precision:'estimate'};}});const parent=result.retainResource();try{context.retainParent(parent);}finally{parent.release();}return result;},
+  async produce(context){const result=await client.acquire(a.descriptor,context.signal,200000,'dependency',{context:refusal.context(context),costs(value){checks++;assert.equal(value.raw.components[0].objectId,'osm/way/1');if(checks===1)blocker=budget.reserve({category:'metadata',bytes:budget.stats.availableBytes-50,precision:'estimate'});return{category:'metadata',bytes:10000,precision:'estimate'};}});const parent=result.retainResource();try{context.retainParent(parent);}finally{parent.release();}return result;},
   costs:()=>({category:'metadata',bytes:10000,precision:'estimate'}),dispose:value=>value.release()});
  try{
-  for(let i=0;i<25&&!blocker;i++)await tick();assert(blocker);await tick();
+  await refusal.wait(owned,client,a.descriptor);assert(blocker);
   assert.equal(owned.state,'preparing');assert.equal(pool.stats.holders,0,'no consumer result retained while parked');
   assert.equal(pool.stats.entries,0,'no canonical payload retained by provider preparation');
   assert.equal(budget.stats.categories.decoded?.bytes??0,0);assert(client.parkedNeed(a.descriptor)>0);
@@ -239,10 +261,11 @@ test('consumer preparation refusal releases native parents before waiting and re
 });
 
 test('cancelled consumer preparation drops its wait and never produces a native handle',async()=>{
+ const refusal=observeConsumerRefusal();
  const budget=createResourceBudget({limitBytes:32*1024*1024,recentLimitBytes:0}),resources=createChunkResourceStore({budget,recentMaxEntries:0}),a=asset(source());
  const pool=createSharedNativeSourcePool({resourceStore:resources,read:async()=>a.bytes}),client=pool.client('berlin');let blocker;
- const owned=resources.acquire({contentKey:'cancel-provider-admission',role:'source',estimate:{category:'metadata',bytes:256,precision:'estimate'},produce:context=>client.acquire(a.descriptor,context.signal,200000,'dependency',{context,costs(){blocker??=budget.reserve({category:'metadata',bytes:budget.stats.availableBytes-50,precision:'estimate'});return{category:'metadata',bytes:10000,precision:'estimate'};}}),dispose:value=>value.release()});
- try{for(let i=0;i<25&&!blocker;i++)await tick();assert(blocker);const ready=owned.ready;owned.release();await assert.rejects(ready,{name:'AbortError'});await tick();assert.equal(client.parkedNeed(a.descriptor),undefined);assert.equal(pool.stats.holders,0);assert.equal(pool.stats.entries,0);}
+ const owned=resources.acquire({contentKey:'cancel-provider-admission',role:'source',estimate:{category:'metadata',bytes:256,precision:'estimate'},produce:context=>client.acquire(a.descriptor,context.signal,200000,'dependency',{context:refusal.context(context),costs(){blocker??=budget.reserve({category:'metadata',bytes:budget.stats.availableBytes-50,precision:'estimate'});return{category:'metadata',bytes:10000,precision:'estimate'};}}),dispose:value=>value.release()});
+ try{await refusal.wait(owned,client,a.descriptor);assert(blocker);const ready=owned.ready;owned.release();await assert.rejects(ready,{name:'AbortError'});await tick();assert.equal(client.parkedNeed(a.descriptor),undefined);assert.equal(pool.stats.holders,0);assert.equal(pool.stats.entries,0);}
  finally{blocker?.release();client.destroy();pool.destroy();resources.destroy();}
  assert.equal(budget.stats.bytes,0);
 });
@@ -256,10 +279,11 @@ test('consumer preparation that cannot fit the whole page fails without a perman
 });
 
 test('consumer preparation cancellation does not revoke another client using the same canonical source',async()=>{
+ const refusal=observeConsumerRefusal();
  const budget=createResourceBudget({limitBytes:32*1024*1024,recentLimitBytes:0}),resources=createChunkResourceStore({budget,recentMaxEntries:0}),a=asset(source());
  const pool=createSharedNativeSourcePool({resourceStore:resources,read:async()=>a.bytes}),left=pool.client('berlin'),right=pool.client('berlin'),stable=await right.read(a.descriptor,new AbortController().signal,200000);let blocker;
- const owned=resources.acquire({contentKey:'independent-provider-admission',role:'source',estimate:{category:'metadata',bytes:256,precision:'estimate'},produce:context=>left.acquire(a.descriptor,context.signal,200000,'dependency',{context,costs(){blocker??=budget.reserve({category:'metadata',bytes:budget.stats.availableBytes-50,precision:'estimate'});return{category:'metadata',bytes:10000,precision:'estimate'};}}),dispose:value=>value.release()});
- try{for(let i=0;i<25&&!blocker;i++)await tick();assert(blocker);const ready=owned.ready;owned.release();await assert.rejects(ready,{name:'AbortError'});await tick();assert.equal(stable.raw.components[0].batches[0].positions[1],100);assert.equal(stable.released,false);assert.equal(pool.stats.holders,1);assert.equal(left.parkedNeed(a.descriptor),undefined);}
+ const owned=resources.acquire({contentKey:'independent-provider-admission',role:'source',estimate:{category:'metadata',bytes:256,precision:'estimate'},produce:context=>left.acquire(a.descriptor,context.signal,200000,'dependency',{context:refusal.context(context),costs(){blocker??=budget.reserve({category:'metadata',bytes:budget.stats.availableBytes-50,precision:'estimate'});return{category:'metadata',bytes:10000,precision:'estimate'};}}),dispose:value=>value.release()});
+ try{await refusal.wait(owned,left,a.descriptor);assert(blocker);const ready=owned.ready;owned.release();await assert.rejects(ready,{name:'AbortError'});await tick();assert.equal(stable.raw.components[0].batches[0].positions[1],100);assert.equal(stable.released,false);assert.equal(pool.stats.holders,1);assert.equal(left.parkedNeed(a.descriptor),undefined);}
  finally{owned.release();blocker?.release();stable.release();left.destroy();right.destroy();pool.destroy();resources.destroy();}assert.equal(budget.stats.bytes,0);
 });
 
@@ -274,15 +298,16 @@ test('tier300 actual native acquisition admits the unchanged component and shado
 });
 
 for(const dropResident of [false,true])test('cohort pending consumer retry tracks canonical residency: '+(dropResident?'disposed':'independently held'),async()=>{
+ const refusal=observeConsumerRefusal();
  const budget=createResourceBudget({limitBytes:32*1024*1024,recentLimitBytes:0}),resources=createChunkResourceStore({budget,recentMaxEntries:0}),a=asset(source());
  const pool=createSharedNativeSourcePool({resourceStore:resources,read:async()=>a.bytes}),client=pool.client('berlin'),resident=pool.client('berlin'),controller=new AbortController();
  const stable=await resident.read(a.descriptor,controller.signal,200000),privateBytes=stable.reacquireCost.privateBytes;
  const ready=budget.reserve({category:'metadata',bytes:10000,precision:'estimate'});let armed=false,blocker,owned;
  const cohort=client.cohort(),attempt=cohort.attempt({metadataHintSafe:true,metadataHintMaxPending:1,held:()=>armed?10000:0,retryHeld:()=>10000,pending:()=>[{asset:a.descriptor}]},controller.signal);
  try{
-  owned=resources.acquire({contentKey:'pending-shared-canonical-retry',role:'source',estimate:{category:'metadata',bytes:256,precision:'estimate'},produce:context=>client.acquire(a.descriptor,context.signal,200000,'dependency',{context,costs(){blocker??=budget.reserve({category:'metadata',bytes:budget.stats.availableBytes-50,precision:'estimate'});return{category:'metadata',bytes:10000,precision:'estimate'};}}),costs:()=>({category:'metadata',bytes:10000,precision:'estimate'}),dispose:value=>value.release()});
+  owned=resources.acquire({contentKey:'pending-shared-canonical-retry',role:'source',estimate:{category:'metadata',bytes:256,precision:'estimate'},produce:context=>client.acquire(a.descriptor,context.signal,200000,'dependency',{context:refusal.context(context),costs(){blocker??=budget.reserve({category:'metadata',bytes:budget.stats.availableBytes-50,precision:'estimate'});return{category:'metadata',bytes:10000,precision:'estimate'};}}),costs:()=>({category:'metadata',bytes:10000,precision:'estimate'}),dispose:value=>value.release()});
   void owned.ready.catch(()=>{});
-  for(let i=0;i<40&&client.parkedNeed(a.descriptor)===undefined;i++)await tick();
+  await refusal.wait(owned,client,a.descriptor);
   assert(client.parkedNeed(a.descriptor)>0);armed=true;attempt.check();assert.equal(attempt.yielded,true);
   owned.release();ready.release();for(let i=0;i<10;i++)await tick();
   if(dropResident){stable.release();for(let i=0;i<10;i++)await tick();assert.equal(pool.stats.entries,0);}
