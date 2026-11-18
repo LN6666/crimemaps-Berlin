@@ -118,3 +118,20 @@ test('Essen exact cohort shares one rich program only after full source equality
  const changed=paint.replace('if(family>=1603.', 'if(family==1615.)return vec3(.123);if(family>=1603.');
  const other=await createDelegatedFixture({city:'essen',paint:changed});other.setScene(rows,cohort.map((family,i)=>({firstIndex:i*3,indexCount:3,key:key(family)})));other.S.program=other.until(()=>other.S.compileGeometryProgram(DEFAULT_HELPER));assert.equal(other.S.exactRichProgramKeys.size,0,'a changed member keeps separate original program keys');
 });
+
+for(const depthEffects of [false,true]){
+ test(`Essen solar capture uses the prepared caster when the shared colour program is absent (${depthEffects?'discarding paint':'colour-only paint'})`,async()=>{
+  const families=[1626,1628];
+  const paint=source.replace('if(family==1003.)return kept(base,family);',
+   `if(family>=1603.&&family<=1628.)return ${depthEffects?'cut':'kept'}(base,family);`);
+  const {f,compiled}=await familyCity(families,'essen',paint),{S}=f;
+  for(const family of families)assert.equal(S.richPaintProgramKey(key(family)),key(1603));
+  assert.equal(S.partitionPrograms.has(key(1603)),false);
+  assert.equal(f.prepareAll().status,'ready');
+  assert.equal(S.solarCoverage().complete,true);
+  assert.deepEqual(compiled.map(c=>c.family),depthEffects?families:[]);
+  const runs=S.residentCaptureState(1,true).runs;
+  assert.deepEqual(runs.map(run=>run.program),depthEffects?families.map(family=>S.partitionPrograms.get(key(family))):families.map(()=>S.program));
+  assert.equal(S.partitionPrograms.has(key(1603)),false);
+ });
+}
