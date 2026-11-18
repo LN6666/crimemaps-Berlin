@@ -1,4 +1,6 @@
 // Own exact source/UV pins only; historical configuration unknown; candidate unapplied.
+type C193ExactAxis010 = readonly [0, 1, 0];
+type C193ExactAxis100 = readonly [1, 0, 0];
 export const C193_PROJECTION_REGISTRY={
   "schemaVersion": 1,
   "scope": "One original Breuninger8raw2375v,1exactdome1710v plus7flat665v rawMetric; no parenthide or neighbor absorption",
@@ -19,7 +21,7 @@ export const C193_PROJECTION_REGISTRY={
       9.17942665,
       48.77525545
     ],
-    "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Stuttgart/safety/buildings3d/stuttgart/flat-00226.json.gz",
+    "sourceLeaf": "source-evidence/54509f8fedaef3b14980/safety/buildings3d/stuttgart/flat-00226.json.gz",
     "sourceSHA256": "7d4413d22c4214a10b5d57d82051bec6ff28476e775970405022aba7608d5bb2",
     "geometrySignature": "d6476512",
     "componentGeometry": {
@@ -160,7 +162,7 @@ export const C193_PROJECTION_REGISTRY={
       "city": "stuttgart",
       "objectId": "osm/way/436013665",
       "partId": "osm/way/436013665/component/40f248694ece4b2441b4",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Stuttgart/safety/buildings3d/stuttgart/roof-00615.json.gz",
+      "sourceLeaf": "source-evidence/54509f8fedaef3b14980/safety/buildings3d/stuttgart/roof-00615.json.gz",
       "sourceLeafSHA256": "389f89ebfc0016cca347e1c9cd0278e22071dbfdfa3f3ba128254080426502fc",
       "rawSignature": "702abfd4",
       "rawBuffers": [
@@ -205,7 +207,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -225,7 +227,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -245,7 +247,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -265,7 +267,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -285,7 +287,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -305,7 +307,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -325,7 +327,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -345,7 +347,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -365,7 +367,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -385,7 +387,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -405,7 +407,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -425,7 +427,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -445,7 +447,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -465,7 +467,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -485,7 +487,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -505,7 +507,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -525,7 +527,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -545,7 +547,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -565,7 +567,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -585,7 +587,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -605,7 +607,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -625,7 +627,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -645,7 +647,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -665,7 +667,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -685,7 +687,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -705,7 +707,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -725,7 +727,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -745,7 +747,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -765,7 +767,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -785,7 +787,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -805,7 +807,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -825,7 +827,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -845,7 +847,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -865,7 +867,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -885,7 +887,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -905,7 +907,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -925,7 +927,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -945,7 +947,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -965,7 +967,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -985,7 +987,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1005,7 +1007,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1025,7 +1027,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1045,7 +1047,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1065,7 +1067,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1085,7 +1087,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1105,7 +1107,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1125,7 +1127,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1145,7 +1147,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1165,7 +1167,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1185,7 +1187,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1205,7 +1207,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1225,7 +1227,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1245,7 +1247,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1265,7 +1267,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1285,7 +1287,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1305,7 +1307,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1325,7 +1327,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1345,7 +1347,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1365,7 +1367,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1385,7 +1387,7 @@ export const C193_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1400,12 +1402,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1420,12 +1422,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1440,12 +1442,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1460,12 +1462,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1480,12 +1482,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1500,12 +1502,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1520,12 +1522,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1540,12 +1542,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1560,12 +1562,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1580,12 +1582,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1600,12 +1602,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1620,12 +1622,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1640,12 +1642,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1660,12 +1662,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1680,12 +1682,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1700,12 +1702,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1720,12 +1722,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1740,12 +1742,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1760,12 +1762,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1780,12 +1782,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1800,12 +1802,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1820,12 +1822,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1840,12 +1842,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1860,12 +1862,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1880,12 +1882,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1900,12 +1902,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1920,12 +1922,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1940,12 +1942,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1960,12 +1962,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -1980,12 +1982,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2000,12 +2002,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2020,12 +2022,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2040,12 +2042,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2060,12 +2062,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2080,12 +2082,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2100,12 +2102,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2120,12 +2122,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2140,12 +2142,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2160,12 +2162,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2180,12 +2182,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2200,12 +2202,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2220,12 +2222,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2240,12 +2242,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2260,12 +2262,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2280,12 +2282,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2300,12 +2302,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2320,12 +2322,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2340,12 +2342,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2360,12 +2362,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2380,12 +2382,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2400,12 +2402,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2420,12 +2422,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2440,12 +2442,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2460,12 +2462,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2480,12 +2482,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2500,12 +2502,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2520,12 +2522,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2540,12 +2542,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2560,12 +2562,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2580,12 +2582,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2600,12 +2602,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2620,12 +2622,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2640,12 +2642,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2660,12 +2662,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2680,12 +2682,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2700,12 +2702,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2720,12 +2722,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2740,12 +2742,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2760,12 +2762,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2780,12 +2782,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2800,12 +2802,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2820,12 +2822,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2840,12 +2842,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2860,12 +2862,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2880,12 +2882,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2900,12 +2902,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2920,12 +2922,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2940,12 +2942,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2960,12 +2962,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -2980,12 +2982,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3000,12 +3002,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3020,12 +3022,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3040,12 +3042,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3060,12 +3062,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3080,12 +3082,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3100,12 +3102,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3120,12 +3122,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3140,12 +3142,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3160,12 +3162,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3180,12 +3182,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3200,12 +3202,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3220,12 +3222,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3240,12 +3242,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3260,12 +3262,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3280,12 +3282,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3300,12 +3302,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3320,12 +3322,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3340,12 +3342,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3360,12 +3362,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3380,12 +3382,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3400,12 +3402,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3420,12 +3422,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3440,12 +3442,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3460,12 +3462,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3480,12 +3482,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3500,12 +3502,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3520,12 +3522,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3540,12 +3542,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3560,12 +3562,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3580,12 +3582,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3600,12 +3602,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3620,12 +3622,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3640,12 +3642,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3660,12 +3662,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3680,12 +3682,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3700,12 +3702,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3720,12 +3722,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3740,12 +3742,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3760,12 +3762,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3780,12 +3782,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3800,12 +3802,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3820,12 +3822,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3840,12 +3842,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3860,12 +3862,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3880,12 +3882,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3900,12 +3902,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3920,12 +3922,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3940,12 +3942,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3960,12 +3962,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -3980,12 +3982,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4000,12 +4002,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4020,12 +4022,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4040,12 +4042,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4060,12 +4062,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4080,12 +4082,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4100,12 +4102,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4120,12 +4122,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4140,12 +4142,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4160,12 +4162,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4180,12 +4182,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4200,12 +4202,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4220,12 +4222,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4240,12 +4242,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4260,12 +4262,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4280,12 +4282,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4300,12 +4302,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4320,12 +4322,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4340,12 +4342,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4360,12 +4362,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4380,12 +4382,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4400,12 +4402,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4420,12 +4422,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4440,12 +4442,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4460,12 +4462,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4480,12 +4482,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4500,12 +4502,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4520,12 +4522,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4540,12 +4542,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4560,12 +4562,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4580,12 +4582,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4600,12 +4602,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4620,12 +4622,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4640,12 +4642,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4660,12 +4662,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4680,12 +4682,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4700,12 +4702,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4720,12 +4722,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4740,12 +4742,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4760,12 +4762,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4780,12 +4782,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4800,12 +4802,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4820,12 +4822,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4840,12 +4842,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4860,12 +4862,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4880,12 +4882,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4900,12 +4902,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4920,12 +4922,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4940,12 +4942,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4960,12 +4962,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -4980,12 +4982,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5000,12 +5002,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5020,12 +5022,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5040,12 +5042,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5060,12 +5062,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5080,12 +5082,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5100,12 +5102,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5120,12 +5122,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5140,12 +5142,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5160,12 +5162,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5180,12 +5182,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5200,12 +5202,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5220,12 +5222,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5240,12 +5242,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5260,12 +5262,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5280,12 +5282,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5300,12 +5302,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5320,12 +5322,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5340,12 +5342,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5360,12 +5362,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5380,12 +5382,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5400,12 +5402,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5420,12 +5422,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5440,12 +5442,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5460,12 +5462,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5480,12 +5482,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5500,12 +5502,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5520,12 +5522,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5540,12 +5542,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5560,12 +5562,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5580,12 +5582,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5600,12 +5602,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5620,12 +5622,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5640,12 +5642,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5660,12 +5662,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5680,12 +5682,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5700,12 +5702,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5720,12 +5722,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5740,12 +5742,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5760,12 +5762,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5780,12 +5782,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5800,12 +5802,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5820,12 +5822,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5840,12 +5842,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5860,12 +5862,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5880,12 +5882,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5900,12 +5902,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5920,12 +5922,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5940,12 +5942,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5960,12 +5962,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -5980,12 +5982,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6000,12 +6002,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6020,12 +6022,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6040,12 +6042,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6060,12 +6062,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6080,12 +6082,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6100,12 +6102,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6120,12 +6122,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6140,12 +6142,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6160,12 +6162,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6180,12 +6182,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6200,12 +6202,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6220,12 +6222,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6240,12 +6242,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6260,12 +6262,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6280,12 +6282,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6300,12 +6302,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6320,12 +6322,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6340,12 +6342,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6360,12 +6362,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6380,12 +6382,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6400,12 +6402,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6420,12 +6422,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6440,12 +6442,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6460,12 +6462,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6480,12 +6482,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6500,12 +6502,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6520,12 +6522,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6540,12 +6542,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6560,12 +6562,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6580,12 +6582,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6600,12 +6602,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6620,12 +6622,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6640,12 +6642,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6660,12 +6662,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6680,12 +6682,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6700,12 +6702,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6720,12 +6722,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6740,12 +6742,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6760,12 +6762,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6780,12 +6782,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6800,12 +6802,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6820,12 +6822,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6840,12 +6842,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6860,12 +6862,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6880,12 +6882,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6900,12 +6902,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6920,12 +6922,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6940,12 +6942,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6960,12 +6962,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -6980,12 +6982,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7000,12 +7002,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7020,12 +7022,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7040,12 +7042,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7060,12 +7062,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7080,12 +7082,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7100,12 +7102,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7120,12 +7122,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7140,12 +7142,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7160,12 +7162,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7180,12 +7182,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7200,12 +7202,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7220,12 +7222,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7240,12 +7242,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7260,12 +7262,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7280,12 +7282,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7300,12 +7302,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7320,12 +7322,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7340,12 +7342,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7360,12 +7362,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7380,12 +7382,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7400,12 +7402,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7420,12 +7422,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7440,12 +7442,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7460,12 +7462,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7480,12 +7482,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7500,12 +7502,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7520,12 +7522,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7540,12 +7542,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7560,12 +7562,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7580,12 +7582,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7600,12 +7602,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7620,12 +7622,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7640,12 +7642,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7660,12 +7662,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7680,12 +7682,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7700,12 +7702,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7720,12 +7722,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7740,12 +7742,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7760,12 +7762,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7780,12 +7782,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7800,12 +7802,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7820,12 +7822,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7840,12 +7842,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7860,12 +7862,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7880,12 +7882,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7900,12 +7902,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7920,12 +7922,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7940,12 +7942,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7960,12 +7962,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -7980,12 +7982,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8000,12 +8002,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8020,12 +8022,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8040,12 +8042,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8060,12 +8062,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8080,12 +8082,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8100,12 +8102,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8120,12 +8122,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8140,12 +8142,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8160,12 +8162,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8180,12 +8182,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8200,12 +8202,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8220,12 +8222,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8240,12 +8242,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8260,12 +8262,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8280,12 +8282,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8300,12 +8302,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8320,12 +8322,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8340,12 +8342,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8360,12 +8362,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8380,12 +8382,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8400,12 +8402,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8420,12 +8422,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8440,12 +8442,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8460,12 +8462,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8480,12 +8482,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8500,12 +8502,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8520,12 +8522,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8540,12 +8542,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8560,12 +8562,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8580,12 +8582,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8600,12 +8602,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8620,12 +8622,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8640,12 +8642,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8660,12 +8662,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8680,12 +8682,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8700,12 +8702,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8720,12 +8722,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8740,12 +8742,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8760,12 +8762,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8780,12 +8782,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8800,12 +8802,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8820,12 +8822,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8840,12 +8842,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8860,12 +8862,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8880,12 +8882,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8900,12 +8902,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8920,12 +8922,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8940,12 +8942,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8960,12 +8962,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -8980,12 +8982,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9000,12 +9002,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9020,12 +9022,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9040,12 +9042,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9060,12 +9062,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9080,12 +9082,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9100,12 +9102,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9120,12 +9122,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9140,12 +9142,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9160,12 +9162,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9180,12 +9182,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9200,12 +9202,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9220,12 +9222,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9240,12 +9242,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9260,12 +9262,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9280,12 +9282,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9300,12 +9302,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9320,12 +9322,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9340,12 +9342,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9360,12 +9362,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9380,12 +9382,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9400,12 +9402,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9420,12 +9422,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9440,12 +9442,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9460,12 +9462,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9480,12 +9482,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9500,12 +9502,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9520,12 +9522,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9540,12 +9542,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9560,12 +9562,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9580,12 +9582,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9600,12 +9602,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9620,12 +9622,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9640,12 +9642,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9660,12 +9662,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9680,12 +9682,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9700,12 +9702,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9720,12 +9722,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9740,12 +9742,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9760,12 +9762,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9780,12 +9782,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9800,12 +9802,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9820,12 +9822,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9840,12 +9842,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9860,12 +9862,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9880,12 +9882,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9900,12 +9902,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9920,12 +9922,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9940,12 +9942,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9960,12 +9962,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -9980,12 +9982,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10000,12 +10002,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10020,12 +10022,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10040,12 +10042,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10060,12 +10062,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10080,12 +10082,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10100,12 +10102,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10120,12 +10122,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10140,12 +10142,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10160,12 +10162,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10180,12 +10182,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10200,12 +10202,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10220,12 +10222,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10240,12 +10242,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10260,12 +10262,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10280,12 +10282,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10300,12 +10302,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10320,12 +10322,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10340,12 +10342,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10360,12 +10362,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10380,12 +10382,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10400,12 +10402,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10420,12 +10422,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10440,12 +10442,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10460,12 +10462,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10480,12 +10482,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10500,12 +10502,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10520,12 +10522,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10540,12 +10542,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10560,12 +10562,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10580,12 +10582,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10600,12 +10602,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10620,12 +10622,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10640,12 +10642,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10660,12 +10662,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10680,12 +10682,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10700,12 +10702,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10720,12 +10722,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10740,12 +10742,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10760,12 +10762,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10780,12 +10782,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10800,12 +10802,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10820,12 +10822,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10840,12 +10842,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10860,12 +10862,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10880,12 +10882,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10900,12 +10902,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10920,12 +10922,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10940,12 +10942,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10960,12 +10962,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -10980,12 +10982,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11000,12 +11002,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11020,12 +11022,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11040,12 +11042,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11060,12 +11062,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11080,12 +11082,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11100,12 +11102,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11120,12 +11122,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11140,12 +11142,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11160,12 +11162,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11180,12 +11182,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11200,12 +11202,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11220,12 +11222,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11240,12 +11242,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11260,12 +11262,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11280,12 +11282,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11300,12 +11302,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11320,12 +11322,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11340,12 +11342,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11360,12 +11362,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11380,12 +11382,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11400,12 +11402,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11420,12 +11422,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11440,12 +11442,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11460,12 +11462,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11480,12 +11482,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11500,12 +11502,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11520,12 +11522,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11540,12 +11542,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11560,12 +11562,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,
@@ -11580,12 +11582,12 @@ export const C193_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C193ExactAxis100,
           "vAxis": [
             0,
             1,
             0
-          ],
+          ] as C193ExactAxis010,
           "uOrigin": 0,
           "vOrigin": 0,
           "height": 28.309999465942383,

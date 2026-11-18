@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 import {ownerShapePatchProfile} from './owner-shape-patch-display';
 import {nativePaintSignature} from './progressive-native-signature';
 const PIN={"number":"F061-RearCourt829","id":"F061-RearCourt829","tile_key":"F061-RearCourt829","city":"hamburg","objectId":"osm/way/45574500","partId":"osm/way/45574500/component/0e5473b3818ee68de406/owner-photoapprox-rear-atrium829","sourcePartId":"osm/way/45574500/component/0e5473b3818ee68de406","origin":[9.990259949999999,53.58115765],"path":"/safety/buildings3d/owner-shape-patches/F061-RearCourt829.json","bytes":32637,"sha256":"c3a9c6c61ba72fc5bbfca2f9808b8421b3b2e83896ffc6118589313ef36626a4","vertices":726,"triangles":242,"max_height_m":0.2,"bbox":[9.990412500890614,53.5812040932222,9.990914165776054,53.58150257344447],"geometryRole":"owner-authorized-reconstruction","owner_authorized":true,"enabled":true,"family":1647,"additiveOnly":true,"holdNative":false,"geometrySignature":"6203c308"} as const;

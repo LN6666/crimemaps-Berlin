@@ -1,3 +1,5 @@
+import type{FrozenDataScope}from'../../../safety/frozen-data-scope';
+import{PROGRESSIVE_PAINT_SCOPE_RESOURCES as progressive_paint_RESOURCES,MODULE_SCOPE_RESOURCES_FOR_COMPONENTS as progressiveResourcesForComponents}from'./progressive-paint';
 import {progressiveAdmission,applyProgressiveFrames,isRejectedProgressivePaint} from './progressive-paint';
 import {REICHSTAG_NATIVE_IDS,reichstagNativePaint} from './facade-reichstag-frame';
 import {RESIDENZ_NATIVE_IDS,residenzNativePaint} from './facade-residenz-frame';
@@ -7,13 +9,23 @@ import {PETRI_NATIVE_IDS,petriNativePaint,configurePetriPaint} from './facade-pe
 import {configureRathausRoofPaint} from './facade-rathaus-roof-paint';
 import {FRAUEN_NATIVE_IDS,frauenNativePaint,RATHAUS_NATIVE_IDS,rathausNativePaint,rathausPaintReference,alignRathausWingPaint} from './facade-munich-frame';
 import {isDescribedBuilding} from './facade-description-bindings';
-import type {BuildingComponent} from './building-mesh-renderer';
-
-/** Display templates. These choices do not change raw source architecture or measured geometry. */
-const rathausHamburg = new Set(['142944431','255885434','255885435','284404494','284404495','255659998','284404483','284404484','284404485','284404486','284404487','284404488','284404490','284404492','284404493','284404496','284404497','284404498','284404499','284404500']);
+import type {BuildingComponent} from "../../../safety/building-mesh-types";
 export const PAINT_FAMILIES = ['原材色','砖墙与拱窗','古典石材与柱式','哥特式窗拱与扶壁线','巴洛克墙面与窗套','木构与灰泥','工业砖墙与大窗','玻璃幕墙','砖基座与玻璃上部','普通现代墙面'] as const;
-export function paintFamily(c:BuildingComponent):number {
- const progressive=progressiveAdmission(c);if(progressive)return progressive.preserveUnboundNeutral?0:-98;if(isRejectedProgressivePaint(c))return 0;
+
+/** Full original recipe resources; city demand is deliberately coarse. */
+export const FACADE_PAINT_FRAME_SCOPE_RESOURCES=[...progressive_paint_RESOURCES] as const;
+export const FACADE_PAINT_FRAME_SCOPE_CITIES=[] as const;
+export const MODULE_SCOPE_RESOURCES=FACADE_PAINT_FRAME_SCOPE_RESOURCES;
+export const MODULE_SCOPE_RESOURCES_FOR_COMPONENTS=progressiveResourcesForComponents;
+export const MODULE_SCOPE_CITIES=FACADE_PAINT_FRAME_SCOPE_CITIES;
+export const MODULE_SCOPE_ARITY={"paintFamily":1,"facadePaintData":1} as const;
+const RECIPE_KEY={};
+const facade_paint_frame_rathausHamburg_KEY={};
+function createRecipe(scope?:FrozenDataScope){
+function scopeValue():FrozenDataScope{if(!scope)throw Error('facade-paint-frame requires a prepared frozen data scope');return scope;}
+function _scope_rathausHamburg(){return scopeValue().memo(facade_paint_frame_rathausHamburg_KEY,()=>(new Set(['142944431','255885434','255885435','284404494','284404495','255659998','284404483','284404484','284404485','284404486','284404487','284404488','284404490','284404492','284404493','284404496','284404497','284404498','284404499','284404500'])));}
+function paintFamily(c:BuildingComponent):number {
+ const progressive=progressiveAdmission(c,scope);if(progressive)return progressive.preserveUnboundNeutral?0:-98;if(isRejectedProgressivePaint(c,scope))return 0;
  if(!isDescribedBuilding(c))return 0;
  const p=c.sourceFeature.properties??{}, id=c.objectId.split('/').at(-1)!;
  if(c.city==='berlin'&&REICHSTAG_NATIVE_IDS.has(id))return 200;
@@ -21,7 +33,7 @@ export function paintFamily(c:BuildingComponent):number {
  if(c.city==='munich'&&RATHAUS_NATIVE_IDS.has(id))return 120;
  if(c.city==='munich'&&FRAUEN_NATIVE_IDS.has(id))return 124;
  if(c.city==='hamburg'&&MICHEL_NATIVE_IDS.has(id))return 160;
- if(c.city==='hamburg'&&rathausHamburg.has(id))return 100;
+ if(c.city==='hamburg'&&_scope_rathausHamburg().has(id))return 100;
  if(c.city==='hamburg'&&PETRI_NATIVE_IDS.has(id))return 150;
  if(c.city==='hamburg'&&c.objectId==='osm/relation/19883203')return 108;
  if(c.city==='hamburg'&&ELB_NATIVE_IDS.has(id))return 140;
@@ -40,9 +52,7 @@ export function paintFamily(c:BuildingComponent):number {
  if(kind==='church'||kind==='cathedral')return -3;
  return -9;
 }
-
-/** Read original surfaces to attach paint coordinates; never create, move, remove or retriangulate a vertex. */
-export function facadePaintData(components:BuildingComponent[]):Float32Array<ArrayBuffer> {
+function facadePaintData(components:BuildingComponent[]):Float32Array<ArrayBuffer> {
  const vertices=components.reduce((n,c)=>n+c.batches.reduce((k,b)=>k+b.positions.length/3,0),0),out=new Float32Array(vertices*5);let at=0;
  configureElbRoofPaint(components);configurePetriPaint(components);configureMichelPaint(components);
  const rathausParent=components.find(c=>c.city==='munich'&&c.objectId==='osm/relation/147095');configureRathausRoofPaint(rathausParent);
@@ -145,5 +155,10 @@ export function facadePaintData(components:BuildingComponent[]):Float32Array<Arr
    else out.set(valid?[-g!.nz*b.positions[j]+g!.nx*b.positions[j+2]-g!.u0,b.positions[j+1]-g!.y0,wallHeight,g!.u1-g!.u0,profile]:[b.positions[j],b.positions[j+1],0,0,Math.abs(b.normals[j+1])>.2?family:(family!==0?-99:0)],at);at+=5;
   }});
  }
- return applyProgressiveFrames(components,out);
+ return applyProgressiveFrames(components,out,scope);
 }
+return{paintFamily,facadePaintData,_scope_rathausHamburg};
+}
+function recipe(scope?:FrozenDataScope){return scope?scope.memo(RECIPE_KEY,()=>createRecipe(scope)):createRecipe();}
+export function paintFamily(c:BuildingComponent,scope?:FrozenDataScope){return recipe(scope).paintFamily(c);}
+export function facadePaintData(components:BuildingComponent[],scope?:FrozenDataScope){return recipe(scope).facadePaintData(components);}

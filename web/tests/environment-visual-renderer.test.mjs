@@ -55,25 +55,98 @@ test('shadow scratch and membership buffer change only for a real membership/sou
  state.update(points,1,1,light([-1,0]),boundary,2,true);assert.equal(state.update(points,1,1,light([-1,0]),boundary,2,false),true);assert.equal(state.stats.mode,'disabled');
  state.update(points,1,2,light([-1,0]),undefined,2,true);assert.equal(state.stats.count,0);assert.match(state.stats.mode,/verified/);state.destroy();assert.equal(state.stats.mode,'destroyed');
 });
-function fakeGL(){let n=1,boundArray,vao,program,texture=null,framebuffer=null;const enabled=new Set(),uniforms=new Map(),buffers=[],writes=[],draws=[],attributes=new Map(),blend=[1,0,1,0];const g={};
+function fakeGL(){let n=1,boundArray,vao,program,texture=null,framebuffer=null;const enabled=new Set(),uniforms=new Map(),buffers=[],writes=[],draws=[],attributes=new Map(),attributeOffsets=new Map(),blend=[1,0,1,0];const g={};
  for(const key of ['DRAW_FRAMEBUFFER_BINDING','DRAW_FRAMEBUFFER','FRAMEBUFFER_COMPLETE','MAX_TEXTURE_SIZE','SAMPLER_BINDING','DEPTH_RANGE','STENCIL_WRITEMASK','STENCIL_BACK_WRITEMASK','STENCIL_TEST','SCISSOR_TEST','COLOR_WRITEMASK','FRONT','BACK','R8','RED','RGBA8','RGBA','UNSIGNED_BYTE','COLOR','MAX','TEXTURE_MIN_FILTER','TEXTURE_MAG_FILTER','TEXTURE_WRAP_S','TEXTURE_WRAP_T','NEAREST','CLAMP_TO_EDGE','COLOR_ATTACHMENT0','ACTIVE_TEXTURE','TEXTURE0','TEXTURE_BINDING_2D','TEXTURE_2D','VIEWPORT','VERTEX_ARRAY_BINDING','ARRAY_BUFFER_BINDING','CURRENT_PROGRAM','DEPTH_TEST','BLEND','CULL_FACE','DEPTH_WRITEMASK','DEPTH_FUNC','LINE_WIDTH','BLEND_SRC_RGB','BLEND_DST_RGB','BLEND_SRC_ALPHA','BLEND_DST_ALPHA','BLEND_EQUATION_RGB','BLEND_EQUATION_ALPHA','FUNC_ADD','FUNC_SUBTRACT','FUNC_REVERSE_SUBTRACT','MIN','ARRAY_BUFFER','ELEMENT_ARRAY_BUFFER','STATIC_DRAW','DYNAMIC_DRAW','VERTEX_SHADER','FRAGMENT_SHADER','COMPILE_STATUS','LINK_STATUS','FLOAT','LEQUAL','LESS','TRIANGLES','LINES','UNSIGNED_INT','UNSIGNED_SHORT','SRC_ALPHA','ONE_MINUS_SRC_ALPHA','ONE'])g[key]=n++;
  // Real WebGL defaults use FUNC_ADD for both equations; returning a depth enum
  // here would correctly be rejected by the product's lost-context snapshot guard.
  const equations=[g.FUNC_ADD,g.FUNC_ADD];let depthFunction=g.LEQUAL,depthWrite=true;
- Object.assign(g,{activeTexture(){},bindTexture:(_t,v)=>texture=v,bindSampler(){},createTexture:()=>({id:n++}),deleteTexture(){},createFramebuffer:()=>({id:n++}),deleteFramebuffer(){},bindFramebuffer:(_t,v)=>framebuffer=v,texImage2D(){},texParameteri(){},framebufferTexture2D(){},checkFramebufferStatus:()=>g.FRAMEBUFFER_COMPLETE,clearBufferfv(){},viewport(){},colorMask(){},stencilMaskSeparate(){},buffers,writes,draws,attributes,uniforms,blend,createVertexArray:()=>({id:n++}),createBuffer:()=>{const b={id:n++};buffers.push(b);return b;},createProgram:()=>({id:n++}),createShader:()=>({id:n++}),shaderSource(){},compileShader(){},getShaderParameter:()=>true,attachShader(){},bindAttribLocation(){},linkProgram(){},getProgramParameter:()=>true,deleteShader(){},deleteBuffer(){},deleteVertexArray(){},deleteProgram(){},bindVertexArray:v=>vao=v,bindBuffer:(target,b)=>{if(target===g.ARRAY_BUFFER)boundArray=b;},bufferData:(target,data)=>writes.push({target,buffer:boundArray,bytes:typeof data==='number'?data:data.byteLength}),bufferSubData:(target,offset,data)=>writes.push({target,buffer:boundArray,offset,bytes:data.byteLength}),getAttribLocation:(_p,name)=>({a_position:0,a_normal:1,a_role:2,a_tree:3}[name]??-1),enableVertexAttribArray(){},vertexAttribPointer:(at)=>{if(vao){const key=vao.id+':'+at;attributes.set(key,boundArray);}},vertexAttribDivisor(){},getUniformLocation:(_p,name)=>name,uniform1f:(k,v)=>uniforms.set(k,v),uniform1i:(k,v)=>uniforms.set(k,v),uniform2f:(k,...v)=>uniforms.set(k,v),uniform2fv:(k,v)=>uniforms.set(k,v),uniform3fv:(k,v)=>uniforms.set(k,v),uniform4fv:(k,v)=>uniforms.set(k,v),uniform3f:(k,...v)=>uniforms.set(k,v),uniformMatrix4fv:(k,_t,v)=>uniforms.set(k,Array.from(v)),useProgram:p=>program=p,enable:key=>enabled.add(key),disable:key=>enabled.delete(key),isEnabled:key=>enabled.has(key),depthFunc:v=>depthFunction=v,depthMask:v=>depthWrite=v,lineWidth(){},isContextLost:()=>false,blendEquationSeparate:(rgb,alpha)=>equations.splice(0,2,rgb,alpha),blendFuncSeparate:(...v)=>blend.splice(0,4,...v),drawArrays:(mode,_first,count)=>draws.push({mode,count,composite:true,coveragePass:uniforms.get('u_environment_shadow_pass'),depthFunction,depthWrite,plane:Array.from(uniforms.get('u_plane')??[]),depthRange:Array.from(uniforms.get('u_depth_range')??[0,1])}),drawElementsInstanced:(mode,count,type,offset,instances)=>draws.push({mode,count,type,offset,instances,vao,program,shadow:uniforms.get('u_environment_shadow_pass'),tree:uniforms.get('u_tree'),equations:equations.slice(),depthFunction,depthWrite,solarVector:Array.from(uniforms.get('u_environment_shadow_vector')??[]),opacity:uniforms.get('u_environment_shadow_opacity')}),getParameter:key=>key===g.BLEND_EQUATION_RGB?equations[0]:key===g.BLEND_EQUATION_ALPHA?equations[1]:key===g.MAX_TEXTURE_SIZE?8192:key===g.DRAW_FRAMEBUFFER_BINDING?framebuffer:key===g.SAMPLER_BINDING?null:key===g.COLOR_WRITEMASK?[true,true,true,true]:key===g.DEPTH_RANGE?[0,1]:key===g.STENCIL_WRITEMASK||key===g.STENCIL_BACK_WRITEMASK?255:key===g.VIEWPORT?[0,0,1280,800]:key===g.ACTIVE_TEXTURE?g.TEXTURE0:key===g.TEXTURE_BINDING_2D?texture:key===g.VERTEX_ARRAY_BINDING?vao:key===g.ARRAY_BUFFER_BINDING?boundArray:key===g.CURRENT_PROGRAM?program:key===g.DEPTH_FUNC?depthFunction:key===g.DEPTH_WRITEMASK?depthWrite:key===g.LINE_WIDTH?1:key===g.BLEND_SRC_RGB?blend[0]:key===g.BLEND_DST_RGB?blend[1]:key===g.BLEND_SRC_ALPHA?blend[2]:key===g.BLEND_DST_ALPHA?blend[3]:g.LEQUAL});return g;}
+ Object.assign(g,{activeTexture(){},bindTexture:(_t,v)=>texture=v,bindSampler(){},createTexture:()=>({id:n++}),deleteTexture(){},createFramebuffer:()=>({id:n++}),deleteFramebuffer(){},bindFramebuffer:(_t,v)=>framebuffer=v,texImage2D(){},texParameteri(){},framebufferTexture2D(){},checkFramebufferStatus:()=>g.FRAMEBUFFER_COMPLETE,clearBufferfv(){},viewport(){},colorMask(){},stencilMaskSeparate(){},buffers,writes,draws,attributes,attributeOffsets,uniforms,blend,canvas:{clientWidth:1280,clientHeight:800},createVertexArray:()=>({id:n++}),createBuffer:()=>{const b={id:n++};buffers.push(b);return b;},createProgram:()=>({id:n++}),createShader:()=>({id:n++}),shaderSource(){},compileShader(){},getShaderParameter:()=>true,attachShader(){},detachShader(){},bindAttribLocation(){},linkProgram(){},getProgramParameter:()=>true,deleteShader(){},deleteBuffer(){},deleteVertexArray(){},deleteProgram(){},bindVertexArray:v=>vao=v,bindBuffer:(target,b)=>{if(target===g.ARRAY_BUFFER)boundArray=b;},bufferData:(target,data)=>writes.push({target,buffer:boundArray,bytes:typeof data==='number'?data:data.byteLength}),bufferSubData:(target,offset,data)=>writes.push({target,buffer:boundArray,offset,bytes:data.byteLength}),getAttribLocation:(_p,name)=>({a_position:0,a_normal:1,a_role:2,a_tree:3}[name]??-1),enableVertexAttribArray(){},vertexAttribPointer:(at,_size,_type,_normalized,_stride,offset)=>{if(vao){const key=vao.id+':'+at;attributes.set(key,boundArray);attributeOffsets.set(key,offset);}},vertexAttribDivisor(){},getUniformLocation:(_p,name)=>name,uniform1f:(k,v)=>uniforms.set(k,v),uniform1i:(k,v)=>uniforms.set(k,v),uniform2f:(k,...v)=>uniforms.set(k,v),uniform2fv:(k,v)=>uniforms.set(k,v),uniform3fv:(k,v)=>uniforms.set(k,v),uniform4fv:(k,v)=>uniforms.set(k,v),uniform3f:(k,...v)=>uniforms.set(k,v),uniformMatrix4fv:(k,_t,v)=>uniforms.set(k,Array.from(v)),useProgram:p=>program=p,enable:key=>enabled.add(key),disable:key=>enabled.delete(key),isEnabled:key=>enabled.has(key),depthFunc:v=>depthFunction=v,depthMask:v=>depthWrite=v,lineWidth(){},isContextLost:()=>false,blendEquationSeparate:(rgb,alpha)=>equations.splice(0,2,rgb,alpha),blendFuncSeparate:(...v)=>blend.splice(0,4,...v),drawArrays:(mode,_first,count)=>draws.push({mode,count,composite:true,coveragePass:uniforms.get('u_environment_shadow_pass'),depthFunction,depthWrite,plane:Array.from(uniforms.get('u_plane')??[]),depthRange:Array.from(uniforms.get('u_depth_range')??[0,1])}),drawElementsInstanced:(mode,count,type,offset,instances)=>draws.push({mode,count,type,offset,instances,vao,program,instanceOffset:attributeOffsets.get(vao?.id+':3'),instanceBuffer:attributes.get(vao?.id+':3'),shadow:uniforms.get('u_environment_shadow_pass'),tree:uniforms.get('u_tree'),equations:equations.slice(),depthFunction,depthWrite,solarVector:Array.from(uniforms.get('u_environment_shadow_vector')??[]),opacity:uniforms.get('u_environment_shadow_opacity')}),getParameter:key=>key===g.BLEND_EQUATION_RGB?equations[0]:key===g.BLEND_EQUATION_ALPHA?equations[1]:key===g.MAX_TEXTURE_SIZE?8192:key===g.DRAW_FRAMEBUFFER_BINDING?framebuffer:key===g.SAMPLER_BINDING?null:key===g.COLOR_WRITEMASK?[true,true,true,true]:key===g.DEPTH_RANGE?[0,1]:key===g.STENCIL_WRITEMASK||key===g.STENCIL_BACK_WRITEMASK?255:key===g.VIEWPORT?[0,0,1280,800]:key===g.ACTIVE_TEXTURE?g.TEXTURE0:key===g.TEXTURE_BINDING_2D?texture:key===g.VERTEX_ARRAY_BINDING?vao:key===g.ARRAY_BUFFER_BINDING?boundArray:key===g.CURRENT_PROGRAM?program:key===g.DEPTH_FUNC?depthFunction:key===g.DEPTH_WRITEMASK?depthWrite:key===g.LINE_WIDTH?1:key===g.BLEND_SRC_RGB?blend[0]:key===g.BLEND_DST_RGB?blend[1]:key===g.BLEND_SRC_ALPHA?blend[2]:key===g.BLEND_DST_ALPHA?blend[3]:g.LEQUAL});return g;}
 async function rendererFixture(options={}){
  // The bundled renderer has its own source-boundary module instance. Prepare through its public dependency in the same bundle.
- const entry=`export {createEnvironmentSceneRenderer} from ${JSON.stringify(path.join(safety,'environment-scene-renderer.ts'))};export {prepareSolarShadowBoundary} from ${JSON.stringify(path.join(safety,'solar-shadow-admission.ts'))};export {createProjectedShadowMask} from ${JSON.stringify(path.join(safety,'projected-shadow-mask.ts'))};`;
+ const entry=`export {createEnvironmentSceneRenderer} from ${JSON.stringify(path.join(safety,'environment-scene-renderer.ts'))};export {prepareSolarShadowBoundary} from ${JSON.stringify(path.join(safety,'solar-shadow-admission.ts'))};export {createProjectedShadowMask} from ${JSON.stringify(path.join(safety,'projected-shadow-mask.ts'))};export {createSceneSolarShadow} from ${JSON.stringify(path.join(safety,'scene-solar-shadow.ts'))};`;
  const result=await build({stdin:{contents:entry,resolveDir:safety,loader:'ts'},bundle:true,write:false,platform:'node',format:'esm',preserveSymlinks:true}),m=await import('data:text/javascript;base64,'+Buffer.from(result.outputFiles[0].text).toString('base64'));
  const sha='d'.repeat(64);m.prepareSolarShadowBoundary({boundarySHA256:sha,geometry:{type:'Polygon',coordinates:[square(13.3,52.4,13.5,52.6)]}});
  const props={source_boundary_sha256:sha,source_pbf_sha256:'e'.repeat(64),source_snapshot:'fixture',displayClip:false,osmTags:{height:'12'},tree_crown_display_5m_guard:true};
  const point={type:'Feature',id:'osm/node/1',geometry:{type:'Point',coordinates:[13.4,52.5]},properties:{...props,kind:'tree'}},water={type:'Feature',id:'osm/way/2',geometry:{type:'Polygon',coordinates:[square(13.4001,52.5001,13.4005,52.5005),square(13.4002,52.5002,13.4003,52.5003)]},properties:{...props,kind:'water'}};
- const r=m.createEnvironmentSceneRenderer({triggerRepaint(){}},{origin:[13.4,52.5],...options}),gl=fakeGL();r.layer.onAdd({},gl);r.setSceneEnvironment({instantISO:'2026-06-21T12:00:00+02:00',sunlight:true,shadows:true,motion:true,quality:'balanced'});r.setFeatures([point,water],[13.3,52.4,13.5,52.6],new Set([water]));r.setEnabled(true);return{r,gl,point,water,createProjectedShadowMask:m.createProjectedShadowMask};
+ const r=m.createEnvironmentSceneRenderer({triggerRepaint(){}},{origin:[13.4,52.5],...options}),gl=fakeGL();r.layer.onAdd({},gl);r.setSceneEnvironment({instantISO:'2026-06-21T12:00:00+02:00',sunlight:true,shadows:true,motion:true,quality:'balanced'});r.setFeatures([point,water],[13.3,52.4,13.5,52.6],new Set([water]));r.setEnabled(true);return{r,gl,point,water,createProjectedShadowMask:m.createProjectedShadowMask,createSceneSolarShadow:m.createSceneSolarShadow};
 }
+
+// Add only the depth-capture state needed to publish through the real shared
+// shadow owner. The renderer and receiver use the same bundled module instance.
+function solarCaptureGL(gl){
+ let next=1000,active=gl.TEXTURE0,readFramebuffer=null;
+ for(const key of ['READ_FRAMEBUFFER_BINDING','READ_FRAMEBUFFER','FRAMEBUFFER','RENDERBUFFER_BINDING','RENDERBUFFER','SCISSOR_BOX','DEPTH_CLEAR_VALUE','CULL_FACE_MODE','FRONT_FACE','MAX_COMBINED_TEXTURE_IMAGE_UNITS','POLYGON_OFFSET_FILL','TEXTURE_COMPARE_MODE','NONE','DEPTH_COMPONENT24','DEPTH_COMPONENT','DEPTH_ATTACHMENT','DEPTH_BUFFER_BIT'])if(!(key in gl))gl[key]=next++;
+ const values=new Map([[gl.RENDERBUFFER_BINDING,null],[gl.SCISSOR_BOX,[0,0,1280,800]],[gl.DEPTH_CLEAR_VALUE,1],[gl.CULL_FACE_MODE,0],[gl.FRONT_FACE,0],[gl.MAX_COMBINED_TEXTURE_IMAGE_UNITS,32]]);
+ const textures=new Map(),samplers=new Map(),get=gl.getParameter,bindFramebuffer=gl.bindFramebuffer;
+ const foreignTexture={name:'existing-slot-15-texture'},foreignSampler={name:'existing-slot-15-sampler'};
+ textures.set(gl.TEXTURE0+15,foreignTexture);samplers.set(15,foreignSampler);
+ Object.assign(gl,{
+  getParameter(key){if(key===gl.ACTIVE_TEXTURE)return active;if(key===gl.TEXTURE_BINDING_2D)return textures.get(active)??null;if(key===gl.SAMPLER_BINDING)return samplers.get(active-gl.TEXTURE0)??null;if(key===gl.READ_FRAMEBUFFER_BINDING)return readFramebuffer;return values.has(key)?values.get(key):get(key);},
+  activeTexture:unit=>active=unit,bindTexture:(_target,value)=>textures.set(active,value),bindSampler:(unit,value)=>samplers.set(unit,value),
+  bindFramebuffer(target,value){if(target!==gl.DRAW_FRAMEBUFFER)readFramebuffer=value;if(target!==gl.READ_FRAMEBUFFER)bindFramebuffer(gl.DRAW_FRAMEBUFFER,value);},
+  bindRenderbuffer:(_target,value)=>values.set(gl.RENDERBUFFER_BINDING,value),viewport:(...value)=>values.set(gl.VIEWPORT,value),scissor:(...value)=>values.set(gl.SCISSOR_BOX,value),
+  clearDepth:value=>values.set(gl.DEPTH_CLEAR_VALUE,value),depthRange:(...value)=>values.set(gl.DEPTH_RANGE,value),cullFace:value=>values.set(gl.CULL_FACE_MODE,value),frontFace:value=>values.set(gl.FRONT_FACE,value),
+  drawBuffers(){},readBuffer(){},clear(){},
+ });
+ const draw=gl.drawElementsInstanced;
+ gl.drawElementsInstanced=(...args)=>{draw(...args);Object.assign(gl.draws.at(-1),{receivesBuildingShadow:gl.uniforms.get('u_scene_shadow_enabled'),receiverTexture:textures.get(gl.TEXTURE0+15),receiverMatrix:Array.from(gl.uniforms.get('u_scene_shadow_matrix')??[])});};
+ return {textures,samplers,foreignTexture,foreignSampler};
+}
+
+test('only the final tree surfaces receive the shared building depth map, leaving water and green projection unchanged',async()=>{
+ const {r,gl,point,water,createSceneSolarShadow}=await rendererFixture(),bindings=solarCaptureGL(gl);
+ const green={...water,id:'osm/way/991',properties:{...water.properties,kind:'green'}};
+ r.setFeatures([point,water,green],[13.3,52.4,13.5,52.6],new Set([water]));
+ const waterBefore=r.waterAdmissionEvidence,bufferBytes=r.stats.allocatedGPUBufferBytes,shadow=createSceneSolarShadow();
+ shadow.setSource({getSolarShadowRevision:()=> 'building/1',getPlanarReflectionRevision:()=> 'building/1',getSolarShadowCoverage:()=>({bounds:[.537,.328,0,.538,.329,.00001],triangles:1,draws:1,complete:true}),renderPlanarReflection:()=>({triangles:1,draws:1,complete:true})});
+ shadow.capture(gl,{direction:[.5,.8,-.2],enabled:true,quality:'balanced'});
+ assert.equal(shadow.stats.published,true,shadow.stats.lastError);
+ const settings={instantISO:'2026-06-21T12:00:00+02:00',sunlight:true,shadows:true,motion:true,quality:'balanced'};
+ try{
+  // Repeating the full frame also checks that last frame's enabled tree uniform
+  // cannot leak into this frame's water, green fallback or old projected shadows.
+  for(const matrix of [sceneProjection,identity,sceneProjection]){
+   gl.draws.length=0;r.layer.render(gl,matrix);assert.equal(r.stats.renderFailure,undefined);
+   const surface=gl.draws.filter(d=>!d.composite),treeDraws=surface.filter(d=>d.tree===1&&d.shadow===0);
+   assert.equal(treeDraws.length,1);assert.equal(treeDraws[0].receivesBuildingShadow,1);
+   assert.equal(treeDraws[0].receiverMatrix.length,16);assert(treeDraws[0].receiverMatrix.every(Number.isFinite));
+   assert.notEqual(treeDraws[0].receiverTexture,bindings.foreignTexture);
+   assert(surface.filter(d=>!treeDraws.includes(d)).every(d=>d.receivesBuildingShadow===0));
+   assert(surface.some(d=>d.shadow===1),'old tree projection remains');
+   assert(surface.some(d=>!d.tree&&!d.shadow&&d.offset===r.stats.waterTriangles*3*4),'green ground still draws');
+   assert.equal(bindings.textures.get(gl.TEXTURE0+15),bindings.foreignTexture);
+   assert.equal(bindings.samplers.get(15),bindings.foreignSampler);
+  }
+  for(const state of [{...settings,shadows:false},{...settings,sunlight:false},{...settings,instantISO:'2026-06-21T00:00:00+02:00'}]){
+   r.setSceneEnvironment(state);gl.draws.length=0;r.layer.render(gl,sceneProjection);
+   assert(gl.draws.filter(d=>!d.composite).every(d=>d.receivesBuildingShadow===0));
+  }
+  shadow.resetGPU();r.setSceneEnvironment(settings);gl.draws.length=0;r.layer.render(gl,sceneProjection);
+  assert(gl.draws.filter(d=>!d.composite).every(d=>d.receivesBuildingShadow===0),'unpublished capture falls back to existing lighting');
+  assert.deepEqual(r.waterAdmissionEvidence,waterBefore);assert.equal(r.stats.allocatedGPUBufferBytes,bufferBytes);
+ }finally{shadow.destroy();r.destroy();}
+});
+
+test('tree fragment includes building visibility while the dedicated green shader stays on its old ground projection',async()=>{
+ const {ENVIRONMENT_SCENE_FRAGMENT_GLSL}=await bundle('environment-scene-shaders.ts'),{GREEN_GROUND_FRAGMENT_GLSL}=await bundle('environment-green-ground.ts');
+ assert.match(ENVIRONMENT_SCENE_FRAGMENT_GLSL,/facing\*=sceneSolarVisibility\(facing\)/);
+ assert.doesNotMatch(GREEN_GROUND_FRAGMENT_GLSL,/sceneSolarVisibility|u_scene_shadow_map/);
+});
 test('actual renderer reuses one tree mesh/one extra instanced shadow pass and unchanged water/source coordinates',async()=>{
- const {r,gl,point,water}=await rendererFixture(),before=JSON.stringify([point,water]);r.layer.render(gl,sceneProjection);const shadow=gl.draws.find(d=>d.shadow===1);assert.ok(shadow);assert.equal(shadow.instances,1);assert.equal(shadow.count,112*3);assert.equal(gl.draws.filter(d=>d.shadow===1).length,1);assert.equal(r.stats.drawBatchesMax,7);assert.equal(gl.draws.filter(d=>d.composite).length,2);assert.equal(r.stats.shadowMask.textures,1);assert.equal(gl.uniforms.get('u_environment_shadow_opacity'),.18);
- const shadowBuffer=gl.attributes.get(shadow.vao.id+':3'),count=gl.writes.filter(w=>w.buffer===shadowBuffer).length,waterBefore=r.waterAdmissionEvidence;
- r.setSceneEnvironment({instantISO:'2026-06-21T12:01:00+02:00',sunlight:false,shadows:true,motion:true,quality:'balanced'});assert.equal(gl.writes.filter(w=>w.buffer===shadowBuffer).length,count);r.layer.render(gl,sceneProjection);assert.equal(gl.uniforms.get('u_scene_light_enabled'),0);assert.equal(gl.draws.filter(d=>!d.composite).at(-2).shadow,1);
+ const {r,gl,point,water}=await rendererFixture(),before=JSON.stringify([point,water]);r.layer.render(gl,sceneProjection);const shadow=gl.draws.find(d=>d.shadow===1);assert.ok(shadow);assert.equal(shadow.instances,1);assert.equal(shadow.count,112*3);assert.equal(gl.draws.filter(d=>d.shadow===1).length,1);assert.equal(r.stats.drawBatchesMax,8);assert.equal(gl.draws.filter(d=>d.composite).length,2);assert.equal(r.stats.shadowMask.textures,1);assert.equal(gl.uniforms.get('u_environment_shadow_opacity'),.18);
+ const shadowBuffer=gl.attributes.get(shadow.vao.id+':3'),handles=gl.buffers.length,waterBefore=r.waterAdmissionEvidence;
+ const settings={instantISO:'2026-06-21T12:01:00+02:00',sunlight:true,shadows:true,motion:true,quality:'economy'};
+ r.setSceneEnvironment({...settings,sunlight:false});const disabledWrites=gl.writes.filter(w=>w.buffer===shadowBuffer).length;assert.equal(gl.buffers.length,handles);
+ gl.draws.length=0;r.layer.render(gl,sceneProjection);assert.equal(gl.uniforms.get('u_scene_light_enabled'),0);
+ assert.equal(r.stats.treeShadows.count,0,'turning off date-based sunlight also removes the projected tree shadows');
+ assert.equal(gl.draws.filter(d=>!d.composite&&d.shadow===1).length,0);
+ assert.equal(gl.draws.filter(d=>!d.composite&&d.shadow===2).length,1,'the ambient foot cue remains independent of sunlight');
+ r.setSceneEnvironment({...settings,instantISO:'2026-06-21T08:00:00+02:00',sunlight:false});
+ assert.equal(gl.writes.filter(w=>w.buffer===shadowBuffer).length,disabledWrites,'changing time while sunlight is disabled does not upload another shadow group');
+ gl.draws.length=0;r.layer.render(gl,sceneProjection);assert.equal(gl.draws.filter(d=>!d.composite&&d.shadow===1).length,0,'manual time changes cannot restore a disabled solar effect');
+ r.setSceneEnvironment(settings);gl.draws.length=0;r.layer.render(gl,sceneProjection);
+ assert.equal(gl.draws.filter(d=>!d.composite&&d.shadow===1).length,1,'the same source trees regain their solar projection when sunlight is enabled');
+ assert.equal(gl.buffers.length,handles,'the switch reuses the existing source and GPU buffers');
  r.animationFrame(0);r.animationFrame(100);assert.deepEqual(r.waterAdmissionEvidence.positions,waterBefore.positions);assert.deepEqual(r.waterAdmissionEvidence.indices,waterBefore.indices);assert.equal(JSON.stringify([point,water]),before);assert.ok(r.stats.treeShadows.count===1);
  r.destroy();assert.equal(r.stats.treeShadows.mode,'destroyed');
 });
@@ -131,7 +204,7 @@ test('environment onRemove then destroy releases its GPU handles once and preser
  const other=createProjectedShadowMask(),topDown=[1,0,0,0,0,0,-1,0,0,1,0,0,0,0,0,1];
  try{
   r.layer.render(gl,sceneProjection);assert.ok(r.stats.shadowMask.bytes>0);other.draw(gl,topDown,.03,()=>{});const sharedBytes=other.stats.bytes;
-  r.layer.onRemove();assert.equal(r.stats.shadowMask.bytes,0);assert.equal(other.stats.bytes,sharedBytes);assert.deepEqual(new Set(deleted.buffers),new Set(gl.buffers));assert.equal(deleted.buffers.length,gl.buffers.length);assert.equal(deleted.vaos.length,3);assert.equal(deleted.programs.length,2);assert.equal(deleted.textures.length,0);assert.equal(deleted.framebuffers.length,0);
+  r.layer.onRemove();assert.equal(r.stats.shadowMask.bytes,0);assert.equal(other.stats.bytes,sharedBytes);assert.deepEqual(new Set(deleted.buffers),new Set(gl.buffers));assert.equal(deleted.buffers.length,gl.buffers.length);assert.equal(deleted.vaos.length,4);assert.equal(deleted.programs.length,2);assert.equal(deleted.textures.length,0);assert.equal(deleted.framebuffers.length,0);
   const counts=Object.fromEntries(Object.entries(deleted).map(([k,v])=>[k,v.length]));r.destroy();r.destroy();assert.deepEqual(Object.fromEntries(Object.entries(deleted).map(([k,v])=>[k,v.length])),counts);assert.equal(r.stats.waterVertices,0);assert.equal(r.stats.trees,0);
   assert.equal(other.draw(gl,topDown,.03,()=>{}),true);assert.equal(other.stats.bytes,sharedBytes);other.release();assert.equal(deleted.textures.length,1);assert.equal(deleted.framebuffers.length,1);
  }finally{r.destroy();other.release();}
@@ -142,10 +215,30 @@ test('green ground and row illustrations share existing GPU buffers, keep water 
  const {r,gl,point,water}=await rendererFixture(),waterBefore=r.waterAdmissionEvidence,bufferCount=gl.buffers.length;
  const green={type:'Feature',id:'osm/way/12',geometry:{type:'Polygon',coordinates:[square(13.399,52.499,13.401,52.501),square(13.3992,52.4992,13.3994,52.4994)]},properties:{...point.properties,kind:'green',osmTags:{leisure:'park'}}};
  const row={type:'Feature',id:'osm/way/13',geometry:{type:'LineString',coordinates:[[13.399,52.5],[13.401,52.5]]},properties:{...point.properties,kind:'tree_row'}};const before=JSON.stringify([point,water,green,row]);
- r.setFeatures([point,water,green,row],[13.3,52.4,13.5,52.6],new Set([water]));assert.deepEqual(r.waterAdmissionEvidence,waterBefore);assert.equal(r.stats.greenGround.admitted,1);assert.ok(r.stats.treeRows.instances>0);assert.equal(r.stats.drawBatchesMax,8);assert.equal(r.stats.greenGround.alpha,.6);assert.equal(gl.buffers.length,bufferCount);
+ r.setFeatures([point,water,green,row],[13.3,52.4,13.5,52.6],new Set([water]));assert.deepEqual(r.waterAdmissionEvidence,waterBefore);assert.equal(r.stats.greenGround.admitted,1);assert.ok(r.stats.treeRows.instances>0);assert.equal(r.stats.drawBatchesMax,9);assert.equal(r.stats.greenGround.alpha,.6);assert.equal(gl.buffers.length,bufferCount);
  assert.ok(r.treeDisplayEvidence.some(e=>e.role==='source-line-display-schematic-not-source-tree-point'));gl.draws.length=0;r.layer.render(gl,sceneProjection);assert.ok(gl.draws.some(d=>!d.tree&&!d.shadow&&d.offset===r.stats.waterTriangles*3*4&&d.count===r.stats.greenGround.triangles*3));assert.equal(JSON.stringify([point,water,green,row]),before);
  const restored=fakeGL();r.layer.onRemove();r.layer.onAdd({},restored);r.layer.render(restored,sceneProjection);assert.equal(r.stats.greenGround.admitted,1);assert.equal(restored.buffers.length,bufferCount);
  r.setFeatures([], [13.3,52.4,13.5,52.6]);assert.equal(r.stats.greenGround.vertices,0);assert.equal(r.stats.treeRows.instances,0);assert.equal(r.stats.waterVertices,0);assert.equal(r.treeDisplayEvidence.length,0);r.destroy();assert.equal(r.stats.greenGround.triangles,0);
+});
+
+test('ground-only tier keeps exact holed green cover while removing native, row and woodland trees, water and animation',async()=>{
+ const {r,gl,point,water}=await rendererFixture({mobile:true});
+ const green={...point,id:'osm/way/12',geometry:{type:'Polygon',coordinates:[square(13.399,52.499,13.401,52.501),square(13.3992,52.4992,13.3994,52.4994)]},properties:{...point.properties,kind:'green',osmTags:{leisure:'park'}}};
+ const wood={...green,id:'osm/way/14',geometry:{type:'Polygon',coordinates:[square(13.401,52.501,13.404,52.504)]},properties:{...green.properties,osmTags:{natural:'wood'}}};
+ const row={...point,id:'osm/way/13',geometry:{type:'LineString',coordinates:[[13.399,52.5],[13.401,52.5]]},properties:{...point.properties,kind:'tree_row',osmTags:{natural:'tree_row'}}};
+ const features=[point,water,green,row,wood],bounds=[13.39,52.49,13.41,52.51],sourceBefore=JSON.stringify(features),waterSet=new Set([water]);
+ try{
+  r.setFeatures(features,bounds,waterSet);const treesBefore=r.treeDisplayEvidence,waterBefore=r.waterAdmissionEvidence,greenBefore={...r.stats.greenGround},buffers=gl.buffers.length;
+  assert.ok(treesBefore.some(t=>t.role==='source-point-display-schematic'));assert.ok(r.stats.treeRows.instances>0);assert.ok(r.stats.woodland.instances>0);assert.ok(r.stats.waterTriangles>0);assert.equal(r.stats.animationActive,true);
+  r.layer.render(gl,sceneProjection);assert.ok(r.stats.treeShadows.count>0);
+  r.setFeatures(features,bounds,waterSet,undefined,'ground');
+  assert.equal(r.stats.trees,0);assert.equal(r.stats.treeRows.instances,0);assert.equal(r.stats.treeRows.candidates,0);assert.equal(r.stats.woodland.instances,0);assert.equal(r.stats.woodland.generatedInstances,0);assert.deepEqual(r.treeDisplayEvidence,[]);
+  assert.equal(r.stats.treeShadows.count,0);assert.equal(r.stats.treeContact.drawActive,false);assert.equal(r.stats.heldTrees,0);assert.equal(r.stats.omittedTrees,0);
+  assert.equal(r.stats.waterVertices,0);assert.equal(r.stats.waterTriangles,0);assert.equal(r.stats.unknownWidthWaterLineSegments,0);assert.equal(r.stats.heldWater,0);assert.equal(r.stats.animationActive,false);assert.deepEqual(r.animationFrame(2000),{active:false,changed:false});
+  assert.deepEqual(r.stats.greenGround,greenBefore,'green source rings, holes, material and budgets use the same geometry path');assert.equal(gl.buffers.length,buffers);
+  gl.draws.length=0;r.layer.render(gl,sceneProjection);assert.equal(r.stats.renderFailure,undefined);assert.equal(gl.draws.length,1);assert.equal(gl.draws[0].tree,0);assert.equal(gl.draws[0].shadow,0);assert.equal(gl.draws[0].offset,0);assert.equal(gl.draws[0].count,greenBefore.triangles*3);
+  r.setFeatures(features,bounds,waterSet);assert.deepEqual(r.treeDisplayEvidence,treesBefore);assert.deepEqual(r.waterAdmissionEvidence,waterBefore);assert.equal(r.stats.greenGround.vertices,greenBefore.vertices);assert.equal(r.stats.greenGround.triangles,greenBefore.triangles);assert.equal(r.stats.animationActive,true);assert.equal(JSON.stringify(features),sourceBefore);
+ }finally{r.destroy();}
 });
 
 
@@ -197,6 +290,23 @@ test('managed environment reads only real viewport/depth inputs before submittin
  r.layer.render(gl,sceneProjection);assert.deepEqual(calls.filter(c=>c[0]==='get'),[['get',gl.VIEWPORT],['get',gl.DEPTH_RANGE]]);assert(calls.findIndex(c=>c[0]==='draw')>calls.findIndex(c=>c[1]===gl.DEPTH_RANGE));assert.equal(r.stats.renderFailure,undefined);assert(gl.draws.length>0);r.destroy();
 });
 
+test('native draws recover a fresh viewport after the regional pass fails',async(t)=>{
+ const reports=[],{r,gl,point,water}=await rendererFixture({onRenderError:error=>reports.push(error)});
+ const green={...water,id:'osm/way/99',properties:{...water.properties,kind:'green'}};
+ r.setFeatures([point,water,green],[13.3,52.4,13.5,52.6],new Set([water]));
+ r.setSceneEnvironment({instantISO:'2026-06-21T12:00:00+02:00',sunlight:true,shadows:false,motion:true,quality:'balanced'});
+ const viewport=[19,31,1920,1200],failure=Error('regional viewport unavailable'),get=gl.getParameter;
+ let reads=0;
+ gl.getParameter=key=>{if(key!==gl.VIEWPORT)return get(key);if(++reads===1)throw failure;return viewport;};
+ t.mock.method(console,'error',()=>{});
+ try{
+  r.layer.render(gl,sceneProjection);
+  assert.deepEqual(reports,[failure]);assert.equal(reads,2);
+  assert.deepEqual(Array.from(gl.uniforms.get('u_green_viewport')),viewport);
+  assert(gl.draws.length>0);
+ }finally{r.destroy();}
+});
+
 test('a render error is reported once, stops motion and returns through the actual MapLibre reset boundary',async(t)=>{
  const reports=[],{r,gl}=await rendererFixture({onRenderError:error=>reports.push(error)});r.setSceneEnvironment({instantISO:'2026-06-21T12:00:00+02:00',sunlight:true,shadows:false,motion:true,quality:'balanced'});
  const error=Error('controlled environment draw failure');gl.drawElementsInstanced=()=>{throw error;};const logs=t.mock.method(console,'error',()=>{}),events=[];
@@ -209,9 +319,15 @@ test('a render error is reported once, stops motion and returns through the actu
 
 test('manager render-error callback aborts pending publication and preserves its existing error state',async()=>{
  const source=await fs.readFile(path.join(safety,'environment-scene-manager.ts'),'utf8'),start=source.indexOf('function renderFailed('),end=source.indexOf('\n function stop()',start),code=(await transform('('+source.slice(start,end)+')',{loader:'ts'})).code;
- let disabled=false;const values={request:new AbortController(),revision:3,renderer:{setEnabled:v=>{disabled=!v;}},state:'ready',lastError:undefined};
+ // releaseHandoff: the failure also returns unadopted same-tier leaves, as stop() does.
+ // Stage-2 environment CDR[2]: the extracted callback also sees the manager's real admission
+ // observer and the real EnvironmentResourceUnfitError class (the same bindings the manager has),
+ // so renderFailed may count a deferred-frame unfit refusal without this test re-reading its text.
+ const {createSourceModules}=await import('./support/fixtures-managers-b-source-modules.mjs'),budgetModule=createSourceModules({allow:id=>['safety/render-runtime/diagnostic-snapshot','safety/environment-resource-budget','safety/render-runtime/chunk-resource-store','safety/render-runtime/resource-budget','safety/render-runtime/program-preparation','safety/render-runtime/pressure-availability','safety/render-runtime/preparation-scheduler','safety/render-runtime/submitted-program-completion','safety/building-payload-cost','safety/resource-byte-transport'].includes(id)}).load('safety/environment-resource-budget');
+ const admission=budgetModule.createEnvironmentAdmissionStats('environment-scene',()=>0,()=>0);
+ let disabled=false,handoffReleases=0,meshReleases=0;const values={request:new AbortController(),revision:3,renderer:{setEnabled:v=>{disabled=!v;}},state:'ready',lastError:undefined,releaseMeshDemand:()=>{meshReleases++;},releaseHandoff:()=>{handoffReleases++;},admission,EnvironmentResourceUnfitError:budgetModule.EnvironmentResourceUnfitError};
  const env=new Proxy(values,{has:()=>true,get:(o,k)=>k===Symbol.unscopables?undefined:k in o?o[k]:globalThis[k],set:(o,k,v)=>(o[k]=v,true)}),fail=Function('env','with(env){return '+code+'}')(env);fail(Error('actual draw failed'));
- assert.equal(values.request.signal.aborted,true);assert.equal(values.revision,4);assert.equal(disabled,true);assert.equal(values.state,'error');assert.equal(values.lastError,'actual draw failed');assert(source.includes('onRenderError:renderFailed'));
+ assert.equal(values.request.signal.aborted,true);assert.equal(values.revision,4);assert.equal(disabled,true);assert.equal(values.state,'error');assert.equal(values.lastError,'actual draw failed');assert.equal(handoffReleases,1);assert.equal(meshReleases,1);assert(source.includes('onRenderError:renderFailed'));
 });
 
 
@@ -226,7 +342,7 @@ test('the actual renderer shares its fixed tree budget across native points, row
  assert.ok(a.some(t=>t.role==='source-point-display-schematic'));assert.ok(a.some(t=>t.role==='source-line-display-schematic-not-source-tree-point'));assert.ok(a.some(t=>t.role==='source-woodland-display-schematic-not-source-tree-point'));
  assert.equal(r.stats.woodland.instances,a.filter(t=>t.role==='source-woodland-display-schematic-not-source-tree-point').length);
  assert.equal(r.stats.treeRows.instances,a.filter(t=>t.role==='source-line-display-schematic-not-source-tree-point').length);
- const treeBuffers=gl.buffers.length;r.layer.render(gl,sceneProjection);assert.equal(gl.draws.filter(d=>d.tree===1&&d.shadow===0).at(-1).instances,r.stats.trees);
+ const treeBuffers=gl.buffers.length;r.layer.render(gl,sceneProjection);assert.equal(gl.draws.filter(d=>d.tree===1&&d.shadow===0).reduce((sum,d)=>sum+d.instances,0),r.stats.trees);
  r.setFeatures([...features].reverse(),bounds,new Set([water]));assert.deepEqual(r.treeDisplayEvidence,a);assert.equal(gl.buffers.length,treeBuffers);assert.equal(JSON.stringify(features),before);
  assert.ok(a.filter(t=>t.role.includes('woodland')).every(t=>t.id===wood.id&&t.displayId.startsWith('woodland:')));
  r.setFeatures([],bounds,new Set());assert.equal(r.stats.trees,0);assert.equal(r.stats.woodland.instances,0);assert.equal(r.stats.treeRows.instances,0);r.destroy();assert.deepEqual(r.treeDisplayEvidence,[]);
@@ -235,6 +351,26 @@ test('the actual renderer shares its fixed tree budget across native points, row
 
 // The contact pass shares existing selected-tree data and the existing MAX mask.
 // These tests do not claim browser raster/appearance acceptance.
+test('tree surface LOD partitions one selected set while contact/shadow order and steady-state uploads stay unchanged',async()=>{
+ const {r,gl,point}=await rendererFixture({mobile:true}),short={...point,properties:{...point.properties,osmTags:{height:'2'}}},tall={...point,id:'osm/node/99',geometry:{...point.geometry,coordinates:[13.40002,52.5]},properties:{...point.properties,osmTags:{height:'80'}}};
+ r.setFeatures([short,tall],[13.3,52.4,13.5,52.6]);const evidence=r.treeDisplayEvidence,handles=gl.buffers.length,payloads=new Map(),write=gl.bufferSubData;
+ gl.bufferSubData=(target,offset,data)=>{payloads.set(gl.getParameter(gl.ARRAY_BUFFER_BINDING),new Float32Array(data));write(target,offset,data);};
+ gl.canvas={clientWidth:160,clientHeight:100};
+ try{
+  gl.draws.length=0;r.layer.render(gl,sceneProjection);assert.equal(r.stats.renderFailure,undefined);assert.equal(r.stats.treeSurfaceLOD.near,1);assert.equal(r.stats.treeSurfaceLOD.far,1);assert.equal(r.stats.treeSurfaceLOD.surfaceTriangles,164);assert.equal(r.stats.treeTrianglesPerInstance,112);
+  const surface=gl.draws.filter(d=>d.tree===1&&d.shadow===0&&!d.composite),contact=gl.draws.find(d=>d.shadow===2&&!d.composite),shadow=gl.draws.find(d=>d.shadow===1&&!d.composite);
+  assert.deepEqual(surface.map(d=>[d.count,d.instances,d.instanceOffset]),[[336,1,0],[156,1,12]]);assert.equal(surface[0].vao,surface[1].vao);assert.equal(surface[0].program,surface[1].program);
+  assert.equal(gl.attributeOffsets.get(surface[0].vao.id+':3'),0,'surface offset restored after the far range');assert.notEqual(contact.vao,surface[0].vao);assert.equal(contact.instanceOffset,0);assert.equal(shadow.instanceOffset,0);assert.equal(shadow.count,336);assert.equal(shadow.instances,2);
+  assert.deepEqual(Array.from(payloads.get(surface[0].instanceBuffer).filter((_,i)=>i%3===2)).slice(0,2),[80,2]);assert.deepEqual(r.treeDisplayEvidence,evidence);
+  const writes=gl.writes.length,evaluations=r.stats.treeSurfaceLOD.evaluations;gl.draws.length=0;r.animationFrame(2000);r.layer.render(gl,sceneProjection);assert.equal(gl.writes.length,writes);assert.equal(r.stats.treeSurfaceLOD.evaluations,evaluations);assert.equal(gl.buffers.length,handles);
+  const nextContact=gl.draws.find(d=>d.shadow===2&&!d.composite),nextShadow=gl.draws.find(d=>d.shadow===1&&!d.composite);assert.equal(nextContact.instanceBuffer,contact.instanceBuffer);assert.equal(nextShadow.instanceBuffer,shadow.instanceBuffer);assert.equal(nextContact.instanceOffset,0);assert.equal(nextShadow.count,336);
+  gl.canvas={clientWidth:1280,clientHeight:800};r.layer.render(gl,sceneProjection);assert.equal(r.stats.treeSurfaceLOD.near,2);assert.equal(r.stats.treeSurfaceLOD.far,0);assert.deepEqual(r.treeDisplayEvidence,evidence);
+  r.layer.onRemove();assert.equal(r.stats.treeSurfaceLOD.stateCount,0);r.layer.onAdd({},gl);r.layer.render(gl,sceneProjection);assert.equal(r.stats.treeSurfaceLOD.stateCount,2);
+  r.setEnabled(false);assert.equal(r.stats.treeSurfaceLOD.stateCount,0);r.setEnabled(true);r.layer.render(gl,sceneProjection);assert.equal(r.stats.treeSurfaceLOD.stateCount,2);
+  r.setFeatures([short,tall],[13.3,52.4,13.5,52.6],undefined,undefined,'ground');assert.equal(r.stats.treeSurfaceLOD.stateCount,0);assert.equal(r.stats.treeSurfaceLOD.near+r.stats.treeSurfaceLOD.far,0);
+ }finally{r.destroy();}assert.equal(r.stats.treeSurfaceLOD.stateCount,0);
+});
+
 test('tree contact uses one shared quad, existing instances and MAX mask without changing the solar pass',async()=>{
  const {r,gl,point,water}=await rendererFixture();
  const green={type:'Feature',id:'osm/way/90',geometry:{type:'Polygon',coordinates:[square(13.399,52.499,13.401,52.501)]},properties:{...point.properties,kind:'green',osmTags:{landuse:'grass'}}};
@@ -246,9 +382,9 @@ test('tree contact uses one shared quad, existing instances and MAX mask without
   r.layer.render(gl,sceneProjection);
   const contact=gl.draws.filter(d=>!d.composite&&d.shadow===2),solar=gl.draws.find(d=>!d.composite&&d.shadow===1),treeDraw=gl.draws.find(d=>!d.composite&&d.tree===1&&d.shadow===0);
   assert.equal(contact.length,1);assert.equal(contact[0].count,6);assert.equal(contact[0].instances,2);
-  assert.equal(contact[0].offset,data.lowPolyTreeMesh().indices.byteLength);assert.equal(contact[0].vao,treeDraw.vao);
-  assert.equal(gl.attributes.get(contact[0].vao.id+':3'),gl.attributes.get(treeDraw.vao.id+':3'));
-  assert.deepEqual(contact[0].equations,[gl.MAX,gl.MAX]);assert.equal(gl.buffers.length,handles);assert.equal(handles,6);
+  assert.equal(contact[0].offset,data.lowPolyTreeMesh().indices.byteLength);assert.notEqual(contact[0].vao,treeDraw.vao);
+  assert.notEqual(gl.attributes.get(contact[0].vao.id+':3'),gl.attributes.get(treeDraw.vao.id+':3'));assert.equal(contact[0].instanceOffset,0);
+  assert.deepEqual(contact[0].equations,[gl.MAX,gl.MAX]);assert.equal(gl.buffers.length,handles);assert.equal(handles,7);
   assert.equal(r.stats.treeContact.sharedQuadBytes,124);assert.equal(r.stats.treeContact.maximumOpacity,.06);assert.equal(r.stats.treeContact.displayRadiusMetres,.9);
   assert.equal(r.stats.shadowMask.textures,1);assert.equal(gl.draws.filter(d=>d.composite).length,2);
   assert.equal(restored.length,1);assert.deepEqual(restored[0],{program:contact[0].program,vao:gl.draws.find(d=>!d.composite&&d.tree===0).vao,tree:0,pass:0,blend:false,depthWrite:true,framebuffer:null,texture:null});

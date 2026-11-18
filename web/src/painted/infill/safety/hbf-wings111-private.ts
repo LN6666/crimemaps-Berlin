@@ -4,6 +4,7 @@
  * Openings/cornice/column relief are photograph-proportioned surface graphics;
  * no new geometry, rooflight, glass ceiling, opening holes or door count.
  */
+import {deferredShaderSourcePart,emitShaderSource,joinShaderSourceParts,type ShaderSourcePart} from '../../../safety/render-runtime/shader-source-budget';
 export const HBF_WINGS111_GLSL=String.raw`
 float hw111box(vec2 p,vec2 center,vec2 halfSize){vec2 d=abs(p-center)-halfSize;return 1.-smoothstep(-.02,.025,max(d.x,d.y));}
 float hw111edge(float x,float center,float halfWidth){return 1.-smoothstep(halfWidth,halfWidth+.035,abs(x-center));}
@@ -205,9 +206,19 @@ vec3 frankfurtHbfWings111(vec3 c,vec3 p,vec3 normal,vec4 frame,float family){
  return c;
 }
 `;
+const HBF_WINGS111_ENTRY='vec3 paintedFacade(',HBF_WINGS111_RENAMED_ENTRY='vec3 hbf111PreviousPaintedFacade(';
+const HBF_WINGS111_WRAPPER='\nvec3 paintedFacade(vec3 base,vec3 p,vec3 normal,vec4 frame,float family){return frankfurtHbfWings111(hbf111PreviousPaintedFacade(base,p,normal,frame,family),p,normal,frame,family);}\n';
 export function hbfWings111PrivatePartition(source:string,key:string,city:string){
  if(city!=='frankfurt'||key!=='infill-frankfurt-hbf075')return source;
- const entry='vec3 paintedFacade(';
+ const entry=HBF_WINGS111_ENTRY;
  if(source.split(entry).length!==2||source.includes('frankfurtHbfWings111(')||!source.includes('frankfurtHbfPrimary108('))throw Error('Hbf111 private entry certificate mismatch');
- return source.replace(entry,'vec3 hbf111PreviousPaintedFacade(')+HBF_WINGS111_GLSL+'\nvec3 paintedFacade(vec3 base,vec3 p,vec3 normal,vec4 frame,float family){return frankfurtHbfWings111(hbf111PreviousPaintedFacade(base,p,normal,frame,family),p,normal,frame,family);}\n';
+ return source.replace(entry,HBF_WINGS111_RENAMED_ENTRY)+HBF_WINGS111_GLSL+HBF_WINGS111_WRAPPER;
+}
+
+const HBF_WINGS111_SOURCE_AUTHORITY=Object.freeze({});
+export function hbfWings111SourcePart(source:ShaderSourcePart,key:string,city:string):ShaderSourcePart{
+ if(city!=='frankfurt'||key!=='infill-frankfurt-hbf075')return source;
+ const renamed=source.charactersUpperBound-HBF_WINGS111_ENTRY.length+HBF_WINGS111_RENAMED_ENTRY.length,withHelper=renamed+HBF_WINGS111_GLSL.length,size=withHelper+HBF_WINGS111_WRAPPER.length;
+ const tokens=joinShaderSourceParts([source,HBF_WINGS111_RENAMED_ENTRY,HBF_WINGS111_GLSL,HBF_WINGS111_WRAPPER]),inputEmission=source.emissionCharactersUpperBound;
+ return deferredShaderSourcePart({charactersUpperBound:size,syntaxUpperBound:tokens.syntaxUpperBound,emissionCharactersUpperBound:inputEmission===undefined?undefined:Math.max(inputEmission,source.charactersUpperBound+source.charactersUpperBound,source.charactersUpperBound+renamed+withHelper+size),authority:HBF_WINGS111_SOURCE_AUTHORITY,authorityTrace:[...source.authorityTrace,'hbf-wings111:one-entry-rename-and-original-wrapper'],build:()=>hbfWings111PrivatePartition(emitShaderSource(source),key,city)});
 }

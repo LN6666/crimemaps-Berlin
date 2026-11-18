@@ -6,6 +6,17 @@ import re
 from pathlib import Path
 from urllib.parse import urlsplit
 
+# Exact reviewed images also checked by artifact_gate.KBO_MAP_IMAGES.
+KBO_MAP_IMAGES = (
+    "https://www.berlin.de/polizei/_assets/dienststellen/anlagen-landespolizeidirektion/kbo-alexanderplatz.jpg",
+    "https://www.berlin.de/polizei/_assets/dienststellen/anlagen-landespolizeidirektion/kbo-goerlitzer-park-wrangelkiez.jpg",
+    "https://www.berlin.de/polizei/_assets/dienststellen/anlagen-landespolizeidirektion/kbo-hermannplatz-donaukiez.jpg",
+    "https://www.berlin.de/polizei/_assets/dienststellen/anlagen-landespolizeidirektion/kbo-hermannstrasse-bahnhof-neukoelln.jpg",
+    "https://www.berlin.de/polizei/_assets/dienststellen/anlagen-landespolizeidirektion/kbo-kottbusser-tor.jpg",
+    "https://www.berlin.de/polizei/_assets/dienststellen/anlagen-landespolizeidirektion/kbo-rigaer-strasse.jpg",
+    "https://www.berlin.de/polizei/_assets/dienststellen/anlagen-landespolizeidirektion/kbo-warschauer-bruecke.jpg",
+)
+
 def policy(map_origins=(), goatcounter=False):
     for value in map_origins:
         u = urlsplit(value)
@@ -15,12 +26,14 @@ def policy(map_origins=(), goatcounter=False):
     if any(value not in approved_maps for value in map_origins):
         raise ValueError("Map origin must be explicitly reviewed and allowlisted")
     maps = " " + " ".join(sorted(set(map_origins))) if map_origins else ""
+    # Bundled geometry decoders instantiate WebAssembly. This narrow keyword
+    # permits Wasm compilation without permitting JavaScript eval/Function.
     script = " https://gc.zgo.at" if goatcounter else ""
     count = " https://ryoushunnei.goatcounter.com/count" if goatcounter else ""
     return "; ".join([
-        "default-src 'none'", "script-src 'self'" + script,
+        "default-src 'none'", "script-src 'self'" + script + " 'wasm-unsafe-eval'",
         "worker-src 'self'", "style-src 'self' 'unsafe-inline'",
-        "img-src 'self' data: blob: https://tile.openstreetmap.org https://gdi.berlin.de" + maps,
+        "img-src 'self' data: blob: https://tile.openstreetmap.org https://gdi.berlin.de" + maps + " " + " ".join(KBO_MAP_IMAGES),
         "connect-src 'self' https://tile.openstreetmap.org https://gdi.berlin.de" + maps + count,
         "font-src 'self'", "base-uri 'none'", "object-src 'none'", "form-action 'none'",
         "frame-src 'none'",

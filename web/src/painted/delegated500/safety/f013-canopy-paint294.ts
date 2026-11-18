@@ -1,4 +1,4 @@
-import type{BuildingComponent}from'./building-mesh-renderer';
+import type{BuildingComponent}from'../../../safety/building-mesh-types';
 import{nativePaintSignature}from'./progressive-native-signature';
 import{ownerShapePatchProfile}from'./owner-shape-patch-display';
 const PIN={"number":"F013-Canopy","city":"berlin","objectId":"osm/way/15218371","partId":"osm/way/15218371/component/609206ed8e0f928b997c/owner-source-recovery291-canopy","sourcePartId":"osm/way/15218371/component/609206ed8e0f928b997c","id":"owner-shape-F013-Canopy-291","path":"/safety/buildings3d/owner-shape-patches/F013-Canopy-291.json","bytes":25844,"sha256":"ec4a879c3c93704afc2a1dce89d084295dda5f903016b06f2861fc3a79f6a487","bbox":[13.334864679109415,52.50484540843784,13.334938555034086,52.50490946375086],"vertices":108,"triangles":36,"max_height_m":14.009672302461807,"tile_key":"owner-shape-F013-Canopy-291","geometryRole":"owner-authorized-reconstruction","geometrySignature":"022fa18d","sourceNativeSHA256":"3c804c8fb1862b4fef93c998d05ca526d6a97d4a756c364d4da203704ba1eff6","sourceNativeGeometrySignature":"ce3cf888","notNative":true,"owner_authorized":true,"retainNative":true} as const;

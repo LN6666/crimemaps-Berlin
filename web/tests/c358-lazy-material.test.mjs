@@ -6,6 +6,7 @@ import os from 'node:os';
 import crypto from 'node:crypto';
 import {pathToFileURL,fileURLToPath} from 'node:url';
 import {createRequire} from 'node:module';
+import {cityLoadShard} from './support/fixtures3-city-load-shard.mjs';
 const root=fileURLToPath(new URL('../../',import.meta.url));
 const require=createRequire(path.join(root,'web/package.json')),{build}=require('esbuild'),ts=require('typescript');
 const original=path.join(root,'web/src/painted/city/safety'),candidate=original;
@@ -34,17 +35,22 @@ test('C358 fixture is absent from the eager module graph, loads only for its exa
   assert.equal(api.c358HasMaterialBinding({...component,origin:[0,0]}),false);
  }finally{delete globalThis.__c358Loads;await fs.rm(dir,{recursive:true,force:true});}
 });
+// The City manager's source production is loadShard: its inline materials and paint-initialization
+// wait run first, then the C358 material module import chosen by the city alone -- both before any
+// source lease or metadata charge (src-r3b; DECISIONS 2026-11-02 03:25 and "第三段第二轮结项") --
+// then the source, then the synchronous C358 rows binding, owner verification and the published value
+// ("cache"). An abort during the module import prevents the source lease and the commit: the stub
+// import only awaits (it never throws), so the AbortError and the missing acquire attempt prove that
+// loadShard's own abort check after the import stops it before the source is even requested.
 test('actual city shard loader awaits C358 preparation before owner verification/cache and abort still prevents commit',async()=>{
- const source=await fs.readFile(path.join(candidate,'three-dimensional-map.ts'),'utf8'),ast=ts.createSourceFile('manager.ts',source,ts.ScriptTarget.Latest,true);let shard;
- function visit(n){if(ts.isFunctionDeclaration(n)&&n.name?.text==='shard')shard=n.getText(ast);ts.forEachChild(n,visit);}visit(ast);assert.ok(shard);
- const names='cache,fetchBounded,checked,normalizeBuildingShard,city,maxVertices,prepareC358MaterialBinding,prepareInlineCityMaterials,options,ownerShapePatchProfile,manifest,manifestSHA,verifyOwnerShapePatchRows,ownerProfileByComponent,retainedShardCost,remember';
- const code=`export function scope(x){const {${names}}=x;let loadCount=0;${shard};return {shard,get loadCount(){return loadCount;}};}`;
- const built=await build({stdin:{contents:code,loader:'ts'},bundle:true,write:false,platform:'node',format:'esm',logLevel:'silent'});const {scope}=await import('data:text/javascript;base64,'+Buffer.from(built.outputFiles[0].contents).toString('base64'));
  for(const cancel of [false,true]){
   const awaitInitialization=operation=>operation;
   let resume;const wait=new Promise(resolve=>resume=resolve),events=[],controller=new AbortController(),rows=[structuredClone(fixture.patch)];
-  const api=scope({cache:new Map(),fetchBounded:async()=>new Uint8Array(5),checked:async()=>({}),normalizeBuildingShard:()=>({components:rows,decodedPayloadCost:{retainedPayloadEstimateBytes:100}}),city:'munich',maxVertices:200000,prepareC358MaterialBinding:async(actual,signal)=>{assert.equal(actual,rows);assert.equal(signal,controller.signal);events.push('prepare');await wait;},options:{awaitPaintInitialization:awaitInitialization},prepareInlineCityMaterials:async(city,signal,waitForInitialization)=>{assert.equal(city,'munich');assert.equal(signal,controller.signal);assert.equal(waitForInitialization,awaitInitialization);signal.throwIfAborted();events.push('inline');await waitForInitialization(Promise.resolve());},ownerShapePatchProfile:()=>({number:'C358'}),verifyOwnerShapePatchRows:()=>events.push('verify'),ownerProfileByComponent:new WeakMap(),retainedShardCost:new WeakMap(),remember:()=>events.push('cache')});
-  const pending=api.shard({tile_key:'target',path:'owner-shape-C358',sha256:'a'.repeat(64),bytes:5},controller.signal);for(let i=0;i<4;i++)await Promise.resolve();assert.deepEqual(events,['prepare']);assert.equal(api.loadCount,0);
-  if(cancel)controller.abort();resume();if(cancel){await assert.rejects(pending,{name:'AbortError'});assert.deepEqual(events,['prepare']);assert.equal(api.loadCount,0);}else{assert.equal(await pending,rows);assert.deepEqual(events,['prepare','inline','verify','cache']);assert.equal(api.loadCount,1);}
+  const api=cityLoadShard({rows,events,ownerProfile:{number:'C358'},awaitPaintInitialization:awaitInitialization,
+   prepareC358MaterialModule:async(city,signal)=>{assert.equal(city,'munich');assert.equal(signal,controller.signal);events.push('c358-module');await wait;},
+   bindC358MaterialRows:actual=>{assert.equal(actual,rows,'the binding receives the very rows the source produced');events.push('c358-bind');},
+   prepareInlineCityMaterials:async(city,signal,waitForInitialization)=>{assert.equal(city,'munich');assert.equal(signal,controller.signal);assert.equal(waitForInitialization,awaitInitialization);signal.throwIfAborted();events.push('inline');await waitForInitialization(Promise.resolve());}});
+  const pending=api.loadShard({tile_key:'target',path:'owner-shape-C358',sha256:'a'.repeat(64),bytes:5},controller.signal);for(let i=0;i<8;i++)await Promise.resolve();assert.deepEqual(events,['inline','c358-module'],'the C358 module import is awaited before any source lease');assert.equal(api.loadCount,0);assert.deepEqual(api.adjusted,[],'nothing is charged while the import is awaited');
+  if(cancel)controller.abort();resume();if(cancel){await assert.rejects(pending,{name:'AbortError'});assert.deepEqual(events,['inline','c358-module']);assert.equal(api.acquireAttempts,0,'loadShard itself stops after the import, before requesting the source');assert.equal(api.loadCount,0);assert.deepEqual(api.releases,[],'the aborted production never took a source lease, so it has none to return');assert.deepEqual(api.adjusted,[]);}else{assert.equal((await pending).components,rows);assert.deepEqual(events,['inline','c358-module','source','c358-bind','verify','cache']);assert.equal(api.acquireAttempts,1);assert.equal(api.loadCount,1);assert.deepEqual(api.releases,[],'a published value keeps its source lease');}
  }
 });

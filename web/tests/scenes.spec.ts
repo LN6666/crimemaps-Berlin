@@ -570,13 +570,17 @@ test("clicking overlapping scene shapes opens one report card with every scene",
       generation: "0123456789abcdef-20260927T120000",
       retrieved_at: "2026-09-27T12:00:00Z",
       coverage: { discovered: 2, fetched: 2, pending: 0, failed: 0 },
-      months: { "2026-09": { count: 2 } },
+      months: { "2026-08": { count: 0 }, "2026-09": { count: 2 } },
       categories: ["gewalt", "raub"],
       tile_index: { pois: [], roads: [] }, tile_size: [0.04, 0.025],
       catalog: { poi_types: {}, sources: [], coverage: [], exhaustive: false },
       zones: { places: [], features: [], geometry_status: "pending" },
       metadata: { zoom_threshold: 13 },
     } });
+    if (new URL(url).pathname.endsWith("/months/2026-08.json")) {
+      const empty = { type: "FeatureCollection", features: [] };
+      return route.fulfill({json: {event_ids: [], events: [], links: [], hex: {overview: empty, detail: empty}}});
+    }
     if (url.includes("/months/")) return route.fulfill({ json: {
       event_ids: browserRows.map((event) => event.id),
       events: browserRows,
@@ -584,7 +588,7 @@ test("clicking overlapping scene shapes opens one report card with every scene",
     } });
     return route.fulfill({ json: { type: "FeatureCollection", features: [] } });
   });
-  await page.goto("/?lang=zh");
+  await page.goto("/?lang=zh&month=2026-09");
   await expect(page.locator("#stats .big")).toHaveText("2");
   const canvas = page.locator(".maplibregl-canvas");
   await expect.poll(async () => {
@@ -605,8 +609,9 @@ test("clicking overlapping scene shapes opens one report card with every scene",
   await page.locator("#category").selectOption("raub");
   await expect(page.locator("#selection")).not.toContainText("多地点公告");
   await expect(page.locator("#stats")).toContainText("当前所选范围0条公告有统计代表地点；1条没有");
+  await expect(page.locator('#month option[value="07"]')).toHaveJSProperty("disabled", true);
   await page.locator("#month").selectOption("08");
-  await expect(page.locator("#stats .big")).toHaveText("—");
+  await expect(page.locator("#stats .big")).toHaveText("0");
 });
 
 

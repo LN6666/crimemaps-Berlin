@@ -1,5 +1,5 @@
-import type {BuildingComponent,Identity,MeshBatch} from './building-mesh-renderer';
-import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
+import type {BuildingComponent,Identity,MeshBatch} from "../../../safety/building-mesh-types";
+import type {OwnerReconstructionStats} from '../../../safety/owner-reconstruction-stats';
 import {nativePaintSignature} from './progressive-native-signature';
 import {ownerDisplayFingerprint} from './owner-display-fingerprint';
 import {KAISER16_CANOPY_SHA067 as SHA,KAISER16_CANOPY_NATIVE067 as PIN,KAISER16_CANOPY_DATA067 as DATA} from './kaiser16-canopy067-data';

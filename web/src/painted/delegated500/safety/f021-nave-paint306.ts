@@ -1,4 +1,4 @@
-import type{BuildingComponent}from'./building-mesh-renderer';
+import type{BuildingComponent}from'../../../safety/building-mesh-types';
 import{nativePaintSignature}from'./progressive-native-signature';
 import{ownerShapePatchProfile}from'./owner-shape-patch-display';
 const PIN={"number":"F021-Nave","city":"berlin","enabled":true,"family":1677,"objectId":"osm/way/23816415","partId":"osm/way/23816415/component/ea580980e8586f20580b/owner-source-recovery305-nave","sourcePartId":"osm/way/23816415/component/ea580980e8586f20580b","id":"owner-shape-F021-Nave-305","path":"/safety/buildings3d/owner-shape-patches/F021-Nave-306.json","bytes":136803,"sha256":"e26808211f6fed43edda6eb75b17ec2d644cc2af315709399f85404f047660fc","geometrySignature":"a8957bdc","sourceNativeSHA256":"1a350297f46bbf1de277c54107317f64d0b810ac4da55aefdc338f20414a1b8a","sourceNativeGeometrySignature":"5cbd4f40","retainNative":true,"notNative":true,"vertices":477,"triangles":159,"max_height_m":17,"bbox":[13.3997681,52.5254142,13.4005674,52.5256987],"tile_key":"owner-shape-F021-Nave-305"} as const;

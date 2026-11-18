@@ -19,7 +19,7 @@ export const C251_PROJECTION_REGISTRY={
       6.9488733499999995,
       50.9316576
     ],
-    "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Cologne/safety/buildings3d/cologne/roof-01152.json.gz",
+    "sourceLeaf": "source-evidence/42c6b1b78216d271c117/safety/buildings3d/cologne/roof-01152.json.gz",
     "sourceSHA256": "b009df551c71c9641e2a713bcddb3143cea1d0ab9b4e575db4c1b0aa2b87b96c",
     "geometrySignature": "6202a6d7",
     "componentGeometry": {
@@ -104,7 +104,7 @@ export const C251_PROJECTION_REGISTRY={
       "city": "cologne",
       "objectId": "osm/way/238868100",
       "partId": "osm/way/238868100/component/ac45c7e837fabb071c83",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Cologne/safety/buildings3d/cologne/roof-01152.json.gz",
+      "sourceLeaf": "source-evidence/42c6b1b78216d271c117/safety/buildings3d/cologne/roof-01152.json.gz",
       "sourceLeafSHA256": "b009df551c71c9641e2a713bcddb3143cea1d0ab9b4e575db4c1b0aa2b87b96c",
       "rawSignature": "6202a6d7",
       "rawBuffers": [

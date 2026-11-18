@@ -101,6 +101,177 @@ def _inputs():
     return inventory, index, decisions, box(6.70, 51.15, 6.90, 51.35)
 
 
+def _compact_area_junction_inputs():
+    inventory, index, decisions, border = _inputs()
+    inventory["geometry_requests"][0].update(
+        label="Bereich der Einmündung",
+        precision="area",
+        geometry_task="checked_area_geometry_required",
+        evidence_quotes=[
+            ("Er fuhr aus der Wittenberger Straße in den Bereich der Einmündung "
+             "zur Märkischen Allee; zuvor befuhr er die Märkische Allee.")
+        ],
+    )
+    centre = (6.77, 51.23)
+    roads = [
+        (1, ["Wittenberger Straße"], [(6.769, 51.23), centre]),
+        (5, ["Wittenberger Straße"], [centre, (6.771, 51.23)]),
+        (3, ["Heinrich-Rau-Straße", "Märkische Allee", "TVO"], [(6.77, 51.229), centre]),
+        (6, ["Heinrich-Rau-Straße", "Märkische Allee", "TVO"], [centre, (6.77, 51.231)]),
+    ]
+    index["objects"] = [row for row in index["objects"] if row["id"] not in {
+        "osm/way/1", "osm/way/3",
+    }]
+    index["objects"] += [
+        {"id": f"osm/way/{ident}", "roles": ["named_object", "road"],
+         "names": names, "tags": {"highway": "residential"},
+         "geometry": mapping(LineString(coordinates))}
+        for ident, names, coordinates in roads
+    ]
+    decisions["decisions"][0].update(
+        method="osm_junction_reference",
+        osm_object_groups=[["osm/way/1", "osm/way/5"], ["osm/way/3", "osm/way/6"]],
+    )
+    return inventory, index, decisions, border
+
+
+@pytest.mark.parametrize("raw_tags", ["absent", "mixed", "present"])
+def test_area_junction_accepts_source_bound_compact_names_without_raw_name_tags(raw_tags):
+    inventory, index, decisions, border = _compact_area_junction_inputs()
+    roads = {row["id"]: row for row in index["objects"] if "road" in row["roles"]}
+    if raw_tags != "absent":
+        roads["osm/way/1"]["tags"]["name"] = "Wittenberger Straße"
+    if raw_tags == "present":
+        roads["osm/way/5"]["tags"]["name"] = "Wittenberger Straße"
+        for ident in ("osm/way/3", "osm/way/6"):
+            roads[ident]["tags"]["name"] = "Märkische Allee"
+    original = copy.deepcopy(index)
+    result = compile_geometry_decisions(
+        inventory=inventory, geometry_index=index, decision_envelope=decisions,
+        border=border, include_footprint_count_points=False,
+    )
+    derived = result["decisions"][0]["derived_geometry"]
+    assert derived["geometry"]["coordinates"] == (6.77, 51.23)
+    assert derived["geometry_usage"] == "source_junction_reference_only"
+    assert derived["actual_event_position_known"] is False
+    assert derived["actual_event_extent_known"] is False
+    assert derived["intersection_spread_m"] == 0.0
+    assert "count_point" not in derived
+    assert "count_point_method" not in derived
+    assert index == original
+
+
+@pytest.mark.parametrize("invalid", [
+    "missing_names", "empty_names", "unsorted_names", "duplicate_names", "nonstring_name",
+    "group_disagreement", "missing_source_name", "ambiguous_source_alias", "same_road",
+    "shared_alias", "explicit_tag_conflict", "explicit_tag_absent_from_names", "blank_tag",
+    "word_prefix", "word_suffix", "hyphen_prefix", "nested_street_name",
+])
+def test_area_junction_rejects_ambiguous_or_unbound_compact_road_names(invalid):
+    inventory, index, decisions, border = _compact_area_junction_inputs()
+    roads = {row["id"]: row for row in index["objects"] if "road" in row["roles"]}
+    request = inventory["geometry_requests"][0]
+    first = roads["osm/way/1"]
+    if invalid == "missing_names":
+        first.pop("names")
+    elif invalid == "empty_names":
+        first["names"] = []
+    elif invalid == "unsorted_names":
+        roads["osm/way/3"]["names"].reverse()
+    elif invalid == "duplicate_names":
+        first["names"] *= 2
+    elif invalid == "nonstring_name":
+        first["names"] = [1]
+    elif invalid == "group_disagreement":
+        roads["osm/way/5"]["names"] = ["Andere Straße"]
+    elif invalid == "missing_source_name":
+        request["evidence_quotes"] = ["Die Märkische Allee ist im Bericht genannt."]
+    elif invalid == "ambiguous_source_alias":
+        request["evidence_quotes"].append("Die TVO wird ebenfalls im Bericht genannt.")
+    elif invalid == "same_road":
+        for ident in ("osm/way/3", "osm/way/6"):
+            roads[ident]["names"] = ["Wittenberger Straße"]
+    elif invalid == "shared_alias":
+        for row in roads.values():
+            row["names"] = ["Gemeinsamer Name", *row["names"]]
+    elif invalid == "explicit_tag_conflict":
+        first["names"] = ["Andere Straße", "Wittenberger Straße"]
+        first["tags"]["name"] = "Andere Straße"
+        roads["osm/way/5"]["tags"]["name"] = "Wittenberger Straße"
+    elif invalid == "explicit_tag_absent_from_names":
+        first["tags"]["name"] = "Andere Straße"
+    elif invalid == "blank_tag":
+        first["tags"]["name"] = ""
+    elif invalid in {"word_prefix", "word_suffix", "hyphen_prefix"}:
+        replacement = {
+            "word_prefix": "NeuWittenberger Straße",
+            "word_suffix": "Wittenberger Straßenring",
+            "hyphen_prefix": "Neu-Wittenberger Straße",
+        }[invalid]
+        request["evidence_quotes"] = [f"An der {replacement} und der Märkische Allee."]
+    elif invalid == "nested_street_name":
+        for ident in ("osm/way/1", "osm/way/5"):
+            roads[ident]["names"] = ["Allee"]
+    with pytest.raises(ValueError, match="two distinct named road identities"):
+        compile_geometry_decisions(
+            inventory=inventory, geometry_index=index, decision_envelope=decisions,
+            border=border, include_footprint_count_points=False,
+        )
+
+
+def test_area_junction_compact_names_use_the_index_normalization_without_shortening():
+    inventory, index, decisions, border = _compact_area_junction_inputs()
+    inventory["geometry_requests"][0]["evidence_quotes"] = [
+        "An der ＷＩＴＴＥＮＢＥＲＧＥＲ　ＳＴＲＡＳＳＥ und der MÄRKISCHE  ALLEE."
+    ]
+    result = compile_geometry_decisions(
+        inventory=inventory, geometry_index=index, decision_envelope=decisions,
+        border=border, include_footprint_count_points=False,
+    )
+    assert result["decisions"][0]["derived_geometry"]["geometry_usage"] == "source_junction_reference_only"
+
+
+@pytest.mark.parametrize(("invalid", "message"), [
+    ("nonshared_vertex", "original shared road vertices"),
+    ("distant_intersections", "exceeding the junction limit"),
+    ("outside_boundary", "outside the municipality"),
+    ("non_road", "groups must contain checked roads"),
+    ("no_intersection", "no point intersection"),
+    ("mismatched_precision_task", "differs from the reviewed precision"),
+])
+def test_area_junction_compact_names_preserve_geometry_guards(invalid, message):
+    inventory, index, decisions, border = _compact_area_junction_inputs()
+    roads = {row["id"]: row for row in index["objects"] if "road" in row["roles"]}
+    if invalid == "nonshared_vertex":
+        for ident in ("osm/way/1", "osm/way/5"):
+            roads[ident]["geometry"] = mapping(LineString([(6.769, 51.23), (6.771, 51.23)]))
+    elif invalid == "distant_intersections":
+        coordinates = {
+            "osm/way/1": [(6.769, 51.23), (6.77, 51.23), (6.78, 51.23)],
+            "osm/way/5": [(6.78, 51.23), (6.781, 51.23)],
+            "osm/way/3": [(6.77, 51.229), (6.77, 51.23), (6.77, 51.231)],
+            "osm/way/6": [(6.78, 51.229), (6.78, 51.23), (6.78, 51.231)],
+        }
+        for ident, points in coordinates.items():
+            roads[ident]["geometry"] = mapping(LineString(points))
+    elif invalid == "outside_boundary":
+        border = box(6.78, 51.22, 6.79, 51.24)
+    elif invalid == "non_road":
+        roads["osm/way/1"]["roles"] = ["named_object"]
+    elif invalid == "no_intersection":
+        for ident in ("osm/way/3", "osm/way/6"):
+            roads[ident]["geometry"] = mapping(LineString([(6.78, 51.229), (6.78, 51.231)]))
+    elif invalid == "mismatched_precision_task":
+        inventory["geometry_requests"][0].update(
+            precision="street", geometry_task="checked_area_geometry_required",
+        )
+    with pytest.raises(ValueError, match=message):
+        compile_geometry_decisions(
+            inventory=inventory, geometry_index=index, decision_envelope=decisions,
+            border=border, include_footprint_count_points=False,
+        )
+
+
 def test_geometry_decisions_bind_requests_and_derive_only_selected_osm_geometry():
     inventory, index, decisions, border = _inputs()
     result = compile_geometry_decisions(

@@ -9,8 +9,9 @@ def aggregate_year(city, generation, year, monthly):
     cells={mode:{} for mode in ('overview','detail')}
     assignments={mode:{} for mode in cells}
     events={};event_months={};sources={}
-    for month,payload in sorted(monthly.items()):
+    for month in sorted(monthly):
         if not month.startswith(year+'-'):continue
+        payload=monthly[month]
         sources[month]=hashlib.sha256(stable(payload).encode()).hexdigest()
         for e in payload.get('events',[]):
             identifier=str(e['id'])

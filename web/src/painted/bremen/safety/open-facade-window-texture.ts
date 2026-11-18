@@ -1,2 +1,2 @@
-// Identical frozen source and runtime dependency graph; preserve one implementation.
-export * from '../../root500/safety/open-facade-window-texture';
+// Shared pixel contract and page-scoped resource ownership.
+export * from '../../../safety/open-facade-window-texture';

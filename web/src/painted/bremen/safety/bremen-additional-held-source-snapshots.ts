@@ -1,2 +1,3 @@
-import {readFrozenTableAsync} from '../../../safety/frozen-paint-tables';
-export const BREMEN_ADDITIONAL_HELD_SOURCE_SNAPSHOTS:any[]=(await readFrozenTableAsync("215acc502b1487366a492bd49009be602ef18e2b2dc478dea54c1ffd54a5a80e","painted/bremen/safety/bremen-additional-held-source-snapshots.ts",0));
+import type {FrozenDataScope} from '../../../safety/frozen-data-scope';
+export const BREMEN_ADDITIONAL_HELD_SOURCE_SNAPSHOTS_RESOURCE={"canonicalSHA256":"215acc502b1487366a492bd49009be602ef18e2b2dc478dea54c1ffd54a5a80e","file":"painted/bremen/safety/bremen-additional-held-source-snapshots.ts","occurrence":0,"codec":"json"} as const;
+export function getBREMEN_ADDITIONAL_HELD_SOURCE_SNAPSHOTS(scope?:FrozenDataScope){if(!scope)throw Error('Frozen data scope required for BREMEN_ADDITIONAL_HELD_SOURCE_SNAPSHOTS');return (scope.borrow<any,any>(BREMEN_ADDITIONAL_HELD_SOURCE_SNAPSHOTS_RESOURCE,value=>value));}

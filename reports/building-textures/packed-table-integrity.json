@@ -9,73 +9,121 @@
     "path": "web/src/safety/c446-fixture.ts",
     "variable": "C446_FIXTURE",
     "sha256": "25988c1e16f7ba010f990e1fa894f65d3c909a102aed5d21140d780f8130f54e",
-    "literalBytes": 596820
+    "literalBytes": 596820,
+    "publicLiteral": {
+      "sha256": "fc8137e5feab31e298309513e3b01b3fdbfef47670bb5faecef966cebbb48e16",
+      "bytes": 595060
+    }
   },
   {
     "path": "web/src/safety/c471-fixture.ts",
     "variable": "C471_FIXTURE",
     "sha256": "1cf81c347a8b20e7ef36c7b1ef87a688190a6d46455dcf9e1bdbcfc38cf6880b",
-    "literalBytes": 871378
+    "literalBytes": 871378,
+    "publicLiteral": {
+      "sha256": "dd93e8032986695e35f5fa85d49c0b19a806745640a8fa8879b705330f5e9a7e",
+      "bytes": 864178
+    }
   },
   {
     "path": "web/src/safety/c346-fixture.ts",
     "variable": "C346_FIXTURE",
     "sha256": "8fdd781ab76116d422a982a31246afb41d3d2327410cb217b96e9d1c80585ebc",
-    "literalBytes": 1007858
+    "literalBytes": 1007858,
+    "publicLiteral": {
+      "sha256": "e0d9e516300ca45c7431dfe5db0dce4db8ef266d0cad522bf5bfd44c8a40e2d1",
+      "bytes": 1006586
+    }
   },
   {
     "path": "web/src/safety/c360-fixture.ts",
     "variable": "C360_FIXTURE",
     "sha256": "f170bd68804d58f8c5cf2fed9449dfc42579cc10f99fd395fdbaee79a9c52bd3",
-    "literalBytes": 1378064
+    "literalBytes": 1378064,
+    "publicLiteral": {
+      "sha256": "3c6f9cf6e1fbf63c50d0750eae0d92a1a37d6ff359c14b69f6eabbb0a2d3db08",
+      "bytes": 1377905
+    }
   },
   {
     "path": "web/src/safety/c457-fixture.ts",
     "variable": "C457_FIXTURE",
     "sha256": "2d22ed888f983dac3bb12eb52f24114be5f478dea919d852f033df67f8be261c",
-    "literalBytes": 401675
+    "literalBytes": 401675,
+    "publicLiteral": {
+      "sha256": "e594cd96806fe9c558e233c0d0743da8d73ea20b81bcaa4b35240a49a668c417",
+      "bytes": 398155
+    }
   },
   {
     "path": "web/src/safety/c452-fixture.ts",
     "variable": "C452_FIXTURE",
     "sha256": "23950612c8a9872d11765a46d7ab7f71868be82dabd717c846809661a40c18dd",
-    "literalBytes": 279029
+    "literalBytes": 279029,
+    "publicLiteral": {
+      "sha256": "c07c1d6af92dddb090fc6ba96db4fdff08c4534bda8291ca96b4be004b21f350",
+      "bytes": 277429
+    }
   },
   {
     "path": "web/src/safety/c465-fixture.ts",
     "variable": "C465_FIXTURE",
     "sha256": "c22ac1b3a93266bd23456c1650a7dbc9db75925b7e9082940dd92e69e4f854b5",
-    "literalBytes": 1561188
+    "literalBytes": 1561188,
+    "publicLiteral": {
+      "sha256": "27e8bb2be6c61da5d468f65af193a7105ef002c7144d4935ef2827e01395df3a",
+      "bytes": 1560388
+    }
   },
   {
     "path": "web/src/safety/c468-fixture.ts",
     "variable": "C468_FIXTURE",
     "sha256": "8fc8bfd2455136fe7871fbb3ba46277f329b57add872e4a39878aa227005efac",
-    "literalBytes": 368026
+    "literalBytes": 368026,
+    "publicLiteral": {
+      "sha256": "b989b91382d5c9cf64ea1f2a36d91444b85d196f4a9fe4336802b1bb1b6605f4",
+      "bytes": 366906
+    }
   },
   {
     "path": "web/src/safety/c474-fixture.ts",
     "variable": "C474_FIXTURE",
     "sha256": "839994ce7be4b41dbdaa8a7c95148f83f1ee3dcf9b2b5657440ab735a4a7ae04",
-    "literalBytes": 827629
+    "literalBytes": 827629,
+    "publicLiteral": {
+      "sha256": "5255438ca5fabcb0c39fccc78333e980c1e271d4527b502bf8a11b5d4fd51e9b",
+      "bytes": 823789
+    }
   },
   {
     "path": "web/src/safety/c443-fixture.ts",
     "variable": "C443_FIXTURE",
     "sha256": "ea045940e18bf9801d6a620c7ba03177c943daa97a021454193e4da8f9673f3e",
-    "literalBytes": 1080097
+    "literalBytes": 1080097,
+    "publicLiteral": {
+      "sha256": "9f709b0b457a002ff6667a9a22d2e3f010d7f01589bb1af8f2552b698219b5f6",
+      "bytes": 1069217
+    }
   },
   {
     "path": "web/src/safety/c321-fixture.ts",
     "variable": "C321_FIXTURE",
     "sha256": "580f6d3aede96a8f7c3a24d5c3f8e4aa7ea507c90e717b5804ad48897be2fccc",
-    "literalBytes": 1565206
+    "literalBytes": 1565206,
+    "publicLiteral": {
+      "sha256": "cc6e0e4a5c51f3371e2b931e2feb7cadccab9d52f544aacd092d1515afbcda14",
+      "bytes": 1559959
+    }
   },
   {
     "path": "web/src/safety/c343-fixture.ts",
     "variable": "C343_FIXTURE",
     "sha256": "365929e270125a79678fdad2e5a2251933b7edc668053d723f4efd3bb9854ea8",
-    "literalBytes": 387510
+    "literalBytes": 387510,
+    "publicLiteral": {
+      "sha256": "ac5a6b7b1318b79b84eac52230eaf8bd094763c2419548b5cd1be15548b6a969",
+      "bytes": 387192
+    }
   },
   {
     "path": "web/src/safety/progressive-feature-cities.ts",
@@ -87,7 +135,11 @@
     "path": "web/src/safety/c311-fixture.ts",
     "variable": "C311_FIXTURE",
     "sha256": "a88742435de1d1ef327b1c44b7a9060951ec4ed3a79e9fd76a489c491b72885d",
-    "literalBytes": 883711
+    "literalBytes": 883711,
+    "publicLiteral": {
+      "sha256": "1cf724d2b0ae8dca8e0d7e62986bdb065afe7b426c574e7f92e189e2a4e15de7",
+      "bytes": 883393
+    }
   },
   {
     "path": "web/src/safety/c444-fixture.ts",
@@ -99,25 +151,41 @@
     "path": "web/src/safety/c426-fixture.ts",
     "variable": "C426_FIXTURE",
     "sha256": "c41bab7ca944a3c2b8f11ca205cc748fbf55baf297eff2bc56c16a556d109f51",
-    "literalBytes": 619732
+    "literalBytes": 619732,
+    "publicLiteral": {
+      "sha256": "5cdd581274f9f426b974c20b080fe2f39d74256872edde4eddd04c23b97667e7",
+      "bytes": 617665
+    }
   },
   {
     "path": "web/src/safety/c344-fixture.ts",
     "variable": "C344_FIXTURE",
     "sha256": "16337cd1d6d32bf41a15c607b610695eed06ba28696c24dde827fbbf80f394e3",
-    "literalBytes": 1658185
+    "literalBytes": 1658185,
+    "publicLiteral": {
+      "sha256": "f44628f8464c6b9d95b2c7fb1164ae5acae9b1e055ee91416bb96ed0f45789f9",
+      "bytes": 1658026
+    }
   },
   {
     "path": "web/src/safety/c358-fixture.ts",
     "variable": "C358_FIXTURE",
     "sha256": "8081e4c8d91aa3a2c0c574597ca52d1a26bf2055b4259f106497868233a7f64a",
-    "literalBytes": 1671697
+    "literalBytes": 1671697,
+    "publicLiteral": {
+      "sha256": "b8a49aba914736099eaffa2f803bd69d249701ddaa27ba5326ee4f23e15c0408",
+      "bytes": 1671538
+    }
   },
   {
     "path": "web/src/safety/c449-fixture.ts",
     "variable": "C449_FIXTURE",
     "sha256": "ade4480687b74d46a8489477b9ef2dffe829a701a0808aa4f75775ff578e1d3d",
-    "literalBytes": 636016
+    "literalBytes": 636016,
+    "publicLiteral": {
+      "sha256": "7674d79c680083e80e60d901e0e9e9cf3023555e52d945ec8cda30bef9dfac4b",
+      "bytes": 635536
+    }
   },
   {
     "path": "web/src/safety/c437-fixture.ts",
@@ -129,49 +197,81 @@
     "path": "web/src/safety/c362-fixture.ts",
     "variable": "C362_FIXTURE",
     "sha256": "86024c4b0621812f1a581abb43f9f412d25ae0a24a0a4f059cbeef0144c810e1",
-    "literalBytes": 895069
+    "literalBytes": 895069,
+    "publicLiteral": {
+      "sha256": "757c54180d522ea6e720d48221c495d1efe3f1f15fd9c78dc9cc5709297d2af7",
+      "bytes": 894910
+    }
   },
   {
     "path": "web/src/safety/c467-fixture.ts",
     "variable": "C467_FIXTURE",
     "sha256": "6e853d400e2868c8ab77fe98642b438aa39cac2ad5a1d1a8b614967f234ee7cd",
-    "literalBytes": 794590
+    "literalBytes": 794590,
+    "publicLiteral": {
+      "sha256": "4facb4633c28d8516b30377c020e5eec5d9808b7b3564595ac5acc3a2fecf0ef",
+      "bytes": 792661
+    }
   },
   {
     "path": "web/src/safety/c332-fixture.ts",
     "variable": "C332_FIXTURE",
     "sha256": "c5ce475b2c9405b77eeea585ef9e0a8355eb7717a29066ddbf7aa18af635a40f",
-    "literalBytes": 690505
+    "literalBytes": 690505,
+    "publicLiteral": {
+      "sha256": "0bfedd31272612cb83202385a6263378b7073cefff52d9931a02d1d6ba6c86ba",
+      "bytes": 689551
+    }
   },
   {
     "path": "web/src/safety/c441-fixture.ts",
     "variable": "C441_FIXTURE",
     "sha256": "c552c07be57aa95c09b198b2fe8956ad14003f79156829388749bd37b4af15a5",
-    "literalBytes": 367624
+    "literalBytes": 367624,
+    "publicLiteral": {
+      "sha256": "381273eea07aaa687868df729268235f1eb7a5c84eb9a6474c704e52dfe2338a",
+      "bytes": 366504
+    }
   },
   {
     "path": "web/src/safety/c476-fixture.ts",
     "variable": "C476_FIXTURE",
     "sha256": "bb0ed5a154124f179c9668f9eca5eb57ffc25f7cdbd1bfb50be0bb4ac6ad4bf5",
-    "literalBytes": 966943
+    "literalBytes": 966943,
+    "publicLiteral": {
+      "sha256": "1aa241798548c5a824b7dc4c7277ba784a1adf0aee760894614f1fd39e2c74da",
+      "bytes": 966623
+    }
   },
   {
     "path": "web/src/safety/c341-fixture.ts",
     "variable": "C341_FIXTURE",
     "sha256": "a9afca2652da7ad6355c1329d67e3f67c8cf6ff863a2d44f41a5ea3e9cfacb88",
-    "literalBytes": 1046328
+    "literalBytes": 1046328,
+    "publicLiteral": {
+      "sha256": "217a51fa96cf1f0d136fa8deb9f03fa991e15346db64639b53c0f12d7060557a",
+      "bytes": 1039809
+    }
   },
   {
     "path": "web/src/safety/c353-fixture.ts",
     "variable": "C353_FIXTURE",
     "sha256": "7462d3807a9d9f4c16cbb74046e053908d1e6bd075659567fb87e6604d80bf9f",
-    "literalBytes": 748589
+    "literalBytes": 748589,
+    "publicLiteral": {
+      "sha256": "ad4a3e8768a72b2e67c3b7585f0b5227a227dce2f220e885c890fdbeb672f31a",
+      "bytes": 748430
+    }
   },
   {
     "path": "web/src/safety/c364-fixture.ts",
     "variable": "C364_FIXTURE",
     "sha256": "e0b36493ee0426f0ec61a443a49ce6aa442569d400408eb2d2d802492e844fdf",
-    "literalBytes": 259574
+    "literalBytes": 259574,
+    "publicLiteral": {
+      "sha256": "fb1ea39dc2eb0147c43f2c078fe7c4423c0d707c0b24987cfedc300f3a514a0a",
+      "bytes": 259415
+    }
   },
   {
     "path": "web/src/safety/c378-fixture.ts",
@@ -189,7 +289,11 @@
     "path": "web/src/safety/c342-fixture.ts",
     "variable": "C342_FIXTURE",
     "sha256": "d5f63e0a5bed2c639aeed48226d58e7558b75346ae0d69095294aa0076f22ba2",
-    "literalBytes": 523670
+    "literalBytes": 523670,
+    "publicLiteral": {
+      "sha256": "7e59dfa49abf8298d8856de206891bca4f66d46f58c79598cfb5c90994783692",
+      "bytes": 523511
+    }
   },
   {
     "path": "web/src/safety/c439-fixture.ts",
@@ -201,115 +305,191 @@
     "path": "web/src/safety/c325-fixture.ts",
     "variable": "C325_FIXTURE",
     "sha256": "b00992c3db06327961029b8f1ab26d98d41365c451918527ac79953629396a1e",
-    "literalBytes": 385396
+    "literalBytes": 385396,
+    "publicLiteral": {
+      "sha256": "e8fb1f162a51f1f7199a38b97977edc7235ce18b99db947815cc604679482715",
+      "bytes": 382693
+    }
   },
   {
     "path": "web/src/safety/c447-fixture.ts",
     "variable": "C447_FIXTURE",
     "sha256": "47973ee3b364e1a8ea28183933099b95b2df01166365f5f9e41e44fe8c4a8ffb",
-    "literalBytes": 323764
+    "literalBytes": 323764,
+    "publicLiteral": {
+      "sha256": "3e4898bb3f4e0e103d49196061e08eaf5bdabb073eb363878631537f10d6b618",
+      "bytes": 320404
+    }
   },
   {
     "path": "web/src/safety/c312-fixture.ts",
     "variable": "C312_FIXTURE",
     "sha256": "45be88dd808b25514000607724c6a47680c75a1e1fd86d9f1299b6df2770223c",
-    "literalBytes": 673793
+    "literalBytes": 673793,
+    "publicLiteral": {
+      "sha256": "0067cb1bdada3e29a7d4b25f6cfd9539108a4c232eae037075f905d34330c002",
+      "bytes": 672680
+    }
   },
   {
     "path": "web/src/safety/c243-projection-pin.ts",
     "variable": "C243_PROJECTION_REGISTRY",
     "sha256": "0eb9ed1c5661691a428c28f48b07f908c9e8ae7be48829545c689f3b25996ad1",
-    "literalBytes": 332746
+    "literalBytes": 332746,
+    "publicLiteral": {
+      "sha256": "a92a783733c533d64233219ed9a9585861643a2aee7b2087d5f4d3620084c352",
+      "bytes": 331774
+    }
   },
   {
     "path": "web/src/safety/c361-fixture.ts",
     "variable": "C361_FIXTURE",
     "sha256": "86d0bedfbbada35b5c2bfc4989ce67a2bdc0086a8af344536647998e43e39b88",
-    "literalBytes": 459073
+    "literalBytes": 459073,
+    "publicLiteral": {
+      "sha256": "2540f7bbe10c11916f683eaac81b342218a182643b5c81c0599dbbd077eb38c7",
+      "bytes": 457324
+    }
   },
   {
     "path": "web/src/safety/c356-fixture.ts",
     "variable": "C356_FIXTURE",
     "sha256": "cc14a6db0ed8cc4db6774a5713261723d8ae194f47f2a18948893610badc924e",
-    "literalBytes": 455116
+    "literalBytes": 455116,
+    "publicLiteral": {
+      "sha256": "42910e9a2cebf9abe8eacfcada0dec5060ecfa28196543e6d513ce8966cc0311",
+      "bytes": 454957
+    }
   },
   {
     "path": "web/src/safety/c334-fixture.ts",
     "variable": "C334_FIXTURE",
     "sha256": "a9ab7be7b944663997579284eed87b2f84340232819fd5999d26290d2fba40b5",
-    "literalBytes": 340012
+    "literalBytes": 340012,
+    "publicLiteral": {
+      "sha256": "bea40b7d0732f5e669581f290dfaa1a2e3093da48299a0ee003a582e9f1987d3",
+      "bytes": 339694
+    }
   },
   {
     "path": "web/src/safety/c366-fixture.ts",
     "variable": "C366_FIXTURE",
     "sha256": "4d66e76492a494f6228c008c2177e95e1587271d31f6e3f4c7f9d967baaab018",
-    "literalBytes": 264354
+    "literalBytes": 264354,
+    "publicLiteral": {
+      "sha256": "a611c5abffa61127d52a8fe68a1ecfeaf7c7be192494b263e7e306635ec65eae",
+      "bytes": 264195
+    }
   },
   {
     "path": "web/src/safety/c351-fixture.ts",
     "variable": "C351_FIXTURE",
     "sha256": "81272e383a2b587011e1bf87d5f15aff3ea6bbaeca60e3300df4b89375fe9270",
-    "literalBytes": 885928
+    "literalBytes": 885928,
+    "publicLiteral": {
+      "sha256": "c50cdfda6647f7bc97b7321f48b1ed096cec2b3a1c2a34bf43f018d625596ab2",
+      "bytes": 885769
+    }
   },
   {
     "path": "web/src/safety/c159-projection-pin.ts",
     "variable": "C159_PROJECTION_REGISTRY",
     "sha256": "70916062b25d4aa1420eb7fb13471fd93d0c23ddc2c67b6f4fded49a5911bdd7",
-    "literalBytes": 272091
+    "literalBytes": 272091,
+    "publicLiteral": {
+      "sha256": "48686daf47ec120eb30ba7044358b0855df0b81497f8621a40cd50b0bc55a5ca",
+      "bytes": 271608
+    }
   },
   {
     "path": "web/src/safety/c322-fixture.ts",
     "variable": "C322_FIXTURE",
     "sha256": "3923879136732b1c48b6b16ff381ecb413999092c39e114ddb495d66d921c3ff",
-    "literalBytes": 389419
+    "literalBytes": 389419,
+    "publicLiteral": {
+      "sha256": "045ecda495dd38e74a3e1a8c00c661f65183ab672fca698a9ce653bb493bf895",
+      "bytes": 388306
+    }
   },
   {
     "path": "web/src/safety/c340-fixture.ts",
     "variable": "C340_FIXTURE",
     "sha256": "b026b5e5595e1e7d40e0e060c2214cc8bc1c85cdc88f5f85d32a08d38d4b21b6",
-    "literalBytes": 713681
+    "literalBytes": 713681,
+    "publicLiteral": {
+      "sha256": "549777925d0d3cc88d202c02118fd213db7a608ce3c705b6c54a451596976901",
+      "bytes": 704618
+    }
   },
   {
     "path": "web/src/safety/c377-fixture.ts",
     "variable": "C377_FIXTURE",
     "sha256": "16c4a51659e5b55faec50261ac4877fdc06f386509663ca98360df5b0020e92c",
-    "literalBytes": 416833
+    "literalBytes": 416833,
+    "publicLiteral": {
+      "sha256": "28406ec655067ba734ae2730401fdcd66fd6b9c39b6b96c03f8277b06c67ff74",
+      "bytes": 416515
+    }
   },
   {
     "path": "web/src/safety/c472-fixture.ts",
     "variable": "C472_FIXTURE",
     "sha256": "330daf304980608d1ff1e0b5e26d91af107f26a78dd084395ccd9497df0dc84d",
-    "literalBytes": 1190652
+    "literalBytes": 1190652,
+    "publicLiteral": {
+      "sha256": "ad359c4de24df4d5b1559d1c9a6122b4c1d3a080c98baf12c8c86c28616d803c",
+      "bytes": 1189692
+    }
   },
   {
     "path": "web/src/safety/c445-fixture.ts",
     "variable": "C445_FIXTURE",
     "sha256": "82d1025617636afab7b6ab693de9ea7fc9bb0bbd987c7cf600348c67427062de",
-    "literalBytes": 396174
+    "literalBytes": 396174,
+    "publicLiteral": {
+      "sha256": "8c72765cf35accc8f1d864877e219fb531cc0033266325dd384f300e750bb7f2",
+      "bytes": 395374
+    }
   },
   {
     "path": "web/src/safety/c327-fixture.ts",
     "variable": "C327_FIXTURE",
     "sha256": "d732abf5bfddfbe969b23983200aa5ff447989be6d9a5af11df82cd8dcfe19ab",
-    "literalBytes": 729802
+    "literalBytes": 729802,
+    "publicLiteral": {
+      "sha256": "dd892331744a121810d11aff26125dd3435220979988cec68d2934ea5bfca5cf",
+      "bytes": 717559
+    }
   },
   {
     "path": "web/src/safety/c345-fixture.ts",
     "variable": "C345_FIXTURE",
     "sha256": "e580e3b8775e8228b5a82302f6b9e959e1a8c1d1d75fd30b128ccc2307e8fcfe",
-    "literalBytes": 615769
+    "literalBytes": 615769,
+    "publicLiteral": {
+      "sha256": "1c70fb1c06afdd438c6368667d427f85c62eef40701f9b0358f1b42119b11369",
+      "bytes": 615610
+    }
   },
   {
     "path": "web/src/safety/c448-fixture.ts",
     "variable": "C448_FIXTURE",
     "sha256": "21d49ec6b7f5fff09cd4b469f6ddcd7b4ed5aff2dd576e961aa3429de990d99f",
-    "literalBytes": 300553
+    "literalBytes": 300553,
+    "publicLiteral": {
+      "sha256": "40bdf1ca6ceb2f40f220cafa6a6507a875b89b2600157d14a717c771f2cd2a37",
+      "bytes": 297833
+    }
   },
   {
     "path": "web/src/safety/c436-fixture.ts",
     "variable": "C436_FIXTURE",
     "sha256": "2ba4e9c36cfab40d6511c0b1bf68abc1ca18a713236d0d5227428c1e74c4a312",
-    "literalBytes": 418254
+    "literalBytes": 418254,
+    "publicLiteral": {
+      "sha256": "6507468e9f74c9c6100681234ab2d5c1ba29626d17f99d944169d6119ccbe8b9",
+      "bytes": 415392
+    }
   },
   {
     "path": "web/src/safety/progressive-paint-admissions.ts",
@@ -1553,73 +1733,121 @@
     "path": "web/src/painted/city/safety/c446-fixture.ts",
     "variable": "C446_FIXTURE",
     "sha256": "25988c1e16f7ba010f990e1fa894f65d3c909a102aed5d21140d780f8130f54e",
-    "literalBytes": 596820
+    "literalBytes": 596820,
+    "publicLiteral": {
+      "sha256": "fc8137e5feab31e298309513e3b01b3fdbfef47670bb5faecef966cebbb48e16",
+      "bytes": 595060
+    }
   },
   {
     "path": "web/src/painted/city/safety/c471-fixture.ts",
     "variable": "C471_FIXTURE",
     "sha256": "1cf81c347a8b20e7ef36c7b1ef87a688190a6d46455dcf9e1bdbcfc38cf6880b",
-    "literalBytes": 871378
+    "literalBytes": 871378,
+    "publicLiteral": {
+      "sha256": "dd93e8032986695e35f5fa85d49c0b19a806745640a8fa8879b705330f5e9a7e",
+      "bytes": 864178
+    }
   },
   {
     "path": "web/src/painted/city/safety/c346-fixture.ts",
     "variable": "C346_FIXTURE",
     "sha256": "8fdd781ab76116d422a982a31246afb41d3d2327410cb217b96e9d1c80585ebc",
-    "literalBytes": 1007858
+    "literalBytes": 1007858,
+    "publicLiteral": {
+      "sha256": "e0d9e516300ca45c7431dfe5db0dce4db8ef266d0cad522bf5bfd44c8a40e2d1",
+      "bytes": 1006586
+    }
   },
   {
     "path": "web/src/painted/city/safety/c360-fixture.ts",
     "variable": "C360_FIXTURE",
     "sha256": "f170bd68804d58f8c5cf2fed9449dfc42579cc10f99fd395fdbaee79a9c52bd3",
-    "literalBytes": 1378064
+    "literalBytes": 1378064,
+    "publicLiteral": {
+      "sha256": "3c6f9cf6e1fbf63c50d0750eae0d92a1a37d6ff359c14b69f6eabbb0a2d3db08",
+      "bytes": 1377905
+    }
   },
   {
     "path": "web/src/painted/city/safety/c457-fixture.ts",
     "variable": "C457_FIXTURE",
     "sha256": "2d22ed888f983dac3bb12eb52f24114be5f478dea919d852f033df67f8be261c",
-    "literalBytes": 401675
+    "literalBytes": 401675,
+    "publicLiteral": {
+      "sha256": "e594cd96806fe9c558e233c0d0743da8d73ea20b81bcaa4b35240a49a668c417",
+      "bytes": 398155
+    }
   },
   {
     "path": "web/src/painted/city/safety/c452-fixture.ts",
     "variable": "C452_FIXTURE",
     "sha256": "23950612c8a9872d11765a46d7ab7f71868be82dabd717c846809661a40c18dd",
-    "literalBytes": 279029
+    "literalBytes": 279029,
+    "publicLiteral": {
+      "sha256": "c07c1d6af92dddb090fc6ba96db4fdff08c4534bda8291ca96b4be004b21f350",
+      "bytes": 277429
+    }
   },
   {
     "path": "web/src/painted/city/safety/c465-fixture.ts",
     "variable": "C465_FIXTURE",
     "sha256": "c22ac1b3a93266bd23456c1650a7dbc9db75925b7e9082940dd92e69e4f854b5",
-    "literalBytes": 1561188
+    "literalBytes": 1561188,
+    "publicLiteral": {
+      "sha256": "27e8bb2be6c61da5d468f65af193a7105ef002c7144d4935ef2827e01395df3a",
+      "bytes": 1560388
+    }
   },
   {
     "path": "web/src/painted/city/safety/c468-fixture.ts",
     "variable": "C468_FIXTURE",
     "sha256": "8fc8bfd2455136fe7871fbb3ba46277f329b57add872e4a39878aa227005efac",
-    "literalBytes": 368026
+    "literalBytes": 368026,
+    "publicLiteral": {
+      "sha256": "b989b91382d5c9cf64ea1f2a36d91444b85d196f4a9fe4336802b1bb1b6605f4",
+      "bytes": 366906
+    }
   },
   {
     "path": "web/src/painted/city/safety/c474-fixture.ts",
     "variable": "C474_FIXTURE",
     "sha256": "839994ce7be4b41dbdaa8a7c95148f83f1ee3dcf9b2b5657440ab735a4a7ae04",
-    "literalBytes": 827629
+    "literalBytes": 827629,
+    "publicLiteral": {
+      "sha256": "5255438ca5fabcb0c39fccc78333e980c1e271d4527b502bf8a11b5d4fd51e9b",
+      "bytes": 823789
+    }
   },
   {
     "path": "web/src/painted/city/safety/c443-fixture.ts",
     "variable": "C443_FIXTURE",
     "sha256": "ea045940e18bf9801d6a620c7ba03177c943daa97a021454193e4da8f9673f3e",
-    "literalBytes": 1080097
+    "literalBytes": 1080097,
+    "publicLiteral": {
+      "sha256": "9f709b0b457a002ff6667a9a22d2e3f010d7f01589bb1af8f2552b698219b5f6",
+      "bytes": 1069217
+    }
   },
   {
     "path": "web/src/painted/city/safety/c321-fixture.ts",
     "variable": "C321_FIXTURE",
     "sha256": "580f6d3aede96a8f7c3a24d5c3f8e4aa7ea507c90e717b5804ad48897be2fccc",
-    "literalBytes": 1565206
+    "literalBytes": 1565206,
+    "publicLiteral": {
+      "sha256": "cc6e0e4a5c51f3371e2b931e2feb7cadccab9d52f544aacd092d1515afbcda14",
+      "bytes": 1559959
+    }
   },
   {
     "path": "web/src/painted/city/safety/c343-fixture.ts",
     "variable": "C343_FIXTURE",
     "sha256": "365929e270125a79678fdad2e5a2251933b7edc668053d723f4efd3bb9854ea8",
-    "literalBytes": 387510
+    "literalBytes": 387510,
+    "publicLiteral": {
+      "sha256": "ac5a6b7b1318b79b84eac52230eaf8bd094763c2419548b5cd1be15548b6a969",
+      "bytes": 387192
+    }
   },
   {
     "path": "web/src/painted/city/safety/progressive-feature-cities.ts",
@@ -1647,25 +1875,41 @@
     "path": "web/src/painted/city/safety/c426-fixture.ts",
     "variable": "C426_FIXTURE",
     "sha256": "c41bab7ca944a3c2b8f11ca205cc748fbf55baf297eff2bc56c16a556d109f51",
-    "literalBytes": 619732
+    "literalBytes": 619732,
+    "publicLiteral": {
+      "sha256": "5cdd581274f9f426b974c20b080fe2f39d74256872edde4eddd04c23b97667e7",
+      "bytes": 617665
+    }
   },
   {
     "path": "web/src/painted/city/safety/c344-fixture.ts",
     "variable": "C344_FIXTURE",
     "sha256": "16337cd1d6d32bf41a15c607b610695eed06ba28696c24dde827fbbf80f394e3",
-    "literalBytes": 1658185
+    "literalBytes": 1658185,
+    "publicLiteral": {
+      "sha256": "f44628f8464c6b9d95b2c7fb1164ae5acae9b1e055ee91416bb96ed0f45789f9",
+      "bytes": 1658026
+    }
   },
   {
     "path": "web/src/painted/city/safety/c358-fixture.ts",
     "variable": "C358_FIXTURE",
     "sha256": "8081e4c8d91aa3a2c0c574597ca52d1a26bf2055b4259f106497868233a7f64a",
-    "literalBytes": 1671697
+    "literalBytes": 1671697,
+    "publicLiteral": {
+      "sha256": "b8a49aba914736099eaffa2f803bd69d249701ddaa27ba5326ee4f23e15c0408",
+      "bytes": 1671538
+    }
   },
   {
     "path": "web/src/painted/city/safety/c449-fixture.ts",
     "variable": "C449_FIXTURE",
     "sha256": "ade4480687b74d46a8489477b9ef2dffe829a701a0808aa4f75775ff578e1d3d",
-    "literalBytes": 636016
+    "literalBytes": 636016,
+    "publicLiteral": {
+      "sha256": "7674d79c680083e80e60d901e0e9e9cf3023555e52d945ec8cda30bef9dfac4b",
+      "bytes": 635536
+    }
   },
   {
     "path": "web/src/painted/city/safety/c437-fixture.ts",
@@ -1677,49 +1921,81 @@
     "path": "web/src/painted/city/safety/c362-fixture.ts",
     "variable": "C362_FIXTURE",
     "sha256": "86024c4b0621812f1a581abb43f9f412d25ae0a24a0a4f059cbeef0144c810e1",
-    "literalBytes": 895069
+    "literalBytes": 895069,
+    "publicLiteral": {
+      "sha256": "757c54180d522ea6e720d48221c495d1efe3f1f15fd9c78dc9cc5709297d2af7",
+      "bytes": 894910
+    }
   },
   {
     "path": "web/src/painted/city/safety/c467-fixture.ts",
     "variable": "C467_FIXTURE",
     "sha256": "6e853d400e2868c8ab77fe98642b438aa39cac2ad5a1d1a8b614967f234ee7cd",
-    "literalBytes": 794590
+    "literalBytes": 794590,
+    "publicLiteral": {
+      "sha256": "4facb4633c28d8516b30377c020e5eec5d9808b7b3564595ac5acc3a2fecf0ef",
+      "bytes": 792661
+    }
   },
   {
     "path": "web/src/painted/city/safety/c332-fixture.ts",
     "variable": "C332_FIXTURE",
     "sha256": "c5ce475b2c9405b77eeea585ef9e0a8355eb7717a29066ddbf7aa18af635a40f",
-    "literalBytes": 690505
+    "literalBytes": 690505,
+    "publicLiteral": {
+      "sha256": "0bfedd31272612cb83202385a6263378b7073cefff52d9931a02d1d6ba6c86ba",
+      "bytes": 689551
+    }
   },
   {
     "path": "web/src/painted/city/safety/c441-fixture.ts",
     "variable": "C441_FIXTURE",
     "sha256": "c552c07be57aa95c09b198b2fe8956ad14003f79156829388749bd37b4af15a5",
-    "literalBytes": 367624
+    "literalBytes": 367624,
+    "publicLiteral": {
+      "sha256": "381273eea07aaa687868df729268235f1eb7a5c84eb9a6474c704e52dfe2338a",
+      "bytes": 366504
+    }
   },
   {
     "path": "web/src/painted/city/safety/c476-fixture.ts",
     "variable": "C476_FIXTURE",
     "sha256": "bb0ed5a154124f179c9668f9eca5eb57ffc25f7cdbd1bfb50be0bb4ac6ad4bf5",
-    "literalBytes": 966943
+    "literalBytes": 966943,
+    "publicLiteral": {
+      "sha256": "1aa241798548c5a824b7dc4c7277ba784a1adf0aee760894614f1fd39e2c74da",
+      "bytes": 966623
+    }
   },
   {
     "path": "web/src/painted/city/safety/c341-fixture.ts",
     "variable": "C341_FIXTURE",
     "sha256": "a9afca2652da7ad6355c1329d67e3f67c8cf6ff863a2d44f41a5ea3e9cfacb88",
-    "literalBytes": 1046328
+    "literalBytes": 1046328,
+    "publicLiteral": {
+      "sha256": "217a51fa96cf1f0d136fa8deb9f03fa991e15346db64639b53c0f12d7060557a",
+      "bytes": 1039809
+    }
   },
   {
     "path": "web/src/painted/city/safety/c353-fixture.ts",
     "variable": "C353_FIXTURE",
     "sha256": "7462d3807a9d9f4c16cbb74046e053908d1e6bd075659567fb87e6604d80bf9f",
-    "literalBytes": 748589
+    "literalBytes": 748589,
+    "publicLiteral": {
+      "sha256": "ad4a3e8768a72b2e67c3b7585f0b5227a227dce2f220e885c890fdbeb672f31a",
+      "bytes": 748430
+    }
   },
   {
     "path": "web/src/painted/city/safety/c364-fixture.ts",
     "variable": "C364_FIXTURE",
     "sha256": "e0b36493ee0426f0ec61a443a49ce6aa442569d400408eb2d2d802492e844fdf",
-    "literalBytes": 259574
+    "literalBytes": 259574,
+    "publicLiteral": {
+      "sha256": "fb1ea39dc2eb0147c43f2c078fe7c4423c0d707c0b24987cfedc300f3a514a0a",
+      "bytes": 259415
+    }
   },
   {
     "path": "web/src/painted/city/safety/c378-fixture.ts",
@@ -1739,7 +2015,11 @@
     "path": "web/src/painted/city/safety/c342-fixture.ts",
     "variable": "C342_FIXTURE",
     "sha256": "d5f63e0a5bed2c639aeed48226d58e7558b75346ae0d69095294aa0076f22ba2",
-    "literalBytes": 523670
+    "literalBytes": 523670,
+    "publicLiteral": {
+      "sha256": "7e59dfa49abf8298d8856de206891bca4f66d46f58c79598cfb5c90994783692",
+      "bytes": 523511
+    }
   },
   {
     "path": "web/src/painted/city/safety/c439-fixture.ts",
@@ -1751,13 +2031,21 @@
     "path": "web/src/painted/city/safety/c325-fixture.ts",
     "variable": "C325_FIXTURE",
     "sha256": "b00992c3db06327961029b8f1ab26d98d41365c451918527ac79953629396a1e",
-    "literalBytes": 385396
+    "literalBytes": 385396,
+    "publicLiteral": {
+      "sha256": "e8fb1f162a51f1f7199a38b97977edc7235ce18b99db947815cc604679482715",
+      "bytes": 382693
+    }
   },
   {
     "path": "web/src/painted/city/safety/c447-fixture.ts",
     "variable": "C447_FIXTURE",
     "sha256": "47973ee3b364e1a8ea28183933099b95b2df01166365f5f9e41e44fe8c4a8ffb",
-    "literalBytes": 323764
+    "literalBytes": 323764,
+    "publicLiteral": {
+      "sha256": "3e4898bb3f4e0e103d49196061e08eaf5bdabb073eb363878631537f10d6b618",
+      "bytes": 320404
+    }
   },
   {
     "path": "web/src/painted/city/safety/c312-fixture.ts",
@@ -1771,43 +2059,71 @@
     "path": "web/src/painted/city/safety/c243-projection-pin.ts",
     "variable": "C243_PROJECTION_REGISTRY",
     "sha256": "0eb9ed1c5661691a428c28f48b07f908c9e8ae7be48829545c689f3b25996ad1",
-    "literalBytes": 332746
+    "literalBytes": 332746,
+    "publicLiteral": {
+      "sha256": "a92a783733c533d64233219ed9a9585861643a2aee7b2087d5f4d3620084c352",
+      "bytes": 331774
+    }
   },
   {
     "path": "web/src/painted/city/safety/c361-fixture.ts",
     "variable": "C361_FIXTURE",
     "sha256": "86d0bedfbbada35b5c2bfc4989ce67a2bdc0086a8af344536647998e43e39b88",
-    "literalBytes": 459073
+    "literalBytes": 459073,
+    "publicLiteral": {
+      "sha256": "2540f7bbe10c11916f683eaac81b342218a182643b5c81c0599dbbd077eb38c7",
+      "bytes": 457324
+    }
   },
   {
     "path": "web/src/painted/city/safety/c356-fixture.ts",
     "variable": "C356_FIXTURE",
     "sha256": "cc14a6db0ed8cc4db6774a5713261723d8ae194f47f2a18948893610badc924e",
-    "literalBytes": 455116
+    "literalBytes": 455116,
+    "publicLiteral": {
+      "sha256": "42910e9a2cebf9abe8eacfcada0dec5060ecfa28196543e6d513ce8966cc0311",
+      "bytes": 454957
+    }
   },
   {
     "path": "web/src/painted/city/safety/c334-fixture.ts",
     "variable": "C334_FIXTURE",
     "sha256": "a9ab7be7b944663997579284eed87b2f84340232819fd5999d26290d2fba40b5",
-    "literalBytes": 340012
+    "literalBytes": 340012,
+    "publicLiteral": {
+      "sha256": "bea40b7d0732f5e669581f290dfaa1a2e3093da48299a0ee003a582e9f1987d3",
+      "bytes": 339694
+    }
   },
   {
     "path": "web/src/painted/city/safety/c366-fixture.ts",
     "variable": "C366_FIXTURE",
     "sha256": "4d66e76492a494f6228c008c2177e95e1587271d31f6e3f4c7f9d967baaab018",
-    "literalBytes": 264354
+    "literalBytes": 264354,
+    "publicLiteral": {
+      "sha256": "a611c5abffa61127d52a8fe68a1ecfeaf7c7be192494b263e7e306635ec65eae",
+      "bytes": 264195
+    }
   },
   {
     "path": "web/src/painted/city/safety/c351-fixture.ts",
     "variable": "C351_FIXTURE",
     "sha256": "81272e383a2b587011e1bf87d5f15aff3ea6bbaeca60e3300df4b89375fe9270",
-    "literalBytes": 885928
+    "literalBytes": 885928,
+    "publicLiteral": {
+      "sha256": "c50cdfda6647f7bc97b7321f48b1ed096cec2b3a1c2a34bf43f018d625596ab2",
+      "bytes": 885769
+    }
   },
   {
     "path": "web/src/painted/city/safety/c159-projection-pin.ts",
     "variable": "C159_PROJECTION_REGISTRY",
     "sha256": "70916062b25d4aa1420eb7fb13471fd93d0c23ddc2c67b6f4fded49a5911bdd7",
-    "literalBytes": 272091
+    "literalBytes": 272091,
+    "publicLiteral": {
+      "sha256": "48686daf47ec120eb30ba7044358b0855df0b81497f8621a40cd50b0bc55a5ca",
+      "bytes": 271608
+    }
   },
   {
     "path": "web/src/painted/city/safety/c322-fixture.ts",
@@ -1821,49 +2137,81 @@
     "path": "web/src/painted/city/safety/c340-fixture.ts",
     "variable": "C340_FIXTURE",
     "sha256": "b026b5e5595e1e7d40e0e060c2214cc8bc1c85cdc88f5f85d32a08d38d4b21b6",
-    "literalBytes": 713681
+    "literalBytes": 713681,
+    "publicLiteral": {
+      "sha256": "549777925d0d3cc88d202c02118fd213db7a608ce3c705b6c54a451596976901",
+      "bytes": 704618
+    }
   },
   {
     "path": "web/src/painted/city/safety/c377-fixture.ts",
     "variable": "C377_FIXTURE",
     "sha256": "16c4a51659e5b55faec50261ac4877fdc06f386509663ca98360df5b0020e92c",
-    "literalBytes": 416833
+    "literalBytes": 416833,
+    "publicLiteral": {
+      "sha256": "28406ec655067ba734ae2730401fdcd66fd6b9c39b6b96c03f8277b06c67ff74",
+      "bytes": 416515
+    }
   },
   {
     "path": "web/src/painted/city/safety/c472-fixture.ts",
     "variable": "C472_FIXTURE",
     "sha256": "330daf304980608d1ff1e0b5e26d91af107f26a78dd084395ccd9497df0dc84d",
-    "literalBytes": 1190652
+    "literalBytes": 1190652,
+    "publicLiteral": {
+      "sha256": "ad359c4de24df4d5b1559d1c9a6122b4c1d3a080c98baf12c8c86c28616d803c",
+      "bytes": 1189692
+    }
   },
   {
     "path": "web/src/painted/city/safety/c445-fixture.ts",
     "variable": "C445_FIXTURE",
     "sha256": "82d1025617636afab7b6ab693de9ea7fc9bb0bbd987c7cf600348c67427062de",
-    "literalBytes": 396174
+    "literalBytes": 396174,
+    "publicLiteral": {
+      "sha256": "8c72765cf35accc8f1d864877e219fb531cc0033266325dd384f300e750bb7f2",
+      "bytes": 395374
+    }
   },
   {
     "path": "web/src/painted/city/safety/c327-fixture.ts",
     "variable": "C327_FIXTURE",
     "sha256": "d732abf5bfddfbe969b23983200aa5ff447989be6d9a5af11df82cd8dcfe19ab",
-    "literalBytes": 729802
+    "literalBytes": 729802,
+    "publicLiteral": {
+      "sha256": "dd892331744a121810d11aff26125dd3435220979988cec68d2934ea5bfca5cf",
+      "bytes": 717559
+    }
   },
   {
     "path": "web/src/painted/city/safety/c345-fixture.ts",
     "variable": "C345_FIXTURE",
     "sha256": "e580e3b8775e8228b5a82302f6b9e959e1a8c1d1d75fd30b128ccc2307e8fcfe",
-    "literalBytes": 615769
+    "literalBytes": 615769,
+    "publicLiteral": {
+      "sha256": "1c70fb1c06afdd438c6368667d427f85c62eef40701f9b0358f1b42119b11369",
+      "bytes": 615610
+    }
   },
   {
     "path": "web/src/painted/city/safety/c448-fixture.ts",
     "variable": "C448_FIXTURE",
     "sha256": "21d49ec6b7f5fff09cd4b469f6ddcd7b4ed5aff2dd576e961aa3429de990d99f",
-    "literalBytes": 300553
+    "literalBytes": 300553,
+    "publicLiteral": {
+      "sha256": "40bdf1ca6ceb2f40f220cafa6a6507a875b89b2600157d14a717c771f2cd2a37",
+      "bytes": 297833
+    }
   },
   {
     "path": "web/src/painted/city/safety/c436-fixture.ts",
     "variable": "C436_FIXTURE",
     "sha256": "2ba4e9c36cfab40d6511c0b1bf68abc1ca18a713236d0d5227428c1e74c4a312",
-    "literalBytes": 418254
+    "literalBytes": 418254,
+    "publicLiteral": {
+      "sha256": "6507468e9f74c9c6100681234ab2d5c1ba29626d17f99d944169d6119ccbe8b9",
+      "bytes": 415392
+    }
   },
   {
     "path": "web/src/painted/city/safety/progressive-paint-admissions.ts",

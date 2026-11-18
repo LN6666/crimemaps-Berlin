@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 /** A native building:part with the exactly identical footprint already covers this outline.
  * Hold only the redundant 3D outline draw; retain its original object, metadata and mesh.
  * This deliberately does not infer partial containment, unions or source relationships.

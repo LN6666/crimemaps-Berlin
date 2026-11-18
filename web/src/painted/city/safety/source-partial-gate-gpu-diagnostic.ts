@@ -1,7 +1,7 @@
 /** On-demand local diagnostics only. Reads existing GPU storage; never mutates geometry, material or buffer contents. */
 export type PaintDiagnosticIdentity={objectId:string;partId:string};
-type DiagnosticComponent=PaintDiagnosticIdentity&{firstVertex:number;lastVertex:number;batches:readonly{positions:ArrayLike<number>}[]};
-export type PaintGPUReadbackContext={gl:WebGL2RenderingContext|undefined;vao?:WebGLVertexArrayObject;program?:WebGLProgram;progressiveBuffer:WebGLBuffer|undefined;paintBuffer:WebGLBuffer|undefined;getComponent:(id:PaintDiagnosticIdentity)=>DiagnosticComponent|undefined};
+type DiagnosticComponent=PaintDiagnosticIdentity&{firstVertex:number;lastVertex:number;start?:number;end?:number;batches:readonly{positions:ArrayLike<number>}[]};
+export type PaintGPUReadbackContext={gl:WebGL2RenderingContext|undefined;vao?:WebGLVertexArrayObject;program?:WebGLProgram;progressiveBuffer:WebGLBuffer|undefined;paintBuffer:WebGLBuffer|undefined;vertexBuffer?:WebGLBuffer;indexBuffer?:WebGLBuffer;packedVertices?:Float32Array;packedVertexStride?:number;stateBuffer?:WebGLBuffer;packedState?:Float32Array;packedIndices?:Uint32Array;getComponent:(id:PaintDiagnosticIdentity)=>DiagnosticComponent|undefined};
 const exactRanges=[
  {objectId:'osm/way/35006256',partId:'osm/way/35006256/component/ed86cbdde34b15aafca0',batchIndex:1,firstVertex:56,vertexCount:4,role:'actual white-pick wall56'},
  {objectId:'osm/way/35006256',partId:'osm/way/35006256/component/ed86cbdde34b15aafca0',batchIndex:1,firstVertex:60,vertexCount:4,role:'actual white-pick wall60'},
@@ -25,6 +25,7 @@ export function readPaintGPUDiagnostic(context:PaintGPUReadbackContext,diagnosti
     {name:'a_progressive_color',expectedBuffer:progressiveBuffer,expectedBufferName:'progressiveBuffer',size:4,stride:16,offset:0},
     {name:'a_paint_frame',expectedBuffer:paintBuffer,expectedBufferName:'paintBuffer',size:4,stride:20,offset:0},
     {name:'a_paint_family',expectedBuffer:paintBuffer,expectedBufferName:'paintBuffer',size:1,stride:20,offset:16},
+    ...(context.stateBuffer?[{name:'a_selected',expectedBuffer:context.stateBuffer,expectedBufferName:'stateBuffer',size:1,stride:4,offset:0}]:[]),
    ]){
     const location=gl.getAttribLocation(context.program,spec.name);
     if(location<0){attributes.push({name:spec.name,location,active:false});continue;}
@@ -55,8 +56,24 @@ export function readPaintGPUDiagnostic(context:PaintGPUReadbackContext,diagnosti
     gl.getBufferSubData(gl.ARRAY_BUFFER,offsetBytes,values);
     return{offsetBytes,strideFloats:stride,allocatedBytes,values:Array.from(values)};
    };
-   records.push({...range,available:true,componentFirstVertex:c.firstVertex,batchPrefixVertices,globalFirstVertex,progressive:read(progressiveBuffer,4),paint:read(paintBuffer,5)});
+   let packedGeometry:Record<string,unknown>|undefined;
+   if(context.vertexBuffer&&context.packedVertices){
+    const gpu=read(context.vertexBuffer,9),expected=Array.from({length:range.vertexCount*9},(_,i)=>context.packedVertices![(globalFirstVertex+Math.floor(i/9))*(context.packedVertexStride??10)+i%9]);
+    packedGeometry={...gpu,expectedCPUValues:expected,allValuesMatchCPU:gpu.values.every((v,i)=>Object.is(v,expected[i]))};
+   }
+   let packedState:Record<string,unknown>|undefined;
+   if(context.stateBuffer&&context.packedState){
+    const gpu=read(context.stateBuffer,1),expected=Array.from(context.packedState.subarray(globalFirstVertex,globalFirstVertex+range.vertexCount));
+    packedState={...gpu,expectedCPUValues:expected,allValuesMatchCPU:gpu.values.every((v,i)=>Object.is(v,expected[i]))};
+   }
+   let packedIndex:Record<string,unknown>|undefined;
+   if(context.indexBuffer&&context.packedIndices&&c.start!==undefined&&c.end!==undefined){
+    if(!context.vao)throw Error('Index diagnostic requires the existing renderer VAO');
+    gl.bindVertexArray(context.vao);const count=c.end-c.start,actual=new Uint32Array(count);gl.getBufferSubData(gl.ELEMENT_ARRAY_BUFFER,c.start*4,actual);const expected=context.packedIndices.subarray(c.start,c.end);
+    packedIndex={count,allValuesMatchCPU:actual.every((v,i)=>v===expected[i]),first12:Array.from(actual.slice(0,12))};
+   }
+   records.push({...range,available:true,componentFirstVertex:c.firstVertex,batchPrefixVertices,globalFirstVertex,progressive:read(progressiveBuffer,4),paint:read(paintBuffer,5),packedGeometry,packedState,packedIndex});
   }
- }finally{if(context.vao&&context.program)gl.bindVertexArray(previousVAO);gl.bindBuffer(gl.ARRAY_BUFFER,previous);}
+ }finally{if(context.vao)gl.bindVertexArray(previousVAO);gl.bindBuffer(gl.ARRAY_BUFFER,previous);}
  return{requested:true,available:true,readback:'existing actual GPU buffers via getBufferSubData',sourceArraysModified:false,attributeReadbackAvailable:!!(context.vao&&context.program),attributes,records};
 }

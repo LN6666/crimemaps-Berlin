@@ -1,3 +1,4 @@
+import type {FrozenDataScope} from '../../../safety/frozen-data-scope';
 import {progressiveAdmission,applyProgressiveFrames,isRejectedProgressivePaint} from './progressive-paint';
 import {REICHSTAG_NATIVE_IDS,reichstagNativePaint} from './facade-reichstag-frame';
 import {RESIDENZ_NATIVE_IDS,residenzNativePaint} from './facade-residenz-frame';
@@ -12,8 +13,8 @@ import type {BuildingComponent} from './building-mesh-renderer';
 /** Display templates. These choices do not change raw source architecture or measured geometry. */
 const rathausHamburg = new Set(['142944431','255885434','255885435','284404494','284404495','255659998','284404483','284404484','284404485','284404486','284404487','284404488','284404490','284404492','284404493','284404496','284404497','284404498','284404499','284404500']);
 export const PAINT_FAMILIES = ['原材色','砖墙与拱窗','古典石材与柱式','哥特式窗拱与扶壁线','巴洛克墙面与窗套','木构与灰泥','工业砖墙与大窗','玻璃幕墙','砖基座与玻璃上部','普通现代墙面'] as const;
-export function paintFamily(c:BuildingComponent):number {
- const progressive=progressiveAdmission(c);if(progressive)return progressive.preserveUnboundNeutral?0:-98;if(isRejectedProgressivePaint(c))return 0;
+export function paintFamily(c:BuildingComponent,scope:FrozenDataScope):number {
+ const progressive=progressiveAdmission(c,scope);if(progressive)return progressive.preserveUnboundNeutral?0:-98;if(isRejectedProgressivePaint(c,scope))return 0;
  if(!isDescribedBuilding(c))return 0;
  const p=c.sourceFeature.properties??{}, id=c.objectId.split('/').at(-1)!;
  if(c.city==='berlin'&&REICHSTAG_NATIVE_IDS.has(id))return 200;
@@ -42,13 +43,13 @@ export function paintFamily(c:BuildingComponent):number {
 }
 
 /** Read original surfaces to attach paint coordinates; never create, move, remove or retriangulate a vertex. */
-export function facadePaintData(components:BuildingComponent[]):Float32Array<ArrayBuffer> {
+export function facadePaintData(components:BuildingComponent[],scope:FrozenDataScope):Float32Array<ArrayBuffer> {
  const vertices=components.reduce((n,c)=>n+c.batches.reduce((k,b)=>k+b.positions.length/3,0),0),out=new Float32Array(vertices*5);let at=0;
  configureElbRoofPaint(components);configurePetriPaint(components);configureMichelPaint(components);
  const rathausParent=components.find(c=>c.city==='munich'&&c.objectId==='osm/relation/147095');configureRathausRoofPaint(rathausParent);
  const rathausReference=rathausPaintReference(rathausParent);
  for(const c of components){
-  const family=paintFamily(c);if(family===-98){for(const b of c.batches)for(let j=0;j<b.positions.length;j+=3){out.set([0,0,0,0,-98],at);at+=5;}continue;}if(family===0){at+=c.batches.reduce((n,b)=>n+b.positions.length/3,0)*5;continue;}
+  const family=paintFamily(c,scope);if(family===-98){for(const b of c.batches)for(let j=0;j<b.positions.length;j+=3){out.set([0,0,0,0,-98],at);at+=5;}continue;}if(family===0){at+=c.batches.reduce((n,b)=>n+b.positions.length/3,0)*5;continue;}
   if(family===200){const paint=reichstagNativePaint(c);out.set(paint,at);at+=paint.length;continue;}
   if(family===180){const paint=residenzNativePaint(c);out.set(paint,at);at+=paint.length;continue;}
   if(family===140){const paint=elbphilharmonieNativePaint(c);out.set(paint,at);at+=paint.length;continue;}
@@ -145,5 +146,5 @@ export function facadePaintData(components:BuildingComponent[]):Float32Array<Arr
    else out.set(valid?[-g!.nz*b.positions[j]+g!.nx*b.positions[j+2]-g!.u0,b.positions[j+1]-g!.y0,wallHeight,g!.u1-g!.u0,profile]:[b.positions[j],b.positions[j+1],0,0,Math.abs(b.normals[j+1])>.2?family:(family!==0?-99:0)],at);at+=5;
   }});
  }
- return applyProgressiveFrames(components,out);
+ return applyProgressiveFrames(components,out,scope);
 }

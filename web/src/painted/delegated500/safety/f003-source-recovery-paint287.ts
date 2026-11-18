@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 import {nativePaintSignature}from'./progressive-native-signature';
 const FRAME={"uAxis":[0.8090614308845469,0,0.5878175373064932],"vAxis":[-0.5878175373064932,0,0.8090614308845469],"uOrigin":36.94581669763551,"vOrigin":-358.8975444481837} as const;
 /** Exact original native dome found by actual white-pixel ray picks1157/1158. No derived geometry. */

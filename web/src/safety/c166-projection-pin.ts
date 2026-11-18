@@ -19,7 +19,7 @@ export const C166_PROJECTION_REGISTRY={
       12.3766076,
       51.33740655
     ],
-    "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Leipzig/safety/buildings3d/leipzig/roof-00649.json.gz",
+    "sourceLeaf": "source-evidence/20c73d84d22d21299295/safety/buildings3d/leipzig/roof-00649.json.gz",
     "sourceSHA256": "78526bef6fddd2f30f80a7b1de8ff17adf1f3507be2ce3da8acc2049f55e84bf",
     "geometrySignature": "dbc9df62",
     "componentGeometry": {
@@ -155,7 +155,7 @@ export const C166_PROJECTION_REGISTRY={
       "city": "leipzig",
       "objectId": "osm/way/24376835",
       "partId": "osm/way/24376835/component/4fc54fe9ec53ac1c5c17",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Leipzig/safety/buildings3d/leipzig/roof-00649.json.gz",
+      "sourceLeaf": "source-evidence/20c73d84d22d21299295/safety/buildings3d/leipzig/roof-00649.json.gz",
       "sourceLeafSHA256": "78526bef6fddd2f30f80a7b1de8ff17adf1f3507be2ce3da8acc2049f55e84bf",
       "rawSignature": "dbc9df62",
       "rawBuffers": [

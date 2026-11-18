@@ -379,50 +379,80 @@
     {
       "provider": "delegated500",
       "path": "/safety/buildings3d/owner-shape-patches/S018-Humboldt-body-345.json",
-      "sha256": "5c2243b26fa9325091d4915f3d02ac0dab30c414c970d434beba4685ad0858dd",
-      "bytes": 77694,
+      "sha256": "47b9e74c3d47060138f1b09ffd6af53e6be98b19b79000136dfb86284c4cbb7f",
+      "bytes": 77540,
       "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/5c/5c2243b26fa9325091d4915f3d02ac0dab30c414c970d434beba4685ad0858dd.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/47/47b9e74c3d47060138f1b09ffd6af53e6be98b19b79000136dfb86284c4cbb7f.json",
+      "sourceAsset": {
+        "bytes": 77694,
+        "path": "/safety/buildings3d/painted-assets/5c/5c2243b26fa9325091d4915f3d02ac0dab30c414c970d434beba4685ad0858dd.json",
+        "sha256": "5c2243b26fa9325091d4915f3d02ac0dab30c414c970d434beba4685ad0858dd"
+      }
     },
     {
       "provider": "delegated500",
       "path": "/safety/buildings3d/owner-shape-patches/S018-Humboldt-columns-345.json",
-      "sha256": "336b596998d1c20d4a684ecb6473e7fa07d0564a2bb2b86604e4cab0dc63a24b",
-      "bytes": 535929,
+      "sha256": "b57c6348753459e6e6128b5b56bdd190b703cbb607a02384090c0895366e5101",
+      "bytes": 535775,
       "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/33/336b596998d1c20d4a684ecb6473e7fa07d0564a2bb2b86604e4cab0dc63a24b.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/b5/b57c6348753459e6e6128b5b56bdd190b703cbb607a02384090c0895366e5101.json",
+      "sourceAsset": {
+        "bytes": 535929,
+        "path": "/safety/buildings3d/painted-assets/33/336b596998d1c20d4a684ecb6473e7fa07d0564a2bb2b86604e4cab0dc63a24b.json",
+        "sha256": "336b596998d1c20d4a684ecb6473e7fa07d0564a2bb2b86604e4cab0dc63a24b"
+      }
     },
     {
       "provider": "delegated500",
       "path": "/safety/buildings3d/owner-shape-patches/S018-Humboldt-rails-a-345.json",
-      "sha256": "38394c4a5df1bc885a4740c19ccab763f27f4115181459745bc85b38a2848159",
-      "bytes": 503890,
+      "sha256": "59a8ddbf6188f76debba6ab0466605f8ff4181573259af3533b938ef846a566b",
+      "bytes": 503736,
       "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/38/38394c4a5df1bc885a4740c19ccab763f27f4115181459745bc85b38a2848159.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/59/59a8ddbf6188f76debba6ab0466605f8ff4181573259af3533b938ef846a566b.json",
+      "sourceAsset": {
+        "bytes": 503890,
+        "path": "/safety/buildings3d/painted-assets/38/38394c4a5df1bc885a4740c19ccab763f27f4115181459745bc85b38a2848159.json",
+        "sha256": "38394c4a5df1bc885a4740c19ccab763f27f4115181459745bc85b38a2848159"
+      }
     },
     {
       "provider": "delegated500",
       "path": "/safety/buildings3d/owner-shape-patches/S018-Humboldt-rails-b-345.json",
-      "sha256": "0e555b8a17b98c13da3a55de3d8d805a6b1e5a7912cb538b7116999704ddb122",
-      "bytes": 481051,
+      "sha256": "43e4a52f89041fcfbc9f33f74a14bb670619f7c8a37f5f7481cd7a4af61973d9",
+      "bytes": 480897,
       "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/0e/0e555b8a17b98c13da3a55de3d8d805a6b1e5a7912cb538b7116999704ddb122.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/43/43e4a52f89041fcfbc9f33f74a14bb670619f7c8a37f5f7481cd7a4af61973d9.json",
+      "sourceAsset": {
+        "bytes": 481051,
+        "path": "/safety/buildings3d/painted-assets/0e/0e555b8a17b98c13da3a55de3d8d805a6b1e5a7912cb538b7116999704ddb122.json",
+        "sha256": "0e555b8a17b98c13da3a55de3d8d805a6b1e5a7912cb538b7116999704ddb122"
+      }
     },
     {
       "provider": "delegated500",
       "path": "/safety/buildings3d/owner-shape-patches/S018-Humboldt-rails-c-345.json",
-      "sha256": "8d1c2a8000e30907e601c77b6ad624abeaff6023f91da465a732bec1efca9e90",
-      "bytes": 474936,
+      "sha256": "ad2ccac69fb080784d119b3fcf12aa12b2c8d62ac2494fd4534582ac509a2a81",
+      "bytes": 474782,
       "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/8d/8d1c2a8000e30907e601c77b6ad624abeaff6023f91da465a732bec1efca9e90.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/ad/ad2ccac69fb080784d119b3fcf12aa12b2c8d62ac2494fd4534582ac509a2a81.json",
+      "sourceAsset": {
+        "bytes": 474936,
+        "path": "/safety/buildings3d/painted-assets/8d/8d1c2a8000e30907e601c77b6ad624abeaff6023f91da465a732bec1efca9e90.json",
+        "sha256": "8d1c2a8000e30907e601c77b6ad624abeaff6023f91da465a732bec1efca9e90"
+      }
     },
     {
       "provider": "delegated500",
       "path": "/safety/buildings3d/owner-shape-patches/S018-Humboldt-sculptures-345.json",
-      "sha256": "f8165b6b0fa27a7c3301c3eca1d6034118434e432a10ef76612aeca9918a431a",
-      "bytes": 229485,
+      "sha256": "4359d95d98e436762dc6c0c8365bd8a57e166a585c3f60c95b9b8f9fbadf6f0e",
+      "bytes": 229331,
       "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/f8/f8165b6b0fa27a7c3301c3eca1d6034118434e432a10ef76612aeca9918a431a.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/43/4359d95d98e436762dc6c0c8365bd8a57e166a585c3f60c95b9b8f9fbadf6f0e.json",
+      "sourceAsset": {
+        "bytes": 229485,
+        "path": "/safety/buildings3d/painted-assets/f8/f8165b6b0fa27a7c3301c3eca1d6034118434e432a10ef76612aeca9918a431a.json",
+        "sha256": "f8165b6b0fa27a7c3301c3eca1d6034118434e432a10ef76612aeca9918a431a"
+      }
     },
     {
       "provider": "delegated500",
@@ -939,26 +969,41 @@
     {
       "provider": "delegated500",
       "path": "/safety/buildings3d/owner-shape-patches/F331-835821420-PhotoApprox344.json",
-      "sha256": "87fc5083f0da090a9567d500d99e4c31ba79a3ab7314a385d637391af7521bfc",
-      "bytes": 16098,
+      "sha256": "6d71d50249329c6343fffdf938053327aabacfc41d2af256f4c65114c761e374",
+      "bytes": 16036,
       "module": "web/src/painted/delegated500/safety/f331-bergpalais494.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/87/87fc5083f0da090a9567d500d99e4c31ba79a3ab7314a385d637391af7521bfc.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/6d/6d71d50249329c6343fffdf938053327aabacfc41d2af256f4c65114c761e374.json",
+      "sourceAsset": {
+        "bytes": 16098,
+        "path": "/safety/buildings3d/painted-assets/87/87fc5083f0da090a9567d500d99e4c31ba79a3ab7314a385d637391af7521bfc.json",
+        "sha256": "87fc5083f0da090a9567d500d99e4c31ba79a3ab7314a385d637391af7521bfc"
+      }
     },
     {
       "provider": "delegated500",
       "path": "/safety/buildings3d/owner-shape-patches/F331-835821422-PhotoApprox344.json",
-      "sha256": "5e984bb150c7fa964a1c3a37897513d86eb0552d677caaa62afc98755199d58d",
-      "bytes": 137953,
+      "sha256": "8d5f13b37c0d3d2a6435e067949b4b719a788f923937764fbb260ea2ba6d281b",
+      "bytes": 137891,
       "module": "web/src/painted/delegated500/safety/f331-bergpalais494.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/5e/5e984bb150c7fa964a1c3a37897513d86eb0552d677caaa62afc98755199d58d.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/8d/8d5f13b37c0d3d2a6435e067949b4b719a788f923937764fbb260ea2ba6d281b.json",
+      "sourceAsset": {
+        "bytes": 137953,
+        "path": "/safety/buildings3d/painted-assets/5e/5e984bb150c7fa964a1c3a37897513d86eb0552d677caaa62afc98755199d58d.json",
+        "sha256": "5e984bb150c7fa964a1c3a37897513d86eb0552d677caaa62afc98755199d58d"
+      }
     },
     {
       "provider": "delegated500",
       "path": "/safety/buildings3d/owner-shape-patches/F331-835821423-PhotoApprox344.json",
-      "sha256": "8a3c8d02e05993726c54bb5c76076a445b95826e82f67d24268d78ee1c81f096",
-      "bytes": 20519,
+      "sha256": "c7586acd7757d7857f86bcbb2055a4465ec64d7ba35328d7c188c9faf75e7896",
+      "bytes": 20457,
       "module": "web/src/painted/delegated500/safety/f331-bergpalais494.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/8a/8a3c8d02e05993726c54bb5c76076a445b95826e82f67d24268d78ee1c81f096.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/c7/c7586acd7757d7857f86bcbb2055a4465ec64d7ba35328d7c188c9faf75e7896.json",
+      "sourceAsset": {
+        "bytes": 20519,
+        "path": "/safety/buildings3d/painted-assets/8a/8a3c8d02e05993726c54bb5c76076a445b95826e82f67d24268d78ee1c81f096.json",
+        "sha256": "8a3c8d02e05993726c54bb5c76076a445b95826e82f67d24268d78ee1c81f096"
+      }
     },
     {
       "provider": "delegated500",
@@ -1539,18 +1584,28 @@
     {
       "provider": "delegated500",
       "path": "/safety/buildings3d/owner-shape-patches/F363-SouthSourceCopy518.json",
-      "sha256": "f06c9d81716389cba8c0d3c21f03597aa039c1079bf62507c210ccb4071d13a4",
-      "bytes": 51167,
+      "sha256": "7df7ee791c43c33791e122e2200a7adedce9ad0868aeb07f49cdf31c85dbd244",
+      "bytes": 51005,
       "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/f0/f06c9d81716389cba8c0d3c21f03597aa039c1079bf62507c210ccb4071d13a4.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/7d/7df7ee791c43c33791e122e2200a7adedce9ad0868aeb07f49cdf31c85dbd244.json",
+      "sourceAsset": {
+        "bytes": 51167,
+        "path": "/safety/buildings3d/painted-assets/f0/f06c9d81716389cba8c0d3c21f03597aa039c1079bf62507c210ccb4071d13a4.json",
+        "sha256": "f06c9d81716389cba8c0d3c21f03597aa039c1079bf62507c210ccb4071d13a4"
+      }
     },
     {
       "provider": "delegated500",
       "path": "/safety/buildings3d/owner-shape-patches/F363-EastSourceCopy518.json",
-      "sha256": "c1d79e4d8c3cae5cab169218cb9357597b0123c2a7a306ddecba5214412b2efe",
-      "bytes": 8125,
+      "sha256": "62ffb80d05d7260ed1d8bd75684a7186692d10846540a39639ba9568134de93b",
+      "bytes": 7963,
       "module": "web/src/painted/delegated500/safety/owner-shape-patch-profiles.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/c1/c1d79e4d8c3cae5cab169218cb9357597b0123c2a7a306ddecba5214412b2efe.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/62/62ffb80d05d7260ed1d8bd75684a7186692d10846540a39639ba9568134de93b.json",
+      "sourceAsset": {
+        "bytes": 8125,
+        "path": "/safety/buildings3d/painted-assets/c1/c1d79e4d8c3cae5cab169218cb9357597b0123c2a7a306ddecba5214412b2efe.json",
+        "sha256": "c1d79e4d8c3cae5cab169218cb9357597b0123c2a7a306ddecba5214412b2efe"
+      }
     },
     {
       "provider": "delegated500",
@@ -1803,10 +1858,15 @@
     {
       "provider": "delegated500",
       "path": "/safety/buildings3d/owner-shape-patches/F244-RaisedDisplay627.json",
-      "sha256": "1d3c3861de0089ea1e3fc8974c9c2dfc415d28378d8ddf9a007f5c1e71942596",
-      "bytes": 162489,
+      "sha256": "37d84142baf14667b06550e9bd7fc298d661bfc919f960ba4147325d5b3d2fc5",
+      "bytes": 162328,
       "module": "web/src/painted/delegated500/safety/f244-level627.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/1d/1d3c3861de0089ea1e3fc8974c9c2dfc415d28378d8ddf9a007f5c1e71942596.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/37/37d84142baf14667b06550e9bd7fc298d661bfc919f960ba4147325d5b3d2fc5.json",
+      "sourceAsset": {
+        "bytes": 162489,
+        "path": "/safety/buildings3d/painted-assets/1d/1d3c3861de0089ea1e3fc8974c9c2dfc415d28378d8ddf9a007f5c1e71942596.json",
+        "sha256": "1d3c3861de0089ea1e3fc8974c9c2dfc415d28378d8ddf9a007f5c1e71942596"
+      }
     },
     {
       "provider": "delegated500",
@@ -2155,10 +2215,15 @@
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C341.json",
-      "sha256": "ffaf56e72e55e543eee834808f4d382cf2d6ceebd0c659609c9de08963b352b5",
-      "bytes": 347897,
+      "sha256": "f8226e36c23562dfa5e667a6cef8df1ca7479fcecfd083b04e853e2675069c91",
+      "bytes": 347738,
       "module": "web/src/painted/city/safety/c341-fixture.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/ff/ffaf56e72e55e543eee834808f4d382cf2d6ceebd0c659609c9de08963b352b5.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/f8/f8226e36c23562dfa5e667a6cef8df1ca7479fcecfd083b04e853e2675069c91.json",
+      "sourceAsset": {
+        "bytes": 347897,
+        "path": "/safety/buildings3d/painted-assets/ff/ffaf56e72e55e543eee834808f4d382cf2d6ceebd0c659609c9de08963b352b5.json",
+        "sha256": "ffaf56e72e55e543eee834808f4d382cf2d6ceebd0c659609c9de08963b352b5"
+      }
     },
     {
       "provider": "city",
@@ -2179,10 +2244,15 @@
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C426.json",
-      "sha256": "496aebe2077067bb8e9295fecdfe4fda2dfd48a322802e4fee79201a1e38edb9",
-      "bytes": 144476,
+      "sha256": "1b275d69b7194d444f0ab8df3b9252695dbe3437592bad2c0c1dda9cb866209b",
+      "bytes": 144317,
       "module": "web/src/painted/city/safety/c426-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/49/496aebe2077067bb8e9295fecdfe4fda2dfd48a322802e4fee79201a1e38edb9.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/1b/1b275d69b7194d444f0ab8df3b9252695dbe3437592bad2c0c1dda9cb866209b.json",
+      "sourceAsset": {
+        "bytes": 144476,
+        "path": "/safety/buildings3d/painted-assets/49/496aebe2077067bb8e9295fecdfe4fda2dfd48a322802e4fee79201a1e38edb9.json",
+        "sha256": "496aebe2077067bb8e9295fecdfe4fda2dfd48a322802e4fee79201a1e38edb9"
+      }
     },
     {
       "provider": "city",
@@ -2195,10 +2265,15 @@
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C360.json",
-      "sha256": "ff8a58584ab78c9fa8e3a391b373fe155c7f879634897cd3d97cad8604974806",
-      "bytes": 811911,
+      "sha256": "c2020c9936a451248e09e38b79fdbce3ef196bc566521066ea585ba58fcfedcd",
+      "bytes": 811752,
       "module": "web/src/painted/city/safety/c360-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/ff/ff8a58584ab78c9fa8e3a391b373fe155c7f879634897cd3d97cad8604974806.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/c2/c2020c9936a451248e09e38b79fdbce3ef196bc566521066ea585ba58fcfedcd.json",
+      "sourceAsset": {
+        "bytes": 811911,
+        "path": "/safety/buildings3d/painted-assets/ff/ff8a58584ab78c9fa8e3a391b373fe155c7f879634897cd3d97cad8604974806.json",
+        "sha256": "ff8a58584ab78c9fa8e3a391b373fe155c7f879634897cd3d97cad8604974806"
+      }
     },
     {
       "provider": "city",
@@ -2211,10 +2286,15 @@
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C374.json",
-      "sha256": "22f580f3cfd65101561cfd716aae12332c4199c4a129d10daf4b965e20eac661",
-      "bytes": 14927,
+      "sha256": "657c3c51bf8f1f55095316fe54ba0253ed492719bee656326c56fe34477a5b87",
+      "bytes": 14768,
       "module": "web/src/painted/city/safety/c374-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/22/22f580f3cfd65101561cfd716aae12332c4199c4a129d10daf4b965e20eac661.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/65/657c3c51bf8f1f55095316fe54ba0253ed492719bee656326c56fe34477a5b87.json",
+      "sourceAsset": {
+        "bytes": 14927,
+        "path": "/safety/buildings3d/painted-assets/22/22f580f3cfd65101561cfd716aae12332c4199c4a129d10daf4b965e20eac661.json",
+        "sha256": "22f580f3cfd65101561cfd716aae12332c4199c4a129d10daf4b965e20eac661"
+      }
     },
     {
       "provider": "city",
@@ -2251,10 +2331,15 @@
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C432.json",
-      "sha256": "597fa8deecda15f8d14bf13b9dc8594747f0e7b5a3dc01fee2b768c24801aba0",
-      "bytes": 25804,
+      "sha256": "ca0c5081ef8d6e96eb1d94a257ccc4c57acbb746259524c78a249bcf7a41ea86",
+      "bytes": 25645,
       "module": "web/src/painted/city/safety/c432-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/59/597fa8deecda15f8d14bf13b9dc8594747f0e7b5a3dc01fee2b768c24801aba0.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/ca/ca0c5081ef8d6e96eb1d94a257ccc4c57acbb746259524c78a249bcf7a41ea86.json",
+      "sourceAsset": {
+        "bytes": 25804,
+        "path": "/safety/buildings3d/painted-assets/59/597fa8deecda15f8d14bf13b9dc8594747f0e7b5a3dc01fee2b768c24801aba0.json",
+        "sha256": "597fa8deecda15f8d14bf13b9dc8594747f0e7b5a3dc01fee2b768c24801aba0"
+      }
     },
     {
       "provider": "city",
@@ -2267,90 +2352,145 @@
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C351.json",
-      "sha256": "ae74cf2f80548900e71f1790462b9fcdcdd426e7142a1d87d653df43312a34ea",
-      "bytes": 540134,
+      "sha256": "fedd34cc695bd3de521c494e64eba022f5c635f9584f81dbe18334cc22c8bb08",
+      "bytes": 539975,
       "module": "web/src/painted/city/safety/c351-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/ae/ae74cf2f80548900e71f1790462b9fcdcdd426e7142a1d87d653df43312a34ea.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/fe/fedd34cc695bd3de521c494e64eba022f5c635f9584f81dbe18334cc22c8bb08.json",
+      "sourceAsset": {
+        "bytes": 540134,
+        "path": "/safety/buildings3d/painted-assets/ae/ae74cf2f80548900e71f1790462b9fcdcdd426e7142a1d87d653df43312a34ea.json",
+        "sha256": "ae74cf2f80548900e71f1790462b9fcdcdd426e7142a1d87d653df43312a34ea"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C429.json",
-      "sha256": "fb84e1b20206fd8b4915929c7dcee3b0805edea8a338567858f00a96f5db4d36",
-      "bytes": 26462,
+      "sha256": "abd7fcac5fa476cfd5fc568df5a39bed943061b6bc455b95e72be76c1d642691",
+      "bytes": 26303,
       "module": "web/src/painted/city/safety/c429-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/fb/fb84e1b20206fd8b4915929c7dcee3b0805edea8a338567858f00a96f5db4d36.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/ab/abd7fcac5fa476cfd5fc568df5a39bed943061b6bc455b95e72be76c1d642691.json",
+      "sourceAsset": {
+        "bytes": 26462,
+        "path": "/safety/buildings3d/painted-assets/fb/fb84e1b20206fd8b4915929c7dcee3b0805edea8a338567858f00a96f5db4d36.json",
+        "sha256": "fb84e1b20206fd8b4915929c7dcee3b0805edea8a338567858f00a96f5db4d36"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C472-23807754.json",
-      "sha256": "edd49c6d54ae7e9c515a0f21fb3e535251db6b8dd89529f97c7dddb29818348f",
-      "bytes": 22149,
+      "sha256": "e63d594ac06d9a2cbeec3a5a2841b59ad8a11dcff18a261ff31ba0cb411c2451",
+      "bytes": 21989,
       "module": "web/src/painted/city/safety/c472-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/ed/edd49c6d54ae7e9c515a0f21fb3e535251db6b8dd89529f97c7dddb29818348f.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/e6/e63d594ac06d9a2cbeec3a5a2841b59ad8a11dcff18a261ff31ba0cb411c2451.json",
+      "sourceAsset": {
+        "bytes": 22149,
+        "path": "/safety/buildings3d/painted-assets/ed/edd49c6d54ae7e9c515a0f21fb3e535251db6b8dd89529f97c7dddb29818348f.json",
+        "sha256": "edd49c6d54ae7e9c515a0f21fb3e535251db6b8dd89529f97c7dddb29818348f"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C472-233583998.json",
-      "sha256": "cfa857b9d89200aa7fc1774ef60dcc7321629fa3ea893f1326cd37922dd1699f",
-      "bytes": 8447,
+      "sha256": "5cdd48f2a2273476ff1cfb67b44d53c88e88a4c8031e7106ba3d196500912d48",
+      "bytes": 8287,
       "module": "web/src/painted/city/safety/c472-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/cf/cfa857b9d89200aa7fc1774ef60dcc7321629fa3ea893f1326cd37922dd1699f.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/5c/5cdd48f2a2273476ff1cfb67b44d53c88e88a4c8031e7106ba3d196500912d48.json",
+      "sourceAsset": {
+        "bytes": 8447,
+        "path": "/safety/buildings3d/painted-assets/cf/cfa857b9d89200aa7fc1774ef60dcc7321629fa3ea893f1326cd37922dd1699f.json",
+        "sha256": "cfa857b9d89200aa7fc1774ef60dcc7321629fa3ea893f1326cd37922dd1699f"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C472-585853975.json",
-      "sha256": "e8577c7adb3c033e181623b645f031a6ce200fe5241ad704ac4a9b9350d50b48",
-      "bytes": 16574,
+      "sha256": "9ff0c95019509a43bf010cc7853a8fe2046b7f1837da2dae8346fa548756745a",
+      "bytes": 16414,
       "module": "web/src/painted/city/safety/c472-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/e8/e8577c7adb3c033e181623b645f031a6ce200fe5241ad704ac4a9b9350d50b48.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/9f/9ff0c95019509a43bf010cc7853a8fe2046b7f1837da2dae8346fa548756745a.json",
+      "sourceAsset": {
+        "bytes": 16574,
+        "path": "/safety/buildings3d/painted-assets/e8/e8577c7adb3c033e181623b645f031a6ce200fe5241ad704ac4a9b9350d50b48.json",
+        "sha256": "e8577c7adb3c033e181623b645f031a6ce200fe5241ad704ac4a9b9350d50b48"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C472-78454.json",
-      "sha256": "a8bd0387645f982ec6fe7b37636a07c161c10cf86dcf7b45e7893189c68b3d58",
-      "bytes": 637589,
+      "sha256": "a80f682b267125558bd73a466c90466acc7f63fd9161b5de54c985286d1e9bf4",
+      "bytes": 637429,
       "module": "web/src/painted/city/safety/c472-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/a8/a8bd0387645f982ec6fe7b37636a07c161c10cf86dcf7b45e7893189c68b3d58.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/a8/a80f682b267125558bd73a466c90466acc7f63fd9161b5de54c985286d1e9bf4.json",
+      "sourceAsset": {
+        "bytes": 637589,
+        "path": "/safety/buildings3d/painted-assets/a8/a8bd0387645f982ec6fe7b37636a07c161c10cf86dcf7b45e7893189c68b3d58.json",
+        "sha256": "a8bd0387645f982ec6fe7b37636a07c161c10cf86dcf7b45e7893189c68b3d58"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C472-3145003.json",
-      "sha256": "f1e17b3aa8857c48566c2d628799bbbc4c01e481c0aa6532e5ec4097b0fd3e26",
-      "bytes": 12138,
+      "sha256": "e0fc0fff8922a3d8df7c1f326f7847486465c5ad91e03dff05342cb7d1f3ac07",
+      "bytes": 11978,
       "module": "web/src/painted/city/safety/c472-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/f1/f1e17b3aa8857c48566c2d628799bbbc4c01e481c0aa6532e5ec4097b0fd3e26.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/e0/e0fc0fff8922a3d8df7c1f326f7847486465c5ad91e03dff05342cb7d1f3ac07.json",
+      "sourceAsset": {
+        "bytes": 12138,
+        "path": "/safety/buildings3d/painted-assets/f1/f1e17b3aa8857c48566c2d628799bbbc4c01e481c0aa6532e5ec4097b0fd3e26.json",
+        "sha256": "f1e17b3aa8857c48566c2d628799bbbc4c01e481c0aa6532e5ec4097b0fd3e26"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C472-3145006.json",
-      "sha256": "fc0f3a4fa4a05ce22578181cfcb0c0ca4063b5bea475efcbab0f61e2ce2b4e26",
-      "bytes": 11700,
+      "sha256": "a10242aa2c5d148e0afadb640bcd5555191ab9adcae9146311b3671ba335c4f9",
+      "bytes": 11540,
       "module": "web/src/painted/city/safety/c472-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/fc/fc0f3a4fa4a05ce22578181cfcb0c0ca4063b5bea475efcbab0f61e2ce2b4e26.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/a1/a10242aa2c5d148e0afadb640bcd5555191ab9adcae9146311b3671ba335c4f9.json",
+      "sourceAsset": {
+        "bytes": 11700,
+        "path": "/safety/buildings3d/painted-assets/fc/fc0f3a4fa4a05ce22578181cfcb0c0ca4063b5bea475efcbab0f61e2ce2b4e26.json",
+        "sha256": "fc0f3a4fa4a05ce22578181cfcb0c0ca4063b5bea475efcbab0f61e2ce2b4e26"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C370.json",
-      "sha256": "4b39784dc49c7fc6845d50e1b18cfdde5820e8c8249ca28fabbb6d7570318a21",
-      "bytes": 9473,
+      "sha256": "90f6cdb5ea67794c742dad1efb2328b59dabebb1b06e28c10c915217a7e7bd5f",
+      "bytes": 9314,
       "module": "web/src/painted/city/safety/c370-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/4b/4b39784dc49c7fc6845d50e1b18cfdde5820e8c8249ca28fabbb6d7570318a21.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/90/90f6cdb5ea67794c742dad1efb2328b59dabebb1b06e28c10c915217a7e7bd5f.json",
+      "sourceAsset": {
+        "bytes": 9473,
+        "path": "/safety/buildings3d/painted-assets/4b/4b39784dc49c7fc6845d50e1b18cfdde5820e8c8249ca28fabbb6d7570318a21.json",
+        "sha256": "4b39784dc49c7fc6845d50e1b18cfdde5820e8c8249ca28fabbb6d7570318a21"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C403.json",
-      "sha256": "fafb23122287607a791827c40ef5b41e58974035d2e42a3a076801b2fb333fed",
-      "bytes": 31684,
+      "sha256": "f3f2caea5ac987be9af397c8409096751c35376e29dccebbedbf440bc00cfdf5",
+      "bytes": 31525,
       "module": "web/src/painted/city/safety/c403-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/fa/fafb23122287607a791827c40ef5b41e58974035d2e42a3a076801b2fb333fed.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/f3/f3f2caea5ac987be9af397c8409096751c35376e29dccebbedbf440bc00cfdf5.json",
+      "sourceAsset": {
+        "bytes": 31684,
+        "path": "/safety/buildings3d/painted-assets/fa/fafb23122287607a791827c40ef5b41e58974035d2e42a3a076801b2fb333fed.json",
+        "sha256": "fafb23122287607a791827c40ef5b41e58974035d2e42a3a076801b2fb333fed"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C364.json",
-      "sha256": "62c060e4d09ade1ff87b4e5655c746eded416f0e84b5ff4c77a39b256e5b2a2b",
-      "bytes": 157897,
+      "sha256": "d3336d0c4dadcd4ff7e707c5c31bda33559a950b6155c61328bf7846e918c01b",
+      "bytes": 157738,
       "module": "web/src/painted/city/safety/c364-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/62/62c060e4d09ade1ff87b4e5655c746eded416f0e84b5ff4c77a39b256e5b2a2b.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/d3/d3336d0c4dadcd4ff7e707c5c31bda33559a950b6155c61328bf7846e918c01b.json",
+      "sourceAsset": {
+        "bytes": 157897,
+        "path": "/safety/buildings3d/painted-assets/62/62c060e4d09ade1ff87b4e5655c746eded416f0e84b5ff4c77a39b256e5b2a2b.json",
+        "sha256": "62c060e4d09ade1ff87b4e5655c746eded416f0e84b5ff4c77a39b256e5b2a2b"
+      }
     },
     {
       "provider": "city",
@@ -2363,18 +2503,28 @@
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C447.json",
-      "sha256": "2756dba786e6f1cb8220b68217628c15a804a1b9b7db11e8237c975c807cf54c",
-      "bytes": 10043,
+      "sha256": "4a202b578f3a4ddf501f953c7d0e3ab87a62813691be038485777a8093cd2b93",
+      "bytes": 9883,
       "module": "web/src/painted/city/safety/c447-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/27/2756dba786e6f1cb8220b68217628c15a804a1b9b7db11e8237c975c807cf54c.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/4a/4a202b578f3a4ddf501f953c7d0e3ab87a62813691be038485777a8093cd2b93.json",
+      "sourceAsset": {
+        "bytes": 10043,
+        "path": "/safety/buildings3d/painted-assets/27/2756dba786e6f1cb8220b68217628c15a804a1b9b7db11e8237c975c807cf54c.json",
+        "sha256": "2756dba786e6f1cb8220b68217628c15a804a1b9b7db11e8237c975c807cf54c"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C345.json",
-      "sha256": "0683f0667ab34b2a4963b1e260db2a0235d67f64adf217ddbe755e4bfd3ea616",
-      "bytes": 368691,
+      "sha256": "8e9e382d13ca64f3a7c9255762b18768013dbb2affcff0a166c06fb570bd6acb",
+      "bytes": 368532,
       "module": "web/src/painted/city/safety/c345-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/06/0683f0667ab34b2a4963b1e260db2a0235d67f64adf217ddbe755e4bfd3ea616.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/8e/8e9e382d13ca64f3a7c9255762b18768013dbb2affcff0a166c06fb570bd6acb.json",
+      "sourceAsset": {
+        "bytes": 368691,
+        "path": "/safety/buildings3d/painted-assets/06/0683f0667ab34b2a4963b1e260db2a0235d67f64adf217ddbe755e4bfd3ea616.json",
+        "sha256": "0683f0667ab34b2a4963b1e260db2a0235d67f64adf217ddbe755e4bfd3ea616"
+      }
     },
     {
       "provider": "city",
@@ -2395,26 +2545,41 @@
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C427.json",
-      "sha256": "cb46a0faa9e9acce3f95fb730a316ee82e62be85e5343ae058cdcca8d0cf3511",
-      "bytes": 32658,
+      "sha256": "8b0723cfa9c3980bbebec4719b626a2717ffe7b62429652859cc807e434f6c05",
+      "bytes": 32499,
       "module": "web/src/painted/city/safety/c427-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/cb/cb46a0faa9e9acce3f95fb730a316ee82e62be85e5343ae058cdcca8d0cf3511.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/8b/8b0723cfa9c3980bbebec4719b626a2717ffe7b62429652859cc807e434f6c05.json",
+      "sourceAsset": {
+        "bytes": 32658,
+        "path": "/safety/buildings3d/painted-assets/cb/cb46a0faa9e9acce3f95fb730a316ee82e62be85e5343ae058cdcca8d0cf3511.json",
+        "sha256": "cb46a0faa9e9acce3f95fb730a316ee82e62be85e5343ae058cdcca8d0cf3511"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C398.json",
-      "sha256": "1973a32ebf459154c969b84bf687ce4574db2a7f01d34e9ed5a251f59665c128",
-      "bytes": 50145,
+      "sha256": "899c32304ae8376e4abdce45d7145df6a8c6f710e0cf37277529af7d6ef7c41a",
+      "bytes": 49986,
       "module": "web/src/painted/city/safety/c398-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/19/1973a32ebf459154c969b84bf687ce4574db2a7f01d34e9ed5a251f59665c128.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/89/899c32304ae8376e4abdce45d7145df6a8c6f710e0cf37277529af7d6ef7c41a.json",
+      "sourceAsset": {
+        "bytes": 50145,
+        "path": "/safety/buildings3d/painted-assets/19/1973a32ebf459154c969b84bf687ce4574db2a7f01d34e9ed5a251f59665c128.json",
+        "sha256": "1973a32ebf459154c969b84bf687ce4574db2a7f01d34e9ed5a251f59665c128"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C456.json",
-      "sha256": "9ae131317acdd871f9b4003f05223224aa1dc60adebdeb2bac27fef61de70b0d",
-      "bytes": 79357,
+      "sha256": "ed8637c7977b4132d1265b38bb4a735816f3e1e919815ca3170940f29241958e",
+      "bytes": 79197,
       "module": "web/src/painted/city/safety/c456-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/9a/9ae131317acdd871f9b4003f05223224aa1dc60adebdeb2bac27fef61de70b0d.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/ed/ed8637c7977b4132d1265b38bb4a735816f3e1e919815ca3170940f29241958e.json",
+      "sourceAsset": {
+        "bytes": 79357,
+        "path": "/safety/buildings3d/painted-assets/9a/9ae131317acdd871f9b4003f05223224aa1dc60adebdeb2bac27fef61de70b0d.json",
+        "sha256": "9ae131317acdd871f9b4003f05223224aa1dc60adebdeb2bac27fef61de70b0d"
+      }
     },
     {
       "provider": "city",
@@ -2531,10 +2696,15 @@
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C354.json",
-      "sha256": "19928f00be8b6b30684315935012fba999da4353823cdbe155a594aad5eff671",
-      "bytes": 18370,
+      "sha256": "d8241ae0f7240d3979610eda66a00ef706c718bfa52a701b3ff864a7cff76337",
+      "bytes": 18211,
       "module": "web/src/painted/city/safety/c354-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/19/19928f00be8b6b30684315935012fba999da4353823cdbe155a594aad5eff671.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/d8/d8241ae0f7240d3979610eda66a00ef706c718bfa52a701b3ff864a7cff76337.json",
+      "sourceAsset": {
+        "bytes": 18370,
+        "path": "/safety/buildings3d/painted-assets/19/19928f00be8b6b30684315935012fba999da4353823cdbe155a594aad5eff671.json",
+        "sha256": "19928f00be8b6b30684315935012fba999da4353823cdbe155a594aad5eff671"
+      }
     },
     {
       "provider": "city",
@@ -2571,10 +2741,15 @@
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C449.json",
-      "sha256": "3038d15ee6864a90e3713318e17920fd2f4f835ce881f435ea3ccbe346f34317",
-      "bytes": 372603,
+      "sha256": "081e23a725c25689d4f529e2a11e2fa359f144da773a4b11967d950dec3d1ca0",
+      "bytes": 372443,
       "module": "web/src/painted/city/safety/c449-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/30/3038d15ee6864a90e3713318e17920fd2f4f835ce881f435ea3ccbe346f34317.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/08/081e23a725c25689d4f529e2a11e2fa359f144da773a4b11967d950dec3d1ca0.json",
+      "sourceAsset": {
+        "bytes": 372603,
+        "path": "/safety/buildings3d/painted-assets/30/3038d15ee6864a90e3713318e17920fd2f4f835ce881f435ea3ccbe346f34317.json",
+        "sha256": "3038d15ee6864a90e3713318e17920fd2f4f835ce881f435ea3ccbe346f34317"
+      }
     },
     {
       "provider": "city",
@@ -2587,10 +2762,15 @@
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C428.json",
-      "sha256": "77daca4c561044f9cf2655119629d5754d57d3cff7eaff4a75bdc5b068bb3050",
-      "bytes": 34235,
+      "sha256": "07a7c75336b20078ba6150c6446c11109e154bcb114924506d0e6545966b02dc",
+      "bytes": 34076,
       "module": "web/src/painted/city/safety/c428-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/77/77daca4c561044f9cf2655119629d5754d57d3cff7eaff4a75bdc5b068bb3050.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/07/07a7c75336b20078ba6150c6446c11109e154bcb114924506d0e6545966b02dc.json",
+      "sourceAsset": {
+        "bytes": 34235,
+        "path": "/safety/buildings3d/painted-assets/77/77daca4c561044f9cf2655119629d5754d57d3cff7eaff4a75bdc5b068bb3050.json",
+        "sha256": "77daca4c561044f9cf2655119629d5754d57d3cff7eaff4a75bdc5b068bb3050"
+      }
     },
     {
       "provider": "city",
@@ -2603,10 +2783,15 @@
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C350.json",
-      "sha256": "9749d5cf4edeba218d90b50ef345e643ac452a3322f4170964652c19f51a6c77",
-      "bytes": 128960,
+      "sha256": "ea12be092c1e74617b0c54ea9703bed706844bd74956be3c63c020bc4eea3df4",
+      "bytes": 128801,
       "module": "web/src/painted/city/safety/c350-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/97/9749d5cf4edeba218d90b50ef345e643ac452a3322f4170964652c19f51a6c77.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/ea/ea12be092c1e74617b0c54ea9703bed706844bd74956be3c63c020bc4eea3df4.json",
+      "sourceAsset": {
+        "bytes": 128960,
+        "path": "/safety/buildings3d/painted-assets/97/9749d5cf4edeba218d90b50ef345e643ac452a3322f4170964652c19f51a6c77.json",
+        "sha256": "9749d5cf4edeba218d90b50ef345e643ac452a3322f4170964652c19f51a6c77"
+      }
     },
     {
       "provider": "city",
@@ -2619,138 +2804,223 @@
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C446.json",
-      "sha256": "cb889748281ab03045469f164a8c75af8ea4a99a82071a3722eaec2217faa47c",
-      "bytes": 139452,
+      "sha256": "b1402c008c210c73f5c9251626e9a174af1c2d43aed4f7707b9d7886f4f04bb8",
+      "bytes": 139292,
       "module": "web/src/painted/city/safety/c446-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/cb/cb889748281ab03045469f164a8c75af8ea4a99a82071a3722eaec2217faa47c.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/b1/b1402c008c210c73f5c9251626e9a174af1c2d43aed4f7707b9d7886f4f04bb8.json",
+      "sourceAsset": {
+        "bytes": 139452,
+        "path": "/safety/buildings3d/painted-assets/cb/cb889748281ab03045469f164a8c75af8ea4a99a82071a3722eaec2217faa47c.json",
+        "sha256": "cb889748281ab03045469f164a8c75af8ea4a99a82071a3722eaec2217faa47c"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C344.json",
-      "sha256": "18f7055668b492b506e23d83204977662b907f0ce53e183195e0a268f0b0a10f",
-      "bytes": 974854,
+      "sha256": "0daf0b2e89c1fe291f7feab8f7103ae994574ba5348b3331f36cb1e21d6836f6",
+      "bytes": 974695,
       "module": "web/src/painted/city/safety/c344-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/18/18f7055668b492b506e23d83204977662b907f0ce53e183195e0a268f0b0a10f.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/0d/0daf0b2e89c1fe291f7feab8f7103ae994574ba5348b3331f36cb1e21d6836f6.json",
+      "sourceAsset": {
+        "bytes": 974854,
+        "path": "/safety/buildings3d/painted-assets/18/18f7055668b492b506e23d83204977662b907f0ce53e183195e0a268f0b0a10f.json",
+        "sha256": "18f7055668b492b506e23d83204977662b907f0ce53e183195e0a268f0b0a10f"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C467-1319266081.json",
-      "sha256": "437030dcfbaedb3d729914768d664ca97bb6caefe2debe670d8af2abe9a7dbab",
-      "bytes": 36769,
+      "sha256": "ade9a1f24e73a9156f44bfb0db1159d79b410132147be61b752c6d8253c739ca",
+      "bytes": 36609,
       "module": "web/src/painted/city/safety/c467-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/43/437030dcfbaedb3d729914768d664ca97bb6caefe2debe670d8af2abe9a7dbab.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/ad/ade9a1f24e73a9156f44bfb0db1159d79b410132147be61b752c6d8253c739ca.json",
+      "sourceAsset": {
+        "bytes": 36769,
+        "path": "/safety/buildings3d/painted-assets/43/437030dcfbaedb3d729914768d664ca97bb6caefe2debe670d8af2abe9a7dbab.json",
+        "sha256": "437030dcfbaedb3d729914768d664ca97bb6caefe2debe670d8af2abe9a7dbab"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C467-1319266083.json",
-      "sha256": "e839a7088b3aa58ba9a686876f5ff85033846c620830a43e451e4f1e3dc254be",
-      "bytes": 33520,
+      "sha256": "e3da180af9760e0901927635c8308ab7f040dd622b33e194bbcb309688d37dd7",
+      "bytes": 33360,
       "module": "web/src/painted/city/safety/c467-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/e8/e839a7088b3aa58ba9a686876f5ff85033846c620830a43e451e4f1e3dc254be.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/e3/e3da180af9760e0901927635c8308ab7f040dd622b33e194bbcb309688d37dd7.json",
+      "sourceAsset": {
+        "bytes": 33520,
+        "path": "/safety/buildings3d/painted-assets/e8/e839a7088b3aa58ba9a686876f5ff85033846c620830a43e451e4f1e3dc254be.json",
+        "sha256": "e839a7088b3aa58ba9a686876f5ff85033846c620830a43e451e4f1e3dc254be"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C467-1319266084.json",
-      "sha256": "2a5f0f88ad4fdd3e9ac3c0571f287d452c929b150f06af673333efb669844d50",
-      "bytes": 23970,
+      "sha256": "16b2f6434faaa0c6b440ba8ed9377dd6fb7615a91aaf22cec08e84deb06b73bc",
+      "bytes": 23810,
       "module": "web/src/painted/city/safety/c467-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/2a/2a5f0f88ad4fdd3e9ac3c0571f287d452c929b150f06af673333efb669844d50.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/16/16b2f6434faaa0c6b440ba8ed9377dd6fb7615a91aaf22cec08e84deb06b73bc.json",
+      "sourceAsset": {
+        "bytes": 23970,
+        "path": "/safety/buildings3d/painted-assets/2a/2a5f0f88ad4fdd3e9ac3c0571f287d452c929b150f06af673333efb669844d50.json",
+        "sha256": "2a5f0f88ad4fdd3e9ac3c0571f287d452c929b150f06af673333efb669844d50"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C467-981631175.json",
-      "sha256": "3b1263aceaa3c23796406cd6cd473c9d7eb991cddb6dde3df3406bd306b3e8fe",
-      "bytes": 44500,
+      "sha256": "7dd9da32cda31e19c5ff5a5ec02ef322f83d122bfde8529ee05fc18c44451628",
+      "bytes": 44340,
       "module": "web/src/painted/city/safety/c467-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/3b/3b1263aceaa3c23796406cd6cd473c9d7eb991cddb6dde3df3406bd306b3e8fe.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/7d/7dd9da32cda31e19c5ff5a5ec02ef322f83d122bfde8529ee05fc18c44451628.json",
+      "sourceAsset": {
+        "bytes": 44500,
+        "path": "/safety/buildings3d/painted-assets/3b/3b1263aceaa3c23796406cd6cd473c9d7eb991cddb6dde3df3406bd306b3e8fe.json",
+        "sha256": "3b1263aceaa3c23796406cd6cd473c9d7eb991cddb6dde3df3406bd306b3e8fe"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C467-981631176.json",
-      "sha256": "0be3ebf86ff8a9ec73d116c62d1bce1904ebd03ee23463f445fbcfb53eb70520",
-      "bytes": 29577,
+      "sha256": "c7551d85916a47c5fc7de1aa8dca5baac695db471af436edd78618e8b1eeea82",
+      "bytes": 29417,
       "module": "web/src/painted/city/safety/c467-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/0b/0be3ebf86ff8a9ec73d116c62d1bce1904ebd03ee23463f445fbcfb53eb70520.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/c7/c7551d85916a47c5fc7de1aa8dca5baac695db471af436edd78618e8b1eeea82.json",
+      "sourceAsset": {
+        "bytes": 29577,
+        "path": "/safety/buildings3d/painted-assets/0b/0be3ebf86ff8a9ec73d116c62d1bce1904ebd03ee23463f445fbcfb53eb70520.json",
+        "sha256": "0be3ebf86ff8a9ec73d116c62d1bce1904ebd03ee23463f445fbcfb53eb70520"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C467-981631177.json",
-      "sha256": "2938f3cdb464b54ff186e4f7fb7774b5f7620c1978c947481ebcbf987c23a2b4",
-      "bytes": 47116,
+      "sha256": "0025ec84243ab28e2107c162cb196389ce7eecd278e3acf870819c5fd9317e91",
+      "bytes": 46956,
       "module": "web/src/painted/city/safety/c467-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/29/2938f3cdb464b54ff186e4f7fb7774b5f7620c1978c947481ebcbf987c23a2b4.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/00/0025ec84243ab28e2107c162cb196389ce7eecd278e3acf870819c5fd9317e91.json",
+      "sourceAsset": {
+        "bytes": 47116,
+        "path": "/safety/buildings3d/painted-assets/29/2938f3cdb464b54ff186e4f7fb7774b5f7620c1978c947481ebcbf987c23a2b4.json",
+        "sha256": "2938f3cdb464b54ff186e4f7fb7774b5f7620c1978c947481ebcbf987c23a2b4"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C467-981631178.json",
-      "sha256": "294d72f719b9ce3b00d7684386ffe24e79b4b600c2a802e7dece98869a4f14e2",
-      "bytes": 47219,
+      "sha256": "dea44e21b2d0dc2469ddd5c9ca11f159fbba29b6f7440ad3d19358ae753d9983",
+      "bytes": 47059,
       "module": "web/src/painted/city/safety/c467-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/29/294d72f719b9ce3b00d7684386ffe24e79b4b600c2a802e7dece98869a4f14e2.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/de/dea44e21b2d0dc2469ddd5c9ca11f159fbba29b6f7440ad3d19358ae753d9983.json",
+      "sourceAsset": {
+        "bytes": 47219,
+        "path": "/safety/buildings3d/painted-assets/29/294d72f719b9ce3b00d7684386ffe24e79b4b600c2a802e7dece98869a4f14e2.json",
+        "sha256": "294d72f719b9ce3b00d7684386ffe24e79b4b600c2a802e7dece98869a4f14e2"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C467-981631179.json",
-      "sha256": "83e2d198d8811ad899808238772fac763893bbc1d3111af70be71bd7a610c2ae",
-      "bytes": 52486,
+      "sha256": "dcd2b5a65424228af143b92c347fcf419c43ade4dc0e7b7dd640ad7fbff48c6e",
+      "bytes": 52326,
       "module": "web/src/painted/city/safety/c467-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/83/83e2d198d8811ad899808238772fac763893bbc1d3111af70be71bd7a610c2ae.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/dc/dcd2b5a65424228af143b92c347fcf419c43ade4dc0e7b7dd640ad7fbff48c6e.json",
+      "sourceAsset": {
+        "bytes": 52486,
+        "path": "/safety/buildings3d/painted-assets/83/83e2d198d8811ad899808238772fac763893bbc1d3111af70be71bd7a610c2ae.json",
+        "sha256": "83e2d198d8811ad899808238772fac763893bbc1d3111af70be71bd7a610c2ae"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C467-981631180.json",
-      "sha256": "b37c73b9ea282d93110ed979417e5467c2efa907fd2ab43a1cab99548823ffa6",
-      "bytes": 50714,
+      "sha256": "ca95df4b592375a6f6ffe36c8ccc67cbef9e78609264f0c603abf22fdda41e65",
+      "bytes": 50554,
       "module": "web/src/painted/city/safety/c467-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/b3/b37c73b9ea282d93110ed979417e5467c2efa907fd2ab43a1cab99548823ffa6.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/ca/ca95df4b592375a6f6ffe36c8ccc67cbef9e78609264f0c603abf22fdda41e65.json",
+      "sourceAsset": {
+        "bytes": 50714,
+        "path": "/safety/buildings3d/painted-assets/b3/b37c73b9ea282d93110ed979417e5467c2efa907fd2ab43a1cab99548823ffa6.json",
+        "sha256": "b37c73b9ea282d93110ed979417e5467c2efa907fd2ab43a1cab99548823ffa6"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C467-1319266085.json",
-      "sha256": "7c3ed6ee6b7ab8ce066d067954dd38b2bb60c679689134f02150b07c581a4bde",
-      "bytes": 21491,
+      "sha256": "3969fb25f4e6ef89112a05a212ea7772de62500300ca0fe9de148d9ba92d7fbc",
+      "bytes": 21328,
       "module": "web/src/painted/city/safety/c467-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/7c/7c3ed6ee6b7ab8ce066d067954dd38b2bb60c679689134f02150b07c581a4bde.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/39/3969fb25f4e6ef89112a05a212ea7772de62500300ca0fe9de148d9ba92d7fbc.json",
+      "sourceAsset": {
+        "bytes": 21491,
+        "path": "/safety/buildings3d/painted-assets/7c/7c3ed6ee6b7ab8ce066d067954dd38b2bb60c679689134f02150b07c581a4bde.json",
+        "sha256": "7c3ed6ee6b7ab8ce066d067954dd38b2bb60c679689134f02150b07c581a4bde"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C467-1456562667.json",
-      "sha256": "ab801846666bb7a0d3eac39eddeb719bb5966ad1b7da1ef89b9f18cebf1fe732",
-      "bytes": 54922,
+      "sha256": "e0522db1742edb23914e9bd6e4170e90e5640bc9a6480fa6f2532db1264ab4ec",
+      "bytes": 54759,
       "module": "web/src/painted/city/safety/c467-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/ab/ab801846666bb7a0d3eac39eddeb719bb5966ad1b7da1ef89b9f18cebf1fe732.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/e0/e0522db1742edb23914e9bd6e4170e90e5640bc9a6480fa6f2532db1264ab4ec.json",
+      "sourceAsset": {
+        "bytes": 54922,
+        "path": "/safety/buildings3d/painted-assets/ab/ab801846666bb7a0d3eac39eddeb719bb5966ad1b7da1ef89b9f18cebf1fe732.json",
+        "sha256": "ab801846666bb7a0d3eac39eddeb719bb5966ad1b7da1ef89b9f18cebf1fe732"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C467-19927027.json",
-      "sha256": "cf5395a485be364235ccb64727abc257819053e829fb7e7062ff9ce3867cd2ad",
-      "bytes": 40610,
+      "sha256": "c3a6f85a151c6b5ad5cd48178e1d3ed03cd2083a1189d6bd5d37446700e6cf59",
+      "bytes": 40447,
       "module": "web/src/painted/city/safety/c467-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/cf/cf5395a485be364235ccb64727abc257819053e829fb7e7062ff9ce3867cd2ad.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/c3/c3a6f85a151c6b5ad5cd48178e1d3ed03cd2083a1189d6bd5d37446700e6cf59.json",
+      "sourceAsset": {
+        "bytes": 40610,
+        "path": "/safety/buildings3d/painted-assets/cf/cf5395a485be364235ccb64727abc257819053e829fb7e7062ff9ce3867cd2ad.json",
+        "sha256": "cf5395a485be364235ccb64727abc257819053e829fb7e7062ff9ce3867cd2ad"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C430.json",
-      "sha256": "7b38508ab095be261f44069d6141738e9df86da958cd47968ccc837b10572d36",
-      "bytes": 40851,
+      "sha256": "4b9283b1ad4c9387d14f80f016914803748ca7529a96df1625ba8edb783b6589",
+      "bytes": 40692,
       "module": "web/src/painted/city/safety/c430-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/7b/7b38508ab095be261f44069d6141738e9df86da958cd47968ccc837b10572d36.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/4b/4b9283b1ad4c9387d14f80f016914803748ca7529a96df1625ba8edb783b6589.json",
+      "sourceAsset": {
+        "bytes": 40851,
+        "path": "/safety/buildings3d/painted-assets/7b/7b38508ab095be261f44069d6141738e9df86da958cd47968ccc837b10572d36.json",
+        "sha256": "7b38508ab095be261f44069d6141738e9df86da958cd47968ccc837b10572d36"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C348.json",
-      "sha256": "11aa3512541c155646497d70ffb7362ac798b87b09f41d02604ac25d441c7326",
-      "bytes": 45219,
+      "sha256": "64fde16695ef4016acc386bb41a0665844101bbbd0d3354a6eb52cd6fd5f07cf",
+      "bytes": 45060,
       "module": "web/src/painted/city/safety/c348-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/11/11aa3512541c155646497d70ffb7362ac798b87b09f41d02604ac25d441c7326.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/64/64fde16695ef4016acc386bb41a0665844101bbbd0d3354a6eb52cd6fd5f07cf.json",
+      "sourceAsset": {
+        "bytes": 45219,
+        "path": "/safety/buildings3d/painted-assets/11/11aa3512541c155646497d70ffb7362ac798b87b09f41d02604ac25d441c7326.json",
+        "sha256": "11aa3512541c155646497d70ffb7362ac798b87b09f41d02604ac25d441c7326"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C362.json",
-      "sha256": "7c4250d71129c1a6b3b8fda67373bfbb2b50f31cb04d8ffc46980b284f0304b6",
-      "bytes": 492989,
+      "sha256": "234456bc9d1ad8e6bc8952774030c3228f2661983975d066f30806947c27e616",
+      "bytes": 492830,
       "module": "web/src/painted/city/safety/c362-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/7c/7c4250d71129c1a6b3b8fda67373bfbb2b50f31cb04d8ffc46980b284f0304b6.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/23/234456bc9d1ad8e6bc8952774030c3228f2661983975d066f30806947c27e616.json",
+      "sourceAsset": {
+        "bytes": 492989,
+        "path": "/safety/buildings3d/painted-assets/7c/7c4250d71129c1a6b3b8fda67373bfbb2b50f31cb04d8ffc46980b284f0304b6.json",
+        "sha256": "7c4250d71129c1a6b3b8fda67373bfbb2b50f31cb04d8ffc46980b284f0304b6"
+      }
     },
     {
       "provider": "city",
@@ -2763,18 +3033,28 @@
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C343.json",
-      "sha256": "7bf901085b04a3395844a04d4010de9036f5b3cde53286a8581e0d27d69a49f6",
-      "bytes": 230879,
+      "sha256": "058d093a1ee97841a4943af154e445990987356be0093c0e99af6e10b6024622",
+      "bytes": 230561,
       "module": "web/src/painted/city/safety/c343-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/7b/7bf901085b04a3395844a04d4010de9036f5b3cde53286a8581e0d27d69a49f6.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/05/058d093a1ee97841a4943af154e445990987356be0093c0e99af6e10b6024622.json",
+      "sourceAsset": {
+        "bytes": 230879,
+        "path": "/safety/buildings3d/painted-assets/7b/7bf901085b04a3395844a04d4010de9036f5b3cde53286a8581e0d27d69a49f6.json",
+        "sha256": "7bf901085b04a3395844a04d4010de9036f5b3cde53286a8581e0d27d69a49f6"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C347.json",
-      "sha256": "cbe8df502702f500aba2598f9444b1b322e7efd7dfe0735926b66d02ce115bea",
-      "bytes": 30363,
+      "sha256": "ad19ac911c171506fcd4c5e9725d3c98b821feeac19a49351256cb33f2a72147",
+      "bytes": 30204,
       "module": "web/src/painted/city/safety/c347-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/cb/cbe8df502702f500aba2598f9444b1b322e7efd7dfe0735926b66d02ce115bea.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/ad/ad19ac911c171506fcd4c5e9725d3c98b821feeac19a49351256cb33f2a72147.json",
+      "sourceAsset": {
+        "bytes": 30363,
+        "path": "/safety/buildings3d/painted-assets/cb/cbe8df502702f500aba2598f9444b1b322e7efd7dfe0735926b66d02ce115bea.json",
+        "sha256": "cbe8df502702f500aba2598f9444b1b322e7efd7dfe0735926b66d02ce115bea"
+      }
     },
     {
       "provider": "city",
@@ -2787,26 +3067,41 @@
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C445.json",
-      "sha256": "a4d0b59fc2a08433e3e078c273671b5ffd1c6294e6b6d79a861cb399266f3454",
-      "bytes": 195060,
+      "sha256": "c867809c4fb0f94a9b022ec8ac8e65db08accdb454f899a5f0980dec7fe5d042",
+      "bytes": 194900,
       "module": "web/src/painted/city/safety/c445-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/a4/a4d0b59fc2a08433e3e078c273671b5ffd1c6294e6b6d79a861cb399266f3454.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/c8/c867809c4fb0f94a9b022ec8ac8e65db08accdb454f899a5f0980dec7fe5d042.json",
+      "sourceAsset": {
+        "bytes": 195060,
+        "path": "/safety/buildings3d/painted-assets/a4/a4d0b59fc2a08433e3e078c273671b5ffd1c6294e6b6d79a861cb399266f3454.json",
+        "sha256": "a4d0b59fc2a08433e3e078c273671b5ffd1c6294e6b6d79a861cb399266f3454"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C366.json",
-      "sha256": "90b10c513d2139e17361c09472fd293f23cbfbe78a4d6f50c8bf8ae14ea88b98",
-      "bytes": 156431,
+      "sha256": "a0ff824f427d44c69a84bd021c722454407a942f7f30ad8f1429f0a5decf13f6",
+      "bytes": 156272,
       "module": "web/src/painted/city/safety/c366-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/90/90b10c513d2139e17361c09472fd293f23cbfbe78a4d6f50c8bf8ae14ea88b98.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/a0/a0ff824f427d44c69a84bd021c722454407a942f7f30ad8f1429f0a5decf13f6.json",
+      "sourceAsset": {
+        "bytes": 156431,
+        "path": "/safety/buildings3d/painted-assets/90/90b10c513d2139e17361c09472fd293f23cbfbe78a4d6f50c8bf8ae14ea88b98.json",
+        "sha256": "90b10c513d2139e17361c09472fd293f23cbfbe78a4d6f50c8bf8ae14ea88b98"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C372.json",
-      "sha256": "7709a9a772a28d02ba28b585a1d174d1df133b07a5a22bdd670e42e0959656eb",
-      "bytes": 32064,
+      "sha256": "5ef9f4485f605824103303c4a27cfae10bd41f7eb6d686f683bf970f03e5c2ad",
+      "bytes": 31905,
       "module": "web/src/painted/city/safety/c372-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/77/7709a9a772a28d02ba28b585a1d174d1df133b07a5a22bdd670e42e0959656eb.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/5e/5ef9f4485f605824103303c4a27cfae10bd41f7eb6d686f683bf970f03e5c2ad.json",
+      "sourceAsset": {
+        "bytes": 32064,
+        "path": "/safety/buildings3d/painted-assets/77/7709a9a772a28d02ba28b585a1d174d1df133b07a5a22bdd670e42e0959656eb.json",
+        "sha256": "7709a9a772a28d02ba28b585a1d174d1df133b07a5a22bdd670e42e0959656eb"
+      }
     },
     {
       "provider": "city",
@@ -2851,18 +3146,28 @@
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C353.json",
-      "sha256": "a7e8b15c7b7df50893c57f9b983bd0af5d091a03b47e7b9e467aa1a3f923518f",
-      "bytes": 511685,
+      "sha256": "22b087e46c3a3117528c82cab9838fe1ad79dd50191c347ab33852b693c3c898",
+      "bytes": 511526,
       "module": "web/src/painted/city/safety/c353-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/a7/a7e8b15c7b7df50893c57f9b983bd0af5d091a03b47e7b9e467aa1a3f923518f.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/22/22b087e46c3a3117528c82cab9838fe1ad79dd50191c347ab33852b693c3c898.json",
+      "sourceAsset": {
+        "bytes": 511685,
+        "path": "/safety/buildings3d/painted-assets/a7/a7e8b15c7b7df50893c57f9b983bd0af5d091a03b47e7b9e467aa1a3f923518f.json",
+        "sha256": "a7e8b15c7b7df50893c57f9b983bd0af5d091a03b47e7b9e467aa1a3f923518f"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C328.json",
-      "sha256": "698ad8c639292b88be96cd33724d7a33184c6dc3acee2bbe27c185617fd729f8",
-      "bytes": 43763,
+      "sha256": "f33df66678dfee4b5dbfc17955d3a9722fb66d33a094ae166caaf2c8e7912a83",
+      "bytes": 43604,
       "module": "web/src/painted/city/safety/c328-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/69/698ad8c639292b88be96cd33724d7a33184c6dc3acee2bbe27c185617fd729f8.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/f3/f33df66678dfee4b5dbfc17955d3a9722fb66d33a094ae166caaf2c8e7912a83.json",
+      "sourceAsset": {
+        "bytes": 43763,
+        "path": "/safety/buildings3d/painted-assets/69/698ad8c639292b88be96cd33724d7a33184c6dc3acee2bbe27c185617fd729f8.json",
+        "sha256": "698ad8c639292b88be96cd33724d7a33184c6dc3acee2bbe27c185617fd729f8"
+      }
     },
     {
       "provider": "city",
@@ -2875,18 +3180,28 @@
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C349.json",
-      "sha256": "1bf9808933b03bc53843d104a931c0c7d8cc1a6c0dceb521d0eafa735da0339e",
-      "bytes": 46919,
+      "sha256": "2375162999a8033ecd73f9017394ff8b8fe89c70603f6fda4379abf6c85b680a",
+      "bytes": 46760,
       "module": "web/src/painted/city/safety/c349-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/1b/1bf9808933b03bc53843d104a931c0c7d8cc1a6c0dceb521d0eafa735da0339e.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/23/2375162999a8033ecd73f9017394ff8b8fe89c70603f6fda4379abf6c85b680a.json",
+      "sourceAsset": {
+        "bytes": 46919,
+        "path": "/safety/buildings3d/painted-assets/1b/1bf9808933b03bc53843d104a931c0c7d8cc1a6c0dceb521d0eafa735da0339e.json",
+        "sha256": "1bf9808933b03bc53843d104a931c0c7d8cc1a6c0dceb521d0eafa735da0339e"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C356.json",
-      "sha256": "0c11532074f92013989c0cc743528d5979815aa378fb8fbde98a447c25c29a0f",
-      "bytes": 266292,
+      "sha256": "8915cebfeb690e0822520d61608aa5891d09372900c1c039830183ebb0f9c732",
+      "bytes": 266133,
       "module": "web/src/painted/city/safety/c356-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/0c/0c11532074f92013989c0cc743528d5979815aa378fb8fbde98a447c25c29a0f.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/89/8915cebfeb690e0822520d61608aa5891d09372900c1c039830183ebb0f9c732.json",
+      "sourceAsset": {
+        "bytes": 266292,
+        "path": "/safety/buildings3d/painted-assets/0c/0c11532074f92013989c0cc743528d5979815aa378fb8fbde98a447c25c29a0f.json",
+        "sha256": "0c11532074f92013989c0cc743528d5979815aa378fb8fbde98a447c25c29a0f"
+      }
     },
     {
       "provider": "city",
@@ -2899,10 +3214,15 @@
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C431.json",
-      "sha256": "b4b5e81c13d7f2b3ec8e7315ecf2b9440d01fc2ecade9c1c8026aa51a2083500",
-      "bytes": 33519,
+      "sha256": "96fbe9df60b1735ea16c1bd0ae9b4f2a621aa3013f3c9b405c95b822abf16592",
+      "bytes": 33360,
       "module": "web/src/painted/city/safety/c431-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/b4/b4b5e81c13d7f2b3ec8e7315ecf2b9440d01fc2ecade9c1c8026aa51a2083500.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/96/96fbe9df60b1735ea16c1bd0ae9b4f2a621aa3013f3c9b405c95b822abf16592.json",
+      "sourceAsset": {
+        "bytes": 33519,
+        "path": "/safety/buildings3d/painted-assets/b4/b4b5e81c13d7f2b3ec8e7315ecf2b9440d01fc2ecade9c1c8026aa51a2083500.json",
+        "sha256": "b4b5e81c13d7f2b3ec8e7315ecf2b9440d01fc2ecade9c1c8026aa51a2083500"
+      }
     },
     {
       "provider": "city",
@@ -2915,18 +3235,28 @@
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C342.json",
-      "sha256": "4251124ebc2adcb69cba08b570137dcefb48c231a0d57b4a001f643a6b7aa8ea",
-      "bytes": 322276,
+      "sha256": "84ea7e73b0de1c3ad46842b2e86880d7105e42d0302ceb5f88252aa934aaf4e1",
+      "bytes": 322117,
       "module": "web/src/painted/city/safety/c342-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/42/4251124ebc2adcb69cba08b570137dcefb48c231a0d57b4a001f643a6b7aa8ea.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/84/84ea7e73b0de1c3ad46842b2e86880d7105e42d0302ceb5f88252aa934aaf4e1.json",
+      "sourceAsset": {
+        "bytes": 322276,
+        "path": "/safety/buildings3d/painted-assets/42/4251124ebc2adcb69cba08b570137dcefb48c231a0d57b4a001f643a6b7aa8ea.json",
+        "sha256": "4251124ebc2adcb69cba08b570137dcefb48c231a0d57b4a001f643a6b7aa8ea"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C425.json",
-      "sha256": "0bc94cda816cd7ed7f92ab650579dfdaa69768b5d1c415fac6ada2144da8334f",
-      "bytes": 14880,
+      "sha256": "b99d02f557ae918f3d148cf7e4a5496048fd77a781aebfe1dedffbb87b7ce3c2",
+      "bytes": 14721,
       "module": "web/src/painted/city/safety/c425-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/0b/0bc94cda816cd7ed7f92ab650579dfdaa69768b5d1c415fac6ada2144da8334f.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/b9/b99d02f557ae918f3d148cf7e4a5496048fd77a781aebfe1dedffbb87b7ce3c2.json",
+      "sourceAsset": {
+        "bytes": 14880,
+        "path": "/safety/buildings3d/painted-assets/0b/0bc94cda816cd7ed7f92ab650579dfdaa69768b5d1c415fac6ada2144da8334f.json",
+        "sha256": "0bc94cda816cd7ed7f92ab650579dfdaa69768b5d1c415fac6ada2144da8334f"
+      }
     },
     {
       "provider": "city",
@@ -2939,18 +3269,28 @@
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C385.json",
-      "sha256": "e87897facc8aedb22535da8fb553c18f9e970d519daa5629457c67933b1d5c68",
-      "bytes": 10342,
+      "sha256": "75153bf96b6b863fbbc25f0702a883a9e1c000a573825c216c30ee1388792a71",
+      "bytes": 10183,
       "module": "web/src/painted/city/safety/c385-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/e8/e87897facc8aedb22535da8fb553c18f9e970d519daa5629457c67933b1d5c68.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/75/75153bf96b6b863fbbc25f0702a883a9e1c000a573825c216c30ee1388792a71.json",
+      "sourceAsset": {
+        "bytes": 10342,
+        "path": "/safety/buildings3d/painted-assets/e8/e87897facc8aedb22535da8fb553c18f9e970d519daa5629457c67933b1d5c68.json",
+        "sha256": "e87897facc8aedb22535da8fb553c18f9e970d519daa5629457c67933b1d5c68"
+      }
     },
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C400.json",
-      "sha256": "167ef3510ce3824e8dd5ff5b269e364c6df75ac3e94b332355aabf1708931ed1",
-      "bytes": 109955,
+      "sha256": "9e0f6a49d07b71998e719f4f7cf9467c2fcf38cf9f8a367159bc463583f016fd",
+      "bytes": 109796,
       "module": "web/src/painted/city/safety/c400-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/16/167ef3510ce3824e8dd5ff5b269e364c6df75ac3e94b332355aabf1708931ed1.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/9e/9e0f6a49d07b71998e719f4f7cf9467c2fcf38cf9f8a367159bc463583f016fd.json",
+      "sourceAsset": {
+        "bytes": 109955,
+        "path": "/safety/buildings3d/painted-assets/16/167ef3510ce3824e8dd5ff5b269e364c6df75ac3e94b332355aabf1708931ed1.json",
+        "sha256": "167ef3510ce3824e8dd5ff5b269e364c6df75ac3e94b332355aabf1708931ed1"
+      }
     },
     {
       "provider": "city",
@@ -3011,10 +3351,15 @@
     {
       "provider": "city",
       "path": "/safety/buildings3d/owner-shape-patches/C346.json",
-      "sha256": "398efd2be54f4da53d1d1f6375f19a2d180c399c34e8f51d967a53c4d3b74355",
-      "bytes": 525547,
+      "sha256": "a70ee1b07b6b531266d6f3cb526709f0192cf01ed4b1c1e27e97001bb79aa624",
+      "bytes": 525388,
       "module": "web/src/painted/city/safety/c346-owner-profile.ts",
-      "resolvedPath": "/safety/buildings3d/painted-assets/39/398efd2be54f4da53d1d1f6375f19a2d180c399c34e8f51d967a53c4d3b74355.json"
+      "resolvedPath": "/safety/buildings3d/painted-assets/a7/a70ee1b07b6b531266d6f3cb526709f0192cf01ed4b1c1e27e97001bb79aa624.json",
+      "sourceAsset": {
+        "bytes": 525547,
+        "path": "/safety/buildings3d/painted-assets/39/398efd2be54f4da53d1d1f6375f19a2d180c399c34e8f51d967a53c4d3b74355.json",
+        "sha256": "398efd2be54f4da53d1d1f6375f19a2d180c399c34e8f51d967a53c4d3b74355"
+      }
     },
     {
       "provider": "city",
@@ -7019,5 +7364,5 @@
   ],
   "missing": [],
   "uniqueFiles": 747,
-  "uniqueBytes": 114440134
+  "uniqueBytes": 114429285
 }

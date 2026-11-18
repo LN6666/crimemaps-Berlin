@@ -1,4 +1,4 @@
-import type{BuildingComponent}from'./building-mesh-renderer';
+import type{BuildingComponent}from'../../../safety/building-mesh-types';
 import type{ProgressiveAdmission}from'./progressive-paint';
 import{nativePaintSignature}from'./progressive-native-signature';
 import{prepareC094Packing,type C094Binding,type C094ProjectionResult}from'./c094-projection-sidecar';

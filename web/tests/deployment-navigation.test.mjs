@@ -1,7 +1,51 @@
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {fileURLToPath} from 'node:url';
 import test from 'node:test';
 import {transform} from 'esbuild';
+import {loadConfigFromFile} from 'vite';
+
+test('the packaged Google ownership file belongs only to the Berlin site', async () => {
+  const web = fileURLToPath(new URL('../', import.meta.url));
+  const root = mkdtempSync(join(tmpdir(), 'crimemaps-site-ownership-'));
+  const name = 'google73948d3ce3a710e9.html';
+  const verified = 'google-site-verification: ' + name;
+  try {
+    const source = join(root, 'web');
+    const dist = join(root, 'dist');
+    mkdirSync(source);
+    mkdirSync(dist);
+    copyFileSync(join(web, 'vite.config.ts'), join(source, 'vite.config.ts'));
+    for (const item of ['src', 'node_modules', 'package.json', 'frozen-initializer-chunks.json']) {
+      symlinkSync(join(web, item), join(source, item));
+    }
+    async function plugin(city) {
+      const repository = 'crimemaps-' + city[0].toUpperCase() + city.slice(1);
+      writeFileSync(join(root, 'city-config.json'), JSON.stringify({city, repository, base_path: '/' + repository + '/'}));
+      const loaded = await loadConfigFromFile({command:'serve', mode:'test'}, join(source, 'vite.config.ts'));
+      const ownership = loaded.config.plugins.find(candidate => candidate.name === 'city-ownership-response');
+      ownership.configResolved({root, build:{outDir:'dist'}});
+      return ownership;
+    }
+    const other = await plugin('hannover');
+    const file = join(dist, name);
+    other.writeBundle();
+    writeFileSync(file, verified);
+    other.writeBundle();
+    assert.equal(existsSync(file), false);
+    const berlin = await plugin('berlin');
+    assert.throws(() => berlin.writeBundle(), {code:'ENOENT'});
+    writeFileSync(file, 'unexpected ownership data');
+    assert.throws(() => berlin.writeBundle(), /Unexpected ownership/);
+    writeFileSync(file, verified);
+    berlin.writeBundle();
+    assert.equal(readFileSync(file, 'utf8'), verified);
+  } finally {
+    rmSync(root, {recursive:true, force:true});
+  }
+});
 
 const source = readFileSync(new URL('../src/safety/deployment.ts', import.meta.url), 'utf8');
 const {code} = await transform(source, {loader: 'ts', format: 'esm', target: 'es2022'});

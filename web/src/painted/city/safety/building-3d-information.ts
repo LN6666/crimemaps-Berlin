@@ -1,9 +1,8 @@
-import {isProgressivelyPainted} from './progressive-paint';
 import {paintMode} from './facade-paint-controls';
 import {isFacadeLandmark} from './facade-landmark-registry';
 const WHITE_BLOCK_NOTE={zh:'此建筑以白色体块显示，不绘制窗格或外立面纹理。来源中记录的颜色、材质和高度仍在上方单独列出。',en:'This building is displayed as a white block, without window patterns or facade textures. Colours, materials and heights recorded in the source remain listed separately above.',de:'Dieses Gebäude wird als weißer Baukörper ohne Fenstermuster oder Fassadentexturen dargestellt. Farben, Materialien und Höhen aus der Quelle bleiben oben separat aufgeführt.'};
 import type {ResolvedBuildingHit} from './building-3d-selection';
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 type Locale='zh'|'en'|'de';
 export type BuildingModelSource={snapshot?:string;attribution?:string;url?:string};
 const COPY={
@@ -24,7 +23,7 @@ export function building3dInformationRows(result:ResolvedBuildingHit,locale:Loca
  const c=COPY[locale],rows=sourcePropertiesRows(result.component.sourceFeature.properties,locale);
  const d=result.component.displayEstimates??{},height=d.height as Record<string,unknown>|undefined,roof=d.roof as Record<string,unknown>|undefined,materials=d.materials as Record<string,unknown>|undefined,converter=d.converter as Record<string,unknown>|undefined;
  const modelRows:{label:string;value:string}[]=[];if(Number.isFinite(height?.model_min_m)&&Number.isFinite(height?.model_max_m)){const number=new Intl.NumberFormat(locale,{maximumFractionDigits:2});modelRows.push({label:c.range,value:number.format(height!.model_min_m as number)+' – '+number.format(height!.model_max_m as number)});}
- const notes:string[]=[];if(height?.status==='display-estimate')notes.push(c.estimate);else if(height?.status==='source-tag')notes.push(c.tagHeight);if(roof?.dimensions_status==='display-estimate')notes.push(c.roofDefault);if(roof?.shape_status==='flat-schematic')notes.push(c.roofFlat);if(isFacadeLandmark(result.component)){if(materials?.untagged_style==='neutral-display-default')notes.push(c.neutral);if(materials?.window_layout==='display-schematic')notes.push(c.windows);}else if(paintMode()===2&&isProgressivelyPainted(result.component))notes.push(({zh:'此部件按本栋来源绘制屋顶或墙面色区。未核实的色区保持原显示。',en:'Source-backed roof or wall colour regions are painted on this component; unverified regions retain their source display.',de:'Quellenbelegte Dach- oder Wandfarbbereiche werden auf diesem Bauteil dargestellt; ungeprüfte Bereiche behalten die ursprüngliche Darstellung.'})[locale]);else notes.push(WHITE_BLOCK_NOTE[locale]);if(converter?.isolatedPartWrapper)notes.push(c.part);
+ const notes:string[]=[];if(height?.status==='display-estimate')notes.push(c.estimate);else if(height?.status==='source-tag')notes.push(c.tagHeight);if(roof?.dimensions_status==='display-estimate')notes.push(c.roofDefault);if(roof?.shape_status==='flat-schematic')notes.push(c.roofFlat);if(isFacadeLandmark(result.component)){if(materials?.untagged_style==='neutral-display-default')notes.push(c.neutral);if(materials?.window_layout==='display-schematic')notes.push(c.windows);}else if(paintMode()===2&&result.component.displayEstimates?.progressivePainted===true)notes.push(({zh:'此部件按本栋来源绘制屋顶或墙面色区。未核实的色区保持原显示。',en:'Source-backed roof or wall colour regions are painted on this component; unverified regions retain their source display.',de:'Quellenbelegte Dach- oder Wandfarbbereiche werden auf diesem Bauteil dargestellt; ungeprüfte Bereiche behalten die ursprüngliche Darstellung.'})[locale]);else notes.push(WHITE_BLOCK_NOTE[locale]);if(converter?.isolatedPartWrapper)notes.push(c.part);
  return {rows,modelRows,notes};
 }
 /** Existing raw source properties and display assumptions stay separate; no derived tags are inserted. */

@@ -1,5 +1,5 @@
-import type {BuildingComponent,Identity} from './building-mesh-renderer';
-import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
+import type {BuildingComponent,Identity} from "../../../safety/building-mesh-types";
+import type {OwnerReconstructionStats} from '../../../safety/owner-reconstruction-stats';
 import {nativePaintSignature} from './progressive-native-signature';
 import {HELVETIA_B56_SOURCE055 as SOURCE} from './helvetia-b56-source055';
 export const HELVETIA_B56_SHA055='3a341ca9a1a2003bc4dadf007de2a79392608dee014a04eb68b0f780e8269fb6';

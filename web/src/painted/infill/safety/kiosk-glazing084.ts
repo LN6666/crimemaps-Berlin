@@ -1,5 +1,11 @@
-import type {BuildingComponent} from './building-mesh-renderer';
-import {frankfurtGroups144146Official073BaseMaterials} from './frankfurt-groups144146-official073';
+import {infillResourceIdentityCandidate} from './infill-resource-header-metadata';
+import {prepareInfillDataResources} from './infill-owner-preparation';
+import {scopedInfillValue} from './infill-data-contract';
+import type {InfillDataModule,InfillDataPreparationContext} from './infill-data-contract';
+import type {FrozenDataRef} from '../../../safety/frozen-data-lease-store';
+import type {FrozenDataScope} from '../../../safety/frozen-data-scope';
+import type {BuildingComponent} from "../../../safety/building-mesh-types";
+import {frankfurtGroups144146Official073BaseMaterials as __infillFunctionDependency0} from './frankfurt-groups144146-official073';
 import {ownerDisplayFingerprint} from './owner-display-fingerprint';
 export const KIOSK_GLAZING084_SHA="72e9100592232946a38b1829ece168b6ca5b3d1861e1676b84488c304deaa1df";
 const OBJECT='osm/way/69748618',PART='osm/way/69748618/component/3d0af80284c819d3da28',FINGERPRINT="7feca0f20e854780",VERTICES=537;
@@ -9,7 +15,18 @@ const probePaint=new Float32Array(VERTICES*4),probeFrames=new Float32Array(VERTI
  * The existing private writer is the ownership credential: even a complete public
  * clone with identical fingerprint cannot acquire this marker or frame binding.
  * Codes84/85/86/87 are SW front/NW return/SE return/unknown near-N fold. */
-export function kioskGlazing084BaseMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){
+
+
+import * as __infillResourceDependency0 from './frankfurt-groups144146-official073';
+const infillDataMemoKey=Object.freeze({});
+const infillOwnDataRefs:readonly FrozenDataRef[]=[];
+export const infillDataRefs:readonly FrozenDataRef[]=infillOwnDataRefs;
+export const infillDataMemoKeys:readonly object[]=[infillDataMemoKey];
+export function getInfillData(scope:FrozenDataScope|undefined){if(!scope)throw Error("kiosk-glazing084.ts requires a prepared FrozenDataScope");return scope.memo(infillDataMemoKey,()=>{
+const frankfurtGroups144146Official073BaseMaterials=(...args:Parameters<typeof __infillFunctionDependency0>)=>__infillFunctionDependency0(args[0],args[1],args[2],scope);
+
+
+function kioskGlazing084BaseMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){
  const total=components.reduce((n,c)=>n+c.batches.reduce((m,b)=>m+b.positions.length/3,0),0);
  if(!Number.isSafeInteger(total)||paint.length!==total*4||frames.length!==total*5)throw Error('Kiosk084 exact packed lengths required');
  const targets=components.filter(c=>c.city==='frankfurt'&&c.objectId===OBJECT&&c.partId===PART);
@@ -19,7 +36,7 @@ export function kioskGlazing084BaseMaterials(components:BuildingComponent[],pain
   const f=ownerDisplayFingerprint(target);
   if(f.vertices===VERTICES&&f.fingerprint===FINGERPRINT){
    probePaint.fill(0);probeFrames.fill(0);
-   const owned=frankfurtGroups144146Official073BaseMaterials([target],probePaint,probeFrames);
+   const owned=frankfurtGroups144146Official073BaseMaterials([target],probePaint,probeFrames,scope);
    valid=owned.objects===1&&owned.vertices===VERTICES;
    if(valid)for(const[v]of REBIND)if(probeFrames[v*5+4]!==45363)throw Error('Kiosk084 glass family changed');
   }
@@ -27,3 +44,15 @@ export function kioskGlazing084BaseMaterials(components:BuildingComponent[],pain
  let at=0;for(const c of components){const n=c.batches.reduce((m,b)=>m+b.positions.length/3,0);if(valid&&c===target)for(const[v,x,y,h,face,family]of REBIND){const p=(at+v)*5;frames[p]=x;frames[p+1]=y;frames[p+2]=h;frames[p+3]=face;frames[p+4]=family;}at+=n;}
  return{objects:valid?1:0,vertices:valid?150:0,sourceRetained:true,geometryChanged:false,actualVisualAccepted:false};
 }
+
+return {kioskGlazing084BaseMaterials};
+});}
+export function kioskGlazing084BaseMaterials(...args:[...Parameters<ReturnType<typeof getInfillData>['kioskGlazing084BaseMaterials']>,scope?:FrozenDataScope]){const scope=args[3] as FrozenDataScope|undefined;if(scope?.stats.disposed)getInfillData(scope);if(!mayMatchInfillData(Array.isArray(args[0])?args[0]:[args[0] as BuildingComponent]))return kioskGlazing084BaseMaterialsCold(args[0],args[1],args[2],scope);return getInfillData(scope).kioskGlazing084BaseMaterials(...args.slice(0,3) as Parameters<ReturnType<typeof getInfillData>['kioskGlazing084BaseMaterials']>);}
+export const infillDataFunctionArities={"kioskGlazing084BaseMaterials":3} as const;
+
+export const infillDataDependencies=():readonly InfillDataModule[]=>[__infillResourceDependency0];
+
+function kioskGlazing084BaseMaterialsCold(components:BuildingComponent[],paint:Float32Array,frames:Float32Array,scope?:FrozenDataScope){const total=components.reduce((n,c)=>n+c.batches.reduce((m,b)=>m+b.positions.length/3,0),0);if(!Number.isSafeInteger(total)||paint.length!==total*4||frames.length!==total*5)throw Error('Kiosk084 exact packed lengths required');return{objects:0,vertices:0,sourceRetained:true,geometryChanged:false,actualVisualAccepted:false};}
+export function mayMatchInfillData(components:readonly BuildingComponent[]){return components.some(c=>(c.city==='frankfurt')&&((infillResourceIdentityCandidate("kiosk-glazing084.ts",c)||c.objectId===OBJECT||c.partId===PART)));}
+export async function prepareInfillData(components:readonly BuildingComponent[],signal:AbortSignal,scope:FrozenDataScope,context?:InfillDataPreparationContext){signal.throwIfAborted();if(!mayMatchInfillData(components))return;await prepareInfillDataResources({infillDataRefs,infillDataDependencies},components,signal,scope,context);}
+export const infillDataMetadataFunctions=[] as const;

@@ -42,8 +42,8 @@ test('real main renders both context and station swatches for the actual mixed s
  assert.equal(walk(label).filter(node=>node.tag==='i'||node.className==='poi-filter-swatch').length,2);
  assert.deepEqual(entries.map(entry=>entry.dataset.kind),['context','station']);
  for(const entry of entries)assertSwatch(entry,modelColors(bundle([]),entry.dataset.kind,'source_linked_context'));
- assert.equal(byClass(entries[0],'poi-filter-area')[0].style.background,'#64748b');
- assert.equal(byClass(entries[1],'poi-filter-area')[0].style.background,'#2563eb');
+ assert.equal(byClass(entries[0],'poi-filter-area')[0].style.background,'#777f87');
+ assert.equal(byClass(entries[1],'poi-filter-area')[0].style.background,'#2469e8');
  assert.equal(entries[0].textContent,poiName('context','context'));
  assert.equal(entries[1].textContent,poiName('station','station'));
  assert.equal(label.textContent,entries.map(entry=>entry.textContent).join(''),'actual translated context heading appears once, while both kind labels remain');
@@ -60,12 +60,12 @@ test('mixed scope keeps a distinct heading above all translated kind labels',ctx
  assert.equal(byClass(legend,'poi-filter-kinds').length,1);
 });
 
-test('every delivered scope kind has the same outer and deliberately dark center colors as the real rendering model',ctx=>{
+test('every delivered scope kind shares the real model display color and a readable solid center',ctx=>{
  const document=dom(ctx),{host}=render(document);
  assert.equal(host.children.length,14);
  for(const label of host.children){const scope=label.children[0].value;const entries=byClass(label,'poi-filter-kind');assert.deepEqual(entries.map(entry=>entry.dataset.kind),groups[scope].kinds);for(const entry of entries)assertSwatch(entry,modelColors(bundle([]),entry.dataset.kind,scope));}
- assert.equal(modelColors(bundle([]),'context','source_linked_context').center_color,'#3c4653');
- assert.equal(modelColors(bundle([]),'station').center_color,'#163b8d');
+ assert.equal(modelColors(bundle([]),'context','source_linked_context').center_color,'#777f87');
+ assert.equal(modelColors(bundle([]),'station').center_color,'#2469e8');
 });
 
 test('the one-checkbox-per-scope filter, defaults, refresh and source identity remain unchanged',ctx=>{
@@ -88,7 +88,7 @@ test('legacy ungrouped catalog keeps each single-kind label and original actual-
  assert.equal(host.children.length,Object.keys(catalog).length);
  for(const label of host.children){const kind=label.children[0].value;const entries=byClass(label,'poi-filter-kind');assert.equal(entries.length,1);assert.equal(entries[0].textContent,poiName(kind,catalog[kind].label));assertSwatch(entries[0],modelColors(bundle([]),kind));}
  const data=bundle([{...feature('legacy','station'),properties:{id:'legacy',kind:'station',context_kinds:['context','station']}}]);
- assert.equal(styledPois(data,[],new Set(),new Set(['context']),false).features[0].properties.color,'#64748b');
+ assert.equal(styledPois(data,[],new Set(),new Set(['context']),false).features[0].properties.color,'#777f87');
 });
 
 test('missing and non-hex catalog colors retain model fallback; labels are text and duplicate kinds do not add swatches',ctx=>{

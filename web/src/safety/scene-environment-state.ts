@@ -8,7 +8,7 @@ export type SceneEnvironmentState = {
   quality: SceneQuality;
 };
 export function defaultSceneEnvironment(mobile = false): SceneEnvironmentState {
-  return {instantISO: sceneBerlinNoonInstant(), sunlight: true, shadows: true, motion: true, quality: mobile ? 'economy' : 'balanced'};
+  return {instantISO: sceneBerlinNoonInstant(), sunlight: true, shadows: true, motion: true, quality: 'economy'};
 }
 /** Europe/Berlin calendar day at 12:00. DST changes happen before noon. */
 export function sceneBerlinNoonInstant(now = new Date()): string {
@@ -25,5 +25,5 @@ export function checkedSceneEnvironment(value: SceneEnvironmentState): SceneEnvi
   if (!value || !['economy','balanced','detail'].includes(value.quality) ||
       ![value.sunlight,value.shadows,value.motion].every(v => typeof v === 'boolean')) throw Error('Invalid scene environment state');
   const instant = sceneSolarLight(0, 0, value.instantISO).instantISO;
-  return {instantISO: instant, sunlight: value.sunlight, shadows: value.shadows, motion: value.motion, quality: value.quality};
+  return {instantISO: instant, sunlight: value.sunlight, shadows: value.shadows, motion: value.motion, quality: 'economy'};
 }

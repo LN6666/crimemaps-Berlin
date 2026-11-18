@@ -1,5 +1,5 @@
-import type {BuildingComponent,Identity,MeshBatch} from './building-mesh-renderer';
-import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
+import type {BuildingComponent,Identity,MeshBatch} from "../../../safety/building-mesh-types";
+import type {OwnerReconstructionStats} from '../../../safety/owner-reconstruction-stats';
 import {nativePaintSignature} from './progressive-native-signature';
 import {GALLUSANLAGE8_SOURCE088 as SOURCE,GALLUSANLAGE8_SIGNATURE088 as SIGNATURE,GALLUSANLAGE8_MATERIAL_SHA088 as SHA,GALLUSANLAGE8_PAINT088 as PAINT,GALLUSANLAGE8_FRAMES088 as FRAMES} from './gallusanlage8-material088-data';
 const slot='gallusanlage8Material088';

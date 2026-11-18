@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 import {nativePaintSignature} from './progressive-native-signature';
 // Source and actual visible building part share the exact origin and footprint X/Z.
 // The part starts at absolute height 6m; never renormalize its Y to ground zero.

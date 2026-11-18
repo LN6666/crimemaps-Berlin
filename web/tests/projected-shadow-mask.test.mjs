@@ -3,10 +3,16 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {build} from 'esbuild';
+import {build,transform} from 'esbuild';
 const root=path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const result=await build({entryPoints:[path.join(root,'src/safety/projected-shadow-mask.ts')],bundle:true,write:false,platform:'node',format:'esm',target:'es2022'});
-const {projectedShadowDepthPlane,createProjectedShadowMask}=await import('data:text/javascript;base64,'+Buffer.from(result.outputFiles[0].text).toString('base64'));
+const entry=`
+ export {projectedShadowDepthPlane,createProjectedShadowMask} from './src/safety/projected-shadow-mask';
+ export {chunkUniforms} from './src/safety/render-runtime/resident-draw-range';
+ export {createResidentTriangleDrawBatch,drawResidentTriangles} from './src/safety/render-runtime/resident-index-convention';`;
+const result=await build({stdin:{contents:entry,resolveDir:root,loader:'ts'},bundle:true,write:false,platform:'node',format:'esm',target:'es2022'});
+const moduleText=result.outputFiles[0].text+'\n//# sourceURL=projected-shadow-mask-fixture.mjs';
+const {projectedShadowDepthPlane,createProjectedShadowMask,chunkUniforms,createResidentTriangleDrawBatch,drawResidentTriangles}=
+ await import('data:text/javascript;base64,'+Buffer.from(moduleText).toString('base64'));
 const topDown=[1,0,0,0,0,0,-1,0,0,1,0,0,0,0,0,1];
 function product(a,b){return Array.from({length:16},(_,i)=>{const r=i%4,c=Math.floor(i/4);let n=0;for(let k=0;k<4;k++)n+=a[k*4+r]*b[c*4+k];return n;});}
 function project(m,p){const v=Array.from({length:4},(_,r)=>m[r]*p[0]+m[4+r]*p[1]+m[8+r]*p[2]+m[12+r]);return v.slice(0,3).map(n=>n/v[3]);}
@@ -28,7 +34,7 @@ function mockGL(){
   getParameter(k){if(gl.lost)return null;if(k===gl.TEXTURE_BINDING_2D)return textures.get(values.get(gl.ACTIVE_TEXTURE))??null;if(k===gl.SAMPLER_BINDING)return samplers.get(values.get(gl.ACTIVE_TEXTURE))??null;return values.get(k);},isEnabled:k=>enabled.has(k),isContextLost:()=>gl.lost,
   enable:k=>enabled.add(k),disable:k=>enabled.delete(k),activeTexture:k=>values.set(gl.ACTIVE_TEXTURE,k),bindTexture:(_,v)=>textures.set(values.get(gl.ACTIVE_TEXTURE),v),bindSampler:(unit,v)=>samplers.set(gl.TEXTURE0+unit,v),
   createProgram:()=>resource('program'),createShader:()=>resource('shader'),createFramebuffer:()=>resource('framebuffer'),createTexture:()=>resource('texture'),createVertexArray:()=>resource('vao'),deleteProgram:v=>deleted.push(v),deleteShader:v=>deleted.push(v),deleteFramebuffer:v=>deleted.push(v),deleteTexture:v=>deleted.push(v),deleteVertexArray:v=>deleted.push(v),
-  shaderSource(){},compileShader(){},attachShader(){},linkProgram(){},getShaderParameter:()=>true,getProgramParameter:()=>true,getShaderInfoLog:()=>'',getProgramInfoLog:()=>'',
+  shaderSource(){},compileShader(){},attachShader(){},detachShader(){},linkProgram(){},getShaderParameter:()=>true,getProgramParameter:()=>true,getShaderInfoLog:()=>'',getProgramInfoLog:()=>'',
   stencilMaskSeparate:(face,mask)=>values.set(face===gl.FRONT?gl.STENCIL_WRITEMASK:gl.STENCIL_BACK_WRITEMASK,mask),useProgram:v=>values.set(gl.CURRENT_PROGRAM,v),bindVertexArray:v=>values.set(gl.VERTEX_ARRAY_BINDING,v),bindFramebuffer:(_,v)=>values.set(gl.DRAW_FRAMEBUFFER_BINDING,v),viewport:(...v)=>values.set(gl.VIEWPORT,v),depthMask:v=>values.set(gl.DEPTH_WRITEMASK,v),depthFunc:v=>values.set(gl.DEPTH_FUNC,v),colorMask:(...v)=>values.set(gl.COLOR_WRITEMASK,v),
   blendEquationSeparate(a,b){gl.blendEquationCalls.push([a,b]);values.set(gl.BLEND_EQUATION_RGB,a);values.set(gl.BLEND_EQUATION_ALPHA,b);},blendFuncSeparate(a,b,c,d){for(const [k,v]of [[gl.BLEND_SRC_RGB,a],[gl.BLEND_DST_RGB,b],[gl.BLEND_SRC_ALPHA,c],[gl.BLEND_DST_ALPHA,d]])values.set(k,v);},
   texImage2D:(...v)=>gl.textureAllocations.push(v),texParameteri(){},framebufferTexture2D(){},checkFramebufferStatus:()=>gl.FRAMEBUFFER_COMPLETE,clearBufferfv:()=>gl.mask.fill(0),getUniformLocation:(_,name)=>name,uniform1f:(k,v)=>uniforms.set(k,v),uniform2f:(k,...v)=>uniforms.set(k,v),uniformMatrix4fv:(k,_t,v)=>uniforms.set(k,Array.from(v)),uniform1i:(k,v)=>uniforms.set(k,v),uniform3f:(k,...v)=>uniforms.set(k,v),uniform3fv:(k,v)=>uniforms.set(k,v),uniform2fv:(k,v)=>uniforms.set(k,v),
@@ -57,15 +63,54 @@ test('Reichstag routes only its solar draw through the mask and releases it with
 test('active stencil test never writes scene bits and partial caller colour mask is respected',()=>{const gl=mockGL(),a=createProjectedShadowMask();gl.colorMask(false,true,false,true);const before=gl.snapshot();a.draw(gl,topDown,.03,()=>gl.coverage([0,1,2],.5),[.15,.18,.21]);assert.equal(gl.stencilWrites,0);assert.deepEqual(gl.scene,[1,1,1]);assert.equal(gl.snapshot(),before);assert.deepEqual(gl.uniforms.get('u_shadow_colour'),[.15,.18,.21]);a.release();});
 
 
+// The shared entry ('base') is now a re-export of the City renderer, and each of the
+// seven renderers draws its projected shadows in its own drawProjectedShadows over
+// its resident chunks. That actual function (type-stripped, as in
+// gpu-aux-budget-renderer-shadow-hooks) runs against this file's coverage mock: one
+// union for every chunk, u_matrix equal to the uploaded matrix, nothing at alpha 0,
+// and releaseShadowGPU releases the mask (stats.bytes back to 0).
+function rendererFunction(source,needle){
+ const start=source.indexOf(needle);assert.ok(start>=0,needle);
+ let end=source.indexOf('{',source.indexOf(')',start))+1,depth=1;
+ for(;depth&&end<source.length;end++){if(source[end]==='{')depth++;else if(source[end]==='}')depth--;}
+ return source.slice(start,end);
+}
 test('all eight source renderer shadow hooks use one union with the exact uploaded matrix and release it',async()=>{
- const names=['base','city','delegated500','root500','church','infill','bremen','tier300'];
- for(const name of names){
-  const directory=name==='base'?'src/safety':`src/painted/${name}/safety`,source=await fs.readFile(path.join(root,directory,'building-mesh-renderer.ts'),'utf8'),start=source.indexOf(name==='church'?' if(shadowProgram&&shadowVao':' if(progressiveDiagnostic!==\'no-shadow\'&&shadowProgram');assert.ok(start>=0,name);
-  let begin=source.indexOf('{',start),end=begin+1,depth=1;for(;depth&&end<source.length;end++){if(source[end]==='{')depth++;else if(source[end]==='}')depth--;}
-  const block=source.slice(start,end).replaceAll('gl!','gl'),run=new Function('gl','shadowMask','matrix','alpha',`let shadowDraws=0,shadowFailure=false,shadowProgram={coverage:true},shadowVao={source:true},shadowIndices=new Uint32Array([0,1,2]),shadowAlpha=alpha,progressiveDiagnostic='',sceneSun={shadowVector:[-2,1]},city='berlin',c311Failure,c312Failure,c313Failure;const paintMode=()=>2,releaseShadowGPU=()=>{throw Error('Unexpected shadow draw failure');};${block};return shadowDraws;`),gl=mockGL(),mask=createProjectedShadowMask();
-  gl.drawElements=(mode,count,type,offset)=>{assert.equal(mode,gl.TRIANGLES);assert.equal(count,3);assert.equal(offset,0);gl.coverage([0],gl.uniforms.get('u_shadow_opacity'));};
-  assert.equal(run(gl,mask,topDown,0),0,name);assert.equal(mask.stats.bytes,0,name);assert.equal(run(gl,mask,topDown,.08),1,name);assert.equal(gl.composites,1,name);assert.deepEqual(gl.uniforms.get('u_matrix'),Array.from(new Float32Array(topDown)),name);
-  assert.ok(source.includes('function releaseShadowGPU(){shadowMask.release();'),name);mask.release();assert.equal(mask.stats.bytes,0,name);
+ const base=await fs.readFile(path.join(root,'src/safety/building-mesh-renderer.ts'),'utf8');
+ assert.match(base,/^export \* from '\.\.\/painted\/city\/safety\/building-mesh-renderer';$/m,'the shared entry re-exports the City renderer');
+ const chunk=id=>({shadowIndexCount:3,shadowIndices:new Uint32Array(3),shadow:{value:{vao:{chunkVAO:id}}},cpu:{value:{anchor:[0,0],frame:{unit:1}}},anchor:[0,0],unit:1,source:{frame:{unit:1}}});
+ for(const name of ['city','delegated500','root500','church','infill','bremen','tier300']){
+  const source=await fs.readFile(path.join(root,`src/painted/${name}/safety/building-mesh-renderer.ts`),'utf8');
+  assert.ok(source.includes('shadowMask=createProjectedShadowMask('),name);
+  // releaseShadowGPU releases the mask itself or through the shadow-geometry retirement it calls.
+  const release=rendererFunction(source,'function releaseShadowGPU('),helpers=[...release.matchAll(/\b(\w+ShadowGeometry)\(\)/g)].map(match=>match[1]).filter(helper=>source.includes('function '+helper+'('));
+  assert.ok(release.includes('shadowMask.release()')||helpers.some(helper=>rendererFunction(source,'function '+helper+'(').includes('shadowMask.release()')),name+': releaseShadowGPU releases the shared mask');
+  const js=(await transform(rendererFunction(source,'function drawProjectedShadows('),{loader:'ts'})).code;
+  // The render call site's own guard (it holds the alpha>0 condition) decides whether the hook runs.
+  const site=source.indexOf('){try{drawProjectedShadows(shadowAlpha)'),guardStart=source.lastIndexOf('if(',site);assert.ok(site>0&&guardStart>0,name+' render call site');
+  const guard=(await transform('('+source.slice(guardStart+3,site)+')',{loader:'ts'})).code.trim().replace(/;$/,'');assert.match(guard,/shadowAlpha\s*>\s*0/,name+' guards the hook with shadowAlpha>0');
+  const uploadedCounter=guard.includes('sceneUploadedShadowIndexCount')?(await transform(rendererFunction(source,'function sceneUploadedShadowIndexCount('),{loader:'ts'})).code:'';
+  const run=new Function('env',`const {gl,shadowMask,matrix,projection,sceneChunks,chunkUniforms,createResidentTriangleDrawBatch,drawResidentTriangles}=env;
+   const shadowProgram={coverage:true},mainWorldProjection=projection,mainWorldMatrix=projection,candidateMainMatrix=projection,candidateMainProjection=projection,shadowUploadPending=false;
+   const sceneSun={shadowVector:[-2,1]},paintMode=()=>2,anchorUnit=1,geometryOwner={scene:{version:1}},shadowGeometryOwner={scene:{version:1}},progressiveDiagnostic='',city='berlin';
+   const multiply=(a,b)=>Array.from({length:16},(_,i)=>{const r=i%4,c=Math.floor(i/4);let n=0;for(let k=0;k<4;k++)n+=a[k*4+r]*b[c*4+k];return n;});
+   const shadowAlpha=env.alpha,shadowResidentIndexCount=3,shadowUploadedIndexCount=3,sceneShadowIndexCount=()=>3;
+   let shadowDraws=0,shadowFailure=false;
+   ${uploadedCounter}
+   ${js}
+   if(${guard})drawProjectedShadows(shadowAlpha);
+   return shadowDraws;`);
+  const gl=mockGL(),mask=createProjectedShadowMask(),uploaded=[];let elements=0;
+  const uniformMatrix=gl.uniformMatrix4fv;gl.uniformMatrix4fv=(location,transpose,value)=>{if(location==='u_matrix')uploaded.push(Array.from(value));return uniformMatrix(location,transpose,value);};
+  gl.drawElements=(mode,count,type,offset)=>{assert.equal(mode,gl.TRIANGLES);assert.equal(count,3);assert.equal(offset,0);elements++;gl.coverage([0],gl.uniforms.get('u_shadow_opacity'));};
+  const env=alpha=>({gl,chunkUniforms,createResidentTriangleDrawBatch,drawResidentTriangles,shadowMask:mask,matrix:topDown,projection:topDown,sceneChunks:[chunk(1),chunk(2)],alpha});
+  assert.equal(run(env(0)),0,name);assert.equal(elements,0,name+': alpha 0 draws nothing');assert.equal(mask.stats.bytes,0,name);
+  assert.equal(run(env(.08)),1,name);assert.equal(elements,2,name+': every resident chunk covers the one mask');assert.equal(gl.composites,1,name+': one union composite');
+  // Each chunk uploads exactly the scene projection times its canonical chunk frame (anchor [0,0], unit 1,
+  // shadow plane offset .03/anchorUnit-.03/unit = 0): no other transform enters the shadow matrix.
+  const expected=Array.from(new Float32Array(product(topDown,[1,0,0,0,0,0,1,0,0,-1,0,0,0,0,0,1])));
+  assert.equal(uploaded.length,2,name);for(const value of uploaded)assert.deepEqual(value,expected,name);assert.deepEqual(gl.uniforms.get('u_matrix'),expected,name);
+  mask.release();assert.equal(mask.stats.bytes,0,name);
  }
 });
 

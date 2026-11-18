@@ -7,16 +7,22 @@ type Options={requestRepaint:()=>void;clock?:()=>number;setTimer?:(fn:()=>void,d
 export function createDisplayFrameClock(options:Options){
  const now=options.clock??(()=>performance.now()),set=options.setTimer??setTimeout,clear=options.clearTimer??clearTimeout;
  const entries=new Set<{subscription:Subscription;due:number;wasActive:boolean}>();
- let timer:ReturnType<typeof setTimeout>|undefined,hidden=false,destroyed=false,frames=0,repaints=0;
- const stop=()=>{if(timer!==undefined)clear(timer);timer=undefined;};
+ let timer:ReturnType<typeof setTimeout>|undefined,timerDue=Infinity,hidden=false,destroyed=false,frames=0,repaints=0;
+ const stop=()=>{if(timer!==undefined)clear(timer);timer=undefined;timerDue=Infinity;};
  function wake(){
-  stop();if(destroyed||hidden)return;
+  if(destroyed||hidden){stop();return;}
   const current=now();let due=Infinity;
   for(const row of entries){const active=row.subscription.active();if(active&&!row.wasActive)row.due=current;row.wasActive=active;if(active)due=Math.min(due,row.due);}
-  if(Number.isFinite(due))timer=set(tick,Math.max(0,due-current));
+  // Resource retirement can wake the clock repeatedly within a single event.
+  // Preserve an already scheduled frame when its deadline has not changed.
+  if(timer!==undefined&&due===timerDue)return;
+  stop();
+  // Timers truncate fractional milliseconds. Round up to avoid an early empty
+  // tick followed by the browser's nested-timer minimum before the real frame.
+  if(Number.isFinite(due)){timerDue=due;timer=set(tick,Math.max(0,Math.ceil(due-current)));}
  }
  function tick(){
-  timer=undefined;if(destroyed||hidden)return;
+  timer=undefined;timerDue=Infinity;if(destroyed||hidden)return;
   const current=now();let changed=false;
   for(const row of entries){const active=row.subscription.active();if(!active){row.wasActive=false;continue;}if(!row.wasActive)row.due=current;row.wasActive=true;if(current+0.001<row.due)continue;row.due=current+1000/row.subscription.fps;frames++;changed=row.subscription.frame(current)||changed;}
   if(changed&&!destroyed&&!hidden){repaints++;options.requestRepaint();}wake();

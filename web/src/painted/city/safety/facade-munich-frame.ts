@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 // Only explicit Frauenkirche group2181619 source IDs. No Rathaus proximity candidates admitted.
 export const FRAUEN_NATIVE_IDS=new Set(['225698612','108429818','209452724','222512591','222512593','222512594','222512595','222512597']);
 type Plane={nx:number;ny:number;nz:number;d:number;ux:number;uz:number;vx:number;vy:number;vz:number;u0:number;u1:number;v0:number;v1:number;roof:boolean;style:number};

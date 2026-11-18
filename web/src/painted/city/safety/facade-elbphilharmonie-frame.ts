@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 export const ELB_NATIVE_IDS=new Set(['24981342','527238886','525401027']);
 const reference:[number,number]=[9.98102925,53.5502834];
 const roofEdges=new Float32Array(20);let edgeCount=0;

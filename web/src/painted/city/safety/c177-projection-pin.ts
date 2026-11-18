@@ -1,4 +1,5 @@
 // Exact C177 source, frame and independent numerical readiness pins.
+type C177ExactTuple000 = readonly [0, 0, 0];
 export const C177_PROJECTION_REGISTRY={
   "schemaVersion": 1,
   "scope": "Europa Passage exact60v original saltbox western part only, remaining840v unchanged; parent/profile separate8ready proposal",
@@ -19,7 +20,7 @@ export const C177_PROJECTION_REGISTRY={
       9.99614605,
       53.551476550000004
     ],
-    "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Hamburg/safety/buildings3d/hamburg/flat-00579.json.gz",
+    "sourceLeaf": "source-evidence/93ec18793944fb847a5b/safety/buildings3d/hamburg/flat-00579.json.gz",
     "sourceSHA256": "5412bb3317b3b3ea95aa356e8d8035c928e9061e2ce0e9a788cd0d60505f5b40",
     "geometrySignature": "4647cbac",
     "componentGeometry": {
@@ -360,7 +361,7 @@ export const C177_PROJECTION_REGISTRY={
       "city": "hamburg",
       "objectId": "osm/way/1000383766",
       "partId": "osm/way/1000383766/component/0170156a9ae3c7315e07",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Hamburg/safety/buildings3d/hamburg/roof-01985.json.gz",
+      "sourceLeaf": "source-evidence/93ec18793944fb847a5b/safety/buildings3d/hamburg/roof-01985.json.gz",
       "sourceLeafSHA256": "ed3534c606d5e3a31ff5037a6e9a38d406b8bd15a177946da7a7f69c668b428b",
       "rawSignature": "cdee287f",
       "rawBuffers": [
@@ -400,12 +401,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -460.7613608689553,
           "vOrigin": -18.850000381469727,
           "height": 22.5,
@@ -420,12 +421,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -441.1823128455939,
           "vOrigin": 0,
           "height": 22.5,
@@ -440,12 +441,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -441.1823128455939,
           "vOrigin": -19.3799991607666,
           "height": 22.5,
@@ -460,12 +461,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -441.1823128455939,
           "vOrigin": 0,
           "height": 22.5,
@@ -480,12 +481,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -460.7613608689553,
           "vOrigin": -18.850000381469727,
           "height": 22.5,
@@ -500,12 +501,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -460.7613608689553,
           "vOrigin": 0,
           "height": 22.5,
@@ -520,12 +521,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -459.968319262137,
           "vOrigin": -20,
           "height": 22.5,
@@ -540,12 +541,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -460.7613608689553,
           "vOrigin": 0,
           "height": 22.5,
@@ -560,12 +561,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -460.7613608689553,
           "vOrigin": -18.850000381469727,
           "height": 22.5,
@@ -580,12 +581,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -410.27234707801665,
           "vOrigin": 0,
           "height": 22.5,
@@ -600,12 +601,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -409.63473177190735,
           "vOrigin": -17.5,
           "height": 22.5,
@@ -620,12 +621,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -409.63473177190735,
           "vOrigin": 0,
           "height": 22.5,
@@ -640,12 +641,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -458.2555649252491,
           "vOrigin": -17.5,
           "height": 22.5,
@@ -660,12 +661,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -460.7613608689553,
           "vOrigin": 0,
           "height": 22.5,
@@ -680,12 +681,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -459.968319262137,
           "vOrigin": -20,
           "height": 22.5,
@@ -700,12 +701,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -424.08937896684574,
           "vOrigin": -17.59000015258789,
           "height": 22.5,
@@ -720,12 +721,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -409.63473177190735,
           "vOrigin": 0,
           "height": 22.5,
@@ -740,12 +741,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -409.63473177190735,
           "vOrigin": -17.5,
           "height": 22.5,
@@ -760,12 +761,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -409.63473177190735,
           "vOrigin": 0,
           "height": 22.5,
@@ -780,12 +781,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -424.08937896684574,
           "vOrigin": -17.59000015258789,
           "height": 22.5,
@@ -800,12 +801,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -424.08937896684574,
           "vOrigin": 0,
           "height": 22.5,
@@ -820,12 +821,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -427.9544333682971,
           "vOrigin": -18.020000457763672,
           "height": 22.5,
@@ -840,12 +841,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -424.0899895562269,
           "vOrigin": 0,
           "height": 22.5,
@@ -860,12 +861,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -424.0899895562269,
           "vOrigin": -17.59000015258789,
           "height": 22.5,
@@ -880,12 +881,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -424.0899895562269,
           "vOrigin": 0,
           "height": 22.5,
@@ -900,12 +901,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -427.9544333682971,
           "vOrigin": -18.020000457763672,
           "height": 22.5,
@@ -920,12 +921,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -427.9544333682971,
           "vOrigin": 0,
           "height": 22.5,
@@ -940,12 +941,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -427.956779987917,
           "vOrigin": -18.020000457763672,
           "height": 22.5,
@@ -960,12 +961,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -439.2174588664621,
           "vOrigin": 0,
           "height": 22.5,
@@ -980,12 +981,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -427.956779987917,
           "vOrigin": 0,
           "height": 22.5,
@@ -1000,12 +1001,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -439.2174588664621,
           "vOrigin": 0,
           "height": 22.5,
@@ -1020,12 +1021,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -438.0500244332379,
           "vOrigin": -20,
           "height": 22.5,
@@ -1040,12 +1041,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -439.2174588664621,
           "vOrigin": -19.770000457763672,
           "height": 22.5,
@@ -1060,12 +1061,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -438.0500244332379,
           "vOrigin": -20,
           "height": 22.5,
@@ -1080,12 +1081,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -439.2174588664621,
           "vOrigin": 0,
           "height": 22.5,
@@ -1100,12 +1101,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -427.956779987917,
           "vOrigin": -18.020000457763672,
           "height": 22.5,
@@ -1120,12 +1121,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -439.217459057714,
           "vOrigin": -19.770000457763672,
           "height": 22.5,
@@ -1140,12 +1141,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -441.18245878305015,
           "vOrigin": 0,
           "height": 22.5,
@@ -1160,12 +1161,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -439.217459057714,
           "vOrigin": 0,
           "height": 22.5,
@@ -1180,12 +1181,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -441.18245878305015,
           "vOrigin": 0,
           "height": 22.5,
@@ -1200,12 +1201,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -439.217459057714,
           "vOrigin": -19.770000457763672,
           "height": 22.5,
@@ -1220,12 +1221,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": -441.18245878305015,
           "vOrigin": -19.3799991607666,
           "height": 22.5,
@@ -1240,12 +1241,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": 85.46372656305299,
           "vOrigin": -4.773442104742941,
           "height": 22.5,
@@ -1260,12 +1261,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": 68.77949849320584,
           "vOrigin": -15.214900746925059,
           "height": 22.5,
@@ -1280,12 +1281,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": 84.25642069605843,
           "vOrigin": -3.223069854652886,
           "height": 22.5,
@@ -1300,12 +1301,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": 68.77949849320584,
           "vOrigin": -15.214900746925059,
           "height": 22.5,
@@ -1320,12 +1321,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": 86.18213020430407,
           "vOrigin": -5.69365957518195,
           "height": 22.5,
@@ -1340,12 +1341,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": 72.93032031794937,
           "vOrigin": -19.275929551423946,
           "height": 22.5,
@@ -1360,12 +1361,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": 86.18213020430407,
           "vOrigin": -5.69365957518195,
           "height": 22.5,
@@ -1380,12 +1381,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": 68.77949849320584,
           "vOrigin": -15.214900746925059,
           "height": 22.5,
@@ -1400,12 +1401,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": 85.46372656305299,
           "vOrigin": -4.773442104742941,
           "height": 22.5,
@@ -1420,12 +1421,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": 81.95039992135929,
           "vOrigin": -28.118169874424606,
           "height": 22.5,
@@ -1440,12 +1441,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": 92.39831456996663,
           "vOrigin": -13.64555477602319,
           "height": 22.5,
@@ -1460,12 +1461,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": 91.69968388079319,
           "vOrigin": -17.44632346041751,
           "height": 22.5,
@@ -1480,12 +1481,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": 92.39831456996663,
           "vOrigin": -13.64555477602319,
           "height": 22.5,
@@ -1500,12 +1501,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": 72.93032031794937,
           "vOrigin": -19.275929551423946,
           "height": 22.5,
@@ -1520,12 +1521,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": 86.18213020430407,
           "vOrigin": -5.69365957518195,
           "height": 22.5,
@@ -1540,12 +1541,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": 72.93032031794937,
           "vOrigin": -19.275929551423946,
           "height": 22.5,
@@ -1560,12 +1561,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": 92.39831456996663,
           "vOrigin": -13.64555477602319,
           "height": 22.5,
@@ -1580,12 +1581,12 @@ export const C177_PROJECTION_REGISTRY={
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "vAxis": [
             0,
             0,
             0
-          ],
+          ] as C177ExactTuple000,
           "uOrigin": 81.95039992135929,
           "vOrigin": -28.118169874424606,
           "height": 22.5,
@@ -1618,7 +1619,7 @@ export const C177_PROJECTION_REGISTRY={
       9.99614605,
       53.551476550000004
     ],
-    "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Hamburg/safety/buildings3d/hamburg/flat-00579.json.gz",
+    "sourceLeaf": "source-evidence/93ec18793944fb847a5b/safety/buildings3d/hamburg/flat-00579.json.gz",
     "sourceSHA256": "5412bb3317b3b3ea95aa356e8d8035c928e9061e2ce0e9a788cd0d60505f5b40",
     "geometrySignature": "4647cbac",
     "componentGeometry": {
@@ -1958,7 +1959,7 @@ export const C177_PROJECTION_REGISTRY={
         9.9960843,
         53.551252149999996
       ],
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Hamburg/safety/buildings3d/hamburg/flat-00579.json.gz",
+      "sourceLeaf": "source-evidence/93ec18793944fb847a5b/safety/buildings3d/hamburg/flat-00579.json.gz",
       "sourceSHA256": "5412bb3317b3b3ea95aa356e8d8035c928e9061e2ce0e9a788cd0d60505f5b40",
       "geometrySignature": "e625d9fb",
       "componentGeometry": {
@@ -2058,7 +2059,7 @@ export const C177_PROJECTION_REGISTRY={
         9.996559600000001,
         53.55101155
       ],
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Hamburg/safety/buildings3d/hamburg/flat-00579.json.gz",
+      "sourceLeaf": "source-evidence/93ec18793944fb847a5b/safety/buildings3d/hamburg/flat-00579.json.gz",
       "sourceSHA256": "5412bb3317b3b3ea95aa356e8d8035c928e9061e2ce0e9a788cd0d60505f5b40",
       "geometrySignature": "d944869a",
       "componentGeometry": {
@@ -2126,7 +2127,7 @@ export const C177_PROJECTION_REGISTRY={
         9.99677925,
         53.551581999999996
       ],
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Hamburg/safety/buildings3d/hamburg/flat-00580.json.gz",
+      "sourceLeaf": "source-evidence/93ec18793944fb847a5b/safety/buildings3d/hamburg/flat-00580.json.gz",
       "sourceSHA256": "122a31a57cf6adf8e192ddd4c15aaad5d6c03ab0335fa769386f7138c1718ed8",
       "geometrySignature": "0f24d800",
       "componentGeometry": {
@@ -2270,7 +2271,7 @@ export const C177_PROJECTION_REGISTRY={
         9.99639965,
         53.55136805
       ],
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Hamburg/safety/buildings3d/hamburg/flat-00580.json.gz",
+      "sourceLeaf": "source-evidence/93ec18793944fb847a5b/safety/buildings3d/hamburg/flat-00580.json.gz",
       "sourceSHA256": "122a31a57cf6adf8e192ddd4c15aaad5d6c03ab0335fa769386f7138c1718ed8",
       "geometrySignature": "fcb77f21",
       "componentGeometry": {
@@ -2366,7 +2367,7 @@ export const C177_PROJECTION_REGISTRY={
         9.99550685,
         53.551724
       ],
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Hamburg/safety/buildings3d/hamburg/flat-00580.json.gz",
+      "sourceLeaf": "source-evidence/93ec18793944fb847a5b/safety/buildings3d/hamburg/flat-00580.json.gz",
       "sourceSHA256": "122a31a57cf6adf8e192ddd4c15aaad5d6c03ab0335fa769386f7138c1718ed8",
       "geometrySignature": "4fc991c7",
       "componentGeometry": {
@@ -2514,7 +2515,7 @@ export const C177_PROJECTION_REGISTRY={
         9.99195285,
         53.54989965
       ],
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Hamburg/safety/buildings3d/hamburg/roof-01985.json.gz",
+      "sourceLeaf": "source-evidence/93ec18793944fb847a5b/safety/buildings3d/hamburg/roof-01985.json.gz",
       "sourceSHA256": "ed3534c606d5e3a31ff5037a6e9a38d406b8bd15a177946da7a7f69c668b428b",
       "geometrySignature": "cdee287f",
       "componentGeometry": {
@@ -2582,7 +2583,7 @@ export const C177_PROJECTION_REGISTRY={
         9.9966854,
         53.55109515
       ],
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Hamburg/safety/buildings3d/hamburg/flat-00580.json.gz",
+      "sourceLeaf": "source-evidence/93ec18793944fb847a5b/safety/buildings3d/hamburg/flat-00580.json.gz",
       "sourceSHA256": "122a31a57cf6adf8e192ddd4c15aaad5d6c03ab0335fa769386f7138c1718ed8",
       "geometrySignature": "c33dac52",
       "componentGeometry": {
@@ -2642,7 +2643,7 @@ export const C177_PROJECTION_REGISTRY={
         9.99688735,
         53.550947300000004
       ],
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Hamburg/safety/buildings3d/hamburg/flat-00580.json.gz",
+      "sourceLeaf": "source-evidence/93ec18793944fb847a5b/safety/buildings3d/hamburg/flat-00580.json.gz",
       "sourceSHA256": "122a31a57cf6adf8e192ddd4c15aaad5d6c03ab0335fa769386f7138c1718ed8",
       "geometrySignature": "3ed19b8b",
       "componentGeometry": {

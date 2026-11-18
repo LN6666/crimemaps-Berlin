@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 import {ownerShapePatchProfile} from './owner-shape-patch-display';
 /** User-authorized F46 reconstruction only. No native admissions or arrays are changed. */
 export function applyF46RecoveryPaint(components:BuildingComponent[],colors:Float32Array,frames:Float32Array){

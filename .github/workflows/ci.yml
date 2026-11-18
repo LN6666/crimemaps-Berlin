@@ -19,9 +19,72 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
       - run: python -m pip install uv==0.11.23
       - run: uv sync --locked
-      - run: uv run pytest -q test_suite/safety test_suite/security tests/migration
+      - run: uv run pytest -q test_suite/safety test_suite/security tests/migration tests/render
+      # Analytics card and counter contracts (no npm dependencies; offline fixtures).
+      - run: npm --prefix services/analytics test
+  resource-budget-part:
+    name: Resource budget part ${{ matrix.part }} of 4
+    outputs:
+      part1: ${{ steps.accepted.outputs.part1 }}
+      part2: ${{ steps.accepted.outputs.part2 }}
+      part3: ${{ steps.accepted.outputs.part3 }}
+      part4: ${{ steps.accepted.outputs.part4 }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        part: [1, 2, 3, 4]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+      - run: npm --prefix web ci
+      - name: Run all registered files in this part
+        id: budget
+        run: >-
+          npm --prefix web run test:resource-budget --
+          --part=${{ matrix.part }}/4 --jobs=2 --timings
+          --output-dir="$RUNNER_TEMP/resource-budget"
+          --file-timeout=60 --long-file-timeout=180
+          --long-file=tests/gpu-aux-budget-city-environment-copies.test.mjs
+          --long-file=tests/r4lease-clone-fairness.test.mjs
+      - name: Preserve complete TAP and per-file exits
+        if: ${{ !cancelled() && steps.budget.outcome != 'skipped' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: resource-budget-part-${{ matrix.part }}-attempt-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/resource-budget
+          if-no-files-found: error
+          retention-days: 3
+      - name: Record completed part
+        id: accepted
+        run: echo "part${{ matrix.part }}=passed" >> "$GITHUB_OUTPUT"
+  # Keep the existing required check name. Any failed/skipped part fails the gate.
+  resource-budget:
+    needs: resource-budget-part
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - name: Require all four parts to pass
+        env:
+          PARTS_RESULT: ${{ needs.resource-budget-part.result }}
+          PART_1: ${{ needs.resource-budget-part.outputs.part1 }}
+          PART_2: ${{ needs.resource-budget-part.outputs.part2 }}
+          PART_3: ${{ needs.resource-budget-part.outputs.part3 }}
+          PART_4: ${{ needs.resource-budget-part.outputs.part4 }}
+        run: |
+          test "$PARTS_RESULT" = success
+          test "$PART_1" = passed && test "$PART_2" = passed && test "$PART_3" = passed && test "$PART_4" = passed
   browser:
     timeout-minutes: 20
     runs-on: ubuntu-24.04
@@ -33,17 +96,22 @@ jobs:
         with:
           node-version: '22'
       - run: npm --prefix web ci
-      - run: npm --prefix web run build
-        env:
-          CRIMEMAPS_BUILD_PURPOSE: code-check
       - run: npm --prefix web run test:city-data-profile
       - run: npm --prefix web run test:shared-native-source
       - run: npm --prefix web run test:facade-controller-retention
       - run: npm --prefix web run test:owner-city-boundary
       - run: npm --prefix web run test:building-detail-residency
       - run: npm --prefix web run test:material-program-lifecycle
+      - run: npm --prefix web run test:building-detail-producer
       - run: npm --prefix web run test:navigation
       - run: npm --prefix web run test:statistics
       - run: npm --prefix web run test:painting
       - run: npm --prefix web run test:scene-runtime
+      - run: npm --prefix web run build
+        env:
+          CRIMEMAPS_BUILD_PURPOSE: code-check
       - run: cd web && npx playwright install --with-deps chromium && npm test
+        env:
+          # This job already built the unchanged repository source above.
+          # The separate synthetic fixture still gets its own required build.
+          CRIMEMAPS_TEST_PREBUILT: "1"

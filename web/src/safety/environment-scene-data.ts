@@ -38,3 +38,22 @@ export function lowPolyTreeMesh():TreeDisplayMesh {
  for(let i=0;i<positions.length;i+=7){positions[i+1]/=maxY;positions[i+4]*=maxY;const length=Math.hypot(positions[i+3],positions[i+4],positions[i+5]);for(let a=3;a<6;a++)positions[i+a]/=length;}
  return cachedTreeDisplayMesh={positions:new Float32Array(positions),indices:new Uint16Array(indices),vertices:positions.length/7,triangles:indices.length/3,strideBytes:28,horizontalRadiusMetres:maxRadius*TREE_DISPLAY_HORIZONTAL_SCALE_METRES*1.08,role:'source-point-display-schematic',canopy:'five-lobe-cached-display'};
 }
+let cachedFarTreeDisplayMesh:TreeDisplayMesh|undefined;
+/** Same five centres, source height, roles and conservative envelope as near.
+ * Axis extrema of the existing icosahedron form smaller eight-face lobes. */
+export function farLowPolyTreeMesh():TreeDisplayMesh{
+ if(cachedFarTreeDisplayMesh)return cachedFarTreeDisplayMesh;
+ const near=lowPolyTreeMesh(),positions=Array.from(near.positions.subarray(0,24*7)),indices=Array.from(near.indices.subarray(0,36));
+ const phi=(1+Math.sqrt(5))/2,axis=phi/Math.hypot(1,phi),maxY=.80+.20*axis;
+ const sphere=[[axis,0,0],[-axis,0,0],[0,axis,0],[0,-axis,0],[0,0,axis],[0,0,-axis]];
+ const faces=[[2,4,0],[2,1,4],[2,5,1],[2,0,5],[3,0,4],[3,4,1],[3,1,5],[3,5,0]];
+ const lobes=[[0,.68,0,.67,.32,.65],[.36,.58,.08,.52,.28,.52],[-.30,.61,.22,.54,.27,.52],[.02,.55,-.34,.55,.27,.52],[.21,.80,-.16,.45,.20,.44]];
+ lobes.forEach(([x,y,z,rx,ry,rz],lobe)=>{for(const face of faces){
+  const points=face.map(i=>[x+sphere[i][0]*rx,y+sphere[i][1]*ry,z+sphere[i][2]*rz]);
+  const a=points[1].map((n,i)=>n-points[0][i]),b=points[2].map((n,i)=>n-points[0][i]);
+  const normal=[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],length=Math.hypot(...normal),at=positions.length/7;
+  face.forEach((i,j)=>{const radial=[sphere[i][0]/rx,sphere[i][1]/ry,sphere[i][2]/rz],r=Math.hypot(...radial),n=radial.map((v,k)=>.35*v/r+.65*normal[k]/length);n[1]*=maxY;const norm=Math.hypot(...n);positions.push(points[j][0],points[j][1]/maxY,points[j][2],...n.map(v=>v/norm),1+lobe*.08);});
+  indices.push(at,at+1,at+2);
+ }});
+ return cachedFarTreeDisplayMesh={positions:new Float32Array(positions),indices:new Uint16Array(indices),vertices:positions.length/7,triangles:indices.length/3,strideBytes:28,horizontalRadiusMetres:near.horizontalRadiusMetres,role:near.role,canopy:'five-lobe-far-octa-display'};
+}

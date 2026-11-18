@@ -106,3 +106,40 @@ def test_numbered_reference_rejects_incomplete_membership_or_source_identity(cha
     elif change=='source_point':r['coordinates']=[8.03,50.03]
     elif change=='moving':r['transit_route']={'mode':'bus','line':'63'}
     with pytest.raises(ValueError):derive(values)
+
+
+@pytest.mark.parametrize("admin_level", ["10", "11"])
+def test_bremen_ortsteil_accepts_native_locality_and_keeps_crossing_members(admin_level):
+    decision, request, objects, border = inputs()
+    objects["osm/relation/4"]["tags"]["admin_level"] = admin_level
+
+    derived = _derived_geometry(
+        decision, request, objects, border, "bremen", include_footprint_count_points=False,
+    )
+
+    clip = derived["district_reference_clip"]
+    members = {row["id"]: row for row in clip["per_original_object"]}
+    assert set(members) == {"osm/way/1", "osm/way/2"}
+    assert 0 < members["osm/way/1"]["retained_length_m"] < members["osm/way/1"]["original_length_m"]
+    assert derived["geometry_usage"] == "source_road_reference_only"
+    assert derived["actual_event_position_known"] is False
+    assert derived["actual_event_extent_known"] is False
+    assert _count_point({"decision": decision, "derived_geometry": derived}) is None
+
+
+@pytest.mark.parametrize(("city", "admin_level"), [("frankfurt", "11"), ("bremen", "12")])
+def test_bremen_ortsteil_does_not_widen_unrelated_boundary_levels(city, admin_level):
+    decision, request, objects, border = inputs()
+    objects["osm/relation/4"]["tags"]["admin_level"] = admin_level
+
+    with pytest.raises(ValueError, match="checked independent district boundary"):
+        _derived_geometry(decision, request, objects, border, city)
+
+
+def test_bremen_ortsteil_rejects_missing_cross_boundary_member():
+    decision, request, objects, border = inputs()
+    objects["osm/relation/4"]["tags"]["admin_level"] = "11"
+    decision["osm_object_groups"][0].remove("osm/way/1")
+
+    with pytest.raises(ValueError, match="every matching positive-length in-district road object"):
+        _derived_geometry(decision, request, objects, border, "bremen")

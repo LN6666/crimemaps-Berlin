@@ -1,0 +1,12 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import ts from 'typescript';
+const source=fs.readFileSync(new URL('../src/painted/delegated500/safety/building-mesh-renderer.ts',import.meta.url),'utf8'),ast=ts.createSourceFile('renderer.ts',source,ts.ScriptTarget.Latest,true);let declaration;
+(function visit(node){if(ts.isFunctionDeclaration(node)&&node.name?.text==='advanceChunkConstructionSlice')declaration=node;ts.forEachChild(node,visit);})(ast);
+assert(declaration);const code=ts.transpileModule(declaration.getText(ast),{compilerOptions:{target:ts.ScriptTarget.ES2022}}).outputText;
+const slice=(advance,now)=>Function('advanceChunkConstruction','performance',code+';return advanceChunkConstructionSlice;')(advance,{now});
+test('tiny construction yields make bounded progress without needing one timer per yield',()=>{let calls=0;const run=slice(()=>++calls===35,()=>0);assert.equal(run(),false);assert.equal(calls,16);assert.equal(run(),false);assert.equal(calls,32);assert.equal(run(),true);assert.equal(calls,35);});
+test('construction returns to the scheduler at its time limit even before sixteen yields',()=>{let now=0,calls=0;const run=slice(()=>{calls++;now+=.4;return false;},()=>now);assert.equal(run(),false);assert.equal(calls,3);});
+test('cancellation or failure between guarded advances propagates immediately without later work',()=>{let calls=0;const abort=new DOMException('cancelled','AbortError'),run=slice(()=>{if(++calls===3)throw abort;return false;},()=>0);assert.throws(run,error=>error===abort);assert.equal(calls,3);});
+test('an expensive individual stage is never followed by another in the same slice',()=>{let now=0,calls=0;const run=slice(()=>{calls++;now+=50;return false;},()=>now);assert.equal(run(),false);assert.equal(calls,1);});

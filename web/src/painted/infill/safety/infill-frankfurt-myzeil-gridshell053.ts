@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from "../../../safety/building-mesh-types";
 import {nativePaintSignature} from './progressive-native-signature';
 import {MYZEIL_GRIDSHELL_BINDING_053 as B} from './infill-frankfurt-myzeil-gridshell053-binding';
 const bytes=(s:string)=>Uint8Array.from(atob(s),c=>c.charCodeAt(0)),tubeCodes=new DataView(bytes(B.tubeParamU16LE).buffer),tubeArc=new DataView(bytes(B.tubeArcF32LE).buffer),sideUV=new DataView(bytes(B.sideUVF32LE).buffer);

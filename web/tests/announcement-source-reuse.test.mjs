@@ -69,7 +69,8 @@ function harness(){
   styledPois:d=>{builds.pois++;return d.pois;},renderPois:value=>value,poiCenters:value=>value,
   kinds:()=>new Set(['park']),t:key=>key,number:String,periodLabel:()=>el('month').value,
   setRoadVisibility(){},paintOverlays(){},text:()=>({}),locationCoverage:()=>({withoutCountPointIds:[],countableAnnouncements:0,withoutCountPointWithDisplayGeometry:0}),
-  openDialog(){},listReports(){},methodsPanel:{update(){}},uncertaintyPanel:{update(){}},dynamicText:{displayRows:rows=>rows},
+  // main.ts refresh() now also updates the header's reports-list button (count label and disabled state).
+  reportsButton:{textContent:'',disabled:true},openDialog(){},listReports(){},methodsPanel:{update(){}},uncertaintyPanel:{update(){}},dynamicText:{displayRows:rows=>rows},
   savedPublicationMonths:()=>[],manifest:{months:{'2026-01':{},'2026-02':{}},generation:'fixture'},currentCity:'berlin',showSelection(){},baseShopLabels:{updateExistingPois(){}},
  };
  const api=new Function('env',`const {${Object.keys(env).filter(k=>k!=='annual').join(',')}}=env;

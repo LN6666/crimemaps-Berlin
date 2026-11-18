@@ -1,4 +1,4 @@
-import type {BuildingComponent,Identity} from './building-mesh-renderer';
+import type {BuildingComponent,Identity} from '../../../safety/building-mesh-types';
 import {nativePaintSignature} from './progressive-native-signature';
 export type SourceEdgeMember=Identity&{leafSHA:string;geometryFingerprint:string;nativePaintSignature:string};
 export type SourceEdgeAssemblyProfile={city:string;groupIdentity:string;name:string;indexSHA:string;sourcePBF:string;boundarySHA:string;sourceSnapshot:string;outline:SourceEdgeMember;parts:readonly SourceEdgeMember[];sourceRowsSHA:string;edgeProofSHA:string;parentEdges:readonly{nodes:readonly[number,number];matchedBy:readonly string[]}[];sameBuildingVerified:true;formalRelationMembership:false;completenessClaim:false};

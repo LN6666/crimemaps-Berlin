@@ -3,7 +3,7 @@ export const S767_EXPECTED = {
   "objectId": "osm/way/373097073",
   "partId": "osm/way/373097073/component/796f1f06415b2f6cb972",
   "nativeSignature": "1a70e345",
-  "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Nuremberg/safety/buildings3d/nuremberg/roof-00538.json.gz",
+  "sourceLeaf": "source-evidence/f3a903a9d425483911f5/safety/buildings3d/nuremberg/roof-00538.json.gz",
   "sourceLeafSHA256": "2109696c054a6c66ca7df225c59816fa993a9de995295749efaa4f7faeffc931",
   "parentSourceSHA256": "bfb36292aafeda2f4dafc5f7581efd4aab40b179fb6a988d1f877e76e743cf10",
   "preferredPartSourceSHA256": "6ba84f953dbfacff7ca9847431b70f1d6022c785d79d235778f2768708707f47",

@@ -157,7 +157,7 @@ CrimeMaps ist ein unabhängiges Projekt, kein offizieller Polizeidienst. Lesen S
 
 
 <!-- crimemaps:public-notice:start -->
-Die Website wird schrittweise verbessert. Meldungsinhalte werden wöchentlich aktualisiert; Karten und Einrichtungen im Umfeld (POIs) monatlich.
+Die Website wird schrittweise verbessert. Aktualisierungen der Meldungsinhalte sind alle zwei Wochen geplant; Karten und Hintergrund-POIs monatlich. Diese Intervalle belegen nicht, dass eine geprüfte Aktualisierung veröffentlicht wurde.
 
 GPT und Doubao Lite unterstützen die Übersetzung. Chinesisch wird vorrangig geprüft. Etwa 90 % für Englisch und 85 % für Deutsch sind Projekteinschätzungen, keine Ergebnisse einer vollständigen Genauigkeitsprüfung. Einzelne Angaben können im Original erscheinen; bitte die Quelle prüfen.
 

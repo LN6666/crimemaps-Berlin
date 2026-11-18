@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 /** Source surface metadata only. All source vertices/indices remain untouched.
  * Whole helmet batches trump near-vertical normals. Semantic gable/shaft splits
  * occur in the fragment painter, never by different IDs on one triangle.

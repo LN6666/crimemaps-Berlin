@@ -1,2 +1,2 @@
-// Identical frozen source and runtime dependency graph; preserve one implementation.
-export * from '../../root500/safety/source-diffuse-texture';
+// Shared pixel contract and page-scoped resource ownership.
+export * from '../../../safety/source-diffuse-texture';

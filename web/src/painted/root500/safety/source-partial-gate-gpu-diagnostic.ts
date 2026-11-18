@@ -1,7 +1,7 @@
 /** On-demand local diagnostics only. Reads existing GPU storage; never mutates geometry, material or buffer contents. */
 export type PaintDiagnosticIdentity={objectId:string;partId:string};
 type DiagnosticComponent=PaintDiagnosticIdentity&{firstVertex:number;lastVertex:number;start?:number;end?:number;batches:readonly{positions:ArrayLike<number>}[]};
-export type PaintGPUReadbackContext={gl:WebGL2RenderingContext|undefined;vao?:WebGLVertexArrayObject;program?:WebGLProgram;progressiveBuffer:WebGLBuffer|undefined;paintBuffer:WebGLBuffer|undefined;vertexBuffer?:WebGLBuffer;indexBuffer?:WebGLBuffer;packedVertices?:Float32Array;packedIndices?:Uint32Array;getComponent:(id:PaintDiagnosticIdentity)=>DiagnosticComponent|undefined};
+export type PaintGPUReadbackContext={gl:WebGL2RenderingContext|undefined;vao?:WebGLVertexArrayObject;program?:WebGLProgram;progressiveBuffer:WebGLBuffer|undefined;paintBuffer:WebGLBuffer|undefined;vertexBuffer?:WebGLBuffer;indexBuffer?:WebGLBuffer;packedVertices?:Float32Array;packedVertexStride?:number;packedIndices?:Uint32Array;getComponent:(id:PaintDiagnosticIdentity)=>DiagnosticComponent|undefined};
 const exactRanges=[
  {objectId:'osm/way/228534603',partId:'osm/way/228534603/component/19187ba35eb6899d21b9',batchIndex:6,firstVertex:6,vertexCount:6,role:'F081 north clerestory actual DISPLAY metadata'},
  {objectId:'osm/way/228534603',partId:'osm/way/228534603/component/19187ba35eb6899d21b9',batchIndex:6,firstVertex:30,vertexCount:6,role:'F081 south clerestory actual DISPLAY metadata'},
@@ -64,7 +64,7 @@ export function readPaintGPUDiagnostic(context:PaintGPUReadbackContext,diagnosti
    };
    let packedGeometry:Record<string,unknown>|undefined;
    if(context.vertexBuffer&&context.packedVertices){
-    const gpu=read(context.vertexBuffer,9),expected=Array.from({length:range.vertexCount*9},(_,i)=>context.packedVertices![(globalFirstVertex+Math.floor(i/9))*10+i%9]);
+    const gpu=read(context.vertexBuffer,9),expected=Array.from({length:range.vertexCount*9},(_,i)=>context.packedVertices![(globalFirstVertex+Math.floor(i/9))*(context.packedVertexStride??10)+i%9]);
     packedGeometry={...gpu,expectedCPUValues:expected,allValuesMatchCPU:gpu.values.every((v,i)=>Object.is(v,expected[i]))};
    }
    let packedIndex:Record<string,unknown>|undefined;

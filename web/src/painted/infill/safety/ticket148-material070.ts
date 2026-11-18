@@ -1,5 +1,5 @@
-import type {BuildingComponent,Identity} from './building-mesh-renderer';
-import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
+import type {BuildingComponent,Identity} from "../../../safety/building-mesh-types";
+import type {OwnerReconstructionStats} from '../../../safety/owner-reconstruction-stats';
 import {nativePaintSignature} from './progressive-native-signature';
 import {ownerDisplayFingerprint} from './owner-display-fingerprint';
 import {TICKET148_SHA070 as SHA,TICKET148_NATIVE070 as PIN,TICKET148_COLOURS070 as DATA} from './ticket148-material070-data';

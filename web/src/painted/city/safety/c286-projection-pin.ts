@@ -19,7 +19,7 @@ export const C286_PROJECTION_REGISTRY={
       6.9562593,
       50.94339455
     ],
-    "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Cologne/safety/buildings3d/cologne/flat-00490.json.gz",
+    "sourceLeaf": "source-evidence/42c6b1b78216d271c117/safety/buildings3d/cologne/flat-00490.json.gz",
     "sourceSHA256": "c4e06cc4dff2b4e59c861a8662606aa3588492ff3852b4bad944f72e57c056d1",
     "geometrySignature": "05a16181",
     "componentGeometry": {
@@ -136,7 +136,7 @@ export const C286_PROJECTION_REGISTRY={
       "city": "cologne",
       "objectId": "osm/way/689534779",
       "partId": "osm/way/689534779/component/6649b816a73408ac8cf8",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Cologne/safety/buildings3d/cologne/roof-01173.json.gz",
+      "sourceLeaf": "source-evidence/42c6b1b78216d271c117/safety/buildings3d/cologne/roof-01173.json.gz",
       "sourceLeafSHA256": "4663e77b8353b6ace02681c30b6a00b9a7dcf0c1c992ce77a6ade998146f10a7",
       "rawSignature": "6785acb3",
       "rawBuffers": [
@@ -325,7 +325,7 @@ export const C286_PROJECTION_REGISTRY={
       "city": "cologne",
       "objectId": "osm/way/689534782",
       "partId": "osm/way/689534782/component/b159b9028364fc6cb6bf",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Cologne/safety/buildings3d/cologne/roof-01173.json.gz",
+      "sourceLeaf": "source-evidence/42c6b1b78216d271c117/safety/buildings3d/cologne/roof-01173.json.gz",
       "sourceLeafSHA256": "4663e77b8353b6ace02681c30b6a00b9a7dcf0c1c992ce77a6ade998146f10a7",
       "rawSignature": "3748a2af",
       "rawBuffers": [
@@ -494,7 +494,7 @@ export const C286_PROJECTION_REGISTRY={
       "city": "cologne",
       "objectId": "osm/way/689534783",
       "partId": "osm/way/689534783/component/8cfeb64d66ec86713181",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Cologne/safety/buildings3d/cologne/roof-01173.json.gz",
+      "sourceLeaf": "source-evidence/42c6b1b78216d271c117/safety/buildings3d/cologne/roof-01173.json.gz",
       "sourceLeafSHA256": "4663e77b8353b6ace02681c30b6a00b9a7dcf0c1c992ce77a6ade998146f10a7",
       "rawSignature": "76d35d50",
       "rawBuffers": [

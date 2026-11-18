@@ -4,8 +4,11 @@ import {readFile} from 'node:fs/promises';
 import {createRequire} from 'node:module';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
+import {resourceContentKey} from './support/resource-content-key.mjs';
 
-// Load the production factories, but inject builders. No model/data files or GPU are used.
+// Exercise the production raw native shard boundary without model data or GPU.
+// Retired F029/F033 import-loader behavior is covered by the actual scoped owner,
+// staged preparation and manager lifetime suites; no duplicate loader is kept.
 const web=fileURLToPath(new URL('../',import.meta.url));
 const source=path.join(web,'src/painted/root500/safety');
 const require=createRequire(new URL('../package.json',import.meta.url));
@@ -16,118 +19,87 @@ const signal=()=>new AbortController().signal;
 const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve=a;reject=b;});return{promise,resolve,reject};};
 const unrelated={city:'berlin',objectId:'unrelated',partId:'unrelated/component',batches:[],sourceFeature:{},componentGeometry:{type:'Polygon'}};
 
-for(const number of ['029','033']){
-  const prefix='F'+number;
-  const identitiesURL=await esm(await readFile(path.join(source,`owner-f${number}-identities.ts`),'utf8'));
-  const identities=await import(identitiesURL);
-  const contents=await readFile(path.join(source,`owner-f${number}-lazy.ts`),'utf8');
-  const module=await import(await esm(contents.replaceAll(`'./owner-f${number}-identities'`,JSON.stringify(identitiesURL))));
-  const create=module[`createOwner${prefix}Loader`];
-  const target={...identities[`${prefix}_IDS`][0],batches:[]};
-  const builder={
-    [`owner${prefix}Reconstruction`]:components=>({components,stats:{loaded:prefix}}),
-    [`owner${prefix}BaseMaterials`]:()=>({loaded:prefix}),
-  };
-
-  test(`${prefix}: unrelated identity/part/city does not import a builder`,async()=>{
-    let loads=0;const loader=create(async()=>{loads++;return builder;});
-    const rows=[unrelated,{...target,city:'frankfurt'},{...target,partId:'other'}];
-    await loader.prepare(rows,signal());assert.equal(loads,0);
-    const out=loader.reconstruct(rows);assert.deepEqual(out.components,rows);assert.equal(out.stats.objects,0);
-    if(number==='029')assert.notEqual(out.components,rows);else assert.equal(out.components,rows);
-  });
-
-  test(`${prefix}: relevant synchronous use fails closed before preparation`,()=>{
-    const loader=create(async()=>builder);
-    assert.throws(()=>loader.reconstruct([target]),/not prepared/);
-    assert.throws(()=>loader.baseMaterials([target],new Float32Array(),new Float32Array()),/not prepared/);
-  });
-
-  test(`${prefix}: shared pending import survives one caller's cancellation`,async()=>{
-    const gate=deferred(),controller=new AbortController();let loads=0;
-    const loader=create(()=>{loads++;return gate.promise;});
-    const first=loader.prepare([target],controller.signal),second=loader.prepare([target],signal());
-    await tick();assert.equal(loads,1);controller.abort();await assert.rejects(first,{name:'AbortError'});
-    assert.throws(()=>loader.reconstruct([target]),/not prepared/);
-    gate.resolve(builder);await second;assert.equal(loader.reconstruct([target]).stats.loaded,prefix);
-  });
-
-  test(`${prefix}: cancelled request does not publish a late import result`,async()=>{
-    let loads=0;const gate=deferred(),loader=create(()=>{loads++;return gate.promise;});
-    const already=new AbortController();already.abort();await assert.rejects(loader.prepare([target],already.signal),{name:'AbortError'});assert.equal(loads,0);
-    const controller=new AbortController(),pending=loader.prepare([target],controller.signal);
-    await tick();controller.abort();await assert.rejects(pending,{name:'AbortError'});
-    gate.resolve(builder);await tick();assert.throws(()=>loader.reconstruct([target]),/not prepared/);
-    await loader.prepare([target],signal());assert.equal(loads,1);assert.equal(loader.reconstruct([target]).stats.loaded,prefix);
-  });
-
-  test(`${prefix}: session failure rejects while import stays pending; next session resumes it`,async()=>{
-    const gate=deferred(),failedSession=deferred(),failure=new Error('table session failed');let loads=0;
-    const loader=create(()=>{loads++;return gate.promise;});
-    const first=loader.prepare([target],signal(),operation=>Promise.race([operation,failedSession.promise]));
-    failedSession.reject(failure);await assert.rejects(first,error=>error===failure);
-    assert.throws(()=>loader.reconstruct([target]),/not prepared/);assert.equal(loads,1);
-    const retry=loader.prepare([target],signal(),operation=>operation);gate.resolve(builder);await retry;
-    assert.equal(loads,1);assert.equal(loader.reconstruct([target]).stats.loaded,prefix);
-  });
-
-  test(`${prefix}: rejected loader is not published as ready`,async()=>{
-    const failure=new Error('module fetch failed');let loads=0;
-    const loader=create(async()=>{if(++loads===1)throw failure;return builder;});
-    await assert.rejects(loader.prepare([target],signal()),error=>error===failure);
-    assert.throws(()=>loader.reconstruct([target]),/not prepared/);
-    await loader.prepare([target],signal());assert.equal(loads,2);
-  });
-}
-
-// Execute the actual shard function with bounded dependencies, including all async gates.
+// Execute the actual native shard boundary. Whole-cohort owner scope preparation
+// belongs to renderer.prepareBatches; root500-manager-data-scope.test.mjs covers
+// that gate, coalescing, pins, admission changes, cancellation and publication.
+// Since the page-store migration the manager's shard() reads its wanted-source
+// lease, whose production is loadSourceContent over the page native source
+// client (the shared pool fetches, verifies and normalizes; this fixture client
+// stands in for that pool with gates on its fetch and verification steps). The
+// actual declarations run over the real page store and wanted-lease adapter, as
+// in bremen-owner-manager.test.mjs.
 const managerSource=await readFile(path.join(source,'three-dimensional-map.ts'),'utf8');
-const start=managerSource.indexOf('async function shard('),end=managerSource.indexOf('async function visible(',start);
-assert.ok(start>=0&&end>start,'The production async shard boundary must be available');
-const body=managerSource.slice(start,end);
-const {createHarness}=await import(await esm(`export function createHarness(ctx:any){
-const {cache,fetchBounded,checked,normalizeBuildingShard,city,maxVertices,prepareOwnerF029Reconstruction,prepareOwnerF033Reconstruction,prepareNonBerlinOwnerRoutes,options,ownerShapePatchProfile,verifyOwnerShapePatchRows,ownerProfileByComponent,retainedShardCost,remember,shadowAdmissionForDecodedShard,manifest,mobile,THREE_D_DECODED_PAYLOAD_LIMITS,shadowByShard,estimateRetainedBuildingPayload,sourceLeafByFeature,prepareSourceRoleDisplay}=ctx;
-let loadCount=0;${body};return{shard};}`));
+const ts=require('typescript'),managerAST=ts.createSourceFile('three-dimensional-map.ts',managerSource,ts.ScriptTarget.Latest,true);
+const functions=new Map(),variables=new Map();
+(function visit(node){if(ts.isFunctionDeclaration(node)&&node.name)functions.set(node.name.text,node);if(ts.isVariableStatement(node))for(const item of node.declarationList.declarations)if(ts.isIdentifier(item.name)&&!variables.has(item.name.text))variables.set(item.name.text,node);ts.forEachChild(node,visit);})(managerAST);
+for(const name of ['shard','loadSourceContent','sourceContentKey','sourceResourceKey','bindSourceContent'])assert.ok(functions.has(name),'The production async shard boundary must be available: '+name);
+assert.ok(variables.has('wantedSources'));
+const declarations=[...['sourceContentKey','sourceResourceKey','bindSourceContent','loadSourceContent','shard'].map(name=>functions.get(name).getText(managerAST)),variables.get('wantedSources').getText(managerAST)].join('\n');
+const js=ts.transpileModule(declarations+'\nreturn {shard,wantedSources,sourceResourceKey};',{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.None}}).outputText;
+const {createSourceModules}=await import('./support/fixtures-managers-b-source-modules.mjs');
+const runtime=createSourceModules({allow:id=>['safety/viewport-request','safety/render-runtime/chunk-resource-store','safety/render-runtime/resource-budget','safety/render-runtime/program-preparation','safety/render-runtime/preparation-scheduler','safety/render-runtime/submitted-program-completion','safety/render-runtime/diagnostic-snapshot','safety/render-runtime/pressure-availability'].includes(id)});
+const {createWantedResourceLeases}=runtime.load('safety/viewport-request'),{createChunkResourceStore}=runtime.load('safety/render-runtime/chunk-resource-store'),{createResourceBudget,ResourceBudgetExceededError}=runtime.load('safety/render-runtime/resource-budget');
 const shard={tile_key:'one',sha256:'verified',path:'/one',bytes:1,vertices:0};
-function harness({ownerProfile=false,first,second,third=Promise.resolve()}){
-  const writes=[],calls=[],rows=[unrelated],wait=operation=>operation;
-  const prepare=(label,operation)=>async(components,requestSignal,adapter)=>{
-    calls.push(label);assert.equal(components,rows);assert.equal(adapter,wait);requestSignal.throwIfAborted();await adapter(operation);
-  };
-  const ctx={cache:new Map(),fetchBounded:async()=>new Uint8Array([1]),checked:async b=>b,
-    normalizeBuildingShard:()=>({schema_version:1,city:'berlin',components:rows,decodedPayloadCost:{retainedPayloadEstimateBytes:32}}),
-    city:'berlin',maxVertices:200000,prepareOwnerF029Reconstruction:prepare('F029',first),prepareOwnerF033Reconstruction:prepare('F033',second),prepareNonBerlinOwnerRoutes:prepare('city',third),
-    options:{awaitPaintInitialization:wait},ownerShapePatchProfile:()=>ownerProfile?{}:null,verifyOwnerShapePatchRows:()=>{},
-    ownerProfileByComponent:new WeakMap(),retainedShardCost:new WeakMap(),remember:(...args)=>writes.push(args),
-    shadowAdmissionForDecodedShard:()=>null,manifest:{city_boundary:{sha256:'boundary'}},mobile:false,
-    THREE_D_DECODED_PAYLOAD_LIMITS:{desktop:1024,mobile:1024},shadowByShard:new WeakMap(),estimateRetainedBuildingPayload:()=>({retainedPayloadEstimateBytes:0}),
-    sourceLeafByFeature:new WeakMap(),prepareSourceRoleDisplay:async()=>{}};
-  return{...createHarness(ctx),writes,calls,rows};
+function harness({ownerProfile=false,fetchGate=Promise.resolve(),verifyGate=Promise.resolve(),profileFailure}={}){
+  const calls=[],rows=[unrelated],bytes=new Uint8Array([1]),profile={sha256:'tiny-profile'},nativeReleases=[];
+  const resources=createChunkResourceStore({budget:createResourceBudget({limitBytes:64*1024**2,recentLimitBytes:0}),recentMaxEntries:0,recentMaxIdleMs:0});
+  const noGlobalPrepare=()=>{throw Error('Raw native admission must not prepare global owner recipes');};
+  // The page native source client: fetch and verification happen inside the shared pool.
+  const nativeSources={resources,ownerKey:'root500:fixture-owner',async acquire(leaf,requestSignal,maxVertices,role){
+    requestSignal.throwIfAborted();assert.equal(leaf,shard);assert.equal(maxVertices,200000);assert.equal(role,'dependency');
+    calls.push('fetch');await fetchGate;requestSignal.throwIfAborted();calls.push('verify');await verifyGate;requestSignal.throwIfAborted();calls.push('normalize');
+    const raw={schema_version:1,city:'berlin',components:rows,decodedPayloadCost:{retainedPayloadEstimateBytes:32}};
+    const parent=resources.acquire({contentKey:JSON.stringify(['fixture-native-leaf',leaf.tile_key,leaf.sha256]),role:'source',allowRecent:false,estimate:{category:'metadata',bytes:64,precision:'exact'},produce:()=>({raw})});
+    await parent.ready;let released=false;
+    return{raw,verified:bytes,physicalBytes:leaf.bytes,retainResource:held=>parent.retain(held),release(){if(released)return;released=true;nativeReleases.push(leaf.tile_key);parent.release();}};
+   },destroy(){}};
+  const ctx={resources,createWantedResourceLeases,ResourceBudgetExceededError,resourceContentKey,city:'berlin',maxVertices:200000,mobile:false,loadCount:0,
+    manifestSHA:'manifest',manifest:{source_pbf_sha256:'pbf',city_boundary:{sha256:'boundary'},compiler_sha256:'compiler',source_snapshot:'snapshot'},sourceOwnerKey:'root500:fixture-owner',sourceDiagnostics:new Map(),sourceContentByFeature:new WeakMap(),sourceResourceByFeature:new WeakMap(),
+    options:{awaitPaintInitialization:noGlobalPrepare,frozenData:{acquire:noGlobalPrepare},nativeSources},ownerShapePatchProfile:()=>ownerProfile?profile:null,verifyOwnerShapePatchRows:(components,actualProfile)=>{calls.push('profile');assert.equal(components,rows);assert.equal(actualProfile,profile);if(profileFailure)throw profileFailure;},
+    ownerProfileByComponent:new WeakMap(),retainedShardCost:new WeakMap(),
+    shadowAdmissionForDecodedShard:()=>null,THREE_D_DECODED_PAYLOAD_LIMITS:{desktop:1024,mobile:1024},shadowByShard:new WeakMap(),estimateRetainedBuildingPayload:()=>({retainedPayloadEstimateBytes:0}),
+    sourceLeafByFeature:new WeakMap(),prepareSourceRoleDisplay:()=>{throw Error('Raw admission must not prepare source roles; final selected commit owns this gate');}};
+  const scope=new Proxy(ctx,{has:()=>true,get:(target,key)=>key===Symbol.unscopables?undefined:key in target?target[key]:globalThis[key],set:(target,key,value)=>(target[key]=value,true)});
+  const production=Function('scope','with(scope){'+js+'}')(scope),key=production.sourceResourceKey(shard);
+  // The manager registers its wanted set before it reads any shard; withdrawn demand cancels the production.
+  const want=()=>production.wantedSources.reconcile([{leaf:shard,contentKey:key}]),withdraw=()=>production.wantedSources.reconcile([]);
+  const content=()=>{if(!production.wantedSources.keys.includes(key))return undefined;const lease=production.wantedSources.retain(key,'selected');try{return lease.value;}finally{lease.release();}};
+  return{shard:(leaf,requestSignal)=>production.shard(leaf,requestSignal),get loadCount(){return ctx.loadCount;},calls,rows,ctx,profile,want,withdraw,content,resources,nativeReleases};
 }
+const bounded=failure=>error=>error instanceof Error&&error.name===failure.name&&error.message===failure.message;
 
-test('all owner prepares complete before either shard branch admits its cache entry',async()=>{
+test('native boundary: ordinary/profile fetch and verification finish before raw admission without global owner preparation',async()=>{
   for(const ownerProfile of [false,true]){
-    const first=deferred(),second=deferred(),third=deferred(),h=harness({ownerProfile,first:first.promise,second:second.promise,third:third.promise});
-    const pending=h.shard(shard,signal());await tick();assert.deepEqual(h.calls,['F029']);assert.equal(h.writes.length,0);
-    first.resolve();await tick();assert.deepEqual(h.calls,['F029','F033']);assert.equal(h.writes.length,0);
-    second.resolve();await tick();assert.deepEqual(h.calls,['F029','F033','city']);assert.equal(h.writes.length,0);third.resolve();assert.equal(await pending,h.rows);assert.equal(h.writes.length,1);
+    const fetch=deferred(),verify=deferred(),h=harness({ownerProfile,fetchGate:fetch.promise,verifyGate:verify.promise});h.want();
+    const pending=h.shard(shard,signal());await tick();assert.deepEqual(h.calls,['fetch']);assert.equal(h.loadCount,0);
+    fetch.resolve();await tick();assert.deepEqual(h.calls,['fetch','verify']);assert.equal(h.loadCount,0);
+    verify.resolve();
+    assert.equal(await pending,h.rows);assert.equal(h.loadCount,1);assert.equal(h.content().components,h.rows);assert.equal(h.ctx.retainedShardCost.get(h.rows),32);
+    if(ownerProfile){assert.deepEqual(h.calls,['fetch','verify','normalize','profile']);assert.equal(h.ctx.ownerProfileByComponent.get(h.rows[0]),h.profile);}else{assert.deepEqual(h.calls,['fetch','verify','normalize']);assert.equal(h.ctx.sourceLeafByFeature.get(h.rows[0].sourceFeature),shard.sha256);}
+    const calls=[...h.calls];assert.equal(await h.shard(shard,signal()),h.rows);assert.deepEqual(h.calls,calls);assert.equal(h.loadCount,1,'a live source content is reused, never produced again');
+    h.withdraw();
   }
 });
 
-test('second prepare cancellation or failure cannot admit an owner-profile shard',async()=>{
-  const second=deferred(),controller=new AbortController(),cancelled=harness({ownerProfile:true,first:Promise.resolve(),second:second.promise});
-  const pending=cancelled.shard(shard,controller.signal);await tick();assert.deepEqual(cancelled.calls,['F029','F033']);
-  controller.abort();second.resolve();await assert.rejects(pending,{name:'AbortError'});assert.equal(cancelled.writes.length,0);
-  const gate=deferred(),failure=new Error('second owner session failed'),failed=harness({ownerProfile:true,first:Promise.resolve(),second:gate.promise});
-  const rejected=failed.shard(shard,signal());await tick();gate.reject(failure);await assert.rejects(rejected,error=>error===failure);assert.equal(failed.writes.length,0);
+test('native boundary: cancellation before or during native fetch/verification never admits either branch',async()=>{
+  for(const ownerProfile of [false,true]){
+    const already=new AbortController(),cold=harness({ownerProfile});already.abort();await assert.rejects(cold.shard(shard,already.signal),{name:'AbortError'});assert.deepEqual(cold.calls,[]);assert.equal(cold.loadCount,0);
+    for(const phase of ['fetch','verify']){
+      const gate=deferred(),controller=new AbortController(),h=harness({ownerProfile,[phase+'Gate']:gate.promise});h.want();const pending=h.shard(shard,controller.signal);await tick();assert.equal(h.calls.at(-1),phase);assert.equal(h.loadCount,0);
+      controller.abort();h.withdraw();const rejected=assert.rejects(pending,{name:'AbortError'});gate.resolve();await rejected;for(let i=0;i<4;i++)await tick();
+      assert.equal(h.loadCount,0);assert.equal(h.content(),undefined);assert.equal(h.resources.stats.resources,0,'withdrawn demand leaves no source content');
+    }
+  }
 });
 
-
-test('city-route cancellation or failure cannot admit either shard branch',async()=>{
+test('native boundary: native fetch/verification and branch validation failures never admit raw rows',async()=>{
   for(const ownerProfile of [false,true]){
-    const third=deferred(),controller=new AbortController(),cancelled=harness({ownerProfile,first:Promise.resolve(),second:Promise.resolve(),third:third.promise});
-    const pending=cancelled.shard(shard,controller.signal);await tick();assert.deepEqual(cancelled.calls,['F029','F033','city']);controller.abort();third.resolve();await assert.rejects(pending,{name:'AbortError'});assert.equal(cancelled.writes.length,0);
-    const gate=deferred(),failure=new Error('city route session failed'),failed=harness({ownerProfile,first:Promise.resolve(),second:Promise.resolve(),third:gate.promise});
-    const rejected=failed.shard(shard,signal());await tick();gate.reject(failure);await assert.rejects(rejected,error=>error===failure);assert.equal(failed.writes.length,0);
+    for(const phase of ['fetch','verify']){
+      const gate=deferred(),failure=new Error('tiny native '+phase+' failed'),h=harness({ownerProfile,[phase+'Gate']:gate.promise});h.want();const pending=h.shard(shard,signal());await tick();assert.equal(h.calls.at(-1),phase);
+      // The page store hands every waiter a bounded copy of the production failure.
+      const rejected=assert.rejects(pending,bounded(failure));gate.reject(failure);await rejected;assert.equal(h.loadCount,0);h.withdraw();
+    }
   }
+  const failure=new Error('tiny profile verification failed'),profile=harness({ownerProfile:true,profileFailure:failure});profile.want();await assert.rejects(profile.shard(shard,signal()),bounded(failure));assert.equal(profile.loadCount,0);assert.equal(profile.ctx.ownerProfileByComponent.has(profile.rows[0]),false);
+  for(let i=0;i<4;i++)await tick();assert.deepEqual(profile.nativeReleases,['one'],'the failed production returns its native source');profile.withdraw();
 });

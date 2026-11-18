@@ -3,6 +3,7 @@
  * No geometry, opening count on unknown wings, rooflight or new material family.
  * Only the two existing Hbf private programmes receive this postprocess.
  */
+import {deferredShaderSourcePart,emitShaderSource,joinShaderSourceParts,type ShaderSourcePart} from '../../../safety/render-runtime/shader-source-budget';
 export const HBF_PRIMARY108_GLSL=String.raw`
 float h108band(float x,float center,float halfWidth,float softness){return 1.-smoothstep(halfWidth,halfWidth+softness,abs(x-center));}
 float h108box(vec2 p,vec2 center,vec2 halfSize){vec2 d=abs(p-center)-halfSize;return 1.-smoothstep(-.025,.025,max(d.x,d.y));}
@@ -163,10 +164,20 @@ vec3 frankfurtHbfPrimary108(vec3 c,vec3 p,vec3 normal,vec4 frame,float family){
 /** Inverse scope: other named programmes and every city/base are byte identical.
  * Existing genuine Hbf material ownership/frames already certify these families.
  */
+const HBF_PRIMARY108_ENTRY='vec3 paintedFacade(',HBF_PRIMARY108_RENAMED_ENTRY='vec3 hbf108OriginalPaintedFacade(';
+const HBF_PRIMARY108_WRAPPER='\nvec3 paintedFacade(vec3 base,vec3 p,vec3 normal,vec4 frame,float family){return frankfurtHbfPrimary108(hbf108OriginalPaintedFacade(base,p,normal,frame,family),p,normal,frame,family);}\n';
 export function hbfPrimary108PrivatePartition(source:string,key:string,city:string){
  if(city!=='frankfurt'||(key!=='infill-frankfurt-hbf075'&&key!=='owner6349'))return source;
- const certificate='vec3 paintedFacade(';
+ const certificate=HBF_PRIMARY108_ENTRY;
  if(source.split(certificate).length!==2||source.includes('frankfurtHbfPrimary108('))throw Error('Hbf108 private entry certificate mismatch');
  if(!source.includes('frankfurtHauptbahnhofWhole137('))throw Error('Hbf108 original dependency missing');
- return source.replace(certificate,'vec3 hbf108OriginalPaintedFacade(')+HBF_PRIMARY108_GLSL+'\nvec3 paintedFacade(vec3 base,vec3 p,vec3 normal,vec4 frame,float family){return frankfurtHbfPrimary108(hbf108OriginalPaintedFacade(base,p,normal,frame,family),p,normal,frame,family);}\n';
+ return source.replace(certificate,HBF_PRIMARY108_RENAMED_ENTRY)+HBF_PRIMARY108_GLSL+HBF_PRIMARY108_WRAPPER;
+}
+
+const HBF_PRIMARY108_SOURCE_AUTHORITY=Object.freeze({});
+export function hbfPrimary108SourcePart(source:ShaderSourcePart,key:string,city:string):ShaderSourcePart{
+ if(city!=='frankfurt'||(key!=='infill-frankfurt-hbf075'&&key!=='owner6349'))return source;
+ const renamed=source.charactersUpperBound-HBF_PRIMARY108_ENTRY.length+HBF_PRIMARY108_RENAMED_ENTRY.length,withHelper=renamed+HBF_PRIMARY108_GLSL.length,size=withHelper+HBF_PRIMARY108_WRAPPER.length;
+ const tokens=joinShaderSourceParts([source,HBF_PRIMARY108_RENAMED_ENTRY,HBF_PRIMARY108_GLSL,HBF_PRIMARY108_WRAPPER]),inputEmission=source.emissionCharactersUpperBound;
+ return deferredShaderSourcePart({charactersUpperBound:size,syntaxUpperBound:tokens.syntaxUpperBound,emissionCharactersUpperBound:inputEmission===undefined?undefined:Math.max(inputEmission,source.charactersUpperBound+source.charactersUpperBound,source.charactersUpperBound+renamed+withHelper+size),authority:HBF_PRIMARY108_SOURCE_AUTHORITY,authorityTrace:[...source.authorityTrace,'hbf-primary108:one-entry-rename-and-original-wrapper'],build:()=>hbfPrimary108PrivatePartition(emitShaderSource(source),key,city)});
 }

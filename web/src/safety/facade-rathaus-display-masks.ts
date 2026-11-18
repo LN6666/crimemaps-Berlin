@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from './building-mesh-types';
 
 /** A render-only ownership mask on an original flat wall. No source geometry or
  * membership is changed. The caller may discard covered proxy fragments while

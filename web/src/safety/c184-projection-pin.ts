@@ -19,7 +19,7 @@ export const C184_PROJECTION_REGISTRY={
       11.0796908,
       49.446685450000004
     ],
-    "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Nuremberg/safety/buildings3d/nuremberg/roof-00570.json.gz",
+    "sourceLeaf": "source-evidence/f3a903a9d425483911f5/safety/buildings3d/nuremberg/roof-00570.json.gz",
     "sourceSHA256": "813737fb81c8ae30bdb81c5235b97a6269ede4e2207c344970bbfeae362d1360",
     "geometrySignature": "bd440f00",
     "componentGeometry": {
@@ -124,7 +124,7 @@ export const C184_PROJECTION_REGISTRY={
       "city": "nuremberg",
       "objectId": "osm/way/32697333",
       "partId": "osm/way/32697333/component/db486aa95dd66f67eaac",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Nuremberg/safety/buildings3d/nuremberg/roof-00570.json.gz",
+      "sourceLeaf": "source-evidence/f3a903a9d425483911f5/safety/buildings3d/nuremberg/roof-00570.json.gz",
       "sourceLeafSHA256": "813737fb81c8ae30bdb81c5235b97a6269ede4e2207c344970bbfeae362d1360",
       "rawSignature": "bd440f00",
       "rawBuffers": [

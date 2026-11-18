@@ -1,10 +1,16 @@
-import type {BuildingComponent} from './building-mesh-renderer';
-import {frankfurtGroups144146Official073Reconstruction,frankfurtGroups144146Official073BaseMaterials} from './frankfurt-groups144146-official073';
+import {infillResourceIdentityCandidate} from './infill-resource-header-metadata';
+import {prepareInfillDataResources} from './infill-owner-preparation';
+import {scopedInfillValue} from './infill-data-contract';
+import type {InfillDataModule,InfillDataPreparationContext} from './infill-data-contract';
+import type {FrozenDataRef} from '../../../safety/frozen-data-lease-store';
+import type {FrozenDataScope} from '../../../safety/frozen-data-scope';
+import type {BuildingComponent} from "../../../safety/building-mesh-types";
+import {frankfurtGroups144146Official073Reconstruction as __infillFunctionDependency0,frankfurtGroups144146Official073BaseMaterials as __infillFunctionDependency1} from './frankfurt-groups144146-official073';
 import {FRA145_RETURN087_DATA as D} from './fra145-return087-data';
 
 type Snapshot={header:unknown;batches:{positions:number[];normals:number[];indices:number[];color:number[];faceRole:unknown}[]};
 type Record087={source:BuildingComponent;snapshot:Snapshot};
-const owned=new WeakMap<BuildingComponent,Record087>();
+
 const selected=new WeakMap<BuildingComponent,{vertex:number;u:number;h:number;marker:87|88}[]>();
 const target=(c:BuildingComponent)=>c.city==='frankfurt'&&c.objectId===D.objectId&&c.partId===D.partId;
 function copy(x:unknown):unknown{if(Array.isArray(x)||ArrayBuffer.isView(x)){if(x instanceof DataView)return null;return Array.from(x as ArrayLike<unknown>,copy);}if(x&&typeof x==='object')return Object.fromEntries(Object.entries(x).map(([k,v])=>[k,copy(v)]));return x;}
@@ -13,30 +19,10 @@ const header=(c:BuildingComponent)=>[c.city,c.objectId,c.partId,c.origin,c.compo
 function snapshot(c:BuildingComponent):Snapshot{return{header:copy(header(c)),batches:c.batches.map(b=>({positions:Array.from(b.positions),normals:Array.from(b.normals),indices:Array.from(b.indices),color:Array.from(b.color),faceRole:b.faceRole??null}))};}
 function unchanged(c:BuildingComponent,s:Snapshot){try{return equal(header(c),s.header)&&c.batches.length===s.batches.length&&c.batches.every((b,i)=>(b.faceRole??null)===s.batches[i].faceRole&&(['positions','normals','indices','color'] as const).every(k=>equal(b[k],s.batches[i][k])));}catch{return false;}}
 const count=(c:BuildingComponent)=>c.batches.reduce((n,b)=>n+b.positions.length/3,0);
-function authorized(c:BuildingComponent){
- if(!target(c)||(c.displayEstimates?.frankfurtGroups144146Official073 as {patchSHA?:string}|undefined)?.patchSHA!==D.expected073PatchSHA)return false;
- const n=count(c);if(n!==D.displayFingerprint.vertices)return false;
- const paint=new Float32Array(n*4),frames=new Float32Array(n*5);
- // Original073 verifies its private WeakMap and retained exact native SOURCE.
- // Public identity, serialized receipts and matching fingerprints grant no right.
- try{const r=frankfurtGroups144146Official073BaseMaterials([c],paint,frames);if(r.objects!==1||r.vertices!==n)return false;
-  let at=0;for(const batch of c.batches){const b=batch as typeof batch&{paint?:ArrayLike<number>;frames?:ArrayLike<number>},v=b.positions.length/3;if(!b.paint||!b.frames||b.paint.length!==v*4||b.frames.length!==v*5)return false;for(let j=0;j<v*4;j++)if(!Object.is(b.paint[j],paint[at*4+j]))return false;for(let j=0;j<v*5;j++)if(!Object.is(b.frames[j],frames[at*5+j]))return false;at+=v;}
-  return{paint,frames};
- }catch{return false;}
-}
+
 /** Delegate original073 once, preserving its exact output objects, statistics,
  * geometry, own attributes and receipts. Only this one raw SOURCE is recorded. */
-export function fra145Return087Reconstruction(components:BuildingComponent[]){
- const result=frankfurtGroups144146Official073Reconstruction(components);
- const inputs=components.filter(target),outputs=result.components.filter(target);
- if(inputs.length!==1||outputs.length!==1)return result;
- const input=inputs[0],output=outputs[0],prior=owned.get(input);
- if(prior&&!unchanged(prior.source,prior.snapshot))return result;
- if(!prior&&input.displayEstimates?.frankfurtGroups144146Official073)return result;
- if(!authorized(output))return result;
- owned.set(output,prior??{source:input,snapshot:snapshot(input)});
- return result;
-}
+
 function find(c:BuildingComponent){
  const cached=selected.get(c);if(cached)return cached;
  const hits:{vertex:number;u:number;h:number;marker:87|88}[]=[],found=new Set<number>();let offset=0;
@@ -47,10 +33,46 @@ function find(c:BuildingComponent){
 }
 /** Final packed frames only: family45357 + marker87/88, two genuine wall strips.
  * Leave the entire paint buffer and all SOURCE/component-owned arrays untouched. */
-export function fra145Return087MaterialFrames(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){
+
+
+import * as __infillResourceDependency0 from './frankfurt-groups144146-official073';
+import * as __infillResourceDependency1 from './frankfurt-groups144146-official073';
+const infillDataMemoKey=Object.freeze({});
+const infillOwnDataRefs:readonly FrozenDataRef[]=[];
+export const infillDataRefs:readonly FrozenDataRef[]=infillOwnDataRefs;
+export const infillDataMemoKeys:readonly object[]=[infillDataMemoKey];
+export function getInfillData(scope:FrozenDataScope|undefined){if(!scope)throw Error("fra145-return087.ts requires a prepared FrozenDataScope");return scope.memo(infillDataMemoKey,()=>{
+const frankfurtGroups144146Official073Reconstruction=(...args:Parameters<typeof __infillFunctionDependency0>)=>__infillFunctionDependency0(args[0],scope);
+const frankfurtGroups144146Official073BaseMaterials=(...args:Parameters<typeof __infillFunctionDependency1>)=>__infillFunctionDependency1(args[0],args[1],args[2],scope);
+
+
+const __infillRead_owned=scopedInfillValue(()=>new WeakMap<BuildingComponent,Record087>());
+function authorized(c:BuildingComponent){
+ if(!target(c)||(c.displayEstimates?.frankfurtGroups144146Official073 as {patchSHA?:string}|undefined)?.patchSHA!==D.expected073PatchSHA)return false;
+ const n=count(c);if(n!==D.displayFingerprint.vertices)return false;
+ const paint=new Float32Array(n*4),frames=new Float32Array(n*5);
+ // Original073 verifies its private WeakMap and retained exact native SOURCE.
+ // Public identity, serialized receipts and matching fingerprints grant no right.
+ try{const r=frankfurtGroups144146Official073BaseMaterials([c],paint,frames,scope);if(r.objects!==1||r.vertices!==n)return false;
+  let at=0;for(const batch of c.batches){const b=batch as typeof batch&{paint?:ArrayLike<number>;frames?:ArrayLike<number>},v=b.positions.length/3;if(!b.paint||!b.frames||b.paint.length!==v*4||b.frames.length!==v*5)return false;for(let j=0;j<v*4;j++)if(!Object.is(b.paint[j],paint[at*4+j]))return false;for(let j=0;j<v*5;j++)if(!Object.is(b.frames[j],frames[at*5+j]))return false;at+=v;}
+  return{paint,frames};
+ }catch{return false;}
+}
+function fra145Return087Reconstruction(components:BuildingComponent[]){
+ const result=frankfurtGroups144146Official073Reconstruction(components,scope);
+ const inputs=components.filter(target),outputs=result.components.filter(target);
+ if(inputs.length!==1||outputs.length!==1)return result;
+ const input=inputs[0],output=outputs[0],prior=__infillRead_owned().get(input);
+ if(prior&&!unchanged(prior.source,prior.snapshot))return result;
+ if(!prior&&input.displayEstimates?.frankfurtGroups144146Official073)return result;
+ if(!authorized(output))return result;
+ __infillRead_owned().set(output,prior??{source:input,snapshot:snapshot(input)});
+ return result;
+}
+function fra145Return087MaterialFrames(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){
  const total=components.reduce((n,c)=>n+count(c),0),candidates=components.filter(target);
  if(candidates.length!==1||paint.length!==total*4||frames.length!==total*5)return{objects:0,vertices:0};
- const c=candidates[0],record=owned.get(c);if(!record||!unchanged(record.source,record.snapshot))return{objects:0,vertices:0};
+ const c=candidates[0],record=__infillRead_owned().get(c);if(!record||!unchanged(record.source,record.snapshot))return{objects:0,vertices:0};
  const actual=authorized(c),hits=actual&&find(c);if(!actual||!hits)return{objects:0,vertices:0};
  let offset=0;for(const q of components){if(q===c)break;offset+=count(q);}
  // Atomic preflight; never partly write after a later selected-vertex mismatch.
@@ -58,3 +80,24 @@ export function fra145Return087MaterialFrames(components:BuildingComponent[],pai
  for(const h of hits){const at=(offset+h.vertex)*5;frames[at]=h.u;frames[at+1]=h.h;frames[at+3]=h.marker;}
  return{objects:1,vertices:69};
 }
+
+return {get owned(){return __infillRead_owned();},fra145Return087Reconstruction,fra145Return087MaterialFrames};
+});}
+function getowned(scope:FrozenDataScope|undefined){return getInfillData(scope).owned;}
+export function fra145Return087Reconstruction(...args:[...Parameters<ReturnType<typeof getInfillData>['fra145Return087Reconstruction']>,scope?:FrozenDataScope]){const scope=args[1] as FrozenDataScope|undefined;if(scope?.stats.disposed)getInfillData(scope);if(!mayMatchInfillData(Array.isArray(args[0])?args[0]:[args[0] as BuildingComponent])&&!hasRetainedInfillOwner(Array.isArray(args[0])?args[0]:[args[0] as BuildingComponent],scope))return fra145Return087ReconstructionCold(args[0],scope);return getInfillData(scope).fra145Return087Reconstruction(...args.slice(0,1) as Parameters<ReturnType<typeof getInfillData>['fra145Return087Reconstruction']>);}
+export function fra145Return087MaterialFrames(...args:[...Parameters<ReturnType<typeof getInfillData>['fra145Return087MaterialFrames']>,scope?:FrozenDataScope]){const scope=args[3] as FrozenDataScope|undefined;if(scope?.stats.disposed)getInfillData(scope);if(!mayMatchInfillData(Array.isArray(args[0])?args[0]:[args[0] as BuildingComponent])&&!hasRetainedInfillOwner(Array.isArray(args[0])?args[0]:[args[0] as BuildingComponent],scope))return fra145Return087MaterialFramesCold(args[0],args[1],args[2],scope);return getInfillData(scope).fra145Return087MaterialFrames(...args.slice(0,3) as Parameters<ReturnType<typeof getInfillData>['fra145Return087MaterialFrames']>);}
+export const infillDataFunctionArities={"fra145Return087Reconstruction":1,"fra145Return087MaterialFrames":3} as const;
+
+export const infillDataDependencies=():readonly InfillDataModule[]=>[__infillResourceDependency0,__infillResourceDependency1];
+
+function fra145Return087ReconstructionCold(components:BuildingComponent[],scope?:FrozenDataScope){
+return __infillFunctionDependency0(components,scope);}
+
+function fra145Return087MaterialFramesCold(components:BuildingComponent[],paint:Float32Array,frames:Float32Array,scope?:FrozenDataScope){const total=components.reduce((n,c)=>n+count(c),0),candidates=components.filter(target);
+if(candidates.length!==1||paint.length!==total*4||frames.length!==total*5)return{objects:0,vertices:0};
+return {objects:0,vertices:0};}
+
+function hasRetainedInfillOwner(components:readonly BuildingComponent[],scope?:FrozenDataScope){return !!scope&&!scope.stats.disposed&&components.some(c=>getInfillData(scope).owned.has(c));}
+export function mayMatchInfillData(components:readonly BuildingComponent[]){return components.some(c=>(infillResourceIdentityCandidate("fra145-return087.ts",c)||c.displayEstimates?.frankfurtGroups144146Official073));}
+export async function prepareInfillData(components:readonly BuildingComponent[],signal:AbortSignal,scope:FrozenDataScope,context?:InfillDataPreparationContext){signal.throwIfAborted();if(!mayMatchInfillData(components)&&!hasRetainedInfillOwner(components,scope))return;await prepareInfillDataResources({infillDataRefs,infillDataDependencies},components,signal,scope,context);}
+export const infillDataMetadataFunctions=[] as const;

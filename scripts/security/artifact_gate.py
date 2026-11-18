@@ -21,6 +21,16 @@ PRIVATE = {"raw_html", "article_body", "source_body", "raw_body", "full_body", "
 FORBIDDEN_PARTS = {".runtime", ".git", "node_modules", "src", "test_suite", "reviews", "review", "archives", "archive", "source-downloads"}
 SECRET = re.compile(rb"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|\bgh[pousr]_[A-Za-z0-9]{30,}\b|\bgithub_pat_[A-Za-z0-9_]{60,}\b|\bAKIA[A-Z0-9]{16}\b")
 SVG_TAGS = set("svg g path circle ellipse line polyline polygon rect text tspan title desc defs linearGradient radialGradient stop clipPath mask use".split())
+FRONTEND_SUFFIXES = {".html", ".js", ".mjs", ".css"}
+# Match a filesystem reference at its start. A public URL can legitimately
+# contain /Users/ or /home/ after its host or another path component.
+WORKSTATION_HOME = re.compile(
+    rb"(?<![a-z0-9_./%+-])(?:"
+    rb"(?:file://(?:localhost)?)?/(?:Users|home)/[^/\\\r\n\x22\x27\x60<>?#]+/"
+    rb"|(?:file:///)?[a-z]:[\\/]+Users[\\/]+[^/\\\r\n\x22\x27\x60<>?#]+[\\/])",
+    re.IGNORECASE,
+)
+WORKSTATION_HOME_TEXT = re.compile(WORKSTATION_HOME.pattern.decode("ascii"), re.IGNORECASE | re.ASCII)
 
 # Only the existing city data transports are gzip. Executable/archive suffixes
 # remain forbidden; decoded JSON receives the same content checks as raw JSON.
@@ -28,13 +38,37 @@ MAX_GZIP_FILE_BYTES = 64 * 1024**2
 MAX_GZIP_TOTAL_BYTES = 4_000_000_000
 
 
+REGIONAL_SCHEMAS = {
+    "source-packed-ordinals": "B-source-packed-ordinals-v1",
+    "cohort": "environment-ground-regional-cohort-v1",
+    "page": "environment-ground-regional-page-v1",
+    "held-page": "environment-ground-regional-held-page-v1",
+    "provenance": "environment-ground-regional-provenance-v1",
+    "source-partition-proof": "environment-ground-source-partition-proof-v1",
+}
+
+def regional_binding(relative, city):
+    hard = re.fullmatch(rf"safety/environment/{city}/hard-surface-(catalog|display-mesh|membership-proof)-[a-f0-9]{{64}}\.json\.gz", relative)
+    if hard:
+        schemas = {"catalog": "environment-hard-surface-display-catalog-v1", "display-mesh": "environment-hard-surface-display-mesh-v1", "membership-proof": "environment-hard-surface-display-membership-proof-v1"}
+        return city, schemas[hard[1]]
+    match = re.fullmatch(rf"safety/environment/{city}/regional-(cohort|page|held-page|provenance|source-partition-proof|source-packed-ordinals)-[a-f0-9]{{64}}\.json\.gz", relative)
+    return (city, REGIONAL_SCHEMAS[match[1]]) if match else None
+
+
 def compressed_json_path(relative, city):
     hashed = [
+        rf"safety/environment/{city}/hard-surface-(?:catalog|display-mesh|membership-proof)-(?P<sha>[a-f0-9]{{64}})\.json\.gz",
+        r"safety/lossless/english3-(?P<sha>[a-f0-9]{64})\.json\.gz",
+        rf"safety/environment/{city}/regional-(?:cohort|page|held-page|provenance|source-partition-proof|source-packed-ordinals)-(?P<sha>[a-f0-9]{{64}})\.json\.gz",
         r"safety/lossless/(?P<sha>[a-f0-9]{64})\.json\.gz",
         r"safety/buildings3d/painted-tables/(?P<prefix>[a-f0-9]{2})/(?P<sha>[a-f0-9]{64})\.json\.gz",
         r"safety/buildings3d/capability-native-lod1-(?P<sha>[a-f0-9]{64})\.json\.gz",
         rf"safety/buildings3d/{city}/(?:partition|roof500|roof500-partition)-(?P<sha>[a-f0-9]{{64}})\.json\.gz",
-        rf"safety/environment/{city}/(?:environment|partition)-(?P<sha>[a-f0-9]{{64}})\.json\.gz",
+        rf"safety/buildings3d/detail-variants/{city}/[a-f0-9]{{64}}/(?:groups|mid|coarse)-(?P<sha>[a-f0-9]{{64}})\.json\.gz",
+        # Building-focus leaf metadata (v2): canonical index SHA directory, wire-SHA file name.
+        rf"safety/buildings3d/focus/{city}/[a-f0-9]{{64}}/(?P<sha>[a-f0-9]{{64}})\.json\.gz",
+        rf"safety/environment/{city}/(?:environment|partition|ground-overview)-(?P<sha>[a-f0-9]{{64}})\.json\.gz",
     ]
     for pattern in hashed:
         match = re.fullmatch(pattern, relative)
@@ -50,7 +84,13 @@ def compressed_json_path(relative, city):
     raise ValueError("Unsupported compressed artifact path")
 
 
-def check_gzip_json(path, limit):
+def painted_table_path(relative, raw_sha256=None):
+    match = re.fullmatch(r"safety/buildings3d/painted-tables/([a-f0-9]{2})/([a-f0-9]{64})\.json(?:\.gz)?", relative)
+    return bool(match and match[1] == match[2][:2]
+                and (relative.endswith(".gz") or match[2] == raw_sha256))
+
+
+def check_gzip_json(path, limit, *, painted_table=False, regional=None, translation_city=None, building_data=False):
     raw = bytearray()
     with path.open("rb") as compressed:
         if compressed.read(4) != b"\x1f\x8b\x08\x00":
@@ -62,9 +102,22 @@ def check_gzip_json(path, limit):
             raw.extend(chunk)
     if SECRET.search(raw):
         raise ValueError("Credential signature found; details suppressed")
-    check_json(json.loads(raw))
+    raw_sha256 = hashlib.sha256(raw).hexdigest()
+    document = json.loads(raw)
+    check_json(document, painted_table_sha256=raw_sha256 if painted_table else None,
+               building_data=building_data or painted_table)
+    if regional is not None:
+        if not isinstance(document, dict) or (document.get("city"), document.get("schema")) != regional:
+            raise ValueError("Regional asset city/schema binding differs")
+    if translation_city is not None:
+        if (not isinstance(document, dict) or document.get("city") != translation_city or
+                document.get("locale") != "en" or type(document.get("schema_version")) is not int or document["schema_version"] != 1 or
+                not re.fullmatch(r"\d{4}-(?:0[1-9]|1[0-2])", str(document.get("month", ""))) or
+                not re.fullmatch(r"[a-f0-9]{16}-\d{8}T\d{6}", str(document.get("source_generation", ""))) or
+                not isinstance(document.get("fields"), list) or not isinstance(document.get("texts"), (dict, list))):
+            raise ValueError("English translation transport binding differs")
     return {"encoding": "gzip", "decoded_bytes": len(raw),
-            "decoded_sha256": hashlib.sha256(raw).hexdigest()}
+            "decoded_sha256": raw_sha256}
 
 def digest(path):
     h = hashlib.sha256()
@@ -73,16 +126,103 @@ def digest(path):
             h.update(chunk)
     return h.hexdigest()
 
-def check_json(value):
-    stack = [value]
+def owner_shape_provenance(item, path):
+    """Exact public model-provenance text, not authority or geometry validation."""
+    return (
+        path is not None and len(path) == 5
+        and path[0] == "components" and type(path[1]) is int
+        and path[2:] == ("sourceFeature", "properties", "owner_shape_patch")
+        and item.get("authorization") in (
+            "scope/delegated-full500-repair-authorization-evidence.json",
+            "Delegatedfull500 originalsource-backedmissingcomponentrepair; no sourcefootprintexpansion.",
+            "User: 修复这种缺陷建筑，把它还原回来。",
+        )
+    )
+
+def palette_provenance(item, path, root, table_sha256):
+    """Two reviewed colour-provenance literals in exact frozen table variants.
+
+    The digest is computed from actual raw bytes by scan/decode, never read from
+    a JSON claim. The stored request is data, not publication authorization.
+    """
+    # Frozen master variants and exact Frankfurt profile tables retain
+    # the same reviewed record. Bind its position separately for each digest.
+    row = {
+        "bf6c0c7678fb129cb3fbf9946a3ca9a491370a8489022e5c492ce7e8fd60f651": 88,
+        "d94bfab58ea8a0cecba91b0180cc362dc4f3e963c00b5a03dba0a56326afbe83": 88,
+        "c636dac655350b26d5e46e924821a6b968b00836f211039ef5e54dc072812e01": 2,
+        "e1eb4b39b1fc0f821147d4cf112734e8fc36be3332fa5f3fd9832b36587a6578": 2,
+        "ee6cf6a408e7098f6112ef1cfca3cad7115e3c7014ca0d0cbeada693a64d0f77": 2,
+        "f7e3b4b8e23ef7a3145a84180aae9ffb2bc115b3d68fefeb3c7b0e084a452a0b": 2,
+        "cfc11cd9c71facd52bce2504d1a5f077a4787311c07170c63c9ba960bb4c41db": 2,
+        "7ff08cb8b054694b1e31bf0d243ffb5cd9eebb27f0e2f03159314d05f8ba105a": 2,
+        "0d0fef767520d12c46dc01f4e647e78c02494ae485128947b59da3d1e3b246eb": 2,
+        "4568938b48880e52bd690758d8d44df2e9bff4ded295fa5c0009584be17b8b02": 2,
+        # Same Frankfurt evidence records after replacing workstation paths with public source identifiers.
+        "bdc8cda78d49ab563e50faa03b83604c3090dd049855f18e930268b986ac7e82": 88,
+        "f6a72d1fd39dd43a920ef5fdb666877614042c1ce76b659eda456fa4ae1dc109": 88,
+        "a3f12e54799fea3729f2855162de0f35fa5c8735a76d30d8ebeac82931bae86b": 2,
+        "0744663c2483a62249034326a089487488b07b18245cf7e4a44e8bfd6eba3e69": 2,
+        "acdcc4cc2eda5c06538a711182745580d2bb1e0085dc302bcdfebf129b43c83f": 2,
+        "64c671814144ccc7250ed62f2f176ace8251e8017dcc689d043bfeb986b3f13c": 2,
+        "fbcaa964ee6d5d9d853055b60a44d5f265899608cc1a32efb5e9238128f1f8f1": 2,
+        "a3f34a187f8f4287a7bd4c0250d8e8362126d4022c03164d9c47f816ea02ebf5": 2,
+        "1c749ffd266676aacb7f92738ee80bd67582b18fb654df558b6e816889923d0d": 2,
+        "edaa74e40f759c3bd2dca5b64d20806d7423b2795899249886999888dd1c6d92": 2,
+    }.get(table_sha256)
+    if (row is None or not isinstance(root, list) or len(root) <= row
+            or path is None or len(path) != 3
+            or type(path[0]) is not int or path[:2] != (row, "evidence")):
+        return False
+    record = root[row]
+    if (not isinstance(record, dict)
+            or record.get("city") != "frankfurt"
+            or record.get("objectId") != "osm/way/174531611"
+            or record.get("partId") != "osm/way/174531611/component/35632db3b084b70af282"):
+        return False
+    expected = {
+        "beigeYellowPierMapping": "Direct owner 浅米色和米黄色 +root source-photo review and requested native buttress mapping",
+        "wallOwnerColorCorrection": "User explicitly requested 浅米色和米黄色, delivered by root task message",
+    }.get(path[2])
+    return expected is not None and item.get("authorization") == expected
+
+
+def check_building_text(text):
+    if ("/" in text or "\\" in text) and WORKSTATION_HOME_TEXT.search(text):
+        raise ValueError("Workstation home path in public building data")
+
+
+def check_json(value, *, painted_table_sha256=None, building_data=False):
+    stack = [(value, ())]
     while stack:
-        item = stack.pop()
+        item, path = stack.pop()
         if isinstance(item, dict):
-            if PRIVATE.intersection(str(key).lower() for key in item):
-                raise ValueError("Private JSON field in public artifact")
-            stack.extend(item.values())
+            provenance = (owner_shape_provenance(item, path)
+                          or palette_provenance(item, path, value, painted_table_sha256))
+            for key, child in item.items():
+                key = str(key)
+                if key.lower() in PRIVATE and not (key == "authorization" and provenance):
+                    raise ValueError("Private JSON field in public artifact")
+                if building_data:
+                    check_building_text(key)
+                    if isinstance(child, str):
+                        check_building_text(child)
+                # Public translation provenance must identify an approved review,
+                # not expose the producer's local filesystem. Do not scan body
+                # text here: quoted source content is not a provenance field.
+                if key.lower() == "candidate_source" and isinstance(child, str):
+                    if re.match(r"^(?:/|~[/\\]|[A-Za-z]:[/\\]|\\\\|file:)", child.strip(), re.I):
+                        raise ValueError("Local filesystem provenance in public artifact")
+                if isinstance(child, (dict, list)):
+                    stack.append((child, path + (key,) if path is not None and len(path) < 5 else None))
         elif isinstance(item, list):
-            stack.extend(item)
+            for index, child in enumerate(item):
+                if isinstance(child, (dict, list)):
+                    stack.append((child, path + (index,) if path is not None and len(path) < 5 else None))
+                elif building_data and isinstance(child, str):
+                    check_building_text(child)
+        elif building_data and isinstance(item, str):
+            check_building_text(item)
 
 def check_svg(raw):
     if b"<!DOCTYPE" in raw.upper() or b"<!ENTITY" in raw.upper():
@@ -118,11 +258,11 @@ class StaticHTML(HTMLParser):
         if tag == "meta" and attrs.get("http-equiv", "").lower() == "content-security-policy":
             policy = attrs.get("content", "")
             directives = dict((p.strip().split(None, 1) + [""])[:2] for p in policy.split(";") if p.strip())
-            if directives.get("script-src") not in {"'none'", "'self'", "'self' https://gc.zgo.at"} or directives.get("object-src") != "'none'" or directives.get("base-uri") != "'none'":
+            if directives.get("script-src") not in {"'none'", "'self'", "'self' https://gc.zgo.at", "'self' 'wasm-unsafe-eval'", "'self' https://gc.zgo.at 'wasm-unsafe-eval'"} or directives.get("object-src") != "'none'" or directives.get("base-uri") != "'none'":
                 raise ValueError("Missing restrictive executable-content CSP")
             if "cloudflare" in policy.lower() or directives.get("frame-src") not in {None, "'none'"}:
                 raise ValueError("Cancelled challenge or external frame permission")
-            self.goatcounter = directives.get("script-src") == "'self' https://gc.zgo.at"
+            self.goatcounter = "https://gc.zgo.at" in directives.get("script-src", "").split()
             maps = {"https://tile.openstreetmap.org", "https://gdi.berlin.de", "https://vector.openstreetmap.org", "https://demotiles.maplibre.org", "https://tiles.openfreemap.org"}
             connect = set(directives.get("connect-src", "").split())
             images = set(directives.get("img-src", "").split())
@@ -187,14 +327,24 @@ def scan(root, city, commit):
         if compressed:
             if named_sha is not None and physical_sha != named_sha:
                 raise ValueError("Compressed asset filename SHA differs")
-            decoded = check_gzip_json(path, min(MAX_GZIP_FILE_BYTES, MAX_GZIP_TOTAL_BYTES - decoded_total))
+            regional = regional_binding(relative, city)
+            if regional is not None and size > 1024**2:
+                raise ValueError("Regional asset exceeds transport budget")
+            decoded = check_gzip_json(path, min(1024**2 if regional else MAX_GZIP_FILE_BYTES, MAX_GZIP_TOTAL_BYTES - decoded_total),
+                                      painted_table=painted_table_path(relative), regional=regional,
+                                      building_data=relative.startswith("safety/buildings3d/"),
+                                      translation_city=city if re.fullmatch(r"safety/lossless/english3-[a-f0-9]{64}\.json\.gz", relative) else None)
             decoded_total += decoded["decoded_bytes"]
         if suffix in {".html", ".js", ".mjs", ".css", ".json", ".geojson", ".txt", ".xml", ".svg"}:
             raw = path.read_bytes()
             if SECRET.search(raw):
                 raise ValueError("Credential signature found; details suppressed")
+            if suffix in FRONTEND_SUFFIXES and WORKSTATION_HOME.search(raw):
+                raise ValueError(f"Workstation home path in public frontend: {relative}")
             if suffix in {".json", ".geojson"}:
-                check_json(json.loads(raw))
+                raw_sha256 = hashlib.sha256(raw).hexdigest()
+                check_json(json.loads(raw), building_data=relative.startswith("safety/buildings3d/"), painted_table_sha256=(
+                    raw_sha256 if painted_table_path(relative, raw_sha256) else None))
             if suffix == ".svg":
                 check_svg(raw)
             # Google's ownership response is plain text with an .html suffix.

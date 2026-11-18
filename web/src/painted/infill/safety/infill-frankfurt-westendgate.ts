@@ -1,19 +1,55 @@
-import type {BuildingComponent,Identity} from './building-mesh-renderer';
-import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
+import {prepareInfillDataResources,infillMetadataCandidate} from './infill-owner-preparation';
+import {scopedInfillValue} from './infill-data-contract';
+import type {InfillDataModule,InfillDataPreparationContext} from './infill-data-contract';
+import {infillFrankfurtWestendgateMetadata} from './bremen-infill-owner-metadata';
+import type {FrozenDataRef} from '../../../safety/frozen-data-lease-store';
+import type {FrozenDataScope} from '../../../safety/frozen-data-scope';
+import type {BuildingComponent,Identity} from "../../../safety/building-mesh-types";
+import type {OwnerReconstructionStats} from '../../../safety/owner-reconstruction-stats';
 import {nativePaintSignature} from './progressive-native-signature';
-import {WESTENDGATE_DATA,WESTENDGATE_SHA} from './infill-frankfurt-westendgate-data';
-const MODELS=WESTENDGATE_DATA.models.map(data=>({data,sha:WESTENDGATE_SHA}));
+import {getWESTENDGATE_DATA as __infillDataDependency0,WESTENDGATE_SHA} from './infill-frankfurt-westendgate-data';
+
 const unchanged=(c:BuildingComponent,source:any,signature:string)=>nativePaintSignature(c)===signature&&['origin','componentGeometry','sourceFeature'].every(k=>JSON.stringify((c as any)[k])===JSON.stringify(source[k]))&&c.batches.length===source.batches.length&&c.batches.every((b,bi)=>['positions','normals','indices','color'].every(k=>{const a=(b as any)[k],e=source.batches[bi][k];return a.length===e.length&&Array.from(a as ArrayLike<number>).every((v,j)=>Object.is(v,e[j]));}));
-export const infillFrankfurtWestendgateIdentity=(c:Identity)=>MODELS.some(m=>c.objectId===m.data.identity.objectId&&c.partId===m.data.identity.partId);
-export function infillFrankfurtWestendgateReconstruction(components:BuildingComponent[]){
+
+
+
+
+import * as __infillResourceDependency0 from './infill-frankfurt-westendgate-data';
+const infillDataMemoKey=Object.freeze({});
+const infillOwnDataRefs:readonly FrozenDataRef[]=[];
+export const infillDataRefs:readonly FrozenDataRef[]=infillOwnDataRefs;
+export const infillDataMemoKeys:readonly object[]=[infillDataMemoKey];
+export function getInfillData(scope:FrozenDataScope|undefined){if(!scope)throw Error("infill-frankfurt-westendgate.ts requires a prepared FrozenDataScope");return scope.memo(infillDataMemoKey,()=>{
+const __infillRead_WESTENDGATE_DATA=scopedInfillValue(()=>__infillDataDependency0(scope));
+const __infillRead_MODELS=scopedInfillValue(()=>__infillRead_WESTENDGATE_DATA().models.map(data=>({data,sha:WESTENDGATE_SHA})));
+const infillFrankfurtWestendgateIdentity=(c:Identity)=>infillFrankfurtWestendgateMetadata.infillFrankfurtWestendgateIdentity(c);
+function infillFrankfurtWestendgateReconstruction(components:BuildingComponent[]){
  const stats:OwnerReconstructionStats={objects:0,vertices:0,triangles:0,originalVertices:0,sourceRetained:true,actualVisualAccepted:false,components:[]};
- const colosseoReady=MODELS.every(m=>{const rows=components.filter(c=>c.city==='frankfurt'&&c.objectId===m.data.identity.objectId&&c.partId===m.data.identity.partId);return rows.length===1&&unchanged(rows[0],m.data.source,m.data.identity.signature);});
- const groupMissing=MODELS.some(m=>!components.some(c=>c.city==='frankfurt'&&c.objectId===m.data.identity.objectId&&c.partId===m.data.identity.partId));
+ const colosseoReady=__infillRead_MODELS().every(m=>{const rows=components.filter(c=>c.city==='frankfurt'&&c.objectId===m.data.identity.objectId&&c.partId===m.data.identity.partId);return rows.length===1&&unchanged(rows[0],m.data.source,m.data.identity.signature);});
+ const groupMissing=__infillRead_MODELS().some(m=>!components.some(c=>c.city==='frankfurt'&&c.objectId===m.data.identity.objectId&&c.partId===m.data.identity.partId));
  if(groupMissing)return{components,stats}; // Incomplete streaming group: no replacement; target SHA gate remains unsatisfied.
- const mapped=components.map(c=>{if(c.city!=='frankfurt')return c;const model=MODELS.find(m=>c.objectId===m.data.identity.objectId&&c.partId===m.data.identity.partId);if(!model)return c;const source=model.data.source;
+ const mapped=components.map(c=>{if(c.city!=='frankfurt')return c;const model=__infillRead_MODELS().find(m=>c.objectId===m.data.identity.objectId&&c.partId===m.data.identity.partId);if(!model)return c;const source=model.data.source;
  const ready=colosseoReady&&components.filter(q=>q.city===c.city&&q.objectId===c.objectId&&q.partId===c.partId).length===1&&unchanged(c,source,model.data.identity.signature);
  if(!ready){stats.error='Frankfurt infill requires one unchanged exact native carrier per target';return c;}
  const batches=model.data.display.map(b=>({...b,positions:[...b.positions],normals:[...b.normals],indices:[...b.indices],color:[...b.color],paint:[...b.paint],frames:[...b.frames]}));const vertices=batches.reduce((n,b)=>n+b.positions.length/3,0),triangles=batches.reduce((n,b)=>n+b.indices.length/3,0);stats.objects++;stats.vertices+=vertices;stats.triangles+=triangles;stats.originalVertices+=c.batches.reduce((n,b)=>n+b.positions.length/3,0);stats.components.push({objectId:c.objectId,partId:c.partId,sourcePartId:c.partId,patchSHA256:model.sha,vertices,triangles,geometryRole:'exact-child-footprints-height-calibrated-stepped-slabs-plus-source-low-wing-canopy'});
  return{...c,batches,displayEstimates:{...c.displayEstimates,infillFrankfurtWestendgateExterior:{sourceRetained:true,patchSHA:model.sha,displayEstimate:true,surveyed:false,materialsComplete:true,fineTextureDeferred:true}}};});return{components:mapped,stats};
 }
-export function infillFrankfurtWestendgateBaseMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){let offset=0,objects=0,vertices=0;for(const c of components){const match=c.city==='frankfurt'&&infillFrankfurtWestendgateIdentity(c)&&!!c.displayEstimates?.infillFrankfurtWestendgateExterior;if(match)objects++;for(const b of c.batches){const count=b.positions.length/3;if(match){frames.set((b as any).frames,offset*5);paint.set((b as any).paint,offset*4);vertices+=count;}offset+=count;}}return{objects,vertices,actualVisualAccepted:false};}
+function infillFrankfurtWestendgateBaseMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){return infillFrankfurtWestendgateMetadata.infillFrankfurtWestendgateBaseMaterials(components,paint,frames);}
+
+return {get MODELS(){return __infillRead_MODELS();},infillFrankfurtWestendgateIdentity,infillFrankfurtWestendgateReconstruction,infillFrankfurtWestendgateBaseMaterials};
+});}
+function getMODELS(scope:FrozenDataScope|undefined){return getInfillData(scope).MODELS;}
+export function infillFrankfurtWestendgateIdentity(...args:[...Parameters<ReturnType<typeof getInfillData>['infillFrankfurtWestendgateIdentity']>,scope?:FrozenDataScope]){return infillFrankfurtWestendgateMetadata.infillFrankfurtWestendgateIdentity(args[0]);}
+export function infillFrankfurtWestendgateReconstruction(...args:[...Parameters<ReturnType<typeof getInfillData>['infillFrankfurtWestendgateReconstruction']>,scope?:FrozenDataScope]){const scope=args[1] as FrozenDataScope|undefined;if(scope?.stats.disposed)getInfillData(scope);if(!mayMatchInfillData(Array.isArray(args[0])?args[0]:[args[0] as BuildingComponent]))return infillFrankfurtWestendgateReconstructionCold(...args.slice(0,1) as Parameters<typeof infillFrankfurtWestendgateReconstructionCold>);return getInfillData(scope).infillFrankfurtWestendgateReconstruction(...args.slice(0,1) as Parameters<ReturnType<typeof getInfillData>['infillFrankfurtWestendgateReconstruction']>);}
+export function infillFrankfurtWestendgateBaseMaterials(...args:[...Parameters<ReturnType<typeof getInfillData>['infillFrankfurtWestendgateBaseMaterials']>,scope?:FrozenDataScope]){return infillFrankfurtWestendgateMetadata.infillFrankfurtWestendgateBaseMaterials(args[0],args[1],args[2]);}
+export const infillDataFunctionArities={"infillFrankfurtWestendgateIdentity":1,"infillFrankfurtWestendgateReconstruction":1,"infillFrankfurtWestendgateBaseMaterials":3} as const;
+
+export const infillDataDependencies=():readonly InfillDataModule[]=>[__infillResourceDependency0];
+
+function infillFrankfurtWestendgateReconstructionCold(components:BuildingComponent[]){const stats:OwnerReconstructionStats={objects:0,vertices:0,triangles:0,originalVertices:0,sourceRetained:true,actualVisualAccepted:false,components:[]};
+return {components:components,stats};}
+
+const infillPreparationPairs=[["osm/way/269604841","osm/way/269604841/component/8f5ff4603b58c6bb80c9"],["osm/way/279728730","osm/way/279728730/component/19c90d425f6775eaaab8"],["osm/way/279729155","osm/way/279729155/component/9db2c9f6ff195e9c3eaf"],["osm/way/279729157","osm/way/279729157/component/2050cdf6eff32530087f"],["osm/way/1128278502","osm/way/1128278502/component/c94a4092c120d9ec508c"],["osm/way/23916228","osm/way/23916228/component/9503ba2a6e2adc5b9a63"]] as const;
+export function mayMatchInfillData(components:readonly BuildingComponent[]){return infillMetadataCandidate(components,infillFrankfurtWestendgateMetadata.infillFrankfurtWestendgateIdentity,infillPreparationPairs);}
+export async function prepareInfillData(components:readonly BuildingComponent[],signal:AbortSignal,scope:FrozenDataScope,context?:InfillDataPreparationContext){signal.throwIfAborted();if(!mayMatchInfillData(components))return;await prepareInfillDataResources({infillDataRefs,infillDataDependencies},components,signal,scope,context);}
+export const infillDataMetadataFunctions=["infillFrankfurtWestendgateIdentity","infillFrankfurtWestendgateBaseMaterials"] as const;

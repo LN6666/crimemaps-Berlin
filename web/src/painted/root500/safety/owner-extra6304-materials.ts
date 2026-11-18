@@ -1,0 +1,4 @@
+import type {BuildingComponent,MeshBatch} from '../../../safety/building-mesh-types';
+import {ownerE6304Identity} from './owner-extra6304-identities';
+type Batch=MeshBatch&{positions:number[];normals:number[];indices:number[];color:number[];frames:number[];paint:number[];writeMask:boolean[];role:number};
+export function ownerE6304BaseMaterials(components:BuildingComponent[],paint:Float32Array,frames:Float32Array){let offset=0,objects=0,vertices=0;for(const c of components){const match=c.city==='berlin'&&ownerE6304Identity(c)&&!!c.displayEstimates?.E6304Exterior;if(match)objects++;for(const b of c.batches){const count=b.positions.length/3;if(match){const a=b as Batch;for(let j=0;j<count;j++)if(a.writeMask[j]){paint.set(a.paint.slice(j*4,j*4+4),4*(offset+j));frames.set(a.frames.slice(j*5,j*5+5),5*(offset+j));vertices++;}}offset+=count;}}return{objects,vertices,actualVisualAccepted:false};}

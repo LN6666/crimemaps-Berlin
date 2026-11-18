@@ -157,7 +157,7 @@ CrimeMaps is an independent project, not an official police service. Read the li
 
 
 <!-- crimemaps:public-notice:start -->
-The site is being improved. Announcement content is updated weekly; maps and nearby facilities (POIs) are updated monthly.
+The site is being improved. Announcement updates are planned every two weeks; map and background POI updates are planned monthly. These intervals do not establish that a checked update has been published.
 
 GPT and Doubao Lite assist with translation. Chinese is the priority review version. English about 90% and German about 85% are project estimates, not results of a full accuracy assessment. Some details may still show the original text; check the source.
 

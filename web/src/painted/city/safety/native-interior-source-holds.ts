@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 /** Hold a verified underground source out of exterior drawing; original decoded arrays remain intact.
  * No interior depth/vault dimensions are inferred and no replacement mesh is generated. */
 export function verifiedInteriorSourceHolds(components:readonly BuildingComponent[],leafSHA:(c:BuildingComponent)=>string|undefined):BuildingComponent[]{

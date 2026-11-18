@@ -19,7 +19,7 @@ export const C248_PROJECTION_REGISTRY={
       6.77631405,
       51.22339155
     ],
-    "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Dusseldorf/safety/buildings3d/dusseldorf/flat-00169.json.gz",
+    "sourceLeaf": "source-evidence/5c1202593b65cf06f4d7/safety/buildings3d/dusseldorf/flat-00169.json.gz",
     "sourceSHA256": "df1897f1304d17da061019c0dd0b89f2591c6b1a42aac1e0d697ec5e51d3c875",
     "geometrySignature": "a480c767",
     "componentGeometry": {
@@ -160,7 +160,7 @@ export const C248_PROJECTION_REGISTRY={
       "city": "dusseldorf",
       "objectId": "osm/way/520675926",
       "partId": "osm/way/520675926/component/05736d1a55ad6bac4ecb",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Dusseldorf/safety/buildings3d/dusseldorf/roof-00643.json.gz",
+      "sourceLeaf": "source-evidence/5c1202593b65cf06f4d7/safety/buildings3d/dusseldorf/roof-00643.json.gz",
       "sourceLeafSHA256": "da346ce30b4dbb5b5ce471696e5be71f1ed8c54088cd6cbe6e7f076d0f6aae00",
       "rawSignature": "4db79ff7",
       "rawBuffers": [
@@ -349,7 +349,7 @@ export const C248_PROJECTION_REGISTRY={
       "city": "dusseldorf",
       "objectId": "osm/way/520675930",
       "partId": "osm/way/520675930/component/7928c1929d51764bcdf0",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Dusseldorf/safety/buildings3d/dusseldorf/roof-00643.json.gz",
+      "sourceLeaf": "source-evidence/5c1202593b65cf06f4d7/safety/buildings3d/dusseldorf/roof-00643.json.gz",
       "sourceLeafSHA256": "da346ce30b4dbb5b5ce471696e5be71f1ed8c54088cd6cbe6e7f076d0f6aae00",
       "rawSignature": "2550755e",
       "rawBuffers": [

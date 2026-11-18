@@ -6,16 +6,17 @@ export interface AddressedText {city:string;source_id:string;source_sha256?:stri
 export interface DynamicTextPack {schema_version:1;locale:Locale;city?:string;month?:string;source_generation:string;texts:Record<string,string>;fields?:AddressedText[];native_text_hashes?:string[]}
 interface TextField {event:PoliceEvent;field:string;original:string}
 const restoredRoots = ['map_review_note','public_uncertainty','status_update','source_supporting_materials','source_attachments',
- 'current_claim_overlays','historical_source_reviews','source_reference_comparisons'] as const;
+ 'current_claim_overlays','historical_source_reviews','source_reference_comparisons','source_sections'] as const;
 const restoredTextKeys = new Set(['map_review_note','public_uncertainty','status_update','title','label','note','review_note','display_note','details','display']);
+const sectionTextKeys = new Set(['original_section_heading','source_stated_time','quote_de','time_de']);
 function restoredFields(event:PoliceEvent, add:(path:string,value:unknown)=>void) {
- const walk=(value:unknown,path:string,key:string):void=>{
-  if(typeof value==='string'){if(restoredTextKeys.has(key))add(path,value);return;}
-  if(Array.isArray(value)){value.forEach((v,i)=>walk(v,`${path}/${i}`,key));return;}
-  if(value && typeof value==='object')for(const [k,v] of Object.entries(value))walk(v,`${path}/${k}`,k);
+ const walk=(value:unknown,path:string,key:string,section=false):void=>{
+  if(typeof value==='string'){if((section ? sectionTextKeys : restoredTextKeys).has(key))add(path,value);return;}
+  if(Array.isArray(value)){value.forEach((v,i)=>walk(v,`${path}/${i}`,key,section));return;}
+  if(value && typeof value==='object')for(const [k,v] of Object.entries(value))walk(v,`${path}/${k}`,k,section);
  };
  const publicFields=new Set(event.public_display_fields??[]);
- for(const root of restoredRoots)if(publicFields.has(root))walk(event[root],`/${root}`,root);
+ for(const root of restoredRoots)if(publicFields.has(root))walk(event[root],`/${root}`,root,root==='source_sections');
  event.scene_locations?.forEach((scene,i)=>{
   if(scene.public_display_fields?.includes('public_reference_note'))add(`/scene_locations/${i}/public_reference_note`,scene.public_reference_note);
  });

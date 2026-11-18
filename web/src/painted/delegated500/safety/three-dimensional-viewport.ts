@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 export type ComponentViewportBox=[number,number,number,number];
 const records=new WeakMap<BuildingComponent,{bbox:ComponentViewportBox;vertices:number;maxHeightMetres:number}>();
 export const viewportBoxesOverlap=(a:ComponentViewportBox,b:ComponentViewportBox)=>a[0]<=b[2]&&a[2]>=b[0]&&a[1]<=b[3]&&a[3]>=b[1];

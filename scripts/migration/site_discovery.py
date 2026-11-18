@@ -61,6 +61,7 @@ COPY = {
         'portal_title': '德国14城警方公告地图',
         'map_title': '{city}警方公告地图',
         'portal_description': 'CrimeMaps汇集德国14座城市已公开的警方公告，可按公布月份查看地图、追溯来源并了解地点精度。所选公告不涵盖全部犯罪。',
+        'portal_search_context': '如果你在寻找“德国犯罪地图”，CrimeMaps可以帮助你按城市和时间范围浏览已收录的警方公开公告，查看原始来源并了解地点精度。这里展示的是部分公开公告，不是德国全部犯罪的统计，也不是地区安全或犯罪风险排名。',
         'map_description': '在地图上按月份查看{city}已公开的警方公告，阅读来源并了解地点不确定之处。所选公告不代表当地全部犯罪，也不是治安风险排名。',
         'intro': 'CrimeMaps把选取的警方公开公告整理到地图上。你可以按公布月份查看，并打开可用的来源链接。',
         'coverage_title': '地图展示什么',
@@ -179,13 +180,14 @@ def build(site: Path, city_id: str, catalog_path: Path) -> dict:
             language_links = ''.join(f'<a href="{url(about_base + lang + "/")}" lang="{HTML_LANG[lang]}">{label}</a>' for lang, label in [('de', 'Deutsch'), ('en', 'English'), ('zh', '中文')])
             city_links = ''.join(f'<li><a href="{url(c["map_path"])}?lang={locale}">{html.escape(c["names"][locale])}</a></li>' for c in cities)
             repository = 'https://github.com/LN6666/' + repo
+            search_context = f'<p>{html.escape(copy["portal_search_context"])}</p>' if portal and locale == 'zh' else ''
             page = (f'<!doctype html><html lang="{HTML_LANG[locale]}"><head><meta charset="utf-8">'
                     '<meta name="viewport" content="width=device-width,initial-scale=1">'
                     '<meta http-equiv="Content-Security-Policy" content="default-src &#39;none&#39;; script-src &#39;none&#39;; object-src &#39;none&#39;; style-src &#39;self&#39;; base-uri &#39;none&#39;; form-action &#39;none&#39;">'
                     f'<title>{html.escape(heading)} | CrimeMaps</title><meta name="description" content="{html.escape(description, quote=True)}">'
                     f'<link rel="canonical" href="{page_url}">{alternates}<link rel="stylesheet" href="{base}discovery.css"></head><body>'
                     f'<nav aria-label="{html.escape(copy["languages"])}">{language_links}</nav><main><h1>{html.escape(heading)}</h1>'
-                    f'<p>{html.escape(copy["intro"])}</p><nav><a href="{url(route)}?lang={locale}">{html.escape(copy["portal_open" if portal else "open"])}</a></nav>'
+                    f'<p>{html.escape(copy["intro"])}</p>{search_context}<nav><a href="{url(route)}?lang={locale}">{html.escape(copy["portal_open" if portal else "open"])}</a></nav>'
                     f'<section><h2>{html.escape(copy["coverage_title"])}</h2><p>{html.escape(copy["coverage"])}</p><p>{html.escape(copy["precision"])}</p><p>{html.escape(copy["edition"])}</p></section>'
                     f'<p><a href="{html.escape(city["officialPoliceUrl"], quote=True)}">{html.escape(copy["source"])}</a></p>'
                     f'<section><h2>{html.escape(copy["cities"])}</h2><ul>{city_links}</ul></section></main>'

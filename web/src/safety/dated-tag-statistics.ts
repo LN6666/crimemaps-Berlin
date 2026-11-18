@@ -3,6 +3,7 @@ import {ALL_MACRO_TAGS, MACRO_TAGS, HATE_FACETS, type MacroTag} from "./macro-ta
 import {BRIEF_PERIODS, type BriefPeriod} from "./cached-city-briefs";
 import {CONTENT_TAG_COPY} from "./content-tag-copy";
 import {MACRO_COPY} from "./macro-tag-copy";
+import type {DatedStatisticsSnapshotContext} from "./dated-statistics-snapshot";
 
 export interface DatedTagCounts {
   supported:number;no_support:number;uncertain:number;not_evaluated:number;
@@ -36,6 +37,8 @@ export interface DatedTagBindings {
   mapping_sha256:string;selected_identity_catalogue_sha256:string;ordinary_overlay_sha256:string;
   macro_overlay_sha256:string;publication_dates_sha256:string;
 }
+export const DATED_TAG_SOURCE_VERSION_KEYS = ["mapping_sha256", "selected_identity_catalogue_sha256",
+  "ordinary_overlay_sha256", "macro_overlay_sha256", "publication_dates_sha256"] as const;
 
 interface StatisticsCopy {
   title:string;period:string;periods:readonly [string,string,string,string];
@@ -194,16 +197,36 @@ export function mountDatedTagStatistics(parent:HTMLElement,options:{locale:"zh"|
   for(const key of ["all14",...CONTENT_TAG_CITIES]){const option=document.createElement("option");option.value=key;option.textContent=copy.cities[key];scopeSelect.append(option);}
   scopeLabel.append(scopeSelect);
   const scopeText=document.createElement("p"),dateText=document.createElement("p"),summary=document.createElement("p"),missing=document.createElement("p");
+  const snapshotNote=document.createElement("p");snapshotNote.className="dated-statistics-snapshot";snapshotNote.hidden=true;
+  snapshotNote.setAttribute("role","note");
   const ordinaryDetails=document.createElement("details"),ordinarySummary=document.createElement("summary");ordinarySummary.textContent=copy.ordinaryTitle;ordinaryDetails.append(ordinarySummary);
   const macroDetails=document.createElement("details"),macroSummary=document.createElement("summary");macroSummary.textContent=copy.macroTitle;macroDetails.append(macroSummary);
   const facets=document.createElement("details"),facetsSummary=document.createElement("summary");facetsSummary.textContent=copy.facetsTitle;facets.append(facetsSummary);
   const method=document.createElement("details"),methodSummary=document.createElement("summary");methodSummary.textContent=ordinaryCopy.methodInfo;method.append(methodSummary);
   for(const text of [copy.formula,copy.overlap,copy.location]){const p=document.createElement("p");p.textContent=text;method.append(p);}
   const unavailable=document.createElement("p");unavailable.textContent=copy.unavailable;unavailable.hidden=true;
-  root.append(title,scopeLabel,periodLabel,scopeText,dateText,summary,missing,ordinaryDetails,macroDetails,facets,method,unavailable);
+  root.append(title,snapshotNote,scopeLabel,periodLabel,scopeText,dateText,summary,missing,ordinaryDetails,macroDetails,facets,method,unavailable);
   parent.append(root);root.hidden=true;summary.setAttribute("aria-live","polite");
   let catalogue:DatedTagCatalogue|null=null,scopeKey="all14";
   const number=new Intl.NumberFormat(options.locale,{maximumFractionDigits:1});
+  const clearSnapshotContext=()=>{snapshotNote.textContent="";snapshotNote.hidden=true;};
+  const setSnapshotContext=(context:DatedStatisticsSnapshotContext|null)=>{
+    clearSnapshotContext();
+    if(!context||context.kind!=="historical")return;
+    const savedCity=catalogue?.scopes.find(scope=>scope.key===context.city),total=catalogue?.scopes.find(scope=>scope.key==="all14");
+    if(!catalogue||!savedCity||context.city==="all14"||context.asOf!==catalogue.as_of||context.selectedRecords!==savedCity.total_selected_records||
+      context.allSelectedRecords!==total?.total_selected_records||!Number.isSafeInteger(context.currentRecords)||context.currentRecords<0||
+      DATED_TAG_SOURCE_VERSION_KEYS.some(key=>context.sourceVersions[key]!==catalogue!.source_versions[key]))
+      throw Error("Dated snapshot context differs from the displayed catalogue");
+    const city=copy.cities[context.city]??context.city,old=number.format(context.selectedRecords),current=number.format(context.currentRecords);
+    const all=number.format(context.allSelectedRecords);
+    snapshotNote.textContent={
+      zh:`历史标签统计 · 数据截至 ${context.asOf}。${city}：旧快照含 ${old} 条选定警方公告；当前地图含 ${current} 条。历史总范围为 14 城 ${all} 条公告。这些时间范围与标签统计尚未按当前地图资料更新。`,
+      en:`Historical label statistics · Data as of ${context.asOf}. ${city}: ${old} selected police announcements; current map: ${current}. Historical total: ${all} announcements across 14 cities. These periods and label statistics have not been refreshed for the current map data.`,
+      de:`Historische Merkmalsstatistik · Stand: ${context.asOf}. ${city}: ${old} ausgewählte Polizeimeldungen; aktuelle Karte: ${current}. Historische Gesamtauswahl: ${all} Meldungen in 14 Städten. Zeiträume und Merkmalsstatistik wurden noch nicht für die aktuellen Kartendaten aktualisiert.`,
+    }[options.locale];
+    snapshotNote.hidden=false;
+  };
   const percent=new Intl.NumberFormat(options.locale,{style:"percent",maximumFractionDigits:1});
   const counts=(values:DatedTagCounts)=>[
     String(values.supported),String(values.no_support),String(values.uncertain),String(values.not_evaluated)];
@@ -231,6 +254,7 @@ export function mountDatedTagStatistics(parent:HTMLElement,options:{locale:"zh"|
     wrap.append(table);target.append(wrap);
   };
   const clearForUnavailable=()=>{
+    clearSnapshotContext();
     catalogue=null;root.hidden=false;scopeText.textContent="";dateText.textContent="";summary.textContent="";missing.hidden=true;
     ordinaryDetails.replaceChildren(ordinarySummary);macroDetails.replaceChildren(macroSummary);facets.replaceChildren(facetsSummary);
     ordinaryDetails.hidden=true;macroDetails.hidden=true;facets.hidden=true;method.hidden=true;unavailable.hidden=false;
@@ -259,10 +283,12 @@ export function mountDatedTagStatistics(parent:HTMLElement,options:{locale:"zh"|
   scopeSelect.addEventListener("change",()=>{scopeKey=scopeSelect.value;render();});
   return{
     setCatalogue(source:DatedTagCatalogue,bindings:DatedTagBindings){
+      clearSnapshotContext();
       catalogue=null;root.hidden=true;
       try{validateDatedTagCatalogue(source,bindings);}catch{clearForUnavailable();return false;}
       catalogue=source;render();return true;
     },
+    setSnapshotContext,
     setScope(key:string){if(!scopeNames(copy)[key])throw Error("Unknown city scope");scopeKey=key;scopeSelect.value=key;render();},
     invalidate(){clearForUnavailable();},destroy(){root.remove();},
   };

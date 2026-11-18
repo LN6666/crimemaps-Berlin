@@ -6,7 +6,12 @@ export async function inflateBounded3DGzip(compressed:Uint8Array,expectedUncompr
  signal.throwIfAborted();
  if(!Number.isSafeInteger(callerByteLimit)||callerByteLimit<1||callerByteLimit>64*1024**2||!Number.isSafeInteger(expectedUncompressed)||expectedUncompressed<1||expectedUncompressed>callerByteLimit||!compressed.byteLength||compressed.byteLength>callerByteLimit||expectedRawHash!==undefined&&!HASH.test(expectedRawHash))throw Error('Invalid bounded city3D gzip descriptor');
  if(typeof DecompressionStream==='undefined')throw Error('Native gzip decompression unavailable');
- const stream=new ReadableStream<BufferSource>({start(controller){controller.enqueue(new Uint8Array(compressed));controller.close();}}).pipeThrough(new DecompressionStream('gzip'));
+ // The caller's verified physical view is the only compressed copy. A default
+ // (non-byte) stream enqueues it by reference and the decompressor only reads
+ // it, so no buffer is transferred or detached and no second, unledgered copy
+ // of the compressed bytes is allocated. Shared memory is not a BufferSource.
+ if(typeof SharedArrayBuffer!=='undefined'&&compressed.buffer instanceof SharedArrayBuffer)throw TypeError('Bounded city3D gzip input must not be shared memory');
+ const stream=new ReadableStream<BufferSource>({start(controller){controller.enqueue(compressed as Uint8Array<ArrayBuffer>);controller.close();}}).pipeThrough(new DecompressionStream('gzip'));
  const reader=stream.getReader();let stopped=false,used=0;const out=new Uint8Array(expectedUncompressed);
  const abort=()=>{stopped=true;void reader.cancel(signal.reason).catch(()=>{});};
  signal.addEventListener('abort',abort,{once:true});if(signal.aborted)abort();

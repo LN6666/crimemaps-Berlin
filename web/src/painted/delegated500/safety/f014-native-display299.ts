@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 import {nativePaintSignature} from './progressive-native-signature';
 /** Exact named/shared-edge original source assembly. Documented exterior-outline strips differ.
  * Display only: keep root in source getter and preserve all original arrays. */

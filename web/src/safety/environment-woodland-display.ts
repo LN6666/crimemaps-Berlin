@@ -36,14 +36,14 @@ function nextCell(c: Cursor) {
  * Missing road widths/building footprints cannot be inferred from forest tags.
  * Positions are world-anchored; a full budget may change the selected subset as
  * the viewport changes, but never moves an individual lattice point. */
-export function woodlandDisplayInstances(features: readonly EnvironmentFeature[], origin: readonly [number, number], viewport: EnvironmentBox, boundary: PreparedSolarBoundary | undefined, capacity: number, crownRadius: number, rowInstances: readonly {x: number; z: number}[] = []) {
-  const instances: WoodlandDisplayInstance[] = [];
+function woodlandDisplayCandidateStream(features: readonly EnvironmentFeature[], origin: readonly [number, number], viewport: EnvironmentBox, boundary: PreparedSolarBoundary | undefined, capacity: number, crownRadius: number, rowInstances: readonly {x: number; z: number}[], streaming=false) {
   const stats = {eligibleSources: 0, sourcePolygons: 0, exclusionPolygons: 0, candidates: 0, held: 0, duplicate: 0, edgeChecks: 0, truncated: false, reason: 'ready', role: 'source-woodland-display-schematic-not-source-tree-point' as const};
-  const result = () => ({instances, ...stats});
-  if (!boundary || origin.length !== 2 || !origin.every(Number.isFinite) || Math.abs(origin[0]) > 180 || Math.abs(origin[1]) > 85 || viewport.length !== 4 || !viewport.every(Number.isFinite) || viewport[0] >= viewport[2] || viewport[1] >= viewport[3] || Math.abs(viewport[0]) > 180 || Math.abs(viewport[2]) > 180 || Math.abs(viewport[1]) > 85 || Math.abs(viewport[3]) > 85 || !Number.isFinite(crownRadius) || crownRadius <= 0 || crownRadius > 5 || !Number.isFinite(capacity) || capacity < 0) { stats.reason = 'invalid-or-unverified-input'; return result(); }
-  const budget = Math.min(WOODLAND_DISPLAY_LIMITS.instances, Math.floor(capacity));
-  if (!budget) { stats.reason = 'no-instance-budget'; return result(); }
-  if (features.length > WOODLAND_DISPLAY_LIMITS.inputFeatures || rowInstances.length > WOODLAND_DISPLAY_LIMITS.inputFeatures) { stats.truncated = true; stats.reason = 'input-limit'; return result(); }
+  let generatedInstances=0;
+  function* iterate():Generator<WoodlandDisplayInstance>{
+  if (!boundary || origin.length !== 2 || !origin.every(Number.isFinite) || Math.abs(origin[0]) > 180 || Math.abs(origin[1]) > 85 || viewport.length !== 4 || !viewport.every(Number.isFinite) || viewport[0] >= viewport[2] || viewport[1] >= viewport[3] || Math.abs(viewport[0]) > 180 || Math.abs(viewport[2]) > 180 || Math.abs(viewport[1]) > 85 || Math.abs(viewport[3]) > 85 || !Number.isFinite(crownRadius) || crownRadius <= 0 || crownRadius > 5 || !Number.isFinite(capacity) || capacity < 0) { stats.reason = 'invalid-or-unverified-input'; return; }
+  const budget = Math.min(streaming?WOODLAND_DISPLAY_LIMITS.candidates:WOODLAND_DISPLAY_LIMITS.instances, Math.floor(capacity));
+  if (!budget) { stats.reason = 'no-instance-budget'; return; }
+  if (features.length > WOODLAND_DISPLAY_LIMITS.inputFeatures || rowInstances.length > WOODLAND_DISPLAY_LIMITS.inputFeatures) { stats.truncated = true; stats.reason = 'input-limit'; return; }
   const originWorld = world(origin[0], origin[1]), scale = Math.cos(origin[1] * RAD), local = (lon: number, lat: number) => { const p = world(lon, lat); return [Math.fround((p[0] - originWorld[0]) * scale), Math.fround((p[1] - originWorld[1]) * scale)]; };
   const boxFor = (x: number, z: number): Box => { const a = geographic(originWorld[0] + (x - crownRadius) / scale, originWorld[1] + (z - crownRadius) / scale), b = geographic(originWorld[0] + (x + crownRadius) / scale, originWorld[1] + (z + crownRadius) / scale); return [a[0], a[1], b[0], b[1]]; };
   const viewLow = local(viewport[0], viewport[1]), viewHigh = local(viewport[2], viewport[3]), lo = boxFor(viewLow[0], viewLow[1]), hi = boxFor(viewHigh[0], viewHigh[1]), crownView: Box = [lo[0], lo[1], hi[2], hi[3]];
@@ -84,7 +84,7 @@ export function woodlandDisplayInstances(features: readonly EnvironmentFeature[]
     if (excluded(f) !== exclusion || f.properties.source_boundary_sha256 !== boundary.boundarySHA256 || seenSources.has(f.id)) continue;
     seenSources.add(f.id);
     const prepared = prepare(f);
-    if (!prepared) { stats.held++; stats.truncated = true; if (exclusion) { stats.reason = 'incomplete-known-exclusions'; return result(); } continue; }
+    if (!prepared) { stats.held++; stats.truncated = true; if (exclusion) { stats.reason = 'incomplete-known-exclusions'; return; } continue; }
     if (exclusion) exclusions.push(...prepared); else if (prepared.length) { stats.eligibleSources++; sources.push(...prepared); }
   }
   stats.sourcePolygons = sources.length; stats.exclusionPolygons = exclusions.length;
@@ -114,10 +114,10 @@ export function woodlandDisplayInstances(features: readonly EnvironmentFeature[]
   const visited = new Set<string>();
   try {
     let active = true;
-    while (active && instances.length < budget && stats.candidates < WOODLAND_DISPLAY_LIMITS.candidates) {
+    while (active && generatedInstances < budget && stats.candidates < WOODLAND_DISPLAY_LIMITS.candidates) {
       active = false;
       for (const cursor of cursors) {
-        if (instances.length >= budget || stats.candidates >= WOODLAND_DISPLAY_LIMITS.candidates) break;
+        if (generatedInstances >= budget || stats.candidates >= WOODLAND_DISPLAY_LIMITS.candidates) break;
         if (cursor.at >= cursor.end) continue;
         active = true; stats.candidates++; const cell = nextCell(cursor); if (!cell) continue;
         const id = 'woodland:' + cell[0] + ':' + cell[1]; if (visited.has(id)) { stats.duplicate++; continue; }
@@ -127,10 +127,22 @@ export function woodlandDisplayInstances(features: readonly EnvironmentFeature[]
         if (!covers(cursor.polygon, box) || !boundary.covers(box) || exclusions.some(p => intersects(p, box))) { stats.held++; continue; }
         if (near(x, z)) { stats.duplicate++; continue; }
         const owner = sources.find(p => p.sourceId < cursor.polygon.sourceId && covers(p, box)) ?? cursor.polygon;
-        visited.add(id); add(x, z); instances.push({id, sourceId: owner.sourceId, kind: 'wood', lon: point[0], lat: point[1], x, z, height: 7, heightStatus: 'display-default', role: 'source-woodland-display-schematic-not-source-tree-point'});
+        visited.add(id); add(x, z); generatedInstances++;yield {id, sourceId: owner.sourceId, kind: 'wood', lon: point[0], lat: point[1], x, z, height: 7, heightStatus: 'display-default', role: 'source-woodland-display-schematic-not-source-tree-point'};
       }
     }
-    if (cursors.some(c => c.at < c.end)) { stats.truncated = true; stats.reason = instances.length >= budget ? 'instance-budget' : 'candidate-budget'; }
+    if (cursors.some(c => c.at < c.end)) { stats.truncated = true; stats.reason = !streaming&&generatedInstances >= budget ? 'instance-budget' : 'candidate-budget'; }
   } catch (error) { if (error !== edgeLimit) throw error; stats.truncated = true; stats.reason = 'geometry-work-budget'; }
-  return result();
+  }
+  return {instances:iterate(),stats,get generatedInstances(){return generatedInstances;}};
+}
+
+/** Lazy preselection stream. Existing lattice, geometry and 8192/edge budgets
+ * remain authoritative; the shared selector owns the final instance budget. */
+export function woodlandDisplayCandidates(features:readonly EnvironmentFeature[],origin:readonly [number,number],viewport:EnvironmentBox,boundary:PreparedSolarBoundary|undefined,crownRadius:number,rowInstances:readonly {x:number;z:number}[]=[]){
+  return woodlandDisplayCandidateStream(features,origin,viewport,boundary,WOODLAND_DISPLAY_LIMITS.candidates,crownRadius,rowInstances,true);
+}
+
+export function woodlandDisplayInstances(features:readonly EnvironmentFeature[],origin:readonly [number,number],viewport:EnvironmentBox,boundary:PreparedSolarBoundary|undefined,capacity:number,crownRadius:number,rowInstances:readonly {x:number;z:number}[]=[]){
+  const stream=woodlandDisplayCandidateStream(features,origin,viewport,boundary,capacity,crownRadius,rowInstances),instances=[...stream.instances];
+  return {instances,...stream.stats};
 }

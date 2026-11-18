@@ -2203,8 +2203,8 @@ export const NATIVE_PART_DISPLAY_PROFILES:readonly NativePartDisplayProfile[]=[
     "completenessClaim": false,
     "requireAllCompiledResident": true,
     "requireAllMaterialReady": true,
-    "footprintCoverageEvidence": "/Users/liangjuanning/Documents/Codex/2026-10-16/150-100-250/work/city-center-paint/inventory/C053-hamburg/galerie/formal-union-proof.json",
-    "groundBodyEvidence": "/Users/liangjuanning/Documents/Codex/2026-10-16/150-100-250/work/city-center-paint/pipeline/C052-C054-display-proposal/C053/ground-evidence.json",
+    "footprintCoverageEvidence": "source-evidence/4a2b64be850795454503/formal-union-proof.json",
+    "groundBodyEvidence": "source-evidence/35eb8025ceecf7012749/ground-evidence.json",
     "displayIntent": "Exact11pins andall10nativeparts resident+materialready replace10m parentonly. Preserve original4m slopeplatforms, mainbodymin4andhighroof25..29; alloriginalsourcearrays unchanged. Sourceplanoutside2.1655865m2 kept,notclipped orfilled; noallpartgroundclaim. Missing/drift/unready returnsparent."
   },
   {
@@ -8812,7 +8812,7 @@ export const NATIVE_PART_DISPLAY_PROFILES:readonly NativePartDisplayProfile[]=[
   "requireAllCompiledResident": true,
   "requireAllMaterialReady": true,
   "completenessClaim": false,
-  "footprintCoverageEvidence": "/Users/liangjuanning/Documents/Codex/2026-10-16/150-100-250/work/city-center-paint/inventory/root-fritz-henssler-qualification/exact-original-boundary-closure.json",
+  "footprintCoverageEvidence": "source-evidence/6c37a62fe0d4961b5bbf/exact-original-boundary-closure.json",
   "displayIntent": "hide exact higher duplicate parent only after all six exact raw parts resident AND material ready; restore on eviction/failure. Preserve ~2.7 sqm original-node difference. Actual browser acceptance pending; applied profile uses unchanged native ground boundaries.",
   "sourcePBF": "6d0eff76999e3f072fbe78433424bed926b6563133cddec7640c59d5e8d9f253",
   "boundarySHA": "7bb816ac51cbda77ea0033ad35446bc237e09be90947918268e2351894646208",

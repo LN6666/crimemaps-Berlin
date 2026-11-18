@@ -1,5 +1,5 @@
-import type {BuildingComponent,Identity} from './building-mesh-renderer';
-import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
+import type {BuildingComponent,Identity} from "../../../safety/building-mesh-types";
+import type {OwnerReconstructionStats} from '../../../safety/owner-reconstruction-stats';
 import {WESTHAFEN_ORIGINAL_SHA102 as SHA,WESTHAFEN_ORIGINAL_DATA102 as DATA} from './westhafen-original102-data';
 type Pin=typeof DATA[number];
 type Record102={source:BuildingComponent;pin:Pin;snapshot:unknown};

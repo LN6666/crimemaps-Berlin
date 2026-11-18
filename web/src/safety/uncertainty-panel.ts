@@ -25,11 +25,20 @@ export function mountUncertaintyPanel(container: HTMLElement, options: {
   const nav = add("nav", ""); nav.className = "uncertainty-pagination"; nav.setAttribute("aria-label", t("unknown.title"));
   const previous = add("button", t("unknown.previous"), nav) as HTMLButtonElement;
   const pageStatus = add("span", "", nav);
+  pageStatus.setAttribute("role", "status"); pageStatus.setAttribute("aria-live", "polite"); pageStatus.setAttribute("aria-atomic", "true");
   const next = add("button", t("unknown.next"), nav) as HTMLButtonElement;
   previous.type = next.type = "button";
   function render() {
     list.replaceChildren(); const p = uncertaintyPage(rows, filter.value as UncertaintyKind | "all", page); page = p.page;
-    previous.disabled = !page; next.disabled = page >= p.pages - 1;
+    const disablePrevious = !page, disableNext = page >= p.pages - 1;
+    const focusTarget = document.activeElement === previous && disablePrevious ? (disableNext ? filter : next) :
+      document.activeElement === next && disableNext ? (disablePrevious ? filter : previous) : undefined;
+    if (focusTarget) {
+      // The destination may still be disabled from the previous page; make it usable before moving focus.
+      if (focusTarget !== filter) focusTarget.disabled = false;
+      focusTarget.focus({preventScroll: true});
+    }
+    previous.disabled = disablePrevious; next.disabled = disableNext;
     pageStatus.textContent = t("unknown.page", {page: page + 1, pages: p.pages});
     if (!p.items.length) add("li", t("unknown.empty"), list).className = "uncertainty-empty";
     for (const r of p.items) {

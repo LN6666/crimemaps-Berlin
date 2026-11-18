@@ -19,7 +19,7 @@ export const C223_PROJECTION_REGISTRY={
       6.778514599999999,
       51.2630712
     ],
-    "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Dusseldorf/safety/buildings3d/dusseldorf/roof-00643.json.gz",
+    "sourceLeaf": "source-evidence/5c1202593b65cf06f4d7/safety/buildings3d/dusseldorf/roof-00643.json.gz",
     "sourceSHA256": "da346ce30b4dbb5b5ce471696e5be71f1ed8c54088cd6cbe6e7f076d0f6aae00",
     "geometrySignature": "c328c5a1",
     "componentGeometry": {
@@ -124,7 +124,7 @@ export const C223_PROJECTION_REGISTRY={
       "city": "dusseldorf",
       "objectId": "osm/way/141190874",
       "partId": "osm/way/141190874/component/dfedf12bb30c7a9b5b9a",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Dusseldorf/safety/buildings3d/dusseldorf/roof-00643.json.gz",
+      "sourceLeaf": "source-evidence/5c1202593b65cf06f4d7/safety/buildings3d/dusseldorf/roof-00643.json.gz",
       "sourceLeafSHA256": "da346ce30b4dbb5b5ce471696e5be71f1ed8c54088cd6cbe6e7f076d0f6aae00",
       "rawSignature": "c328c5a1",
       "rawBuffers": [

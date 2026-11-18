@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from "../../../safety/building-mesh-types";
 import type {ProgressiveAdmission} from './c032-original-provider';
 /** Reject paint metadata only, before any renderer buffer/state replacement. Never repairs source geometry. */
 export function progressivePaintValidation(c:BuildingComponent,row:ProgressiveAdmission):string|undefined{

@@ -4,6 +4,7 @@ import {fileURLToPath} from 'node:url';
 import {stripTypeScriptTypes} from 'node:module';
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import {build} from 'esbuild';
 
 // Promoted location: web/tests. Private runs point at the same installed dependency.
 const webRoot=process.env.CRIMEMAPS_QUALITY_WEB_ROOT??fileURLToPath(new URL('../',import.meta.url));
@@ -43,17 +44,17 @@ function fixture(){
  map.setPixelRatio=function(value){this.depth++;this.maxDepth=Math.max(this.maxDepth,this.depth);try{return actualSet.call(this,value);}finally{this.depth--;}};
  return{map,resize(){for(const fn of [...resizeListeners])fn();},cleanup(){globalThis.window=previousWindow;globalThis.devicePixelRatio=previousRatio;},listeners:resizeListeners};
 }
-test('balanced installation cannot recurse through MapLibre synthetic movement events',()=>{
- const f=fixture();try{const q=installSceneRenderQuality(f.map);assert.deepEqual(f.map.ratios,[1.5]);assert.equal(f.map.maxDepth,1);assert.equal(q.stats.moving,false);q.destroy();}finally{f.cleanup();}
+test('fixed economy installation cannot recurse through MapLibre synthetic movement events',()=>{
+ const f=fixture();try{const q=installSceneRenderQuality(f.map);assert.deepEqual(f.map.ratios,[.75]);assert.equal(f.map.maxDepth,1);assert.equal(q.stats.moving,false);q.destroy();}finally{f.cleanup();}
 });
 test('camera movement keeps the selected DPR without creating resize movement events',()=>{
- const f=fixture();try{const q=installSceneRenderQuality(f.map);f.map._camera._moving=true;f.map.fire({type:'movestart'});assert.equal(f.map.getPixelRatio(),1.5);assert.equal(q.stats.moving,true);f.map._camera._moving=false;f.map.fire({type:'moveend'});assert.equal(f.map.getPixelRatio(),1.5);assert.equal(q.stats.moving,false);assert.deepEqual(f.map.ratios,[1.5]);assert.equal(f.map.maxDepth,1);q.destroy();}finally{f.cleanup();}
+ const f=fixture();try{const q=installSceneRenderQuality(f.map);f.map._camera._moving=true;f.map.fire({type:'movestart'});assert.equal(f.map.getPixelRatio(),.75);assert.equal(q.stats.moving,true);f.map._camera._moving=false;f.map.fire({type:'moveend'});assert.equal(f.map.getPixelRatio(),.75);assert.equal(q.stats.moving,false);assert.deepEqual(f.map.ratios,[.75]);assert.equal(f.map.maxDepth,1);q.destroy();}finally{f.cleanup();}
 });
-test('quality selection and window resize preserve pixel budgets with bounded updates',()=>{
- const f=fixture();try{const q=installSceneRenderQuality(f.map);f.map._camera._moving=true;f.map.fire({type:'movestart'});q.setQuality('detail');assert.equal(f.map.getPixelRatio(),2);assert.equal(q.stats.moving,true);f.map._camera._moving=false;f.map.fire({type:'moveend'});assert.equal(f.map.getPixelRatio(),2);q.setQuality('economy');assert.equal(f.map.getPixelRatio(),1);q.setQuality('balanced');assert.equal(f.map.getPixelRatio(),1.5);const before=f.map.ratios.length;q.setQuality('balanced');assert.equal(f.map.ratios.length,before);f.map.width=4000;f.map.height=2000;f.resize();assert.equal(f.map.getPixelRatio(),scenePixelRatio('balanced',2,4000,2000,false));assert.equal(q.stats.moving,false);assert.equal(f.map.maxDepth,1);q.destroy();}finally{f.cleanup();}
+test('legacy quality requests and window resize preserve pixel budgets with bounded updates',()=>{
+ const f=fixture();try{const q=installSceneRenderQuality(f.map);f.map._camera._moving=true;f.map.fire({type:'movestart'});q.setQuality('detail');assert.equal(f.map.getPixelRatio(),.75);assert.equal(q.stats.moving,true);f.map._camera._moving=false;f.map.fire({type:'moveend'});assert.equal(f.map.getPixelRatio(),.75);q.setQuality('economy');assert.equal(f.map.getPixelRatio(),.75);q.setQuality('balanced');assert.equal(f.map.getPixelRatio(),.75);const before=f.map.ratios.length;q.setQuality('balanced');assert.equal(f.map.ratios.length,before);f.map.width=4000;f.map.height=2000;f.resize();assert.equal(f.map.getPixelRatio(),scenePixelRatio('balanced',2,4000,2000,false));assert.equal(q.stats.moving,false);assert.equal(f.map.maxDepth,1);q.destroy();}finally{f.cleanup();}
 });
 test('an exception clears the write guard and destroy removes all quality listeners',()=>{
- const f=fixture();try{const q=installSceneRenderQuality(f.map);const setter=f.map.setPixelRatio;let fail=true;f.map.setPixelRatio=function(value){if(fail){fail=false;throw Error('fixture GPU resize failure');}return setter.call(this,value);};assert.throws(()=>q.setQuality('detail'),/fixture GPU resize failure/);f.resize();assert.equal(f.map.getPixelRatio(),2);assert.equal(f.map.maxDepth,1);q.destroy();q.destroy();assert.equal(f.listeners.size,0);assert.equal(f.map.handlers.get('movestart').size,0);assert.equal(f.map.handlers.get('moveend').size,0);const before=f.map.ratios.length;f.map.fire({type:'movestart'});f.resize();q.setQuality('economy');assert.equal(f.map.ratios.length,before);}finally{f.cleanup();}
+ const f=fixture();try{const q=installSceneRenderQuality(f.map);const setter=f.map.setPixelRatio;let fail=true;f.map.setPixelRatio=function(value){if(fail){fail=false;throw Error('fixture GPU resize failure');}return setter.call(this,value);};f.map.width=4000;f.map.height=2000;assert.throws(()=>f.resize(),/fixture GPU resize failure/);f.resize();assert.equal(f.map.getPixelRatio(),scenePixelRatio('economy',2,4000,2000));assert.equal(f.map.maxDepth,1);q.destroy();q.destroy();assert.equal(f.listeners.size,0);assert.equal(f.map.handlers.get('movestart').size,0);assert.equal(f.map.handlers.get('moveend').size,0);const before=f.map.ratios.length;f.map.fire({type:'movestart'});f.resize();q.setQuality('economy');assert.equal(f.map.ratios.length,before);}finally{f.cleanup();}
 });
 
 const cameraSource=await fs.readFile(path.join(webRoot,'node_modules/maplibre-gl/src/ui/camera.ts'),'utf8');
@@ -74,26 +75,36 @@ const CameraFixture=new Function(stripTypeScriptTypes(`
 // Only asset/GPU readiness and the clock are stubs; no fixture abort is injected.
 const residentSource=await fs.readFile(path.join(webRoot,'src/safety/recovery-resident-reuse.ts'),'utf8');
 const {createRecoveryResidentReuse}=await import('data:text/javascript;base64,'+Buffer.from(stripTypeScriptTypes(residentSource,{mode:'strip'})).toString('base64'));
-const cityTransition=new Function('createRecoveryResidentReuse',stripTypeScriptTypes(`
+const viewportSource=await fs.readFile(path.join(webRoot,'src/safety/viewport-request.ts'),'utf8');
+const {createViewportRequestContinuation}=await import('data:text/javascript;base64,'+Buffer.from(stripTypeScriptTypes(viewportSource,{mode:'strip'})).toString('base64'));
+const drawModule=await build({entryPoints:[path.join(webRoot,'src/safety/resident-draw-readiness.ts')],bundle:true,write:false,platform:'node',format:'esm'});
+const {waitForResidentDraw}=await import('data:text/javascript;base64,'+Buffer.from(drawModule.outputFiles[0].text).toString('base64'));
+const cityTransition=new Function('createRecoveryResidentReuse','createViewportRequestContinuation','waitForResidentDraw',stripTypeScriptTypes(`
 function cityTransition(map){
  let destroyed=false,suspended=false,revision=0,request=new AbortController(),
-     mode='2d',wantedMode='2d',preparingTicket,ownCameraStartingTicket,cameraMotionTicket,lastError;
+     mode='2d',wantedMode='2d',preparingTicket,ownCameraStartingTicket,cameraMotionTicket,lastError,
+     // Current requestMode/current/moveStarted closure state. The 3D success path
+     // only reads pageHidden and detailRefreshPending; the remaining names keep the
+     // actual 2D and failure branches resolvable if a regression reaches them.
+     pageHidden=false,detailRefreshPending=false,detailSettlementFailed=false,cameraReadiness,generation=0,lastReadyTicket,lastReadyGeneration;
+ const wantedSources={reconcile(){}},restoreReadyHandoff=()=>false;
  const recoveryResident=createRecoveryResidentReuse(()=>undefined);
+ const modeRequests=createViewportRequestContinuation(()=>Boolean(map.isMoving?.()));
  const stages=[],announcements=[],options={manageCamera:true,onState:value=>announcements.push(value)};
- const renderer={setEnabled(){},suspendSelection(){}};
+ const renderer={setEnabled(){},suspendSelection(){},getRevision:()=>({generation})};
  const pageIsHidden=()=>false,visibleReadinessDeadline=()=>()=>{};
  const ensure=async()=>{};
  const visible=async(signal,ticket,bootstrap)=>{current(signal,ticket);stages.push(bootstrap===true?'before-camera':'after-camera');return{status:'ready'};};
  ${method('function current(signal:AbortSignal,ticket:number)',citySource)}
- ${method('function moveCamera(signal:AbortSignal,ticket:number)',citySource)}
+ ${method('async function moveCamera(signal:AbortSignal,ticket:number)',citySource)}
  ${method("function announce(status:ThreeDControlState['status'])",citySource)}
- ${method('async function requestMode(next:ThreeDViewMode,external:AbortSignal)',citySource)}
+ ${method('async function requestMode(next:ThreeDViewMode,external:AbortSignal,transition:boolean|ThreeDModeTransition=false):Promise<ThreeDControlState>',citySource)}
  ${method('const moveStarted=()=>{',citySource)};
  ${method('const moved=()=>{',citySource)};
  map.on('movestart',moveStarted);map.on('moveend',moved);
  return{requestMode,stages,announcements,get aborted(){return request.signal.aborted;},get revision(){return revision;}};
 }
-`,{mode:'strip'})+'\nreturn cityTransition;')(createRecoveryResidentReuse);
+`,{mode:'strip'})+'\nreturn cityTransition;')(createRecoveryResidentReuse,createViewportRequestContinuation,waitForResidentDraw);
 test('actual city camera transition is not aborted by a DPR-generated nested movement cycle',async()=>{
  const f=fixture(),previousMatchMedia=globalThis.matchMedia,trace=[];
  try{
@@ -107,14 +118,33 @@ test('actual city camera transition is not aborted by a DPR-generated nested mov
   const manager=cityTransition(f.map);
   const outcome=manager.requestMode('3d',new AbortController().signal).then(value=>({value}),error=>({error}));
   for(let i=0;i<4&&!f.map.finishCamera;i++)await Promise.resolve();
-  assert.equal(typeof f.map.finishCamera,'function');f.map.finishCamera();
+  assert.equal(typeof f.map.finishCamera,'function');f.map.finishCamera();f.map.fire({type:'render'});
   const result=await outcome;
   if(process.env.CRIMEMAPS_QUALITY_TRACE)await fs.writeFile(process.env.CRIMEMAPS_QUALITY_TRACE,JSON.stringify({error:result.error?.name??null,value:result.value,stages:manager.stages,trace},null,2)+'\n');
   assert.equal(result.error,undefined,JSON.stringify({error:result.error?.name,trace}));
   assert.deepEqual(result.value,{mode:'3d',status:'ready'});
   assert.deepEqual(manager.stages,['before-camera','after-camera']);
-  assert.deepEqual(trace.map(row=>row.event),['movestart','moveend']);
+  assert.deepEqual(trace.map(row=>row.event),['movestart','moveend','render']);
   assert.equal(manager.revision,1);assert.equal(q.stats.moving,false);
-  assert.deepEqual(f.map.ratios,[1.5]);q.destroy();
+  assert.deepEqual(f.map.ratios,[.75]);q.destroy();
  }finally{globalThis.matchMedia=previousMatchMedia;f.cleanup();}
+});
+
+test('8K fullscreen and return update the real resize path without recursion',()=>{
+ const f=fixture();try{
+  const q=installSceneRenderQuality(f.map);
+  f.map.width=7680;f.map.height=4320;f.resize();
+  const c=f.map.getCanvas();assert(c.width*c.height<=3_000_001);assert(f.map.getPixelRatio()<.5);
+  f.map.width=1280;f.map.height=720;f.resize();
+  assert.equal(f.map.getPixelRatio(),.75);assert.equal(f.map.maxDepth,1);q.destroy();
+ }finally{f.cleanup();}
+});
+
+ test('small viewport growth cannot bypass the pixel ceiling through ratio tolerance',()=>{
+ const f=fixture();try{
+  f.map.width=7680;f.map.height=4320;const q=installSceneRenderQuality(f.map);
+  const previous=f.map.getPixelRatio();f.map.width+=20;f.resize();
+  assert(previous-f.map.getPixelRatio()<.005);assert(f.map.getPixelRatio()<previous);
+  const c=f.map.getCanvas();assert(c.width*c.height<=3_000_001);q.destroy();
+ }finally{f.cleanup();}
 });

@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 import {nativePaintSignature} from './progressive-native-signature';
 import {CBT_DOMAIN_PROFILE as P} from './cbt-partial-domain-fixture';
 export type CBTContext={signal?:AbortSignal;city:string;indexSHA:string;sourcePBF:string;boundarySHA:string;sourceSnapshot:string;leafSHA:(c:BuildingComponent)=>string|undefined;materialReady:(c:BuildingComponent)=>boolean};

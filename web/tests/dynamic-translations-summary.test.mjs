@@ -7,6 +7,32 @@ const source = new URL('../src/safety/dynamic-translations.ts', import.meta.url)
 const compiled = await build({entryPoints:[source],bundle:true,platform:'node',format:'esm',target:'node22',write:false});
 const {DynamicTranslations,textHash} = await import(`data:text/javascript;base64,${Buffer.from(compiled.outputFiles[0].text).toString('base64')}`);
 
+test('source sections translate only approved public text and preserve source identities and counts', async () => {
+  const event={id:'munich:fixture',source_id:'fixture',source_sha256:'a'.repeat(64),title:'Title',location_label:'',
+    category:'fixture',month:'2026-10',coordinates:null,source_url:'https://invalid.example/source',
+    public_display_fields:['source_sections'],source_sections:[{incident_id:'section-1',original_section_heading:'Heading',
+      source_stated_time:['Saturday'],phases:[{quote_de:'Source phase',time_de:'At noon',formal_location_ids:['unknown']}]}]};
+  const original=structuredClone(event);
+  const at=(object,path)=>path.slice(1).split('/').reduce((value,key)=>value[key],object);
+  const values=new Map([['/title','标题'],['/source_sections/0/original_section_heading','分节'],
+    ['/source_sections/0/source_stated_time/0','星期六'],['/source_sections/0/phases/0/quote_de','来源阶段'],
+    ['/source_sections/0/phases/0/time_de','中午']]);
+  const fields=await Promise.all([...values].map(async([field,translated_text])=>({city:'munich',source_id:'fixture',
+    source_sha256:event.source_sha256,field,text_sha256:await textHash(at(event,field)),translated_text})));
+  const manifest={city:'munich',generation:'fixture',metadata:{},translations:{zh:{'2026-10':'translations/zh/2026-10.json'}}};
+  const pack={schema_version:1,locale:'zh',city:'munich',month:'2026-10',source_generation:'fixture',texts:{},fields};
+  const load=async row=>{const dyn=new DynamicTranslations();await dyn.load([row],manifest,{base:'private',json:async()=>pack},'2026-10','zh',new AbortController().signal,'munich');return dyn;};
+  const dyn=await load(event),display=dyn.displayRows([event])[0];
+  assert.equal(dyn.missing,0);
+  for(const [field,expected] of values)assert.equal(at(display,field),expected,field);
+  assert.deepEqual(display.source_sections[0].phases[0].formal_location_ids,['unknown']);
+  assert.equal(display.coordinates,null);
+  assert.deepEqual(event,original);
+  const hidden=structuredClone(event);hidden.public_display_fields=[];
+  const hiddenDisplay=(await load(hidden)).displayRows([hidden])[0];
+  assert.equal(hiddenDisplay.source_sections[0].original_section_heading,'Heading');
+});
+
 test('translates the short summary on locale switch while leaving full body to its separate lazy loader', async () => {
   const sourceSha = 'a'.repeat(64);
   const event = {

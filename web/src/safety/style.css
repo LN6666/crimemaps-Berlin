@@ -275,9 +275,10 @@ p {
 .poi-filter-legend { min-width: 0; }
 .poi-filter-kinds { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 4px; font-size: 12px; }
 .poi-filter-kind { display: inline-flex; align-items: center; gap: 7px; }
-.poi-filter-swatch { position: relative; display: inline-block; flex: 0 0 18px; width: 18px; height: 18px; }
-.poi-filter-area { position: absolute; inset: 0; border: 1px solid #111827; border-radius: 50%; opacity: 0.25; }
-.poi-filter-center { position: absolute; inset: 6px; border: 1px solid #111827; border-radius: 50%; box-shadow: 0 0 0 2px #fff; }
+.poi-filter-swatch { position: relative; display: inline-block; flex: 0 0 24px; width: 24px; height: 24px; }
+.poi-filter-swatch::after { content: ""; position: absolute; inset: 0; border: 1px solid rgba(0, 0, 0, 0.8); border-radius: 50%; pointer-events: none; }
+.poi-filter-area { position: absolute; inset: 0; border-radius: 50%; opacity: 0.25; }
+.poi-filter-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); box-sizing: content-box; width: 10px; height: 10px; border: 1px solid #111827; border-radius: 50%; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.95); }
 i {
   width: 10px;
   height: 10px;

@@ -1,5 +1,6 @@
 import {SOURCE_SHADOW_VECTOR} from './source-shadow';
-import type {BuildingComponent,ShadowBatchAdmission} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
+import type {ShadowBatchAdmission} from '../../../safety/shadow-batch-types';
 /** Compact SHA-checked asset protocol: one common header and one integer index list.
  * No repeated source IDs/boundary strings per serialized component; raw tags remain exact. */
 export function shadowAdmissionForDecodedShard(value:unknown,components:readonly BuildingComponent[],city:string,boundarySHA256:string):ShadowBatchAdmission|undefined{

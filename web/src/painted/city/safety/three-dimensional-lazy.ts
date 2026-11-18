@@ -1,4 +1,5 @@
 import {reichstagAppearanceVertexReservation} from './reichstag-appearance-budget';
+import type {ContextRecoveryOptions} from '../../../safety/recovery-resident-reuse';
 import type {installThreeDimensionalMap as InstallActualMap} from './three-dimensional-map';
 type Installer=typeof InstallActualMap;
 type Options=Parameters<Installer>[0];
@@ -26,30 +27,45 @@ export function installThreeDimensionalMap(options:Options,loadModule:()=>Promis
   if(!actual){actual=module.installThreeDimensionalMap({...options,mobile,onRenderer:renderer=>{if(hidden!==undefined)renderer.setPageHidden(hidden);if(reduced!==undefined)renderer.setReducedMotion(reduced);renderer.setOpacityContext(opacityContext);options.onRenderer?.(renderer);}});if(hidden!==undefined)actual.setPageHidden(hidden);if(reduced!==undefined)actual.setReducedMotion(reduced);actual.setOpacityContext(opacityContext);}
   return actual;
  }
- async function requestMode(next:'2d'|'3d',external:AbortSignal){
+ async function requestMode(next:'2d'|'3d',external:AbortSignal,transition?:Parameters<Actual['requestMode']>[2]){
   if(destroyed)throw aborted();external.throwIfAborted();wanted=next;modeRequest.abort();const own=modeRequest=new AbortController(),ticket=++revision,cancel=()=>own.abort();external.addEventListener('abort',cancel,{once:true});if(external.aborted)own.abort();
   try{
    if(next==='2d'&&!actual){own.signal.throwIfAborted();if(suspended)throw aborted();ownsUnloaded2DTransition=true;options.map.stop();options.map.easeTo({pitch:0,duration:matchMedia('(prefers-reduced-motion:reduce)').matches?0:220});const state={mode:'2d' as const,status:'ready' as const};options.onState?.(state);if(!own.signal.aborted&&!destroyed&&ticket===revision)lastError=undefined;return state;}
    if(next==='3d'&&ownsUnloaded2DTransition){ownsUnloaded2DTransition=false;options.map.stop();}
    const owner=actual??await ensure(own.signal);own.signal.throwIfAborted();if(ticket!==revision||destroyed||suspended)throw aborted();
-   const result=await owner.requestMode(next,own.signal);if(!own.signal.aborted&&!destroyed&&ticket===revision)lastError=undefined;return result;
+   const result=await owner.requestMode(next,own.signal,transition);if(!own.signal.aborted&&!destroyed&&ticket===revision)lastError=undefined;return result;
   }catch(error){if(!own.signal.aborted&&!canceled(error))lastError=String(error);if(!own.signal.aborted&&!canceled(error)&&!destroyed&&ticket===revision&&!actual)options.onState?.({mode:'2d',status:'error'});throw error;}
   finally{external.removeEventListener('abort',cancel);}
  }
  return {
   requestMode,
+  getCameraReadinessDiagnostic:()=>actual?.getCameraReadinessDiagnostic(),
+  getDrawReadinessDiagnostic:()=>actual?.getDrawReadinessDiagnostic(),
+  async prepareCanonicalPicking(point,signal){
+   signal.throwIfAborted();if(destroyed||suspended)throw aborted();
+   // An unloaded adapter has no published far-detail resident to promote.
+   const owner=actual;if(!owner)return;
+   await owner.prepareCanonicalPicking(point,signal);
+   signal.throwIfAborted();if(destroyed||suspended||actual!==owner)throw aborted();
+  },
   getOwnerReconstructionBinding(identity){return actual?.getOwnerReconstructionBinding(identity);},
   getSourceBinding(identity){return actual?.getSourceBinding(identity);},
-  async readAsset(asset,signal,max){signal.throwIfAborted();return (actual??await ensure(signal)).readAsset(asset,signal,max);},
+  retainSelectedSource(identity){return actual?.retainSelectedSource(identity);},
+  getRequiredSolarCoverageBounds(){return actual?.getRequiredSolarCoverageBounds();},
+  getDetailSettlement(){return actual?.getDetailSettlement();},
+  requestDetailRefresh(){actual?.requestDetailRefresh();},
+  get detailDemandPending(){return actual?.detailDemandPending??false;},
+  get detailDemandHeld(){return actual?.detailDemandHeld===true;},
+  async readAsset(asset,signal,max,admission){signal.throwIfAborted();return (actual??await ensure(signal)).readAsset(asset,signal,max,admission);},
   setPageHidden(value){hidden=value;actual?.setPageHidden(value);},
   setReducedMotion(value){reduced=value;actual?.setReducedMotion(value);},
   setOpacityContext(value){opacityContext=value;actual?.setOpacityContext(value);},
   get mode(){return actual?.mode??'2d';},get wantedMode(){return actual?.wantedMode??wanted;},
   get renderer(){return actual?.renderer;},get sourceMetadata(){return actual?.sourceMetadata;},
   getRevision:()=>actual?.getRevision()??{generation:0,viewRevision:0},
-  cacheStats(){if(actual)return {...actual.cacheStats(),lazyAdapterError:lastError};const b=options.map.getBounds();return{lastError,visibleLoadsPending:0,ownerReconstruction:{components:[],geometryAdded:0,notNative:true as const},sourceEdgeAssemblyDisplay:{groups:[],errors:[]},lazyAdapterError:lastError,logicalLeafRequestGuard:mobile?64:128,visibleVertexLimit:mobile?100000:200000,reservedAppearanceVertices,nativeAdmissionVertexLimit,viewportBounds:[b.getWest(),b.getSouth(),b.getEast(),b.getNorth()],mode:'2d',wantedMode:wanted,metadataPages:undefined,tiles:0,bytes:0,physicalBytes:0,inflatedJSONBytes:0,retainedPayloadEstimateBytes:0,visibleRetainedPayloadEstimateBytes:0,stagingRetainedPayloadEstimateBytes:0,cachePlusVisibleConservativeEstimateBytes:0,cacheVisibleStagingConservativeEstimateBytes:0,physicalShardFetchTransientMaxBytes:2*1024**2,measurement:'serialized-bytes-and-retained-payload-estimate-not-heap',active:0,peakConcurrency:0,loadCount:0,visibleShardIds:[],partial:false,selected:undefined,revision:{generation:0,viewRevision:0},renderer:undefined,rendererScreenSamples:[],zoom:options.map.getZoom(),pitch:options.map.getPitch(),queued:0};},
-  suspend(){if(destroyed)return false;suspended=true;modeRequest.abort();revision++;actual?.suspend();return false;},
-  resume(){if(destroyed)return;suspended=false;if(actual)actual.resume();else if(wanted==='3d')void requestMode('3d',new AbortController().signal).catch(()=>{});},
+  cacheStats(){if(actual)return {...actual.cacheStats(),lazyAdapterError:lastError};const b=options.map.getBounds();return{handoff:{expectedGeneration:null,registeredTicket:null,currentTicket:0,actuallyPublished:null,mainReadyGeneration:null,mainReadyTicket:null},lastError,visibleLoadsPending:0,ownerReconstruction:{components:[],geometryAdded:0,notNative:true as const},sourceEdgeAssemblyDisplay:{groups:[],errors:[]},lazyAdapterError:lastError,logicalLeafRequestGuard:mobile?64:128,visibleVertexLimit:mobile?100000:200000,reservedAppearanceVertices,nativeAdmissionVertexLimit,viewportBounds:[b.getWest(),b.getSouth(),b.getEast(),b.getNorth()],mode:'2d',wantedMode:wanted,metadataPages:undefined,sourceRoles:{resources:0,wanted:0,main:0,serializedBytes:0,inflatedJSONBytes:0,retainedPayloadEstimateBytes:0,scope:'manager-held-source-roles-not-independent-cache'},tiles:0,bytes:0,physicalBytes:0,inflatedJSONBytes:0,retainedPayloadEstimateBytes:0,visibleRetainedPayloadEstimateBytes:0,stagingRetainedPayloadEstimateBytes:0,cachePlusVisibleConservativeEstimateBytes:0,cacheVisibleStagingConservativeEstimateBytes:0,physicalShardFetchTransientMaxBytes:2*1024**2,measurement:'serialized-bytes-and-retained-payload-estimate-not-heap',active:0,peakConcurrency:0,loadCount:0,visibleShardIds:[],partial:false,selected:undefined,revision:{generation:0,viewRevision:0},renderer:undefined,rendererScreenSamples:[],zoom:options.map.getZoom(),pitch:options.map.getPitch(),queued:0};},
+  suspend(settings?:ContextRecoveryOptions){if(destroyed)return false;suspended=true;const keep=actual?.suspend(settings)===true;if(!keep){modeRequest.abort();revision++;}return keep;},
+  resume(settings?:ContextRecoveryOptions){if(destroyed)return;suspended=false;if(actual)actual.resume(settings);else if(wanted==='3d')void requestMode('3d',new AbortController().signal).catch(()=>{});},
   destroy(){if(destroyed)return;destroyed=true;modeRequest.abort();revision++;actual?.destroy();}
  };
 }

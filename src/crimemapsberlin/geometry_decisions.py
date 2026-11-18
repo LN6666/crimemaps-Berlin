@@ -20,14 +20,19 @@ from pathlib import Path
 from shapely.geometry import GeometryCollection, MultiPoint, Point, mapping, shape
 from shapely.ops import transform, unary_union
 
-from .city_geometry_index import validate_geometry_index, _valid_native_facility
-from .city_road_segment import source_road_segments
 from .city_district_road_reference import district_road_reference
-from .city_rail_crossing_reference import METHOD as RAIL_CROSSING_METHOD, derive_crossing_reference
-from .city_road_bridge_reference import METHOD as ROAD_BRIDGE_METHOD, derive_underpass_reference
+from .city_geometry_index import _valid_native_facility, normalized_name, validate_geometry_index
+from .city_rail_crossing_reference import METHOD as RAIL_CROSSING_METHOD
+from .city_rail_crossing_reference import derive_crossing_reference
+from .city_road_bridge_reference import METHOD as ROAD_BRIDGE_METHOD
+from .city_road_bridge_reference import derive_underpass_reference
+from .city_road_segment import source_road_segments
 from .city_transit_segment import source_track_segment, source_track_segments_between_roads
 from .official_geometry_references import (
-    METHOD as OFFICIAL_DISTRICT_METHOD, derive_official_district_reference,
+    METHOD as OFFICIAL_DISTRICT_METHOD,
+)
+from .official_geometry_references import (
+    derive_official_district_reference,
     validate_official_reference_index,
 )
 from .poi_cities import POI_CITY_SPECS, geometry_covered_by
@@ -50,6 +55,7 @@ METHODS = {
     "osm_point",
     "osm_footprint",
     "osm_line",
+    "osm_stationary_road_reference",
     "osm_road_segment",
     "osm_non_transit_route",
     "osm_non_transit_road_reference",
@@ -61,6 +67,7 @@ METHODS = {
     "osm_transit_line_reference",
     "osm_named_footprint_reference",
     "osm_place_footprint_reference",
+    "osm_place_point_reference",
     "osm_place_native_collection_reference",
     "osm_native_facility_reference",
     "osm_station_footprint_reference",
@@ -180,6 +187,81 @@ def _source_route_relation(row: dict, line: str, mode: str) -> bool:
     )
 
 
+def _source_named_road_group(rows: list[dict], request: dict) -> str:
+    """Bind a reference identity to the reviewed label or literal evidence."""
+    identities = []
+    for row in rows:
+        name = row.get("tags", {}).get("name")
+        names = [name] if name else row.get("names", [])
+        if not names or any(not isinstance(value, str) or not value.strip() for value in names):
+            raise ValueError("source road reference needs named original road members")
+        identities.append({normalized_name(value) for value in names})
+    common = set.intersection(*identities)
+    evidence = [request.get("label", ""), *request.get("evidence_quotes", [])]
+    supported = {name for name in common if any(
+        re.search(r"(?<![\w-])" + re.escape(name) + r"s?(?![\w-])", normalized_name(text))
+        for text in evidence if isinstance(text, str)
+    )}
+    if len(supported) != 1:
+        raise ValueError("source road reference needs one source-supported road identity")
+    return next(iter(supported))
+
+
+def _area_junction_road_names(groups: list[list[dict]], request: dict) -> None:
+    error = "area junction reference needs two distinct named road identities"
+    raw_groups = [{row.get("tags", {}).get("name") for row in group} for group in groups]
+    if all(None not in names for names in raw_groups):
+        if any(len(names) != 1 or not next(iter(names)) for names in raw_groups) or raw_groups[0] == raw_groups[1]:
+            raise ValueError(error)
+        return
+
+    # Compact native indexes retain the canonical names array even when the
+    # original name tag was omitted. Never invent tags or override a present one.
+    common_names = []
+    explicit_names = []
+    all_names = set()
+    for group in groups:
+        row_names = []
+        explicit = set()
+        for row in group:
+            names = row.get("names")
+            if (not isinstance(names, list) or not names
+                    or any(not isinstance(name, str) or not name.strip() for name in names)
+                    or names != sorted(set(names), key=lambda name: (normalized_name(name), name))):
+                raise ValueError(error)
+            normalized = {normalized_name(name) for name in names}
+            tags = row.get("tags", {})
+            if "name" in tags:
+                raw = tags["name"]
+                if not isinstance(raw, str) or not raw.strip() or normalized_name(raw) not in normalized:
+                    raise ValueError(error)
+                explicit.add(normalized_name(raw))
+            row_names.append(normalized)
+            all_names.update(normalized)
+        common_names.append(set.intersection(*row_names))
+        explicit_names.append(explicit)
+    if common_names[0] & common_names[1]:
+        raise ValueError(error)
+
+    patterns = {name: r"(?<![\w-])" + re.escape(name) + r"(?![\w-])" for name in all_names}
+    # Fail closed for a shorter name that is itself a whole-token part of
+    # another selected road name, even if the longer mention is inflected.
+    nested_names = {name for name in all_names if any(
+        name != other and re.search(patterns[name], other) for other in all_names
+    )}
+    supported = set()
+    for quote in request.get("evidence_quotes", []):
+        if not isinstance(quote, str):
+            raise TypeError(error)
+        text = normalized_name(quote)
+        supported.update(name for name in all_names - nested_names if re.search(patterns[name], text))
+    identities = [names & supported for names in common_names]
+    if (any(len(names) != 1 for names in identities) or identities[0] == identities[1]
+            or any(explicit and explicit != identity
+                   for explicit, identity in zip(explicit_names, identities, strict=True))):
+        raise ValueError(error)
+
+
 def _derived_geometry_without_static_reference(
     decision: dict, request: dict, objects: dict[str, dict], border, city: str,
     *, include_footprint_count_points: bool = True, official_references: dict | None = None,
@@ -291,6 +373,25 @@ def _derived_geometry_without_static_reference(
             # Preserve the reviewed native bridge/square footprint, never an
             # invented centreline or a synthetic event/count point.
             geometry = unary_union(geometries)
+        elif method == "osm_place_point_reference":
+            if (
+                task != "checked_point_geocode_required"
+                or precision != "place"
+                or request.get("transit_route") is not None
+                or request.get("coordinates") is not None
+            ):
+                raise ValueError("place point reference needs a reviewed stationary place")
+            if len(object_groups) != 1 or len(selected) != 1 or (
+                geometries[0].geom_type != "Point"
+                or not selected[0]["id"].startswith("osm/node/")
+                or "named_object" not in selected[0].get("roles", [])
+                or "administrative_boundary" in selected[0].get("roles", [])
+                or not selected[0].get("names")
+            ):
+                raise ValueError("place point reference needs one checked named non-administrative native node")
+            # Keep the original place marker without claiming the event happened
+            # at this coordinate or making it eligible for map counting.
+            geometry = geometries[0]
         elif method == "osm_place_native_collection_reference":
             if (
                 task != "checked_point_geocode_required"
@@ -393,7 +494,16 @@ def _derived_geometry_without_static_reference(
             ):
                 raise ValueError("water footprint reference needs checked native water polygons")
             geometry = unary_union(geometries)
-        elif method == "osm_line":
+        elif method in {"osm_line", "osm_stationary_road_reference"}:
+            if method == "osm_stationary_road_reference" and (
+                not ((task == "checked_road_geometry_required" and precision == "street")
+                     or (task == "checked_area_geometry_required" and precision == "area"))
+                or request.get("transit_route") is not None
+                or request.get("coordinates") is not None
+            ):
+                raise ValueError(
+                    "stationary road reference needs a reviewed street/area with no event point or route"
+                )
             line_matches_review = (
                 (task == "checked_road_geometry_required" and precision == "street")
                 or (task == "checked_area_geometry_required" and precision == "area")
@@ -420,6 +530,8 @@ def _derived_geometry_without_static_reference(
                 for row, geometry in zip(selected, geometries, strict=True)
             ):
                 raise ValueError("osm_line selections must be checked road objects or point/place platforms")
+            if method == "osm_stationary_road_reference" and precision == "area":
+                _source_named_road_group(selected, request)
             geometry = unary_union(geometries)
         elif method in {"osm_district_road_reference", "osm_district_highway_reference"}:
             if (task != "checked_road_geometry_required" or precision != "street"
@@ -689,19 +801,21 @@ def _derived_geometry_without_static_reference(
             ])
         elif method in {"osm_intersection", "osm_junction_reference"}:
             area_junction_reference = (
-                method == "osm_junction_reference" and precision == "area"
-                and task == "checked_area_geometry_required"
+                method == "osm_junction_reference" and (
+                    (precision == "area" and task == "checked_area_geometry_required")
+                    or (precision == "street" and task == "checked_road_geometry_required")
+                )
             )
             if not area_junction_reference and (
                 task != "checked_point_geocode_required" or precision not in POINT_PRECISIONS
             ):
                 raise ValueError("osm_intersection differs from the reviewed precision")
             if method == "osm_junction_reference" and (
-                precision not in {"point", "place", "area"}
+                precision not in {"point", "place", "area", "street"}
                 or request.get("transit_route") is not None
                 or request.get("coordinates") is not None
             ):
-                raise ValueError("junction reference needs a reviewed stationary point/place/area without coordinates")
+                raise ValueError("junction reference needs a reviewed stationary point/place/area/street without coordinates")
             if area_junction_reference and len(object_groups) != 2:
                 raise ValueError("area junction reference needs exactly two named road groups")
             if len(object_groups) < 2:
@@ -719,12 +833,15 @@ def _derived_geometry_without_static_reference(
                     raise ValueError("osm_intersection groups must contain checked roads")
                 grouped.append(unary_union(group_geometries))
             if area_junction_reference:
-                group_names = [
-                    {selected_by_id[ident].get("tags", {}).get("name") for ident in group}
-                    for group in object_groups
-                ]
-                if any(len(names) != 1 or not next(iter(names)) for names in group_names) or group_names[0] == group_names[1]:
-                    raise ValueError("area junction reference needs two distinct named road identities")
+                _area_junction_road_names(
+                    [[selected_by_id[ident] for ident in group] for group in object_groups], request,
+                )
+                if precision == "street":
+                    names = {_source_named_road_group(
+                        [selected_by_id[ident] for ident in group], request,
+                    ) for group in object_groups}
+                    if len(names) != 2:
+                        raise ValueError("street junction reference needs two source-supported road identities")
             candidates = []
             for left, right in itertools.combinations(grouped, 2):
                 intersection = left.intersection(right)
@@ -820,6 +937,11 @@ def _derived_geometry_without_static_reference(
         result["count_point"] = point_geojson
         result["count_point_sha256"] = _digest(point_geojson)
         result["count_point_method"] = "selected_osm_footprint_representative_point"
+    elif method == "osm_stationary_road_reference":
+        result["geometry_usage"] = "source_road_reference_only"
+        result["actual_non_transit_extent_known"] = False
+        result["actual_event_position_known"] = False
+        result["actual_event_extent_known"] = False
     elif method in {"osm_district_road_reference", "osm_district_highway_reference"}:
         result["geometry_usage"] = "source_road_reference_only"
         result["district_reference_clip"] = district_clip
@@ -865,7 +987,7 @@ def _derived_geometry_without_static_reference(
         result["actual_event_extent_known"] = False
     elif method in {"osm_named_footprint_reference", "osm_place_footprint_reference"}:
         result["geometry_usage"] = "source_footprint_reference_only"
-    elif method in {"osm_place_native_collection_reference", "osm_native_facility_reference"}:
+    elif method in {"osm_place_point_reference", "osm_place_native_collection_reference", "osm_native_facility_reference"}:
         result["geometry_usage"] = "source_native_collection_reference_only"
         result["actual_event_position_known"] = False
         result["actual_event_extent_known"] = False

@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 import {nativePaintSignature} from './progressive-native-signature';
 export const F148_IDENTITY={city:'frankfurt',objectId:'osm/way/23901923',partId:'osm/way/23901923/component/9f7e45e31c96a4a9923f',signature:'a192fdd2'};
 // Four source facades plus flat roof, no geometry edits or aliases.

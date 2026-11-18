@@ -177,7 +177,10 @@ async function fetchJson<T extends { schema_version: number; records: unknown[] 
     referrerPolicy: "no-referrer",
     cache: "no-cache",
   });
-  if (!response.ok) throw new ReportBodyLoadError(`Report body unavailable (HTTP ${response.status})`);
+  // A missing mounted index or body is not a transient network failure. Keep
+  // it rejected (never synthesize an unavailable record), without a futile
+  // retry action. Temporary server/network failures remain retryable.
+  if (!response.ok) throw new ReportBodyLoadError(`Report body unavailable (HTTP ${response.status})`, response.status !== 404);
   const bytes = await readBounded(response, signal);
 
   let value: T;
@@ -271,7 +274,11 @@ export async function loadReportBody(
     if (locale !== "de" && body.candidate_source !== localized.candidate_source) {
       throw new ReportBodyLoadError("Translation provenance does not match its month index", false);
     }
-    if (await sha256(body.body) !== body.body_sha256) {
+    const actualBodySha256 = await sha256(body.body);
+    // Integrity verification is asynchronous too. Month/source resets and
+    // page hiding may cancel the internal request after its network work ends.
+    controller.signal.throwIfAborted();
+    if (actualBodySha256 !== body.body_sha256) {
       throw new ReportBodyLoadError("Report-body text failed its integrity check", false);
     }
     return { body: body.body, contentClass, sourceLimitation };

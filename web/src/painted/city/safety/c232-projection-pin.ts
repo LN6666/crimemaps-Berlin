@@ -1,4 +1,7 @@
 // Own exact source/UV pins only; historical configuration unknown; candidate unapplied.
+type C232ExactTuple001 = readonly [0, 0, 1];
+type C232ExactTuple010 = readonly [0, 1, 0];
+type C232ExactTuple100 = readonly [1, 0, 0];
 export const C232_PROJECTION_REGISTRY={
   "schemaVersion": 1,
   "scope": "Nine own original copper roof carriers495v, necessary parent930v and lowflat50v remain unchanged; no hide or neighbor absorption",
@@ -19,7 +22,7 @@ export const C232_PROJECTION_REGISTRY={
       7.46203555,
       51.5133611
     ],
-    "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Dortmund/safety/buildings3d/dortmund/flat-00312.json.gz",
+    "sourceLeaf": "source-evidence/84297323898ac6e94fef/safety/buildings3d/dortmund/flat-00312.json.gz",
     "sourceSHA256": "4545f9f759c65147b9e982126e5df9f6674dc02b6162d4e274eca1dbc4ce3e65",
     "geometrySignature": "91293235",
     "componentGeometry": {
@@ -808,7 +811,7 @@ export const C232_PROJECTION_REGISTRY={
       "city": "dortmund",
       "objectId": "osm/way/503324952",
       "partId": "osm/way/503324952/component/7492633bdae84663e209",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Dortmund/safety/buildings3d/dortmund/roof-00916.json.gz",
+      "sourceLeaf": "source-evidence/84297323898ac6e94fef/safety/buildings3d/dortmund/roof-00916.json.gz",
       "sourceLeafSHA256": "a0d5590e1a8e8a98c029ff414a272a144f7f5dbe78db62d7030e3dccaadfa5f8",
       "rawSignature": "139b9c2e",
       "rawBuffers": [
@@ -855,7 +858,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -321.7805531724094,
           "vOrigin": 0
         },
@@ -875,7 +878,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -324.90013555514616,
           "vOrigin": 0
         },
@@ -895,7 +898,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -387.2307472782907,
           "vOrigin": 0
         },
@@ -915,7 +918,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -70.4263499309183,
           "vOrigin": 0
         },
@@ -930,12 +933,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         },
@@ -950,12 +953,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         },
@@ -970,12 +973,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         },
@@ -990,12 +993,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         }
@@ -1017,7 +1020,7 @@ export const C232_PROJECTION_REGISTRY={
       "city": "dortmund",
       "objectId": "osm/way/503324954",
       "partId": "osm/way/503324954/component/c8ff31ea6601bfb55adf",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Dortmund/safety/buildings3d/dortmund/roof-00916.json.gz",
+      "sourceLeaf": "source-evidence/84297323898ac6e94fef/safety/buildings3d/dortmund/roof-00916.json.gz",
       "sourceLeafSHA256": "a0d5590e1a8e8a98c029ff414a272a144f7f5dbe78db62d7030e3dccaadfa5f8",
       "rawSignature": "8e532a84",
       "rawBuffers": [
@@ -1064,7 +1067,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -16.620483441600378,
           "vOrigin": 0
         },
@@ -1084,7 +1087,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -36.94506921461168,
           "vOrigin": 0
         },
@@ -1104,7 +1107,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -37.22099829095388,
           "vOrigin": 0
         },
@@ -1124,7 +1127,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -16.258210482477217,
           "vOrigin": 0
         },
@@ -1144,7 +1147,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": 9.33266816143745,
           "vOrigin": 0
         },
@@ -1164,7 +1167,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": 26.127302928077853,
           "vOrigin": 0
         },
@@ -1184,7 +1187,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": 22.64594611612995,
           "vOrigin": 0
         },
@@ -1204,7 +1207,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -3.5516827627318204,
           "vOrigin": 0
         },
@@ -1219,12 +1222,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         },
@@ -1239,12 +1242,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         },
@@ -1259,12 +1262,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         },
@@ -1279,12 +1282,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         },
@@ -1299,12 +1302,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         },
@@ -1319,12 +1322,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         },
@@ -1339,12 +1342,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         },
@@ -1359,12 +1362,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         }
@@ -1386,7 +1389,7 @@ export const C232_PROJECTION_REGISTRY={
       "city": "dortmund",
       "objectId": "osm/way/698257008",
       "partId": "osm/way/698257008/component/8d128ee202e16afd6d0d",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Dortmund/safety/buildings3d/dortmund/roof-00916.json.gz",
+      "sourceLeaf": "source-evidence/84297323898ac6e94fef/safety/buildings3d/dortmund/roof-00916.json.gz",
       "sourceLeafSHA256": "a0d5590e1a8e8a98c029ff414a272a144f7f5dbe78db62d7030e3dccaadfa5f8",
       "rawSignature": "b9e17347",
       "rawBuffers": [
@@ -1433,7 +1436,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -163.5617040137139,
           "vOrigin": 0
         },
@@ -1453,7 +1456,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -192.84160804186317,
           "vOrigin": 0
         },
@@ -1473,7 +1476,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -228.08215063329197,
           "vOrigin": 0
         },
@@ -1493,7 +1496,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": 28.830412129300647,
           "vOrigin": 0
         },
@@ -1513,7 +1516,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": 14.071244405603098,
           "vOrigin": 0
         },
@@ -1533,7 +1536,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -38.77370536031321,
           "vOrigin": 0
         },
@@ -1548,12 +1551,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         },
@@ -1568,12 +1571,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         },
@@ -1588,12 +1591,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         }
@@ -1615,7 +1618,7 @@ export const C232_PROJECTION_REGISTRY={
       "city": "dortmund",
       "objectId": "osm/way/698257012",
       "partId": "osm/way/698257012/component/d64831ebc80fe8d8e761",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Dortmund/safety/buildings3d/dortmund/roof-00916.json.gz",
+      "sourceLeaf": "source-evidence/84297323898ac6e94fef/safety/buildings3d/dortmund/roof-00916.json.gz",
       "sourceLeafSHA256": "a0d5590e1a8e8a98c029ff414a272a144f7f5dbe78db62d7030e3dccaadfa5f8",
       "rawSignature": "54885db4",
       "rawBuffers": [
@@ -1662,7 +1665,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": 13.174369239639027,
           "vOrigin": 0
         },
@@ -1682,7 +1685,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": 6.254733201837858,
           "vOrigin": 0
         },
@@ -1702,7 +1705,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -44.799683641453356,
           "vOrigin": 0
         },
@@ -1722,7 +1725,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -25.224411109637753,
           "vOrigin": 0
         },
@@ -1742,7 +1745,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": 10.361621419388676,
           "vOrigin": 0
         },
@@ -1757,12 +1760,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         }
@@ -1784,7 +1787,7 @@ export const C232_PROJECTION_REGISTRY={
       "city": "dortmund",
       "objectId": "osm/way/698257013",
       "partId": "osm/way/698257013/component/ea4a6a00b5e66ffee9bb",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Dortmund/safety/buildings3d/dortmund/roof-00916.json.gz",
+      "sourceLeaf": "source-evidence/84297323898ac6e94fef/safety/buildings3d/dortmund/roof-00916.json.gz",
       "sourceLeafSHA256": "a0d5590e1a8e8a98c029ff414a272a144f7f5dbe78db62d7030e3dccaadfa5f8",
       "rawSignature": "74e2d7f9",
       "rawBuffers": [
@@ -1831,7 +1834,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -66.91077615713054,
           "vOrigin": 0
         },
@@ -1851,7 +1854,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -47.93713490637721,
           "vOrigin": 0
         },
@@ -1871,7 +1874,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -19.739232995094326,
           "vOrigin": 0
         },
@@ -1891,7 +1894,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -1.3592000116830185,
           "vOrigin": 0
         },
@@ -1911,7 +1914,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -260.81637436736014,
           "vOrigin": 0
         },
@@ -1931,7 +1934,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -30.392374460178857,
           "vOrigin": 0
         },
@@ -1946,12 +1949,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         }
@@ -1973,7 +1976,7 @@ export const C232_PROJECTION_REGISTRY={
       "city": "dortmund",
       "objectId": "osm/way/698257014",
       "partId": "osm/way/698257014/component/4f13f6a0e542d967285e",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Dortmund/safety/buildings3d/dortmund/roof-00916.json.gz",
+      "sourceLeaf": "source-evidence/84297323898ac6e94fef/safety/buildings3d/dortmund/roof-00916.json.gz",
       "sourceLeafSHA256": "a0d5590e1a8e8a98c029ff414a272a144f7f5dbe78db62d7030e3dccaadfa5f8",
       "rawSignature": "0a72a3ea",
       "rawBuffers": [
@@ -2020,7 +2023,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -88.2943491759478,
           "vOrigin": 0
         },
@@ -2040,7 +2043,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -117.89370609757569,
           "vOrigin": 0
         },
@@ -2060,7 +2063,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -151.66042343572053,
           "vOrigin": 0
         },
@@ -2080,7 +2083,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": 12.11999626432188,
           "vOrigin": 0
         },
@@ -2100,7 +2103,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -30.68827475543103,
           "vOrigin": 0
         },
@@ -2120,7 +2123,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -2.4903728441481494,
           "vOrigin": 0
         },
@@ -2140,7 +2143,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": 16.48326840660519,
           "vOrigin": 0
         },
@@ -2160,7 +2163,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -25.855892780725565,
           "vOrigin": 0
         },
@@ -2175,12 +2178,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         },
@@ -2195,12 +2198,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         },
@@ -2215,12 +2218,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         }
@@ -2242,7 +2245,7 @@ export const C232_PROJECTION_REGISTRY={
       "city": "dortmund",
       "objectId": "osm/way/698257015",
       "partId": "osm/way/698257015/component/05c1065d005bc3120904",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Dortmund/safety/buildings3d/dortmund/roof-00916.json.gz",
+      "sourceLeaf": "source-evidence/84297323898ac6e94fef/safety/buildings3d/dortmund/roof-00916.json.gz",
       "sourceLeafSHA256": "a0d5590e1a8e8a98c029ff414a272a144f7f5dbe78db62d7030e3dccaadfa5f8",
       "rawSignature": "7a7f86f8",
       "rawBuffers": [
@@ -2289,7 +2292,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -75.89171457529449,
           "vOrigin": 0
         },
@@ -2309,7 +2312,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -88.00687459980733,
           "vOrigin": 0
         },
@@ -2329,7 +2332,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -37.64949292529185,
           "vOrigin": 0
         },
@@ -2349,7 +2352,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": 23.87329388694412,
           "vOrigin": 0
         },
@@ -2364,12 +2367,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         },
@@ -2384,12 +2387,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         }
@@ -2411,7 +2414,7 @@ export const C232_PROJECTION_REGISTRY={
       "city": "dortmund",
       "objectId": "osm/way/698257016",
       "partId": "osm/way/698257016/component/fe4a4866164eee732636",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Dortmund/safety/buildings3d/dortmund/roof-00916.json.gz",
+      "sourceLeaf": "source-evidence/84297323898ac6e94fef/safety/buildings3d/dortmund/roof-00916.json.gz",
       "sourceLeafSHA256": "a0d5590e1a8e8a98c029ff414a272a144f7f5dbe78db62d7030e3dccaadfa5f8",
       "rawSignature": "e264fd9d",
       "rawBuffers": [
@@ -2458,7 +2461,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -112.36974504256676,
           "vOrigin": 0
         },
@@ -2478,7 +2481,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -61.556438747146544,
           "vOrigin": 0
         },
@@ -2498,7 +2501,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -47.30411421497629,
           "vOrigin": 0
         },
@@ -2518,7 +2521,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -47.431957729817704,
           "vOrigin": 0
         },
@@ -2538,7 +2541,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -25.97208256201664,
           "vOrigin": 0
         },
@@ -2553,12 +2556,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         },
@@ -2573,12 +2576,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         }
@@ -2600,7 +2603,7 @@ export const C232_PROJECTION_REGISTRY={
       "city": "dortmund",
       "objectId": "osm/way/698257017",
       "partId": "osm/way/698257017/component/2324ab9c518d0b4ff569",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Dortmund/safety/buildings3d/dortmund/roof-00916.json.gz",
+      "sourceLeaf": "source-evidence/84297323898ac6e94fef/safety/buildings3d/dortmund/roof-00916.json.gz",
       "sourceLeafSHA256": "a0d5590e1a8e8a98c029ff414a272a144f7f5dbe78db62d7030e3dccaadfa5f8",
       "rawSignature": "486364eb",
       "rawBuffers": [
@@ -2647,7 +2650,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -85.18606560825324,
           "vOrigin": 0
         },
@@ -2667,7 +2670,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -85.91881315798787,
           "vOrigin": 0
         },
@@ -2687,7 +2690,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -28.22700134210794,
           "vOrigin": 0
         },
@@ -2707,7 +2710,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -32.80102115607715,
           "vOrigin": 0
         },
@@ -2727,7 +2730,7 @@ export const C232_PROJECTION_REGISTRY={
             0,
             1,
             0
-          ],
+          ] as C232ExactTuple010,
           "uOrigin": -38.797504450287256,
           "vOrigin": 0
         },
@@ -2742,12 +2745,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         },
@@ -2762,12 +2765,12 @@ export const C232_PROJECTION_REGISTRY={
             1,
             0,
             0
-          ],
+          ] as C232ExactTuple100,
           "vAxis": [
             0,
             0,
             1
-          ],
+          ] as C232ExactTuple001,
           "uOrigin": 0,
           "vOrigin": 0
         }

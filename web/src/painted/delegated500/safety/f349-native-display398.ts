@@ -1,4 +1,5 @@
-import type{BuildingComponent}from'./building-mesh-renderer';
+import type {FrozenDataScope} from '../../../safety/frozen-data-scope';
+import type{BuildingComponent}from'../../../safety/building-mesh-types';
 import{nativePaintSignature}from'./progressive-native-signature';
 import{progressiveAdmission}from'./progressive-paint';
 import{PROGRESSIVE_FEATURE_GLSL}from'./progressive-feature-glsl';
@@ -6,7 +7,7 @@ const MEMBERS=[{"objectId":"osm/way/526529263","partId":"osm/way/526529263/compo
 const ROOT={"objectId":"osm/relation/20347035","partId":"osm/relation/20347035/component/2bbf61da8a488c51c690","origin":[9.76952615,52.375853250000006],"signature":"9d6059e4","leaf":"909e1df4fc8d6c82f35804d59ad178e1173c4c46d0d69f2e23bbaa8ccb30e211"} as const;
 const PROGRAM="float f349Box398(vec2 p,vec2 c,vec2 h){vec2 q=abs(p-c)-h;return 1.-smoothstep(-.045,.045,max(q.x,q.y));}\nvec3 f349Full398(vec3 base,vec3 p,vec3 normal,vec4 frame,float family){\n if(abs(family-1702.)>.1)return base;\n // Source-local XZ is transported to a single rotated metre frame at admission.\n vec2 uv=frame.xy;float u=uv.x,v=uv.y,y=p.y;vec3 n=normalize(normal);\n vec3 stone=vec3(.64,.61,.53),ledge=vec3(.72,.69,.61),glass=vec3(.115,.15,.145),roof=vec3(.28,.295,.275);\n float front=dot(n.xz,vec2(-.255,.967));float radius=length(uv-vec2(-.35,-2.6));\n if(y>26.85&&radius<26.2){\n  if(y>39.75)return vec3(.32,.36,.32)*( .93+.07*abs(n.y));\n  float az=atan(uv.x+.35,uv.y+2.6);float seam=1.-smoothstep(.018,.06,abs(sin(az*72.)));\n  vec3 copper=vec3(.36,.54,.41);return copper*(.93-.07*seam+.04*n.y);\n }\n if(n.y>.42)return roof;\n vec3 c=stone*(.96+.04*clamp(y/18.,0.,1.));\n // Low foundation, parapet and horizontal cornices; no facade-wide grid.\n if(y<.65)c=vec3(.40,.40,.35);\n float band=(1.-smoothstep(.08,.18,abs(y-6.6)))+(1.-smoothstep(.10,.21,abs(y-12.0)));\n c=mix(c,ledge,clamp(band*.7,0.,.85));\n // North entrance block only. Rear/wings do not inherit this photograph.\n if(front>.78&&v>56.8&&v<58.6&&abs(u)<18.9){\n  float win=0.;float surround=0.;\n  for(int k=0;k<4;k++){\n   float x=k<2?(-14.2+float(k)*4.45):(9.65+float(k-2)*4.45);\n   vec2 q=vec2(u-x,y);\n   float a=f349Box398(q,vec2(0.,3.9),vec2(.85,2.6));float b=f349Box398(q,vec2(0.,9.1),vec2(.85,1.75));\n   win=max(win,max(a,b));surround=max(surround,max(f349Box398(q,vec2(0.,3.9),vec2(1.06,2.82)),f349Box398(q,vec2(0.,9.1),vec2(1.06,1.98))));\n   float mull=(1.-smoothstep(.035,.075,abs(q.x)))+(1.-smoothstep(.025,.055,abs(mod(y-1.3,.68)-.34)));\n   c=mix(c,ledge,surround*.4);c=mix(c,mix(glass,vec3(.53,.56,.49),clamp(mull,0.,1.)*.7),max(a,b));\n  }\n  // Pilasters flank the evidenced four windows; no concealed bays inferred.\n  float pil=0.;for(int k=0;k<6;k++){float x=-17.+float(k)*6.8;pil=max(pil,(1.-smoothstep(.19,.36,abs(u-x)))*step(.8,y)*(1.-step(11.9,y)));}\n  c=mix(c,ledge,pil*.5);\n  float door=f349Box398(vec2(u,y),vec2(-.8,3.1),vec2(4.2,2.55));c=mix(c,glass*.78,door);\n  // Photograph shows an arched recessed relief; likeness and lettering unknown.\n  float ar=length(vec2((u+.8)/4.7,(y-13.4)/4.7));float panel=step(13.3,y)*(1.-smoothstep(.98,1.02,ar));\n  c=mix(c,stone*.84,panel*.65);float arch=(1.-smoothstep(.025,.075,abs(ar-1.)))*step(13.3,y);c=mix(c,ledge,arch*.65);\n  float ent=f349Box398(vec2(u,y),vec2(-.8,6.05),vec2(5.05,.38));c=mix(c,ledge,ent*.8);\n }\n // Exposed northern drum panels. Heights and angles are approximate photo rhythm.\n if(y>15.&&y<27.&&radius<28.&&v>0.){\n  float angle=atan(u+.35,v+2.6);float rib=1.-smoothstep(.025,.065,abs(sin(angle*12.)));\n  c=mix(c,ledge,rib*.22);float sill=1.-smoothstep(.12,.22,abs(y-25.4));c=mix(c,ledge,sill*.4);\n }\n return c;\n}\n";
 /** Display only. Original source getter and all16 source arrays remain untouched. */
-export function f349NativeRootHolds398(rows:readonly BuildingComponent[],leaf:(c:BuildingComponent)=>string|undefined):BuildingComponent[]{
+export function f349NativeRootHolds398(rows:readonly BuildingComponent[],leaf:(c:BuildingComponent)=>string|undefined,scope?:FrozenDataScope):BuildingComponent[]{
  if(!PROGRESSIVE_FEATURE_GLSL.includes(PROGRAM))return [];
  const all=[...MEMBERS,ROOT];let outline:BuildingComponent|undefined;
  for(const pin of all){
@@ -14,7 +15,9 @@ export function f349NativeRootHolds398(rows:readonly BuildingComponent[],leaf:(c
   if(matches.length!==1)return [];
   const c=matches[0];if(c.origin[0]!==pin.origin[0]||c.origin[1]!==pin.origin[1]||leaf(c)!==pin.leaf||nativePaintSignature(c)!==pin.signature)return [];
   if(pin===ROOT)outline=c;
-  else{const a=progressiveAdmission(c);if(!a?.surfaceFrames?.length||!a.surfaceFrames.every(f=>f.family===1702))return [];}
+  else{const a=progressiveAdmission(c,scope);if(!a?.surfaceFrames?.length||!a.surfaceFrames.every(f=>f.family===1702))return [];}
  }
  return outline?[outline]:[];
 }
+
+export const delegated500DataFunctionArities={"f349NativeRootHolds398":2} as const;

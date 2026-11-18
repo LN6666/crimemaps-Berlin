@@ -26,7 +26,7 @@ export function prepareFrankfurtCohortSelection<T extends Shard>(base:readonly T
  const members=accepted.flatMap(g=>g.members),member=(c:Component)=>c.city==='frankfurt'&&members.some(m=>m.objectId===c.objectId&&m.partId===c.partId&&nativePaintSignature(c as any)===m.signature);
  const stageCounts:Record<string,number[]>={};
  const counts=(rows:readonly Component[])=>members.map(m=>rows.filter(c=>c.city==='frankfurt'&&c.objectId===m.objectId&&c.partId===m.partId&&nativePaintSignature(c as any)===m.signature).length);
- return{candidates:[...descriptors.values(),...base.filter(s=>!descriptors.has(s.id))],
+ return{requiredLeafGroups:accepted.map(group=>group.leaves.map(leaf=>leaf.descriptor.id)),candidates:[...descriptors.values(),...base.filter(s=>!descriptors.has(s.id))],
   priority(a:Component,b:Component){return Number(member(b))-Number(member(a));},
   viewportRows<C extends GroupComponent>(raw:readonly C[],visible:readonly C[]):C[]{const set=new Set(visible);return raw.filter(c=>set.has(c)||member(c));},
   reserveAfter(chosen:readonly Shard[],index:number){const future=new Set(chosen.slice(index+1).map(s=>s.id));return members.reduce((a,m)=>future.has(m.leafId)?{vertices:a.vertices+m.vertices,bytes:a.bytes+m.retainedEstimateBytes}:a,{vertices:0,bytes:0});},

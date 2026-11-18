@@ -1,5 +1,5 @@
-import type {BuildingComponent,Identity,MeshBatch} from './building-mesh-renderer';
-import type {OwnerReconstructionStats} from './owner-f032-reconstruction';
+import type {BuildingComponent,Identity,MeshBatch} from "../../../safety/building-mesh-types";
+import type {OwnerReconstructionStats} from '../../../safety/owner-reconstruction-stats';
 import {commerzbankParentDisplayPlan} from './commerzbank-parent-display';
 import {nativePaintSignature} from './progressive-native-signature';
 import {COMMERZBANK_PARENT_DISPLAY_SHA as SHA} from './commerzbank-parent-display-sha';

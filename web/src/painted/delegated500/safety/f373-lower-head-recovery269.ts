@@ -1,5 +1,5 @@
 import {ownerShapePatchProfile} from './owner-shape-patch-display';
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 import {nativePaintSignature} from './progressive-native-signature';
 const PIN={"number":"F373-LowerHead","city":"nuremberg","objectId":"osm/way/258572667","partId":"osm/way/258572667/component/8077339e80f89b6232ef/owner-source-recovery269","sourcePartId":"osm/way/258572667/component/8077339e80f89b6232ef","id":"owner-shape-F373-LowerHead-269","path":"/safety/buildings3d/owner-shape-patches/F373-LowerHead-269.json","bytes":40019,"sha256":"4cfbc74431bb8855c579c7b2df497b4c22c893513cc3ab7421e95aafe9178df3","bbox":[11.0387093,49.4258413,11.0391384,49.4261203],"vertices":289,"triangles":528,"max_height_m":192,"tile_key":"owner-shape-F373-LowerHead-269","geometryRole":"owner-authorized-reconstruction","geometrySignature":"8d6ddea9"} as const;
 type Descriptor={path:string;sha256:string;vertices:number;triangles:number};

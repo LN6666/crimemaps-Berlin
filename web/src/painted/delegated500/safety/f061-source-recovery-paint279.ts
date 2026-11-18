@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 import {ownerShapePatchProfile} from './owner-shape-patch-display';
 import {nativePaintSignature} from './progressive-native-signature';
 const PIN={"number":"F061-Tower","city":"hamburg","objectId":"osm/way/45574500","partId":"osm/way/45574500/component/0e5473b3818ee68de406/owner-source-recovery828-tower","sourcePartId":"osm/way/45574500/component/0e5473b3818ee68de406","id":"owner-shape-F061-Tower-828","path":"/safety/buildings3d/owner-shape-patches/F061-Tower-828.json","bytes":35607,"sha256":"08c7c81054294980e408a3dc3f3fd715ccfbc45a669c1e2cdf4543cdbecb9496","bbox":[9.9899145,53.5809809,9.9902258,53.5811633],"vertices":333,"triangles":111,"max_height_m":86,"tile_key":"owner-shape-F061-Tower-828","geometryRole":"owner-authorized-reconstruction","geometrySignature":"42c75210"} as const;

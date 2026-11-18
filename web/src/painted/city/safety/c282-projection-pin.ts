@@ -19,7 +19,7 @@ export const C282_PROJECTION_REGISTRY={
       9.1793309,
       48.768607349999996
     ],
-    "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Stuttgart/safety/buildings3d/stuttgart/roof-00615.json.gz",
+    "sourceLeaf": "source-evidence/54509f8fedaef3b14980/safety/buildings3d/stuttgart/roof-00615.json.gz",
     "sourceSHA256": "389f89ebfc0016cca347e1c9cd0278e22071dbfdfa3f3ba128254080426502fc",
     "geometrySignature": "1d9a1f14",
     "componentGeometry": {
@@ -92,7 +92,7 @@ export const C282_PROJECTION_REGISTRY={
       "city": "stuttgart",
       "objectId": "osm/way/91264235",
       "partId": "osm/way/91264235/component/3855f8d6797a24d4c117",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Stuttgart/safety/buildings3d/stuttgart/roof-00615.json.gz",
+      "sourceLeaf": "source-evidence/54509f8fedaef3b14980/safety/buildings3d/stuttgart/roof-00615.json.gz",
       "sourceLeafSHA256": "389f89ebfc0016cca347e1c9cd0278e22071dbfdfa3f3ba128254080426502fc",
       "rawSignature": "1d9a1f14",
       "rawBuffers": [

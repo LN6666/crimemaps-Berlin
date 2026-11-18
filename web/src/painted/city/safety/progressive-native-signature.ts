@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 /** Runtime substitution guard. Cryptographic leaf/array SHA proofs are validated by the admission builder. */
 export function nativePaintSignature(c:BuildingComponent){
  let hash=2166136261;const add=(bytes:Uint8Array)=>{for(const v of bytes)hash=Math.imul(hash^v,16777619)>>>0;};

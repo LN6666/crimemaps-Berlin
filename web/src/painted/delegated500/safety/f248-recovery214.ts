@@ -1,4 +1,4 @@
-import type {BuildingComponent} from './building-mesh-renderer';
+import type {BuildingComponent} from '../../../safety/building-mesh-types';
 import {ownerShapePatchProfile} from './owner-shape-patch-display';
 import {nativePaintSignature} from './progressive-native-signature';
 // Only separately labelled F248 display candidates; original native admissions remain unchanged.

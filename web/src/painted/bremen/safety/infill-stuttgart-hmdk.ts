@@ -1,2 +1,2 @@
-// Identical frozen source and runtime dependency graph; preserve one implementation.
-export * from '../../infill/safety/infill-stuttgart-hmdk';
+// Keep the original API while admitting data recipes only for a prepared city.
+export {infillHmdkIdentity,infillHmdkReconstruction,infillHmdkBaseMaterials} from '../../infill/safety/bremen-infill-owner-routes';

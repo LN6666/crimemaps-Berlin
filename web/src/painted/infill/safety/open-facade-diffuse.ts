@@ -1,2 +1,2 @@
-// Identical frozen source and runtime dependency graph; preserve one implementation.
-export * from '../../root500/safety/open-facade-diffuse';
+// Shared unchanged facade formula and source texture resource ownership.
+export * from '../../../safety/open-facade-diffuse';

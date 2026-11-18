@@ -6,6 +6,7 @@ import {MACRO_COPY} from "./macro-tag-copy";
 import {mountMacroTagPanel} from "./macro-tag-panel";
 import {mountCachedBriefs,type WindowCatalogue,type BriefCatalogue} from "./cached-city-briefs";
 import {mountOfficialGeminiHandoff} from "./official-gemini-handoff";
+import {statisticsSnapshotLabel, type StatisticsSnapshotContext} from "./statistics-snapshot-context";
 
 /** Local UI only. The caller supplies data and the existing police-eagle asset. */
 export function mountContentTagLauncher(parent: HTMLElement, options: {
@@ -31,6 +32,8 @@ export function mountContentTagLauncher(parent: HTMLElement, options: {
   drawer.setAttribute("role","dialog"); drawer.setAttribute("aria-labelledby",`${options.id}-title`);
   title.id=`${options.id}-title`; title.textContent=c.launcher; close.type="button"; close.className="content-tag-close"; close.setAttribute("aria-label",c.close); close.textContent="×";
   header.append(title,close);
+  const snapshotNote=document.createElement("p");snapshotNote.className="content-tag-snapshot";snapshotNote.hidden=true;
+  snapshotNote.id=`${options.id}-snapshot`;snapshotNote.setAttribute("role","note");
   const preview=document.createElement("p"), highlights=document.createElement("div"), content=document.createElement("div");
   const scopeLabel=document.createElement("label"), scopeSelect=document.createElement("select");
   scopeLabel.className="content-tag-scope";scopeLabel.hidden=true;scopeLabel.textContent=c.scopeChoice;
@@ -43,7 +46,7 @@ export function mountContentTagLauncher(parent: HTMLElement, options: {
   for(const url of Object.values(options.staticReportUrls??{}))
     if(!url.startsWith("/")||url.startsWith("//")||/[\u0000-\u0020\\]/.test(url))throw Error("Static reports must use same-origin paths");
   const allMonths=document.createElement('p');allMonths.className='content-tag-all-months';allMonths.textContent=c.timeScope;
-  drawer.append(header,scopeLabel,availability,reportLink,allMonths,preview,highlights,content); root.append(anchor,drawer); parent.append(root);
+  drawer.append(header,snapshotNote,scopeLabel,availability,reportLink,allMonths,preview,highlights,content); root.append(anchor,drawer); parent.append(root);
   const briefHost=document.createElement('div');drawer.insertBefore(briefHost,availability);
   const briefPanel=mountCachedBriefs(briefHost,options.locale);
   const officialHandoff=mountOfficialGeminiHandoff(drawer,options.locale,()=>briefPanel.getPublicSelection());
@@ -73,6 +76,11 @@ export function mountContentTagLauncher(parent: HTMLElement, options: {
   let catalogue:readonly ContentTagSummary[]=[];
   let macroCatalogue:readonly MacroSummary[]=[];
   let catalogueLabels:Readonly<Record<string,string>>={};
+  const setSnapshotContext=(context:StatisticsSnapshotContext|null)=>{
+    snapshotNote.textContent=statisticsSnapshotLabel(context,options.locale,context?catalogueLabels[context.city]??context.city:"");
+    snapshotNote.hidden=!snapshotNote.textContent;
+    if(snapshotNote.hidden)drawer.removeAttribute("aria-describedby");else drawer.setAttribute("aria-describedby",snapshotNote.id);
+  };
   const selectScope=()=>{
     const source=catalogue.find(item=>item.key===scopeSelect.value);
     briefPanel.setScope(scopeSelect.value);officialHandoff.refresh();
@@ -133,7 +141,7 @@ export function mountContentTagLauncher(parent: HTMLElement, options: {
   let suppressClick=false;
   const clicked=(event:MouseEvent)=>{
     if(suppressClick && event.detail!==0) {suppressClick=false;return;}
-    suppressClick=false; setOpen(drawer.hidden);
+    suppressClick=false; setOpen(Boolean(drawer.hidden));
   };
   trigger.addEventListener("click",clicked);
   trigger.addEventListener("pointerdown",event=>{
@@ -169,11 +177,12 @@ export function mountContentTagLauncher(parent: HTMLElement, options: {
   for(const eventName of ["click","dblclick","pointerdown","wheel"])
     root.addEventListener(eventName,event=>event.stopPropagation());
   return {
-    element:root, trigger, currentStatisticsHost,
+    element:root, trigger, currentStatisticsHost, setSnapshotContext,
     update(records:readonly ContentRecord[],assessments:readonly ContentAssessment[],context:{
       scopeLabel:string;textScope:"full_official_text"|"accepted_upstream_summary";
       weights?:Readonly<Partial<Record<ContentTag,number>>>;
     }) {
+      setSnapshotContext(null);
       scopeLabel.hidden=true; catalogue=[];macroCatalogue=[];macroPanel.invalidate();briefPanel.invalidate();officialHandoff.refresh();reportLink.hidden=true;
       panel.update(records,assessments,context); highlights.replaceChildren();
       try {
@@ -183,6 +192,7 @@ export function mountContentTagLauncher(parent: HTMLElement, options: {
     },
     /** Small precomputed artifact: 14 city scopes plus their validated sum, supplied by the existing loader. */
     setSummaries(sources:readonly ContentTagSummary[],labels:Readonly<Record<string,string>>,selectedCity:string){
+      setSnapshotContext(null);
       catalogue=[];macroCatalogue=[];macroPanel.invalidate();briefPanel.invalidate();officialHandoff.refresh();reportLink.hidden=true;scopeLabel.hidden=true;highlights.replaceChildren();preview.textContent=c.unavailable;panel.invalidate();
       const cities=sources.filter(item=>item.key!=="all14"), aggregate=sources.find(item=>item.key==="all14");
       if(cities.length!==14 || sources.length!==15 || new Set(sources.map(item=>item.key)).size!==15 || !aggregate ||
@@ -206,6 +216,7 @@ export function mountContentTagLauncher(parent: HTMLElement, options: {
     },
     /** Primary social-context layer. Call after setSummaries; both layers use identical selected records. */
     setMacroSummaries(sources:readonly MacroSummary[]){
+      setSnapshotContext(null);
       macroCatalogue=[];macroPanel.invalidate();briefPanel.invalidate();officialHandoff.refresh();highlights.replaceChildren();preview.textContent=c.unavailable;reportLink.hidden=true;
       validateMacroCatalogue(sources);
       for(const source of sources){const behavior=catalogue.find(item=>item.key===source.key);
@@ -215,6 +226,7 @@ export function mountContentTagLauncher(parent: HTMLElement, options: {
     },
     /** Four saved briefs per city/total. Neither hovering nor selecting a period invokes a model. */
     setCachedBriefs(windows:WindowCatalogue,briefs:BriefCatalogue){
+      setSnapshotContext(null);
       briefPanel.invalidate();officialHandoff.refresh();
       for(const scope of windows.scopes){const source=macroCatalogue.find(s=>s.key===scope.key);
         if(!source||source.records!==scope.total_selected_records||source.mapping_sha256!==windows.mapping_sha256||

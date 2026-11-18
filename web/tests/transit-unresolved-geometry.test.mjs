@@ -12,6 +12,14 @@ for(const lang of ['de','en','zh']){
  test(lang+': identified tram with unresolved geometry does not claim a full line is displayed',()=>{const scene={transit_route:{mode:'tram',line:'13',extent:'full_line'},geometry:null};const before=structuredClone(scene);assert.equal(transitGeometryLabel(scene),labels['transit.unresolved']);assert.deepEqual(scene,before);});
  test(lang+': invalid and point-only geometry do not establish a displayed route',()=>{for(const geometry of [{type:'LineString',coordinates:[[181,51],[13,51]]},{type:'Point',coordinates:[13,51]}])assert.equal(transitGeometryLabel({transit_route:{mode:'tram',line:'13',extent:'full_line'},geometry}),labels['transit.unresolved']);});
  test(lang+': resolved full line and bounded section retain their display labels',()=>{for(const [extent,key] of [['full_line','transit.fullLine'],['source_segment','transit.sourceSection']])assert.equal(transitGeometryLabel({transit_route:{mode:'tram',line:'13',extent},geometry:line}),labels[key]);});
+ test(lang+': stationary source road label preserves unknown event location without implying travel',()=>{
+  const scene={geocode_method:'osm_stationary_road_reference',geometry_usage:'source_road_reference_only',actual_non_transit_extent_known:false,actual_event_position_known:false,actual_event_extent_known:false,geometry:line};
+  const before=structuredClone(scene);
+  assert.equal(transitGeometryLabel(scene),labels['geometry.stationaryRoadReference']);
+  assert.notEqual(transitGeometryLabel(scene),labels['transit.roadExtent']);
+  assert.equal(transitGeometryLabel({...scene,geocode_method:'osm_non_transit_road_reference'}),labels['transit.roadExtent']);
+  assert.deepEqual(scene,before);
+ });
  test(lang+': native road and carrier references retain their specific uncertainty',()=>{for(const [geometry_usage,key] of [['source_road_reference_only','transit.unknownRoad'],['carrier_line_reference_only','transit.carrierLine']])assert.equal(transitGeometryLabel({transit_route:{mode:'tram',line:'13',extent:'full_line'},geometry:line,geometry_usage}),labels[key]);});
 }
 delete globalThis.location;

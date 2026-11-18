@@ -30,7 +30,7 @@ export const C089_PROJECTION_REGISTRY={
       "city": "munich",
       "objectId": "osm/way/79401257",
       "partId": "osm/way/79401257/component/0ea69b5d1257cb7c7c25",
-      "sourceLeaf": "/Users/liangjuanning/Documents/ChatGPT/CrimeMaps/.runtime/review/public-launch-20261003/migration/geography-base-20261008-0001/non-data-engineering/three-dimensional/browser-root/crimemaps-Munich/safety/buildings3d/munich/roof-00941.json.gz",
+      "sourceLeaf": "source-evidence/430e73b4de51d8c0bfdc/safety/buildings3d/munich/roof-00941.json.gz",
       "sourceLeafSHA256": "af2555f5dd8d4a9fc12d449f3e47a59654e43b0969fa6d84d01db87907c84bb7",
       "rawSignature": "a85c4689",
       "rawBuffers": [
