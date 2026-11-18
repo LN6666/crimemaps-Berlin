@@ -1,15 +1,15 @@
-name: Diagnose first resource-budget partition
+name: Diagnose remaining resource-budget files
 on:
   push:
     branches: [codex/ci-resource-budget-first30-20261118]
 permissions:
   contents: read
 jobs:
-  first-partition:
+  remaining-files:
     # The formal resource-budget job stays required. This representative job
     # retrieves bounded diagnostics before a hung file can consume the job.
     runs-on: ubuntu-24.04
-    timeout-minutes: 18
+    timeout-minutes: 38
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -20,55 +20,133 @@ jobs:
       - id: deps
         run: npm --prefix web ci
         timeout-minutes: 3
-      - name: Probe official files 01-02
+      - name: Probe official files 031-040
         if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
         timeout-minutes: 4
-        run: python3 .github/resource-budget-probe/probe.py --start 0 --count 2 --seconds 30 --out "$RUNNER_TEMP/budget-01-02"
-      - name: Preserve files 01-02 including incomplete cases
+        run: python3 .github/resource-budget-probe/probe.py --start 30 --count 10 --seconds 30 --out "$RUNNER_TEMP/budget-031-040"
+      - name: Preserve files 031-040 including incomplete cases
         if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
         timeout-minutes: 1
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: budget-01-02-${{ github.run_id }}
-          path: ${{ runner.temp }}/budget-01-02
+          name: budget-031-040-${{ github.run_id }}
+          path: ${{ runner.temp }}/budget-031-040
           retention-days: 3
           if-no-files-found: error
-      - name: Probe official files 03-10
+      - name: Probe official files 041-050
         if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
         timeout-minutes: 4
-        run: python3 .github/resource-budget-probe/probe.py --start 2 --count 8 --seconds 30 --out "$RUNNER_TEMP/budget-03-10"
-      - name: Preserve files 03-10 including incomplete cases
+        run: python3 .github/resource-budget-probe/probe.py --start 40 --count 10 --seconds 30 --out "$RUNNER_TEMP/budget-041-050"
+      - name: Preserve files 041-050 including incomplete cases
         if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
         timeout-minutes: 1
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: budget-03-10-${{ github.run_id }}
-          path: ${{ runner.temp }}/budget-03-10
+          name: budget-041-050-${{ github.run_id }}
+          path: ${{ runner.temp }}/budget-041-050
           retention-days: 3
           if-no-files-found: error
-      - name: Probe official files 11-20
+      - name: Probe official files 051-060
         if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
         timeout-minutes: 4
-        run: python3 .github/resource-budget-probe/probe.py --start 10 --count 10 --seconds 30 --out "$RUNNER_TEMP/budget-11-20"
-      - name: Preserve files 11-20 including incomplete cases
+        run: python3 .github/resource-budget-probe/probe.py --start 50 --count 10 --seconds 30 --out "$RUNNER_TEMP/budget-051-060"
+      - name: Preserve files 051-060 including incomplete cases
         if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
         timeout-minutes: 1
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: budget-11-20-${{ github.run_id }}
-          path: ${{ runner.temp }}/budget-11-20
+          name: budget-051-060-${{ github.run_id }}
+          path: ${{ runner.temp }}/budget-051-060
           retention-days: 3
           if-no-files-found: error
-      - name: Probe official files 21-30
+      - name: Probe official files 061-070
         if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
         timeout-minutes: 4
-        run: python3 .github/resource-budget-probe/probe.py --start 20 --count 10 --seconds 30 --out "$RUNNER_TEMP/budget-21-30"
-      - name: Preserve files 21-30 including incomplete cases
+        run: python3 .github/resource-budget-probe/probe.py --start 60 --count 10 --seconds 30 --out "$RUNNER_TEMP/budget-061-070"
+      - name: Preserve files 061-070 including incomplete cases
         if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
         timeout-minutes: 1
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: budget-21-30-${{ github.run_id }}
-          path: ${{ runner.temp }}/budget-21-30
+          name: budget-061-070-${{ github.run_id }}
+          path: ${{ runner.temp }}/budget-061-070
+          retention-days: 3
+          if-no-files-found: error
+      - name: Probe official files 071-080
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
+        timeout-minutes: 4
+        run: python3 .github/resource-budget-probe/probe.py --start 70 --count 10 --seconds 30 --out "$RUNNER_TEMP/budget-071-080"
+      - name: Preserve files 071-080 including incomplete cases
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
+        timeout-minutes: 1
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: budget-071-080-${{ github.run_id }}
+          path: ${{ runner.temp }}/budget-071-080
+          retention-days: 3
+          if-no-files-found: error
+      - name: Probe official files 081-090
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
+        timeout-minutes: 4
+        run: python3 .github/resource-budget-probe/probe.py --start 80 --count 10 --seconds 30 --out "$RUNNER_TEMP/budget-081-090"
+      - name: Preserve files 081-090 including incomplete cases
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
+        timeout-minutes: 1
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: budget-081-090-${{ github.run_id }}
+          path: ${{ runner.temp }}/budget-081-090
+          retention-days: 3
+          if-no-files-found: error
+      - name: Probe official files 091-100
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
+        timeout-minutes: 4
+        run: python3 .github/resource-budget-probe/probe.py --start 90 --count 10 --seconds 30 --out "$RUNNER_TEMP/budget-091-100"
+      - name: Preserve files 091-100 including incomplete cases
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
+        timeout-minutes: 1
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: budget-091-100-${{ github.run_id }}
+          path: ${{ runner.temp }}/budget-091-100
+          retention-days: 3
+          if-no-files-found: error
+      - name: Probe official files 101-110
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
+        timeout-minutes: 4
+        run: python3 .github/resource-budget-probe/probe.py --start 100 --count 10 --seconds 30 --out "$RUNNER_TEMP/budget-101-110"
+      - name: Preserve files 101-110 including incomplete cases
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
+        timeout-minutes: 1
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: budget-101-110-${{ github.run_id }}
+          path: ${{ runner.temp }}/budget-101-110
+          retention-days: 3
+          if-no-files-found: error
+      - name: Probe official files 111-120
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
+        timeout-minutes: 4
+        run: python3 .github/resource-budget-probe/probe.py --start 110 --count 10 --seconds 30 --out "$RUNNER_TEMP/budget-111-120"
+      - name: Preserve files 111-120 including incomplete cases
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
+        timeout-minutes: 1
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: budget-111-120-${{ github.run_id }}
+          path: ${{ runner.temp }}/budget-111-120
+          retention-days: 3
+          if-no-files-found: error
+      - name: Probe official files 121-123
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
+        timeout-minutes: 4
+        run: python3 .github/resource-budget-probe/probe.py --start 120 --count 3 --seconds 30 --out "$RUNNER_TEMP/budget-121-123"
+      - name: Preserve files 121-123 including incomplete cases
+        if: ${{ !cancelled() && steps.deps.outcome == 'success' }}
+        timeout-minutes: 1
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: budget-121-123-${{ github.run_id }}
+          path: ${{ runner.temp }}/budget-121-123
           retention-days: 3
           if-no-files-found: error

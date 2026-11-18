@@ -1,4 +1,4 @@
-"""Bounded diagnosis of the FIRST partition of the real resource budget npm suite."""
+"""Bounded diagnosis of the registered files of the real resource budget npm suite."""
 import argparse
 import concurrent.futures
 import datetime
@@ -121,8 +121,8 @@ def main():
     files = sorted(command[2:])
     if len(files) != 123 or len(set(files)) != 123 or not all((web/f).is_file() for f in files):
         raise ValueError("Expected all 123 registered test files")
-    if not 0 <= opt.start < opt.start + opt.count <= len(files)//4:
-        raise ValueError("Choose files within the first official budget partition")
+    if not 0 <= opt.start < opt.start + opt.count <= len(files):
+        raise ValueError("Choose files within the registered resource budget suite")
     selected = files[opt.start:opt.start + opt.count]
     (out / "manifest.json").write_text(json.dumps({"started": utc(), "selected": selected,
         "diagnosticOnly": True, "maxWorkers": 2}, indent=2) + "\n")
