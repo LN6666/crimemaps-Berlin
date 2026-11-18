@@ -162,10 +162,13 @@ for(const transported of [true,false])test(`an upload that can never fit beside 
  r.destroy();assert.equal(drained(p),0);
 });
 
-test('a committed placeholder upload keeps the wait of a load that still needs capacity',async()=>{
+test('a committed placeholder upload keeps the wait of a load that still needs capacity',{timeout:10_000},async()=>{
  const limit=MiB,p=page({limitBytes:limit}),asset=p.assetFor(),g=fakeGL();
  const hold=p.budget.reserve(metadata(limit));
- const r=p.runtime({asset});
+ const readyRepaint=Promise.withResolvers();
+ const r=p.runtime({asset,requestRepaint(){
+  if(r.stats.ready)readyRepaint.resolve();
+ }});
  r.attach(g);assert.equal(r.stats.error,'texture-budget-pending','the placeholder waits');
  r.setEnabled(true);await settle(4);
  // 16 bytes cover the placeholder, not the load: the wake retries only the
@@ -177,7 +180,9 @@ test('a committed placeholder upload keeps the wait of a load that still needs c
  assert.equal(r.withTexture(g,program,()=>'drawn',()=>'fallback'),'drawn');
  assert.deepEqual({textures:r.stats.textureObjects,ready:r.stats.ready,listeners:p.budget.stats.availabilityListeners,error:r.stats.error},{textures:1,ready:false,listeners:1,error:'texture-budget-pending'},'the load keeps its subscription and stays reported as pending');
  hold.release();
- assert.equal(await until(()=>r.stats.ready),true,'released capacity still reaches the waiting load');
+ // Observe the automatic upload, including its asynchronous SHA-256 check.
+ await readyRepaint.promise;
+ assert.equal(r.stats.ready,true,'released capacity still reaches the waiting load');
  assert.deepEqual({network:p.network.length,loads:r.stats.loads,listeners:p.budget.stats.availabilityListeners,error:r.stats.error},{network:1,loads:1,listeners:0,error:undefined});
  r.destroy();assert.equal(drained(p),0);
 });

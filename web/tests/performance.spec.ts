@@ -211,7 +211,7 @@ test("overview loads no POI geometry and switching to a saved empty month clears
   await expect(page.locator("#selection")).toContainText("Das Fahrzeug wurde beschädigt.");
   expect(errors).toEqual([]);
   expect(requests.filter((url) => url.includes("/months/"))).toHaveLength(1);
-  await expect(page.locator('#month option[value="07"]')).toBeDisabled();
+  await expect(page.locator('#month option[value="07"]')).toHaveJSProperty("disabled", true);
   await page.locator("#month").selectOption("08");
   await expect(page.locator("#stats .big")).toHaveText("0");
   await page.locator("#month").selectOption("09");

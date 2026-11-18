@@ -8,6 +8,7 @@ import {build} from 'esbuild';
 import {source,MiB,copy,settle,NORMALIZE_EXPANSION,CLONE_HOLD_EXPANSION,valueEstimate} from './core-frozen-fixtures.mjs';
 
 export {MiB,copy,settle,NORMALIZE_EXPANSION,CLONE_HOLD_EXPANSION};
+export {waitForResourceState as until} from './wait-for-resource-state.mjs';
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 const digest=n=>createHash('sha256').update(String(n)).digest('hex');
 
@@ -119,7 +120,6 @@ export async function drained(assert,resources,maps,baseline=0){
  for(const m of maps){for(const key of ['entries','valueCells','waiters','leases','active','queued'])assert.equal(m.leases.stats[key],0,m.name+' '+key+' must drain');assert.equal(m.transport.stats.consumers,0,m.name+' transport consumers');}
  assert.equal(resources.budget.stats.bytes,baseline,'every claim returned to the page ledger');assert.equal(resources.budget.stats.availabilityListeners,0,'no wake-up subscription remains');
 }
-export async function until(predicate,label,turns=200){for(let i=0;i<turns;i++){if(predicate())return;await settle();}throw Error('Condition not reached: '+label);}
 /** Test-side guard only: a stalled wait fails the test instead of hanging it. */
 export function deadline(promise,label='ingress-adopt operation stalled',ms=4000){let timer;return Promise.race([promise,new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error(label)),ms);})]).finally(()=>clearTimeout(timer));}
 /** Resolves 'pending' unless the promise settled within a few turns. */

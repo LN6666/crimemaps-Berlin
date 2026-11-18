@@ -609,7 +609,7 @@ test("clicking overlapping scene shapes opens one report card with every scene",
   await page.locator("#category").selectOption("raub");
   await expect(page.locator("#selection")).not.toContainText("多地点公告");
   await expect(page.locator("#stats")).toContainText("当前所选范围0条公告有统计代表地点；1条没有");
-  await expect(page.locator('#month option[value="07"]')).toBeDisabled();
+  await expect(page.locator('#month option[value="07"]')).toHaveJSProperty("disabled", true);
   await page.locator("#month").selectOption("08");
   await expect(page.locator("#stats .big")).toHaveText("0");
 });

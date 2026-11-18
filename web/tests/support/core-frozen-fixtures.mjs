@@ -13,7 +13,7 @@ export const source=path.join(web,'src/safety');
 export const MiB=1024*1024;
 export const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 export const settle=()=>new Promise(resolve=>setImmediate(resolve));
-export async function until(predicate,label,turns=120){for(let i=0;i<turns;i++){if(predicate())return;await settle();}throw Error('Condition not reached: '+label);}
+export {waitForResourceState as until} from './wait-for-resource-state.mjs';
 /** Test-side guard only: a stalled wait fails the test instead of hanging it. */
 export function deadline(promise,label='core-frozen operation stalled',ms=4000){let timer;return Promise.race([promise,new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error(label)),ms);})]).finally(()=>clearTimeout(timer));}
 export function deferred(){let resolve,reject;const promise=new Promise((yes,no)=>{resolve=yes;reject=no;});return{promise,resolve,reject};}

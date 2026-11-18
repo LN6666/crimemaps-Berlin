@@ -104,11 +104,15 @@ test('IA-R5: a read refused for a younger composition does not fail an older one
 });
 
 const descriptorBytes=resource=>api.estimateRetainedBuildingPayload(resource).estimatedJsContainerBytes+2048;
-/** Delivers every pending read as it appears until `promise` settles (test-side driver, no timer). */
-async function serveUntil(net,promise,deliver,turns=400){
- let done=false;promise.then(()=>{done=true;},()=>{done=true;});
- for(let i=0;i<turns&&!done;i++){for(const row of [...net.pending()])deliver(row);await settle();}
- return deadline(promise);
+/** Supply pending reads throughout the retry, including reads started after async digest completion. */
+async function serveUntil(net,promise,deliver){
+ let done=false;
+ promise.then(()=>{done=true;},()=>{done=true;});
+ await until(()=>{
+  for(const row of net.pending())deliver(row);
+  return done;
+ },'both sources to finish their shared group retry');
+ return promise;
 }
 function detailSource(resources,{transport=true,net=network(),vertexCap,readCanonical}={}){
  const bytes=api.createResourceByteTransport({namespace:'ingress-adopt-review-detail',resourceStore:resources.store,read:net.read});
@@ -170,15 +174,22 @@ test('IA-R6: a group response beyond its envelope is retried once with an envelo
  }
 });
 
-test('IA-R6: a group refusal reaches every detail source waiting on the shared group entry',async()=>{
+test('IA-R6: a group refusal reaches every detail source waiting on the shared group entry',async t=>{
  const resources=page(api),{budget}=resources,v=groupedVariant('review-group-shared'),net=network();
  // Two sources (different vertex caps: two source entries) share one transport and one group entry.
+ const groupRequests=[];
+ const acquire=resources.store.acquire.bind(resources.store);
+ t.mock.method(resources.store,'acquire',request=>{
+  const lease=acquire(request);
+  if(request.contentKey.startsWith('["building-detail-groups-v1",'))groupRequests.push(request.contentKey);
+  return lease;
+ });
  const first=detailSource(resources,{net}),second={source:api.createBuildingDetailSource({city:'berlin',resourceStore:resources.store,readBytes:net.read,vertexCap:100000,acquireBytes:first.bytes.acquireBytes,readCanonical:async()=>assert.fail('no canonical')})};
  const variant=v.resource.descriptor.path,group=v.resource.groupMetadata.path;
  const one=first.source.acquire(v.resource,{signal:signal()}),two=second.source.acquire(v.resource,{signal:signal()});
  await until(()=>net.pending().length===1,'one shared variant read');net.deliver(variant,new Uint8Array(v.physical));
- await until(()=>net.pending().some(row=>row.target===group),'the shared group read starts');
- for(let i=0;i<20;i++)await settle();
+ await until(()=>groupRequests.length===2&&net.pending().some(row=>row.target===group),'both sources to join the pending group read');
+ assert.equal(groupRequests[0],groupRequests[1],'both requests acquired the same group entry');
  assert.equal(net.reads.filter(row=>row.target===group).length,1,'one group read serves both sources');
  const filler=blockerFor(budget,0);
  net.deliver(group,oversizedView(v.groups,4));

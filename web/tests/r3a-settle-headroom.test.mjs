@@ -118,11 +118,13 @@ test('two tables on a page that fits each read but no private clone are both rep
  const resources=leasePage(api,{limitBytes}),m=leaseMap(api,resources,'M',[a,b]);
  const outcome={};
  const pending=[a,b].map((f,i)=>m.client.acquire(m.ref(f),signal()).then(lease=>{outcome[i]='ok';lease.release();},error=>{outcome[i]=error?.name;}));
- // Every read is delivered as soon as it starts; at most one each.
- for(let turns=0;Object.keys(outcome).length<2&&turns<400;turns++){
-  const row=m.network.find(r=>!r.done&&!r.signal.aborted);
-  if(row){if(m.network.length>2)break;row.done=true;row.resolve(new Uint8Array(row.target===a.path?a.physical:b.physical));}
-  await settle();
+ const remaining=new Map([[a.path,a],[b.path,b]]);
+ while(remaining.size){
+  await until(()=>m.pending().length>0,'the next table to start its one read');
+  const [path]=m.pending();
+  assert(remaining.has(path),'each table reads once, with no unexpected resource');
+  m.deliver(remaining.get(path));
+  remaining.delete(path);
  }
  await deadline(Promise.all(pending),'both tables must settle: an unfit clone is reported, never waited for');
  assert.deepEqual(outcome,{0:'ResourceBudgetExceededError',1:'ResourceBudgetExceededError'});

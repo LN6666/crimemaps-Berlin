@@ -391,7 +391,7 @@ test.describe("candidate roads browser", () => {
     await expect(page.locator("#selection")).not.toContainText(
       "具体道路位置未知的公告",
     );
-    await expect(page.locator('#month option[value="07"]')).toBeDisabled();
+    await expect(page.locator('#month option[value="07"]')).toHaveJSProperty("disabled", true);
     await page.locator("#month").selectOption("08");
     await expect(page.locator("#stats .big")).toHaveText("0");
     await expect.poll(() => orangePixels(page)).toBe(0);

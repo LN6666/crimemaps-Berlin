@@ -71,7 +71,7 @@ test('F2: a terminal load failure stays reported across disable, hide, re-enable
  r.destroy();assert.equal(drained(p),0);
 });
 
-test('F3: a read whose wrapper dropped the fourth argument is counted at the call, while it is stuck behind its own envelope, and once only',async()=>{
+test('F3: a read whose wrapper dropped the fourth argument is counted at the call, while it is stuck behind its own envelope, and once only',{timeout:10_000},async()=>{
  const limit=8*MiB,p=page({limitBytes:limit}),asset=p.assetFor({seed:1,bytes:95359}),ws=workingSet(asset.bytes,256);
  // Room for the bitmap working set, one byte short of the legacy path's own envelope beside it.
  const hold=p.budget.reserve(metadata(limit-ws.load-2*asset.bytes+1));
@@ -80,8 +80,11 @@ test('F3: a read whose wrapper dropped the fourth argument is counted at the cal
  const stuck=()=>({held:p.budget.stats.bytes-hold.bytes,network:p.network.length,loading:r.stats.loading,unadmitted:r.stats.unadmittedTransportReads,consumers:p.transport.stats.consumers});
  assert.deepEqual(stuck(),{held:ws.load,network:0,loading:true,unadmitted:1,consumers:1},'the hold-and-wait shape is visible while it lasts');
  await settle(200);assert.deepEqual(stuck(),{held:ws.load,network:0,loading:true,unadmitted:1,consumers:1});
+ // load() returns the already-blocked operation while loading is true.
+ const pendingLoad=r.load();
  hold.release();
- assert.equal(await until(()=>r.stats.loads===1),true);
+ assert.equal(await pendingLoad,true);
+ assert.equal(r.stats.loads,1);
  assert.deepEqual({unadmitted:r.stats.unadmittedTransportReads,network:p.network.length,error:r.stats.error},{unadmitted:1,network:1,error:undefined},'counted once, not again at delivery');
  r.destroy();assert.equal(drained(p),0);
 });
