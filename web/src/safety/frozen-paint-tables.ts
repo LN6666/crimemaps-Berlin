@@ -149,7 +149,7 @@ export type FrozenTableIngress={
   acquireBytes:ResourceBytesAcquire;
   budget:ResourceBudget;
 };
-type TableClaim={sha256:string;reservation:ResourceBudgetReservation;inputBytes:number;response:ResourceBytesLease|undefined;released:boolean;release:()=>void;adopt:()=>ResourceBudgetReservation|undefined};
+type TableClaim={sha256:string;reservation:ResourceBudgetReservation;inputBytes:number;workingSetBytes:number;response:ResourceBytesLease|undefined;released:boolean;release:()=>void;adopt:()=>ResourceBudgetReservation|undefined};
 type PendingInput={sha256:string;phase:'frozen-table-input'|'frozen-table-transport';requiredBytes:number;availableBytes:number;sinceMs:number};
 const physicalTables=new Map(cityProfile.descriptors.map(d=>[(d.transport??d).path,d] as const));
 const tableClaims=new Map<string,TableClaim>();
@@ -195,10 +195,16 @@ async function admitTableWorkingSet(budget:ResourceBudget,d:Descriptor,envelope:
   const costs=tableWorkingSet(d,envelope),required=costBytes(costs),label='frozen table input '+d.sha256;
   for(;;){
     signal.throwIfAborted();
-    const result=budget.tryReserve(costs,{label});
+    // Only parsed module values on this exact ledger are irrevocable. Live
+    // leases or caches may free their bytes; their refusals remain waitable.
+    const permanent=initializerStore.parsedBytesOnBudget(budget);
+    const impossible=permanent+required>budget.stats.limitBytes;
+    const result=budget.tryReserve(costs,impossible?{label,evict:false}:{label});
     if(result.ok){inputAdmissions++;return result.reservation;}
-    // A working set above the whole page limit can never be admitted by waiting.
-    if(required>budget.stats.limitBytes){inputUnfit++;lastInputUnfit=result.error.message.slice(0,512);throw result.error;}
+    if(impossible){
+      inputUnfit++;lastInputUnfit=(permanent?result.error.message+'; page-lifetime parsed values: '+permanent+' bytes':result.error.message).slice(0,512);
+      throw result.error;
+    }
     // Nothing is held while waiting: neither this input nor its read envelope.
     inputWaits++;const waiting:PendingInput={sha256:d.sha256,phase:'frozen-table-input',requiredBytes:required,availableBytes:budget.stats.availableBytes,sinceMs:performance.now()};pendingInputs.set(d.sha256,waiting);
     try{await budgetAvailable(budget,signal);}finally{if(pendingInputs.get(d.sha256)===waiting)pendingInputs.delete(d.sha256);}
@@ -218,7 +224,7 @@ function ledgeredTableReader(ingress:FrozenTableIngress):Read{
       const reservation=await admitTableWorkingSet(budget,d,envelope,signal);
       if(signal.aborted){reservation.release();signal.throwIfAborted();}
       const attempt=new AbortController();
-      const claim:TableClaim={sha256:d.sha256,reservation,inputBytes:costBytes(keep()),response:undefined,released:false,release(){
+      const claim:TableClaim={sha256:d.sha256,reservation,workingSetBytes:reservation.bytes,inputBytes:costBytes(keep()),response:undefined,released:false,release(){
         if(claim.released)return;claim.released=true;signal.removeEventListener('abort',claim.release);
         if(tableClaims.get(claim.sha256)===claim)tableClaims.delete(claim.sha256);
         // Leaving a caller-admitted read is only by abort: the transport settles
@@ -286,7 +292,7 @@ export const frozenPaintTableRowCounts=cityProfile.rowCounts;
  * selects is pending (see FrozenInitializerSession). */
 export const beginFrozenPaintTableInitialization=(read:Read|FrozenTableIngress,signal:AbortSignal,providers:readonly string[],onFailure?:(error:unknown)=>void):FrozenInitializerSession=>typeof read==='function'
   ?initializerStore.begin(read,signal,frozenPaintTableSelection(providers),onFailure)
-  :initializerStore.begin(ledgeredTableReader(read),signal,frozenPaintTableSelection(providers),onFailure,{budget:read.budget,adopt:sha=>tableClaims.get(sha)?.adopt(),estimate:value=>estimateRetainedBuildingPayload(value).retainedPayloadEstimateBytes});
+  :initializerStore.begin(ledgeredTableReader(read),signal,frozenPaintTableSelection(providers),onFailure,{budget:read.budget,adopt:sha=>tableClaims.get(sha)?.adopt(),readWorkingSetBytes:sha=>tableClaims.get(sha)?.workingSetBytes,estimate:value=>estimateRetainedBuildingPayload(value).retainedPayloadEstimateBytes});
 export const frozenPaintTableStats=()=>{
   // claimedBytes: the claims' input part; claimedReadBytes: the read part they
   // also list (the minted envelope in flight, the exact response once delivered).

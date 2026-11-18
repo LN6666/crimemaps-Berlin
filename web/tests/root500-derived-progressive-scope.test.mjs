@@ -5,6 +5,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {build} from 'esbuild';
+import {root500InitializerAuthority} from './support/root500-initializer-authority.mjs';
 
 // Real factories and the shared scope, with tiny in-memory lease values. The
 // common lease-store suites own byte/hash/codec checks. No original table is read.
@@ -73,8 +74,12 @@ test('resident pins hold the one scope memo graph until final release; a fresh s
 });
 
 test('the eight data modules keep exact existing initializer file/occurrence authorization and no TLA',async()=>{
- const {default:ts}=await import('typescript'),dependencies=JSON.parse(await readFile(path.join(web,'src/safety/frozen-paint-table-dependencies.json'),'utf8'));
- for(const name of ['owner-f068-derived-pack','owner-f075-derived-pack','owner-f082-derived-pack','owner-f107-derived-pack','progressive-paint-admissions','progressive-feature-cities','progressive-berlin-programs','progressive-hamburg-programs']){const file=path.join(web,'src/painted/root500/safety',name+'.ts'),text=await readFile(file,'utf8'),ast=ts.createSourceFile(file,text,ts.ScriptTarget.Latest,true);assert.equal(ast.parseDiagnostics.length,0);const refsDeclaration=ast.statements.filter(ts.isVariableStatement).flatMap(node=>node.declarationList.declarations).find(node=>node.name.getText(ast)==='root500DataRefs');assert(refsDeclaration);const bindings=[...refsDeclaration.initializer.getText(ast).matchAll(/canonicalSHA256:"([a-f0-9]{64})",file:"([^"]+)",occurrence:(\d+),codec:'json'/g)];assert.equal(bindings.length,1);for(const [,sha,file,occurrence]of bindings)assert(Number(occurrence)<dependencies.initializers.root500[sha][file]);let topAwait=false;for(const statement of ast.statements){if(ts.isFunctionDeclaration(statement))continue;(function visit(node){if(ts.isArrowFunction(node)||ts.isFunctionExpression(node))return;if(ts.isAwaitExpression(node))topAwait=true;ts.forEachChild(node,visit);})(statement);}assert.equal(topAwait,false,name+' must not initialize parsed data at import');}
+ const {default:ts}=await import('typescript'),{initializers,resolve}=await root500InitializerAuthority();
+ for(const name of ['owner-f068-derived-pack','owner-f075-derived-pack','owner-f082-derived-pack','owner-f107-derived-pack','progressive-paint-admissions','progressive-feature-cities','progressive-berlin-programs','progressive-hamburg-programs']){const file=path.join(web,'src/painted/root500/safety',name+'.ts'),text=await readFile(file,'utf8'),ast=ts.createSourceFile(file,text,ts.ScriptTarget.Latest,true);assert.equal(ast.parseDiagnostics.length,0);const refsDeclaration=ast.statements.filter(ts.isVariableStatement).flatMap(node=>node.declarationList.declarations).find(node=>node.name.getText(ast)==='root500DataRefs');assert(refsDeclaration);const bindings=[...refsDeclaration.initializer.getText(ast).matchAll(/canonicalSHA256:"([a-f0-9]{64})",file:"([^"]+)",occurrence:(\d+),codec:'json'/g)];assert.equal(bindings.length,1);for(const [,sourceSHA,sourceFile,ordinal] of bindings){
+  assert.equal(sourceFile,'painted/root500/safety/'+name+'.ts');
+  const occurrence=Number(ordinal),publicSHA=resolve(sourceSHA,sourceFile,occurrence);
+  assert(occurrence<initializers[publicSHA]?.[sourceFile],name+' has exact authorization for its initializer occurrence');
+ }let topAwait=false;for(const statement of ast.statements){if(ts.isFunctionDeclaration(statement))continue;(function visit(node){if(ts.isArrowFunction(node)||ts.isFunctionExpression(node))return;if(ts.isAwaitExpression(node))topAwait=true;ts.forEachChild(node,visit);})(statement);}assert.equal(topAwait,false,name+' must not initialize parsed data at import');}
 });
 
 const derivedSpecs=[

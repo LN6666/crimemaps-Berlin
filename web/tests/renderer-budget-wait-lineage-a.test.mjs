@@ -37,6 +37,10 @@ function mainFixture(provider,options){
   partitionFailures:new Map(),partitionPending:false,invalidateMainDraw(){},residentMainFailure:undefined,mainGeometryProgramFailure:undefined,contextRecoveryFailure:undefined,contextRecoveryPending:false,solarProgramFailures:new Map(),clearSettledProgramSources(){},pendingCandidate:undefined,candidateGrantHandoff:{clear(){}},
   baseSurfaceFragment:'base helper',surfaceFragment:undefined,diffuseFragment:undefined,windowTexture:undefined,diffuseTexture:undefined,acquireGeometryProgram:()=>undefined,
   releaseGPU(){},geometryOwner:{currentLeases:[{}]},geometryUploadPending:false,upload(){}});
+ if(provider==='root500'){
+  values.keysByPaintRuns=new WeakMap();values.legacyPartitionEnabled=false;
+  install(provider,values,['paintKeysForRuns']);
+ }
  if(provider==='bremen'){install(provider,values,['mainProgramRevisitEligible','releaseOwnedProgram'],'variable');install(provider,values,['releaseInactivePaintProgram']);}
  install(provider,values,provider==='bremen'?['prepareMainPrograms','prepareResidentMain','initializeResidentGPU']:['mainTexturesReady','prepareMainPrograms','prepareResidentMain']);
  // One resident main frame: bremen's initializer is the caller that decides.
@@ -141,7 +145,14 @@ test('every resident and candidate main caller uses the held-wait frame rule',()
   const text=rendererText(provider);
   assert.doesNotMatch(text,/prepareResidentMain\(gl\)\)\{if\(!mainGeometryProgramFailure\)map\.triggerRepaint\(\)/,provider+' has no unguarded resident caller');
   assert.doesNotMatch(text,/prepareCandidateMain\(candidate(,context)?\)\)\{map\.triggerRepaint\(\)/,provider+' has no unguarded candidate caller');
-  assert.equal(text.split('if(!prepareResidentMain(gl,waits)){if(!mainGeometryProgramFailure&&(waits.other||!waits.ledger))map.triggerRepaint();return;}').length-1,guarded[provider].resident,provider+' resident callers (bremen: upload, initializer, render)');
+  const residentCalls=[...text.matchAll(/prepareResidentMain\(gl,waits\)/g)];
+  assert.equal(residentCalls.length,guarded[provider].resident,provider+' resident callers (bremen: upload, initializer, render)');
+  for(const call of residentCalls){
+   const tail=text.slice(call.index+call[0].length);
+   // The render path keeps drawing already resident geometry while the new
+   // program is pending. Upload and initialization return immediately.
+   assert.match(tail,/^(?:\)|;if\(!mainPrepared\))\{if\(!mainGeometryProgramFailure&&\(waits\.other\|\|!waits\.ledger\)\)map\.triggerRepaint\(\);/);
+  }
   assert.equal((text.match(/if\(!prepareCandidateMain\(candidate,(context,)?waits\)\)\{if\(waits\.other\|\|!waits\.ledger\)map\.triggerRepaint\(\);return;\}/g)??[]).length,guarded[provider].candidate,provider+' candidate caller');
   if(provider!=='bremen')assert.match(sourceOf(provider,'prepareResidentMain'),/if\(!ready\)\{invalidateMainDraw\(\);if\(waits\.other\|\|!waits\.ledger\)map\.triggerRepaint\(\);\}/,provider+' resident main decides its own frame');
  }

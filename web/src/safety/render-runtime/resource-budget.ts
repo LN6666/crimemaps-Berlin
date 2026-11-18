@@ -302,8 +302,8 @@ export function createResourceBudget(options:ResourceBudgetOptions={}):ResourceB
  };
  const stateError=(kind:'overflow'|'ambiguous'|'reentrant',message:string)=>new ResourceAvailabilityStateError(kind==='overflow'?'GROUND_AVAILABILITY_STATE_OVERFLOW':kind==='ambiguous'?'GROUND_AVAILABILITY_STATE_AMBIGUOUS':'GROUND_AVAILABILITY_STATE_REENTRANT',message);
  function subscribeState(notify:()=>void,signal?:AbortSignal,local?:Set<()=>void>):()=>void{
-  if(typeof notify!=='function')throw new TypeError('Availability observer required');
-  if(signal&&(typeof signal.addEventListener!=='function'||typeof signal.removeEventListener!=='function'||typeof signal.aborted!=='boolean'))throw new TypeError('Availability observer signal must be an AbortSignal');
+  if(typeof notify!=='function')throw resourceContractViolation(new TypeError('Availability observer required'));
+  if(signal&&(typeof signal.addEventListener!=='function'||typeof signal.removeEventListener!=='function'||typeof signal.aborted!=='boolean'))throw resourceContractViolation(new TypeError('Availability observer signal must be an AbortSignal'));
   if(signal?.aborted)return noAvailabilitySubscription;if(stateObservers.size>=64)throw stateError('overflow','Availability observer bound exceeded');
   let listening=true;const wrapped=()=>{if(listening)notify();};
   const off=()=>{if(!listening)return;listening=false;stateObservers.delete(wrapped);local?.delete(off);signal?.removeEventListener('abort',off);};
@@ -644,9 +644,9 @@ export function createResourceBudget(options:ResourceBudgetOptions={}):ResourceB
  return{
   reserve,
   registerAvailabilityStateProvider(provider,semanticKey,options){
-   if(typeof provider!=='function')throw new TypeError('Availability state provider required');
-   if(semanticKey!==undefined&&(typeof semanticKey!=='string'||semanticKey.length===0||semanticKey.length>256))throw new TypeError('Availability semantic provider key must be 1 to 256 UTF-16 characters');
-   if(options!==undefined&&(!options||typeof options!=='object'||Array.isArray(options)))throw new TypeError('Availability provider options must be an object');
+   if(typeof provider!=='function')throw resourceContractViolation(new TypeError('Availability state provider required'));
+   if(semanticKey!==undefined&&(typeof semanticKey!=='string'||semanticKey.length===0||semanticKey.length>256))throw resourceContractViolation(new TypeError('Availability semantic provider key must be 1 to 256 UTF-16 characters'));
+   if(options!==undefined&&(!options||typeof options!=='object'||Array.isArray(options)))throw resourceContractViolation(new TypeError('Availability provider options must be an object'));
    const requestedScratchBytes=options?.transientScratchBytes,transientScratchBytes=requestedScratchBytes===undefined?0:requestedScratchBytes;
    if(!Number.isSafeInteger(transientScratchBytes)||transientScratchBytes<0||transientScratchBytes>AVAILABILITY_STATE_LIMITS.structuralScratchBytes)throw new RangeError('Invalid transient availability provider scratch estimate');
    let id:string;

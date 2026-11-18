@@ -1,3 +1,4 @@
+import {environmentLedgerGL,projectionMatrix} from './support/environment-ledger-webgl.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import path from 'node:path';
@@ -26,7 +27,7 @@ const sum=costs=>costs.reduce((n,c)=>n+c.bytes,0);
 const turn=()=>new Promise(resolve=>setImmediate(resolve));
 
 // Allocation-only WebGL2 fake: programs, VAOs and buffers are counted; a
-// render with an empty matrix returns right after any deferred allocation.
+// used for vehicle allocation and retirement independently of environment drawing.
 function fakeGL(){
  let n=1,lost=false;const sources=[],counts={programs:0,vaos:0,buffers:0};const g={};
  for(const key of ['VERTEX_SHADER','FRAGMENT_SHADER','COMPILE_STATUS','LINK_STATUS','VERTEX_ARRAY_BINDING','ARRAY_BUFFER_BINDING','ARRAY_BUFFER','ELEMENT_ARRAY_BUFFER','STATIC_DRAW','DYNAMIC_DRAW','FLOAT','SYNC_GPU_COMMANDS_COMPLETE','ALREADY_SIGNALED','CONDITION_SATISFIED','TIMEOUT_EXPIRED','WAIT_FAILED'])g[key]=n++;
@@ -44,7 +45,7 @@ const environmentPrograms=()=>m.environmentProgramAllowanceCosts([{vertex:m.ENVI
 
 test('the program allowance policy is a labelled estimate from the real shader sources',()=>{
  const costs=environmentPrograms();
- assert.equal(sum(costs),131452,'environment: about 128 KiB with its four VAOs');
+ assert.equal(sum(costs),134548,'environment: about 131 KiB with its four VAOs');
  assert.deepEqual(costs.map(c=>[c.category,c.precision]),[['program','estimate'],['gpu-vertex-array','estimate']]);
  assert.ok(costs.every(c=>/driver-side unmeasured/.test(c.label)&&typeof c.identity==='object'),'labels say the driver side is unmeasured');
  const M=m.ENVIRONMENT_PROGRAM_MODEL,chars=m.ENVIRONMENT_SCENE_VERTEX_GLSL.length+m.ENVIRONMENT_SCENE_FRAGMENT_GLSL.length+'a_positiona_normala_rolea_tree'.length+m.GREEN_GROUND_VERTEX_GLSL.length+m.GREEN_GROUND_FRAGMENT_GLSL.length+'a_positiona_normala_role'.length;
@@ -54,7 +55,7 @@ test('the program allowance policy is a labelled estimate from the real shader s
 test('environment renderer: the program allowance joins the one GPU decision before any shader exists; refused, nothing compiles until one ledger wake-up',async()=>{
  const programs=environmentPrograms(),allowance=sum(programs);
  {
-  const {budget,store}=ledger(),r=m.createEnvironmentSceneRenderer({triggerRepaint(){}},{origin:[13.4,52.5],resourceStore:store}),gl=fakeGL();
+  const {budget,store}=ledger(),r=m.createEnvironmentSceneRenderer({triggerRepaint(){}},{origin:[13.4,52.5],resourceStore:store}),gl=environmentLedgerGL();
   r.layer.onAdd({},gl);
   assert.equal(gl.sources.length,4);assert.equal(r.stats.resources.gpu.claims.programs,allowance);assert.equal(r.stats.resources.programAllowanceBytes,allowance);
   assert.equal(budget.stats.categories.program.bytes,programs[0].bytes);assert.equal(budget.stats.categories['gpu-vertex-array'].bytes,programs[1].bytes);
@@ -64,22 +65,22 @@ test('environment renderer: the program allowance joins the one GPU decision bef
   r.destroy();assert.equal(budget.stats.bytes,0);store.destroy();
  }
  const {budget,store}=ledger();let repaints=0,frames=0;
- const r=m.createEnvironmentSceneRenderer({triggerRepaint(){repaints++;}},{origin:[13.4,52.5],resourceStore:store,onFrameNeeded(){frames++;}}),gl=fakeGL();
+ const r=m.createEnvironmentSceneRenderer({triggerRepaint(){repaints++;}},{origin:[13.4,52.5],resourceStore:store,onFrameNeeded(){frames++;}}),gl=environmentLedgerGL();
  const blocker=budget.reserve({category:'texture',bytes:budget.stats.availableBytes-(allowance-1),precision:'exact'});
  const before={bytes:budget.stats.bytes,events:budget.stats.availabilityEvents,reservations:budget.stats.reservations};
  try{
   r.layer.onAdd({},gl);
-  assert.deepEqual(gl.sources,[],'no shader is compiled before its allowance is admitted');assert.deepEqual(gl.counts,{programs:0,vaos:0,buffers:0});
+  assert.deepEqual(gl.sources,[],'no shader is compiled before its allowance is admitted');assert.deepEqual([gl.counts.programs,gl.counts.vaos,gl.counts.buffers],[0,0,0]);
   assert.deepEqual([budget.stats.bytes,budget.stats.availabilityEvents,budget.stats.reservations],[before.bytes,before.events,before.reservations],'the refused decision reserves and releases nothing');
   const pending=r.stats.resources;assert.equal(pending.gpuDeferred,true);assert.match(pending.gpuPending.label,/^environment-scene programs\+fixed\+water$/,'one keyed claim set: programs, fixed and water');assert.ok(pending.gpuPending.requiredBytes>=allowance);
   assert.equal(budget.stats.availabilityListeners,1,'one ledger wait, with an AbortSignal');
   r.setEnabled(true);assert.equal(r.stats.animationActive,false,'a deferred renderer requests no animation frames');
-  const pressure=budget.stats.pressureEvents;for(let i=0;i<4;i++)r.layer.render({},[]);
+  const pressure=budget.stats.pressureEvents;for(let i=0;i<4;i++)r.layer.render({},projectionMatrix);
   assert.equal(budget.stats.pressureEvents,pressure,'frames before the wake-up retry nothing');assert.deepEqual(gl.sources,[]);
-  const repaintsBefore=repaints;blocker.release();await turn();
-  assert.equal(budget.stats.availabilityListeners,0);assert.equal(repaints,repaintsBefore+1,'the wake-up repaints once');assert.equal(frames,1,'and wakes the frame owner once');
-  r.layer.render({},[]);
-  assert.equal(gl.sources.length,4,'the first frame after the wake-up compiles both programs');assert.deepEqual(gl.counts,{programs:2,vaos:4,buffers:7});
+  const repaintsBefore=repaints,framesBefore=frames;blocker.release();await turn();
+  assert.equal(budget.stats.availabilityListeners,0);assert.equal(repaints,repaintsBefore+1,'the wake-up repaints once');assert.equal(frames-framesBefore,1,'and wakes the frame owner once');
+  r.layer.render({},projectionMatrix);
+  assert.equal(gl.sources.length,4,'the first frame after the wake-up compiles both programs');assert.deepEqual([gl.counts.programs,gl.counts.vaos,gl.counts.buffers],[2,4,7]);
   assert.equal(r.stats.resources.gpuDeferred,false);assert.equal(r.stats.resources.programAllowanceBytes,allowance);
  }finally{r.destroy();store.collectRetired();blocker.release();}
  assert.equal(budget.stats.bytes,0,'destroy returns the allowance');store.destroy();
@@ -173,13 +174,13 @@ test('vehicles: a linked program on a live context retires its allowance behind 
 });
 
 test('mobile environment renderer: a ledger that fits its fixed CPU storage but not its one GPU decision fails explicitly at onAdd, never waits',()=>{
- const {budget,store}=ledger(100000),r=m.createEnvironmentSceneRenderer({triggerRepaint(){}},{mobile:true,origin:[13.4,52.5],resourceStore:store}),gl=fakeGL();
+ const {budget,store}=ledger(100000),r=m.createEnvironmentSceneRenderer({triggerRepaint(){}},{mobile:true,origin:[13.4,52.5],resourceStore:store}),gl=environmentLedgerGL();
  try{
   const fixed=r.stats.resources.fixedCPUBytes;assert.ok(fixed<100000,'fixture: the constructor fits');
   assert.ok(sum(environmentPrograms())+fixed>100000,'fixture: the GPU decision beside it cannot');
   const before={bytes:budget.stats.bytes,events:budget.stats.availabilityEvents};
   assert.throws(()=>r.layer.onAdd({},gl),error=>error instanceof m.EnvironmentResourceUnfitError&&/environment/.test(error.message));
-  assert.deepEqual(gl.sources,[],'nothing compiled');assert.deepEqual(gl.counts,{programs:0,vaos:0,buffers:0});
+  assert.deepEqual(gl.sources,[],'nothing compiled');assert.deepEqual([gl.counts.programs,gl.counts.vaos,gl.counts.buffers],[0,0,0]);
   assert.equal(budget.stats.availabilityListeners,0,'no wait was registered');assert.equal(r.stats.resources.gpuDeferred,false);
   assert.deepEqual([budget.stats.bytes,budget.stats.availabilityEvents],[before.bytes,before.events],'the refused decision reserved and released nothing');
  }finally{r.destroy();store.collectRetired();}
@@ -188,23 +189,23 @@ test('mobile environment renderer: a ledger that fits its fixed CPU storage but 
 
 test('environment renderer: a compile that fails in the deferred frame is retried once at the next enable, never per frame',async()=>{
  const programs=environmentPrograms(),allowance=sum(programs),{budget,store}=ledger();let failures=0;
- const r=m.createEnvironmentSceneRenderer({triggerRepaint(){}},{origin:[13.4,52.5],resourceStore:store,onRenderError(){failures++;}}),gl=fakeGL();
+ const r=m.createEnvironmentSceneRenderer({triggerRepaint(){}},{origin:[13.4,52.5],resourceStore:store,onRenderError(){failures++;}}),gl=environmentLedgerGL();
  let failCompile=true;gl.getShaderParameter=()=>!failCompile;gl.getShaderInfoLog=()=>'fixture compile failure';
  const blocker=budget.reserve({category:'texture',bytes:budget.stats.availableBytes-(allowance-1),precision:'exact'});
  const error=console.error;console.error=()=>{};
  try{
   r.layer.onAdd({},gl);r.setEnabled(true);assert.equal(r.stats.resources.gpuDeferred,true);
   blocker.release();await turn();
-  r.layer.render({},[]);
+  r.layer.render({},projectionMatrix);
   assert.equal(failures,1,'the deferred compile failed once');const attempts=gl.sources.length;assert.ok(attempts>0);
-  for(let i=0;i<4;i++)r.layer.render({},[]);
+  for(let i=0;i<4;i++)r.layer.render({},projectionMatrix);
   assert.equal(gl.sources.length,attempts,'no frame retries a failed compile');assert.equal(r.stats.resources.gpuDeferred,false);
   assert.equal(budget.stats.availabilityListeners,0);
   failCompile=false;r.setEnabled(false);r.setEnabled(true);
   assert.equal(r.stats.resources.gpuDeferred,true,'the next enable re-arms one attempt');
-  r.layer.render({},[]);
+  r.layer.render({},projectionMatrix);
   assert.equal(gl.sources.length,attempts+4,'one attempt compiles both programs');assert.equal(r.stats.resources.gpuDeferred,false);assert.equal(r.stats.resources.programAllowanceBytes,allowance);
-  for(let i=0;i<3;i++)r.layer.render({},[]);assert.equal(gl.sources.length,attempts+4);assert.equal(failures,1);
+  for(let i=0;i<3;i++)r.layer.render({},projectionMatrix);assert.equal(gl.sources.length,attempts+4);assert.equal(failures,1);
  }finally{console.error=error;r.destroy();store.collectRetired();}
  assert.equal(budget.stats.bytes,0);store.destroy();
 });

@@ -143,9 +143,9 @@ function documents({shards=1,partitioned=false,boundaryPoints}={}){
 // The raw network edge: records ledger state at the instant a read starts. A
 // held path answers only after release(), or rejects when its signal aborts.
 function network(budget,files,events,{hold=new Set()}={}){
- const calls=[];
+ const calls=[],starts=new EventTarget();
  const read=(name,requestPath,signal,max)=>{
-  const call={name,path:requestPath,signal,max,at:view(budget),gate:deferred()};calls.push(call);events.push(['read',requestPath,call.at]);
+  const call={name,path:requestPath,signal,max,at:view(budget),gate:deferred()};calls.push(call);starts.dispatchEvent(new Event(requestPath));events.push(['read',requestPath,call.at]);
   const bytes=files.get(requestPath);
   if(!hold.has(requestPath))call.gate.resolve();
   return new Promise((resolve,reject)=>{
@@ -154,7 +154,11 @@ function network(budget,files,events,{hold=new Set()}={}){
    call.gate.promise.then(()=>{signal.removeEventListener('abort',abort);if(signal.aborted)abort();else if(!bytes)reject(TypeError('Fixture network has no '+requestPath));else resolve(bytes.slice());},reject);
   });
  };
- return{calls,read,hold};
+ function whenStarted(requestPath){
+  if(calls.some(call=>call.path===requestPath))return Promise.resolve();
+  return new Promise(resolve=>starts.addEventListener(requestPath,resolve,{once:true}));
+ }
+ return{calls,read,hold,whenStarted};
 }
 
 // One page: ledger, chunk store, network edge and optionally the byte transport.
@@ -256,11 +260,12 @@ test('page transport: bootstrap reads use exact transport leases, never a second
  }
 });
 
-test('an invalidated request cancels the in-flight read and returns every claim on both paths',async()=>{
+test('an invalidated request cancels the in-flight read and returns every claim on both paths',{timeout:30_000},async()=>{
  for(const transport of [false,true])for(const family of families){
   const label=family+(transport?' transport':' raw');
   const m=manager(family,{transport,hold:new Set(['/safety/buildings3d/index.json'])}),controller=new AbortController();
-  const running=m.ensure(controller.signal);await flush();
+  const running=m.ensure(controller.signal);
+  await Promise.race([m.net.whenStarted('/safety/buildings3d/index.json'),running.then(()=>assert.fail(label+' finished before the held manifest read'))]);
   assert.equal(m.net.calls.length,1,label);assert(m.budget.stats.bytes>=2*MiB,label+' envelope held while reading');
   controller.abort();await assert.rejects(running,{name:'AbortError'});await flush();
   assert(m.net.calls[0].signal.aborted,label+' network read is cancelled');
@@ -268,7 +273,8 @@ test('an invalidated request cancels the in-flight read and returns every claim 
   assert.equal(m.scope.manifest,undefined,label);assert.equal(m.scope.bootstrapRetained,undefined,label);assert.equal(m.stats().active,0,label);
   // A boundary invalidated mid-read also returns the manifest's retained estimate.
   const n=manager(family,{transport,hold:new Set(['/safety/buildings3d/berlin/city-boundary.json'])}),next=new AbortController(),pending=n.ensure(next.signal);
-  await flush(16);assert.equal(n.net.calls.length,2,label);assert(n.budget.stats.categories.metadata?.bytes>0,label+' manifest estimate held during the boundary read');
+  await Promise.race([n.net.whenStarted('/safety/buildings3d/berlin/city-boundary.json'),pending.then(()=>assert.fail(label+' finished before the held boundary read'))]);
+  assert.equal(n.net.calls.length,2,label);assert(n.budget.stats.categories.metadata?.bytes>0,label+' manifest estimate held during the boundary read');
   next.abort();await assert.rejects(pending,{name:'AbortError'});await flush();
   assert.equal(n.budget.stats.categories.metadata?.bytes??0,0,label);assert.equal(n.budget.stats.categories.construction?.bytes??0,0,label);assert.equal(n.budget.stats.reservations,transport?1:0,label+' only the bounded transport recent index copy may remain');
   assert.equal(n.scope.manifest,undefined,label);n.page?.destroy();assert.equal(n.budget.stats.bytes,0,label);
@@ -350,7 +356,7 @@ async function parsedEstimates(family,settings){
  probe.destroy();probe.page?.destroy();return value;
 }
 
-test('a boundary read envelope that cannot fit beside the same request\'s manifest estimate reports not-fit at once on both paths',async()=>{
+test('a boundary read envelope that cannot fit beside the same request\'s manifest estimate reports not-fit at once on both paths',{timeout:30_000},async()=>{
  for(const family of families){
   const {manifest:M}=await parsedEstimates(family,{shards:700});
   for(const transport of [false,true]){
@@ -359,10 +365,11 @@ test('a boundary read envelope that cannot fit beside the same request\'s manife
    // but the envelope cannot coexist with the manifest estimate this request
    // holds: only this request could return that capacity, so a wait never ends.
    const limitBytes=8*MiB+Math.floor(M/2),m=manager(family,{transport,limitBytes,shards:700}),controller=new AbortController();
-   let outcome='pending';const running=m.ensure(controller.signal).then(()=>{outcome='fulfilled';},error=>{outcome=error;});
-   await until(()=>outcome!=='pending').catch(()=>{});
-   const waited=outcome==='pending';if(waited){controller.abort();await running;}
-   assert(!waited,label+' the boundary read waited for capacity only this request could return');
+   const registered=deferred(),waiting=Symbol('ledger capacity wait'),onAvailable=m.budget.onAvailable;
+   m.budget.onAvailable=(...args)=>{const remove=onAvailable(...args);registered.resolve(waiting);return remove;};
+   const running=m.ensure(controller.signal).then(()=>undefined,error=>error);
+   const outcome=await Promise.race([running,registered.promise]);
+   if(outcome===waiting){controller.abort();await running;assert.fail(label+' the boundary read waited for capacity only this request could return');}
    assert(outcome instanceof ResourceBudgetExceededError,label+' typed not-fit');
    assert.deepEqual([outcome.capacity,outcome.required,outcome.shortfallBytes,outcome.constraint],[limitBytes,M+8*MiB,M+8*MiB-limitBytes,'total'],label+' the envelope beside the held estimate exceeds the whole ledger');
    assert.deepEqual(m.net.calls.map(call=>call.path),['/safety/buildings3d/index.json'],label+' no boundary network read');

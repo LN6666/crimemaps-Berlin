@@ -33,7 +33,7 @@ test('the inline-shard modules are found and none decodes at module evaluation',
  assert.deepEqual(probe.calls,[],'importing all 16 modules decodes nothing');
 });
 
-const fakeScope={memo:(key,create)=>create(),borrow(){throw Error('the source guard reads no frozen data');},prepare(){throw Error('unexpected prepare');}};
+const fakeScope={stats:Object.freeze({disposed:false}),memo:(key,create)=>create(),borrow(){throw Error('the source guard reads no frozen data');},prepare(){throw Error('unexpected prepare');}};
 const mutated=components=>components.map((component,index)=>index===0?{...component,origin:[component.origin[0]+1e-3,component.origin[1]]}:component);
 
 for(const name of lazyFiles)test(`${name}: identity never decodes; the source guard decodes the unchanged literal transiently on every call`,()=>{
@@ -52,6 +52,10 @@ for(const name of lazyFiles)test(`${name}: identity never decodes; the source gu
  assert.equal(probe.calls.length,start,'identity decodes nothing');
  // A changed native row fails the complete-source guard; each guard call decodes anew (nothing cached).
  const changed=mutated(decoded);
+ if(name==='infill-frankfurt-opernturm.ts'){
+  assert.throws(()=>module[reconstructionName](changed,{...fakeScope,stats:{disposed:true}}),{name:'AbortError'});
+  assert.equal(probe.calls.length,start,'an already released scope never decodes its source');
+ }
  for(let round=1;round<=2;round++){
   const result=module[reconstructionName](changed,fakeScope);
   assert.match(String(result.stats.error),/requires (?:complete unchanged real native source group|all\d+ unchanged real native source carriers)/);assert.equal(result.components,changed);

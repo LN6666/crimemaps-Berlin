@@ -29,7 +29,7 @@ for(const provider of ['root500','infill','bremen'])test(provider+': source grou
 });
 
 for(const provider of ['root500','infill','bremen','city','tier300','church','delegated500'])test(provider+': movement immediately retires source demand while leaving the current renderer enabled',()=>{
- const request=new AbortController(),events=[],scope={destroyed:false,suspended:false,pageHidden:false,ownCameraStartingTicket:undefined,revision:4,mode:'3d',preparingTicket:undefined,request,
+ const request=new AbortController(),events=[],scope={options:{},destroyed:false,suspended:false,pageHidden:false,ownCameraStartingTicket:undefined,revision:4,mode:'3d',preparingTicket:undefined,request,
   modeRequests:{refreshBlocked:false,invalidateViewport(value){value.abort();events.push('abort');}},recoveryResident:{invalidate(){}},wantedSources:{reconcile(value){assert.deepEqual(value,[]);events.push('release-source');}},s434Aggregate:{clear(){}},clearPreparedBatches(){assert(request.signal.aborted);},releaseAggregatePrepared(){assert(request.signal.aborted);},announce(status){assert.equal(status,'loading');},renderer:{setEnabled(){throw Error('published main scene must remain enabled');}}};
  actual(manager(provider),'moveStarted',scope)();assert.deepEqual(events,['abort','release-source']);assert.equal(scope.revision,5);
 });
@@ -47,7 +47,7 @@ test('compositor readiness does not pass on fallback or a loading manager with a
 
 class ChunkResourceContextLostError extends Error{}
 for(const provider of ['root500','infill','bremen','city','tier300','church','delegated500'])test(provider+': unfinished CPU context loss aborts only this attempt and does not clear the published handoff',async()=>{
- const request=new AbortController(),loss=new ChunkResourceContextLostError('context lost'),scope={request,revision:1,visibleLoadsPending:0,detailRefreshPending:false,ChunkResourceContextLostError,recoveryResident:{invalidate(){}},current(){request.signal.throwIfAborted();},options:{},async visibleNow(){throw loss;},clearFailedHandoff(){throw Error('published scene must survive interrupted source work');},flushDetailRefresh(){},map:{triggerRepaint(){}}};
+ const request=new AbortController(),loss=new ChunkResourceContextLostError('context lost'),scope={request,revision:1,visibleLoadsPending:0,detailRefreshPending:false,sourceClient:{},detailDemand:{},...runtime.managerErrorClasses(),ChunkResourceContextLostError,recoveryResident:{invalidate(){}},current(){request.signal.throwIfAborted();},options:{},async visibleNow(){throw loss;},clearFailedHandoff(){throw Error('published scene must survive interrupted source work');},flushDetailRefresh(){},map:{triggerRepaint(){}}};
  const visible=actual(manager(provider),'visible',scope);await assert.rejects(visible(request.signal,1),error=>error===loss);assert.equal(request.signal.aborted,true);assert.equal(scope.visibleLoadsPending,0);
 });
 

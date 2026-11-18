@@ -12,9 +12,9 @@ import {build,transform} from 'esbuild';
 // is a no-op frame: nothing throws, no storage is specified, no coverage is
 // drawn, and the mask waits for one ledger wake-up.
 const web=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),safety=path.join(web,'src/safety');
-const entry=`export {createProjectedShadowMask} from './projected-shadow-mask';export {createChunkResourceStore,bindChunkResourceContext} from './render-runtime/chunk-resource-store';export {createResourceBudget} from './render-runtime/resource-budget';`;
+const entry=`export {createProjectedShadowMask} from './projected-shadow-mask';export {chunkUniforms} from './render-runtime/resident-draw-range';export {createResidentTriangleDrawBatch,drawResidentTriangles} from './render-runtime/resident-index-convention';export {createChunkResourceStore,bindChunkResourceContext} from './render-runtime/chunk-resource-store';export {createResourceBudget} from './render-runtime/resource-budget';`;
 const built=await build({stdin:{contents:entry,resolveDir:safety,loader:'ts'},bundle:true,write:false,platform:'node',format:'esm',target:'es2022'});
-const m=await import('data:text/javascript;base64,'+Buffer.from(built.outputFiles[0].text).toString('base64'));
+const m=await import('data:text/javascript;base64,'+Buffer.from(built.outputFiles[0].text+'\n//# sourceURL=resident-shadow-hooks-under-test.mjs').toString('base64'));
 const FAMILIES=['city','delegated500','root500','church','infill','bremen','tier300'],topDown=[1,0,0,0,0,0,-1,0,0,1,0,0,0,0,0,1],MiB=1024*1024;
 
 function mockGL(){
@@ -59,14 +59,14 @@ async function rendererHook(family){
  const source=await fs.readFile(path.join(web,`src/painted/${family}/safety/building-mesh-renderer.ts`),'utf8');
  assert.ok(source.includes('shadowMask=createProjectedShadowMask(')&&source.includes('shadowMask.release()'),family+' creates and releases the shared mask');
  const js=(await transform(functionSource(source,'function drawProjectedShadows('),{loader:'ts'})).code;
- return new Function('env',`const {gl,shadowMask,matrix,projection,sceneChunks}=env;
+ return new Function('createResidentTriangleDrawBatch','drawResidentTriangles','chunkUniforms','env',`const {gl,shadowMask,matrix,projection,sceneChunks}=env;
   const shadowProgram={shadowProgram:true},mainWorldProjection=projection,mainWorldMatrix=projection,candidateMainMatrix=projection,candidateMainProjection=projection,shadowUploadPending=false;
   const sceneSun={shadowVector:[-2,1]},paintMode=()=>2,anchorUnit=1,geometryOwner={scene:{version:1}},shadowGeometryOwner={scene:{version:1}};
   const multiply=(a,b)=>Array.from({length:16},(_,i)=>{const r=i%4,c=Math.floor(i/4);let n=0;for(let k=0;k<4;k++)n+=a[k*4+r]*b[c*4+k];return n;});
   let shadowDraws=0;
   ${js}
   drawProjectedShadows(env.alpha);
-  return shadowDraws;`);
+  return shadowDraws;`).bind(undefined,m.createResidentTriangleDrawBatch,m.drawResidentTriangles,m.chunkUniforms);
 }
 
 for(const family of FAMILIES)test(family+' drawProjectedShadows draws one admitted coverage union and treats a refused mask as a waiting no-op frame',async()=>{

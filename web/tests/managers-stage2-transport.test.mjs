@@ -234,6 +234,17 @@ test('the transient-failure test names every contract TypeError of the page tran
   assert.equal(transient(failure),false,'tagged contract TypeError treated as transient: '+message);
   assert.equal(transient(Object.assign(new Error(message),{name:'TypeError',code:failure.code})),false,'the bounded error copy retains its stable contract code');
  }
+ const budget=createResourceBudget({limitBytes:1024,recentLimitBytes:0}),provider=()=>({}),notify=()=>{};
+ for(const [call,message] of [
+  [()=>budget.onAvailabilityStateChange(null),'Availability observer required'],
+  [()=>budget.onAvailabilityStateChange(notify,{}),'Availability observer signal must be an AbortSignal'],
+  [()=>budget.registerAvailabilityStateProvider(null),'Availability state provider required'],
+  [()=>budget.registerAvailabilityStateProvider(provider,''),'Availability semantic provider key must be 1 to 256 UTF-16 characters'],
+  [()=>budget.registerAvailabilityStateProvider(provider,'test',[]),'Availability provider options must be an object'],
+ ]){
+  assert.throws(call,error=>error instanceof TypeError&&error.message===message&&
+   error.code===budgetModule.RESOURCE_CONTRACT_VIOLATION&&!transient(error),message);
+ }
  assert.equal(transient(await readyBorrowContractFailure()),false,'an actual ready-borrow contract failure is not retried');
  for(const message of [...legacyMessages,'This read envelope already covers another read; mint one per read'])assert.equal(transient(new TypeError(message)),false,'legacy untagged contract error treated as transient: '+message);
  for(const message of ['Failed to fetch','Load failed','NetworkError when attempting to fetch resource.','The network connection was lost.','network error'])assert.equal(transient(new TypeError(message)),true,'network failure treated as a contract check: '+message);

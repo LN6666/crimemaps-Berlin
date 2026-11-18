@@ -34,17 +34,31 @@ function resolve(from,spec){
   try{if(statSync(candidate).isFile())return candidate;}catch{}
  return undefined;
 }
-// Opaque dynamic imports are judged on the code with comments removed: source comments now
-// mention "import (" / "import()" in prose, which is not a module edge. Edges stay loose (comments
-// included), so the reach over-approximation is unchanged.
-const opaqueImport=(text,file)=>{const code=ts.transpileModule(text,{fileName:file,compilerOptions:{removeComments:true,target:ts.ScriptTarget.ESNext,module:ts.ModuleKind.ESNext}}).outputText;return /\bimport\s*\(\s*(?!['"`])/.test(code)||/\bimport\s*\(\s*`[^`]*\$\{/.test(code)||/\bimport\.meta\.glob\b/.test(code);};
-assert.equal(opaqueImport('// one import() per module\nconst a=import("./x");','probe.ts'),false);assert.equal(opaqueImport('const name="./x";const a=import(name);','probe.ts'),true);assert.equal(opaqueImport('const a=import(`./${name}`);','probe.ts'),true);
-async function scan(extract){
+// The graph needs only the syntax of dynamic imports. Emitting every module
+// would repeat a full TypeScript transformation for both graph traversals.
+function opaqueImport(text,file){
+ if(!/\bimport\s*[./(]/.test(text))return false;
+ const source=ts.createSourceFile(file,text,ts.ScriptTarget.Latest);
+ function opaque(node){
+  if(ts.isCallExpression(node)&&node.expression.kind===ts.SyntaxKind.ImportKeyword){
+   const argument=node.arguments[0];
+   if(!argument||!ts.isStringLiteralLike(argument))return true;
+  }
+  if((ts.isPropertyAccessExpression(node)||ts.isElementAccessExpression(node))&&
+     ts.isMetaProperty(node.expression)&&node.expression.keywordToken===ts.SyntaxKind.ImportKeyword){
+   const key=ts.isPropertyAccessExpression(node)?node.name:node.argumentExpression;
+   if(key&&(ts.isIdentifier(key)||ts.isStringLiteralLike(key))&&key.text==='glob')return true;
+  }
+  return ts.forEachChild(node,opaque);
+ }
+ return opaque(source)===true;
+}
+async function scan(extract,{checkOpaque=false}={}){
  const entry=path.join(src,'safety/main.ts'),reached=new Map([[entry,undefined]]),queue=[entry],opaque=[];let compactFollowed=0;
  while(queue.length){
   const file=queue.pop();if(!SCRIPT.test(file))continue;// css, json and assets are leaves
   const text=await fs.readFile(file,'utf8');
-  if(opaqueImport(text,file))opaque.push(path.relative(web,file));
+  if(checkOpaque&&opaqueImport(text,file))opaque.push(path.relative(web,file));
   for(const {spec,compact}of extract(text)){
    const target=resolve(file,spec);if(!target)continue;
    if(compact)compactFollowed++;
@@ -53,6 +67,15 @@ async function scan(extract){
  }
  return {reached,opaque,compactFollowed};
 }
+
+test('the opaque-import check follows syntax, including comments between the import and its argument',()=>{
+ for(const source of [
+  '// import(name)\nconst a=import("./x");','const a=import( /* literal */ `./x` );',
+  'const text="import(variable)";','type T=import("./x").T;','const re=/import\\(name/;'
+ ])assert.equal(opaqueImport(source,'probe.ts'),false,source);
+ for(const source of ['import(name)','import /* comment */ (name)','import(`./${name}`)','import.meta.glob("./*.ts")','import.meta["glob"]("./*.ts")'])
+  assert.equal(opaqueImport(source,'probe.ts'),true,source);
+});
 
 test('the import scanner reads compact, type-only, side-effect, dynamic and asset specifiers',()=>{
  const sample=`import{a}from'./compact';import type{T}from'./compact-type';export*from'./compact-star';export * as ns from "./ns";export{default}from'./default';import './side-effect';import'./side-effect-compact';const lazy=import('./dynamic');const t=import(\`./template\`);const u=new URL('./asset.png',import.meta.url);`;
@@ -80,7 +103,7 @@ test('differing frozen city environment copies stay outside the runtime module g
  assert.deepEqual(scripts.map(match=>/\bsrc="([^"]+)"/.exec(match[1])?.[1]),['/src/safety/main.ts'],'the page has one module entry');
  assert.ok(scripts.every(match=>!match[2].trim()),'and no inline script');
  for(const file of frozenUnadmitted)await fs.access(file);
- const loose=await scan(looseEdges),viaTypeScript=await scan(typeScriptEdges);
+ const loose=await scan(looseEdges,{checkOpaque:true}),viaTypeScript=await scan(typeScriptEdges);
  assert.deepEqual(loose.opaque,[],'every dynamic import is a literal the scan can follow');
  assert.ok(loose.compactFollowed>0,'compact }from edges are followed in the real graph');
  assert.deepEqual([...viaTypeScript.reached.keys()].filter(file=>!loose.reached.has(file)).map(file=>path.relative(web,file)),[],'the loose scan reaches every module TypeScript\'s scanner reaches');

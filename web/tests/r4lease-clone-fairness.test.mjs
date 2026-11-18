@@ -16,21 +16,23 @@ import {leaseRuntime,leasePage,leaseMap,table,leasePhases,settle,until,deadline,
 // lease store, byte transport, page store and ledger; tiny synthetic tables.
 const api=await leaseRuntime();
 const MAX_READS_PER_TABLE=2;
+// A native crypto digest can still be running after hundreds of setImmediate
+// turns on a busy worker. Treat elapsed time without progress as the bound.
+const STALLED_MS=4000;
+const waitForWork=idle=>idle<32?settle():new Promise(resolve=>setTimeout(resolve,1));
 
 /** Acquires every table at once on a page of limitBytes and delivers reads as
  * they start. Returns per-table outcomes and read counts; drains the page. */
-async function race(tables,limitBytes,{abort}={}){
+async function race(tables,limitBytes,{abort,deliver=(row,bytes)=>row.resolve(bytes)}={}){
  const resources=leasePage(api,{limitBytes}),{budget}=resources,m=leaseMap(api,resources,'M',tables);
  const controllers=tables.map(()=>new AbortController()),out={};
  tables.forEach((f,i)=>m.client.acquire(m.ref(f),controllers[i].signal).then(lease=>{out[i]='ok';lease.release();},error=>{out[i]=error?.name;}));
- let idle=0,aborted=false;
- // Bounded by reads and idle turns, never by a timer; a turn may wait on the
- // (real, asynchronous) SHA-256 digest.
- while(Object.keys(out).length<tables.length&&m.network.length<=tables.length*MAX_READS_PER_TABLE+4&&idle<400){
+ let idle=0,aborted=false,progressAt=performance.now();
+ while(Object.keys(out).length<tables.length&&m.network.length<=tables.length*MAX_READS_PER_TABLE+4&&performance.now()-progressAt<STALLED_MS){
   if(abort&&!aborted&&abort.when(m)){aborted=true;controllers[abort.index].abort();}
   const row=m.network.find(r=>!r.done&&!r.signal.aborted);
-  if(row){row.done=true;const f=tables.find(f=>f.path===row.target);row.resolve(new Uint8Array(f.physical));idle=0;}else idle++;
-  await settle();
+  if(row){row.done=true;const f=tables.find(f=>f.path===row.target);deliver(row,new Uint8Array(f.physical));idle=0;progressAt=performance.now();}else idle++;
+  await waitForWork(idle);
  }
  const reads=tables.map(f=>m.network.filter(r=>r.target===f.path).length);
  const result={limitBytes,out:tables.map((_,i)=>out[i]??'pending'),reads,total:m.network.length,stats:{...m.leases.stats},aborted};
@@ -50,30 +52,32 @@ function limits(whole,n){
  for(let L=Math.floor(1.75*whole);L<=Math.ceil(1.95*whole);L+=1024)set.add(L);
  return [...set].sort((a,b)=>a-b);
 }
-function check(rows,whole){
- for(const row of rows){
+function check(row,whole){
   const tag=JSON.stringify({L:row.limitBytes,out:row.out,reads:row.reads});
   assert(row.reads.every(n=>n<=MAX_READS_PER_TABLE),'every table reads at most twice: '+tag);
   if(row.limitBytes<whole)assert(row.out.every(o=>o==='ResourceBudgetExceededError'),'below one acquisition every table is reported as not fitting: '+tag);
   else assert(row.out.every(o=>o==='ok'),'at or above one acquisition every table completes: '+tag);
   assert(row.drained,'the page drains: '+tag);
- }
 }
 
 test('two tables: every page from below one acquisition to two reads at most twice per table and completes (the R3 livelock window included)',async()=>{
- const tables=names('r4-two',2),whole=wholeOf(tables),rows=[];
+ const tables=names('r4-two',2),whole=wholeOf(tables);
  assert.equal(leasePhases(tables[0]).whole,leasePhases(tables[0]).settle,'precondition: the settle beside the clone room is the largest phase');
- for(const L of limits(whole,2))rows.push(await race(tables,L));
- check(rows,whole);
+ for(const L of limits(whole,2))check(await race(tables,L),whole);
  // The round-3 reproduction limit (two-waiters.mjs): one read each now.
  const r3=await race(tables,630000);
  assert.deepEqual([r3.out,r3.reads],[['ok','ok'],[1,1]]);
 });
 
 test('three tables: every page reads at most twice per table and completes or is reported as not fitting',async()=>{
- const tables=names('r4-three',3),whole=wholeOf(tables),rows=[];
- for(const L of limits(whole,3).filter((L,i,all)=>L<=whole+768*3+512||i%2===0))rows.push(await race(tables,L));
- check(rows,whole);
+ const tables=names('r4-three',3),whole=wholeOf(tables);
+ for(const L of limits(whole,3).filter((L,i)=>L<=whole+768*3+512||i%2===0))check(await race(tables,L),whole);
+});
+
+test('a delayed delivery on the exact page still reaches the real clone and drains the ledger',async()=>{
+ const tables=names('r4-delayed',2),whole=wholeOf(tables);
+ const row=await race(tables,whole,{deliver:(read,bytes)=>setTimeout(()=>read.resolve(bytes),30)});
+ assert.deepEqual(row.out,['ok','ok']);assert(row.reads.every(n=>n<=MAX_READS_PER_TABLE));assert(row.drained);
 });
 
 test('exact page: one acquisition fits only after the waiting tables step back; each completes with bounded reads',async()=>{
@@ -163,12 +167,12 @@ async function raceMaps(mapCount,tables,limitBytes,{seed=1,holdTurns=0}={}){
  const out={},held=[],n=mapCount*tables.length;
  maps.forEach((m,mi)=>tables.forEach((f,ti)=>m.client.acquire(m.ref(f),new AbortController().signal).then(lease=>{out[mi+':'+ti]='ok';held.push({lease,turns:holdTurns});},error=>{out[mi+':'+ti]=error?.name;})));
  const network=()=>maps.flatMap(m=>m.network);
- let idle=0;
- while(Object.keys(out).length<n&&network().length<=tables.length*(mapCount+1)+4&&idle<300){
+ let idle=0,progressAt=performance.now();
+ while(Object.keys(out).length<n&&network().length<=tables.length*(mapCount+1)+4&&performance.now()-progressAt<STALLED_MS){
   for(const row of held)if(row.lease&&--row.turns<0){row.lease.release();row.lease=undefined;}
   const pending=network().filter(r=>!r.done&&!r.signal.aborted);
-  if(pending.length&&next()<0.7){const row=pending[Math.floor(next()*pending.length)];row.done=true;row.resolve(new Uint8Array(tables.find(f=>f.path===row.target).physical));idle=0;}else idle++;
-  await settle();
+  if(pending.length&&next()<0.7){const row=pending[Math.floor(next()*pending.length)];row.done=true;row.resolve(new Uint8Array(tables.find(f=>f.path===row.target).physical));idle=0;progressAt=performance.now();}else idle++;
+  await waitForWork(idle);
  }
  for(const row of held)if(row.lease){row.lease.release();row.lease=undefined;}
  const reads=tables.map(f=>network().filter(r=>r.target===f.path).length);
@@ -178,8 +182,7 @@ async function raceMaps(mapCount,tables,limitBytes,{seed=1,holdTurns=0}={}){
  result.drained=budget.stats.bytes===0&&budget.stats.availabilityListeners===0;
  return result;
 }
-function checkMaps(rows,whole,mapCount){
- for(const row of rows){
+function checkMaps(row,whole,mapCount){
   const tag=JSON.stringify(row);
   assert(!row.out.includes('pending'),'no acquisition is left waiting: '+tag);
   if(row.limitBytes<whole)assert(row.out.every(o=>o==='ResourceBudgetExceededError'),'below one acquisition every one is reported as not fitting: '+tag);
@@ -187,7 +190,6 @@ function checkMaps(rows,whole,mapCount){
   assert(row.reads.every(r=>r<=mapCount+1),'every table reads at most once per map and once more: '+tag);
   assert(row.cloneHoldMisses.every(n=>n===0),'every clone ran beside its held claim: '+tag);
   assert(row.drained,'the page drains: '+tag);
- }
 }
 /** Pages from below one acquisition through the k-binding estimate window and the
  * capped-headroom window above it (whole .. whole + P + 256 k, step 64), then coarser. */
@@ -201,9 +203,7 @@ function mapLimits(phases,mapCount,tableCount){
 test('several maps, one table: every page completes or is reported as not fitting, with at most maps + 1 reads (R4S1-1, R4S1-2)',async()=>{
  const [f]=names('r4-maps',1),phases=leasePhases(f);
  for(const mapCount of [2,3]){
-  const rows=[];
-  for(const L of mapLimits(phases,mapCount,1))for(const holdTurns of [0,3])rows.push(await raceMaps(mapCount,[f],L,{seed:L*7+holdTurns,holdTurns}));
-  checkMaps(rows,phases.whole,mapCount);
+  for(const L of mapLimits(phases,mapCount,1))for(const holdTurns of [0,3])checkMaps(await raceMaps(mapCount,[f],L,{seed:L*7+holdTurns,holdTurns}),phases.whole,mapCount);
  }
  // The review's reproductions: two maps on the exact page (one production,
  // its own sibling binding the only blocker), three maps 5000 B above it (a
@@ -218,9 +218,7 @@ test('several maps, one table: every page completes or is reported as not fittin
 test('several maps, several tables: every page completes or is reported as not fitting, with at most maps + 1 reads per table (R4S1-3)',async()=>{
  const tables=names('r4-maps-tables',2),whole=wholeOf(tables),phases=leasePhases(tables[0]);
  for(const mapCount of [2,3]){
-  const rows=[];
-  for(const L of mapLimits({...phases,whole},mapCount,2).filter((L,i)=>L<=whole+phases.P+2048||i%2===0))rows.push(await raceMaps(mapCount,tables,L,{seed:L*13+mapCount,holdTurns:L%2?3:0}));
-  checkMaps(rows,whole,mapCount);
+  for(const L of mapLimits({...phases,whole},mapCount,2).filter((L,i)=>L<=whole+phases.P+2048||i%2===0))checkMaps(await raceMaps(mapCount,tables,L,{seed:L*13+mapCount,holdTurns:L%2?3:0}),whole,mapCount);
  }
 });
 

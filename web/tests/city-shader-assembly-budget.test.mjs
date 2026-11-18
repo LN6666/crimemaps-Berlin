@@ -20,6 +20,7 @@ export * as sourceBudget from '${safety}/render-runtime/shader-source-budget.ts'
 export * as assembly from '${safety}/render-runtime/shader-assembly-budget.ts';
 export * as resources from '${safety}/render-runtime/resource-budget.ts';
 export * as preparation from '${safety}/render-runtime/program-preparation.ts';
+export {currentPaintProgramGroups} from '${safety}/current-paint-program-groups.ts';
 export {withResidentReflectionClip} from '${safety}/resident-planar-reflection.ts';
 export {specializeCurrentPaintFragment} from './src/painted/delegated500/safety/current-paint-program.ts';
 export {getFacadePaintFragmentGLSL} from '${city}/facade-paint-fragment.ts';
@@ -453,7 +454,7 @@ test('renderer exits: release, hide, disable and context loss leave no admission
 });
 
 test('description and admission errors are reported as they are; only compile failures take the correction fallbacks',()=>{
- const compile=(overrides={})=>{const calls=[];const S={city:'munich',c318MaterialActive:true,c311ShaderActive:true,c312ShaderActive:true,c313ShaderActive:true,c318MaterialBase:'c318-base-recipe',materialRecipeRevision:0,dataPublicationRevision:0,
+ const compile=(overrides={})=>{const calls=[];const S={city:'munich',linkedPaint:M.currentPaintProgramGroups('city','munich'),c318MaterialActive:true,c311ShaderActive:true,c312ShaderActive:true,c313ShaderActive:true,c318MaterialBase:'c318-base-recipe',materialRecipeRevision:0,dataPublicationRevision:0,
   prepareMaterialSource:()=>true,hookSignature:()=>'1:1:1',programSourcePlan:()=>({scope:{}}),cityProgramSourceFor:()=>({recipe:{},vertex:'',attributes:[]}),cityProgramBudget:()=>({sourceBytesUpperBound:2}),
   compileGeometryRecipe:()=>{calls.push('compile');return 'program';},setMaterialSourceBuilder:value=>calls.push(['material',value]),materialBuilder:list=>'recipe:'+list.join('>'),
   ProgramPreparationPending:preparation.ProgramPreparationPending,isProgramPreparationPending:preparation.isProgramPreparationPending,isCityShaderBudgetUnfit:B.isCityShaderBudgetUnfit,isCityShaderBoundViolation:B.isCityShaderBoundViolation,
@@ -489,7 +490,7 @@ test('every shared-core bound violation message is classified as a budget error,
 test('the built feature evidence ends where the original text ended: a non-reusing program build, reconcile, material change',()=>{
  const features=()=>new Set(['c437Blockhaus']),plan={scope:{}};let captured;
  const owner={reuse:false,stats:{hits:0},prepareSource(){if(this.reuse)this.stats.hits++;return{fragment:'void main(){}',depthEffects:false};}};
- const S={city:'dresden',c318MaterialActive:true,c311ShaderActive:true,c312ShaderActive:true,c313ShaderActive:true,materialRecipeRevision:0,dataPublicationRevision:0,residentDataPlan:plan,cityPaintFragment:'',cityPaintFragmentBytes:0,cityBuiltSourceFeatures:features(),lastFamilyFragmentCharacters:0,
+ const S={city:'dresden',linkedPaint:M.currentPaintProgramGroups('city','dresden'),c318MaterialActive:true,c311ShaderActive:true,c312ShaderActive:true,c313ShaderActive:true,materialRecipeRevision:0,dataPublicationRevision:0,residentDataPlan:plan,cityPaintFragment:'',cityPaintFragmentBytes:0,cityBuiltSourceFeatures:features(),lastFamilyFragmentCharacters:0,
   prepareMaterialSource:()=>true,hookSignature:()=>'1:1:1',programSourcePlan:()=>plan,cityProgramSourceFor:()=>({recipe:{},vertex:'',attributes:[]}),cityProgramBudget:()=>({sourceBytesUpperBound:2}),programSourceOwner:()=>owner,withResidentReflectionClip:source=>source,
   compileGeometryRecipe:recipe=>{captured=recipe;return 'program';},ProgramPreparationPending:preparation.ProgramPreparationPending,isProgramPreparationPending:preparation.isProgramPreparationPending,isCityShaderBudgetUnfit:B.isCityShaderBudgetUnfit,isCityShaderBoundViolation:B.isCityShaderBoundViolation,
   VERTEX:'',HAMBURG_WHITE_VERTEX:'',HAMBURG_WHITE_FRAGMENT:'',cityProgramSourceAuthority:{},selectGeometryConsumer:()=>'resident'};
@@ -507,18 +508,19 @@ test('the built feature evidence ends where the original text ended: a non-reusi
 // may have a different live consumer by the time source admission starts.
 function cityQueueFixture(){
  const resident={id:'resident'},first={plan:{id:'first'}},second={plan:{id:'second'}},calls=[];
- const state={gl:{},residentDataPlan:resident,dataPublicationRevision:1,geometryCompilationCandidate:undefined,compilationPublishedState:undefined,
+ const family=10000,linkedPaint=M.currentPaintProgramGroups('city','dresden');
+ const state={gl:{},linkedPaint,residentDataPlan:resident,dataPublicationRevision:1,geometryCompilationCandidate:undefined,compilationPublishedState:undefined,
   selected:first,selectGeometryConsumer(){return state.selected;},
   withGeometryCandidate(candidate,run){const previous=state.residentDataPlan;state.residentDataPlan=candidate.plan;try{return run();}finally{state.residentDataPlan=previous;}},
   snapshotResident(){const plan=state.residentDataPlan;return{restore(){state.residentDataPlan=plan;},clear(){}};},
   cityProgramSourceFor(plan){calls.push(['describe',plan.id]);return{plan};},
-  cityProgramBudget(plan,source){assert.equal(source.plan,plan);calls.push(['budget',plan.id]);return{sourceBytesUpperBound:100,workspaceCosts:[],plan};},
+  cityProgramBudget(plan,source,families){assert.equal(source.plan,plan);assert.deepEqual(families,linkedPaint.families(family));calls.push(['budget',plan.id]);return{sourceBytesUpperBound:100,workspaceCosts:[],plan};},
   ProgramPreparationPending:class extends Error{},
   programPreparation:{acquireReadyProgram(){return undefined;},compile(_gl,recipe){state.queued=recipe;return{};}}
  };
  const code=ts.transpileModule(rendererBinding('compileGeometryRecipe'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.None}}).outputText;
  const compile=Function('state','with(state){'+code+';return compileGeometryRecipe;}')(state);
- compile({resource:'colour:4912',budget:{plan:first.plan},build(){calls.push(['build',state.residentDataPlan.id]);return{fragment:state.residentDataPlan.id};}},'helper',false,4912,'variant');
+ compile({resource:'colour:'+family,budget:{plan:first.plan},build(){calls.push(['build',state.residentDataPlan.id]);return{fragment:state.residentDataPlan.id};}},'helper',false,family,'variant');
  return{state,first,second,resident,calls};
 }
 test('queued city source binds successor budget and builder to the same live plan',()=>{

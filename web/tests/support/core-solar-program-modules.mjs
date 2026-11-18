@@ -25,7 +25,10 @@ export function createLoader(overrides=new Map()){
   const module={exports:{}};modules.set(filename,module);
   try{
    const text=override??readFileSync(filename,'utf8');
-   const code=ts.transpileModule(text,{fileName:filename,compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
+   // The synchronous loader evaluates CommonJS. TypeScript otherwise keeps
+   // ESM imports whenever the file name ends in .mjs, regardless of moduleKind.
+   const compilerFilename=filename.endsWith('.mjs')?filename.slice(0,-4)+'.cts':filename;
+   const code=ts.transpileModule(text,{fileName:compilerFilename,compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
    Function('module','exports','require',code+'\n//# sourceURL='+filename)(module,module.exports,name=>{assert(name.startsWith('.'),'only local production dependencies: '+name);const target=path.resolve(path.dirname(filename),name);return load(path.extname(target)?target:target+'.ts');});
    return module.exports;
   }catch(error){modules.delete(filename);throw error;}

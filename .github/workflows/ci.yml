@@ -27,10 +27,18 @@ jobs:
       - run: uv run pytest -q test_suite/safety test_suite/security tests/migration tests/render
       # Analytics card and counter contracts (no npm dependencies; offline fixtures).
       - run: npm --prefix services/analytics test
-  resource-budget:
-    # Page ResourceBudget admission, wait and release contracts. Runs in its
-    # own job so the browser job keeps its existing time budget.
+  resource-budget-part:
+    name: Resource budget part ${{ matrix.part }} of 4
+    outputs:
+      part1: ${{ steps.accepted.outputs.part1 }}
+      part2: ${{ steps.accepted.outputs.part2 }}
+      part3: ${{ steps.accepted.outputs.part3 }}
+      part4: ${{ steps.accepted.outputs.part4 }}
     timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        part: [1, 2, 3, 4]
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -39,19 +47,44 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: '22'
-      - id: dependencies
-        run: npm --prefix web ci
-      - name: Resource budget 1 of 4
-        run: npm --prefix web run test:resource-budget -- --part=1/4 --jobs=2 --timings
-      - name: Resource budget 2 of 4
-        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
-        run: npm --prefix web run test:resource-budget -- --part=2/4 --jobs=2 --timings
-      - name: Resource budget 3 of 4
-        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
-        run: npm --prefix web run test:resource-budget -- --part=3/4 --jobs=2 --timings
-      - name: Resource budget 4 of 4
-        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
-        run: npm --prefix web run test:resource-budget -- --part=4/4 --jobs=2 --timings
+      - run: npm --prefix web ci
+      - name: Run all registered files in this part
+        id: budget
+        run: >-
+          npm --prefix web run test:resource-budget --
+          --part=${{ matrix.part }}/4 --jobs=2 --timings
+          --output-dir="$RUNNER_TEMP/resource-budget"
+          --file-timeout=60 --long-file-timeout=180
+          --long-file=tests/gpu-aux-budget-city-environment-copies.test.mjs
+          --long-file=tests/r4lease-clone-fairness.test.mjs
+      - name: Preserve complete TAP and per-file exits
+        if: ${{ !cancelled() && steps.budget.outcome != 'skipped' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: resource-budget-part-${{ matrix.part }}-attempt-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/resource-budget
+          if-no-files-found: error
+          retention-days: 3
+      - name: Record completed part
+        id: accepted
+        run: echo "part${{ matrix.part }}=passed" >> "$GITHUB_OUTPUT"
+  # Keep the existing required check name. Any failed/skipped part fails the gate.
+  resource-budget:
+    needs: resource-budget-part
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - name: Require all four parts to pass
+        env:
+          PARTS_RESULT: ${{ needs.resource-budget-part.result }}
+          PART_1: ${{ needs.resource-budget-part.outputs.part1 }}
+          PART_2: ${{ needs.resource-budget-part.outputs.part2 }}
+          PART_3: ${{ needs.resource-budget-part.outputs.part3 }}
+          PART_4: ${{ needs.resource-budget-part.outputs.part4 }}
+        run: |
+          test "$PARTS_RESULT" = success
+          test "$PART_1" = passed && test "$PART_2" = passed && test "$PART_3" = passed && test "$PART_4" = passed
   browser:
     timeout-minutes: 20
     runs-on: ubuntu-24.04

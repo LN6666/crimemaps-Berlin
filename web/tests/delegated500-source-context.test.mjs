@@ -20,7 +20,15 @@ function originalIdentities(file){
 }
 test('delegated physical source cohorts retain the exact scalar projection and authority of every declared original SPEC',()=>{
  const groups=context.DELEGATED_SOURCE_CONTEXT_GROUPS;assert.equal(groups.length,63);assert.equal(new Set(groups.map(group=>group.module)).size,groups.length);
- for(const group of groups){const file=path.join(root,group.module+'.ts');assert.equal(sha(fs.readFileSync(file)),group.sourceSHA256,group.module+' source authority');assert.deepEqual(group.identities,originalIdentities(file),group.module+' exact source identity projection');}
+ // The public sources replace the workstation part of reviewed evidence locators.
+ // Each digest was checked by reversing exactly those substitutions against the original module.
+ const publicDigests=JSON.parse(fs.readFileSync(new URL('./support/delegated-source-public-digests.json',import.meta.url),'utf8'));
+ for(const group of groups){
+  const file=path.join(root,group.module+'.ts');
+  assert.equal(sha(fs.readFileSync(file)),publicDigests[group.sourceSHA256]??group.sourceSHA256,group.module+' exact public source authority');
+  assert.deepEqual(group.identities,originalIdentities(file),group.module+' exact source identity projection');
+ }
+ assert.deepEqual(Object.keys(publicDigests).sort(),groups.map(group=>group.sourceSHA256).filter(key=>Object.hasOwn(publicDigests,key)).sort(),'every public digest is bound to a declared original');
  assert.equal(context.DELEGATED_DATA_DEMAND_SHA256,sha(fs.readFileSync(path.join(root,'delegated500-data-demand.ts'))));
 });
 test('delegated source context closes a static material cohort and borrows only its actually resident rows',()=>{

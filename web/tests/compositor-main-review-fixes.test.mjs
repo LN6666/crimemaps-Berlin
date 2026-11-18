@@ -17,7 +17,7 @@ test('detail demand reaches the captures as a held ledger wait only when every m
   const captures=()=>({shadow:compositor.renderer.prepareSolarShadow(),reflection:compositor.renderer.preparePlanarReflection('water')});
   const city=fixture.captured.get('city').manager,root=fixture.captured.get('root500').manager;
   assert.equal(captures().shadow.status,'ready','no demand: the providers answer');
-  // A manager without the field (every manager today): plain pending, the captures keep requesting frames.
+  // An adapter without the optional field leaves the captures requesting frames.
   demand(city,true);
   let {shadow,reflection}=captures();
   assert.deepEqual(shadow,{status:'pending',ready:0,pending:1,failed:0},'unchanged plain pending');
@@ -36,7 +36,16 @@ test('detail demand reaches the captures as a held ledger wait only when every m
   demand(root,true);assert.equal(api.solarShadowPreparationNeedsFrame(captures().shadow),true,'one manager without a held wake: plain pending');
   demand(root,true,true);assert.equal(api.solarShadowPreparationHeldWait(captures().shadow),true);
   demand(root,false,false);assert.equal(api.solarShadowPreparationHeldWait(captures().shadow),true,'a manager without demand does not count');
-  // The compositor's own refresh is consumed by the next render: plain pending until then.
+  // A provider that has not consulted any pass has no stale decision to refresh.
+  compositor.renderer.setPlanarReflectionState({enabled:true,planeWorldZ:1});
+  assert.equal(api.solarShadowPreparationHeldWait(captures().shadow),true);
+  // Read via the actual runtime. A subsequent plane change must refresh the
+  // provider on the next render, even while its manager holds a budget wait.
+  const leaf={id:'test-leaf',path:'/safety/buildings3d/detail.json',bytes:40,sha256:'b'.repeat(64)};
+  const index={city:'berlin',canonicalIndex:{sha256:'a'.repeat(64)},canonicalLeaf:leaf,bindings:{},
+    components:[],variants:[],near:{level:'near',asset:leaf,geometrySHA256:'c'.repeat(64),vertices:3,triangles:1}};
+  const selection=fixture.captured.get('city').options.detailRuntime.select(index);
+  assert(selection.passes.includes('reflection'));
   compositor.renderer.setPlanarReflectionState({enabled:true,planeWorldZ:2});
   assert.equal(api.solarShadowPreparationNeedsFrame(captures().shadow),true,'a compositor refresh pending: the next frame consumes it');
   for(const listener of [...map.listeners])listener();

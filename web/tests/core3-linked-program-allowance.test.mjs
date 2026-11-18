@@ -60,15 +60,20 @@ test('the ledger labels say the estimate is a policy value with driver-side byte
  }finally{budget.tryReserve=tryReserve;owner.dispose();t.all();store.destroy();t.restore();}
 });
 
-test('retained in the recent set, the same estimate only changes role: total bytes stay one estimate, and a hit moves it back',()=>{
+test('retaining a linked program moves its single executable claim to the recent role and a hit refunds the pressure metadata',()=>{
  const t=turns(),f=driver(),{budget,store}=page(f),owner=createProgramPreparationOwner('core3',()=>{}),counter={builds:0},r=recipe('kept',counter);
  try{
   const program=linked(t,owner,f,r);
   owner.releaseProgram(f.gl,program,{retainRecent:true});
   assert.equal(program.deleted,false,'kept linked');
-  assert.equal(budget.stats.bytes,P,'not charged twice');assert.equal(budget.stats.recentBytes,P,'the same claim is now recent');
+  assert.equal(programCategory(budget),P,'the executable retains one claim');
+  const metadata=budget.stats.categories.metadata;
+  assert.equal(metadata?.bytes,36*KiB,'the recent-program pressure participant and shared registry have separate metadata claims');
+  assert.equal(budget.stats.bytes,P+metadata.bytes,'all charged bytes are accounted for');
+ assert.equal(budget.stats.recentBytes,P,'the same claim is now recent');
   assert.equal(getRecentProgramStats(f.gl).entries,1);assert.equal(getRecentProgramStats(f.gl).bytes,P);
   const again=owner.compile(f.gl,r);assert.equal(again,program,'an exact hit reuses the executable');assert.equal(counter.builds,1,'no second build');
+  assert.equal(budget.stats.categories.metadata,undefined,'taking the last recent entry releases its pressure metadata');
   assert.equal(budget.stats.bytes,P);assert.equal(budget.stats.recentBytes,0,'back in use: no longer recent, still one estimate');
   owner.releaseProgram(f.gl,again,{retainRecent:true});assert.equal(budget.stats.recentBytes,P);
   assert.equal(releaseRecentPrograms(store),1);

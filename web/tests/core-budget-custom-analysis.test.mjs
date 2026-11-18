@@ -23,15 +23,17 @@ const body=name=>{assert(functions.has(name),'current-paint-program defines '+na
 const order=(text,parts,label)=>{let at=-1;for(const part of parts){const next=text.indexOf(part,at+1);assert(next>at,label+': '+part+' follows in order');at=next;}};
 
 test('the phase order the envelope relies on is the specializer source itself',()=>{
- assert.deepEqual([...functions.keys()],['maskComments','closeAt','functions','condition','terminalBlockReturn','narrowBody','currentPaintProgramKey','currentPaintProgramFamily','callsIn','prepare','dispatchContexts','narrowed','specializedFragment','depthEffects','specializeCurrentPaintProgram','specializeCurrentPaintFragment','paintedFacadeDepthEffects','trimInactivePaintPrograms'],'a new phase or helper needs a re-derived envelope');
+ assert.deepEqual([...functions.keys()],['maskComments','closeAt','functions','condition','roundedCondition','terminalBlockReturn','commonGuard','narrowBody','currentPaintProgramKey','currentPaintProgramFamily','callsIn','prepare','dispatchContexts','narrowed','specializedFragment','depthEffects','specializeCurrentPaintProgram','specializeRoundedPaintProgram','exactCurrentPaintProgramKeys','specializeCurrentPaintFragment','paintedFacadeDepthEffects','trimInactivePaintPrograms'],'a new phase or helper needs a re-derived envelope');
  order(body('specializeCurrentPaintProgram'),['const analysis=narrowed(source,family,churchLayout,cityChains);','fragment:specializedFragment(source,analysis)','depthEffects:depthEffects(source,analysis)'],'colour program');
+ order(body('specializeRoundedPaintProgram'),['narrowed(source,family,false,true,undefined,true)','fragment:specializedFragment(source,analysis)','depthEffects:depthEffects(source,analysis)'],'rounded colour program');
+ order(body('commonGuard'),['rounded?roundedCondition:condition','evaluate(text,family[0])','evaluate(text,family[i])'],'sequential family decisions');
  assert.match(body('specializeCurrentPaintFragment'),/return specializedFragment\(source,narrowed\(source,family,churchLayout,cityChains\)\);/);
- order(body('narrowed'),['prepare(source)','dispatchContexts(source,ranges,calls,family,churchLayout,cityChains)','narrowBody(source,f,value,churchLayout)','bodies.set(f,body)','narrowCalls.set(f,callsIn(body,names))','return {ranges,byName,bodies,reach}'],'narrowed');
+ order(body('narrowed'),['prepare(source)','dispatchContexts(source,ranges,calls,family,churchLayout,cityChains)',"narrowBody(source,f,value,churchLayout,roundedPartition&&f.name==='paintedFacade')",'bodies.set(f,body)','narrowCalls.set(f,callsIn(body,names))','return {ranges,byName,bodies,reach}'],'narrowed');
  order(body('prepare'),['functions(source)','calls.set(f,callsIn(source.slice(f.open+1,f.end-1),names))'],'prepare');
  // functions() keeps its masked copy local; it returns only the ranges.
  order(body('functions'),['const masked=maskComments(source),ranges','signature.exec(masked)','return ranges;'],'functions');
  assert.match(body('callsIn'),/^function callsIn\(body:string,names:Set<string>\)\{return \[\.\.\.new Set\(\[\.\.\.maskComments\(body\)\.matchAll/);
- order(body('narrowBody'),['const body=source.slice(range.open+1,range.end-1),masked=maskComments(body)','condition(','statement=body.slice(','terminalBlockReturn(statement)','maskComments(statement)'],'narrowBody');
+ order(body('narrowBody'),['const body=source.slice(range.open+1,range.end-1),masked=maskComments(body)','commonGuard(','statement=body.slice(','terminalBlockReturn(statement)','maskComments(statement)'],'narrowBody');
  order(body('specializedFragment'),["const reachable=reach('main');",'const chunks:string[]=[]','chunks.join(\'\')'],'specializedFragment');
 });
 
@@ -42,12 +44,35 @@ test('the four custom specializers are current-paint-program calls with at most 
   for(const match of text.matchAll(/specialize(?:\(source,families\)\{|:\(source,family\)=>)/g))found.push(String(file));
  }
  assert.deepEqual(found.sort(),['painted/church/safety/building-mesh-renderer.ts','painted/city/safety/building-mesh-renderer.ts','painted/city/safety/city-shader-budget.ts','painted/delegated500/safety/building-mesh-renderer.ts','painted/tier300/safety/tier300-prepared-data-plan.ts']);
- const has=(file,text,label)=>assert(read(file).includes(text),label);
- has('src/painted/delegated500/safety/building-mesh-renderer.ts',"specialize(source,families){if(families.length>1)throw Error('Delegated500 specialization requires at most one family');return families.length?specializeCurrentPaintProgram(source,families[0],false,!berlinCurrent):{fragment:source,depthEffects:false};}",'delegated500: one colour+depth analysis, the source itself for no family');
- has('src/painted/church/safety/building-mesh-renderer.ts',"specialize(source,families){if(families.length>1)throw Error('Church specialization requires one family');return{fragment:families.length?specializeCurrentPaintFragment(source,families[0],true):source,depthEffects:false};}",'church: one fragment analysis');
- has('src/painted/city/safety/city-shader-budget.ts',"   if(families.length>1)throw Error('City specialization requires one family per program');\n   if(!families.length)return{fragment:source,depthEffects:false};\n   analyses++;return{fragment:specialize(source,families[0]),depthEffects:false};",'City: one injected analysis');
- has('src/painted/city/safety/building-mesh-renderer.ts','specialize:(source,family)=>specializeCurrentPaintFragment(source,family)','City injects the current-paint fragment specializer');
- has('src/painted/tier300/safety/tier300-prepared-data-plan.ts',"specialize(source,families){if(families.length!==1)throw Error('Tier300 current source requires one family');return{fragment:specializeCurrentPaintFragment(source,families[0]),depthEffects:paintedFacadeDepthEffects(source,families[0])};}",'tier300: fragment analysis, then a depth analysis while that fragment is held');
+ function workspaceSpecializer(file) {
+  const tree=ts.createSourceFile(file,read(file),ts.ScriptTarget.Latest,true);
+  const methods=[];
+  function visit(node) {
+   if(ts.isMethodDeclaration(node) && node.name.getText(tree)==='specialize'
+       && node.parameters.map(p=>p.name.getText(tree)).join(',')==='source,families') {
+    methods.push(node.body.getText(tree));
+   } else {
+    ts.forEachChild(node,visit);
+   }
+  }
+  visit(tree);
+  assert.equal(methods.length,1,file);
+  return methods[0];
+ }
+ const delegated=workspaceSpecializer('src/painted/delegated500/safety/building-mesh-renderer.ts');
+ order(delegated,['if(!families.length)return {fragment:source,depthEffects:false}',"city==='hamburg'&&!currentFamilyPrograms",
+  'if(families.length!==1)throw','return specializeRoundedPaintProgram(source,families[0])',
+  'return specializeCurrentPaintProgram(source,families.length===1?families[0]:families,false,!berlinCurrent)'],'delegated500');
+ const church=workspaceSpecializer('src/painted/church/safety/building-mesh-renderer.ts');
+ assert(church.includes('families.length?specializeCurrentPaintFragment(source,families.length===1?families[0]:families,true):source'));
+ const city=workspaceSpecializer('src/painted/city/safety/city-shader-budget.ts');
+ order(city,['if(families.length>1)','if(!options.specializeGroup)throw','fragment:options.specializeGroup(source,families)',
+  'if(!families.length)return{fragment:source,depthEffects:false}','fragment:specialize(source,families[0])'],'city');
+ const cityRenderer=read('src/painted/city/safety/building-mesh-renderer.ts');
+ assert(cityRenderer.includes('specialize:(source,family)=>specializeCurrentPaintFragment(source,family),specializeGroup:specializeCurrentPaintFragment'));
+ const tierFile='src/painted/tier300/safety/tier300-prepared-data-plan.ts';
+ assert.equal(workspaceSpecializer(tierFile),'{return specializeCurrentPaintProgram(source,families.length===1?families[0]:families);}');
+ order(read(tierFile),['function prepareSource(recipe:PreparedSourceRecipe,families:readonly number[])','if(!families.length)throw','workspace.prepareSource('],'tier300 admission');
  assert.match(body('paintedFacadeDepthEffects'),/return depthEffects\(source,narrowed\(source,family,false,cityChains\)\);/);
 });
 
@@ -67,6 +92,11 @@ test('the phase maximum, its zero-family case and the previous sum on the real f
  assert.equal(estimate.analysisBytesEstimate,0,'the custom analysis is never retained');
  const none=M.S.estimateShaderSourceWorkspace(bounds,source.length,{analysis:'custom',familyValues:0});
  assert.equal(none.customPhases.peak,0,'without a family both callers return the assembled source');
+ const groupCount=26;
+ const grouped=M.S.estimateShaderSourceWorkspace(bounds,source.length,{analysis:'custom',familyValues:groupCount});
+ const arrayBytes=bounds.policy.arrayHeaderBytes+groupCount*bounds.policy.arrayElementBytes;
+ assert.equal(grouped.customPhases.functions-phases.functions,arrayBytes,'group parsing holds the normalized family array');
+ assert.equal(grouped.customPhases.narrow-phases.narrow,2*arrayBytes,'one forwarding edge may also hold the rounded family array');
  const family=M.S.estimateShaderSourceWorkspace(bounds,source.length,{analysis:'family',familyValues:1}),previousSum=family.analysisBytesEstimate+estimate.scratchBytesEstimate;
  assert(estimate.scratchBytesEstimate<previousSum,'below the generic parser envelope plus any scratch');
  // Linear in the source: twice the source is at most twice the allowance plus containers.
@@ -74,7 +104,7 @@ test('the phase maximum, its zero-family case and the previous sum on the real f
  assert(twice.customPhases.peak<=2*phases.peak+1024);
 });
 
-test('the Berlin rich-sharing estimate is the one direct custom estimate and covers its sequential analyses',()=>{
+test('the Berlin and Essen rich-sharing estimate covers their sequential analyses',()=>{
  const found=[];
  for(const file of fs.readdirSync(path.join(web,'src'),{recursive:true})){if(String(file).endsWith('.ts')&&read(path.join('src',String(file))).includes("analysis:'custom'"))found.push(String(file));}
  assert.deepEqual(found,['painted/delegated500/safety/building-mesh-renderer.ts'],'a new direct custom estimate needs its own derivation');
@@ -83,8 +113,17 @@ test('the Berlin rich-sharing estimate is the one direct custom estimate and cov
  // reference and the current specialization, plus one custom analysis.
  assert.equal(renderer.split("{analysis:'custom'").length,2,'one custom estimate in the renderer');
  assert(renderer.includes("phases.push(2*((assembled.emissionCharactersUpperBound??assembled.charactersUpperBound)+2*assembled.charactersUpperBound)+estimateShaderSourceWorkspace(shaderSourceBounds(assembled),undefined,{analysis:'custom',familyValues:1}).scratchBytesEstimate);"),'materialSourceEstimate keeps assembly, reference and current texts beside one custom analysis');
- // buildMaterialSource runs both Berlin checks on that one assembled text.
- assert(renderer.includes("const assembled=fragment(baseSurfaceFragment??surfaceFragment??'vec3 sourceFacade(vec3 base,vec3 p,vec3 n,float material,float windows){return base;}',cityPaintFragment);return{sharedPaulLobeRichProgram:berlinPaulLobeProgramsEqual(assembled),exactRichProgramKeys:berlinExactRichProgramKeys(assembled)};"),'the rich-sharing checks share one assembled text');
+ // Each eligible city assembles once. Essen reuses the parsed program as it
+ // compares family outputs, keeping one reference and the current fragment.
+ order(renderer,["if(city==='berlin'||city==='essen'){","const assembled=fragmentParts(",
+  "estimateShaderSourceWorkspace(shaderSourceBounds(assembled),undefined,{analysis:'custom',familyValues:1})"],'equality reservation');
+ order(renderer,["if(!berlinCurrent&&city!=='essen')return","const assembled=fragment(baseSurfaceFragment",
+  "if(city==='essen')return", "exactCurrentPaintProgramKeys(assembled,Array.from({length:26},(_,i)=>1603+i),false,true)",
+  'berlinPaulLobeProgramsEqual(assembled)','berlinExactRichProgramKeys(assembled)'],'per-city equality checks');
+ order(body('exactCurrentPaintProgramKeys'),['if(!families.length)return keys','const prepared=prepare(source),reference=specializedFragment(',
+  'churchLayout,cityChains,prepared)','for(const family of families.slice(1))',
+  'specializedFragment(source,narrowed(source,family,churchLayout,cityChains,prepared))!==reference',
+  'keys.set(currentPaintProgramKey(family),canonical)'],'Essen exact aliases');
  // berlin-distant-paint: one held reference, then one analysis at a time.
  const distant=read('src/painted/delegated500/safety/berlin-distant-paint.ts');
  assert.match(distant,/export function berlinPaulLobeProgramsEqual\(assembled:string\)\{\n const reference=specializeCurrentPaintFragment\(assembled,19401\);\n for\(let family=19402;family<=19415;family\+\+\)if\(specializeCurrentPaintFragment\(assembled,family\)!==reference\)return false;\n return true;\n\}/);

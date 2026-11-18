@@ -16,7 +16,7 @@ const flush=()=>new Promise(resolve=>setImmediate(resolve));
 const FAMILIES=['city','delegated500','root500','church','infill','bremen','tier300'];
 const entry=`export * from './solar-shadow-admission';export {createResourceBudget,getPageResourceBudget,ResourceBudgetExceededError} from './render-runtime/resource-budget';`;
 const built=await build({stdin:{contents:entry,resolveDir:safety,loader:'ts'},bundle:true,write:false,platform:'node',format:'esm',target:'es2022'});
-const m=await import('data:text/javascript;base64,'+Buffer.from(built.outputFiles[0].text).toString('base64'));
+const m=await import('data:text/javascript;base64,'+Buffer.from(built.outputFiles[0].text+'\n//# sourceURL=solar-boundary-under-test.mjs').toString('base64'));
 const MiB=1024*1024,WRAPPER=m.SOLAR_BOUNDARY_INDEX_MODEL.wrapperEstimateBytes;
 let shaSerial=0;const nextSha=()=>(++shaSerial).toString(16).padStart(64,'0');
 const ledger=(limitBytes=64*MiB)=>m.createResourceBudget({limitBytes,recentLimitBytes:Math.min(limitBytes,MiB)});
@@ -327,6 +327,6 @@ test('bounded projected triangle proof accepts diagonal interior and refuses hol
  const hole=m.prepareSolarShadowBoundary({boundarySHA256:nextSha(),geometry:{type:'Polygon',coordinates:[square(0,0,10,10),square(4,4,5,5)]}},{budget});
  assert.equal(m.coversProjectedGroundTriangle(hole,identity,1,1,9,1,5,9),false);
  let calls=0;
- assert.equal(m.coversProjectedGroundTriangle({covers:()=>{calls++;return false;}},identity,1,1,8,1,1,8),false);
+ assert.equal(m.coversProjectedGroundTriangle({...triangle,covers:()=>{calls++;return false;}},identity,1,1,8,1,1,8),false);
  assert(calls<=255);
 });

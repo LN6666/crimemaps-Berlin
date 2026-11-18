@@ -14,6 +14,9 @@ export type FrozenInitializerLedger={
   * store keeps that input; the reader's own claim ends there. Undefined when
   * that read holds none. */
  adopt(sha:string):ResourceBudgetReservation|undefined;
+ /** Full working set that actually admitted this input, including transport,
+  * before its verified-input claim is adopted. */
+ readWorkingSetBytes?(sha:string):number|undefined;
  /** Retained bytes of a parsed module value (the page-lifetime charge); the
   * value's input size when absent or when it throws. */
  estimate?(value:unknown):number;
@@ -38,7 +41,7 @@ export interface FrozenInitializerSession{
 type Reader=(path:string,signal:AbortSignal,max:number)=>Promise<Uint8Array>;
 type Job={key:string;sha:string;file:string;occurrence:number;queued:boolean;promise:Promise<any>;resolve:(value:any)=>void};
 type SettledWaiter={resolve:()=>void;reject:(error:unknown)=>void};
-type Session={id:number;read:Reader;controller:AbortController;allowed:Map<string,Map<string,number>>;failure:Promise<never>;reject:(error:unknown)=>void;closed:boolean;ended:unknown;removeAbort:()=>void;removePressure:()=>void;pressureAvailability?:ReturnType<typeof registerPressureAvailability>;onFailure?:(error:unknown)=>void;ledger?:FrozenInitializerLedger;settled:Set<SettledWaiter>};
+type Session={id:number;read:Reader;controller:AbortController;allowed:Map<string,Map<string,number>>;failure:Promise<never>;reject:(error:unknown)=>void;closed:boolean;ended:unknown;removeAbort:()=>void;removePressure:()=>void;pressureAvailability?:ReturnType<typeof registerPressureAvailability>;onFailure?:(error:unknown)=>void;ledger?:FrozenInitializerLedger;settled:Set<SettledWaiter>;rereadNeeds:Map<string,number>};
 type Hold={reservation:ResourceBudgetReservation;session:Session};
 const LIMIT=64*1024**2,ABORT=()=>new DOMException('Aborted','AbortError');
 const hash=async(bytes:Uint8Array)=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes as Uint8Array<ArrayBuffer>))].map(v=>v.toString(16).padStart(2,'0')).join('');
@@ -79,14 +82,18 @@ export function createFrozenInitializerStore(descriptors:readonly FrozenInitiali
  const expected=new Map<string,Map<string,number>>(),consumed=new Map<string,number>(),done=new Set<string>();
  const jobs=new Map<string,Job>(),queue:Job[]=[],running=new Set<Job>();
  const physical=new Map<string,{session:Session;promise:Promise<Uint8Array>}>();
- // Ledger claims of retained inputs, and inputs a ledger session keeps without one.
- const holds=new Map<string,Hold>(),unheld=new Set<string>();
+ // A refused idle-retention participant may still have an admitted input in
+ // use. Keep its original claim only through the current parse.
+ const holds=new Map<string,Hold>(),unheld=new Map<string,ResourceBudgetReservation|undefined>();
  let current:Session|undefined,epoch=0,readers=0,retainedBytes=0,declaredInFlightRawBytes=0,activePhysicalBytes=0,peakLiveRawInputBytes=0,peakRetainedBytes=0,peakPhysicalBytes=0,peakInitializers=0,peakModules=0,reads=0,parses=0,failures=0;
  const notifyPressure=()=>current?.pressureAvailability?.notify();
  let selectedRawByteBudget=0,selectedRawInputBound=0,consumerRuns=0;
  let retentionAdoptions=0,retentionReservations=0,retentionRefusals=0,retentionEvictions=0,retentionReleases=0,peakRetentionHeldBytes=0;
  // Page-lifetime charges of parsed module values (kept, never released).
  const parsedClaims:ResourceBudgetReservation[]=[];
+ const parsedBytesByBudget=new WeakMap<ResourceBudget,number>();
+ const parsedBytesOnBudget=(budget:ResourceBudget)=>parsedBytesByBudget.get(budget)??0;
+ let unheldForReread=0;
  let retainedParsedEstimateBytes=0,unheldParsed=0,unheldParsedBytes=0,unledgeredParsed=0,unledgeredParsedBytes=0;
  /** Charges one parsed module value for the page's lifetime; never fails the initializer. */
  function chargeParsed(value:unknown,inputBytes:number,job:Job,session:Session){
@@ -95,10 +102,21 @@ export function createFrozenInitializerStore(descriptors:readonly FrozenInitiali
   if(ledger?.estimate)try{const estimated=ledger.estimate(value);if(Number.isFinite(estimated)&&estimated>=0)bytes=estimated;}catch{bytes=inputBytes;}
   bytes=Math.max(1,Math.ceil(bytes));
   if(!ledger){unledgeredParsed++;unledgeredParsedBytes+=bytes;return;}
+  // An idle input may be reclaimed even when retention initially succeeded.
+  // Keep room for one fresh read if a selected initializer can still need
+  // it. Only irrevocable charges matter here: temporary holders can leave.
+  const permanent=parsedBytesOnBudget(ledger.budget);
+  let nextRead=0;
+  for(const [sha,need] of session.rereadNeeds){
+   if(sha!==job.sha||remaining(sha,session)>1)nextRead=Math.max(nextRead,need);
+  }
+  if(nextRead>0&&permanent+bytes+nextRead>ledger.budget.stats.limitBytes){
+   unheldForReread++;unheldParsed++;unheldParsedBytes+=bytes;return;
+  }
   const identity=value!==null&&typeof value==='object'?value as object:undefined;
   const result=ledger.budget.tryReserve({category:'metadata',bytes,precision:'estimate',...(identity?{identity}:{}),label:'frozen module value '+job.sha.slice(0,16)},{label:'frozen parsed module value (page lifetime)'});
   if(!result.ok){unheldParsed++;unheldParsedBytes+=bytes;return;}
-  parsedClaims.push(result.reservation);retainedParsedEstimateBytes+=bytes;
+  parsedClaims.push(result.reservation);retainedParsedEstimateBytes+=bytes;parsedBytesByBudget.set(ledger.budget,permanent+bytes);
  }
  type ResolvedInput={file:string;sha256:string;bytes:number;occurrence:number;sessionEpoch:number;decodeParseStartMs:number;resolvedAtMs:number;decodeParseElapsedMs:number};
  const largestResolvedInputs:ResolvedInput[]=[],resolvedByProvider:Record<string,{initializers:number;logicalJSONBytes:number}>={};
@@ -127,8 +145,9 @@ export function createFrozenInitializerStore(descriptors:readonly FrozenInitiali
  }
  const drop=(sha:string)=>{
   const bytes=raw.get(sha);if(bytes){retainedBytes-=bytes.byteLength;raw.delete(sha);}
-  unheld.delete(sha);
+  const activeInput=unheld.get(sha);unheld.delete(sha);
   const hold=holds.get(sha);if(hold){holds.delete(sha);retentionReleases++;notifyPressure();stopIdlePressure(hold.session);hold.reservation.release();}
+  activeInput?.release();
  };
  const clear=()=>{for(const sha of [...raw.keys(),...holds.keys()])drop(sha);};
  const remaining=(sha:string,session:Session)=>{let count=0;for(const [file,n]of session.allowed.get(sha)??[])for(let i=0;i<n;i++)if(!done.has(sha+'|'+file+'|'+i))count++;return count;};
@@ -142,7 +161,7 @@ export function createFrozenInitializerStore(descriptors:readonly FrozenInitiali
  }
  function stop(session:Session,error?:unknown){
   if(session.closed)return;session.closed=true;session.ended=error??ABORT();session.removeAbort();if(current===session)current=undefined;stopPressure(session);
-  session.controller.abort(error??ABORT());clear();
+  session.rereadNeeds.clear();session.controller.abort(error??ABORT());clear();
   if(error!==undefined){session.reject(error);session.onFailure?.(error);}
   // Completion waiters learn how the session ended: its failure, or an abort
   // when it was closed, replaced or its begin signal aborted.
@@ -159,17 +178,19 @@ export function createFrozenInitializerStore(descriptors:readonly FrozenInitiali
   * refused the input serves only the initializers already holding it. */
  function retain(d:FrozenInitializerDescriptor,value:Uint8Array,session:Session){
   const ledger=session.ledger;if(!ledger)return;
+  const readBytes=ledger.readWorkingSetBytes?.(d.sha256);
+  if(readBytes&&remaining(d.sha256,session)>1)session.rereadNeeds.set(d.sha256,readBytes);
   if(!session.pressureAvailability){
    let availability:ReturnType<typeof registerPressureAvailability>;
    try{availability=registerPressureAvailability(ledger.budget,'frozen-initializers',writer=>pressureSnapshot(session,writer));}
    catch(error){
-    // The ingress may still own the admitted read/response. Hand it back even
-    // when no retained-table participant could be admitted.
-    ledger.adopt(d.sha256)?.release();
-    if(!(error instanceof ResourceBudgetExceededError))throw error;
-    // No table is held yet: use the existing unheld path rather than retain
-    // bytes without a pressure participant or fail session construction.
-    if(!session.closed&&current===session){retentionRefusals++;unheld.add(d.sha256);}return;
+    const inputClaim=ledger.adopt(d.sha256);
+    if(!(error instanceof ResourceBudgetExceededError)){inputClaim?.release();throw error;}
+    if(session.closed||current!==session){inputClaim?.release();return;}
+    // The verified input and the decode workspace are still in use. Returning
+    // their claim before parsing would let the page-lifetime parsed value
+    // take their bytes and block a later initializer of the same table.
+    retentionRefusals++;unheld.set(d.sha256,inputClaim);return;
    }
    if(session.closed||current!==session){availability.release();ledger.adopt(d.sha256)?.release();return;}
    try{session.removePressure=ledger.budget.onPressure(pressure=>evictIdle(session,pressure),'metadata-hint-v1');session.pressureAvailability=availability;}
@@ -178,7 +199,7 @@ export function createFrozenInitializerStore(descriptors:readonly FrozenInitiali
   const costs=retentionCosts(d,value),adopted=ledger.adopt(d.sha256);let reservation:ResourceBudgetReservation|undefined;
   if(adopted){if(adopted.adjust(costs)){reservation=adopted;retentionAdoptions++;}else adopted.release();}
   if(!reservation){const result=ledger.budget.tryReserve(costs,{label:'frozen table retained input '+d.sha256});if(result.ok){reservation=result.reservation;retentionReservations++;}}
-  if(!reservation){retentionRefusals++;unheld.add(d.sha256);stopIdlePressure(session);return;}
+  if(!reservation){retentionRefusals++;unheld.set(d.sha256,undefined);stopIdlePressure(session);return;}
   holds.get(d.sha256)?.reservation.release();holds.set(d.sha256,{reservation,session});notifyPressure();
  }
  const busy=(sha:string,session:Session)=>{for(const job of running)if(job.sha===sha)return true;for(const job of queue)if(job.sha===sha&&allowed(job,session))return true;return false;};
@@ -243,7 +264,8 @@ export function createFrozenInitializerStore(descriptors:readonly FrozenInitiali
    recordResolved(job,bytes.byteLength,session.id,parseStart,performance.now());
    chargeParsed(value,bytes.byteLength,job,session);
    done.add(job.key);jobs.delete(job.key);consumed.set(job.sha,(consumed.get(job.sha)??0)+1);
-   if(unheld.has(job.sha)||!remaining(job.sha,session))drop(job.sha);
+   const future=remaining(job.sha,session);if(!future)session.rereadNeeds.delete(job.sha);
+   if(unheld.has(job.sha)||!future)drop(job.sha);
    job.resolve(value);notifySettled(session);
   })().catch(error=>{if(current===session&&!session.closed)failure(session,error);}).finally(()=>{running.delete(job);notifyPressure();if(reading)readers--;if(jobs.has(job.key))enqueue(job);pump();});
  }
@@ -273,7 +295,7 @@ export function createFrozenInitializerStore(descriptors:readonly FrozenInitiali
   }
   if(current)stop(current,ABORT());sizes.sort((a,b)=>b-a);selectedRawByteBudget=selectedTotal;selectedRawInputBound=(sizes[0]??0)+(sizes[1]??0)+shared;
   let reject!:(error:unknown)=>void;const failed=new Promise<never>((_resolve,no)=>reject=no);void failed.catch(()=>{});
-  const session:Session={id:++epoch,read,controller:new AbortController(),allowed:allow,failure:failed,reject,closed:false,ended:undefined,removeAbort:()=>{},removePressure:()=>{},onFailure,ledger,settled:new Set()};
+  const session:Session={id:++epoch,read,controller:new AbortController(),allowed:allow,failure:failed,reject,closed:false,ended:undefined,removeAbort:()=>{},removePressure:()=>{},onFailure,ledger,settled:new Set(),rereadNeeds:new Map()};
   const canceled=()=>stop(session,signal.reason??ABORT());
   current=session;signal.addEventListener('abort',canceled,{once:true});session.removeAbort=()=>signal.removeEventListener('abort',canceled);
   if(signal.aborted)canceled();else pump();
@@ -294,8 +316,8 @@ export function createFrozenInitializerStore(descriptors:readonly FrozenInitiali
    close(){stop(session,ABORT());},
   };
  }
- return{read,begin,get stats(){return{retainedBytes,retainedTables:raw.size,active:running.size,activeReads:readers,consumerRuns,activeModules:new Set([...running].map(job=>job.file)).size,peakConcurrency:peakInitializers,peakConcurrentModules:peakModules,queued:queue.length,pendingInitializers:jobs.size,completedInitializers:done.size,reads,parses,failures,sessionActive:Boolean(current&&!current.closed),settledWaiters:current?.settled.size??0,declaredInFlightRawBytes,activePhysicalBytes,peakPhysicalBytes,peakRetainedBytes,peakLiveRawInputBytes,selectedRawByteBudget,selectedRawInputBound,inputRepresentation:'verified-utf8-streamed-initializers',parsedValuesShared:false,ownedTimers:0,
+ return{read,begin,parsedBytesOnBudget,get stats(){return{retainedBytes,retainedTables:raw.size,active:running.size,activeReads:readers,consumerRuns,activeModules:new Set([...running].map(job=>job.file)).size,peakConcurrency:peakInitializers,peakConcurrentModules:peakModules,queued:queue.length,pendingInitializers:jobs.size,completedInitializers:done.size,reads,parses,failures,sessionActive:Boolean(current&&!current.closed),settledWaiters:current?.settled.size??0,declaredInFlightRawBytes,activePhysicalBytes,peakPhysicalBytes,peakRetainedBytes,peakLiveRawInputBytes,selectedRawByteBudget,selectedRawInputBound,inputRepresentation:'verified-utf8-streamed-initializers',parsedValuesShared:false,ownedTimers:0,
   retention:{holds:holds.size,heldBytes:heldBytes(),peakHeldBytes:peakRetentionHeldBytes,unheldTables:unheld.size,adoptions:retentionAdoptions,reservations:retentionReservations,refusals:retentionRefusals,evictions:retentionEvictions,releases:retentionReleases,measurement:'logical page-ledger claims of verified inputs kept for remaining initializers plus one next-parse working copy; parsed module values are charged separately (parsedRetention)' as const},
-  parsedRetention:{claims:parsedClaims.length,retainedParsedEstimateBytes,unheldParsed,unheldParsedBytes,unledgeredParsed,unledgeredParsedBytes,measurement:'page-lifetime metadata estimates of parsed module values (the ledger estimate of the exported value, else its input size), charged once when parsed and never released; refused or ledger-less values are only counted' as const},
+  parsedRetention:{claims:parsedClaims.length,retainedParsedEstimateBytes,unheldParsed,unheldParsedBytes,unheldForReread,unledgeredParsed,unledgeredParsedBytes,measurement:'page-lifetime metadata estimates of parsed module values (the ledger estimate of the exported value, else its input size), charged once when parsed and never released; values that cannot fit alongside a known reread, other refused values and ledger-less values are only counted' as const},
   resolvedInputs:{scope:'cumulative-logical-json-input-not-retained-heap',performanceTimeOriginMs:performance.timeOrigin,resolvedJSONBytes,firstResolveMs,lastResolveMs,maxDecodeParseMs,byProvider:Object.fromEntries(Object.entries(resolvedByProvider).map(([provider,value])=>[provider,{...value}])),largest:largestResolvedInputs.map(value=>({...value})),limit:8}};}};
 }

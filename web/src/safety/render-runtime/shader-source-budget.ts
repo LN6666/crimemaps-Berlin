@@ -45,7 +45,7 @@ export type ShaderSourceWorkspaceEstimateOptions=Readonly<{
   * a custom specializer still pays for its complete per-call parser. */
  prepared?:boolean;
 }>;
-export const CURRENT_PAINT_PROGRAM_ANALYSIS_MODEL='current-paint-program-phase-max-v1';
+export const CURRENT_PAINT_PROGRAM_ANALYSIS_MODEL='current-paint-program-phase-max-v2';
 
 // Structural composition only: the bound descriptors a joined part interpolates,
 // directly or through nested joins. An opaque deferred part never inherits it;
@@ -205,12 +205,15 @@ function currentPaintProgramPhases(L:number,s:ShaderSourceSyntaxBounds,c:Contain
  // also maps the ranges to their names once.
  const callContainers=sum([c.array(sum([3,C]),product(C,5)),c.set(1,C),product(product(C,3),c.slot),c.array(1,F)]);
  const held=text(L);
- const functions=sum([analysis,held,text(product(L,3)),c.array(1,4),product(3,c.slot)]);
- const calls=sum([analysis,held,text(product(L,4)),callContainers]);
+ // Multi-family programs normalize a copy before prepare(). The one rounded
+ // forwarding edge can retain a second array until the narrowed bodies are built.
+ const familyArray=familyValues>1?c.array(1,familyValues):0;
+ const functions=sum([analysis,held,familyArray,text(product(L,3)),c.array(1,4),product(3,c.slot)]);
+ const calls=sum([analysis,held,familyArray,text(product(L,4)),callContainers]);
  // Chain tuples, incoming/definition filters and one RegExp with its exec array.
- const dispatch=sum([analysis,held,text(product(L,4)),c.array(13,sum([product(F,2),48])),product(3,c.slot),c.object(8)]);
+ const dispatch=sum([analysis,held,product(familyArray,2),text(product(L,4)),c.array(13,sum([product(F,2),48])),product(3,c.slot),c.object(8)]);
  // Guard tokens, the precedence table, the parser closures and the wrapper filter.
- const narrow=sum([analysis,held,text(product(L,7)),c.array(1,L),c.object(12),c.object(4,2),c.array(1,F)]);
+ const narrow=sum([analysis,held,product(familyArray,2),text(product(L,7)),c.array(1,L),c.object(12),c.object(4,2),c.array(1,F)]);
  const fragment=sum([analysis,held,text(product(L,3)),c.set(1,F),c.array(1,sum([C,1])),c.array(1,sum([product(F,2),1]))]);
  const depth=sum([analysis,text(product(L,5)),c.set(1,F),c.array(1,sum([C,1]))]);
  return Object.freeze({analysis,functions,calls,dispatch,narrow,fragment,depth,peak:Math.max(functions,calls,dispatch,narrow,fragment,depth),model:CURRENT_PAINT_PROGRAM_ANALYSIS_MODEL});

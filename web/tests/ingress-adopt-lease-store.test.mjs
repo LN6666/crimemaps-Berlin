@@ -16,6 +16,7 @@ import {adoptRuntime,page,blockerFor,greedy,rowTable,recordPartition,leaseNeed,s
 const api=await adoptRuntime();
 const signal=()=>new AbortController().signal;
 const decoded=f=>JSON.parse(new TextDecoder().decode(f.raw));
+const REGISTRY=4096,PARTICIPANT=1024;
 const QUEUED=256+512;// a waiting read's binding and shared descriptor estimates
 const zero={bytes:0,exactBytes:0,estimatedBytes:0};
 const category=(budget,name)=>({...(budget.stats.categories[name]??zero)});
@@ -115,7 +116,7 @@ test('a composition holds its ready part only reclaimably while another part wai
  const resources=page(api),{budget}=resources,p=recordPartition('compose',[24,480]),[a,b]=p.parts,m=frozenMap(api,resources,'M',{partitions:[p]});
  // Room for both parts' queued estimates and the small part's whole
  // acquisition only (scheme H: read, settle and clone, wholeNeed).
- const blocker=blockerFor(budget,2*QUEUED+wholeNeed(a)-QUEUED+64);
+ const blocker=blockerFor(budget,REGISTRY+PARTICIPANT+2*QUEUED+wholeNeed(a)-QUEUED+64);
  assert(leaseNeed(b)-QUEUED>wholeNeed(a)+64,'precondition: the large part never fits beside them');
  const pending=m.client.acquire(m.partitionRef(),signal());
  await until(()=>m.net.reads.length===1&&m.leases.stats.capacityWaits>=1,'the small part reads while the large one waits');
@@ -144,7 +145,7 @@ test('two compositions short of room: the older completes first; the younger can
  const p1=recordPartition('older',[24,480]),p2=recordPartition('younger',[24,640]);
  const m1=frozenMap(api,resources,'A',{partitions:[p1]}),m2=frozenMap(api,resources,'B',{partitions:[p2],city:'bremen'});
  const [a1,b1]=p1.parts,[a2,b2]=p2.parts;
- const blocker=blockerFor(budget,4*QUEUED+(wholeNeed(a1)-QUEUED)+(wholeNeed(a2)-QUEUED)+64);
+ const blocker=blockerFor(budget,REGISTRY+2*PARTICIPANT+4*QUEUED+(wholeNeed(a1)-QUEUED)+(wholeNeed(a2)-QUEUED)+64);
  const one=m1.client.acquire(m1.partitionRef(),signal()),two=m2.client.acquire(m2.partitionRef(),signal());
  await until(()=>m1.net.reads.length===1&&m2.net.reads.length===1,'each small part reads; both large parts wait');
  m1.net.deliver(a1.d.transport.path,new Uint8Array(a1.physical));m2.net.deliver(a2.d.transport.path,new Uint8Array(a2.physical));
@@ -192,7 +193,10 @@ test('an attempt abandoned after its caller-admitted delivery keeps the delivere
   await until(()=>b.net.reads.length===1,'map B relays the read');
   assert.deepEqual(category(budget,'read'),{bytes:P+2*P,exactBytes:P,estimatedBytes:2*P},'the abandoned response stays charged exactly beside the relayed envelope');
   assert.equal(category(budget,'inflate').bytes,2*d,'and so does the inflated copy that attempt reserved');
-  held.resolve();for(let i=0;i<8;i++)await settle();
+  const released=new Promise(resolve=>{
+   const off=budget.onAvailable(()=>{if(category(budget,'read').exactBytes===0){off();resolve();}});
+  });
+  held.resolve();await deadline(released,'the real asynchronous digest settled and the old response was released');
   assert.deepEqual(category(budget,'read'),{bytes:2*P,exactBytes:0,estimatedBytes:2*P},'returned once the abandoned attempt settled');
   b.deliver(f);const lease=await deadline(pb);assert.deepEqual(lease.borrow(value=>value),decoded(f));
   assert.equal(a.leases.stats.parses,0,'the abandoned bytes were never parsed');

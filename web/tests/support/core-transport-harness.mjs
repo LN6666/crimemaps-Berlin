@@ -37,7 +37,7 @@ async function loadBundle(){
     "export {createChunkResourceStore} from './render-runtime/chunk-resource-store';",
     "export {createResourceBudget,ResourceBudgetExceededError} from './render-runtime/resource-budget';",
   ].join('\n'),resolveDir:safety,sourcefile:'core-transport-entry.ts',loader:'ts'},bundle:true,write:false,format:'esm',platform:'node',target:'es2022',plugins});
-  return import('data:text/javascript;base64,'+Buffer.from(built.outputFiles[0].text).toString('base64'));
+  return import('data:text/javascript;base64,'+Buffer.from(built.outputFiles[0].text+'\n//# sourceURL=core-transport-under-test.mjs').toString('base64'));
 }
 
 /** Forwards to a real ledger and samples its total after every mutation made
@@ -47,21 +47,17 @@ export function sampledBudget(real){
   const peak={bytes:real.stats.bytes,mutations:0};
   const sample=()=>{peak.mutations++;const bytes=real.stats.bytes;if(bytes>peak.bytes)peak.bytes=bytes;};
   const wrap=reservation=>({
-    adjust(cost){const ok=reservation.adjust(cost);sample();return ok;},
+    adjust(cost,options){const ok=reservation.adjust(cost,options);sample();return ok;},
     release(){reservation.release();sample();},
-    setRecent(value){const ok=reservation.setRecent(value);sample();return ok;},
+    setRecent(value,options){const ok=reservation.setRecent(value,options);sample();return ok;},
     markRetiring(){reservation.markRetiring();sample();},
     setRetiring(value){reservation.setRetiring(value);sample();},
     get active(){return reservation.active;},get bytes(){return reservation.bytes;},get recent(){return reservation.recent;},
   });
-  const budget={
+  const budget=Object.assign(Object.create(real),{
     reserve(cost,options){const reservation=real.reserve(cost,options);sample();return wrap(reservation);},
     tryReserve(cost,options){const result=real.tryReserve(cost,options);sample();return result.ok?{ok:true,reservation:wrap(result.reservation)}:result;},
-    onPressure:evict=>real.onPressure(evict),
-    onAvailable:(notify,signal)=>real.onAvailable(notify,signal),
-    notifyReclaimable:()=>real.notifyReclaimable(),
-    get stats(){return real.stats;},
-  };
+  });
   return{budget,peak,reset(){peak.bytes=real.stats.bytes;peak.mutations=0;}};
 }
 

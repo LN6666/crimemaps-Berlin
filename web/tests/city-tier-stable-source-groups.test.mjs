@@ -13,6 +13,7 @@ const web=fileURLToPath(new URL('../',import.meta.url));
 const bundle=await build({stdin:{contents:[
  "export * from './src/safety/render-runtime/resource-budget';",
  "export * from './src/safety/render-runtime/chunk-resource-store';",
+ "export {createChunkAdmission} from './src/safety/render-runtime/chunk-admission';",
  "export * from './src/safety/renderer-chunk-input';",
  "export * from './src/painted/root500/safety/chunk-mesh-packing';",
  "export * from './src/painted/root500/safety/chunk-mesh-residency';"
@@ -69,13 +70,14 @@ function fixture(provider,{rowCount=3,sourceKey='one-admitted-source-group'}={})
 
 for(const provider of ['city','tier300'])test(provider+' A subset → overlapping B in another order → A reuses the complete source payload with visible local spans',async()=>{
  const f=fixture(provider);
+ const ranges=()=>f.S.sceneSpans.map(({firstIndex,localFirstIndex,indexCount})=>[firstIndex,localFirstIndex,indexCount]);
  try{
   const A=[f.rows[0],f.rows[1]],B=[f.rows[2],f.rows[1]],first=await f.prepare(A),payload=first.cpu.value,paint=payload.paint,vertices=payload.vertices,masks=first.masks;
   assert.deepEqual(payload.rows.map(row=>key(row.component)),f.rows.map(key),'the first subset prepares the complete admitted group');
-  assert.deepEqual([...first.loaded.keys()],A.map(key));assert.deepEqual(f.S.sceneSpans.map(span=>span.localFirstIndex),[0,3]);assert.equal(f.S.sceneIndexCount(),6);
+  assert.deepEqual([...first.loaded.keys()],A.map(key));assert.deepEqual(ranges(),[[0,0,6]],'adjacent triangles share one complete draw range');assert.equal(f.S.sceneIndexCount(),6);
   const second=await f.prepare(B);assert.strictEqual(second.masks,masks,'unchanged active mask slots reuse their binding');assert.strictEqual(second.cpu.value,payload);assert.strictEqual(second.cpu.value.paint,paint);assert.strictEqual(second.cpu.value.vertices,vertices);
-  assert.deepEqual([...second.loaded.keys()],f.rows.slice(1).map(key),'the local lookup excludes the selected row that left the viewport');assert.deepEqual([...f.S.loaded.keys()],B.map(key),'scene order stays with the visible admission');assert.deepEqual(f.S.sceneSpans.map(span=>span.localFirstIndex),[6,3]);assert.equal(f.S.sceneIndexCount(),6);
-  const third=await f.prepare(A);assert.strictEqual(third.cpu.value,payload);assert.deepEqual(f.S.sceneSpans.map(span=>span.localFirstIndex),[0,3]);assert.equal(f.productions,1,'pure viewport changes never rerun physical material/packing');
+  assert.deepEqual([...second.loaded.keys()],f.rows.slice(1).map(key),'the local lookup excludes the selected row that left the viewport');assert.deepEqual([...f.S.loaded.keys()],B.map(key),'scene order stays with the visible admission');assert.deepEqual(ranges(),[[0,6,3],[3,3,3]],'reversing local rows preserves both distinct ranges in scene order');assert.equal(f.S.sceneIndexCount(),6);
+  const third=await f.prepare(A);assert.strictEqual(third.cpu.value,payload);assert.deepEqual(ranges(),[[0,0,6]]);assert.equal(f.productions,1,'pure viewport changes never rerun physical material/packing');
   const extra=f.addUnrelated();f.S.CITY_DRESDEN_SOURCE_FEATURES.push('unrelated-dresden-material');f.S.cityBuiltSourceFeatures.add('unrelated-dresden-material');f.S.s166MaterialReady70=true;f.S.tier300RepairProgramReady=true;f.S.orangerieProgramReady=true;
   const fourth=await f.prepare([...B,extra]);assert.strictEqual(fourth.cpu.value,payload,'unrelated admitted source and unrelated material readiness leave the common physical block intact');assert.equal(f.productions,2,'only the new source group is produced');
  }finally{f.destroy();}

@@ -27,6 +27,11 @@ const ticketBytes=ticket=>ticket.sourceBytesUpperBound+ticket.workspaceCosts.red
 /** The whole admission of a ticket: its source and workspace bound plus its program estimate. */
 const admissionBytes=ticket=>ticketBytes(ticket)+P;
 const heldProgramBytes=budget=>budget.stats.categories.program?.bytes??0;
+function pressureRegistrationBytes(budget){
+ const rows=budget.holders(64).filter(row=>row.label?.startsWith('pressure-availability:prepared-source:'));
+ assert.equal(rows.length,1);assert.equal(rows[0].category,'metadata');assert.equal(rows[0].estimatedBytes,4096+1024);
+ return rows[0].bytes;
+}
 const workspaceRows=budget=>budget.holders(64).filter(row=>row.label?.startsWith('prepared source'));
 
 /** One renderer-like owner: a metered workspace and a program owner on one
@@ -64,20 +69,20 @@ function rotateDuringA(s,families=[1]){
  * (ticket plus its program estimate). Program A stays held beside them (P). */
 function measure(){
  const s=scene();
- try{rotateDuringA(s);assert.equal(heldProgramBytes(s.budget),P,'linked program A keeps its policy estimate');const idleEntry=s.budget.stats.bytes-P,ticket=admissionBytes(s.ticket('b'));assert(idleEntry>0&&ticket>idleEntry);return{idleEntry,ticket};}
+ try{rotateDuringA(s);assert.equal(heldProgramBytes(s.budget),P,'linked program A keeps its policy estimate');const registration=pressureRegistrationBytes(s.budget),idleEntry=s.budget.stats.bytes-P-registration,ticket=admissionBytes(s.ticket('b'));assert(idleEntry>0&&ticket>idleEntry);return{registration,idleEntry,ticket};}
  finally{s.close();}
 }
 
 test('actual admission pressure retires the rotated idle entry: ticket plus old entry exceed the ledger, each fits alone, and the program compiles in the same admission',()=>{
- const {idleEntry,ticket}=measure(),limit=P+ticket+Math.floor(idleEntry/2);
- assert(P+ticket<=limit&&P+idleEntry<=limit&&P+ticket+idleEntry>limit,'beside held program A each fits the ledger alone; together they do not');
+ const {registration,idleEntry,ticket}=measure(),base=P+registration,limit=base+ticket+Math.floor(idleEntry/2);
+ assert(base+ticket<=limit&&base+idleEntry<=limit&&base+ticket+idleEntry>limit,'beside held program A each fits the ledger alone; together they do not');
  const s=scene(limit);
  try{
   rotateDuringA(s);
-  assert.equal(s.budget.stats.bytes,P+idleEntry,'only the idle entry A (and held program A) stays charged');assert.equal(heldProgramBytes(s.budget),P);assert.equal(workspaceRows(s.budget).length>0,true);
+  assert.equal(s.budget.stats.bytes,base+idleEntry,'the idle source, its pressure registration and held program A each stay charged once');assert.equal(heldProgramBytes(s.budget),P);assert.equal(workspaceRows(s.budget).length>0,true);
   pending(()=>s.compile('b'));
   assert.equal(s.owner.stats.budget.waitingForAvailability,false,'the ticket was admitted instead of waiting for entry A');
-  assert.equal(s.workspace.preparedSourceStats.sourceCharacters,0,'entry A was reclaimed by actual admission pressure');assert.equal(s.budget.stats.bytes,P+ticket,'the ledger holds only the ticket beside held program A');
+  assert.equal(s.workspace.preparedSourceStats.sourceCharacters,0,'entry A was reclaimed by actual admission pressure');assert.equal(s.budget.stats.bytes,base+ticket,'the ticket, live pressure registration and held program A each stay charged once');
   s.t.all();const program=s.compile('b');assert(program.program,'B links with no drain and no explicit clear');
   const stats=s.workspace.preparedSourceStats;
   assert.deepEqual([stats.builds,stats.replacements,stats.hits,stats.sourceCharacters],[2,1,0,SOURCES.b.length]);
@@ -129,18 +134,18 @@ test('actual admission pressure reclaims a larger idle base even without rotatio
 });
 
 test('a ticket refused for another holder waits holding nothing of the workspace, and its wake compiles it',()=>{
- const {idleEntry,ticket}=measure(),limit=P+ticket+Math.floor(idleEntry/2);
- const s=scene(limit);
+ const {registration,idleEntry,ticket}=measure(),base=P+registration,limit=base+ticket+Math.floor(idleEntry/2);
+ const s=scene(limit);let blocker;
  try{
   rotateDuringA(s);
-  const blocker=s.budget.reserve({category:'construction',bytes:limit-P-ticket+1,precision:'exact',identity:{}},{label:'other owner'});
+  blocker=s.budget.reserve({category:'construction',bytes:limit-base-ticket+1,precision:'exact',identity:{}},{label:'other owner'});
   pending(()=>s.compile('b'));
   assert.equal(s.owner.stats.budget.waitingForAvailability,true,'another owner keeps the ticket out');
   assert.equal(s.workspace.preparedSourceStats.budget.ownedBytesEstimate,0,'the waiting workspace holds nothing');assert.deepEqual(workspaceRows(s.budget),[]);
-  assert.equal(s.budget.stats.bytes,blocker.bytes+P,'the ledger holds only the other owner beside held program A');assert.equal(heldProgramBytes(s.budget),P);
+  assert.equal(s.budget.stats.bytes,blocker.bytes+base,'the waiting ticket has no source or workspace charge beyond the live pressure registration');assert.equal(heldProgramBytes(s.budget),P);
   blocker.release();assert.equal(s.owner.stats.budget.waitingForAvailability,false,'the release woke the waiting owner');
   pending(()=>s.compile('b'));s.t.all();assert(s.compile('b').program);
- }finally{assert.equal(s.close(),0);}
+ }finally{blocker?.release();assert.equal(s.close(),0);}
 });
 
 test('an entry in use is never retired: a reentrant ticket in its build or specialization leaves it, and later families reuse it',()=>{

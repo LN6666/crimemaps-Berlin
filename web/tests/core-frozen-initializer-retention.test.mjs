@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {facadeRuntime,facadePage,initializerRuntime,table,copy,settle,until,deadline,inputClaim,readWorkingSet} from './support/core-frozen-fixtures.mjs';
+import {facadeRuntime,facadePage,initializerRuntime,table,copy,settle,until,deadline,inputClaim,readWorkingSet,hash,valueEstimate} from './support/core-frozen-fixtures.mjs';
 // IA-R2 (stage 2 ingress-adopt CDR[2]): a parsed frozen table module value stays on the page ledger as a
 // page-lifetime 'metadata' estimate (DECISIONS 2026-11-02 03:25), so every ledger-byte expectation adds
 // retainedParsedEstimateBytes. Blockers are still sized from the real stats.bytes.
@@ -15,6 +15,13 @@ const manifest=[T.d,U.d,V.d],dependencies={schema_version:1,providers:{root500:[
 const fresh=await facadeRuntime({manifest,dependencies});
 const signal=()=>new AbortController().signal;
 const stats=api=>api.frozenPaintTableStats();
+// The retained input owns one pressure participant and the shared registry.
+const pressureBytes=4096+1024;
+function retainedPressure(page){
+ const rows=page.budget.holders(64).filter(row=>row.label?.startsWith('pressure-availability:frozen-initializers:'));
+ assert.equal(rows.length,1);assert.equal(rows[0].category,'metadata');assert.equal(rows[0].estimatedBytes,pressureBytes);
+ return pressureBytes;
+}
 // The parsed-value offset is itself pinned (review F4), so a refused or uncounted charge cannot hide in it:
 // - none of these values is parsed without a page ledger (unledgeredParsed=0);
 // - refusals are exact per scenario (DECISIONS 2026-11-02 03:25: a refused page-lifetime charge never fails
@@ -39,7 +46,7 @@ test('a shared table input stays charged once while it waits for its remaining i
  const kept=stats(api);
  assert.equal(kept.inputLedger.claims,0);assert.equal(kept.inputLedger.adoptions,1,'the store adopted the read claim');assert.equal(kept.inputLedger.leasedResponses,0,'the transport response returned once the store kept its verified copy');
  assert.equal(kept.retainedTables,1);assert.equal(kept.retention.holds,1);assert.equal(kept.retention.heldBytes,inputClaim(T),'exact retained input plus one next-parse working copy');
- assert.equal(page.budget.stats.bytes,parsedBytes(api)+inputClaim(T),'the retained table is the only charge, counted once');
+ assert.equal(page.budget.stats.bytes,parsedBytes(api)+inputClaim(T)+retainedPressure(page),'the table and its pressure registration are each charged once');
  assert.deepEqual({...page.budget.stats.categories.inflate},{bytes:T.d.bytes,exactBytes:T.d.bytes,estimatedBytes:0},'the inflated table exactly');
  const second=await deadline(session.wait(api.readFrozenTableAsync(T.d.sha256,fileT2,0)));
  assert.equal(second.name,'T');assert.notEqual(second,first,'each initializer still parses its own value');await settle();
@@ -142,21 +149,176 @@ test('an idle retained table is reclaimed under page pressure and read again by 
  session.close();page.store.destroy();
 });
 
-test('retention never needs more than the read admitted: a page that fits exactly one read still completes a shared table',async()=>{
- const api=await fresh(),page=facadePage(api,{limitBytes:readWorkingSet(T)});
+test('a page that fits one read and its pressure registration retains the shared table',async()=>{
+ const api=await fresh(),page=facadePage(api,{limitBytes:readWorkingSet(T)+pressureBytes});
  const {session,value}=await firstOfT(api,page);assert.equal(value.name,'T');
- assert.equal(stats(api).retention.heldBytes,inputClaim(T));assert(inputClaim(T)<=page.budget.stats.limitBytes);
+ assert.equal(stats(api).retention.heldBytes,inputClaim(T));retainedPressure(page);
  assert.equal((await deadline(session.wait(api.readFrozenTableAsync(T.d.sha256,fileT2,0)))).name,'T');await settle();
  const after=stats(api);assert.equal(after.inputLedger.unfit,0);assert.equal(after.failures,0);
- // The page holds exactly one read, so neither parsed T value finds room for its page-lifetime estimate:
+ // The read and its retention registration leave neither parsed T value room for its page-lifetime estimate:
  // both charges are refused and counted, nothing is charged, and both initializers still complete.
  assert.equal(page.budget.stats.bytes,parsedBytes(api,{unheld:2}));assert.equal(parsedBytes(api,{unheld:2}),0);
  session.close();page.store.destroy();
 });
 
+test('on a page that fits only the read, explicit pressure refusal leaves no uncharged table and the next initializer rereads it',async()=>{
+ const api=await fresh(),page=facadePage(api,{limitBytes:readWorkingSet(T)});
+ const {session,value}=await firstOfT(api,page);assert.equal(value.name,'T');
+ assert.equal(stats(api).retention.refusals,1);
+ assert.equal(stats(api).retention.heldBytes,0);
+ assert.equal(page.budget.stats.bytes,parsedBytes(api,{unheld:1}));
+ const second=session.wait(api.readFrozenTableAsync(T.d.sha256,fileT2,0));
+ await until(()=>page.reads.length===2,'second initializer reads T again');page.deliver(T);
+ assert.equal((await deadline(second)).name,'T');await settle();
+ assert.equal(stats(api).failures,0);assert.equal(page.budget.stats.bytes,parsedBytes(api,{unheld:2}));
+ session.close();page.store.destroy();
+});
+
+test('two queued consumers of an exactly admitted table each finish and release the active parse claim',async()=>{
+ const api=await fresh(),page=facadePage(api,{limitBytes:readWorkingSet(T)});
+ const session=api.beginFrozenPaintTableInitialization(page.ingress,signal(),['root500']);
+ const requests=[fileT1,fileT2].map(file=>session.wait(api.readFrozenTableAsync(T.d.sha256,file,0)));
+ for(let index=1;index<=2;index++){
+  await until(()=>page.reads.length===index,'queued initializer '+index+' obtains its read');
+  assert.equal(page.budget.stats.bytes,readWorkingSet(T));
+  page.deliver(T);
+ }
+ const [first,second]=await deadline(Promise.all(requests),'both queued initializers finish');
+ assert.equal(first.name,'T');assert.deepEqual(second,first);assert.notEqual(second,first);
+ await settle();assert.equal(page.budget.stats.bytes,0);assert.equal(stats(api).retention.refusals,2);
+ assert.equal(stats(api).inputLedger.adoptions,2);assert.equal(stats(api).parsedRetention.unheldParsed,2);
+ session.close();page.store.destroy();
+});
+
+test('closing between input adoption and parsing releases the active claim and a replacement session resumes the parked job',async()=>{
+ const {createFrozenInitializerStore,createResourceBudget}=await (await initializerRuntime())();
+ const item=table('cancel-in-parse',3,{gzip:false}),fileName=file('cancel-in-parse');
+ const budget=createResourceBudget({limitBytes:inputClaim(item),recentLimitBytes:0});
+ const store=createFrozenInitializerStore([item.d]),selection={tables:[item.d.sha256],initializers:{[item.d.sha256]:{[fileName]:1}}};
+ let claim,reads=0,observedActive=false,session;
+ const read=async()=>{
+  reads++;
+  claim=budget.reserve({category:'read',bytes:inputClaim(item),precision:'estimate'});
+  return copy(item.physical);
+ };
+ const ledger={budget,adopt:()=>{
+  const active=claim;claim=undefined;
+  queueMicrotask(()=>{observedActive=active.active;session.close();});
+  return active;
+ }};
+ session=store.begin(read,signal(),selection,undefined,ledger);
+ const parked=store.read(item.d.sha256,fileName);
+ await assert.rejects(session.wait(parked),{name:'AbortError'});
+ await settle();assert.equal(observedActive,true,'the input remained charged until the session was closed');
+ assert.equal(store.stats.parses,0);assert.equal(store.stats.retainedTables,0);assert.equal(budget.stats.bytes,0);
+ const replacement=store.begin(read,signal(),selection,undefined,{budget,adopt:()=>claim});
+ assert.equal((await deadline(replacement.wait(parked))).name,item.name);
+ assert.equal(reads,2);assert.equal(store.stats.parses,1);assert.equal(budget.stats.bytes,0);
+ replacement.close();
+});
+
+// These JSON arrays use much less heap in parsed form than their UTF-8 text.
+// Their estimates fit during parsing even on a page sized for just the read.
+function numericTable(count){
+ const raw=new TextEncoder().encode(JSON.stringify(Array.from({length:count},(_,i)=>1/(i+11))));
+ const sha256=hash(raw),target='/safety/buildings3d/painted-tables/'+sha256.slice(0,2)+'/'+sha256+'.json';
+ return{d:{path:target,bytes:raw.length,sha256},raw,physical:raw,path:target};
+}
+const compact=numericTable(35),small=numericTable(10);
+const compactFactory=await facadeRuntime({manifest:[compact.d,small.d],dependencies:{schema_version:1,
+ providers:{root500:[compact.d.sha256,small.d.sha256]},initializers:{root500:{
+  [compact.d.sha256]:{[fileT1]:2,[fileT2]:1},[small.d.sha256]:{[fileU]:1}
+ }}}});
+const compactRead=(api,session,table,file,occurrence=0)=>session.wait(api.readFrozenTableAsync(table.d.sha256,file,occurrence));
+async function deliverNext(page,table,count,operation){
+ await until(()=>page.reads.length===count,'network read '+count+' was admitted');
+ page.deliver(table);const result=await deadline(operation);await settle();return result;
+}
+test('a small parsed estimate cannot take the bytes of the next selected reread, including another occurrence in the same module',async()=>{
+ const api=await compactFactory(),page=facadePage(api,{limitBytes:readWorkingSet(compact)});
+ const session=api.beginFrozenPaintTableInitialization(page.ingress,signal(),['root500']);
+ assert(valueEstimate(compact.raw)<2*compact.raw.length,'compact parse could otherwise claim the space');
+ const first=compactRead(api,session,compact,fileT1);
+ const samePending=compactRead(api,session,compact,fileT1);
+ const value=await deliverNext(page,compact,1,first);assert.equal(await samePending,value,'duplicate waiters share the same evaluation');
+ assert.equal(stats(api).parsedRetention.unheldForReread,1);assert.equal(page.budget.stats.bytes,0);
+ const next=await deliverNext(page,compact,2,compactRead(api,session,compact,fileT1,1));
+ assert.deepEqual(next,value);assert.notEqual(next,value);
+ const last=await deliverNext(page,compact,3,compactRead(api,session,compact,fileT2));
+ assert.deepEqual(last,value);assert.notEqual(last,next);
+ assert.equal(stats(api).parsedRetention.unheldForReread,2);assert.equal(stats(api).parsedRetention.claims,1);
+ assert.equal(page.budget.stats.bytes,valueEstimate(compact.raw),'the last parsed value is admitted in full');
+ assert.equal(stats(api).inputLedger.unfit,0);assert.equal(page.budget.stats.availabilityListeners,0);
+ session.close();page.store.destroy();
+});
+
+for(const live of [false,true])test('a reread with room beside permanent values '+(live?'waits for a live lease to return':'reclaims an idle cache entry'),async()=>{
+ const api=await compactFactory(),permanent=valueEstimate(compact.raw),limit=readWorkingSet(compact)+permanent+128;
+ const page=facadePage(api,{limitBytes:limit,recentLimitBytes:2048});
+ const session=api.beginFrozenPaintTableInitialization(page.ingress,signal(),['root500']);
+ await deliverNext(page,compact,1,compactRead(api,session,compact,fileT1));
+ assert.equal(stats(api).parsedRetention.claims,1);page.store.evictRecent();
+ let disposals=0;
+ const holder=page.store.acquire({contentKey:'compact-read-holder',role:'source',allowRecent:!live,
+  estimate:{category:'metadata',bytes:256,precision:'exact'},produce:()=>({}),dispose(){disposals++;}});
+ await holder.ready;if(!live){holder.release();assert.equal(page.store.stats.recent,1);}
+ const pending=compactRead(api,session,compact,fileT1,1);
+ if(live){
+  await until(()=>stats(api).inputLedger.waits>0,'wait is subscribed while another owner is using the page');
+  assert.equal(stats(api).inputLedger.unfit,0);assert.equal(page.reads.length,1);assert.equal(disposals,0);
+  assert.equal(holder.released,false);holder.release();
+ }
+ await deliverNext(page,compact,2,pending);
+ assert.equal(disposals,1);assert.equal(stats(api).inputLedger.unfit,0);
+ session.close();page.store.destroy();
+});
+
+test('a retained input can be evicted later without letting its first parsed value take the next read slot',async()=>{
+ const big=numericTable(600),sha=big.d.sha256;
+ const factory=await facadeRuntime({manifest:[big.d],dependencies:{schema_version:1,
+  providers:{root500:[sha]},initializers:{root500:{[sha]:{[fileT1]:1,[fileT2]:1}}}}});
+ const api=await factory(),page=facadePage(api,{limitBytes:readWorkingSet(big)});
+ const session=api.beginFrozenPaintTableInitialization(page.ingress,signal(),['root500']);
+ assert(valueEstimate(big.raw)+inputClaim(big)+pressureBytes<=page.budget.stats.limitBytes,'the first estimate could fit while the input is retained');
+ const first=await deliverNext(page,big,1,compactRead(api,session,big,fileT1));
+ assert.equal(stats(api).retention.holds,1);assert.equal(stats(api).parsedRetention.unheldForReread,1);
+ const transient=page.budget.reserve({category:'construction',bytes:page.budget.stats.limitBytes-128,precision:'estimate'});
+ assert.equal(stats(api).retention.evictions,1);transient.release();
+ const second=await deliverNext(page,big,2,compactRead(api,session,big,fileT2));
+ assert.deepEqual(second,first);assert.notEqual(second,first);
+ assert.equal(stats(api).inputLedger.unfit,0);assert.equal(stats(api).parsedRetention.claims,1);
+ session.close();page.store.destroy();
+});
+
+test('a read that can never fit alongside permanent values on the same ledger reports its cause without evicting unrelated idle data',async()=>{
+ const api=await compactFactory(),page=facadePage(api,{limitBytes:readWorkingSet(compact),recentLimitBytes:2048});
+ const session=api.beginFrozenPaintTableInitialization(page.ingress,signal(),['root500']);
+ await deliverNext(page,small,1,compactRead(api,session,small,fileU));
+ assert.equal(stats(api).parsedRetention.claims,1);page.store.evictRecent();
+ const cache=page.store.acquire({contentKey:'unrelated-idle-cache',role:'source',allowRecent:true,estimate:{category:'metadata',bytes:128,precision:'exact'},produce:()=>({})});
+ await cache.ready;cache.release();assert.equal(page.store.stats.recent,1);
+ await assert.rejects(deadline(compactRead(api,session,compact,fileT1)),{name:'ResourceBudgetExceededError'});
+ assert.equal(stats(api).inputLedger.waits,0);assert.equal(stats(api).inputLedger.unfit,1);
+ assert.match(stats(api).inputLedger.lastUnfit,/page-lifetime parsed values/);
+ assert.equal(page.store.stats.recent,1);assert.equal(page.reads.length,1);
+ session.close();page.store.destroy();
+});
+
+test('a completed module value on another page ledger does not reduce this page’s read capacity',async()=>{
+ const api=await compactFactory(),oldPage=facadePage(api,{limitBytes:readWorkingSet(compact)});
+ const first=api.beginFrozenPaintTableInitialization(oldPage.ingress,signal(),['root500']);
+ await deliverNext(oldPage,small,1,compactRead(api,first,small,fileU));first.close();
+ const oldBytes=oldPage.budget.stats.bytes;assert.equal(oldBytes,valueEstimate(small.raw));
+ const page=facadePage(api,{limitBytes:readWorkingSet(compact)});
+ const next=api.beginFrozenPaintTableInitialization(page.ingress,signal(),['root500']);
+ const value=await deliverNext(page,compact,1,compactRead(api,next,compact,fileT1));
+ assert.equal(value.length,35);assert.equal(stats(api).inputLedger.unfit,0);assert.equal(oldPage.budget.stats.bytes,oldBytes);
+ next.close();page.store.destroy();oldPage.store.destroy();
+});
+
 test('closing a session returns the retained table charge; a later session reads it again for the parked initializer',async()=>{
  const api=await fresh(),page=facadePage(api),{session}=await firstOfT(api,page);
- assert.equal(page.budget.stats.bytes,parsedBytes(api)+inputClaim(T));
+ assert.equal(page.budget.stats.bytes,parsedBytes(api)+inputClaim(T)+retainedPressure(page));
  session.close();
  assert.equal(stats(api).retention.holds,0);assert.equal(stats(api).retainedTables,0);assert.equal(page.budget.stats.bytes,parsedBytes(api),'the closed session returned its retained table');
  const parked=api.readFrozenTableAsync(T.d.sha256,fileT2,0);await settle();assert.equal(page.reads.length,1,'no session, no read');

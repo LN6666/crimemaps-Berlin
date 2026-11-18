@@ -41,7 +41,7 @@ function loader(seed=new Map()){
   new Function('require','module','exports',compiled.outputText)(request=>{
    assert.ok(request.startsWith('.'),'runtime dependency must be local: '+request);
    const base=path.resolve(path.dirname(file),request);
-   for(const candidate of [base+'.ts',path.join(base,'index.ts')])if(fs.existsSync(candidate))return load(candidate);
+   for(const candidate of [...(base.endsWith('.mjs')?[base]:[]),base+'.ts',path.join(base,'index.ts')])if(fs.existsSync(candidate))return load(candidate);
    throw Error('Unresolved '+request+' from '+file);
   },module,module.exports);
   return module.exports;
@@ -61,7 +61,15 @@ const sum=costs=>costs.reduce((total,cost)=>total+cost.bytes,0);
 function pageModules(){const fresh=loader(new Map([[budgetFile,load.cache.get(budgetFile)]]));return{admission:fresh(src('safety','manager-ensure-admission.ts')),solar:fresh(src('safety','solar-shadow-admission.ts'))};}
 const view=budget=>{const s=budget.stats,c=name=>s.categories[name]?.bytes??0;return{bytes:s.bytes,read:c('read'),construction:c('construction'),inflate:c('inflate'),decoded:c('decoded'),metadata:c('metadata'),shadow:c('shadow'),recent:s.recentBytes,reservations:s.reservations,listeners:s.availabilityListeners};};
 // No admission path may use a timer: every wait is an availability wave or an abort.
-function withoutTimers(t){const saved={setTimeout,setInterval};const forbid=name=>()=>{throw Error(name+' is not allowed in admission waits');};globalThis.setTimeout=forbid('setTimeout');globalThis.setInterval=forbid('setInterval');t.after(()=>{globalThis.setTimeout=saved.setTimeout;globalThis.setInterval=saved.setInterval;});}
+function withoutTimers(t,allowTimeout){
+ const saved={setTimeout,setInterval};
+ globalThis.setTimeout=(callback,delay,...args)=>{
+  if(allowTimeout?.(delay))return saved.setTimeout(callback,delay,...args);
+  throw Error('setTimeout is not allowed in admission waits');
+ };
+ globalThis.setInterval=()=>{throw Error('setInterval is not allowed in admission waits');};
+ t.after(()=>{globalThis.setTimeout=saved.setTimeout;globalThis.setInterval=saved.setInterval;});
+}
 
 // ---------------------------------------------------------------- shared module
 const ring=(w,s,e,n)=>[[w,s],[e,s],[e,n],[w,n],[w,s]];
@@ -204,14 +212,24 @@ test('a joiner waiting for an evicted index ends its wait on a wave once another
 });
 
 test('room made reclaimable while a refused work unwinds is seen when its wait registers',async t=>{
- withoutTimers(t);const {admission}=pageModules(),budget=createResourceBudget({limitBytes:8*MiB,recentLimitBytes:4*MiB}),store=createChunkResourceStore({budget});
+ let releasingSource=false,expiryTimers=0;
+ withoutTimers(t,delay=>{
+  if(!releasingSource)return false;
+  assert.ok(delay>0&&delay<=20_000,'the source cache schedules its idle expiry');
+  expiryTimers++;return true;
+ });
+ const {admission}=pageModules(),budget=createResourceBudget({limitBytes:8*MiB,recentLimitBytes:4*MiB}),store=createChunkResourceStore({budget});
  const other=store.acquire({contentKey:'other holder',role:'source',allowRecent:true,estimate:{category:'read',bytes:3*MiB,precision:'exact'},produce:()=>({}),costs:()=>({category:'read',bytes:3*MiB,precision:'exact'})});
  await other.ready;const blocker=budget.reserve({category:'mask',bytes:4*MiB,precision:'estimate',label:'blocker'});let runs=0;
  const work=async()=>{runs++;const admitted=budget.tryReserve({category:'construction',bytes:2*MiB,precision:'estimate'});if(admitted.ok){admitted.reservation.release();return 'done';}
-  if(runs===1)other.release();// another holder's bytes become reclaimable while this work unwinds
+  if(runs===1){
+   releasingSource=true;
+   try{other.release();}finally{releasingSource=false;}
+  }
   throw new admission.ManagerAdmissionRetry(2*MiB,'fixture working set');};
  const running=admission.retryManagerAdmission(budget,new AbortController().signal,work);
  assert.equal(await outcomeOf(running),'fulfilled','free plus reclaimable bytes held the work at registration');assert.equal(await running,'done');
+ assert.equal(expiryTimers,1,'only the released cache entry sets an expiry timer');
  assert.deepEqual([runs,budget.stats.availabilityListeners],[2,0]);assert.equal(admission.managerBootstrapStats().waits.registrationWakeups>0,true);
  blocker.release();
 });

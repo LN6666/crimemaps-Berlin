@@ -1,3 +1,5 @@
+import {createRuntimeLoader} from './support/fixtures-managers-a-runtime.mjs';
+import {fileURLToPath} from 'node:url';
 import {resourceContentKey} from './support/resource-content-key.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -70,12 +72,6 @@ for(const provider of ['city','tier300','church','delegated500'])test(provider+'
  assert.throws(()=>bind([a,unknown],[parent]),/Unbound source-derived component authority/,'unknown derived rows cannot borrow arbitrary wanted authority or anchor');
 });
 
-function productionModule(path,dependencies={}){
- const source=fs.readFileSync(new URL('../src/safety/'+path+'.ts',import.meta.url),'utf8');
- const code=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,module={exports:{}};
- Function('module','exports','require',code)(module,module.exports,id=>{assert(Object.hasOwn(dependencies,id),'Unexpected production dependency '+id);return dependencies[id];});return module.exports;
-}
-
 function selectedRetainer(provider,leases){
  const text=fs.readFileSync(new URL('../src/painted/'+provider+'/safety/three-dimensional-map.ts',import.meta.url),'utf8'),ast=ts.createSourceFile(provider+'-manager.ts',text,ts.ScriptTarget.Latest,true);let declaration;
  function visit(node){if(ts.isFunctionDeclaration(node)&&node.name?.text==='retainSelectedSource')declaration=node;ts.forEachChild(node,visit);}visit(ast);assert(declaration);
@@ -85,13 +81,10 @@ function selectedRetainer(provider,leases){
 }
 
 test('source wanted leases: explicit Retry reacquires a failed same key without automatic retry or retiring a retained main role',async()=>{
- const scheduler=productionModule('render-runtime/preparation-scheduler'),completion=productionModule('render-runtime/submitted-program-completion');
- const budget=productionModule('render-runtime/resource-budget'),resources={};
- const preparation=productionModule('render-runtime/program-preparation',{'./preparation-scheduler':scheduler,'./submitted-program-completion':completion,'./chunk-resource-store':resources,'./resource-budget':budget,'./diagnostic-snapshot':productionModule('render-runtime/diagnostic-snapshot')});
- Object.assign(resources,productionModule('render-runtime/chunk-resource-store',{'./resource-budget':budget,'./program-preparation':preparation,'./diagnostic-snapshot':productionModule('render-runtime/diagnostic-snapshot')}));
- const {createChunkResourceStore}=resources;
- const {createWantedResourceLeases}=productionModule('viewport-request');
- const store=createChunkResourceStore({budget:budget.createResourceBudget({limitBytes:4096,recentLimitBytes:0}),recentMaxEntries:0,recentMaxIdleMs:0});
+ const runtime=createRuntimeLoader();
+ const {createResourceBudget}=runtime.resourceBudget,{createChunkResourceStore}=runtime.chunkResourceStore;
+ const {createWantedResourceLeases}=runtime.load(fileURLToPath(new URL('../src/safety/viewport-request.ts',import.meta.url)));
+ const store=createChunkResourceStore({budget:createResourceBudget({limitBytes:4096,recentLimitBytes:0}),recentMaxEntries:0,recentMaxIdleMs:0});
  const original=new Error('actual controlled source admission failure');let attempts=0,disposed=0;
  const wanted=createWantedResourceLeases({key:descriptor=>descriptor.key,acquire:descriptor=>store.acquire({contentKey:descriptor.key,role:'source',allowRecent:false,estimate:{category:'metadata',bytes:32,precision:'exact'},produce(){attempts++;if(attempts===1)throw original;return {verifiedSource:'same-closed-content',contentKey:'closed-source',components:[{objectId:'canonical-object',partId:'canonical-part'}],selectedResource:{level:'near'}};},dispose(){disposed++;}})});
  try{

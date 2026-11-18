@@ -5,6 +5,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import ts from 'typescript';
 import {build} from 'esbuild';
+import {root500InitializerAuthority} from './support/root500-initializer-authority.mjs';
 
 // These are only the 99 ordered objectId/partId pairs from the root-verified
 // root500-identity-projections.json receipt. No raw model is a fixture input.
@@ -63,9 +64,11 @@ test('F081 preserves the additional original inline NAVE432 pair as a cold city-
 });
 
 test('preparation rejects unmatched same-city rows cold and acquires only the exact existing refs for every matching own-city pair',async()=>{
- const dependencies=JSON.parse(await readFile(path.join(web,'src/safety/frozen-paint-table-dependencies.json'),'utf8'));
+ const {initializers,resolve}=await root500InitializerAuthority();
+ const publicKey=ref=>refKey({...ref,canonicalSHA256:resolve(ref.canonicalSHA256,ref.file,ref.occurrence)});
  for(let index=0;index<owners.length;index++){const owner=owners[index],projection=projections[index],prepares=[],scope={async prepare(refs,received){received.throwIfAborted();prepares.push({refs,signal:received});},borrow(){throw Error('Selector must not borrow');},memo(){throw Error('Selector must not memoize values');}};
-  const ownRefs=Object.entries(dependencies.initializers.root500).flatMap(([sha,files])=>Array.from({length:files[projection.file]??0},(_unused,occurrence)=>({canonicalSHA256:sha,file:projection.file,occurrence,codec:'json'}))),expected=[...ownRefs,...(index<2?[dependencyRef]:[])];assert.deepEqual(owner.root500DataRefs.map(refKey).sort(),expected.map(refKey).sort());assert(ownRefs.some(ref=>ref.canonicalSHA256===projection.canonicalSHA256&&ref.occurrence===projection.occurrence));
+  const ownRefs=Object.entries(initializers).flatMap(([sha,files])=>Array.from({length:files[projection.file]??0},(_unused,occurrence)=>({canonicalSHA256:sha,file:projection.file,occurrence,codec:'json'}))),expected=[...ownRefs,...(index<2?[dependencyRef]:[])];assert.deepEqual(owner.root500DataRefs.map(publicKey).sort(),expected.map(publicKey).sort());
+  assert(owner.root500DataRefs.some(ref=>ref.file===projection.file&&ref.canonicalSHA256===projection.canonicalSHA256&&ref.occurrence===projection.occurrence),'the owner still declares its original reviewed identity');
   const unmatched=[{city:cities[index],objectId:'unmatched',partId:'unmatched'},{city:cities[index],objectId:projection.rows[0].objectId,partId:'wrong'}];assert.equal(owner.mayMatchRoot500Data(unmatched),false);await owner.prepareRoot500Data(unmatched,signal(),scope);assert.equal(prepares.length,0);
   const pairs=[...projection.rows,...(index===1?[nave]:[])];for(const pair of pairs){const incoming=signal(),row={...pair,city:cities[index]};assert.equal(owner.mayMatchRoot500Data([row]),true);await owner.prepareRoot500Data([row],incoming,scope);const call=prepares.at(-1);assert.equal(call.refs,owner.root500DataRefs);assert.equal(call.signal,incoming);}
   assert.equal(prepares.length,pairs.length);const before=prepares.length;await owner.prepareRoot500Data([{...projection.rows[0],city:'foreign-city'}],signal(),scope);assert.equal(prepares.length,before);const canceled=new AbortController();canceled.abort();await assert.rejects(owner.prepareRoot500Data([{...projection.rows[0],city:cities[index]}],canceled.signal,scope),{name:'AbortError'});assert.equal(prepares.length,before);

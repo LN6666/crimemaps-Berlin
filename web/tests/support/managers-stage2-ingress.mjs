@@ -33,7 +33,7 @@ function loader(seed=new Map()){
   new Function('require','module','exports',compiled.outputText)(request=>{
    assert.ok(request.startsWith('.'),'runtime dependency must be local: '+request);
    const base=path.resolve(path.dirname(file),request);
-   for(const candidate of [base+'.ts',path.join(base,'index.ts')])if(fs.existsSync(candidate))return load(candidate);
+   for(const candidate of [...(base.endsWith('.mjs')?[base]:[]),base+'.ts',path.join(base,'index.ts')])if(fs.existsSync(candidate))return load(candidate);
    throw Error('Unresolved '+request+' from '+file);
   },module,module.exports);
   return module.exports;

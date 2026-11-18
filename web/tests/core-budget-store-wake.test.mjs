@@ -187,15 +187,15 @@ test('fence-less, failed-query and throwing-dispose retirements are released aft
 }));
 
 test('a cache hit refreshes the recent idle clock and least-recent order instead of expiring from its first lease',()=>withClock(clock=>{
- const budget=api.createResourceBudget({limitBytes:1000,recentLimitBytes:500}),store=api.createChunkResourceStore({budget,recentMaxIdleMs:30_000,recentMaxEntries:2});
+ const budget=api.createResourceBudget({limitBytes:1000,recentLimitBytes:500}),store=api.createChunkResourceStore({budget,recentMaxIdleMs:20_000,recentMaxEntries:2});
  const request=key=>({contentKey:key,role:'source',estimate:cost(10),allowRecent:true,produce:()=>({}),dispose(){}});
  store.acquire(request('a')).release();clock.advance(1);store.acquire(request('b')).release();
- // Use 'a' at t+20 s: its idle clock and least-recent position move.
- clock.advance(20_000);store.acquire(request('a')).release();
- clock.advance(11_000);store.collectRetired();assert.equal(store.stats.recent,1,'b expires 31 s after its last use; a was used 11 s ago');
+ // Touch A before the 20-second deadline. Only B expires on the next collection.
+ clock.advance(14_000);store.acquire(request('a')).release();
+ clock.advance(7_000);store.collectRetired();assert.equal(store.stats.recent,1,'B expires after 21 s, A was used 7 s ago');
  const hit=store.acquire(request('a'));assert.equal(store.stats.hits,2);hit.release();
  // Cache role hits refresh as well and move to the newest position.
- const c=store.acquire({...request('c')});const warm=c.retain('cache');c.release();clock.advance(25_000);const warmAgain=store.acquire({...request('c'),role:'cache'});
- clock.advance(10_000);store.collectRetired();assert.equal(warm.released,false,'the refreshed cache role is not expired 35 s after its first lease');
+ const c=store.acquire({...request('c')});const warm=c.retain('cache');c.release();clock.advance(14_000);const warmAgain=store.acquire({...request('c'),role:'cache'});
+ clock.advance(7_000);store.collectRetired();assert.equal(warm.released,false,'the refreshed cache role survives 21 s after its first lease');
  warm.release();warmAgain.release();store.destroy();
 }));

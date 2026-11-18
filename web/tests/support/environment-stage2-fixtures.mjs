@@ -88,7 +88,7 @@ export function environmentMap({box=[10,50,10.02,50.02],centre={lng:10.01,lat:50
  const renderers=[],publications=[],events=new Map(),layers=new Map();
  const createFixtureRenderer=options=>{
   onRenderer?.(options);
-  const renderer={options,layer:{id:'environment-stage2-'+(++layerSerial),onRemove(){}},setFeatures(features){publications.push(features.map(f=>f.id));},setEnabled(){},setReflectionSource(){},setSceneEnvironment(){},setOffscreen(){},setVisible(){},setReducedMotion(){},resetPlanarReflectionGPU(){},destroy(){},stats:{animationActive:false,omittedTrees:0,heldWater:0,greenGround:{held:0,omitted:0},treeRows:{truncated:false},woodland:{truncated:false}}};
+  const renderer={options,layer:{id:'environment-stage2-'+(++layerSerial),onRemove(){}},setFeatures(features){publications.push(features.map(f=>f.id));},setEnabled(){},setReflectionSource(){},setSceneEnvironment(){},setOffscreen(){},setVisible(){},setReducedMotion(){},resetPlanarReflectionGPU(){},destroy(){},stats:{animationActive:false,omittedTrees:0,heldWater:0,greenGround:{held:0,omitted:0},hardSurfaceDisplay:{captureStale:false},treeRows:{truncated:false},woodland:{truncated:false}}};
   renderers.push(renderer);return renderer;
  };
  const map={createFixtureRenderer,getZoom:()=>18,getPitch:()=>0,getVerticalFieldOfView:()=>40,getCanvas:()=>({clientWidth:1200,clientHeight:600}),getCenter:()=>centre,getBounds:()=>({getWest:()=>box[0],getSouth:()=>box[1],getEast:()=>box[2],getNorth:()=>box[3]}),getLayer:id=>layers.get(id),addLayer:l=>layers.set(l.id,l),removeLayer:id=>layers.delete(id),on:(n,fn)=>events.set(n,fn),off:n=>events.delete(n),triggerRepaint(){}};

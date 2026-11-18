@@ -110,7 +110,9 @@ test('an adopted claim stops listing the delivered response; the retained input 
  const stats=api.frozenPaintTableStats();
  assert.equal(stats.retention.holds,1,'kept for its remaining initializer');assert.equal(stats.retention.heldBytes,3*S.d.bytes,'the retained copy and one next-parse working copy');
  assert.deepEqual({...(budget.stats.categories.read??{bytes:0,exactBytes:0,estimatedBytes:0})},{bytes:0,exactBytes:0,estimatedBytes:0},'the response is listed nowhere once adopted');
- assert.equal(budget.stats.bytes,3*S.d.bytes+stats.retainedParsedEstimateBytes);
+ const pressure=budget.holders(64).filter(row=>row.label?.startsWith('pressure-availability:frozen-initializers:'));
+ assert.equal(pressure.length,1);assert.equal(pressure[0].estimatedBytes,4096+1024,'one shared registry and one initializer participant');
+ assert.equal(budget.stats.bytes,3*S.d.bytes+stats.retainedParsedEstimateBytes+pressure[0].bytes);
  const second=await deadline(session.wait(api.readFrozenTableAsync(S.d.sha256,shared,0)));assert.equal(second.rows.length,200);await settle();
  const after=api.frozenPaintTableStats();
  assert.equal(after.retention.holds,0);assert.equal(p.reads.length,1,'the remaining initializer parsed the retained input');
