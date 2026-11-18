@@ -69,13 +69,19 @@ def test_stationary_road_reference_preserves_legacy_geometry_hash_ids_and_groups
 
 
 @pytest.mark.parametrize(
-    "incompatible",
-    ["area", "platform", "route", "transit_route", "source_coordinates"],
+    ("incompatible", "reason"),
+    [
+        ("area_without_road_name", "source road reference needs named original road members"),
+        ("platform", "checked road objects"),
+        ("route", "stationary road reference needs a reviewed street/area"),
+        ("transit_route", "stationary road reference needs a reviewed street/area"),
+        ("source_coordinates", "stationary road reference needs a reviewed street/area"),
+    ],
 )
-def test_stationary_road_reference_rejects_non_stationary_road_contracts(incompatible):
+def test_stationary_road_reference_rejects_incompatible_requests(incompatible, reason):
     inventory, index, decisions, border = _inputs()
     request = inventory["geometry_requests"][0]
-    if incompatible == "area":
+    if incompatible == "area_without_road_name":
         request.update(precision="area", geometry_task="checked_area_geometry_required")
     elif incompatible == "platform":
         # A platform line is valid for legacy point/place requests, not this street.
@@ -95,11 +101,6 @@ def test_stationary_road_reference_rejects_non_stationary_road_contracts(incompa
         # Source coordinates are not to be silently converted into a road reference.
         request["coordinates"] = [6.77, 51.23]
 
-    reason = (
-        "checked road objects"
-        if incompatible == "platform"
-        else "stationary road reference needs a reviewed street"
-    )
     with pytest.raises(ValueError, match=reason):
         _compile(inventory, index, decisions, border, "osm_stationary_road_reference")
 

@@ -4,6 +4,7 @@ import copy
 import datetime as dt
 import importlib.util
 import json
+import os
 import signal
 import sys
 from dataclasses import replace
@@ -18,7 +19,8 @@ guard_module = importlib.util.module_from_spec(SPEC)
 sys.modules[SPEC.name] = guard_module
 SPEC.loader.exec_module(guard_module)
 
-UID = 501
+# The CLI requires its synthetic browser tree to belong to the invoking user.
+UID = os.getuid()
 EXECUTABLE = "/fixture/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing"
 FRAMEWORKS = "/fixture/Google Chrome for Testing.app/Contents/Frameworks/"
 RENDERER = FRAMEWORKS + "Google Chrome for Testing Helper (Renderer).app/Contents/MacOS/Google Chrome for Testing Helper (Renderer)"
