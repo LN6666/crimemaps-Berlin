@@ -3,6 +3,9 @@ import assert from 'node:assert/strict';
 import path from 'node:path';
 import {harness,tick,webRoot} from './support/managers3-harness.mjs';
 import {shard,network,until,outcome} from './support/managers3-fixtures.mjs';
+import {managerEvent} from './support/manager-admission-waits.mjs';
+
+const resultOf=run=>run.then(()=>'fulfilled',error=>'rejected:'+(error?.name??String(error)));
 const settle=async()=>{for(let i=0;i<60;i++)await tick();};
 async function scenario(control,dropResidents=false){
  const sources=Array.from({length:5},(_,i)=>shard('shared-a'+i,{fixture:i===0,count:120})),b=shard('shared-b'),net=network();
@@ -33,16 +36,13 @@ async function scenario(control,dropResidents=false){
   if(!blocker.adjust({category:'construction',bytes:newBytes,precision:'estimate'}))throw Error('Cannot set free space');
   openGate();await settle();
  }
- let settledOutcome=await outcome(run,100);
+ let settledOutcome=dropResidents ? await outcome(run,100)
+  : await managerEvent(resultOf(run),'the Tier300 view to use its resident sources');
  let beforeRoom;
  if(dropResidents){
   beforeRoom={outcome:settledOutcome,entries:pool.stats.entries,free:budget.stats.availableBytes};
   blocker.release();
-  for(let step=0;step<40&&await outcome(run,2)==='pending';step++){
-   for(const source of [...sources,b])if(net.pending(source.leaf.path).length)net.deliver(source.leaf.path,source.bytes);
-   await settle();
-  }
-  settledOutcome=await outcome(run,100);
+  settledOutcome=await net.respondUntil([...sources,b],resultOf(run),'the Tier300 retry to finish after capacity returns');
  }
  const report={control,beforeRoom,baseline,desiredFree,freeAfter:budget.stats.availableBytes,requiredBytes:reason?.requiredBytes,outcome:settledOutcome,cohortWaiting:cohort?.waiting,pool:pool.stats,networkReads:net.reads.length};
  controller.abort();h.manager.destroy();blocker?.release();foreign?.release();for(const value of residentValues)value.release();resident.destroy();pool.destroy();openGate();await settle();return report;
@@ -74,7 +74,7 @@ async function coldEntryOrder(freeBytes){
  const resident=pool.client('berlin'),controller=new AbortController(),values=[];
  for(const source of sources){const request=resident.acquire(source.leaf,controller.signal,200000,'main');await until(()=>net.pending(source.leaf.path).length===1,'preload ordered source');net.deliver(source.leaf.path,source.bytes);values.push(await request);}
  const budget=h.page.budget,blocker=budget.reserve({category:'construction',bytes:budget.stats.availableBytes-freeBytes,precision:'estimate'});
- const run=h.manager.requestMode('3d',controller.signal);void run.catch(()=>{});const state=await outcome(run,150);
+ const run=h.manager.requestMode('3d',controller.signal);void run.catch(()=>{});const state=await managerEvent(resultOf(run),'the cold Tier300 view to finish');
  const report={state,addedBytes:freeBytes-budget.stats.availableBytes,reads:net.reads.length,holders:pool.stats.holders};
  controller.abort();h.manager.destroy();blocker.release();for(const value of values)value.release();resident.destroy();pool.destroy();await settle();return report;
 }
@@ -107,7 +107,7 @@ async function concurrentSourcePreparation(cancel=false){
  const run=h.manager.requestMode('3d',controller.signal);void run.catch(()=>{});await until(()=>active>0,'source preparation begins');await settle();
  const beforeRelease={active,peak,reads:net.reads.length};
  if(cancel){controller.abort();h.manager.destroy();}else{open=true;for(const done of [...pending])done();}
- const result=await outcome(run,150);controller.abort();h.manager.destroy();await settle();
+ const result=await managerEvent(resultOf(run),'Tier300 source preparation to settle');controller.abort();h.manager.destroy();await settle();
  const afterDestroy={active,pending:pending.size,bytes:h.page.budget.stats.bytes,holders:pool.stats.holders,baseline};
  for(const value of values)value.release();resident.destroy();pool.destroy();await settle();
  return{beforeRelease,result,peak,afterDestroy};
@@ -137,8 +137,8 @@ async function coldMissingSourceFirst(control){
  for(const source of residentSources){const request=resident.acquire(source.leaf,controller.signal,200000,'main');await until(()=>net.pending(source.leaf.path).length===1,'preload cold resident');net.deliver(source.leaf.path,source.bytes);values.push(await request);}
  const budget=h.page.budget,freeBytes=10300000,blocker=budget.reserve({category:'construction',bytes:budget.stats.availableBytes-freeBytes,precision:'estimate'});
  const run=h.manager.requestMode('3d',controller.signal);void run.catch(()=>{});
- for(let i=0;i<100&&await outcome(run,1)==='pending';i++){if(net.pending(fresh.leaf.path).length)net.deliver(fresh.leaf.path,fresh.bytes);await tick();}
- const report={control,state:await outcome(run,30),free:budget.stats.availableBytes,reads:net.reads.length,retry:pool.stats.retryWaitDiagnostics};
+ const state=await net.respondUntil([fresh],resultOf(run),'the cold Tier300 view to finish its new source');
+ const report={control,state,free:budget.stats.availableBytes,reads:net.reads.length,retry:pool.stats.retryWaitDiagnostics};
  controller.abort();h.manager.destroy();blocker.release();for(const v of values)v.release();resident.destroy();pool.destroy();await settle();return report;
 }
 test('cold entry reads missing canonical sources before retaining resident private views',async()=>{

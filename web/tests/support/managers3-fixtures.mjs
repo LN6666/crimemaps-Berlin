@@ -6,6 +6,8 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {harness,createVisiblePreparationGate,tick,webRoot} from './managers3-harness.mjs';
 
+import {managerEvent} from './manager-admission-waits.mjs';
+export {waitForResourceState as until} from './wait-for-resource-state.mjs';
 export {tick};
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 /** A plain city3D shard of `count` one-triangle components inside the harness
@@ -22,13 +24,35 @@ export function shard(name,{city='berlin',count=3,fixture=false}={}){
 /** Reads that stay pending until the test delivers them; abort rejects like fetch. */
 export function network(){
  const reads=[];
- const read=(target,signal,max)=>new Promise((resolve,reject)=>{const row={target,signal,max,resolve,reject,done:false};reads.push(row);signal.addEventListener('abort',()=>{if(!row.done){row.done=true;reject(signal.reason);}},{once:true});});
+ let responder;
+ const read=(target,signal,max)=>new Promise((resolve,reject)=>{
+  const row={target,signal,max,resolve,reject,done:false};
+  reads.push(row);
+  signal.addEventListener('abort',()=>{if(!row.done){row.done=true;reject(signal.reason);}},{once:true});
+  responder?.(row);
+ });
+ function deliver(row,bytes){row.done=true;row.resolve(bytes.slice());}
  return{reads,read,
   pending:target=>reads.filter(row=>!row.done&&!row.signal.aborted&&(target===undefined||row.target===target)),
-  deliver(target,bytes){const row=reads.find(r=>r.target===target&&!r.done&&!r.signal.aborted);assert(row,'no pending read of '+target);row.done=true;row.resolve(bytes.slice());},
+  deliver(target,bytes){const row=reads.find(r=>r.target===target&&!r.done&&!r.signal.aborted);assert(row,'no pending read of '+target);deliver(row,bytes);},
+  // The manager may ask for the next shard only after validating an earlier
+  // one. Keep answering its actual requests through completion of this operation.
+  async respondUntil(sources,completion,label){
+   assert.equal(responder,undefined,'overlapping network fixtures');
+   const bodies=new Map(sources.map(source=>[source.leaf.path,source.bytes]));
+   responder=row=>{
+    if(row.done||row.signal.aborted)return;
+    const bytes=bodies.get(row.target);
+    if(bytes===undefined){row.done=true;row.reject(Error('Unexpected fixture request: '+row.target));return;}
+    deliver(row,bytes);
+   };
+   try{
+    for(const row of reads)responder(row);
+    return await managerEvent(completion,label);
+   }finally{responder=undefined;}
+  },
   fail(target,error){const row=reads.find(r=>r.target===target&&!r.done&&!r.signal.aborted);assert(row,'no pending read of '+target);row.done=true;row.reject(error);}};
 }
-export const until=async(predicate,label,rounds=600)=>{for(let i=0;i<rounds;i++){if(predicate())return;await tick();}assert.fail('bounded fixture event did not occur: '+label);};
 export async function outcome(promise,turns=20){let result='pending';promise.then(()=>{result='fulfilled';},error=>{result='rejected:'+(error?.name??String(error));});for(let i=0;i<turns;i++)await tick();return result;}
 /** A real manager of `provider` whose native source client is the real shared
  * native source pool (legacy reads through `net`) on the harness page store,

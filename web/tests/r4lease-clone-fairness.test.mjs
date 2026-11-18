@@ -124,8 +124,8 @@ test('a stepped-back acquisition holds nothing while the served one reads again,
  const resources=leasePage(api,{limitBytes:whole}),{budget}=resources,m=leaseMap(api,resources,'M',tables);
  const events=[],done={};
  tables.forEach((f,i)=>m.client.acquire(m.ref(f),new AbortController().signal).then(lease=>{events.push('ok'+i);done[i]=true;lease.release();},error=>{done[i]=error?.name;}));
- let yieldAt=-1,checked=false,idle=0;
- while(Object.keys(done).length<2&&idle<400&&m.network.length<=6){
+ let yieldAt=-1,checked=false,idle=0,progressAt=performance.now();
+ while(Object.keys(done).length<2&&m.network.length<=6&&performance.now()-progressAt<STALLED_MS){
   if(yieldAt<0&&m.leases.stats.waiterYields>0)yieldAt=events.length;
   const row=m.network.find(r=>!r.done&&!r.signal.aborted);
   if(row){
@@ -135,9 +135,9 @@ test('a stepped-back acquisition holds nothing while the served one reads again,
     // so the stepped-back table holds nothing at all.
     checked=true;assert.equal(budget.stats.bytes,whole,'the served re-read fills the exact page: the stepped-back acquisition holds no byte');
    }
-   events.push('read'+i);row.done=true;row.resolve(new Uint8Array(tables[i].physical));idle=0;
+   events.push('read'+i);row.done=true;row.resolve(new Uint8Array(tables[i].physical));idle=0;progressAt=performance.now();
   }else idle++;
-  await settle();
+  await waitForWork(idle);
  }
  assert.deepEqual(done,{0:true,1:true},JSON.stringify(events));
  assert(yieldAt>=0,'a waiter stepped back');assert(checked,'the served table read again after the step-back: '+JSON.stringify(events));
@@ -230,12 +230,19 @@ test('a later map whose private clone waits beside another map\'s live clone wai
  const first=await (async()=>{const p=a.client.acquire(a.ref(f),new AbortController().signal);await until(()=>a.pending().length===1);a.deliver(f);return p;})();
  let second='pending';const p=b.client.acquire(b.ref(f),new AbortController().signal).then(lease=>{second='ok';return lease;},error=>{second=error?.name;});
  // B reads (A's decoded value is gone), settles, and its clone beside A's live clone is refused: it waits on the ledger.
- for(let turns=0;turns<200&&second==='pending'&&!(b.pending().length===0&&b.leases.stats.capacityWaits>0);turns++){if(b.pending().length)b.deliver(f);await settle();}
+ async function deliverUntil(ready,label){
+  await until(()=>{
+   if(ready())return true;
+   if(b.pending().length)b.deliver(f);
+   return false;
+  },label);
+ }
+ await deliverUntil(()=>second!=='pending'||(b.pending().length===0&&b.leases.stats.capacityWaits>0),'B reaches the clone wait while A holds its lease');
  assert.equal(second,'pending','B waits while A holds its private clone');
  assert(budget.stats.availabilityListeners>0,'B waits subscribed to the ledger (A releasing wakes it), not silently');
  assert.equal(b.leases.stats.unfit,0,'B fits the page alone: it is not reported as not fitting');
  first.release();
- for(let turns=0;turns<200&&second==='pending';turns++){if(b.pending().length)b.deliver(f);await settle();}
+ await deliverUntil(()=>second!=='pending','B settles after A releases its lease');
  assert.equal(second,'ok','B completes once A released its clone');
  (await p).release();a.destroy();b.destroy();for(let i=0;i<8;i++)await settle();
  assert.equal(budget.stats.bytes,0);assert.equal(budget.stats.availabilityListeners,0);
