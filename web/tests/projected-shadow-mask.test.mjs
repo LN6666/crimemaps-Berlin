@@ -5,8 +5,14 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {build,transform} from 'esbuild';
 const root=path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const result=await build({entryPoints:[path.join(root,'src/safety/projected-shadow-mask.ts')],bundle:true,write:false,platform:'node',format:'esm',target:'es2022'});
-const {projectedShadowDepthPlane,createProjectedShadowMask}=await import('data:text/javascript;base64,'+Buffer.from(result.outputFiles[0].text).toString('base64'));
+const entry=`
+ export {projectedShadowDepthPlane,createProjectedShadowMask} from './src/safety/projected-shadow-mask';
+ export {chunkUniforms} from './src/safety/render-runtime/resident-draw-range';
+ export {createResidentTriangleDrawBatch,drawResidentTriangles} from './src/safety/render-runtime/resident-index-convention';`;
+const result=await build({stdin:{contents:entry,resolveDir:root,loader:'ts'},bundle:true,write:false,platform:'node',format:'esm',target:'es2022'});
+const moduleText=result.outputFiles[0].text+'\n//# sourceURL=projected-shadow-mask-fixture.mjs';
+const {projectedShadowDepthPlane,createProjectedShadowMask,chunkUniforms,createResidentTriangleDrawBatch,drawResidentTriangles}=
+ await import('data:text/javascript;base64,'+Buffer.from(moduleText).toString('base64'));
 const topDown=[1,0,0,0,0,0,-1,0,0,1,0,0,0,0,0,1];
 function product(a,b){return Array.from({length:16},(_,i)=>{const r=i%4,c=Math.floor(i/4);let n=0;for(let k=0;k<4;k++)n+=a[k*4+r]*b[c*4+k];return n;});}
 function project(m,p){const v=Array.from({length:4},(_,r)=>m[r]*p[0]+m[4+r]*p[1]+m[8+r]*p[2]+m[12+r]);return v.slice(0,3).map(n=>n/v[3]);}
@@ -84,7 +90,7 @@ test('all eight source renderer shadow hooks use one union with the exact upload
   const site=source.indexOf('){try{drawProjectedShadows(shadowAlpha)'),guardStart=source.lastIndexOf('if(',site);assert.ok(site>0&&guardStart>0,name+' render call site');
   const guard=(await transform('('+source.slice(guardStart+3,site)+')',{loader:'ts'})).code.trim().replace(/;$/,'');assert.match(guard,/shadowAlpha\s*>\s*0/,name+' guards the hook with shadowAlpha>0');
   const uploadedCounter=guard.includes('sceneUploadedShadowIndexCount')?(await transform(rendererFunction(source,'function sceneUploadedShadowIndexCount('),{loader:'ts'})).code:'';
-  const run=new Function('env',`const {gl,shadowMask,matrix,projection,sceneChunks}=env;
+  const run=new Function('env',`const {gl,shadowMask,matrix,projection,sceneChunks,chunkUniforms,createResidentTriangleDrawBatch,drawResidentTriangles}=env;
    const shadowProgram={coverage:true},mainWorldProjection=projection,mainWorldMatrix=projection,candidateMainMatrix=projection,candidateMainProjection=projection,shadowUploadPending=false;
    const sceneSun={shadowVector:[-2,1]},paintMode=()=>2,anchorUnit=1,geometryOwner={scene:{version:1}},shadowGeometryOwner={scene:{version:1}},progressiveDiagnostic='',city='berlin';
    const multiply=(a,b)=>Array.from({length:16},(_,i)=>{const r=i%4,c=Math.floor(i/4);let n=0;for(let k=0;k<4;k++)n+=a[k*4+r]*b[c*4+k];return n;});
@@ -97,7 +103,7 @@ test('all eight source renderer shadow hooks use one union with the exact upload
   const gl=mockGL(),mask=createProjectedShadowMask(),uploaded=[];let elements=0;
   const uniformMatrix=gl.uniformMatrix4fv;gl.uniformMatrix4fv=(location,transpose,value)=>{if(location==='u_matrix')uploaded.push(Array.from(value));return uniformMatrix(location,transpose,value);};
   gl.drawElements=(mode,count,type,offset)=>{assert.equal(mode,gl.TRIANGLES);assert.equal(count,3);assert.equal(offset,0);elements++;gl.coverage([0],gl.uniforms.get('u_shadow_opacity'));};
-  const env=alpha=>({gl,shadowMask:mask,matrix:topDown,projection:topDown,sceneChunks:[chunk(1),chunk(2)],alpha});
+  const env=alpha=>({gl,chunkUniforms,createResidentTriangleDrawBatch,drawResidentTriangles,shadowMask:mask,matrix:topDown,projection:topDown,sceneChunks:[chunk(1),chunk(2)],alpha});
   assert.equal(run(env(0)),0,name);assert.equal(elements,0,name+': alpha 0 draws nothing');assert.equal(mask.stats.bytes,0,name);
   assert.equal(run(env(.08)),1,name);assert.equal(elements,2,name+': every resident chunk covers the one mask');assert.equal(gl.composites,1,name+': one union composite');
   // Each chunk uploads exactly the scene projection times its canonical chunk frame (anchor [0,0], unit 1,

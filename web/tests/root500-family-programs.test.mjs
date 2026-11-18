@@ -9,6 +9,9 @@ import path from 'node:path';
 const web=fileURLToPath(new URL('../',import.meta.url)),require=createRequire(path.join(web,'package.json')),ts=require('typescript'),{build,transform}=require('esbuild');
 async function production(relative){const result=await build({entryPoints:[path.join(web,relative)],bundle:true,write:false,format:'esm',platform:'node',target:'es2022'});return import('data:text/javascript;base64,'+Buffer.from(result.outputFiles[0].text+'\n//# sourceURL=family-fixture-'+path.basename(relative)+'.mjs').toString('base64'));}
 const visibility=await production('src/painted/delegated500/safety/paint-run-visibility.ts');
+const {partitionProgramFamilies}=await production('src/safety/partition-program-groups.ts');
+const {residentDrawRange}=await production('src/safety/render-runtime/resident-draw-range.ts');
+const {createResidentTriangleDrawBatch}=await production('src/safety/render-runtime/resident-index-convention.ts');
 const V=await production('src/painted/root500/safety/paint-run-visibility.ts'),U=await production('src/safety/utf8-byte-length.ts'),B=await production('src/safety/render-runtime/shader-source-budget.ts'),A=await production('src/safety/render-runtime/shader-assembly-budget.ts'),F=await production('src/safety/family-paint-program.ts'),P=await production('src/safety/render-runtime/program-preparation.ts'),S=await production('src/safety/solar-shadow-preparation.ts'),W=await production('src/safety/prepared-source.ts'),R=await production('src/painted/root500/safety/owner-shader-prune.ts'),{createFrozenDataScope}=await production('src/safety/frozen-data-scope.ts'),RB=await production('src/safety/render-runtime/resource-budget.ts');
 const {sharedBremenPaintRecipeKey}=await production('src/painted/bremen/safety/shared-paint-recipe.ts');
 const {sharedInfillEquivalentProgramFamilies}=await production('src/painted/infill/safety/infill-equivalent-program-families.ts');
@@ -34,6 +37,11 @@ function compilerOwner(v){const queue=[],recipes=[],sources=[],deleted=[];let se
 async function fixture(provider='root500',shaderSource=source){
  const values={provider,programIdleRetirement:{reset(){},synchronize(){}},...F,...P,...S,...visibility,sceneSpans:[],viewRevision:0,mainGPUIncarnation:0,shaderSourceBoundPart:A.shaderSourceBoundPart,describeShaderAssemblyBounds:A.describeShaderAssemblyBounds,city:'bremen',legacyPartitionEnabled:false,partitionEnabled:true,cityPaintFragment:shaderSource,initialPaintFragment:shaderSource,VERTEX:'unchanged vertex',fragment:(_h,p)=>p,fragmentParts:(_h,p)=>B.shaderSourceParts`${p}`,pruneOwner6307Fragment:s=>s,withResidentReflectionClip:s=>s+'\n// reflection clip',gl:{isContextLost:()=>false,deleteProgram(){}},paintMode:()=>2,paintOverride:()=>0,baseSurfaceFragment:'helper',surfaceFragment:undefined,
   program:{id:'initial-family0'},vao:{},texturedProgram:undefined,diffuseProgram:undefined,windowTexture:undefined,diffuseTexture:undefined,facadeAttached:false,partitionPrograms:new Map(),partitionFailures:new Map(),partitionVisibleKeys:[],partitionRenderCount:0,partitionLastRenderAt:undefined,partitionPending:false,partitionRuns:[1001,1002].map((f,i)=>({key:F.familyPaintRecipeKey('base',[f]),firstIndex:i*3,indexCount:3})),indices:new Uint32Array(6),loaded:new Map([['a',{start:0,end:6,box:[0,0,0,1,1,1]}]]),anchor:[0,0],anchorUnit:1,candidateMainProjection:new Float64Array([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]),matrix:new Float64Array([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]),paintBoxOutsideClip:()=>false,paintRunIntersectsVisible:()=>true,offscreenPaintRunsSkipped:0,partitionCompileAttempt:undefined,map:{repaints:0,triggerRepaint(){this.repaints++;}},rathausProxyMasks:{withMasks:(_g,_p,draw)=>draw()},uniforms(){},solarProgramFailures:new Map(),solarProgramRevision:0,solarPreparationIndex:undefined,generation:1,needsBirth:false,birth:new Map(),destroyed:false,pageHidden:false,enabled:true,opacity:1,opacityContext:'normal',gpuReady:()=>true,sceneEnvironment:{sunlight:true,shadows:true},sceneSun:{shadowVector:[1,1]}};
+ Object.assign(values,{partitionProgramFamilies,residentDrawRange,createResidentTriangleDrawBatch});
+ if(provider==='root500'){
+  values.keysByPaintRuns=new WeakMap();
+  values.paintKeysForRuns=await evaluate('paintKeysForRuns',values);
+ }
  if(provider==='bremen')values.sharedBremenPaintRecipeKey=sharedBremenPaintRecipeKey;
  values.scope=createFrozenDataScope({acquire(){throw Error('family fixture must not acquire model tables');}});values.sourceBuilds=0;values.sourceClears=0;values.committingScope=undefined;values.residentScope=values.scope;values.configuredDataScope=values.scope;values.currentDataScope=values.scope;values.pendingCandidate=undefined;values.programCoverageReady=true;values.geometryOwner={current:undefined,release(){},contextLost(){}};values.clearGeometryHandles=()=>{};values.releaseCandidatePrograms=()=>{};
  // The page ResourceBudget the renderer hands its prepared program plan (prepared.chunkInput.store.budget).
@@ -132,16 +140,28 @@ test(provider+': shared colour/depth recipe preserves holes, output-read discard
   driver.owner.dispose();v.scope.release();
  }
 });
-test(provider+': ' + 'actual draw closure waits for complete visible recipes and never draws initial family0 for missing nonzero families',async()=>{
+test(provider+': partial frames draw only exact resident family programs and complete frames keep draw order',async()=>{
  // Visible family programs are prepared by the resident/candidate main preparation
  // (prepareMainPrograms); the actual draw closure only consumes them and never compiles.
  const v=await fixture(provider),draws=[];v.pruneFamilySource=()=>false;v.gl.drawElements=(_m,count,_t,offset)=>draws.push({p:v.selected,count,offset});v.uniforms=p=>{v.selected=p;};v.compileGeometryProgram=()=>assert.fail('the draw closure never compiles');
- // The chunk-span geometry walk is not under test here: one span per run at its exact index offset.
- v.drawSceneRange=v.drawBremenSceneRange=(_p,firstIndex,indexCount)=>{v.gl.drawElements(v.gl.TRIANGLES,indexCount,v.gl.UNSIGNED_INT,firstIndex*4);return true;};
+ const residentMasks=new Set();
+ v.mainPrepared=false;
+ v.sceneSpans=[{firstIndex:0,indexCount:6,chunk:{
+  cpu:{value:{}},geometry:{value:{vao:v.vao}},masks:{isResident:(context,program)=>context===v.gl&&residentMasks.has(program)},
+ }}];
+ v.drawSceneRange=(batch,_program,first,count)=>{batch.draw(v.vao,count,first*4);return true;};
+ v.drawBremenSceneRange=(_program,first,count)=>{v.gl.drawElements(v.gl.TRIANGLES,count,v.gl.UNSIGNED_INT,first*4);return true;};
  const draw=await evaluate('draw',v),[first,second]=v.partitionRuns.map(run=>v.activeFamilyKey(run.key));
  draw();assert(v.partitionPending);assert.equal(draws.length,0);
- v.partitionPrograms.set(first,{id:'family:1001'});draw();assert(v.partitionPending,'one missing visible family keeps the complete frame pending');assert.equal(draws.length,0,'a partial family set issues no draw');
- v.partitionPrograms.set(second,{id:'family:1002'});draw();assert(!v.partitionPending);assert.deepEqual(draws.map(d=>[d.p.id,d.count,d.offset]),[['family:1001',3,0],['family:1002',3,12]]);assert(!draws.some(d=>d.p===v.program));
+ const ready={id:'family:1001'};
+ v.partitionPrograms.set(first,ready);
+ draw();assert(v.partitionPending);assert.equal(draws.length,0,'an exact program requires its resident mask');
+ residentMasks.add(ready);
+ draw();assert(v.partitionPending,'a missing family keeps the frame incomplete');
+ assert.deepEqual(draws.map(d=>[d.p.id,d.count,d.offset]),[['family:1001',3,0]]);
+ const next={id:'family:1002'};
+ v.partitionPrograms.set(second,next);residentMasks.add(next);v.mainPrepared=true;draws.length=0;
+ draw();assert(!v.partitionPending);assert.deepEqual(draws.map(d=>[d.p.id,d.count,d.offset]),[['family:1001',3,0],['family:1002',3,12]]);assert(!draws.some(d=>d.p===v.program));
 });
 test(provider+': ' + 'pending and failed family programs remain explicit and cannot enter complete capture',async()=>{
  const v=await fixture(provider);compilerOwner(v);v.pruneFamilySource=()=>false;const prepareMain=await evaluate('prepareMainPrograms',v),required=new Set(v.partitionRuns.map(run=>v.activeFamilyKey(run.key)));let compiles=0;

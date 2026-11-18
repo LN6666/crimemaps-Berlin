@@ -76,10 +76,8 @@ function factoryDependencies(provider,base,rendererAst){
   if(!modules.has(id)){
    let value;
    if(provider==='delegated500'&&id==='./delegated500-scoped-functions')value=evaluate(read(id),arityModule);
-   // The prepared-source workspace is a pure runtime leaf (no model reads; it is
-   // created lazily and only reserves on first use). Evaluate its actual text
-   // against the fixture page's real shader-source-budget and family leaves.
-   else if(id==='../../../safety/prepared-source')value=evaluate(read(id),leaf=>{assert(['./family-paint-program','./render-runtime/shader-source-budget'].includes(leaf),'prepared-source imports only pure leaves: '+leaf);return base('../../../safety/'+leaf.slice(2));});
+   // Use the same preparation workspace and pressure ledger as the fixture page.
+   else if(id==='../../../safety/prepared-source')value=base(id);
    // Public empty draws still capture and validate a real main-frame witness.
    // This pure helper must not fall through to a generic tiny import seam.
    else if(id==='../../../safety/render-runtime/main-draw-bindings')value=evaluate(read(id));
@@ -268,7 +266,8 @@ async function readiness(provider){
  // Current readiness reads the resident index count through sceneIndexCount()
  // and requires a drawn main-frame witness for the current resident revision;
  // this fixture treats each published state as drawn.
- Object.assign(state,{sceneIndexCount:()=>state.indices.length,mainDrawWitnessCurrent:()=>true,mainFrameCurrent:()=>true,emptyMainFrameCurrent:()=>true,contextRecoveryFailure:undefined,activeChunkPreparation:undefined,
+ const {currentPaintProgramGroups}=evaluate(fs.readFileSync(new URL('../src/safety/current-paint-program-groups.ts',import.meta.url),'utf8'));
+ Object.assign(state,{linkedPaint:currentPaintProgramGroups(provider,state.city),sceneIndexCount:()=>state.indices.length,mainDrawWitnessCurrent:()=>true,mainFrameCurrent:()=>true,emptyMainFrameCurrent:()=>true,contextRecoveryFailure:undefined,activeChunkPreparation:undefined,
   // mainPaintDemand() derives its clip from the chunk anchor frame; without a
   // separate world matrix it uses the published matrix, as this fixture does.
   anchor:[0,0],anchorUnit:1,mainWorldMatrix:undefined});

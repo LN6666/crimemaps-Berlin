@@ -16,7 +16,7 @@ function load(source,deps={},bindings={}){
 }
 // The prepared-source leaf graph (family program, shader source budget, UTF-8 length) is loaded through
 // its real relative imports, not a hand-maintained require map.
-const leafModules=createSourceModules({allow:id=>['safety/family-paint-program','safety/prepared-source','safety/render-runtime/shader-source-budget','safety/utf8-byte-length'].includes(id)});
+const leafModules=createSourceModules({allow:id=>['safety/family-paint-program','safety/prepared-source','safety/render-runtime/resource-budget','safety/render-runtime/pressure-availability','safety/render-runtime/shader-source-budget','safety/utf8-byte-length'].includes(id)});
 const familyModule=leafModules.load('safety/family-paint-program'),preparedSourceModule=leafModules.load('safety/prepared-source'),utf8Module=leafModules.load('safety/utf8-byte-length');
 const familySource='#version 300 es\nprecision highp float;out vec4 color;\nvec3 plain(vec3 base){return base*.5;}vec3 cutout(vec3 base){discard;return base*.25;}\nvec3 paintedFacade(vec3 base,vec3 p,vec3 normal,vec4 frame,float family){if(family==1001.)return plain(base);if(family==1002.)return cutout(base);return base;}\nvoid main(){color=vec4(paintedFacade(vec3(1.),vec3(0.),vec3(0.,1.,0.),vec4(0.),1001.),1.);}';
 const facadeAst=ts.createSourceFile('facade.ts',facadeSource,ts.ScriptTarget.Latest,true,ts.ScriptKind.TS);

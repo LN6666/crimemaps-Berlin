@@ -18,6 +18,9 @@ const captureOwnershipModule=createSourceModules({
 export const {createResidentCaptureOwnership}=captureOwnershipModule;
 
 export const RENDERER_RUNTIME_MODULES=Object.freeze([
+ 'safety/current-paint-program-groups',
+ 'safety/paint-program-idle-retirement',
+ 'safety/render-runtime/chunk-admission',
  'safety/render-runtime/resident-draw-range',
  'safety/partition-program-groups',
  'safety/render-runtime/resident-normal-packing',
@@ -39,7 +42,7 @@ export const RENDERER_RUNTIME_MODULES=Object.freeze([
  'painted/infill/safety/facade-rathaus-display-masks',
 ]);
 /** Production modules these runtime modules themselves reach. */
-export const RENDERER_RUNTIME_DEPENDENCIES=Object.freeze(['safety/render-runtime/pressure-availability','safety/render-runtime/diagnostic-snapshot','safety/resident-planar-reflection','safety/render-runtime/program-preparation','safety/render-runtime/preparation-scheduler','safety/render-runtime/submitted-program-completion',...['bremen-demand-metadata','oldtown70-data','kunsthalle70-data','f260-accepted-restore-data','market-cap-data','organisten-data','glocke-kuester-data'].map(name=>'painted/bremen/safety/'+name),...['f278-source-bindings','f278-original-profiles','infill-f288-coplanar-roof','infill-f288-coplanar-roof-data','f288-original-signature'].map(name=>'painted/infill/safety/'+name)]);
+export const RENDERER_RUNTIME_DEPENDENCIES=Object.freeze(['safety/building-focus-window','safety/render-runtime/pressure-availability','safety/render-runtime/diagnostic-snapshot','safety/resident-planar-reflection','safety/render-runtime/program-preparation','safety/render-runtime/preparation-scheduler','safety/render-runtime/submitted-program-completion',...['bremen-demand-metadata','oldtown70-data','kunsthalle70-data','f260-accepted-restore-data','market-cap-data','organisten-data','glocke-kuester-data'].map(name=>'painted/bremen/safety/'+name),...['f278-source-bindings','f278-original-profiles','infill-f288-coplanar-roof','infill-f288-coplanar-roof-data','f288-original-signature'].map(name=>'painted/infill/safety/'+name)]);
 
 /** A dependency resolver for one renderer: a specifier that resolves to a
  * renderer runtime module returns the loader's real module; anything else

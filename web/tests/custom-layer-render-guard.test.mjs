@@ -25,29 +25,31 @@ test('every building renderer is guarded; root500/infill latch contained partiti
   assert(text.includes('layer.render=guardCustomLayerRender(map,layer.id,(context,args)=>'),provider);
   assert(text.includes("import {guardCustomLayerRender} from '../../../safety/custom-layer-render-error';"),provider);
  }
- // HEAD moved the root500/infill partition compile-failure latch out of the frame's own catch: it now
- // lives in prepareMainPrograms, which latches through its request alias (`request.failures.set(key,`)
- // and the frame passes `failures:partitionFailures`, so a literal `partitionFailures.set(` no longer
- // exists although the latch does. Bremen really keeps no latch (only has/get/clear). DECISIONS
- // 2026-11-02 "第三段第二轮结项" (R2 fixtures CDR[8](2)): check the equivalent properties of the current
- // guard. For all three: a partition whose program is missing never draws a partial partitioned frame,
- // the next frame retries it, and the GPU release drops failures. For root500/infill additionally: the
- // single latch keeps the error contained (it throws only when the caller gives no failure map), leaves
- // context loss to recovery (`request.current()` includes `!context.isContextLost()`), and a latched key
- // is never compiled again.
+ // A missing visible program holds its own resident range. Ready ranges keep
+ // drawing, while the incomplete frame cannot satisfy the main-draw witness.
  const functionsNamed=(ast,name)=>{const found=[];(function visit(node){if(ts.isFunctionDeclaration(node)&&node.name?.text===name)found.push(node);ts.forEachChild(node,visit);})(ast);return found;};
  for(const provider of ['bremen','infill','root500']){
   const text=fs.readFileSync(path.join(web,`src/painted/${provider}/safety/building-mesh-renderer.ts`),'utf8');
-  const withheld=text.match(/partitionPending=partitionVisibleKeys\.some\(key=>!partitionPrograms\.has\(key\)\);\s*if\(partitionPending\)\{(invalidateMainDraw\(\);)?(if\(partitionVisibleKeys\.some\(key=>!partitionPrograms\.has\(key\)&&!partitionFailures\.has\(key\)\)\))?map\.triggerRepaint\(\);return;\}\s*for\(const run of visibleRuns\)\{/g);
-  assert.equal(withheld?.length,1,provider+' withholds the whole partitioned frame before its first run draw when any visible program is missing, and requests the next frame');
-  if(provider!=='bremen')assert.match(withheld[0],/invalidateMainDraw\(\);map\.triggerRepaint\(\);return;/,provider+' also invalidates the main draw witness of the withheld frame');
+  const ast=ts.createSourceFile(provider+'-renderer.ts',text,ts.ScriptTarget.Latest,true),loops=[];
+  (function visit(node){if(ts.isForOfStatement(node)&&node.expression.getText(ast)==='visibleRuns')loops.push(node);ts.forEachChild(node,visit);})(ast);
+  assert.equal(loops.length,1,provider+' has one visible partition draw loop');
+  const loop=ts.transpileModule(loops[0].getText(ast),{compilerOptions:{target:ts.ScriptTarget.ES2022}}).outputText;
+  const render=Function('visibleRuns','partitionPrograms','mainPrepared','residentDrawRange',
+   "const gl={},sceneSpans=[],draws=[],activeFamilyKey=key=>key,forgetCaptureRole=()=>{},uniforms=()=>{};"+
+   "const drawBremenSceneRange=(program,firstIndex,indexCount)=>{draws.push([program,firstIndex,indexCount]);return true;};"+
+   "let group,partitionPending=!mainPrepared;const flushGroup=()=>{if(group)draws.push([group.program,group.firstIndex,group.indexCount]);group=undefined;};"+
+   loop+";flushGroup();return {draws,partitionPending};");
+  const visible=['a','b','a'].map((key,i)=>({key,firstIndex:3*i,indexCount:3})),all=new Map([['a','A'],['b','B']]);
+  const partial={draws:[['A',0,3],['A',6,3]],partitionPending:true};
+  assert.deepEqual(render(visible,new Map([['a','A']]),true,()=>true),partial,provider+' only omits the uncompiled range');
+  assert.deepEqual(render(visible,all,false,(_spans,first)=>first!==3),partial,provider+' only omits the unprepared range');
+  assert.deepEqual(render(visible,all,true,()=>true),{draws:[['A',0,3],['B',3,3],['A',6,3]],partitionPending:false},provider+' resumes complete coverage');
   assert.match(text,/partitionPrograms\.clear\(\);heldCaptureDemandKeys\.clear\(\);for\(const demand of captureDemands\.values\(\)\)demand\.heldKeys\.clear\(\);partitionFailures\.clear\(\);/,provider+' drops failures with the released GPU programs');
   if(provider==='bremen'){
    assert.equal(text.includes('partitionFailures.set('),false,'bremen stores no partition failure: a failed partition is retried, never latched');
    assert.equal(text.includes('failures:partitionFailures'),false,'bremen hands its failure map to no latching preparer');
    continue;
   }
-  const ast=ts.createSourceFile(provider+'-renderer.ts',text,ts.ScriptTarget.Latest,true);
   const prepares=functionsNamed(ast,'prepareMainPrograms');
   assert.equal(prepares.length,1,provider+' has one prepareMainPrograms');
   const prepare=prepares[0];

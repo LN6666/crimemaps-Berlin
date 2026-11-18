@@ -18,8 +18,8 @@ vec3 progressiveFeatureDispatchCityLegacy500(vec3 base,vec3 p,vec3 normal,vec4 f
 vec3 progressiveFeatureDispatchCity(vec3 base,vec3 p,vec3 normal,vec4 frame,float family){return progressiveFeatureDispatchCityLegacy500(base,p,normal,frame,family);}
 vec3 paintedFacade(vec3 base,vec3 p,vec3 normal,vec4 frame,float family){if(family>=1000.)return progressiveFeatureDispatchCity(base,p,normal,frame,floor(family+.5));return base;}`;
 const key=family=>'current-family:'+family;
-async function familyCity(families=[0,1003,1004],city='cologne'){
- const f=await createDelegatedFixture({city,paint:source}),S=f.S;
+async function familyCity(families=[0,1003,1004],city='cologne',paint=source){
+ const f=await createDelegatedFixture({city,paint}),S=f.S;
  f.setScene(families.map((family,i)=>({objectId:'owner-'+i,partId:String(i),start:i*3,end:i*3+3,firstVertex:i*3,lastVertex:i*3+3,box:[-.1,0,-.1,.1,.1,.1],family})),families.map((family,i)=>({firstIndex:i*3,indexCount:3,key:key(family)})));
  // The resident base program the renderer draws and casts family 0 with.
  S.program=f.until(()=>S.compileGeometryProgram(DEFAULT_HELPER));
@@ -68,12 +68,32 @@ test('Berlin keeps its distinct full-colour capture recipe, distant simplificati
  const runs=f.values.residentCaptureState(1,true).runs;assert.deepEqual(runs.map(run=>[run.firstIndex,run.indexCount,run.program]),[[0,f.values.indices.length,full]]);
  f.values.releaseSolarDepth();assert.equal(f.values.partitionPrograms.get(f.values.BERLIN_FULL_CURRENT_CAPTURE_KEY),full,'capture cancellation preserves the owning canonical colour grant');assert(!full.deleted);assert.equal(f.prepareAll().status,'ready');assert.equal(f.preparationDriver.programs.length,1);
  assert(text.includes("const berlinCurrent=city==='berlin';let currentFamilyPrograms=berlinCurrent;"));assert(declaration('buildMaterialSourceSteps').includes('currentFamilyPrograms=berlinCurrent||!paintProgramPartitionEnabled(city)'));
- assert(text.includes("{if(!berlinCurrent&&city!=='essen')return{sharedPaulLobeRichProgram:false,exactRichProgramKeys:new Map<string,string>()};"));
+ assert.equal(f.values.richPaintProgramKey(key(4529)),key(4529),'Berlin does not adopt a Dortmund family alias');
  // The full capture run now covers the published scene index count.
  assert(text.includes('if(solarDepth&&berlinCurrent&&paintMode()>1.5)runs=[{firstIndex:0,indexCount:sceneIndexCount(),program:partitionPrograms.get(BERLIN_FULL_CURRENT_CAPTURE_KEY)}]'));
  assert(text.includes('if(!berlinCurrent&&!legacySolarPartitions)return prepareFamilyCasters(helper,budget);'));
  // Specialization moved into the admitted prepared-source workspace.
- assert(text.includes('specializeCurrentPaintProgram(source,families[0],false,!berlinCurrent)'));assert(text.includes("resource:'caster-source:'+analysisKey,revision,phase:'source-build'"));
+ assert(text.includes("resource:'caster-source:'+analysisKey,revision,phase:'source-build'"));
+});
+test('Dortmund shares a declared family group without Berlin capture or loss of any member shader branch',async()=>{
+ const families=[4528,4529,4532];
+ const paint=source.replaceAll('1003','4528').replaceAll('1004','4529').replaceAll('1005','4532');
+ const {f}=await familyCity(families,'dortmund',paint),{S}=f;
+ assert.equal(S.sharedPaulLobeRichProgram,false);
+ assert.equal(S.distantMaterialAvailable,false);
+ for(const family of families)assert.equal(S.richPaintProgramKey(key(family)),key(4528));
+ const projection=new Float64Array([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]);
+ for(let turn=0;turn<20&&!S.partitionPrograms.has(key(4528));turn++){
+  S.frameNo++;
+  S.render(f.gl,{defaultProjectionData:{mainMatrix:projection}});
+  f.advancePreparation();
+ }
+ const program=S.partitionPrograms.get(key(4528));
+ assert(program);
+ assert.deepEqual([...S.partitionPrograms.keys()],[key(4528)]);
+ for(const branch of ['kept(', 'cut(', 'cutAgain('])assert(program.fragment.includes(branch),branch);
+ assert.deepEqual(S.partitionRuns.map(run=>run.key),families.map(key));
+ assert.equal(S.partitionPrograms.has(S.BERLIN_FULL_CURRENT_CAPTURE_KEY),false);
 });
 test('missing own casters wake another frame, settle to ready, and never start before visible demand is reported',async()=>{
  const {f,compiled}=await familyCity([1004,1005]);assert.equal(f.values.prepareSolarShadow().status,'pending');assert(f.values.casterRetry);assert(f.values.map.repaints>0);f.advancePreparation();assert.equal(compiled.length,0,'first admitted slot only analyses source');

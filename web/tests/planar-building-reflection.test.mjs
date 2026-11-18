@@ -135,8 +135,9 @@ test('paused water wakes a newly pending reflection and returns the shared clock
   const changeSun=instantISO=>{r.setSceneEnvironment({...state,instantISO});clock.wake();};
   try{
    render();assert.equal(captures,1);assert.equal(timers.size,0);assert.equal(r.stats.animationActive,false);
+   const settledInitialWakes=wakes;
    time=50;changeSun('2026-06-21T12:01:00+02:00');assert.equal(timers.size,0,'owner wakes before render has discovered pending reflection');
-   render();assert.equal(r.stats.buildingReflection.pending,true);assert.equal(wakes,1);assert.equal(timers.size,1,'capture must wake the existing shared clock');
+   render();assert.equal(r.stats.buildingReflection.pending,true);assert.equal(wakes,settledInitialWakes+1);assert.equal(timers.size,1,'capture must wake the existing shared clock');
    drain();assert.equal(captures,2);assert.equal(r.stats.buildingReflection.pending,false);assert.equal(timers.size,0);assert.equal(scheduledRepaints,1);assert.equal(r.stats.animation.elapsedSeconds,0);
    const settledWakes=wakes;mapFrame=true;render();assert.equal(wakes,settledWakes,'static capture cannot keep waking the clock');assert.equal(timers.size,0);
    time+=10;changeSun('2026-06-21T12:02:00+02:00');render();assert.equal(timers.size,1);

@@ -6,7 +6,7 @@ const web=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),ts=cre
 // modules (render-runtime/ imports resolve against their own directory; the
 // program-preparation <-> chunk-resource-store cycle is evaluated once). Every
 // evaluated dependency is still named; anything else is unexpected.
-const dependencies=new Set(['environment-scene-data.ts','projected-shadow-plane.ts','scene-surface-light.ts','environment-green-ground.ts','projected-shadow-mask.ts','scene-solar-shadow.ts','solar-shadow-preparation.ts','capture-resource-demand.ts','render-runtime/chunk-resource-store.ts','render-runtime/resource-budget.ts','render-runtime/program-preparation.ts','render-runtime/preparation-scheduler.ts','render-runtime/submitted-program-completion.ts','render-runtime/diagnostic-snapshot.ts']);
+const dependencies=new Set(['environment-scene-data.ts','projected-shadow-plane.ts','scene-surface-light.ts','environment-green-ground.ts','projected-shadow-mask.ts','scene-solar-shadow.ts','solar-shadow-preparation.ts','capture-resource-demand.ts','render-runtime/chunk-resource-store.ts','render-runtime/resource-budget.ts','render-runtime/program-preparation.ts','render-runtime/pressure-availability.ts','render-runtime/preparation-scheduler.ts','render-runtime/submitted-program-completion.ts','render-runtime/diagnostic-snapshot.ts']);
 const loader=createTsModuleLoader({typescript:ts,allow:(file,importer)=>{if(importer===undefined)return true;const name=path.relative(safety,file).split(path.sep).join('/');assert.ok(dependencies.has(name),'Unexpected shader test dependency: '+name);return true;}});
 const evaluate=file=>loader.load(file);
 const shaders=evaluate(safety+'/environment-scene-shaders.ts'),fragment=shaders.ENVIRONMENT_SCENE_FRAGMENT_GLSL;

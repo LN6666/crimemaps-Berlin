@@ -87,7 +87,8 @@ async function fixture(t,{bootstrap=false}={}){const c=context(),queue=[],masks=
  S.vertexCap=200000;S.mobile=false;
  // Paint ownership is a registry input: the synthetic fixture rows are owned by this delegated renderer.
  S.acceptPaintComponent=(provider,_component)=>provider==='delegated500';
- installRendererClosures(text,S,{requireFrom:rendererRequire,wrappers:['scopedValue'],exclude:['facadePaintSpecializationForCity','describeFacadePaintSource','facadePaintFragmentForCity','paintProgramFragment','paintProgramKey'],construct:['delegatedPreparedSourceAuthority','sourceBudgetWake','materialSourceGate','batchSourceGate','casterSourceGate','paintBoundCache','colourAssemblyBounds','chunkStateOwner']});
+ installRendererClosures(text,S,{requireFrom:rendererRequire,wrappers:['scopedValue'],exclude:['facadePaintSpecializationForCity','describeFacadePaintSource','facadePaintFragmentForCity','paintProgramFragment','paintProgramKey'],construct:['delegatedPreparedSourceAuthority','sourceBudgetWake','materialSourceGate','batchSourceGate','casterSourceGate','paintBoundCache','colourAssemblyBounds','chunkStateOwner','linkedPaint','programIdleRetirement']});
+ t.after(()=>S.programIdleRetirement.reset());
  S.preparedPaintSource=()=>tinyPaint;await preparedPaintPlan('delegated500',text,S);
  // The colour program source workspace is the renderer's own, on its context page ledger (as the shared
  // reflection fixture installs it for delegated500), not the capture-binding placeholder map.

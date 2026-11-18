@@ -38,7 +38,7 @@ assert(ts.isExpressionStatement(controlsAfter) && ts.isCallExpression(controlsAf
 const controlsInit = segment(controlsStart, controlsAfter);
 
 function fixture(withManagers = true) {
-  const calls = [], hidden = [], controlsHidden = [], pauseOrder = [], observers = [], container = {}, foreign = {}, environment = [], scenery = [], buildingHidden = [], buildingViewport = [], dedicatedHidden = [], solarHidden = [];
+  const calls = [], hidden = [], controlsHidden = [], pauseOrder = [], observers = [], container = {}, foreign = {}, environment = [], scenery = [], buildingHidden = [], buildingViewport = [], dedicatedHidden = [], solarHidden = [], reclamationHidden = [];
   const environmentManager = {
     setOffscreen: value => { environment.push(['offscreen', value]); calls.push(['environment', value]); },
     setReflectionSource() {}, setSceneEnvironment() {}, setVisible() {}, setReducedMotion() {},
@@ -61,13 +61,13 @@ function fixture(withManagers = true) {
     currentCity: 'berlin', locale: 'zh', matchMedia: () => ({matches: false}), app: {querySelector: () => ({})}, mapRetry: undefined,
     threeDimensional: {renderer: {}, setPageHidden: value => buildingHidden.push(value), setViewportVisible: value => buildingViewport.push(value)}, dedicatedAppearance: {setPageHidden: value => dedicatedHidden.push(value)}, buildingSolarShadow: {setPageHidden: value => solarHidden.push(value)}, planarReflectionGroup: () => ({}), profile: {},
     sceneEnvironment: {}, threeDimensionalMotion: {matches: false}, environmentStatus: 'idle',
-    threeDimensionalRecovery: undefined, localPalaceGarden: undefined, building3dInteraction: undefined,
+    idleContextReclamation: {setHidden: value => reclamationHidden.push(value)}, threeDimensionalRecovery: undefined, localPalaceGarden: undefined, building3dInteraction: undefined,
     dedicatedInitRequest: {abort() {}}, environmentRequest: {abort() {}}, dedicatedWanted: false, environmentWanted: false,
   });
   const run = code => vm.runInContext(ts.transpileModule(code, {compilerOptions: {target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext}}).outputText, context);
   run([declaration('sceneViewportVisible'), declaration('syncSceneVisibility'), declaration('syncSceneViewportVisibility'), declaration('syncThreeDimensionalVisibility')].map(node => node.getText(ast)).join('\n') + '\n' + observerInit);
   assert.equal(observers.length, 1); assert.deepEqual(observers[0].observed, [container]);
-  return {context, run, calls, hidden, controlsHidden, pauseOrder, environment, scenery, buildingHidden, buildingViewport, dedicatedHidden, solarHidden, container, foreign, emit: entries => observers[0].callback(entries)};
+  return {context, run, calls, hidden, controlsHidden, pauseOrder, environment, scenery, buildingHidden, buildingViewport, dedicatedHidden, solarHidden, reclamationHidden, container, foreign, emit: entries => observers[0].callback(entries)};
 }
 
 test('actual map observer forwards only changed map visibility to both managers and the shared clock', () => {
@@ -95,6 +95,7 @@ test('document/GPU pauses take priority and late managers receive the retained o
   assert.equal(f.hidden.at(-1), true, 'late installation cannot unpause the offscreen shared clock');
   f.context.document.hidden = true; f.run('syncThreeDimensionalVisibility();');
   f.context.document.hidden = false; f.run('syncThreeDimensionalVisibility();');
+  assert.deepEqual(f.reclamationHidden, [true, false], 'idle context reclamation tracks document visibility even when the map is offscreen');
   for (const values of [f.dedicatedHidden, f.solarHidden]) assert.equal(values.at(-1), true, 'document visibility cannot resume an offscreen building preparation');
   f.context.document.hidden = true; f.emit([{target: f.container, isIntersecting: true}]);
   assert.equal(f.controlsHidden.at(-1), true); assert.equal(f.hidden.at(-1), true);

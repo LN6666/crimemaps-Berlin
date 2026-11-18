@@ -90,7 +90,10 @@ const sameBoundedFailure=(actual,expected)=>actual instanceof Error&&actual.name
 // group over the page store the renderer's geometry owner uses, with a page-unique content key.
 let tierChunkSequence=0;
 const tierChunkInput=(ctx,rows)=>({store:ctx.geometryOwner.store,groups:[{contentKey:'tier-fixture-source:'+(++tierChunkSequence)+':'+rows.map(row=>row.objectId).join(','),components:rows,parents:[],frame:runtimeModules.load('safety/renderer-chunk-input').rendererChunkFrame(rows[0].origin,'fixture-frame'),cohortKeys:[],materialAuthority:'fixture-material',recipeAuthority:'fixture-recipe',selectedLOD:0}],cohorts:[]});
-const CONSTRUCTED={church:['sourceWorkspace','colourAttributes','chunkStateOwner'],tier300:['tierStateOwner']};
+const CONSTRUCTED={
+ church:['sourceWorkspace','colourAttributes','chunkStateOwner','linkedPaint','programIdleRetirement'],
+ tier300:['tierStateOwner','linkedPaint','programIdleRetirement'],
+};
 // The renderer's own resident GPU lifecycle seam: the hasResident initializer of its createResidentGPULifecycle
 // call (resident chunk scene, candidate chunk scene or tier300 pending data), evaluated on the fixture state.
 function residentSceneSeam(provider,ctx){const js=ts.transpileModule('('+sources[provider].hasResident+')',{compilerOptions:{target:ts.ScriptTarget.ES2022}}).outputText;return Function('env','with(env){return '+js+'}')(new Proxy(ctx,{has:()=>true,get:(target,key)=>key===Symbol.unscopables?undefined:key in target?target[key]:globalThis[key],set:(target,key,value)=>(target[key]=value,true)}));}

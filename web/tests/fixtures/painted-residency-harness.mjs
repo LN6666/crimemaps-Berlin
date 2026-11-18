@@ -144,6 +144,7 @@ export function residencyFixture(provider='root500',{city='leipzig',dependencyOv
   '../../../safety/frozen-data-scope':{...scopeModule,createFrozenDataScope:()=>createScope()},
   '../../../safety/resident-gpu-lifecycle':lifecycle,
   '../../../safety/component-readback':page.load('safety/component-readback'),
+  '../../../safety/prepared-source':preparedSource,
   '../../../safety/utf8-byte-length':utf8,
   '../../../safety/render-runtime/resident-geometry':page.load('safety/render-runtime/resident-geometry'),
   '../../../safety/render-runtime/program-preparation':{...programModule,createProgramPreparationOwner(...args){const owner=programModule.createProgramPreparationOwner(...args);return{...owner,get hasPending(){return owner.hasPending;},get stats(){return owner.stats;},dispose(){disposed++;owner.dispose();},compile(context,recipe){compileRequests.push({resource:recipe.resource,inputs:[...recipe.inputs]});return owner.compile(context,{...recipe,...(recipe.resolveSource?{resolveSource(){const selected=recipe.resolveSource();return{...selected,build:()=>inPhase('compile-build',selected.build)};}}:{}),build:()=>inPhase('compile-build',recipe.build)});},work(context,recipe){return owner.work(context,{...recipe,work:()=>inPhase(recipe.phase??'upload',recipe.work)});}};}},

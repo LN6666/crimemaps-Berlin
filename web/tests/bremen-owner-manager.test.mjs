@@ -30,7 +30,7 @@ const tick=()=>new Promise(resolve=>setImmediate(resolve));
 const signal=()=>new AbortController().signal;
 const deferred=()=>{let resolve,reject;const promise=new Promise((yes,no)=>{resolve=yes;reject=no;});return{promise,resolve,reject};};
 
-const runtime=createSourceModules({allow:id=>['safety/viewport-request','safety/render-runtime/chunk-resource-store','safety/render-runtime/resource-budget','safety/render-runtime/program-preparation','safety/render-runtime/preparation-scheduler','safety/render-runtime/submitted-program-completion','safety/render-runtime/diagnostic-snapshot'].includes(id)});
+const runtime=createSourceModules({allow:id=>['safety/viewport-request','safety/render-runtime/chunk-resource-store','safety/render-runtime/resource-budget','safety/render-runtime/program-preparation','safety/render-runtime/pressure-availability','safety/render-runtime/preparation-scheduler','safety/render-runtime/submitted-program-completion','safety/render-runtime/diagnostic-snapshot'].includes(id)});
 const {createWantedResourceLeases}=runtime.load('safety/viewport-request'),{createChunkResourceStore}=runtime.load('safety/render-runtime/chunk-resource-store'),{createResourceBudget,ResourceBudgetExceededError}=runtime.load('safety/render-runtime/resource-budget');
 const pageStore=()=>createChunkResourceStore({budget:createResourceBudget({limitBytes:64*1024**2,recentLimitBytes:0}),recentMaxEntries:0,recentMaxIdleMs:0});
 const sourceDeclarations=[...['sourceContentKey','sourceResourceKey','bindSourceContent','loadSourceContent','shard'].map(text),variables.get('wantedSources').getText(ast)].join('\n');

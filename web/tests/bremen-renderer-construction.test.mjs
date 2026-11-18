@@ -273,41 +273,104 @@ test('visible colour program failure fails the candidate before geometry publica
  });
 });
 
-// The source marker and chunk packing use admitted scheduler jobs. Async
-// material preparation can cross microtasks before packing is queued. For the
-// packed-before-loss case, drain only that bounded preparation work with a
-// frozen clock; do not render again and consume the ready source marker.
-// The other case advances past the 2 ms slice and loses context before packing.
-function sliceClock(stepMs,run){
- const own=Object.getOwnPropertyDescriptor(performance,'now'),base=performance.now();let now=base;
- performance.now=()=>stepMs?(now+=stepMs):base;
- try{return run();}finally{if(own)Object.defineProperty(performance,'now',own);else delete performance.now;}
-}
-async function sourceReadyAcrossLoss(packedBeforeLoss){
- const h=constructionHarness(),family=h.dependency('../../../safety/family-paint-program'),originalRuns=family.familyPaintRuns;let packs=0;
- family.familyPaintRuns=(...args)=>{packs++;return originalRuns(...args);};
+// Observe the actual CPU lease returned to the renderer. Its pending and ready
+// states separate admission from completed packing without substituting a clock.
+async function sourceReadyAcrossLoss(checkpoint){
+ const h=constructionHarness(),admissions=[],mainLeases=[];
+ const packing=h.dependency('../../root500/safety/chunk-mesh-packing');
+ const acquire=packing.acquirePackedMeshChunk;
+ h.overrideDependency('../../root500/safety/chunk-mesh-packing',{
+  acquirePackedMeshChunk(...args){
+   const lease=acquire(...args);
+   const retain=lease.retain.bind(lease);
+   lease.retain=role=>{
+    const next=retain(role);
+    if(role==='main')mainLeases.push(next);
+    return next;
+   };
+   admissions.push(lease);
+   return lease;
+  },
+ });
+ const family=h.dependency('../../../safety/family-paint-program'),runs=family.familyPaintRuns;
+ let completedPacks=0;
+ family.familyPaintRuns=(...args)=>{const result=runs(...args);completedPacks++;return result;};
  await h.environment(async()=>{
-  const r=h.create(),rows=[component(1)],batch=await r.prepareBatches(rows,new AbortController().signal);h.commit(r,batch,1);batch.release();r.setEnabled(true);r.layer.onAdd({},h.gl);
-  // Execute only the admitted source callback. Its ready marker has not yet
-  // been consumed by another renderer preparation pass.
-  r.layer.render(h.gl,{defaultProjectionData:{}});const first=h.timers.entries().next().value;assert.ok(first);h.timers.delete(first[0]);sliceClock(packedBeforeLoss?0:3,first[1]);
-  if(packedBeforeLoss)for(let step=0;step<64&&packs===0;step++){
-   await Promise.resolve();const queued=h.timers.entries().next().value;
-   if(queued){h.timers.delete(queued[0]);sliceClock(0,queued[1]);}
+  const r=h.create(),rows=[component(1)],batch=await r.prepareBatches(rows,new AbortController().signal);
+  h.commit(r,batch,1);batch.release();r.setEnabled(true);r.layer.onAdd({},h.gl);
+  const frame=()=>r.layer.render(h.gl,{defaultProjectionData:{}});
+  const sourceTurns=()=>h.phaseEvents.filter(phase=>phase==='source-build').length;
+  // Each turn delivers one real scheduler callback, then lets the CPU producer's
+  // promises settle. Rendering here would also consume the marker under test.
+  async function untilScheduled(predicate){
+   const until=performance.now()+5000;
+   while(!predicate()){
+    assert(performance.now()<until,'the scheduled producer did not reach its checkpoint');
+    const next=h.timers.entries().next().value;
+    if(next){h.timers.delete(next[0]);next[1]();}
+    await new Promise(resolve=>setImmediate(resolve));
+   }
   }
-  const before=r.getReadinessDiagnostic(),reads={...h.clients[0]},sourceTurns=h.phaseEvents.filter(phase=>phase==='source-build').length;
-  assert.equal(packs,packedBeforeLoss?1:0,packedBeforeLoss?'bounded unsliced preparation packs the candidate before the loss':'the slice budget yields the turn before the candidate packs');assert.equal(h.timers.size,packedBeforeLoss?0:1,packedBeforeLoss?'nothing is left for another turn':'the deferred packing keeps its scheduled turn');
-  assert.equal(sourceTurns,1);assert.equal(before.candidate.phase,'source-build');assert.equal(before.programPreparation.ready,1);assert.equal(before.programPreparation.pending,0);assert.equal(before.generation,0);assert.equal(before.hasProgram,false);assert.equal(before.hasVAO,false);assert.equal(h.uploads.length,0);assert.equal(batch.scope.stats.pins,2,'the commit pin plus the pending chunk production pin (retainSource)');assert.equal(batch.scope.stats.disposed,false);
-  h.handlers.get('webglcontextlost')();assert.deepEqual(r.getDrawReadiness(),{ready:false,preparing:true});assert.equal(batch.scope.stats.pins,2,'the CPU chunk production and its pin survive the GPU loss');assert.equal(batch.scope.stats.disposed,false);assert.equal(r.getSourceComponent(rows[0]),undefined,'candidate SOURCE is not published during loss');
-  h.handlers.get('webglcontextrestored')();await h.flush(r,()=>r.getRevision().generation===1&&h.uploads.length===5);
-  assert.deepEqual(r.getDrawReadiness(),{ready:false,preparing:true},'published; the per-view main preparation waits for the next matrix frame');const published=r.getReadinessDiagnostic();assert.equal(packs,1,'the candidate packs exactly once across the loss and recovery');
-  if(packedBeforeLoss){assert.equal(h.phaseEvents.filter(phase=>phase==='source-build').length,sourceTurns+1,'a no-op source callback re-establishes the marker in the new epoch');assert.equal(published.programPreparation.ready,0,'both the source marker and terminal geometry work are consumed');}
-  else{assert.equal(h.phaseEvents.filter(phase=>phase==='source-build').length,sourceTurns+2,'the deferred packing turn and the no-op source callback of the new epoch');assert.equal(published.programPreparation.ready,1,'the extra source marker of the deferred packing waits for the next frame');}
-  assert.equal(h.clients[0].admissionBorrows,reads.admissionBorrows);assert.equal(h.clients[0].modelBorrows,reads.modelBorrows);assert.equal(h.clients[0].acquires,reads.acquires);assert.equal(h.gpu.sourceBuilds,1,'only the recovered shader is constructed');assert.equal(published.hasProgram,true);assert.equal(published.hasVAO,true);assert.equal(published.candidate,undefined);assert.equal(published.programPreparation.pending,0);const source=r.borrowSourceComponent(rows[0]);assert.strictEqual(source.batches,rows[0].batches);assert.strictEqual(source.sourceFeature,rows[0].sourceFeature);assert.strictEqual(source.componentGeometry,rows[0].componentGeometry);assert.strictEqual(r.borrowSurfaceComponent(rows[0]).batches[0].positions,rows[0].batches[0].positions);assert.equal(batch.scope.stats.pins,1);assert.equal(h.buffers.size,5);
-  r.layer.render(h.gl,{defaultProjectionData:{mainMatrix:[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]}});assert.deepEqual(r.getDrawReadiness(),{ready:true,preparing:false});assert.equal(r.getReadinessDiagnostic().programPreparation.ready,0,'the matrix frame consumes the last ready entry');assert.equal(packs,1);assert.equal(h.gpu.sourceBuilds,1);r.destroy();assertReleasedSourcePlans(h);assert.equal(batch.scope.stats.disposed,true);h.drainPage();
+  frame();
+  await untilScheduled(()=>r.getReadinessDiagnostic().programPreparation.ready===1);
+  const marked=r.getReadinessDiagnostic();
+  assert.equal(sourceTurns(),1);assert.equal(marked.candidate.phase,'source-build');
+  assert.equal(marked.programPreparation.pending,0);
+  assert.equal(admissions.length,0,'a ready source marker is consumed by the next renderer frame');
+  assert.equal(completedPacks,0);
+  if(checkpoint!=='source-marker'){
+   frame();
+   assert.equal(admissions.length,1,'source consumption admits the CPU chunk');
+   assert.equal(admissions[0].state,'preparing');
+   assert.equal(admissions[0].value,undefined);
+   assert.equal(completedPacks,0);
+   assert.equal(batch.scope.stats.pins,2,'candidate and in-flight producer each own their source');
+   if(checkpoint==='packed')await untilScheduled(()=>admissions[0].state==='ready');
+  }
+  const packed=checkpoint==='packed',before=r.getReadinessDiagnostic(),reads={...h.clients[0]};
+  const cpuBefore=admissions[0]?.value;
+  assert.equal(completedPacks,packed?1:0);
+  assert.equal(before.programPreparation.ready,checkpoint==='source-marker'?1:0);
+  assert.equal(before.generation,0);assert.equal(before.hasProgram,false);assert.equal(before.hasVAO,false);
+  assert.equal(h.uploads.length,0);assert.equal(h.gpu.sourceBuilds,0);
+  const pins=batch.scope.stats.pins;
+  assert.equal(pins,checkpoint==='admitted'?2:1);
+  h.control.lost=true;h.handlers.get('webglcontextlost')();
+  assert.deepEqual(r.getDrawReadiness(),{ready:false,preparing:true});
+  assert.equal(batch.scope.stats.pins,pins);assert.equal(batch.scope.stats.disposed,false);
+  assert.equal(r.getSourceComponent(rows[0]),undefined,'context loss cannot publish an incomplete candidate');
+  h.control.lost=false;h.handlers.get('webglcontextrestored')();
+  await h.flush(r,()=>r.getRevision().generation===1&&h.uploads.length===5);
+  const published=r.getReadinessDiagnostic();
+  assert.deepEqual(r.getDrawReadiness(),{ready:false,preparing:true});
+  assert.equal(completedPacks,1,'one successful CPU packing across the loss and recovery');
+  assert.equal(admissions.at(-1).state,'released','publication transfers the candidate lease to the main scene');
+  assert.equal(mainLeases.length,1);assert.equal(mainLeases[0].state,'ready');
+  // A marker lost before consumption is reissued. A pending CPU job needs a
+  // fresh admission on the restored context; a completed CPU mesh needs neither.
+  assert.equal(sourceTurns(),packed?1:2);
+  assert.equal(published.programPreparation.ready,0,'publication consumes the last source and geometry markers');
+  assert.equal(admissions.length,checkpoint==='admitted'?2:1);
+  for(const lease of admissions)assert.equal(lease.contentKey,mainLeases[0].contentKey);
+  assert.equal(h.clients[0].admissionBorrows,reads.admissionBorrows+(checkpoint==='source-marker'?1:0));
+  assert.equal(h.clients[0].modelBorrows,reads.modelBorrows);
+  if(packed)assert.strictEqual(mainLeases[0].value,cpuBefore,'the recovered candidate reuses the already packed CPU mesh');
+  assert.equal(h.clients[0].acquires,reads.acquires,'context recovery does not reacquire source assets');
+  assert.equal(h.gpu.sourceBuilds,1,'only the recovered shader is constructed');
+  assert.equal(published.hasProgram,true);assert.equal(published.hasVAO,true);
+  assert.equal(published.candidate,undefined);assert.equal(published.programPreparation.pending,0);
+  const source=r.borrowSourceComponent(rows[0]);
+  assert.strictEqual(source.batches,rows[0].batches);assert.strictEqual(source.sourceFeature,rows[0].sourceFeature);
+  assert.strictEqual(source.componentGeometry,rows[0].componentGeometry);
+  assert.strictEqual(r.borrowSurfaceComponent(rows[0]).batches[0].positions,rows[0].batches[0].positions);
+  assert.equal(batch.scope.stats.pins,1);assert.equal(h.buffers.size,5);
+  r.layer.render(h.gl,{defaultProjectionData:{mainMatrix:[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]}});
+  assert.deepEqual(r.getDrawReadiness(),{ready:true,preparing:false});assert.equal(r.getReadinessDiagnostic().programPreparation.ready,0);
+  assert.equal(completedPacks,1);assert.equal(h.gpu.sourceBuilds,1);
+  r.destroy();assertReleasedSourcePlans(h);assert.equal(batch.scope.stats.disposed,true);h.drainPage();
  });
 }
 
-test('source-ready candidate recovers across context loss before marker consumption without packing again',()=>sourceReadyAcrossLoss(true));
-
-test('source-ready candidate whose packing the slice budget deferred recovers across context loss and packs exactly once',()=>sourceReadyAcrossLoss(false));
+test('source-ready candidate recovers when loss precedes marker consumption',()=>sourceReadyAcrossLoss('source-marker'));
+test('source-ready candidate recovers between actual chunk admission and CPU packing',()=>sourceReadyAcrossLoss('admitted'));
+test('source-ready candidate recovers the already packed CPU chunk without repacking',()=>sourceReadyAcrossLoss('packed'));

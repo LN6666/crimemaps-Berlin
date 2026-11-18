@@ -15,11 +15,14 @@ function bind(source,bindings){
 // The result accounting and caller-frame policy are the production helpers.
 const solarShadowPreparation=bind(declaration('../src/safety/solar-shadow-preparation.ts','solarShadowPreparation'),{});
 const needsFrame=bind(declaration('../src/safety/solar-shadow-preparation.ts','solarShadowPreparationNeedsFrame'),{});
+const groupsModule={exports:{}};
+const groupsSource=fs.readFileSync(new URL('../src/safety/current-paint-program-groups.ts',import.meta.url),'utf8');
+Function('exports',ts.transpileModule(groupsSource,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS}}).outputText)(groupsModule.exports);
 
 for(const provider of ['city','tier300'])test(provider+' reflection preserves terminal capture failure and keeps unspecified blocks retryable',()=>{
  const source=declaration(`../src/painted/${provider}/safety/building-mesh-renderer.ts`,'preparePlanarReflection'),gl={isContextLost:()=>false},program={};let snapshot;
  const prepare=bind(source,{
-  solarShadowPreparation,reflectionDemandToken:'reflection',destroyed:false,pageHidden:false,enabled:true,
+  solarShadowPreparation,linkedPaint:groupsModule.exports.currentPaintProgramGroups(provider,'berlin'),reflectionDemandToken:'reflection',destroyed:false,pageHidden:false,enabled:true,
   sceneIndexCount:()=>3,opacityContext:'normal',opacity:1,overrideProgramKey:()=>undefined,currentPaintProgramKey:()=> 'base',paintMode:()=>2,
   familyRuns:[{key:'base',firstIndex:0,indexCount:3}],c290RoofComponent:()=>undefined,c290ProgramRuns:()=>[],sceneChunks:[],
   planResidentReflectionChunks:()=>({plan:[{program:'base'}],triangles:1,draws:1,components:[]}),replaceCaptureKeys(){},

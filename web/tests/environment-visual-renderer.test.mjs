@@ -290,6 +290,23 @@ test('managed environment reads only real viewport/depth inputs before submittin
  r.layer.render(gl,sceneProjection);assert.deepEqual(calls.filter(c=>c[0]==='get'),[['get',gl.VIEWPORT],['get',gl.DEPTH_RANGE]]);assert(calls.findIndex(c=>c[0]==='draw')>calls.findIndex(c=>c[1]===gl.DEPTH_RANGE));assert.equal(r.stats.renderFailure,undefined);assert(gl.draws.length>0);r.destroy();
 });
 
+test('native draws recover a fresh viewport after the regional pass fails',async(t)=>{
+ const reports=[],{r,gl,point,water}=await rendererFixture({onRenderError:error=>reports.push(error)});
+ const green={...water,id:'osm/way/99',properties:{...water.properties,kind:'green'}};
+ r.setFeatures([point,water,green],[13.3,52.4,13.5,52.6],new Set([water]));
+ r.setSceneEnvironment({instantISO:'2026-06-21T12:00:00+02:00',sunlight:true,shadows:false,motion:true,quality:'balanced'});
+ const viewport=[19,31,1920,1200],failure=Error('regional viewport unavailable'),get=gl.getParameter;
+ let reads=0;
+ gl.getParameter=key=>{if(key!==gl.VIEWPORT)return get(key);if(++reads===1)throw failure;return viewport;};
+ t.mock.method(console,'error',()=>{});
+ try{
+  r.layer.render(gl,sceneProjection);
+  assert.deepEqual(reports,[failure]);assert.equal(reads,2);
+  assert.deepEqual(Array.from(gl.uniforms.get('u_green_viewport')),viewport);
+  assert(gl.draws.length>0);
+ }finally{r.destroy();}
+});
+
 test('a render error is reported once, stops motion and returns through the actual MapLibre reset boundary',async(t)=>{
  const reports=[],{r,gl}=await rendererFixture({onRenderError:error=>reports.push(error)});r.setSceneEnvironment({instantISO:'2026-06-21T12:00:00+02:00',sunlight:true,shadows:false,motion:true,quality:'balanced'});
  const error=Error('controlled environment draw failure');gl.drawElementsInstanced=()=>{throw error;};const logs=t.mock.method(console,'error',()=>{}),events=[];
@@ -306,11 +323,11 @@ test('manager render-error callback aborts pending publication and preserves its
  // Stage-2 environment CDR[2]: the extracted callback also sees the manager's real admission
  // observer and the real EnvironmentResourceUnfitError class (the same bindings the manager has),
  // so renderFailed may count a deferred-frame unfit refusal without this test re-reading its text.
- const {createSourceModules}=await import('./support/fixtures-managers-b-source-modules.mjs'),budgetModule=createSourceModules({allow:id=>['safety/render-runtime/diagnostic-snapshot','safety/environment-resource-budget','safety/render-runtime/chunk-resource-store','safety/render-runtime/resource-budget','safety/render-runtime/program-preparation','safety/render-runtime/preparation-scheduler','safety/render-runtime/submitted-program-completion','safety/building-payload-cost','safety/resource-byte-transport'].includes(id)}).load('safety/environment-resource-budget');
+ const {createSourceModules}=await import('./support/fixtures-managers-b-source-modules.mjs'),budgetModule=createSourceModules({allow:id=>['safety/render-runtime/diagnostic-snapshot','safety/environment-resource-budget','safety/render-runtime/chunk-resource-store','safety/render-runtime/resource-budget','safety/render-runtime/program-preparation','safety/render-runtime/pressure-availability','safety/render-runtime/preparation-scheduler','safety/render-runtime/submitted-program-completion','safety/building-payload-cost','safety/resource-byte-transport'].includes(id)}).load('safety/environment-resource-budget');
  const admission=budgetModule.createEnvironmentAdmissionStats('environment-scene',()=>0,()=>0);
- let disabled=false,handoffReleases=0;const values={request:new AbortController(),revision:3,renderer:{setEnabled:v=>{disabled=!v;}},state:'ready',lastError:undefined,releaseHandoff:()=>{handoffReleases++;},admission,EnvironmentResourceUnfitError:budgetModule.EnvironmentResourceUnfitError};
+ let disabled=false,handoffReleases=0,meshReleases=0;const values={request:new AbortController(),revision:3,renderer:{setEnabled:v=>{disabled=!v;}},state:'ready',lastError:undefined,releaseMeshDemand:()=>{meshReleases++;},releaseHandoff:()=>{handoffReleases++;},admission,EnvironmentResourceUnfitError:budgetModule.EnvironmentResourceUnfitError};
  const env=new Proxy(values,{has:()=>true,get:(o,k)=>k===Symbol.unscopables?undefined:k in o?o[k]:globalThis[k],set:(o,k,v)=>(o[k]=v,true)}),fail=Function('env','with(env){return '+code+'}')(env);fail(Error('actual draw failed'));
- assert.equal(values.request.signal.aborted,true);assert.equal(values.revision,4);assert.equal(disabled,true);assert.equal(values.state,'error');assert.equal(values.lastError,'actual draw failed');assert.equal(handoffReleases,1);assert(source.includes('onRenderError:renderFailed'));
+ assert.equal(values.request.signal.aborted,true);assert.equal(values.revision,4);assert.equal(disabled,true);assert.equal(values.state,'error');assert.equal(values.lastError,'actual draw failed');assert.equal(handoffReleases,1);assert.equal(meshReleases,1);assert(source.includes('onRenderError:renderFailed'));
 });
 
 

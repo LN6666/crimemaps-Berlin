@@ -294,7 +294,8 @@ export function createEnvironmentSceneRenderer(map:SceneMap,{mobile=false,id='na
  if(destroyed||!gl)return;if(!enabled||!visible||offscreen){regionalTarget?.step();hardTarget?.step();return;}
  const main='defaultProjectionData'in args?args.defaultProjectionData?.mainMatrix:args as ArrayLike<number>;if(!main||main.length!==16)return;
  let regionalDrawn=false,hardDrawn=false;hardCaptureStale=false;
- try{const viewport=gl.getParameter(gl.VIEWPORT);if(gl.isContextLost()||!viewport||viewport.length!==4||viewport[2]<=0||viewport[3]<=0)return;
+ let viewport:Int32Array|undefined;
+ try{viewport=gl.getParameter(gl.VIEWPORT);if(gl.isContextLost()||!viewport||viewport.length!==4||viewport[2]<=0||viewport[3]<=0)return;
   // Compute a SAME-origin frame independently of the native publication. The
   // regional-only first frame has never called setFeatures/setGroundMesh, so
   // native anchor=[0,0]/unit=1 must never be paired with the city origin.
@@ -310,7 +311,7 @@ export function createEnvironmentSceneRenderer(map:SceneMap,{mobile=false,id='na
    // when none are available retain the old far capture as partial evidence.
    if(captureMatches||!hardRanges.length){hardDrawn=hardTarget.draw(matrix,{direction:sun.direction,daylight:sun.daylight,enabled:sceneEnvironment.sunlight});if(hardDrawn)draws++;}
   }
- }catch(error){regionalController?.cancel();regionalTarget?.cancel(String(error));hardController?.cancel();hardTarget?.cancel(String(error));console.error('Regional ground display failed',error);onRenderError?.(error);}
+ }catch(error){viewport=undefined;regionalController?.cancel();regionalTarget?.cancel(String(error));hardController?.cancel();hardTarget?.cancel(String(error));console.error('Regional ground display failed',error);onRenderError?.(error);}
  // Native water/trees retain their programs and resident publication. Coverage
  // can still progress while that independent allocation waits on its ledger.
  if(!treeVao&&gpuDeferred&&(gpuWait||!allocateDeferredGPU()))return;if(!program||!treeVao||!waterVao)return;
@@ -318,7 +319,8 @@ export function createEnvironmentSceneRenderer(map:SceneMap,{mobile=false,id='na
   // returns. Keep only real frame inputs and untracked line width, not a full
   // synchronous GL snapshot. Nested reflection/shadow helpers still restore us.
   let previousLineWidth:number|undefined;
-  try{const viewport=gl.getParameter(gl.VIEWPORT);if(gl.isContextLost()||!viewport||viewport.length!==4||viewport[2]<=0||viewport[3]<=0)return;
+  // The regional targets restore the viewport before returning to native draws.
+  try{viewport??=gl.getParameter(gl.VIEWPORT);if(gl.isContextLost()||!viewport||viewport.length!==4||viewport[2]<=0||viewport[3]<=0)return;
   const depthRange=greenIndices||hardIndices?gl.getParameter(gl.DEPTH_RANGE):undefined;if(gl.isContextLost())return;
   if(lineIndices){previousLineWidth=gl.getParameter(gl.LINE_WIDTH);if(gl.isContextLost())return;}
   const reflected=reflection.capture(gl,{mainMatrix:main,viewportWidth:viewport[2],viewportHeight:viewport[3],planeWorldZ:.02/unit,quality,appearanceKey:sceneEnvironment.sunlight?sun.instantISO+'|sunlight':'surface-light-disabled',enabled:triIndices>0});if(gl.isContextLost())return;

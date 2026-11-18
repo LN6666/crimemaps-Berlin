@@ -76,6 +76,11 @@ export function constructionHarness(rendererSource=fs.readFileSync(rendererPath,
   // assembly budgets are page runtime infrastructure: actual modules of the same
   // runtime (one chunk store and ledger), like program preparation and geometry.
   '../../../safety/renderer-chunk-input':runtimeModule('safety/renderer-chunk-input.ts'),
+  '../../../safety/partition-program-groups':runtimeModule('safety/partition-program-groups.ts'),
+  '../../../safety/render-runtime/resident-draw-range':runtimeModule('safety/render-runtime/resident-draw-range.ts'),
+  '../../../safety/render-runtime/resident-index-convention':runtimeModule('safety/render-runtime/resident-index-convention.ts'),
+  '../../../safety/render-runtime/chunk-admission':runtimeModule('safety/render-runtime/chunk-admission.ts'),
+  '../../../safety/paint-program-idle-retirement':runtimeModule('safety/paint-program-idle-retirement.ts'),
   '../../../safety/resource-content-key':runtimeModule('safety/resource-content-key.ts'),
   './bremen-display-derivations':runtimeModule('painted/bremen/safety/bremen-display-derivations.ts'),
   './shared-paint-recipe':runtimeModule('painted/bremen/safety/shared-paint-recipe.ts'),

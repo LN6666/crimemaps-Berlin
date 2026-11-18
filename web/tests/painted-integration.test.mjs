@@ -117,7 +117,11 @@ test('packed geometry/material tables retain every original byte of numeric data
     const start=at+11;assert.equal(source[start],'"',row.path);
     let end=start+1;while(end<source.length){if(source[end]==='\\'){end+=2;continue;}if(source[end++]==='"')break;}
     const literal=JSON.parse(source.slice(start,end));
-    assert.equal(createHash('sha256').update(literal).digest('hex'),row.sha256,row.path+' '+row.variable);
+    // Embedded JSON may carry public provenance labels. The original source
+    // fingerprint remains recorded separately from the exact bytes shipped.
+    const expected=row.publicLiteral??{sha256:row.sha256,bytes:row.literalBytes};
+    assert.equal(Buffer.byteLength(literal),expected.bytes,row.path+' '+row.variable+' length');
+    assert.equal(createHash('sha256').update(literal).digest('hex'),expected.sha256,row.path+' '+row.variable);
   }
 });
 test('pinned final assets use immutable content addresses within each implementation',async()=>{
