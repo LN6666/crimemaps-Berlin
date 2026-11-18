@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.57.0",
-    "@types/node": "^22.20.4",
+    "@types/node": "^26.6.5",
     "prettier": "^3.6.2",
     "tsrs": "0.25.0-ts7.1.0-beta",
     "typescript": "^5.9.3",
