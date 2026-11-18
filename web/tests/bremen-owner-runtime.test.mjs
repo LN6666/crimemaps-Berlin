@@ -148,9 +148,36 @@ for(const action of ['abort','clear','dispose'])test(`${action} settles an adapt
 });
 
 test('synchronous preparation-adapter failure removes listeners and leaves no late value publication',async t=>{
- const f=fixture(t),runtime=f.runtime(),controller=new AbortController(),failure=Error('synthetic synchronous adapter failure'),add=controller.signal.addEventListener.bind(controller.signal),remove=controller.signal.removeEventListener.bind(controller.signal);let listeners=0;
- controller.signal.addEventListener=(type,...args)=>{if(type==='abort')listeners++;return add(type,...args);};controller.signal.removeEventListener=(type,...args)=>{if(type==='abort')listeners--;return remove(type,...args);};
- await assert.rejects(runtime.prepare(f.rows,controller.signal,()=>{throw failure;}),error=>error===failure);await tick();assert.equal(listeners,0);assert.equal(runtime.stats.preparing,0);assert.equal(runtime.stats.publications,0);unprepared(runtime);drained(f.store);await runtime.prepare(f.rows,signal());assert.equal(runtime.stats.prepared,true);runtime.clearResident();await tick();drained(f.store);
+ const lateRead=deferred();
+ const f=fixture(t,{reader:({bytes,read})=>read===1?lateRead.promise.then(()=>bytes):bytes});
+ t.after(()=>lateRead.resolve());
+ const runtime=f.runtime(),controller=new AbortController(),failure=Error('synthetic synchronous adapter failure');
+ const add=controller.signal.addEventListener.bind(controller.signal),remove=controller.signal.removeEventListener.bind(controller.signal);
+ let listeners=0;
+ controller.signal.addEventListener=(type,...args)=>{if(type==='abort')listeners++;return add(type,...args);};
+ controller.signal.removeEventListener=(type,...args)=>{if(type==='abort')listeners--;return remove(type,...args);};
+ await assert.rejects(runtime.prepare(f.rows,controller.signal,()=>{throw failure;}),error=>error===failure);
+ await tick();
+ assert.equal(listeners,0);
+ assert.equal(runtime.stats.preparing,0);
+ assert.equal(runtime.stats.publications,0);
+ unprepared(runtime);
+ assert.equal(f.store.stats.valueCells,0);
+ assert.equal(f.store.stats.leases,0);
+ // The abandoned read owns its ingress slot until it settles. Release the
+ // fixture read explicitly before asserting that the entire store drained.
+ assert.equal(f.reads,1);
+ assert.equal(f.store.stats.active,1);
+ lateRead.resolve();
+ await tick();
+ assert.equal(f.store.stats.parses,0);
+ assert.equal(runtime.stats.publications,0);
+ drained(f.store);
+ await runtime.prepare(f.rows,signal());
+ assert.equal(runtime.stats.prepared,true);
+ runtime.clearResident();
+ await tick();
+ drained(f.store);
 });
 
 test('adapter failure after acquire and changed-resource adapter cannot leak or publish readiness',async t=>{
