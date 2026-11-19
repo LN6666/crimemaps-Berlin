@@ -17,6 +17,21 @@ This is an early open-source version, with plenty still to improve. Coverage, pl
 
 [Reading the map](#read) · [Sources](#sources) · [Run locally](#run) · [Updates](#updates) · [Privacy and feedback](#privacy) · [Visits by country](#stats) · [Other cities](#cities) · [License](#license)
 
+## Landmarks in 3D
+
+Follow the glass dome of the Reichstag, the domes of Berlin Cathedral and the twin spires of Cologne Cathedral from photographs into the map. Geometry gives each building its silhouette. Surface shaders draw the window rows, frames and material joints.
+
+| Photograph | CrimeMaps 3D |
+| :--- | :--- |
+| [![Reichstag · Berlin · Photograph · Stone façade and central glass dome](docs/assets/facades/reichstag-photo.jpg)](docs/assets/facades/reichstag-photo.jpg) | [![Reichstag · Berlin · CrimeMaps 3D · Stone façade and central glass dome](docs/assets/facades/reichstag-map.jpg)](docs/assets/facades/reichstag-map.jpg) |
+| **Reichstag · Berlin** · [Jörg Braukmann](https://commons.wikimedia.org/wiki/File:Reichstagsgeb%C3%A4ude_(Westfassade).jpg) · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | Stone façade and central glass dome |
+| [![Berlin Cathedral · Berlin · Photograph · Central dome and surrounding towers](docs/assets/facades/berlin-dom-photo.jpg)](docs/assets/facades/berlin-dom-photo.jpg) | [![Berlin Cathedral · Berlin · CrimeMaps 3D · Central dome and surrounding towers](docs/assets/facades/berlin-dom-map.jpg)](docs/assets/facades/berlin-dom-map.jpg) |
+| **Berlin Cathedral · Berlin** · [Ansgar Koreng](https://commons.wikimedia.org/wiki/File:141227_Berliner_Dom.jpg) · [CC BY 3.0 de](https://creativecommons.org/licenses/by/3.0/de/deed.en) | Central dome and surrounding towers |
+| [![Cologne Cathedral · Cologne · Photograph · Twin western spires and nave](docs/assets/facades/cologne-dom-photo.jpg)](docs/assets/facades/cologne-dom-photo.jpg) | [![Cologne Cathedral · Cologne · CrimeMaps 3D · Twin western spires and nave](docs/assets/facades/cologne-dom-map.jpg)](docs/assets/facades/cologne-dom-map.jpg) |
+| **Cologne Cathedral · Cologne** · [Raimond Spekking](https://commons.wikimedia.org/wiki/File:K%C3%B6lner_Dom_-_Westfassade_2022_ohne_Ger%C3%BCst-0968_b.jpg) · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | Twin western spires and nave |
+
+**[Explore the illustrated guide · 中文](docs/building-facades.md)**
+
 <a id="status"></a>
 
 ## Project status
