@@ -17,7 +17,7 @@ node scripts/city-data-profile.mjs generate \
   --city berlin
 ```
 
-Every `--asset-root` contains `safety/buildings3d/painted-tables/`. Roots can be repeated. The requested city must match `city-config.json` when building. Use an absolute profile path because the build command runs in `web/`:
+Every `--asset-root` contains `safety/buildings3d/painted-tables/`. Roots can be repeated. Berlin generates `city-data-v5` by default. It publishes the three F033 DISPLAY groups independently and loads F029 DISPLAY by the native carriers present. A large F029 batch can span multiple files. The profile gate reconstructs both original table hashes from the parts and checks the original empty F029 parent group. The requested city must match `city-config.json` when building. Use an absolute profile path because the build command runs in `web/`:
 
 ```sh
 CRIMEMAPS_CITY_PROFILE="$PWD/.runtime/city-data/berlin/profile.json" \

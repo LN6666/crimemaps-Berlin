@@ -9,7 +9,7 @@ import {PRESSURE_AVAILABILITY_LIMITS,registerPressureAvailability,type PressureS
 
 export type FrozenDataDescriptor={path:string;sha256:string;bytes:number;transport?:{path:string;sha256:string;bytes:number;encoding:'gzip'}};
 export type FrozenDataPart={descriptor:FrozenDataDescriptor;keys:readonly string[];rowIndices?:readonly number[];oversizedAtomic?:true};
-export type FrozenDataPartition={schemaVersion:1;kind:'object-rows'|'record-keys';parts:readonly FrozenDataPart[]}|{
+export type FrozenDataPartition={schemaVersion:1;kind:'object-rows'|'record-keys'|'batch-record'|'batch-fragments';parts:readonly FrozenDataPart[]}|{
  schemaVersion:1;kind:'model-envelope'|'group-envelope';parts:readonly FrozenDataPart[];envelope:Record<string,unknown>;
  /** Offline canonical-byte verification only; never contains model bodies. */
  sourceLayout:{prefix:string;suffix:string;separators:readonly string[]};
@@ -857,10 +857,40 @@ export function createFrozenDataLeaseStore(descriptors:readonly FrozenDataDescri
     });
     rows.sort((a,b)=>a.index-b.index);return rows.map(row=>row.value);
    }
+   if(partition.kind==='batch-fragments'){
+    // The fragments own the underlying arrays. Reassemble only the carrier
+    // and batch metadata here, retaining the original leases as parents.
+    const groups=new Map<string,Record<string,unknown>[]>();
+    for(const {part,lease} of selected)lease.borrow(value=>{
+     const [key]=part.keys,indices=part.rowIndices;
+     if(part.keys.length!==1||!indices||!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).length!==1||!Object.hasOwn(value,key))throw Error('Frozen batch fragment key mismatch');
+     const fragments=(value as Record<string,unknown>)[key];
+     if(!Array.isArray(fragments)||fragments.length!==indices.length)throw Error('Frozen batch fragment count mismatch');
+     let rows=groups.get(key);if(!rows){rows=[];groups.set(key,rows);}
+     for(let i=0;i<indices.length;i++){
+      const index=indices[i],fragment=fragments[i];
+      if(!Number.isSafeInteger(index)||index<0||index>rows.length||!fragment||typeof fragment!=='object'||Array.isArray(fragment))throw Error('Invalid frozen batch fragment');
+      const row=rows[index]??=(Object.create(null) as Record<string,unknown>);
+      for(const [field,cell] of Object.entries(fragment)){
+       if(Object.hasOwn(row,field))throw Error('Duplicate frozen batch field');
+       row[field]=cell;
+      }
+     }
+    });
+    return Object.fromEntries([...groups].map(([key,rows])=>[key,rows.map(row=>({...row}))]));
+   }
    const values:[string,unknown][]=[];
    for(const {part,lease}of selected)lease.borrow(value=>{
     if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).length!==part.keys.length)throw Error('Frozen data partition record count mismatch');
-    for(const key of part.keys){if(!Object.hasOwn(value,key)||typeof (value as Record<string,unknown>)[key]!=='string')throw Error('Frozen data partition record binding mismatch');values.push([key,(value as Record<string,unknown>)[key]]);}
+    const record=value as Record<string,unknown>;
+    for(const key of part.keys){
+     const row=record[key];
+     const valid=partition.kind==='batch-record'
+      ?Array.isArray(row)&&row.length>0&&row.every(batch=>batch&&typeof batch==='object'&&!Array.isArray(batch))
+      :typeof row==='string';
+     if(!Object.hasOwn(record,key)||!valid)throw Error('Frozen data partition record binding mismatch');
+     values.push([key,row]);
+    }
    });
    return Object.fromEntries(values);
   }
@@ -988,7 +1018,8 @@ export function createFrozenDataLeaseStore(descriptors:readonly FrozenDataDescri
     if(!partition)return acquireEntry<T>(identity,descriptor,signal,role);
     const wanted=keys===undefined?undefined:new Set(keys),parts=partition.parts.filter(part=>wanted===undefined||part.keys.some(key=>wanted.has(key)));
     const physicalParts=parts.map(part=>{const physical=registry.get(part.descriptor.sha256);if(!physical)throw Error('Unknown frozen data partition');return physical;});
-    const count=parts.reduce((n,part)=>n+part.keys.length,0),metadataBytes=256+count*128,contentKey=JSON.stringify(['frozen-composition-v2',ownerKey,identity.city,identity.profileSHA256,identity.canonicalSHA256,identity.file,identity.occurrence,partition.kind,parts.map(part=>part.descriptor.sha256)]);
+    const count=parts.reduce((n,part)=>n+part.keys.length,0),fragmentRows=partition.kind==='batch-fragments'?parts.reduce((n,part)=>n+(part.rowIndices?.length??0),0):0;
+    const metadataBytes=256+count*128+fragmentRows*512,contentKey=JSON.stringify(['frozen-composition-v2',ownerKey,identity.city,identity.profileSHA256,identity.canonicalSHA256,identity.file,identity.occurrence,partition.kind,parts.map(part=>part.descriptor.sha256)]);
     const create=()=>resources.acquire<ValueCell>({contentKey,role,allowRecent:false,estimate:{category:'metadata',bytes:metadataBytes,precision:'estimate',label:'selected frozen row/envelope containers'},
       async produce(context){
        // Production owns its own dependencies. It must not capture a waiting

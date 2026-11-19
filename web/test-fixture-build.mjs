@@ -15,6 +15,11 @@ try {
     await cp(join(web, path), join(fixtureWeb, path), {recursive:true});
   await symlink(resolve(web, "node_modules"), join(fixtureWeb, "node_modules"), "dir");
   await cp(resolve(web, "../config"), join(temporary, "config"), {recursive:true});
+  // Vite and the fixture typecheck need both the decoder and its declaration.
+  const scripts = join(temporary, "scripts");
+  await mkdir(scripts);
+  for (const path of ["city-data-profile-wire.mjs", "city-data-profile-wire.d.mts"])
+    await cp(resolve(web, "../scripts", path), join(scripts, path));
   await mkdir(join(temporary, "data", "safety"), {recursive:true});
   await cp(resolve(web, "../data/safety/berlin_kbo.json"), join(temporary, "data", "safety", "berlin_kbo.json"));
   // The lazy statistics card imports the shared inert renderer. Preserve the

@@ -18,6 +18,7 @@ test('the packaged Google ownership file belongs only to the Berlin site', async
     mkdirSync(source);
     mkdirSync(dist);
     copyFileSync(join(web, 'vite.config.ts'), join(source, 'vite.config.ts'));
+    symlinkSync(join(web, '../scripts'), join(root, 'scripts'), 'dir');
     for (const item of ['src', 'node_modules', 'package.json', 'frozen-initializer-chunks.json']) {
       symlinkSync(join(web, item), join(source, item));
     }

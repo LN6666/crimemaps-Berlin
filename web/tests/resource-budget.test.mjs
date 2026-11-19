@@ -44,7 +44,7 @@ test('resource budget keeps a rejected adjustment intact and admits new work onl
 
 test('resource budget enforces recent as a subset of total and shares one configured desktop or mobile page ledger',()=>{
  const MiB=1024*1024,desktop=createResourceBudget(),mobile=createResourceBudget({profile:'mobile'});
- assert.equal(desktop.stats.limitBytes,1_500_000_000,'desktop page ledger default is decimal 1.5 GB (owner decision 2026-11-12)');assert.equal(desktop.stats.recentLimitBytes,32*MiB);assert.equal(mobile.stats.limitBytes,256*MiB);assert.equal(mobile.stats.recentLimitBytes,16*MiB);assert.equal(desktop.stats.physicalMemory,'unmeasured');assert(desktop.stats.unmeasured.some(row=>row.category==='unmeasured-driver'));
+ assert.equal(desktop.stats.limitBytes,1_500_000_000,'desktop page ledger default is decimal 1.5 GB (owner decision 2026-11-12)');assert.equal(desktop.stats.recentLimitBytes,32*MiB);assert.equal(mobile.stats.limitBytes,512*MiB);assert.equal(mobile.stats.recentLimitBytes,16*MiB);assert.equal(desktop.stats.physicalMemory,'unmeasured');assert(desktop.stats.unmeasured.some(row=>row.category==='unmeasured-driver'));
  const budget=createResourceBudget({limitBytes:100,recentLimitBytes:25}),live=budget.reserve(cost(70,{})),idle=budget.reserve(cost(20,{},'packed'),{recent:true});let extra;
  try{
   const recent=budget.tryReserve(cost(10,{},'packed'),{recent:true}),total=budget.tryReserve(cost(11,{}));assert.equal(recent.ok,false);assert.equal(recent.error.constraint,'recent');assert.equal(recent.error.recentRequired,30);assert.equal(total.ok,false);assert.equal(total.error.constraint,'total');assert.equal(total.error.required,101);assert.equal(budget.stats.bytes,90);

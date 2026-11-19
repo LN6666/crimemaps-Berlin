@@ -132,10 +132,10 @@ test('two tables on a page that fits each read but no private clone are both rep
  m.destroy();await drainedLeases(assert,resources,m);
 });
 
-test('owner decision 2026-11-12: the desktop page ledger defaults to decimal 1.5 GB; mobile and the recent subsets are unchanged',()=>{
+test('the desktop ledger defaults to decimal 1.5 GB and mobile defaults to 512 MiB with the original recent subsets',()=>{
  const desktop=api.createResourceBudget(),explicit=api.createResourceBudget({profile:'desktop'}),mobile=api.createResourceBudget({profile:'mobile'});
  assert.equal(desktop.stats.limitBytes,1_500_000_000);assert.equal(explicit.stats.limitBytes,1_500_000_000);assert.equal(desktop.stats.recentLimitBytes,32*MiB);
- assert.equal(mobile.stats.limitBytes,256*MiB);assert.equal(mobile.stats.recentLimitBytes,16*MiB);
+ assert.equal(mobile.stats.limitBytes,512*MiB);assert.equal(mobile.stats.recentLimitBytes,16*MiB);
  assert.equal(api.createResourceBudget({limitBytes:512*MiB}).stats.limitBytes,512*MiB,'an explicit limit still wins');
  assert.equal(valueEstimate(new TextEncoder().encode('[]')),32,'fixture estimator is the real one');
 });

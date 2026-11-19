@@ -101,9 +101,9 @@ test('near pass: one byte short of the calibrated group working set waits holdin
  assert.equal(r.budget.stats.bytes,0);assert.equal(r.budget.stats.availabilityListeners,0);
 });
 
-test('the largest admissible native and group working sets fit both page profiles (1.5 GB desktop, 256 MiB mobile)',()=>{
+test('the largest admissible native and group working sets fit both page profiles (1.5 GB desktop, 512 MiB mobile)',()=>{
  const desktop=real.createResourceBudget({profile:'desktop'}).stats.limitBytes,mobile=real.createResourceBudget({profile:'mobile'}).stats.limitBytes;
- assert.equal(desktop,1_500_000_000);assert.equal(mobile,256*MiB);
+ assert.equal(desktop,1_500_000_000);assert.equal(mobile,512*MiB);
  // Ledger arithmetic: the most the page can be asked to admit per read under the
  // validation caps. It is not a physical guarantee for a leaf or document denser
  // or larger than the measured ones (the coefficients are calibrated on 4caae82
@@ -113,5 +113,8 @@ test('the largest admissible native and group working sets fit both page profile
  // Group metadata: wire <= 500000, raw <= 8 MiB; two-copy envelope, inflate estimate 2d+P, metadata.
  const W=real.BUILDING_DETAIL_GROUP_WIRE_LIMIT,R=real.BUILDING_DETAIL_GROUP_RAW_LIMIT,group=2*W+2*R+W+R*real.DETAIL_GROUP_EXPANSION;
  assert.ok(native<=mobile,'native '+native);assert.ok(group<=mobile,'group '+group);
- assert.ok(2*W+2*R+W+R*40>mobile,'at the former 40 a group document at the raw limit could not fit a mobile page');
+ const priorGroup=2*W+2*R+W+R*40;
+ const priorMobile=real.createResourceBudget({profile:'mobile',limitBytes:256*MiB}).stats.limitBytes;
+ assert.ok(priorGroup>priorMobile,'the former coefficient 40 exceeded the original 256 MiB budget');
+ assert.ok(priorGroup<=mobile,'the same historical workload fits the revised mobile limit');
 });
