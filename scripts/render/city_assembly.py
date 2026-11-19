@@ -428,11 +428,11 @@ def three_d_inputs(spec, row, core, mounts, source_profile):
             physical = descriptor.get('transport', descriptor)
             prior = references.setdefault(physical['path'], physical)
             candidate.require(prior == physical, 'Conflicting 3D index resource descriptors')
-    profile = candidate.load(spec['profile']['path'], 100_000)
+    profile = candidate.load_city_data_profile(spec['profile']['path'])
     contract = candidate.profile_resource_contract(profile, source_profile['dependencies'],
                                                    source_profile['manifest'], city)
     logical_models = {r['descriptor']['sha256'] for r in profile['routes']
-                      if r['selector'] in ('model-targets', 'group-targets', 'batch-record-keys')}
+                      if r['selector'] in ('model-targets', 'group-targets', 'batch-record-keys', 'batch-fragment-keys')}
     for sha, descriptor in contract['runtime'].items():
         if sha not in logical_models:
             physical = descriptor.get('transport', descriptor)

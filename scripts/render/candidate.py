@@ -135,11 +135,19 @@ def git(repo, *args):
     return subprocess.check_output(['git', '-C', str(repo), *args])
 
 
-def profile_resource_contract(profile, dependencies, manifest, city):
+def city_profile_tools():
     spec = importlib.util.spec_from_file_location('_render_city_profile_contract', PROFILE_CONTRACT_TOOL)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    return module.profile_resource_contract(profile, dependencies, manifest, city)
+    return module
+
+
+def load_city_data_profile(path):
+    return city_profile_tools().expand_city_data_profile(load(path, 100_000))
+
+
+def profile_resource_contract(profile, dependencies, manifest, city):
+    return city_profile_tools().profile_resource_contract(profile, dependencies, manifest, city)
 
 
 def source_profile_bindings(repo, commit):
@@ -150,7 +158,7 @@ def source_profile_bindings(repo, commit):
 
 
 def city_route_assets(route):
-    return ([] if route.get('selector') in ('model-targets', 'group-targets', 'batch-record-keys') else [route['descriptor']]) + [
+    return ([] if route.get('selector') in ('model-targets', 'group-targets', 'batch-record-keys', 'batch-fragment-keys') else [route['descriptor']]) + [
         part['descriptor'] for part in route.get('partition', {}).get('parts', [])]
 
 
@@ -598,7 +606,7 @@ def inputs(spec):
     require(git(repo, 'rev-parse', f'{commit}^{{commit}}').decode().strip() == commit, 'Commit unavailable')
     profile = Path(spec['profile']['path']).resolve()
     profile_binding = check_binding(profile, spec['profile'])
-    value = load(profile, 100_000)
+    value = load_city_data_profile(profile)
     source_profile, profile_source_bindings = source_profile_bindings(repo, commit)
     contract = profile_resource_contract(value, source_profile['dependencies'], source_profile['manifest'], city)
     overrides = spec['overrides']; root = Path(overrides['root']).resolve()
@@ -641,7 +649,7 @@ def inputs(spec):
             'Wrong data manifest city')
     overlay = bind_resource_overlay(spec['resource_overlay'], city, value, profile_binding, selected, contract) \
         if 'resource_overlay' in spec else None
-    if overlay is None and value['selectorVersion'] in ('city-data-v2', 'city-data-v4'):
+    if overlay is None and value['selectorVersion'] in ('city-data-v2', 'city-data-v4', 'city-data-v5'):
         require('city-data-tables.json' in selected, 'City runtime manifest must be explicitly mounted')
         runtime_file = checked_path(data_root, selected['city-data-tables.json']['path'])
         check_binding(runtime_file, selected['city-data-tables.json'])
@@ -983,7 +991,7 @@ def read_candidate(path):
             source_profile[name] = load(file)
         profile_file = checked_path(path.parent.resolve(), 'bindings/city-data-profile.json')
         check_binding(profile_file, candidate['core']['profile'])
-        profile = load(profile_file, 100_000)
+        profile = load_city_data_profile(profile_file)
         contract = profile_resource_contract(profile, source_profile['dependencies'], source_profile['manifest'],
                                              candidate['core']['city'])
     if overlay is not None:
@@ -1165,8 +1173,8 @@ def verify_http(path, origin, output, routes=()):
         if 'building_detail' in core:
             required |= set(core['building_detail']['canonical_assets'])
         if 'profile_source' in core:
-            profile = load(Path(path).parent / 'bindings/city-data-profile.json', 100_000)
-            if profile['selectorVersion'] in ('city-data-v2', 'city-data-v4'):
+            profile = load_city_data_profile(Path(path).parent / 'bindings/city-data-profile.json')
+            if profile['selectorVersion'] in ('city-data-v2', 'city-data-v4', 'city-data-v5'):
                 required.add('city-data-tables.json')
                 for route in profile['routes']:
                     for descriptor in city_route_assets(route):

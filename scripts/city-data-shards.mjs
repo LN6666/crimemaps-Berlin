@@ -2,6 +2,7 @@ import crypto from 'node:crypto';
 import zlib from 'node:zlib';
 
 export const CITY_TABLE_PART_BYTES = 256 * 1024;
+export const CITY_BATCH_FRAGMENT_BYTES = 6 * 1024 * 1024;
 const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 
 /** Preserve each original JSON row lexeme, including -0 and numeric spelling. */
@@ -106,6 +107,55 @@ export function encodeCityTable(raw) {
   return {descriptor, raw, packed};
 }
 
+/** Carrier selection is atomic. Oversized batches may span several physical
+ * resources, each holding untouched, contiguous fields of that same batch. */
+function partitionBatchFragments(raw,targetBytes){
+ const text=new TextDecoder('utf-8',{fatal:true}).decode(raw),members=jsonObjectMembers(text),parts=[],assets=[];
+ JSON.parse(text);
+ if(!members.length||text!=='{'+members.map(member=>member.text).join(',')+'}')throw Error('Expected compact city batch record members');
+ for(const member of members){
+  const key=JSON.stringify(member.key),batches=jsonArrayRows(Buffer.from(member.valueText));
+  if(!member.key||member.text!==key+':['+batches.join(',')+']')throw Error('Expected compact city batch array');
+  const content=batches=>Buffer.from('{'+key+':['+batches.join(',')+']}');
+  function emit(rows,indices){
+   const part=content(rows);
+   if(part.length>CITY_BATCH_FRAGMENT_BYTES)throw Error('City batch fragment exceeds physical admission bound');
+   const asset=encodeCityTable(part);
+   parts.push({descriptor:asset.descriptor,keys:[member.key],rowIndices:indices,
+    ...(part.length>targetBytes?{oversizedAtomic:true}:{})});
+   assets.push(asset);
+  }
+  const base=content([]).length;
+  let rows=[],indices=[],size=base;
+  function flush(){
+   if(!rows.length)return;
+   emit(rows,indices);rows=[];indices=[];size=base;
+  }
+  function append(fragment,index){
+   const bytes=Buffer.byteLength(fragment);
+   if(rows.length&&size+1+bytes>CITY_BATCH_FRAGMENT_BYTES)flush();
+   size+=bytes+(rows.length?1:0);rows.push(fragment);indices.push(index);
+  }
+  for(const [index,batch] of batches.entries()){
+   const fields=jsonObjectMembers(batch);
+   if(!fields.length||batch!=='{'+fields.map(field=>field.text).join(',')+'}')throw Error('Expected compact city batch fields');
+   if(base+Buffer.byteLength(batch)<=CITY_BATCH_FRAGMENT_BYTES){append(batch,index);continue;}
+   let pending=[],bytes=base+2;
+   for(const field of fields){
+    const fieldBytes=Buffer.byteLength(field.text);
+    if(bytes+(pending.length?1:0)+fieldBytes>CITY_BATCH_FRAGMENT_BYTES){
+     if(!pending.length)throw Error('City batch field exceeds physical admission bound');
+     append('{'+pending.join(',')+'}',index);pending=[];bytes=base+2;
+    }
+    bytes+=fieldBytes+(pending.length?1:0);pending.push(field.text);
+   }
+   if(pending.length)append('{'+pending.join(',')+'}',index);
+  }
+  if(batches.length)flush();else emit([],[]);
+ }
+ return{partition:{schemaVersion:1,kind:'batch-fragments',parts},assets};
+}
+
 /**
  * Partition verified selected data, never geometry or material expressions.
  * All rows for one city/object stay together. rowIndices restore the original
@@ -115,6 +165,7 @@ export function encodeCityTable(raw) {
  */
 export function partitionCityTable(raw, {kind, targetBytes = CITY_TABLE_PART_BYTES}) {
   if (!Number.isSafeInteger(targetBytes) || targetBytes < 2 || targetBytes > CITY_TABLE_PART_BYTES) throw Error('Invalid city table part target');
+  if (kind === 'batch-fragments') return partitionBatchFragments(raw,targetBytes);
   const value = JSON.parse(new TextDecoder('utf-8', {fatal: true}).decode(raw));
   const groups = [];
   let envelope, sourceLayout, prefix = kind === 'object-rows' ? '[' : '{', suffix = kind === 'object-rows' ? ']' : '}';

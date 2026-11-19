@@ -2,6 +2,7 @@ import {spawnSync} from 'node:child_process';
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import crypto from 'node:crypto';import zlib from 'node:zlib';import {fileURLToPath} from 'node:url';import {createRequire} from 'node:module';
 import {CITY_IDS,createCityDataCompiler,jsonArrayRows,applyCityDataProfile,partitionCityTable,shardCityDataProfile,encodeCityDataProfile} from '../../scripts/city-data-profile.mjs';
 import {encodeCityTable,jsonObjectMembers} from '../../scripts/city-data-shards.mjs';
+import {expandCityDataProfile} from '../../scripts/city-data-profile-wire.mjs';
 const web=fileURLToPath(new URL('../',import.meta.url)),require=createRequire(new URL('../package.json',import.meta.url)),{build}=require('esbuild');
 async function moduleAt(name){const b=await build({entryPoints:[path.join(web,'src/safety',name)],bundle:true,platform:'node',format:'esm',target:'es2022',write:false});return import('data:text/javascript;base64,'+Buffer.from(b.outputFiles[0].text).toString('base64'));}
 const {createCityFrozenProfile}=await moduleAt('city-frozen-profile.ts'),{createFrozenInitializerStore}=await moduleAt('frozen-paint-initializer-store.ts'),{createFrozenDataLeaseStore}=await moduleAt('frozen-data-lease-store.ts'),{createFrozenDataScope}=await moduleAt('frozen-data-scope.ts');
@@ -236,6 +237,16 @@ test('profile encoder enforces the newline-inclusive 100000-byte UTF-8 boundary'
  const limit=100000,base=Buffer.byteLength(JSON.stringify({source:''})+'\n'),remaining=limit-base,source='é'.repeat(Math.floor(remaining/2))+'x'.repeat(remaining%2),profile={source},encoded=encodeCityDataProfile(profile);
  assert.equal(encoded.length,limit);assert.equal(encoded.at(-1),10);assert.equal(encoded.subarray(0,-1).length,limit-1);assert.equal(encoded.toString(),JSON.stringify(profile)+'\n');assert(JSON.stringify(profile).length+1<limit,'UTF-8 bytes, not JavaScript character count, exhaust the budget');
  const tooLarge={source:source+'x'};assert.equal(Buffer.byteLength(JSON.stringify(tooLarge)+'\n'),limit+1);assert.throws(()=>encodeCityDataProfile(tooLarge),/100000|profile.*(budget|bytes|size|limit)/i);
+});
+
+test('v5 compact part identities restore both validated SHA-addressed paths',()=>{
+ const profile={...products.get('berlin').profile,selectorVersion:'city-data-v5'};
+ const encoded=JSON.parse(encodeCityDataProfile(profile));
+ assert.deepEqual(expandCityDataProfile(encoded),profile);
+ const descriptor=encoded.routes.find(route=>route.partition?.parts.length).partition.parts[0].descriptor;
+ assert.equal(descriptor.length,4);
+ descriptor[2]='wrong-transport';
+ assert.throws(()=>expandCityDataProfile(encoded),/Invalid compact city part identity/);
 });
 
 

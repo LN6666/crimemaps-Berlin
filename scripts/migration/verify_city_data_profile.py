@@ -11,17 +11,20 @@ from pathlib import Path
 SHA_PATTERN = r"[a-f0-9]{64}"
 ASSET_PATTERN = r"/safety/buildings3d/painted-tables/[a-f0-9]{2}/[a-f0-9]{64}\.json(?:\.gz)?"
 MAX_TABLE_BYTES = 64 * 1024 ** 2
+MAX_BATCH_FRAGMENT_BYTES = 6 * 1024 ** 2
 BERLIN_F033_FILE = "painted/root500/safety/owner-f033-reconstruction.ts"
 BERLIN_F033_DISPLAY = "6e9b72aedf1cf42b6ad87ad953e40349373584058ab68e18441f1db2380be7e4"
+BERLIN_F029_FILE = "painted/root500/safety/owner-f029-reconstruction.ts"
+BERLIN_F029_DISPLAY = "fed592a753df30a3d04d60c42ecf71ac71d5ba17021dfa14abcf8c77730449ac"
 ENVELOPE_SELECTORS = ("model-targets", "group-targets")
-PARTITION_ONLY_SELECTORS = (*ENVELOPE_SELECTORS, "batch-record-keys")
+PARTITION_ONLY_SELECTORS = (*ENVELOPE_SELECTORS, "batch-record-keys", "batch-fragment-keys")
 CITY_IDS = {"berlin", "hamburg", "munich", "cologne", "frankfurt", "dusseldorf", "stuttgart",
             "leipzig", "dortmund", "bremen", "essen", "dresden", "hannover", "nuremberg"}
 
 
 def expected_city_data_routes(dependencies, city, selector_version):
     if city not in CITY_IDS or not (selector_version in ("city-data-v1", "city-data-v2", "city-data-v3")
-                                    or (city == "berlin" and selector_version == "city-data-v4")):
+                                    or (city == "berlin" and selector_version in ("city-data-v4", "city-data-v5"))):
         raise ValueError("Unknown city data selector version/city")
     rules = [(provider, f"painted/{provider}/safety/progressive-{name}.ts", selector)
              for provider in ("city", "root500", "delegated500", "tier300")
@@ -38,12 +41,15 @@ def expected_city_data_routes(dependencies, city, selector_version):
             rules.append(("bremen", "painted/bremen/safety/repairs-data.ts", "model-targets"))
     if selector_version == "city-data-v3" and city == "frankfurt":
         rules.append(("infill", "painted/infill/safety/infill-frankfurt-low-office-bulk70-data.ts", "group-targets"))
-    if selector_version == "city-data-v4":
+    if selector_version in ("city-data-v4", "city-data-v5"):
         rules.append(("root500", BERLIN_F033_FILE, "batch-record-keys"))
+    if selector_version == "city-data-v5":
+        rules.append(("root500", BERLIN_F029_FILE, "batch-fragment-keys"))
+    pinned_sha = {"batch-record-keys": BERLIN_F033_DISPLAY, "batch-fragment-keys": BERLIN_F029_DISPLAY}
     result = {}
     for provider, file, selector in rules:
         matches = [(sha, refs[file]) for sha, refs in dependencies.get("initializers", {}).get(provider, {}).items()
-                   if file in refs and (selector != "batch-record-keys" or sha == BERLIN_F033_DISPLAY)]
+                   if file in refs and sha == pinned_sha.get(selector, sha)]
         if len(matches) != 1 or type(matches[0][1]) is not int or matches[0][1] != 1 or not valid_sha(matches[0][0]):
             raise ValueError("Ambiguous or missing city initializer binding: " + file)
         result[file] = {"file": file, "canonicalSHA256": matches[0][0], "occurrence": 0, "selector": selector}
@@ -53,6 +59,28 @@ def expected_city_data_routes(dependencies, city, selector_version):
 def city_route_assets(route):
     return ([] if route.get("selector") in PARTITION_ONLY_SELECTORS else [route["descriptor"]]) + [
         part["descriptor"] for part in route.get("partition", {}).get("parts", [])]
+
+
+def expand_city_data_profile(profile):
+    """Expand v5 partition paths using the existing SHA-addressed namespace."""
+    if profile.get("selectorVersion") != "city-data-v5":
+        return profile
+
+    def physical(sha, size, suffix):
+        if not valid_sha(sha) or not safe_integer(size, 1):
+            raise ValueError("Invalid compact city part identity")
+        return {"path": f"/safety/buildings3d/painted-tables/{sha[:2]}/{sha}.{suffix}", "sha256": sha, "bytes": size}
+
+    for route in profile["routes"]:
+        for part in route.get("partition", {}).get("parts", []):
+            encoded = part.get("descriptor")
+            if not isinstance(encoded, list) or len(encoded) not in (2, 4):
+                raise ValueError("Invalid compact city part descriptor")
+            row = physical(encoded[0], encoded[1], "json")
+            if len(encoded) == 4:
+                row["transport"] = {**physical(encoded[2], encoded[3], "json.gz"), "encoding": "gzip"}
+            part["descriptor"] = row
+    return profile
 
 
 def model_envelope_index(route):
@@ -116,6 +144,38 @@ def berlin_f033_batch_index(route):
         raise ValueError("Invalid Berlin F033 batch order")
 
 
+def berlin_f029_batch_index(route):
+    partition = route.get("partition")
+    if (route["descriptor"].get("sha256") != BERLIN_F029_DISPLAY
+            or route.get("canonicalCount") != 10 or route.get("retainedCount") != 10
+            or not isinstance(partition, dict) or partition.get("schemaVersion") != 1
+            or partition.get("kind") != "batch-fragments" or not isinstance(partition.get("parts"), list)):
+        raise ValueError("Berlin F029 requires a complete canonical batch partition")
+    keys, last_index = [], -1
+    for part in partition["parts"]:
+        members, rows, descriptor = part.get("keys"), part.get("rowIndices"), part["descriptor"]
+        if (not isinstance(members, list) or len(members) != 1 or not isinstance(members[0], str) or not members[0]
+                or not isinstance(rows, list) or descriptor["sha256"] == BERLIN_F029_DISPLAY
+                or not safe_integer(descriptor["bytes"], 1) or descriptor["bytes"] > MAX_BATCH_FRAGMENT_BYTES
+                or ("oversizedAtomic" in part and part["oversizedAtomic"] is not True)
+                or (descriptor["bytes"] > 256 * 1024 and part.get("oversizedAtomic") is not True)):
+            raise ValueError("Invalid Berlin F029 batch fragment")
+        key = members[0]
+        if not keys or keys[-1] != key:
+            if key in keys:
+                raise ValueError("Noncontiguous Berlin F029 batch fragments")
+            keys.append(key)
+            last_index = -1
+        elif not rows or last_index < 0:
+            raise ValueError("Invalid empty Berlin F029 batch fragment")
+        for index in rows:
+            if not safe_integer(index) or not last_index <= index <= last_index + 1:
+                raise ValueError("Invalid Berlin F029 batch row order")
+            last_index = index
+    if len(keys) != route["retainedCount"] or ordered_selection_sha(keys) != route["orderedSelectionSHA256"]:
+        raise ValueError("Invalid Berlin F029 batch order")
+
+
 def profile_resource_contract(profile, dependencies, canonical_manifest, city):
     """One exact source/profile/runtime closure, shared with private candidates."""
     expected = expected_city_data_routes(dependencies, city, profile.get("selectorVersion"))
@@ -137,6 +197,8 @@ def profile_resource_contract(profile, dependencies, canonical_manifest, city):
             model_envelope_index(route)
         elif route["selector"] == "batch-record-keys":
             berlin_f033_batch_index(route)
+        elif route["selector"] == "batch-fragment-keys":
+            berlin_f029_batch_index(route)
         routes[(route["file"], route["canonicalSHA256"], route["occurrence"])] = route
         for descriptor in [route["descriptor"], *[p["descriptor"] for p in route.get("partition", {}).get("parts", [])]]:
             prior = descriptors.setdefault(descriptor["sha256"], descriptor)
@@ -337,6 +399,41 @@ def verify_berlin_f033_batch_record(route, payload):
         raise ValueError("Berlin F033 batch canonical reconstruction mismatch")
 
 
+def verify_berlin_f029_batch_fragments(route, payload):
+    """Rebuild the original lexical batch order, including every numeric field."""
+    berlin_f029_batch_index(route)
+    groups = {}
+    quote = lambda key: json.dumps(key, ensure_ascii=False, separators=(",", ":"))
+    for part in route["partition"]["parts"]:
+        key, = part["keys"]
+        value, raw = payload(part["descriptor"])
+        if not isinstance(value, dict) or list(value) != [key] or not isinstance(value[key], list):
+            raise ValueError("Invalid Berlin F029 batch fragment payload")
+        lexemes = object_member_lexemes(raw)
+        if raw.decode("utf-8") != "{" + quote(key) + ":" + lexemes[key] + "}":
+            raise ValueError("Invalid Berlin F029 carrier lexeme")
+        fragments = array_row_lexemes(lexemes[key].encode("utf-8"))
+        indices = part["rowIndices"]
+        if len(fragments) != len(indices) or "[" + ",".join(fragments) + "]" != lexemes[key]:
+            raise ValueError("Invalid Berlin F029 fragment batch list")
+        rows = groups.setdefault(key, [])
+        for index, fragment in zip(indices, fragments, strict=True):
+            fields = object_member_lexemes(fragment.encode("utf-8"))
+            if not fields or fragment != "{" + ",".join(quote(k) + ":" + v for k, v in fields.items()) + "}":
+                raise ValueError("Invalid Berlin F029 field lexeme")
+            if index == len(rows):
+                rows.append({})
+            if rows[index].keys() & fields.keys():
+                raise ValueError("Duplicate Berlin F029 batch field")
+            rows[index].update(fields)
+    def row_text(row):
+        return "{" + ",".join(quote(k) + ":" + v for k, v in row.items()) + "}"
+    canonical = ("{" + ",".join(quote(key) + ":[" + ",".join(map(row_text, rows)) + "]"
+                                for key, rows in groups.items()) + "}").encode("utf-8")
+    if len(canonical) != route["canonicalBytes"] or hashlib.sha256(canonical).hexdigest() != BERLIN_F029_DISPLAY:
+        raise ValueError("Berlin F029 batch canonical reconstruction mismatch")
+
+
 def verify(site: Path, city: str, source_web: Path | None = None) -> dict:
     def read(name, max_bytes=100_000):
         path = site / name
@@ -346,6 +443,7 @@ def verify(site: Path, city: str, source_web: Path | None = None) -> dict:
         return strict_json(data), hashlib.sha256(data).hexdigest(), len(data)
 
     profile, profile_sha, profile_bytes = read("city-data-profile.json")
+    profile = expand_city_data_profile(profile)
     source_web = source_web or Path(__file__).resolve().parents[2] / "web"
     dependencies = strict_json((source_web / "src/safety/frozen-paint-table-dependencies.json").read_bytes())
     canonical_manifest = strict_json((source_web / "src/safety/frozen-paint-table-manifest.json").read_bytes())
@@ -454,7 +552,8 @@ def verify(site: Path, city: str, source_web: Path | None = None) -> dict:
         partition = route.get("partition")
         if partition is not None:
             kind = {"city-rows": "object-rows", "model-targets": "model-envelope", "group-targets": "group-envelope", "berlin-catalog": "record-keys",
-                    "hamburg-catalog": "record-keys", "batch-record-keys": "batch-record"}.get(route.get("selector"))
+                    "hamburg-catalog": "record-keys", "batch-record-keys": "batch-record",
+                    "batch-fragment-keys": "batch-fragments"}.get(route.get("selector"))
             if (not isinstance(partition, dict) or kind is None
                     or partition.get("schemaVersion") != 1 or partition.get("kind") != kind
                     or not isinstance(partition.get("parts"), list)):
@@ -498,6 +597,8 @@ def verify(site: Path, city: str, source_web: Path | None = None) -> dict:
         if route["selector"] in PARTITION_ONLY_SELECTORS:
             if route["selector"] == "batch-record-keys":
                 verify_berlin_f033_batch_record(route, payload)
+            elif route["selector"] == "batch-fragment-keys":
+                verify_berlin_f029_batch_fragments(route, payload)
             else:
                 verify_model_envelope(route, payload)
             partitioned_routes += 1

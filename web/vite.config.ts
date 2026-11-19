@@ -4,6 +4,7 @@ import { resolve } from "node:path";
 import {createHash} from "node:crypto";
 import {validateBuildingFocusRegistry} from './src/safety/building-focus-registry';
 import {createCityFrozenProfile} from './src/safety/city-frozen-profile';
+import {expandCityDataProfile} from '../scripts/city-data-profile-wire.mjs';
 import {validateBuildingDetailGroupMetadataAsset} from './src/safety/building-detail-demand';
 const frozenInitializerChunks=new Set<string>(JSON.parse(readFileSync(new URL('./frozen-initializer-chunks.json',import.meta.url),'utf8')));
 const cityNames: Record<string, string> = {
@@ -66,7 +67,7 @@ export default defineConfig(({ mode, command }) => {
   const buildPurpose=process.env.CRIMEMAPS_BUILD_PURPOSE==='code-check'?'code-check':'publication';
   if(command==='build'&&buildPurpose==='publication'&&!profilePath)throw Error('Production build requires CRIMEMAPS_CITY_PROFILE; run scripts/city-data-profile.mjs generate first');
   const profileText=profilePath?readFileSync(profilePath,'utf8'):undefined;
-  const profile=profileText?JSON.parse(profileText):null;
+  const profile=profileText?expandCityDataProfile(JSON.parse(profileText)):null;
   if(profile){
     if(Buffer.byteLength(profileText!,'utf8')>100_000)throw Error('City data profile exceeds publication limit');
     // Build and browser use the same exact active-provider binding contract.

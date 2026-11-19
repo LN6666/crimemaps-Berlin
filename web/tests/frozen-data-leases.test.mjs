@@ -13,8 +13,8 @@ import {encodeCityTable,partitionCityTable} from '../../scripts/city-data-shards
 // synthetic in-memory bytes; no product table, asset, browser or GPU is opened.
 const web=fileURLToPath(new URL('../',import.meta.url)),source=path.join(web,'src/safety');
 const core=await readFile(path.join(source,'frozen-data-lease-store.ts'),'utf8');
-const built=await build({stdin:{contents:core+"\nexport {createFrozenDataScope} from './frozen-data-scope';\nexport {createChunkResourceStore} from './render-runtime/chunk-resource-store';\nexport {createResourceBudget} from './render-runtime/resource-budget';\nexport {estimateRetainedBuildingPayload} from './building-payload-cost';\nexport * as f033 from '../painted/root500/safety/owner-f033-reconstruction';",resolveDir:source,sourcefile:'frozen-data-lease-store.ts',loader:'ts'},bundle:true,platform:'node',format:'esm',target:'es2022',write:false});
-const {createFrozenDataLeaseStore,createFrozenDataScope,createChunkResourceStore,createResourceBudget,estimateRetainedBuildingPayload,f033}=await import('data:text/javascript;base64,'+Buffer.from(built.outputFiles[0].text).toString('base64'));
+const built=await build({stdin:{contents:core+"\nexport {createFrozenDataScope} from './frozen-data-scope';\nexport {createChunkResourceStore} from './render-runtime/chunk-resource-store';\nexport {createResourceBudget} from './render-runtime/resource-budget';\nexport {estimateRetainedBuildingPayload} from './building-payload-cost';\nexport * as f033 from '../painted/root500/safety/owner-f033-reconstruction';\nexport * as f029 from '../painted/root500/safety/owner-f029-reconstruction';",resolveDir:source,sourcefile:'frozen-data-lease-store.ts',loader:'ts'},bundle:true,platform:'node',format:'esm',target:'es2022',write:false});
+const {createFrozenDataLeaseStore,createFrozenDataScope,createChunkResourceStore,createResourceBudget,estimateRetainedBuildingPayload,f033,f029}=await import('data:text/javascript;base64,'+Buffer.from(built.outputFiles[0].text).toString('base64'));
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 const profileSHA256='a'.repeat(64),city='bremen',provider='bremen';
 const file=name=>`painted/bremen/safety/lease-${name}.ts`;
@@ -131,6 +131,36 @@ test('F033 prepares the complete three-part display and releases its selected ba
   }finally{scope.release();}
   await tick();empty(store);
  }
+});
+
+test('F029 reads only present Berlin carriers, composes each batch in order and preserves an empty parent',async t=>{
+ const [oneId,,,parent,other]=f029.F029_IDS;
+ const make=(id,raw,rows)=>{
+  const asset=encodeCityTable(Buffer.from(raw.replaceAll('PART',id.partId)));
+  return {...asset,part:{descriptor:asset.descriptor,keys:[id.partId],rowIndices:rows}};
+ };
+ const pieces=[
+  make(oneId,'{"PART":[{"positions":[-0,1.125]}]}',[0]),
+  make(oneId,'{"PART":[{"paint":[3],"frames":[4]},{"role":2}]}',[0,1]),
+  make(parent,'{"PART":[]}',[]),
+  make(other,'{"PART":[{"role":3}]}',[0]),
+ ];
+ const whole=encodeCityTable(Buffer.from('{"whole":"must not be read"}'));
+ const reference=f029.root500DataRefs[0],reads=[];
+ const store=createFrozenDataLeaseStore([whole.descriptor,...pieces.map(piece=>piece.descriptor)]);
+ const client=store.client(config([{f:{d:whole.descriptor},file:reference.file}],async(path,s,max)=>{
+  s.throwIfAborted();const piece=pieces.find(item=>item.descriptor.transport.path===path);
+  assert(piece,'no whole-table requests');assert.equal(max,piece.packed.length);reads.push(path);return piece.packed;
+ },{city:'berlin',provider:'root500',resolve:()=>whole.descriptor.sha256,
+  partition:()=>({schemaVersion:1,kind:'batch-fragments',parts:pieces.map(piece=>piece.part)})}));
+ const scope=createFrozenDataScope(client);t.after(()=>{scope.release();client.dispose();store.destroy();});
+ await deadline(f029.prepareRoot500Data([oneId,parent,{...other,city:'bremen'}],signal(),scope));
+ assert.deepEqual(scope.borrow(reference,value=>value),{
+  [oneId.partId]:[{positions:[-0,1.125],paint:[3],frames:[4]},{role:2}],
+  [parent.partId]:[],
+ });
+ assert.deepEqual(reads.sort(),pieces.slice(0,3).map(piece=>piece.descriptor.transport.path).sort());
+ scope.release();await tick();empty(store);
 });
 
 test('selected object cohorts share actual parts; retained overlap survives release and reacquires only after the final grant',async t=>{

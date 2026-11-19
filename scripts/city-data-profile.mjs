@@ -5,7 +5,8 @@ import zlib from 'node:zlib';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {createRequire} from 'node:module';
 import {isDeepStrictEqual} from 'node:util';
-import {CITY_TABLE_PART_BYTES,encodeCityTable,jsonArrayRows,partitionCityTable} from './city-data-shards.mjs';
+import {CITY_BATCH_FRAGMENT_BYTES,CITY_TABLE_PART_BYTES,encodeCityTable,jsonArrayRows,partitionCityTable} from './city-data-shards.mjs';
+import {compactCityDataProfile,expandCityDataProfile} from './city-data-profile-wire.mjs';
 export {jsonArrayRows,partitionCityTable} from './city-data-shards.mjs';
 export const CITY_IDS=['berlin','hamburg','munich','cologne','frankfurt','dusseldorf','stuttgart','leipzig','dortmund','bremen','essen','dresden','hannover','nuremberg'];
 const hash=b=>crypto.createHash('sha256').update(b).digest('hex');
@@ -22,17 +23,25 @@ const berlinF033Display={
  canonicalSHA256:'6e9b72aedf1cf42b6ad87ad953e40349373584058ab68e18441f1db2380be7e4',
  selector:'batch-record-keys',
 };
-const partitionOnly=s=>envelopeSelector(s)||s==='batch-record-keys';
+const berlinF029Display={
+ provider:'root500',
+ file:'painted/root500/safety/owner-f029-reconstruction.ts',
+ canonicalSHA256:'fed592a753df30a3d04d60c42ecf71ac71d5ba17021dfa14abcf8c77730449ac',
+ selector:'batch-fragment-keys',
+};
+const partitionOnly=s=>envelopeSelector(s)||s==='batch-record-keys'||s==='batch-fragment-keys';
 const activeCityProviders=city=>['city','root500','delegated500','tier300','church',...(['frankfurt','stuttgart','essen'].includes(city)?['infill']:[]),...(city==='bremen'?['bremen']:[])];
 function recipeRules(city,selectorVersion){
- if(!CITY_IDS.includes(city)||!(['city-data-v1','city-data-v2','city-data-v3'].includes(selectorVersion)||city==='berlin'&&selectorVersion==='city-data-v4'))throw Error('Unknown city data selector version/city');
+ const berlinPartitionVersion=['city-data-v4','city-data-v5'].includes(selectorVersion);
+ if(!CITY_IDS.includes(city)||!(['city-data-v1','city-data-v2','city-data-v3'].includes(selectorVersion)||city==='berlin'&&berlinPartitionVersion))throw Error('Unknown city data selector version/city');
  const providers=['city','root500','delegated500','tier300'];
  const rules=providers.flatMap(provider=>[['paint-admissions','city-rows'],['feature-cities','city-key']].map(([name,selector])=>({provider,file:`painted/${provider}/safety/progressive-${name}.ts`,selector})));
  for(const provider of ['root500','delegated500'])for(const name of ['berlin','hamburg'])rules.push({provider,file:`painted/${provider}/safety/progressive-${name}-programs.ts`,selector:`${name}-catalog`});
  if(selectorVersion!=='city-data-v1')for(const provider of activeCityProviders(city).filter(p=>p==='infill'||p==='bremen'))for(const [name,selector]of [['paint-admissions','city-rows'],['feature-cities','city-key']])rules.push({provider,file:`painted/${provider}/safety/progressive-${name}.ts`,selector});
  if(selectorVersion!=='city-data-v1'&&city==='bremen')rules.push({provider:'bremen',file:'painted/bremen/safety/repairs-data.ts',selector:'model-targets'});
  if(selectorVersion==='city-data-v3'&&city==='frankfurt')rules.push({provider:'infill',file:'painted/infill/safety/infill-frankfurt-low-office-bulk70-data.ts',selector:'group-targets'});
- if(selectorVersion==='city-data-v4')rules.push(berlinF033Display);
+ if(berlinPartitionVersion)rules.push(berlinF033Display);
+ if(selectorVersion==='city-data-v5')rules.push(berlinF029Display);
  return rules;
 }
 /** Exact code-owned initializer bindings, including the active city's extra provider. */
@@ -51,6 +60,7 @@ export function validateCityDataProfile(profile,dependencies,manifest){
   if(!binding||seen.has(route.file)||!original||original.bytes!==route.canonicalBytes||['file','canonicalSHA256','occurrence','selector'].some(k=>route[k]!==binding[k]))throw Error('City data route binding mismatch');
   if(envelopeSelector(route.selector)&&(route.descriptor.sha256!==route.canonicalSHA256||route.retainedCount!==route.canonicalCount||route.partition?.kind!==envelopeKind(route.selector)||route.partition.schemaVersion!==1||!Array.isArray(route.partition.parts)))throw Error('Model target route requires a complete canonical partition');
   if(route.selector==='batch-record-keys'&&(!isDeepStrictEqual(route.descriptor,original)||route.canonicalCount!==3||route.retainedCount!==3||route.partition?.kind!=='batch-record'||route.partition.schemaVersion!==1||!Array.isArray(route.partition.parts)||route.partition.parts.length!==3))throw Error('Berlin F033 requires a complete canonical batch partition');
+  if(route.selector==='batch-fragment-keys'&&(!isDeepStrictEqual(route.descriptor,original)||route.canonicalCount!==10||route.retainedCount!==10||route.partition?.kind!=='batch-fragments'||route.partition.schemaVersion!==1||!Array.isArray(route.partition.parts)||route.partition.parts.some(part=>part.descriptor.bytes>CITY_BATCH_FRAGMENT_BYTES)||new Set(route.partition.parts.flatMap(part=>part.keys)).size!==10))throw Error('Berlin F029 requires a complete canonical batch partition');
   seen.add(route.file);
  }
  if(seen.size!==expected.size)throw Error('Incomplete city data route closure');
@@ -81,7 +91,7 @@ function checkPublishedPaintedTables(siteDirectory,runtime,apply){
  }
 }
 function partitionRoute(route,raw,{targetBytes,descriptors,physical,emit}){
- const kind=route.selector==='city-rows'?'object-rows':envelopeSelector(route.selector)?envelopeKind(route.selector):route.selector==='batch-record-keys'?'batch-record':['berlin-catalog','hamburg-catalog'].includes(route.selector)?'record-keys':undefined;
+ const kind=route.selector==='city-rows'?'object-rows':envelopeSelector(route.selector)?envelopeKind(route.selector):route.selector==='batch-record-keys'?'batch-record':route.selector==='batch-fragment-keys'?'batch-fragments':['berlin-catalog','hamburg-catalog'].includes(route.selector)?'record-keys':undefined;
  if(!kind)return;
  const {partition,assets}=partitionCityTable(raw,{kind,targetBytes});
  for(let i=0;i<assets.length;i++){
@@ -106,7 +116,7 @@ function profileRemovals(profile,dependencies,descriptors,assets){
  return removals;
 }
 export function encodeCityDataProfile(profile){
- const raw=Buffer.from(JSON.stringify(profile)+'\n');
+ const raw=Buffer.from(JSON.stringify(compactCityDataProfile(profile))+'\n');
  if(raw.length>100_000)throw Error('City data profile exceeds 100000-byte publication limit');
  return raw;
 }
@@ -130,7 +140,7 @@ export function effectiveCityTableManifest(profile,dependencies,manifest){
 export function createCityDataCompiler({webRoot,assetRoots,recipesPath=path.join(path.dirname(webRoot),'scripts/city-data-recipes.json'),partition=true,shardTargetBytes=CITY_TABLE_PART_BYTES,selectorVersion='city-data-v2'}){
  const manifest=json(path.join(webRoot,'src/safety/frozen-paint-table-manifest.json')),dependencies=json(path.join(webRoot,'src/safety/frozen-paint-table-dependencies.json')),recipes=json(recipesPath).recipes;
  const descriptors=new Map(manifest.map(d=>[d.sha256,d])),inputs=new Map(),validators=new Map();
- const knownRules=new Map([...recipeRules('bremen','city-data-v2'),...recipeRules('frankfurt','city-data-v3'),berlinF033Display].map(r=>[r.file,r])),configured=new Map();
+ const knownRules=new Map([...recipeRules('bremen','city-data-v2'),...recipeRules('frankfurt','city-data-v3'),berlinF033Display,berlinF029Display].map(r=>[r.file,r])),configured=new Map();
  for(const recipe of recipes){const rule=knownRules.get(recipe.file);if(!rule||configured.has(recipe.file)||recipe.selector!==rule.selector||recipe.occurrence!==0)throw Error('Invalid or duplicate configured city recipe');configured.set(recipe.file,recipe);}
  function selectedRecipes(city){return expectedCityDataRecipes(dependencies,city,selectorVersion).map(expected=>{const recipe=configured.get(expected.file);if(!recipe||['file','canonicalSHA256','occurrence','selector'].some(k=>recipe[k]!==expected[k]))throw Error('Configured city recipe binding mismatch: '+expected.file);return expected;});}
  function physical(d){const p=d.transport??d,relative=checkedPath(p.path),file=assetRoots.map(root=>path.join(root,relative)).find(p=>fs.existsSync(p));if(!file)throw Error('Missing canonical asset: '+p.path);const bytes=fs.readFileSync(file);if(bytes.length!==p.bytes||hash(bytes)!==p.sha256)throw Error('Canonical transport hash mismatch');return bytes;}
@@ -160,8 +170,8 @@ export function createCityDataCompiler({webRoot,assetRoots,recipesPath=path.join
     if(!value||Array.isArray(value)||typeof value[city]!=='string')throw Error('Missing city program contract');selected={[city]:value[city]};
    }else if(recipe.selector==='berlin-catalog'){selected=city==='berlin'?value:{};}
    else if(recipe.selector==='hamburg-catalog'){selected=city==='berlin'?{}:value;if(city!=='berlin'&&city!=='hamburg')exception='Existing non-Berlin program fallback uses this shared catalog; retained verbatim.';}
-   else if(recipe.selector==='batch-record-keys'){
-    if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).length!==3)throw Error('Invalid Berlin F033 batch record');
+   else if(recipe.selector==='batch-record-keys'||recipe.selector==='batch-fragment-keys'){
+    if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).length!==(recipe.selector==='batch-record-keys'?3:10))throw Error('Invalid Berlin batch record');
     selected=value;
    }
    else if(envelopeSelector(recipe.selector)){
@@ -195,7 +205,7 @@ export function createCityDataCompiler({webRoot,assetRoots,recipesPath=path.join
  */
 export function shardCityDataProfile({profilePath,webRoot,assetRoots=[],output,targetBytes=CITY_TABLE_PART_BYTES,selectorVersion,recipesPath,verifiedProfileSHA256}){
  if(path.resolve(profilePath)===path.resolve(output,'profile.json'))throw Error('Partition output must not overwrite its input profile');
- const sourceBytes=fs.readFileSync(profilePath),source=JSON.parse(sourceBytes),manifest=json(path.join(webRoot,'src/safety/frozen-paint-table-manifest.json')),dependencies=json(path.join(webRoot,'src/safety/frozen-paint-table-dependencies.json'));
+ const sourceBytes=fs.readFileSync(profilePath),source=expandCityDataProfile(JSON.parse(sourceBytes)),manifest=json(path.join(webRoot,'src/safety/frozen-paint-table-manifest.json')),dependencies=json(path.join(webRoot,'src/safety/frozen-paint-table-dependencies.json'));
  if(verifiedProfileSHA256!==undefined&&(!/^[a-f0-9]{64}$/.test(verifiedProfileSHA256)||hash(sourceBytes)!==verifiedProfileSHA256||targetBytes!==CITY_TABLE_PART_BYTES))throw Error('Verified source profile hash/partition target mismatch');
  validateCityDataProfile(source,dependencies,manifest);
  const targetVersion=selectorVersion??source.selectorVersion;
@@ -235,7 +245,7 @@ export function shardCityDataProfile({profilePath,webRoot,assetRoots=[],output,t
 }
 
 export function applyCityDataProfile({profilePath,buildDirectory,siteDirectory,apply=false,webRoot=fileURLToPath(new URL('../web/',import.meta.url))}){
- const profile=json(profilePath),profileSHA256=hash(fs.readFileSync(profilePath)),overlay=json(path.join(path.dirname(profilePath),'asset-manifest.json')),build=json(path.join(buildDirectory,'city-data-build-receipt.json')),runtimeManifestPath=path.join(path.dirname(profilePath),'runtime-table-manifest.json'),runtimeTableManifestSHA256=hash(fs.readFileSync(runtimeManifestPath));
+ const profile=expandCityDataProfile(json(profilePath)),profileSHA256=hash(fs.readFileSync(profilePath)),overlay=json(path.join(path.dirname(profilePath),'asset-manifest.json')),build=json(path.join(buildDirectory,'city-data-build-receipt.json')),runtimeManifestPath=path.join(path.dirname(profilePath),'runtime-table-manifest.json'),runtimeTableManifestSHA256=hash(fs.readFileSync(runtimeManifestPath));
  if(fs.statSync(profilePath).size>100_000||fs.statSync(runtimeManifestPath).size>500_000)throw Error('City profile metadata exceeds publication limit');
  const dependencies=json(path.join(webRoot,'src/safety/frozen-paint-table-dependencies.json')),canonical=json(path.join(webRoot,'src/safety/frozen-paint-table-manifest.json'));
  validateCityDataProfile(profile,dependencies,canonical);
@@ -256,7 +266,7 @@ function cli(){const args=process.argv.slice(2),mode=args.shift(),options={asset
   const webRoot=path.resolve(options['web-root']??'web'),output=path.resolve(options.output??'.runtime/city-data'),compilers=new Map();
   const cities=options.all?CITY_IDS:[options.city??json(path.join(webRoot,'../city-config.json')).city];
   for(const city of cities){
-   const selectorVersion=options['selector-version']??(city==='berlin'?'city-data-v4':'city-data-v2');
+   const selectorVersion=options['selector-version']??(city==='berlin'?'city-data-v5':'city-data-v2');
    if(!compilers.has(selectorVersion))compilers.set(selectorVersion,createCityDataCompiler({webRoot,assetRoots:options.assetRoots,selectorVersion}));
    const {overlay}=compilers.get(selectorVersion).generate(city,path.join(output,city));
    console.log(JSON.stringify({city,profile:path.join(output,city,'profile.json'),selectedTransportBytes:overlay.assets.reduce((n,a)=>n+a.bytes,0),profileSHA256:overlay.profileSHA256}));
