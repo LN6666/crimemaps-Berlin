@@ -8,20 +8,22 @@ const validSHA=(s:unknown):s is string=>typeof s==='string'&&/^[a-f0-9]{64}$/.te
 const coreProviders=['city','root500','delegated500','tier300'] as const;
 const infillCities=new Set(['frankfurt','stuttgart','essen']);
 const activeProviders=(city:string)=>[...coreProviders,'church',...(infillCities.has(city)?['infill']:[]),...(city==='bremen'?['bremen']:[])];
+const berlinF033File='painted/root500/safety/owner-f033-reconstruction.ts';
+const berlinF033Display='6e9b72aedf1cf42b6ad87ad953e40349373584058ab68e18441f1db2380be7e4';
 
 /** Bind every projected initializer, including the deployed city's optional
  * providers. Version one remains readable with its original twelve bindings;
  * version two requires the complete active-provider projection. */
 function expectedBindings(dependencies:Dependencies,city:string,version:string){
- if(version!=='city-data-v1'&&version!=='city-data-v2'&&version!=='city-data-v3')throw Error('Invalid city data selector version');
+ if(version!=='city-data-v1'&&version!=='city-data-v2'&&version!=='city-data-v3'&&!(city==='berlin'&&version==='city-data-v4'))throw Error('Invalid city data selector version');
  const providers:string[]=[...coreProviders];
  if(version!=='city-data-v1'){
   if(infillCities.has(city))providers.push('infill');
   if(city==='bremen')providers.push('bremen');
  }
  const expected=new Map<string,{canonicalSHA256:string;occurrence:number;selector:string}>();
- function addBinding(provider:string,file:string,selector:string){
-  const bindings=Object.entries(dependencies.initializers[provider]??{}).filter(([,refs])=>Object.hasOwn(refs,file));
+ function addBinding(provider:string,file:string,selector:string,canonicalSHA256?:string){
+  const bindings=Object.entries(dependencies.initializers[provider]??{}).filter(([sha,refs])=>(!canonicalSHA256||sha===canonicalSHA256)&&Object.hasOwn(refs,file));
   if(bindings.length!==1||bindings[0][1][file]!==1)throw Error('Missing or ambiguous city data initializer binding');
   expected.set(file,{canonicalSHA256:bindings[0][0],occurrence:0,selector});
  }
@@ -35,6 +37,7 @@ function expectedBindings(dependencies:Dependencies,city:string,version:string){
  }
  if(version!=='city-data-v1'&&city==='bremen')addBinding('bremen','painted/bremen/safety/repairs-data.ts','model-targets');
  if(version==='city-data-v3'&&city==='frankfurt')addBinding('infill','painted/infill/safety/infill-frankfurt-low-office-bulk70-data.ts','group-targets');
+ if(version==='city-data-v4')addBinding('root500',berlinF033File,'batch-record-keys',berlinF033Display);
  return expected;
 }
 /** The profile changes resource identity before verification, never the meaning
@@ -59,10 +62,11 @@ export function createCityFrozenProfile(manifest:readonly FrozenDescriptor[],dep
    if(!original||original.bytes!==r.canonicalBytes||!binding||binding.canonicalSHA256!==r.canonicalSHA256||binding.occurrence!==r.occurrence||binding.selector!==r.selector||!validSHA(r.descriptor?.sha256)||!validSHA(r.orderedSelectionSHA256)||!Number.isSafeInteger(r.canonicalCount)||!Number.isSafeInteger(r.retainedCount)||r.retainedCount<0||r.retainedCount>r.canonicalCount||routes.has(key(r.file,r.canonicalSHA256,r.occurrence)))throw Error('Invalid city data route');
    expected.delete(r.file);
    if(['model-targets','group-targets'].includes(r.selector)&&(!r.partition||r.descriptor.sha256!==r.canonicalSHA256||r.retainedCount!==r.canonicalCount))throw Error('Invalid complete model partition binding');
+   if(r.selector==='batch-record-keys'&&(!r.partition||r.descriptor.sha256!==r.canonicalSHA256||r.retainedCount!==3||r.canonicalCount!==3))throw Error('Invalid complete Berlin F033 partition binding');
    routes.set(key(r.file,r.canonicalSHA256,r.occurrence),r);
    addDescriptor(r.descriptor);
    if(r.partition){
-    const p=r.partition,kind=r.selector==='city-rows'?'object-rows':r.selector==='model-targets'?'model-envelope':r.selector==='group-targets'?'group-envelope':['berlin-catalog','hamburg-catalog'].includes(r.selector)?'record-keys':undefined;
+    const p=r.partition,kind=r.selector==='city-rows'?'object-rows':r.selector==='model-targets'?'model-envelope':r.selector==='group-targets'?'group-envelope':r.selector==='batch-record-keys'?'batch-record':['berlin-catalog','hamburg-catalog'].includes(r.selector)?'record-keys':undefined;
     if(p.schemaVersion!==1||p.kind!==kind||!Array.isArray(p.parts))throw Error('Invalid city data partition');
     if(p.kind==='model-envelope'||p.kind==='group-envelope'){
      const rowField=p.kind==='group-envelope'?'groups':'models';
@@ -71,6 +75,7 @@ export function createCityFrozenProfile(manifest:readonly FrozenDescriptor[],dep
     const keys=new Set<string>(),indices=new Set<number>();
     for(const part of p.parts){
      if(!validSHA(part.descriptor?.sha256)||!Array.isArray(part.keys)||!part.keys.length)throw Error('Invalid city data partition part');
+     if(p.kind==='batch-record'&&(part.keys.length!==1||part.descriptor.sha256===r.canonicalSHA256))throw Error('Invalid Berlin F033 batch part');
      for(const member of part.keys){if(typeof member!=='string'||!member||keys.has(member)||p.kind==='object-rows'&&!member.startsWith(city+'|'))throw Error('Invalid city data partition key');keys.add(member);}
      if(p.kind==='object-rows'||p.kind==='model-envelope'||p.kind==='group-envelope'){
       if(!Array.isArray(part.rowIndices)||!part.rowIndices.length)throw Error('Missing city data partition row order');
@@ -79,7 +84,7 @@ export function createCityFrozenProfile(manifest:readonly FrozenDescriptor[],dep
      }else if(part.rowIndices!==undefined)throw Error('Unexpected city data partition row order');
      addDescriptor(part.descriptor);
     }
-    if((p.kind==='record-keys'?keys.size:indices.size)!==r.retainedCount||(p.kind==='model-envelope'||p.kind==='group-envelope')&&keys.size!==r.retainedCount)throw Error('Incomplete city data partition');
+    if((p.kind==='record-keys'||p.kind==='batch-record'?keys.size:indices.size)!==r.retainedCount||(p.kind==='model-envelope'||p.kind==='group-envelope')&&keys.size!==r.retainedCount)throw Error('Incomplete city data partition');
    }
   }
   if(expected.size)throw Error('Incomplete city data profile');
@@ -87,6 +92,8 @@ export function createCityFrozenProfile(manifest:readonly FrozenDescriptor[],dep
  function resolve(sha:string,file:string,occurrence=0){
   sha=publicSource(sha);
   const selected=routes.get(key(file,sha,occurrence));if(selected)return selected.descriptor.sha256;
+  // The F033 initializer also owns a separately verified SOURCE table.
+  if(profile?.selectorVersion==='city-data-v4'&&file===berlinF033File&&sha!==berlinF033Display&&occurrence===0&&dependencies.initializers.root500?.[sha]?.[file]===1)return sha;
   if(profile&&[...routes.values()].some(r=>r.file===file))throw Error('City data initializer binding mismatch');
   return sha;
  }

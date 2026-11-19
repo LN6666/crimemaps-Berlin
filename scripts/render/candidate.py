@@ -150,7 +150,7 @@ def source_profile_bindings(repo, commit):
 
 
 def city_route_assets(route):
-    return ([] if route.get('selector') in ('model-targets', 'group-targets') else [route['descriptor']]) + [
+    return ([] if route.get('selector') in ('model-targets', 'group-targets', 'batch-record-keys') else [route['descriptor']]) + [
         part['descriptor'] for part in route.get('partition', {}).get('parts', [])]
 
 
@@ -641,22 +641,22 @@ def inputs(spec):
             'Wrong data manifest city')
     overlay = bind_resource_overlay(spec['resource_overlay'], city, value, profile_binding, selected, contract) \
         if 'resource_overlay' in spec else None
-    if overlay is None and value['selectorVersion'] == 'city-data-v2':
-        require('city-data-tables.json' in selected, 'V2 city runtime manifest must be explicitly mounted')
+    if overlay is None and value['selectorVersion'] in ('city-data-v2', 'city-data-v4'):
+        require('city-data-tables.json' in selected, 'City runtime manifest must be explicitly mounted')
         runtime_file = checked_path(data_root, selected['city-data-tables.json']['path'])
         check_binding(runtime_file, selected['city-data-tables.json'])
         runtime = load(runtime_file, 500_000)
         require(isinstance(runtime, list) and len({d['sha256'] for d in runtime}) == len(runtime) and
                 {d['sha256']: d for d in runtime} == contract['runtime'],
-                'V2 mounted runtime active initializer closure mismatch')
+                'Mounted city runtime active initializer closure mismatch')
         for route in value['routes']:
             for descriptor in city_route_assets(route):
                 physical = descriptor.get('transport', descriptor)
                 mount = selected.get(physical['path'][1:])
                 require(mount is not None and all(mount[key] == physical[key] for key in ('sha256', 'bytes')),
-                        'V2 profile resource missing from sealed data inventory')
+                        'City profile resource missing from sealed data inventory')
         require(all(name.lstrip('/') not in selected for name in contract['removeCanonical']),
-                'V2 sealed data inventory still serves an excluded canonical resource')
+                'Sealed city data inventory still serves an excluded canonical resource')
     data_mounts_sha256 = digest(selected)
     detail = None
     if 'building_detail' in spec:
@@ -1166,7 +1166,7 @@ def verify_http(path, origin, output, routes=()):
             required |= set(core['building_detail']['canonical_assets'])
         if 'profile_source' in core:
             profile = load(Path(path).parent / 'bindings/city-data-profile.json', 100_000)
-            if profile['selectorVersion'] == 'city-data-v2':
+            if profile['selectorVersion'] in ('city-data-v2', 'city-data-v4'):
                 required.add('city-data-tables.json')
                 for route in profile['routes']:
                     for descriptor in city_route_assets(route):

@@ -6,6 +6,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import sys
 
 CHUNK = 1024 * 1024
 MAX_TABLE = 64 * 1024**2
@@ -104,7 +105,23 @@ def main():
     parser.add_argument('--asset-catalog', type=Path, default=repo / 'reports/building-textures/asset-resolution.json')
     args = parser.parse_args()
     try:
-        result = verify(args.asset_root, json.loads(args.asset_catalog.read_text()), json.loads(args.manifest.read_text()))
+        tables = json.loads(args.manifest.read_text())
+        profile_path = args.asset_root / 'city-data-profile.json'
+        logical = set()
+        if args.manifest.resolve() == (args.asset_root / 'city-data-tables.json').resolve() and profile_path.is_file():
+            sys.path.insert(0, str(repo / 'scripts/migration'))
+            from verify_city_data_profile import PARTITION_ONLY_SELECTORS, strict_json, verify as verify_profile
+            profile = strict_json(profile_path.read_bytes())
+            logical = {route['descriptor']['sha256'] for route in profile['routes']
+                       if route['selector'] in PARTITION_ONLY_SELECTORS}
+            if logical:
+                # The profile gate verifies the table reconstructed from the
+                # actual mounted parts before we skip that table's whole file.
+                verify_profile(args.asset_root, profile['city'])
+                tables = [row for row in tables if row['sha256'] not in logical]
+        result = verify(args.asset_root, json.loads(args.asset_catalog.read_text()), tables)
+        if logical:
+            result['verified_logical_tables'] = len(logical)
     except (ValueError, OSError, KeyError, TypeError, EOFError) as error:
         parser.exit(1, f'Frozen asset verification rejected: {error}\n')
     print(json.dumps(result))

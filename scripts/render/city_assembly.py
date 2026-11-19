@@ -432,7 +432,7 @@ def three_d_inputs(spec, row, core, mounts, source_profile):
     contract = candidate.profile_resource_contract(profile, source_profile['dependencies'],
                                                    source_profile['manifest'], city)
     logical_models = {r['descriptor']['sha256'] for r in profile['routes']
-                      if r['selector'] in ('model-targets', 'group-targets')}
+                      if r['selector'] in ('model-targets', 'group-targets', 'batch-record-keys')}
     for sha, descriptor in contract['runtime'].items():
         if sha not in logical_models:
             physical = descriptor.get('transport', descriptor)

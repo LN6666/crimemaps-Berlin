@@ -254,3 +254,33 @@ test('Frankfurt v3 binds complete group partitions and rejects incomplete or for
  }
  assert(!product.overlay.assets.some(a=>a.path===(route.descriptor.transport??route.descriptor).path));
 });
+
+test('Berlin v4 binds the complete DISPLAY record without replacing its sibling SOURCE',()=>{
+ const file='painted/root500/safety/owner-f033-reconstruction.ts';
+ const canonicalSHA256='6e9b72aedf1cf42b6ad87ad953e40349373584058ab68e18441f1db2380be7e4';
+ const raw=Buffer.from('{"part-c":[{"positions":[-0,1e2],"color":[0.01]}],"part-b":[{"indices":[0]}],"part-a":[{"writeMask":[true]}]}');
+ const {partition,assets}=partitionCityTable(raw,{kind:'batch-record'});
+ const reconstructed=Buffer.from('{'+assets.map(asset=>asset.raw.toString().slice(1,-1)).join(',')+'}');
+ assert.deepEqual(reconstructed,raw);
+ assert.deepEqual(partition.parts.map(part=>part.keys),[['part-c'],['part-b'],['part-a']]);
+ assert.throws(()=>partitionCityTable(Buffer.from('{"part-a":"old catalog"}'),{kind:'batch-record'}),/batch record group/);
+ const descriptor={path:`/safety/buildings3d/painted-tables/6e/${canonicalSHA256}.json`,sha256:canonicalSHA256,bytes:raw.length};
+ const source=encodeCityTable(Buffer.from('{"source":true}')).descriptor;
+ const deps=structuredClone(dependencies);
+ deps.initializers.root500[canonicalSHA256]={[file]:1};
+ deps.initializers.root500[source.sha256]={[file]:1};
+ const profile=structuredClone(products.get('berlin').profile);
+ profile.selectorVersion='city-data-v4';
+ profile.routes.push({file,canonicalSHA256,canonicalBytes:raw.length,occurrence:0,selector:'batch-record-keys',descriptor,
+  canonicalCount:3,retainedCount:3,orderedSelectionSHA256:hash(JSON.stringify(['part-c','part-b','part-a'])),partition});
+ const allDescriptors=[...manifest,source,descriptor];
+ const client=createCityFrozenProfile(allDescriptors,deps,profile,'berlin');
+ assert.equal(client.resolve(source.sha256,file),source.sha256);
+ assert.equal(client.partition(source.sha256,file),undefined);
+ assert.deepEqual(client.partition(canonicalSHA256,file),partition);
+ assert.throws(()=>client.resolve('0'.repeat(64),file),/binding mismatch/);
+ const munich=structuredClone(profile);munich.city='munich';
+ assert.throws(()=>createCityFrozenProfile(allDescriptors,deps,munich,'munich'),/selector version/);
+ profile.routes.at(-1).partition.parts.pop();
+ assert.throws(()=>createCityFrozenProfile(allDescriptors,deps,profile,'berlin'),/Incomplete city data partition/);
+});

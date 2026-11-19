@@ -14,7 +14,17 @@ const __root500OwnRefs:readonly FrozenDataRef[]=[{"canonicalSHA256":"44e9b9687d0
 export const root500DataRefs:readonly FrozenDataRef[]=[...__root500OwnRefs];
 export const root500DataFunctionArities:Record<string,number>={"ownerF033Reconstruction":1};
 export function mayMatchRoot500Data(components:readonly {city:string;objectId?:string;partId?:string;origin?:readonly number[]}[]){return components.some(component=>["berlin"].includes(component.city)&&__root500Demand.some(identity=>identity.objectId===component.objectId&&(identity.partId===null||identity.partId===component.partId)));}
-export async function prepareRoot500Data(components:readonly {city:string;objectId?:string;partId?:string;origin?:readonly number[]}[],signal:AbortSignal,scope:FrozenDataScope){signal.throwIfAborted();if(mayMatchRoot500Data(components))await scope.prepare(root500DataRefs,signal);}
+const requiredDisplayParts=F033_IDS.map(({partId})=>partId);
+export async function prepareRoot500Data(components:readonly {city:string;objectId?:string;partId?:string;origin?:readonly number[]}[],signal:AbortSignal,scope:FrozenDataScope){
+ signal.throwIfAborted();
+ if(!mayMatchRoot500Data(components))return;
+ // F033 publishes only when all three native carriers match. Select the full
+ // group while letting the frozen store admit each display part separately.
+ await Promise.all([
+  scope.prepare([__root500OwnRefs[0]],signal),
+  scope.prepareSelection(__root500OwnRefs[1],requiredDisplayParts,signal)
+ ]);
+}
 export function getRoot500Data(scope?:FrozenDataScope){if(!scope)throw Error('owner-f033-reconstruction.ts requires a prepared FrozenDataScope');return scope.memo(__root500MemoKey,()=>{
 
 const SOURCE:Record<string,any>=(scope.borrow<any,any>(__root500OwnRefs[0],value=>value));

@@ -108,6 +108,12 @@
       "canonicalSHA256": "d648131f34efe5e02abbf65890f2099940ea002a77d5075dcef60f83fd668418",
       "occurrence": 0,
       "selector": "group-targets"
+    },
+    {
+      "file": "painted/root500/safety/owner-f033-reconstruction.ts",
+      "canonicalSHA256": "6e9b72aedf1cf42b6ad87ad953e40349373584058ab68e18441f1db2380be7e4",
+      "occurrence": 0,
+      "selector": "batch-record-keys"
     }
   ]
 }

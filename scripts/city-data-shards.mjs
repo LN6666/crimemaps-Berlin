@@ -111,6 +111,7 @@ export function encodeCityTable(raw) {
  * All rows for one city/object stay together. rowIndices restore the original
  * table order even when an object's parts were interleaved in the source.
  * A catalog value is an indivisible source program; keys may share families.
+ * A compact batch record keeps a complete geometry/material group per part.
  */
 export function partitionCityTable(raw, {kind, targetBytes = CITY_TABLE_PART_BYTES}) {
   if (!Number.isSafeInteger(targetBytes) || targetBytes < 2 || targetBytes > CITY_TABLE_PART_BYTES) throw Error('Invalid city table part target');
@@ -135,6 +136,19 @@ export function partitionCityTable(raw, {kind, targetBytes = CITY_TABLE_PART_BYT
       if (typeof source !== 'string') throw Error('City program catalog values must be strings');
       groups.push({key, entries: [{text: members.get(key)}]});
     }
+  } else if (kind === 'batch-record') {
+    if (!value || Array.isArray(value) || typeof value !== 'object') throw Error('Expected city batch record');
+    const members = jsonObjectMembers(raw);
+    if (!members.length || members.some(({key}) => !key || !Array.isArray(value[key]) || !value[key].length
+        || value[key].some(batch => !batch || Array.isArray(batch) || typeof batch !== 'object'))) {
+      throw Error('Invalid city batch record group');
+    }
+    // The verifier can reconstruct the canonical hash without publishing the
+    // whole file or serializing any geometry, even when numbers contain -0.
+    if (!raw.equals(Buffer.from('{' + members.map(member => member.text).join(',') + '}'))) {
+      throw Error('Expected compact city batch record members');
+    }
+    for (const {key, text} of members) groups.push({key, entries: [{text}]});
   } else if (kind === 'model-envelope' || kind === 'group-envelope') {
     const rowField = kind === 'group-envelope' ? 'groups' : 'models', identityField = kind === 'group-envelope' ? 'queueId' : 'targetId';
     if (!value || Array.isArray(value) || !Array.isArray(value[rowField])) throw Error('Expected model envelope');
@@ -173,7 +187,7 @@ export function partitionCityTable(raw, {kind, targetBytes = CITY_TABLE_PART_BYT
   }
   for (const group of groups) {
     const bytes = group.entries.reduce((sum, entry) => sum + Buffer.byteLength(entry.text), 0) + group.entries.length - 1;
-    if (pending.length && pendingBytes + 1 + bytes > targetBytes) flush();
+    if (pending.length && (kind === 'batch-record' || pendingBytes + 1 + bytes > targetBytes)) flush();
     pending.push(group);
     pendingBytes += bytes + (pendingEntries ? 1 : 0);
     pendingEntries += group.entries.length;

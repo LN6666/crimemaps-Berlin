@@ -13,8 +13,8 @@ import {encodeCityTable,partitionCityTable} from '../../scripts/city-data-shards
 // synthetic in-memory bytes; no product table, asset, browser or GPU is opened.
 const web=fileURLToPath(new URL('../',import.meta.url)),source=path.join(web,'src/safety');
 const core=await readFile(path.join(source,'frozen-data-lease-store.ts'),'utf8');
-const built=await build({stdin:{contents:core+"\nexport {createFrozenDataScope} from './frozen-data-scope';\nexport {createChunkResourceStore} from './render-runtime/chunk-resource-store';\nexport {createResourceBudget} from './render-runtime/resource-budget';\nexport {estimateRetainedBuildingPayload} from './building-payload-cost';",resolveDir:source,sourcefile:'frozen-data-lease-store.ts',loader:'ts'},bundle:true,platform:'node',format:'esm',target:'es2022',write:false});
-const {createFrozenDataLeaseStore,createFrozenDataScope,createChunkResourceStore,createResourceBudget,estimateRetainedBuildingPayload}=await import('data:text/javascript;base64,'+Buffer.from(built.outputFiles[0].text).toString('base64'));
+const built=await build({stdin:{contents:core+"\nexport {createFrozenDataScope} from './frozen-data-scope';\nexport {createChunkResourceStore} from './render-runtime/chunk-resource-store';\nexport {createResourceBudget} from './render-runtime/resource-budget';\nexport {estimateRetainedBuildingPayload} from './building-payload-cost';\nexport * as f033 from '../painted/root500/safety/owner-f033-reconstruction';",resolveDir:source,sourcefile:'frozen-data-lease-store.ts',loader:'ts'},bundle:true,platform:'node',format:'esm',target:'es2022',write:false});
+const {createFrozenDataLeaseStore,createFrozenDataScope,createChunkResourceStore,createResourceBudget,estimateRetainedBuildingPayload,f033}=await import('data:text/javascript;base64,'+Buffer.from(built.outputFiles[0].text).toString('base64'));
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 const profileSHA256='a'.repeat(64),city='bremen',provider='bremen';
 const file=name=>`painted/bremen/safety/lease-${name}.ts`;
@@ -89,6 +89,48 @@ test('selected group envelopes read only demanded complete groups and release th
  assert.equal(value.SOURCEImmutable,true);assert.equal(value.selectedCount,2);assert.deepEqual(reads,[assets[0].descriptor.transport.path]);
  await assert.rejects(scope.prepareSelection(reference,['a','b'],signal()),/cannot widen/);
  scope.release();await tick();empty(store);
+});
+
+test('F033 prepares the complete three-part display and releases its selected batch records on each exit',async t=>{
+ const keys=f033.F033_IDS.map(({partId})=>partId);
+ const source=encodeCityTable(Buffer.from('{"source":"verified"}'));
+ const display=Object.fromEntries([...keys,'unrelated'].map((key,i)=>[key,[{
+  positions:[i,1,2],normals:[0,0,1],indices:[0,0,0],color:[0.2,0.3,0.4],
+  frames:[i,0,1],paint:[1,0,0],writeMask:[true,false]
+ }]]));
+ const displayBytes=Buffer.from(JSON.stringify(display).replace('"positions":[0,','"positions":[-0,'));
+ const whole=encodeCityTable(displayBytes);
+ const {partition,assets}=partitionCityTable(displayBytes,{kind:'batch-record',targetBytes:2});
+ const [sourceRef,displayRef]=f033.root500DataRefs;
+ const descriptorByRef=new Map([[sourceRef.canonicalSHA256,source.descriptor],[displayRef.canonicalSHA256,whole.descriptor]]);
+ const bindings=Array.from(descriptorByRef.values(),descriptor=>({f:{d:descriptor},file:displayRef.file}));
+ const resourceStore=createChunkResourceStore({budget:createResourceBudget(),recentMaxEntries:0});
+ const descriptors=[source.descriptor,whole.descriptor,...assets.map(a=>a.descriptor)];
+ const store=createFrozenDataLeaseStore(descriptors,{resourceStore}),reads=[];
+ const payloads=new Map([source,...assets].map(a=>[a.descriptor.transport.path,a.packed]));
+ const client=store.client(config(bindings,async(p,s,max)=>{
+  s.throwIfAborted();const bytes=payloads.get(p);assert(bytes,'F033 must not fetch the unsplit display table');
+  assert.equal(max,bytes.length);reads.push(p);return bytes;
+ },{city:'berlin',provider:'root500',resolve:sha=>descriptorByRef.get(sha).sha256,partition:sha=>sha===displayRef.canonicalSHA256?partition:undefined}));
+ t.after(()=>{client.dispose();store.destroy();resourceStore.destroy();});
+ const paths=[source.descriptor.transport.path,...partition.parts.filter(part=>part.keys.some(key=>keys.includes(key)))
+  .map(part=>part.descriptor.transport.path)].sort();
+ assert.equal(paths.length,4);
+ for(let cycle=0;cycle<2;cycle++){
+  const scope=createFrozenDataScope(client);
+  try{
+   await deadline(f033.prepareRoot500Data(f033.F033_IDS,signal(),scope));
+   scope.assertSelection(displayRef,keys);
+   assert.throws(()=>scope.assertSelection(displayRef,['unrelated']),/not declared/);
+   const prepared=f033.getRoot500Data(scope);
+   assert.deepEqual(prepared.SOURCE,{source:'verified'});
+   const original=JSON.parse(displayBytes);
+   assert.deepEqual(prepared.DISPLAY,Object.fromEntries(keys.map(key=>[key,original[key]])));
+   assert(Object.is(prepared.DISPLAY[keys[0]][0].positions[0],-0),'Keep the exact geometry number');
+   assert.deepEqual(reads.slice(cycle*paths.length).sort(),paths);
+  }finally{scope.release();}
+  await tick();empty(store);
+ }
 });
 
 test('selected object cohorts share actual parts; retained overlap survives release and reacquires only after the final grant',async t=>{

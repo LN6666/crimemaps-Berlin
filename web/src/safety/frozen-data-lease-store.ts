@@ -9,7 +9,7 @@ import {PRESSURE_AVAILABILITY_LIMITS,registerPressureAvailability,type PressureS
 
 export type FrozenDataDescriptor={path:string;sha256:string;bytes:number;transport?:{path:string;sha256:string;bytes:number;encoding:'gzip'}};
 export type FrozenDataPart={descriptor:FrozenDataDescriptor;keys:readonly string[];rowIndices?:readonly number[];oversizedAtomic?:true};
-export type FrozenDataPartition={schemaVersion:1;kind:'object-rows'|'record-keys';parts:readonly FrozenDataPart[]}|{
+export type FrozenDataPartition={schemaVersion:1;kind:'object-rows'|'record-keys'|'batch-record';parts:readonly FrozenDataPart[]}|{
  schemaVersion:1;kind:'model-envelope'|'group-envelope';parts:readonly FrozenDataPart[];envelope:Record<string,unknown>;
  /** Offline canonical-byte verification only; never contains model bodies. */
  sourceLayout:{prefix:string;suffix:string;separators:readonly string[]};
@@ -860,7 +860,15 @@ export function createFrozenDataLeaseStore(descriptors:readonly FrozenDataDescri
    const values:[string,unknown][]=[];
    for(const {part,lease}of selected)lease.borrow(value=>{
     if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).length!==part.keys.length)throw Error('Frozen data partition record count mismatch');
-    for(const key of part.keys){if(!Object.hasOwn(value,key)||typeof (value as Record<string,unknown>)[key]!=='string')throw Error('Frozen data partition record binding mismatch');values.push([key,(value as Record<string,unknown>)[key]]);}
+    const record=value as Record<string,unknown>;
+    for(const key of part.keys){
+     const row=record[key];
+     const valid=partition.kind==='batch-record'
+      ?Array.isArray(row)&&row.length>0&&row.every(batch=>batch&&typeof batch==='object'&&!Array.isArray(batch))
+      :typeof row==='string';
+     if(!Object.hasOwn(record,key)||!valid)throw Error('Frozen data partition record binding mismatch');
+     values.push([key,row]);
+    }
    });
    return Object.fromEntries(values);
   }
