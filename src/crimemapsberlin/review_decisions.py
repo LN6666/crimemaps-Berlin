@@ -27,10 +27,10 @@ from .multiple_scenes import (
     _validate_poi_contexts,
     _validate_transit,
 )
-from .source_review_pack import read_checkpoint_connection
+from .source_review_pack import CANONICAL_CITY_SLUGS, read_checkpoint_connection
 
 SCHEMA_VERSION = 1
-REVIEW_REQUIRED_CITIES = {"berlin", "hamburg", "cologne", "frankfurt"}
+REVIEW_REQUIRED_CITIES = set(CANONICAL_CITY_SLUGS) - {"munich"}
 REVIEW_VERDICTS = {"supported", "needs_correction", "uncertain"}
 LOCATION_SCOPES = {"in_city", "out_of_city", "uncertain"}
 NO_POINT_PRECISIONS = {"street", "area", "district", "route", "unknown"}
@@ -463,7 +463,7 @@ def _validate_city(city: str) -> None:
             "POLIZEIKARTE upstream semantics"
         )
     if city not in REVIEW_REQUIRED_CITIES:
-        raise ValueError(f"City is outside the first-group source-review contract: {city}")
+        raise ValueError(f"City is outside the source-body review contract: {city}")
 
 
 def _load_sources(db: sqlite3.Connection, city: str) -> tuple[dict[str, dict], int]:
