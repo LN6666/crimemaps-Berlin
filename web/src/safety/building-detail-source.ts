@@ -31,8 +31,8 @@ const PHYSICAL_LIMIT = 1024 ** 2, RAW_LIMIT = 4 * 1024 ** 2, HASH = /^[a-f0-9]{6
  * inflate, so its margin is about 1.12x (deducting only the real buffers,
  * k <= 7.83), and its 500000-byte raw = wire cap keeps that shortfall under
  * 1 MB. At the 8 MiB raw limit the ledger admits about 97.4 MiB, inside the
- * 256 MiB mobile page (ledger arithmetic; no measured document came near
- * that raw size). */
+ * 256 MiB page cap used for the original calibration. This is ledger
+ * arithmetic. No measured document came near that raw size. */
 export const DETAIL_GROUP_EXPANSION = 10;
 /** Per raw byte of one display-variant read and parse (JSON text, parsed
  * document, metadata and plain attributes). Not calibrated: no display-variant

@@ -277,9 +277,9 @@ function normalize(input:ResourceBudgetCost|readonly ResourceBudgetCost[]):reado
 }
 function policy(options:ResourceBudgetOptions={}){
  const profile=options.profile??'desktop';if(profile!=='desktop'&&profile!=='mobile')throw resourceContractViolation(new TypeError('Unknown resource budget profile'));
- // Desktop default 1.5 GB (owner decision 2026-11-12); mobile remains 256 MiB.
+ // Desktop defaults to 1.5 GB; the mobile page budget defaults to 512 MiB.
  // This limits logical resource accounting, not physical process memory.
- const limitBytes=byteCount(options.limitBytes??(profile==='mobile'?256*MiB:1_500_000_000),'Resource budget limit');
+ const limitBytes=byteCount(options.limitBytes??(profile==='mobile'?512*MiB:1_500_000_000),'Resource budget limit');
  const recentLimitBytes=byteCount(options.recentLimitBytes??Math.min(limitBytes,(profile==='mobile'?16:32)*MiB),'Recent resource budget limit');
  if(recentLimitBytes>limitBytes)throw new RangeError('Recent resource budget must be a subset of the total limit');
  return{profile,limitBytes,recentLimitBytes};
