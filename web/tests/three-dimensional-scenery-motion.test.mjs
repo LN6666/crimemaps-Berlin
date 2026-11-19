@@ -12,7 +12,7 @@ const tick = () => new Promise(resolve => setImmediate(resolve));
 // Reuse the runtime-performance scenery fixture's bounded read/timer/layer model.
 // Vehicle drawing is replaced; map-motion callbacks and actual scenery logic
 // execute without a GPU, real animation timer or public source-data mutation.
-function fixture(t, holdFirstRoadRead = false) {
+function fixture(t, holdFirstRoadRead = false, tiles = false) {
   const keys = ['document', 'setTimeout', 'clearTimeout', '__sceneryMotionVehicleFactory'];
   const previous = new Map(keys.map(key => [key, Object.getOwnPropertyDescriptor(globalThis, key)]));
   const timers = new Map(), events = new Map(), layers = new Map(), reads = [], commits = [];
@@ -23,14 +23,26 @@ function fixture(t, holdFirstRoadRead = false) {
   globalThis.clearTimeout = id => timers.delete(id);
   globalThis.__sceneryMotionVehicleFactory = () => ({
     layer: {id: 'synthetic-cars'}, setEnabled(value) { enabled = value; }, setVisible() {}, setReducedMotion() {}, setZoom() {}, setFrameLoad() {},
-    setRoads(value) { commits.push(value); }, positionSamples: [], stats: {allocatedVehicles: 1}, destroy() {},
+    setRoads(value) { commits.push(value); }, setValidatedRoads(roads) { commits.push({roads}); }, positionSamples: [], stats: {allocatedVehicles: 1}, destroy() {},
   });
   t.after(() => { for (const [key, value] of previous) { if (value) Object.defineProperty(globalThis, key, value); else delete globalThis[key]; } });
   const index = {schema_version: 1, city: 'berlin', role: 'decorative-schematic', partial: true, snapshot: 'synthetic', source_pbf_sha256: 'a'.repeat(64), data: {path: '/safety/buildings3d/roads.json', bytes: 100, sha256: 'b'.repeat(64)}};
   const roads = {schema_version: 1, city: 'berlin', source_snapshot: 'synthetic', source_pbf_sha256: 'a'.repeat(64), source_url: 'https://www.openstreetmap.org', city_boundary_sha256: 'b'.repeat(64), role: 'decorative-schematic', partial: true, roads: [{id: 'osm/way/1/clip/0', source_way_id: 1, coordinates: [[13, 52], [13.002, 52.002]], direction: 1, source_tags: {highway: 'residential'}, source_url: 'https://www.openstreetmap.org/way/1'}]};
+  const asset = (name, hex) => ({path:'/safety/buildings3d/'+name+'.json', bytes:100, sha256:hex.repeat(64)});
+  const west = {bbox:[12,51,14,53], data:asset('west','c')};
+  const east = {bbox:[16,51,18,53], data:asset('east','d')};
+  const header = {schema_version:2, city:index.city, role:index.role, snapshot:index.snapshot,
+    source_pbf_sha256:index.source_pbf_sha256, city_boundary_sha256:roads.city_boundary_sha256};
+  const group = {...east,data:asset('east-index','e')};
+  const westGroup = {...west,data:asset('west-index','f')};
+  const tileFiles = new Map([
+    [westGroup.data.path,{...header,tiles:[west]}], [group.data.path,{...header,tiles:[east]}], [west.data.path,roads],
+    [east.data.path,{...roads,roads:[{...roads.roads[0],id:'osm/way/2/clip/0',source_way_id:2,
+      source_url:'https://www.openstreetmap.org/way/2',coordinates:[[17,52],[17.002,52.002]]}]}]
+  ]);
   const map = {on: (type, listener) => events.set(type, listener), off: type => events.delete(type), getZoom: () => 18, getBounds: () => ({getWest: () => currentBounds[0], getSouth: () => currentBounds[1], getEast: () => currentBounds[2], getNorth: () => currentBounds[3]}), getLayer: id => layers.get(id), addLayer: layer => layers.set(layer.id, layer), removeLayer: id => layers.delete(id)};
   const scenery = installThreeDimensionalScenery({map, city: 'berlin', locale: 'en', host: {append() {}}, buildingLayer: () => undefined,
-    read: async (asset, signal) => { reads.push({asset, signal}); if (typeof asset === 'string') return index; if (++roadReads === 1 && holdFirstRoadRead) await roadGate; return roads; },
+    read: async (asset, signal) => { reads.push({asset, signal}); if(tiles)return typeof asset==='string'?{...header,partitions:[westGroup,group]}:tileFiles.get(asset.path); if (typeof asset === 'string') return index; if (++roadReads === 1 && holdFirstRoadRead) await roadGate; return roads; },
   });
   t.after(() => scenery.destroy());
   return {scenery, events, reads, commits, timers, get enabled() { return enabled; }, finishFirstRoadRead,setBounds(value){currentBounds=value;},
@@ -79,4 +91,22 @@ test('unchanged scenery setters and warm resumes retain one road commit; a new v
  }
  f.setBounds([12.1,51.1,14.1,53.1]);f.events.get('moveend')();f.runSettled();await f.ready();assert.equal(f.commits.length,2);assert.equal(f.reads.length,2);
  f.scenery.setMode(false);f.scenery.setMode(true);await f.ready();assert.equal(f.commits.length,3);assert.equal(f.reads.length,4,'explicit 2D releases the source/vehicle binding');
+});
+
+
+test('citywide traffic follows a pan to another partition and releases out-of-view tiles', async t => {
+  const f=fixture(t,false,true);
+  f.scenery.setMode(true); await f.ready();
+  assert.deepEqual(f.commits.at(-1).roads.map(r=>r.source_way_id),[1]);
+  assert.equal(f.scenery.stats.resources.viewportTiles,1);
+  assert.equal(f.reads.filter(r=>typeof r.asset!=='string').length,2);
+  f.events.get('movestart')();f.setBounds([16,51,18,53]);f.events.get('moveend')();
+  f.runSettled();await f.ready();
+  assert.deepEqual(f.commits.at(-1).roads.map(r=>r.source_way_id),[2]);
+  assert.equal(f.scenery.stats.resources.viewportTiles,1);
+  f.events.get('movestart')();f.setBounds([20,51,21,53]);f.events.get('moveend')();
+  f.runSettled();await f.ready();
+  assert.deepEqual(f.commits.at(-1).roads,[]);
+  assert.equal(f.scenery.stats.resources.viewportTiles,0);
+  assert.equal(f.scenery.stats.resources.sourceRetainedEstimateBytes,0);
 });

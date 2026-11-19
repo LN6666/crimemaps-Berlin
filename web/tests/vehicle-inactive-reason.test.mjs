@@ -87,6 +87,87 @@ test('moving the view onto a road activates cars and clears the reason without c
   f.vehicles.setRoads(scenery); assert.equal(f.vehicles.stats.viewportRoads, 1);
 });
 
+for (const mobile of [false, true]) {
+  const device = mobile ? 'mobile' : 'desktop';
+  test(`${device}: a visible road with two baseline candidates still draws one moving vehicle`, t => {
+    const f = fixture(t, {options: {mobile}});
+    const road = {...scenery.roads[0], coordinates: [[13, 52], [13.00009, 52]]};
+    f.vehicles.setValidatedRoads([road], nearView);
+    f.vehicles.setEnabled(true); f.vehicles.layer.onAdd({}, f.gl);
+    f.render();
+    assert.equal(f.vehicles.stats.candidateSlots, 2);
+    assert.equal(f.vehicles.stats.previousPrimaryVisibleVehicles, 0);
+    assert.equal(f.vehicles.stats.activeVehicles, 1);
+    assert.equal(f.vehicles.stats.submittedTriangles, 22);
+    const before = f.vehicles.positionSamples[0];
+    f.advance(Math.ceil(1000 / f.vehicles.stats.maxAnimationFPS));
+    const after = f.vehicles.positionSamples[0];
+    assert.equal(after.sourceRoadId, road.id);
+    assert.equal(after.phaseSeed, before.phaseSeed);
+    assert.equal(after.headingRadians, 0);
+    assert.notDeepEqual(after.lngLat, before.lngLat);
+    assert.equal(f.drawCalls, 2);
+  });
+
+  test(`${device}: a short viewport intersection of a long one-way road stays visible through viewport changes`, t => {
+    const f = fixture(t, {options: {mobile}});
+    const road = {...scenery.roads[0], direction: -1, coordinates: [[13, 52], [13.2, 52]]};
+    const view = center => [center - .000014, 51.99999, center + .000014, 52.00001];
+    const assertOnRoad = (bounds) => {
+      assert.equal(f.vehicles.stats.activeVehicles, 1);
+      const sample = f.vehicles.positionSamples[0];
+      assert.equal(sample.sourceRoadId, road.id);
+      assert.equal(sample.headingRadians, Math.fround(Math.PI));
+      assert(Math.abs(sample.lngLat[1] - 52) < 1e-9);
+      assert(bounds[0] < sample.lngLat[0] && sample.lngLat[0] < bounds[2]);
+      return sample.lngLat[0];
+    };
+    f.vehicles.setValidatedRoads([road], view(13.021));
+    f.vehicles.setEnabled(true); f.vehicles.layer.onAdd({}, f.gl);
+    f.render();
+    assert(f.vehicles.stats.fullSourcePathLengthM > 10_000);
+    assert(f.vehicles.stats.visibleSourcePathLengthM > 0 && f.vehicles.stats.visibleSourcePathLengthM < 5);
+    const first = assertOnRoad(view(13.021));
+    f.advance(Math.ceil(1000 / f.vehicles.stats.maxAnimationFPS));
+    assert.notEqual(assertOnRoad(view(13.021)), first);
+    f.vehicles.setViewport(view(13.15));
+    f.advance(Math.ceil(1000 / f.vehicles.stats.maxAnimationFPS));
+    assertOnRoad(view(13.15));
+    f.advance(Math.ceil(1000 / f.vehicles.stats.maxAnimationFPS), away);
+    assert.equal(f.vehicles.stats.activeVehicles, 0);
+    const oldDraws = f.drawCalls;
+    f.advance(Math.ceil(1000 / f.vehicles.stats.maxAnimationFPS));
+    assertOnRoad(view(13.15));
+    assert.equal(f.drawCalls, oldDraws + 1);
+  });
+  test(`${device}: a camera-only move recovers a long road whose slots miss the short frustum span`, t => {
+    const uploadSizes = [];
+    const f = fixture(t, {gl: fakeGL({bufferSubData(_target, _offset, _data, _start, size) { uploadSizes.push(size); }}), options: {mobile}});
+    const road = {...scenery.roads[0], coordinates: [[13.0078125, 52], [13.36, 52]]};
+    const scale = 2 ** 27;
+    const lng = center => center * 360 - 180;
+    const camera = center => new Float64Array([scale, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -scale * center, 0, 0, 1]);
+    f.vehicles.setValidatedRoads([road], [13, 51.99, 13.37, 52.01]);
+    f.vehicles.setEnabled(true); f.vehicles.layer.onAdd({}, f.gl);
+    f.render(away);
+    assert.equal(f.vehicles.stats.activeVehicles, 0);
+    assert.deepEqual(uploadSizes, []);
+    const step = Math.ceil(1000 / f.vehicles.stats.maxAnimationFPS);
+    for (const center of [.53662109375, .536865234375]) {
+      f.advance(step, camera(center));
+      const stats = f.vehicles.stats, sample = f.vehicles.positionSamples[0];
+      assert.equal(stats.densityScans, 1, 'movement without a settled bounds change cannot rebuild the density reservoir');
+      assert.equal(stats.baselineVisibleVehicles, 0);
+      assert.equal(stats.activeVehicles, 1);
+      assert.equal(stats.allocatedVehicles, 1);
+      assert.equal(stats.drawBatchesPerFrame, 1);
+      assert.equal(sample.sourceRoadId, road.id);
+      assert(Math.abs(sample.lngLat[0] - lng(center)) < 360 / scale);
+    }
+    assert.deepEqual(uploadSizes, [3, 3], 'a sparse frame uploads one transform and an empty frame uploads no transforms');
+  });
+}
+
 test('display states name why loaded in-view cars are inactive', t => {
   const f = fixture(t);
   f.vehicles.setRoads(scenery, nearView);
