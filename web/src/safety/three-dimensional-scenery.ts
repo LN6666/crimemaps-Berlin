@@ -7,11 +7,9 @@ import type {ChunkResourceLease,ChunkResourceStore} from './render-runtime/chunk
 import {ResourceBudgetExceededError} from './render-runtime/resource-budget';
 import {attemptEnvironmentAdmission,createEnvironmentAdmissionStats,createEnvironmentReadEnvelopes,environmentAdmissionError,environmentDecodedCost,environmentJsonReadCosts,environmentResourceStore,environmentRetainedEstimate,reserveEnvironmentCosts,waitForEnvironmentBudget,waitForEnvironmentLease,EnvironmentResourcePendingError,EnvironmentResourceUnfitError} from './environment-resource-budget';
 import type {ResourceByteAcquireOptions} from './resource-byte-transport';
-type Asset={path:string;sha256:string;bytes:number};
-type SceneIndex={schema_version:1;city:string;role:'decorative-schematic';partial:true;snapshot:string;source_pbf_sha256:string;data:Asset};
-const valid=(v:any):v is Asset=>v&&typeof v.path==='string'&&/^\/safety\/buildings3d\/[A-Za-z0-9_.\/-]+$/.test(v.path)&&!v.path.split('/').some((s:string)=>s==='..'||s==='.')&&/^[a-f0-9]{64}$/.test(v.sha256)&&Number.isSafeInteger(v.bytes)&&v.bytes>0&&v.bytes<=1024**2;
+import {intersectRoadBounds, readRoadIndex, viewportRoadFiles, type RoadBounds, type RoadAsset as Asset, type RoadFile as SceneIndex, type RoadIndex} from './vehicle-road-tiles';
 
-const COPY={en:{loading:'Loading mapped roads for the car animation…',ready:'Car animation follows a subset of mapped roads.',none:'No saved animation roads in this view. Other map features remain available.',retained:'Roads could not be refreshed. Previously loaded animation roads remain visible.',failed:'Car animation is unavailable. Other map features remain available.'},de:{loading:'Kartierte Straßen für die Autoanimation werden geladen…',ready:'Die Autoanimation folgt einem Teil der kartierten Straßen.',none:'Für diesen Ausschnitt sind keine Animationsstraßen gespeichert. Andere Kartenfunktionen bleiben verfügbar.',retained:'Die Straßen konnten nicht aktualisiert werden. Die zuvor geladenen Animationsstraßen bleiben sichtbar.',failed:'Die Autoanimation ist nicht verfügbar. Andere Kartenfunktionen bleiben verfügbar.'},zh:{loading:'正在加载小车动画所用的道路…',ready:'小车动画沿部分已保存的道路显示。',none:'此视野没有已保存的动画道路，其他地图功能仍可使用。',retained:'道路暂未刷新，仍显示此前加载的道路动画。',failed:'小车动画暂不可用，其他地图功能仍可使用。'}};
+const COPY={en:{loading:'Loading mapped roads for the car animation…',ready:'Car animation follows a subset of mapped roads.',citywide:'Cars follow mapped roads in this view.',none:'No saved animation roads in this view. Other map features remain available.',retained:'Roads could not be refreshed. Previously loaded animation roads remain visible.',failed:'Car animation is unavailable. Other map features remain available.'},de:{loading:'Kartierte Straßen für die Autoanimation werden geladen…',ready:'Die Autoanimation folgt einem Teil der kartierten Straßen.',citywide:'Die Autos bewegen sich auf kartierten Straßen in diesem Ausschnitt.',none:'Für diesen Ausschnitt sind keine Animationsstraßen gespeichert. Andere Kartenfunktionen bleiben verfügbar.',retained:'Die Straßen konnten nicht aktualisiert werden. Die zuvor geladenen Animationsstraßen bleiben sichtbar.',failed:'Die Autoanimation ist nicht verfügbar. Andere Kartenfunktionen bleiben verfügbar.'},zh:{loading:'正在加载小车动画所用的道路…',ready:'小车动画沿部分已保存的道路显示。',citywide:'小车沿当前视野内有数据的可通车道路移动。',none:'此视野没有已保存的动画道路，其他地图功能仍可使用。',retained:'道路暂未刷新，仍显示此前加载的道路动画。',failed:'小车动画暂不可用，其他地图功能仍可使用。'}};
 /** Optional scenery shares the map and the existing 3D request semaphore.
  * read/ensureRead follow the environment manager's contract: with ensureRead
  * every read carries the transport's caller-admitted 4th argument for the one
@@ -23,39 +21,38 @@ export function installThreeDimensionalScenery(options:{map:MapView;city:string;
  let vehicles:ReturnType<typeof createAnimatedVehicles>|undefined;
  let cameraMoving=false,cameraGestureActive=false,settleTimer:ReturnType<typeof setTimeout>|undefined;
  let sourceBytes=0,state='idle';
- // Decoded scenery roads are one page-store value held by a 'source' lease for
- // as long as this owner and its vehicles' sourceRoads keep them; reads are
- // admitted on the same page ledger before they start.
+ // Each decoded road tile has a source lease on the page's shared resource budget.
  const resources=environmentResourceStore(options.mobile,options.resourceStore),admission=createEnvironmentAdmissionStats('vehicle-scenery',()=>committedBytes());
  const callerAdmitted=typeof options.ensureRead==='function',envelopes=createEnvironmentReadEnvelopes();
- type SceneryValue={scenery:VehicleScenery;retained:number};let dataLease:ChunkResourceLease<SceneryValue>|undefined;
+ type SceneryValue={scenery:VehicleScenery;retained:number};let tileLeases=new Map<string,ChunkResourceLease<SceneryValue>>();
+ let tiled=false;
+ const retainedRoadBytes=()=>Array.from(tileLeases.values()).reduce((n,lease)=>n+(lease.value?.retained??0),0);
  // Visibility/context pauses reuse this exact source/view commit and its cohort;
  // changed roads, bounds or zoom still rebuild through the original renderer.
- let publishedRoads:VehicleScenery|undefined,publishedBounds:readonly number[]|undefined,publishedZoom:number|undefined;
+ let publishedRoads:VehicleScenery|undefined,publishedBounds:RoadBounds|undefined,publishedZoom:number|undefined;
  /** Bytes of completed items this owner committed in its 3D lifetime and keeps
   * while a wait for its next item registers (counted as committed-hold waits,
   * see createEnvironmentAdmissionStats): the vehicle renderer's fixed CPU
   * storage, program allowance, viewport roads and GPU storage, and the decoded
   * scenery roads. A road production in flight is a store entry, not counted. */
  function committedBytes(){
-  const own=vehicles?.stats.resources;let bytes=own?(own.fixedCPUBytes??0)+(own.programAllowanceBytes??0)+(own.roadBytes??0)+(own.gpuBytes??0):0;
-  const value=dataLease&&!dataLease.released?dataLease.value:undefined;if(value)bytes+=Math.ceil(value.retained);
-  return bytes;
+  const own=vehicles?.stats.resources;const bytes=own?(own.fixedCPUBytes??0)+(own.programAllowanceBytes??0)+(own.roadBytes??0)+(own.gpuBytes??0):0;
+  return bytes+Math.ceil(retainedRoadBytes());
  }
  const active=()=>!destroyed&&!suspended&&mode&&requested&&visible&&viewportVisible&&!reduce&&map.getZoom()>=14.5;
  const bounds=():[number,number,number,number]=>{const b=map.getBounds();return[b.getWest(),b.getSouth(),b.getEast(),b.getNorth()];};
  function stopped(){clearTimeout(settleTimer);settleTimer=undefined;request.abort();revision++;vehicles?.setEnabled(false);status.textContent='';state='idle';}
  // Cars whose GPU storage still waits for the page budget are not drawn: keep
  // the loading copy until the renderer reports that its storage exists.
- function readyStatus(){const stats=vehicles?.stats;return !stats||!data?'':stats.resources?.gpuDeferred?c.loading:stats.allocatedVehicles?c.ready+' '+data.source_snapshot:c.none;}
+ function readyStatus(){const stats=vehicles?.stats;return !stats||!data?'':stats.resources?.gpuDeferred?c.loading:stats.allocatedVehicles?(tiled?c.citywide:c.ready)+' '+data.source_snapshot:c.none;}
  // Explicit 2D owns the lifetime boundary; gesture/short hidden pauses retain warm roads.
  function releaseSceneryResources(){
   const oldVehicles=vehicles;
   vehicles=undefined;data=undefined;sourceBytes=0;publishedRoads=undefined;publishedBounds=undefined;publishedZoom=undefined;
   try{if(oldVehicles){try{if(map.getLayer(oldVehicles.layer.id))map.removeLayer(oldVehicles.layer.id);}finally{oldVehicles.destroy();}}}
-  finally{const lease=dataLease;dataLease=undefined;lease?.release();}
+  finally{for(const lease of tileLeases.values())lease.release();tileLeases.clear();tiled=false;}
  }
- async function loadSceneryRoads(raw:SceneIndex,parse:(value:unknown,city:string)=>VehicleScenery,signal:AbortSignal,current:()=>void):Promise<SceneryValue>{
+ async function loadSceneryRoads(raw:SceneIndex,parse:(value:unknown,city:string)=>VehicleScenery,signal:AbortSignal,current:()=>void):Promise<ChunkResourceLease<SceneryValue>>{
   const key=JSON.stringify(['vehicle-scenery-v1',city,raw.data.sha256,raw.data.bytes,raw.snapshot,raw.source_pbf_sha256]);
   for(;;){
    // A caller-admitted read's minted envelope joins the entry's estimate and the
@@ -85,8 +82,18 @@ export function installThreeDimensionalScenery(options:{map:MapView;city:string;
    }
    const value=lease.value;if(!value){lease.release();throw new DOMException('Aborted','AbortError');}
    // Ownership outlives this refresh signal: keep an unbound role, drop the bound one.
-   const owned=lease.retain('source');lease.release();dataLease?.release();dataLease=owned;return value;
+   const owned=lease.retain('source');lease.release();return owned;
   }
+ }
+ async function fetchIndex(ref:string|Asset,signal:AbortSignal,current:()=>void):Promise<unknown>{
+    // The caller-admitted protocol readies the reader holding no claim first.
+    if(callerAdmitted){await options.ensureRead!(signal);current();}
+    const indexPath=typeof ref==='string'?ref:ref.path,limit=typeof ref==='string'?64*1024:ref.bytes,indexCosts=environmentJsonReadCosts({bytes:limit},'vehicle scenery index');let raw:unknown;
+    // One claim for the index read set and, caller-admitted, its minted envelope;
+    // a refused delivery is retried holding nothing with the envelope it named.
+    for(;;){const indexEnvelope=callerAdmitted?envelopes.mint(indexPath,limit):undefined,indexClaimCosts=indexEnvelope?[...indexCosts,...indexEnvelope]:indexCosts,indexAttempt=attemptEnvironmentAdmission(resources.budget,signal,'vehicle scenery index',()=>reserveEnvironmentCosts(resources.budget,indexClaimCosts,'vehicle scenery index'),admission),indexClaim=indexAttempt.admitted?indexAttempt.value:await indexAttempt.pending;
+     try{try{raw=await (indexEnvelope?options.read(ref,signal,limit,{admitted:indexClaim,envelope:indexEnvelope,keep:indexCosts}):options.read(ref,signal,limit));}catch(error){if(!indexEnvelope||signal.aborted)throw error;const failed=envelopes.failure(indexPath,'vehicle scenery index',error);if(failed.retry)continue;if(failed.error instanceof EnvironmentResourceUnfitError)admission.unfit('vehicle scenery index',failed.error);throw failed.error;}
+      current();if(indexEnvelope)envelopes.delivered(indexPath);return raw;}finally{indexClaim.release();}}
  }
  async function refresh(){
   if(!active()){stopped();return;}
@@ -95,20 +102,61 @@ export function installThreeDimensionalScenery(options:{map:MapView;city:string;
   const current=()=>{signal.throwIfAborted();if(ticket!==revision||!active()||cameraMoving||cameraGestureActive||settleTimer!==undefined)throw new DOMException('Aborted','AbortError');};
   try{
    state='loading';status.textContent=c.loading;
+   const zoom=map.getZoom(),view=bounds();
+   // After a disjoint pan, no previously displayed road is visible. Drop the old
+   // renderer and tile leases before requesting space for the new viewport.
+   if(tiled && publishedBounds && !intersectRoadBounds(publishedBounds, view))releaseSceneryResources();
    if(!vehicles){const module=await import('./animated-vehicles');current();const create=()=>module.createAnimatedVehicles(map,city,{mobile:options.mobile,reducedMotion:reduce,frameClock:options.frameClock,resourceStore:resources,onRenderError:()=>{if(destroyed||!mode||!requested||!visible)return;request.abort();revision++;vehicles?.setEnabled(false);state='error';status.textContent=c.failed;},onGpuStateChange:()=>{if(destroyed||state!=='ready'||!vehicles)return;status.textContent=readyStatus();}});const attempt=attemptEnvironmentAdmission(resources.budget,signal,'vehicle renderer',create,admission),created=attempt.admitted?attempt.value:await attempt.pending;try{current();map.addLayer(created.layer as any,options.buildingLayer());vehicles=created;}catch(error){try{if(map.getLayer(created.layer.id))map.removeLayer(created.layer.id);}finally{created.destroy();}throw error;}}
    if(vehicles.stats.renderFailure){if(map.getLayer(vehicles.layer.id))map.removeLayer(vehicles.layer.id);map.addLayer(vehicles.layer as any,options.buildingLayer());}
-   if(!data){
-    // The caller-admitted protocol readies the reader holding no claim first.
-    if(callerAdmitted){await options.ensureRead!(signal);current();}
-    const indexPath='/safety/buildings3d/scenery-index.json',indexCosts=environmentJsonReadCosts({bytes:64*1024},'vehicle scenery index');let raw!:SceneIndex;
-    // One claim for the index read set and, caller-admitted, its minted envelope;
-    // a refused delivery is retried holding nothing with the envelope it named.
-    for(;;){const indexEnvelope=callerAdmitted?envelopes.mint(indexPath,64*1024):undefined,indexClaimCosts=indexEnvelope?[...indexCosts,...indexEnvelope]:indexCosts,indexAttempt=attemptEnvironmentAdmission(resources.budget,signal,'vehicle scenery index',()=>reserveEnvironmentCosts(resources.budget,indexClaimCosts,'vehicle scenery index'),admission),indexClaim=indexAttempt.admitted?indexAttempt.value:await indexAttempt.pending;
-     try{try{raw=await (indexEnvelope?options.read(indexPath,signal,64*1024,{admitted:indexClaim,envelope:indexEnvelope,keep:indexCosts}):options.read(indexPath,signal,64*1024)) as SceneIndex;}catch(error){if(!indexEnvelope||signal.aborted)throw error;const failed=envelopes.failure(indexPath,'vehicle scenery index',error);if(failed.retry)continue;if(failed.error instanceof EnvironmentResourceUnfitError)admission.unfit('vehicle scenery index',failed.error);throw failed.error;}
-      current();if(indexEnvelope)envelopes.delivered(indexPath);if(!raw||raw.schema_version!==1||raw.city!==city||raw.role!=='decorative-schematic'||raw.partial!==true||typeof raw.snapshot!=='string'||raw.snapshot.length>128||!/^[a-f0-9]{64}$/.test(raw.source_pbf_sha256)||!valid(raw.data))throw Error('Invalid scenery index');break;}finally{indexClaim.release();}}
-    const parser=await import('./vehicle-scenery-data');current();const loaded=await loadSceneryRoads(raw,parser.parseVehicleScenery,signal,current);data=loaded.scenery;sourceBytes=raw.data.bytes;
+   const moved=!publishedBounds||view.some((n,i)=>n!==publishedBounds![i]);
+   const frameLoad=options.frameLoad?.();
+   if(frameLoad)vehicles.setFrameLoad(frameLoad);
+   vehicles.setZoom(zoom);
+   if(!data||(tiled&&moved)){
+    const root=readRoadIndex(await fetchIndex('/safety/buildings3d/scenery-index.json',signal,current),city);
+    current();
+    const files=root.schema_version===1?[root.data]:await viewportRoadFiles(root,view,a=>fetchIndex(a,signal,current));
+    current();
+    const parser=await import('./vehicle-scenery-data');
+    const next=new Map<string,ChunkResourceLease<SceneryValue>>();
+    try{
+     const roads=new Map<string,VehicleScenery['roads'][number]>();
+     let first:VehicleScenery|undefined;
+     for(const file of files){
+      current();
+      const raw:SceneIndex={...root,schema_version:1,partial:true,data:file};
+      const key=root.source_pbf_sha256+'/'+root.snapshot+'/'+file.sha256;
+      if(next.has(key))continue;
+      const held=tileLeases.get(key);
+      const lease=held?held.retain('source'):await loadSceneryRoads(raw,parser.parseVehicleScenery,signal,current);
+      next.set(key,lease);
+      current();
+      const value=lease.value!.scenery;
+      if(root.schema_version===2 && value.city_boundary_sha256!==root.city_boundary_sha256)throw Error('Vehicle tile boundary differs');
+      first??=value;
+      for(const road of value.roads)roads.set(road.id,road);
+     }
+     const aggregate:VehicleScenery=first?{...first,roads:[...roads.values()]}:{
+      schema_version:1,partial:true,city,role:'decorative-schematic',source_snapshot:root.snapshot,
+      source_pbf_sha256:root.source_pbf_sha256,city_boundary_sha256:(root as RoadIndex).city_boundary_sha256,
+      source_url:'https://www.openstreetmap.org',roads:[]};
+     const target=vehicles;
+     const apply=()=>root.schema_version===1?target.setRoads(aggregate,view):target.setValidatedRoads(aggregate.roads,view);
+     const admissionResult=attemptEnvironmentAdmission(resources.budget,signal,'vehicle viewport roads',apply,admission);
+     if(!admissionResult.admitted)await admissionResult.pending;
+     current();
+     for(const lease of tileLeases.values())lease.release();
+     tileLeases=next;tiled=root.schema_version===2;data=aggregate;
+     sourceBytes=files.reduce((sum,file)=>sum+file.bytes,0);
+     publishedRoads=data;publishedBounds=view;publishedZoom=zoom;
+    }finally{if(tileLeases!==next)for(const lease of next.values())lease.release();}
+   }else if(publishedRoads!==data||publishedZoom!==zoom||moved){
+    const roads=data,target=vehicles,attempt=attemptEnvironmentAdmission(resources.budget,signal,'vehicle viewport roads',
+     ()=>tiled?target.setValidatedRoads(roads.roads,view):target.setRoads(roads,view),admission);
+    if(!attempt.admitted){await attempt.pending;current();}
+    publishedRoads=data;publishedBounds=view;publishedZoom=zoom;
    }
-   current();const zoom=map.getZoom(),view=bounds();vehicles.setZoom(zoom);const frameLoad=options.frameLoad?.();if(frameLoad)vehicles.setFrameLoad(frameLoad);if(publishedRoads!==data||publishedZoom!==zoom||!publishedBounds||view.some((value,index)=>value!==publishedBounds![index])){const roads=data,target=vehicles,attempt=attemptEnvironmentAdmission(resources.budget,signal,'vehicle viewport roads',()=>target.setRoads(roads,view),admission);if(!attempt.admitted){await attempt.pending;current();}publishedRoads=data;publishedBounds=view;publishedZoom=zoom;}vehicles.setVisible(visible&&viewportVisible);vehicles.setReducedMotion(reduce);vehicles.setEnabled(true);state='ready';status.textContent=readyStatus();
+   vehicles.setVisible(visible&&viewportVisible);vehicles.setReducedMotion(reduce);vehicles.setEnabled(true);state='ready';status.textContent=readyStatus();
   }catch{if(!signal.aborted&&!destroyed&&ticket===revision){state='error';status.textContent=data?c.retained:c.failed;/* Keep the previous good roads; never commit a failed or cancelled view. */}}
  }
  const motionActive=()=>cameraMoving||cameraGestureActive;
@@ -129,7 +177,7 @@ export function installThreeDimensionalScenery(options:{map:MapView;city:string;
   get stats(){
    // Report the waiting reason, not 'ready', while committed roads cannot draw.
    const vehicleStats=vehicles?.stats,gpuWaiting=state==='ready'&&vehicleStats?.resources?.gpuDeferred===true?{phase:'vehicle GPU buffers',label:vehicleStats.resources.gpuPending?.label,requiredBytes:vehicleStats.resources.gpuPending?.requiredBytes,publishedState:state}:undefined;
-   return{positionSamples:vehicles?.positionSamples.map(p=>({...p,screen:(()=>{const q=map.project(p.lngLat as [number,number]);const r=map.getCanvas().getBoundingClientRect();return[r.left+q.x,r.top+q.y];})()})),state:gpuWaiting?'waiting-gpu-budget':state,cameraMoving,cameraGestureActive,settlePending:settleTimer!==undefined,sourceBytes,sourceRoads:data?.roads.length??0,sourcePositions:data?.roads.reduce((n,r)=>n+r.coordinates.length,0)??0,sourceSnapshot:data?.source_snapshot,role:'decorative-schematic',vehicles:vehicleStats,resources:{ledger:'page-resource-budget',decodedOwner:'page-chunk-resource-store',sourceLease:dataLease?.state,sourceRetainedEstimateBytes:dataLease?.value?.retained??0,gpuWaiting,admission:admission.stats,readAdmission:callerAdmitted?'caller-admitted':'reader-admitted',readEnvelopeRetries:envelopes.pendingRetries,physicalMemory:'unmeasured'}};},
+   return{positionSamples:vehicles?.positionSamples.map(p=>({...p,screen:(()=>{const q=map.project(p.lngLat as [number,number]);const r=map.getCanvas().getBoundingClientRect();return[r.left+q.x,r.top+q.y];})()})),state:gpuWaiting?'waiting-gpu-budget':state,cameraMoving,cameraGestureActive,settlePending:settleTimer!==undefined,sourceBytes,sourceRoads:data?.roads.length??0,sourcePositions:data?.roads.reduce((n,r)=>n+r.coordinates.length,0)??0,sourceSnapshot:data?.source_snapshot,role:'decorative-schematic',vehicles:vehicleStats,resources:{ledger:'page-resource-budget',decodedOwner:'page-chunk-resource-store',sourceLease:tileLeases.values().next().value?.state,sourceRetainedEstimateBytes:retainedRoadBytes(),viewportTiles:tileLeases.size,gpuWaiting,admission:admission.stats,readAdmission:callerAdmitted?'caller-admitted':'reader-admitted',readEnvelopeRetries:envelopes.pendingRetries,physicalMemory:'unmeasured'}};},
   destroy(){if(destroyed)return;destroyed=true;stopped();map.off('moveend',moved);map.off('movestart',moving);try{releaseSceneryResources();}finally{status.remove();}}
  };
 }
