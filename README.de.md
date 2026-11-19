@@ -17,6 +17,21 @@ CrimeMaps ist ein offenes Projekt in einer frühen Version. Datenabdeckung, Orts
 
 [Karte lesen](#read) · [Quellen](#sources) · [Lokal starten](#run) · [Aktualisierungen](#updates) · [Datenschutz und Hinweise](#privacy) · [Aufrufe nach Land](#stats) · [Weitere Städte](#cities) · [Lizenz](#license)
 
+## Bauwerke in 3D
+
+Glaskuppel, Ecktürme und Doppeltürme lassen sich auf dem Foto und im Stadtmodell vergleichen. Die Geometrie bestimmt die Silhouette. Shader zeichnen Fensterreihen, Rahmen und Materialfugen auf die einzelnen Flächen.
+
+| Fotografie | CrimeMaps in 3D |
+| :--- | :--- |
+| [![Reichstagsgebäude · Berlin · Fotografie · Steinfassade und zentrale Glaskuppel](docs/assets/facades/reichstag-photo.jpg)](docs/assets/facades/reichstag-photo.jpg) | [![Reichstagsgebäude · Berlin · CrimeMaps in 3D · Steinfassade und zentrale Glaskuppel](docs/assets/facades/reichstag-map.jpg)](docs/assets/facades/reichstag-map.jpg) |
+| **Reichstagsgebäude · Berlin** · [Jörg Braukmann](https://commons.wikimedia.org/wiki/File:Reichstagsgeb%C3%A4ude_(Westfassade).jpg) · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | Steinfassade und zentrale Glaskuppel |
+| [![Berliner Dom · Berlin · Fotografie · Hauptkuppel und Ecktürme](docs/assets/facades/berlin-dom-photo.jpg)](docs/assets/facades/berlin-dom-photo.jpg) | [![Berliner Dom · Berlin · CrimeMaps in 3D · Hauptkuppel und Ecktürme](docs/assets/facades/berlin-dom-map.jpg)](docs/assets/facades/berlin-dom-map.jpg) |
+| **Berliner Dom · Berlin** · [Ansgar Koreng](https://commons.wikimedia.org/wiki/File:141227_Berliner_Dom.jpg) · [CC BY 3.0 de](https://creativecommons.org/licenses/by/3.0/de/deed.en) | Hauptkuppel und Ecktürme |
+| [![Kölner Dom · Köln · Fotografie · Westliche Doppeltürme und Langhaus](docs/assets/facades/cologne-dom-photo.jpg)](docs/assets/facades/cologne-dom-photo.jpg) | [![Kölner Dom · Köln · CrimeMaps in 3D · Westliche Doppeltürme und Langhaus](docs/assets/facades/cologne-dom-map.jpg)](docs/assets/facades/cologne-dom-map.jpg) |
+| **Kölner Dom · Köln** · [Raimond Spekking](https://commons.wikimedia.org/wiki/File:K%C3%B6lner_Dom_-_Westfassade_2022_ohne_Ger%C3%BCst-0968_b.jpg) · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | Westliche Doppeltürme und Langhaus |
+
+**[Zur bebilderten Dokumentation · 中文](docs/building-facades.md)**
+
 <a id="status"></a>
 
 ## Projektstand

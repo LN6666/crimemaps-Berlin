@@ -17,6 +17,21 @@ CrimeMaps还在初版阶段，公告覆盖和地点识别有局限，译文与�
 
 [如何读图](#read) · [来源](#sources) · [本地运行](#run) · [更新](#updates) · [隐私与反馈](#privacy) · [国家访问分布](#stats) · [其他城市](#cities) · [许可](#license)
 
+## 从实景到三维地图
+
+从国会大厦的玻璃穹顶，到科隆大教堂的双尖塔，建筑几何勾出轮廓，立面绘制补上窗列、框架与材质接缝。点击图片可放大对照。
+
+| 实景照片 | CrimeMaps 三维地图 |
+| :--- | :--- |
+| [![德国国会大厦 · 柏林 · 实景照片 · 石砌立面与中央玻璃穹顶](docs/assets/facades/reichstag-photo.jpg)](docs/assets/facades/reichstag-photo.jpg) | [![德国国会大厦 · 柏林 · CrimeMaps 三维地图 · 石砌立面与中央玻璃穹顶](docs/assets/facades/reichstag-map.jpg)](docs/assets/facades/reichstag-map.jpg) |
+| **德国国会大厦 · 柏林** · [Jörg Braukmann](https://commons.wikimedia.org/wiki/File:Reichstagsgeb%C3%A4ude_(Westfassade).jpg) · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 石砌立面与中央玻璃穹顶 |
+| [![柏林大教堂 · 柏林 · 实景照片 · 主穹顶与围绕它的小塔](docs/assets/facades/berlin-dom-photo.jpg)](docs/assets/facades/berlin-dom-photo.jpg) | [![柏林大教堂 · 柏林 · CrimeMaps 三维地图 · 主穹顶与围绕它的小塔](docs/assets/facades/berlin-dom-map.jpg)](docs/assets/facades/berlin-dom-map.jpg) |
+| **柏林大教堂 · 柏林** · [Ansgar Koreng](https://commons.wikimedia.org/wiki/File:141227_Berliner_Dom.jpg) · [CC BY 3.0 de](https://creativecommons.org/licenses/by/3.0/de/deed.en) | 主穹顶与围绕它的小塔 |
+| [![科隆大教堂 · 科隆 · 实景照片 · 西侧双尖塔与中殿](docs/assets/facades/cologne-dom-photo.jpg)](docs/assets/facades/cologne-dom-photo.jpg) | [![科隆大教堂 · 科隆 · CrimeMaps 三维地图 · 西侧双尖塔与中殿](docs/assets/facades/cologne-dom-map.jpg)](docs/assets/facades/cologne-dom-map.jpg) |
+| **科隆大教堂 · 科隆** · [Raimond Spekking](https://commons.wikimedia.org/wiki/File:K%C3%B6lner_Dom_-_Westfassade_2022_ohne_Ger%C3%BCst-0968_b.jpg) · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | 西侧双尖塔与中殿 |
+
+**[阅读完整图解：建筑立面是怎样画出来的](docs/building-facades.md)**
+
 <a id="status"></a>
 
 ## 当前状态
