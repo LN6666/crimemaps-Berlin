@@ -7,6 +7,7 @@ import shutil
 from pathlib import Path
 from zipfile import ZipFile
 
+from verify_biweekly_locations import verify as verify_locations
 from artifact_gate import scan
 from pack_release import pack
 from verify_release import unpack
@@ -38,6 +39,9 @@ def main():
     site = Path("candidate-site")
     unpack(base / "site.tar.gz", site, receipt=inventory,
            receipt_sha256=digest(inventory), city=args.city)
+    updates = site / "updates"
+    previous = {p.parent.name: {c["card_id"] for c in json.loads(p.read_bytes())}
+                for p in updates.glob("????-??-??/bulletins.json")}
     with ZipFile(delta) as archive:
         entries = archive.infolist()
         if len(entries) > 1200 or sum(item.file_size for item in entries) > 100_000_000:
@@ -54,6 +58,15 @@ def main():
             target.parent.mkdir(parents=True, exist_ok=True)
             with archive.open(item) as src, target.open("wb") as dst:
                 shutil.copyfileobj(src, dst)
+    batches = {p.parent.name for p in updates.glob("????-??-??/bulletins.json")}
+    if not batches:
+        raise ValueError("No reviewed bulletin batch")
+    touched = {name.split("/")[1] for name in names if name.startswith("updates/")}
+    for batch in sorted(touched | {max(batches)}):
+        cards = json.loads((updates / batch / "bulletins.json").read_bytes())
+        if not previous.get(batch, set()) <= {c["card_id"] for c in cards}:
+            raise ValueError("Previously accepted card missing from bulletin batch")
+        verify_locations(site, args.city, batch)
     verify_profile(site, args.city)
     record = scan(site, args.city, args.commit)
     out = Path("prepared")
