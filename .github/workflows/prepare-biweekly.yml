@@ -1,0 +1,56 @@
+name: Prepare reviewed biweekly site
+on:
+  workflow_dispatch:
+    inputs:
+      base_tag:
+        description: Previously deployed release tag
+        required: true
+      draft_tag:
+        description: Draft bulletin release tag
+        required: true
+      delta_sha:
+        description: Reviewed bulletin delta SHA-256
+        required: true
+permissions:
+  contents: read
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    permissions:
+      contents: write
+    env:
+      BASE_TAG: ${{ inputs.base_tag }}
+      DRAFT_TAG: ${{ inputs.draft_tag }}
+      DELTA_SHA: ${{ inputs.delta_sha }}
+      TRUSTED_BASE: ${{ vars.PAGES_ACCEPTANCE_SHA256 }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.12'
+      - name: Retrieve pinned release and reviewed delta
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          [[ "$GITHUB_REF" = refs/heads/main && "$BASE_TAG" =~ ^[A-Za-z0-9][A-Za-z0-9._-]{1,100}$ ]]
+          [[ "$DRAFT_TAG" =~ ^bulletin-[0-9]{8}-[a-f0-9]{8,16}$ && "$DELTA_SHA" =~ ^[a-f0-9]{64}$ ]]
+          [[ "$(gh release view "$DRAFT_TAG" --json isDraft --jq .isDraft)" = true ]]
+          mkdir incoming
+          gh release download "$BASE_TAG" -D incoming -p site.tar.gz -p site-integrity.json -p site-acceptance.json
+          gh release download "$DRAFT_TAG" -D incoming -p bulletin-delta.zip
+      - name: Verify profile, scan the site and seal the archive
+        env:
+          PYTHONPATH: scripts/security:scripts/migration
+        run: |
+          python scripts/migration/prepare_biweekly_release.py --city "$(python -c 'import json; print(json.load(open("city-config.json"))["city"])')" --repository "$GITHUB_REPOSITORY" --commit "$GITHUB_SHA" --trusted-base "$TRUSTED_BASE" --delta-sha "$DELTA_SHA"
+      - name: Attach verified files to the draft
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          [[ "$(gh release view "$DRAFT_TAG" --json isDraft --jq .isDraft)" = true ]]
+          gh release upload "$DRAFT_TAG" prepared/site.tar.gz prepared/site-integrity.json
