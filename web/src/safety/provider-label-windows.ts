@@ -5,7 +5,7 @@ type Tag = typeof PROVIDER_TAGS[number]; type Period = typeof PROVIDER_PERIODS[n
 type State = 'supported'|'uncertain'|'no_support'; type Counts = Record<State,number>;
 export interface ProviderCard {key:string;city:string;source_id:string;source_sha256:string;display_date:string;linked_url:string;fragment_identity_pending:boolean;labels:Record<Tag,State>}
 export interface ProviderWindow {start:string;end:string;source_groups:number;cards_in_window:number;labels:Record<Tag,Counts>}
-export interface ProviderCatalogue {schema:'provider-card-label-windows-v1';canonical:false;publication_ready:false;date_basis:'unverified_provider_display_date';as_of:'2026-11-07';cards:ProviderCard[];scopes:{scope:string;periods:Record<Period,ProviderWindow>}[];city_bindings:Record<string,{generation:string;months:string[]}>;source_versions:Record<string,string>}
+export interface ProviderCatalogue {schema:'provider-card-label-windows-v1';canonical:false;publication_ready:false;date_basis:'unverified_provider_display_date';as_of:'2026-11-07'|'2026-11-21';cards:ProviderCard[];scopes:{scope:string;periods:Record<Period,ProviderWindow>}[];city_bindings:Record<string,{generation:string;months:string[]}>;source_versions:Record<string,string>}
 interface Binding {path:string;payload_sha256:string;city:string;generation:string}
 const SHA=/^[0-9a-f]{64}$/;const states:State[]=['no_support','uncertain','supported'];
 function need(value:unknown,message:string):asserts value {if(!value)throw Error('Provider label binding: '+message);}
@@ -19,10 +19,15 @@ export function providerPeriod(c:ProviderCatalogue,scope:string,period:Period):P
  return {start:target.start,end:target.end,source_groups:groups.size,cards_in_window:cards.length,labels};
 }
 export function validateProviderCatalogue(value:unknown):ProviderCatalogue {
- const o=object(value);need(o.schema==='provider-card-label-windows-v1'&&o.canonical===false&&o.publication_ready===false&&o.date_basis==='unverified_provider_display_date'&&o.as_of==='2026-11-07','schema/basis');need(Array.isArray(o.cards)&&o.cards.length===386&&Array.isArray(o.scopes)&&o.scopes.length===15,'coverage');const c=o as unknown as ProviderCatalogue;const keys=new Set<string>();const cities=new Set<string>();let fragments=0;
+ const o=object(value);need(o.schema==='provider-card-label-windows-v1'&&o.canonical===false&&o.publication_ready===false&&o.date_basis==='unverified_provider_display_date'&&(o.as_of==='2026-11-07'||o.as_of==='2026-11-21'),'schema/basis');need(Array.isArray(o.cards)&&o.cards.length===(o.as_of==='2026-11-07'?386:332)&&Array.isArray(o.scopes)&&o.scopes.length===15,'coverage');const c=o as unknown as ProviderCatalogue;const keys=new Set<string>();const cities=new Set<string>();let fragments=0;
  for(const row of c.cards){need(typeof row.city==='string'&&/^[a-z]+$/.test(row.city)&&/^\d+$/.test(row.source_id)&&row.key===row.city+':'+row.source_id&&!keys.has(row.key)&&SHA.test(row.source_sha256),'identity');keys.add(row.key);cities.add(row.city);need(/^2026-\d{2}-\d{2}$/.test(row.display_date)&&new Date(row.display_date+'T00:00:00Z').toISOString().slice(0,10)===row.display_date,'display date');need(typeof row.linked_url==='string'&&/^https?:\/\//.test(row.linked_url),'linked URL');need(typeof row.fragment_identity_pending==='boolean','fragment state');if(row.fragment_identity_pending)fragments++;need(Object.keys(object(row.labels)).sort().join()===Array.from(PROVIDER_TAGS).sort().join()&&PROVIDER_TAGS.every(t=>states.includes(row.labels[t])),'12 label states');}
- need(cities.size===14&&fragments===12,'city/fragment coverage');need(Object.keys(object(c.city_bindings)).sort().join()===[...cities].sort().join(),'city bindings');need(new Set(c.scopes.map(s=>s.scope)).size===15&&c.scopes.every(s=>s.scope==='all14'||cities.has(s.scope)),'scope coverage');
- const expectedDates:Record<Period,[string,string]>={ytd2026:['2026-01-01','2026-11-07'],last7:['2026-11-01','2026-11-07'],last30:['2026-10-09','2026-11-07'],last90:['2026-08-10','2026-11-07']};
+ need(cities.size===14&&fragments===(c.as_of==='2026-11-07'?12:0),'city/fragment coverage');need(Object.keys(object(c.city_bindings)).sort().join()===[...cities].sort().join(),'city bindings');need(new Set(c.scopes.map(s=>s.scope)).size===15&&c.scopes.every(s=>s.scope==='all14'||cities.has(s.scope)),'scope coverage');
+ const startDate=(days:number)=>{const d=new Date(c.as_of+'T00:00:00Z');d.setUTCDate(d.getUTCDate()-days+1);return d.toISOString().slice(0,10);};
+ const expectedDates:Record<Period,[string,string]>={ytd2026:['2026-01-01',c.as_of],last7:[startDate(7),c.as_of],last30:[startDate(30),c.as_of],last90:[startDate(90),c.as_of]};
+ if(c.as_of==='2026-11-21'){
+  const pins=object(c.source_versions);
+  need(pins.labels==='2aff0195f3e518da8ebbf2baba61d2eeb26469061328e5168cb0b9cd4c8ac2db'&&pins.window==='a9e10ad2afc76c177528e1f3c43adcbe74c9bea145f618a8b7c889fa43406428'&&pins.fragment_review==='5aefeb3d25c3109a3e33793ea63920aad849e3da23aae5c6ae6340d1510a903a','cycle source pins');
+ }
  for(const scope of c.scopes){need(Object.keys(scope.periods).sort().join()===[...PROVIDER_PERIODS].sort().join(),'four periods');for(const period of PROVIDER_PERIODS){const w=scope.periods[period];need(w.start===expectedDates[period][0]&&w.end===expectedDates[period][1],'frozen period');need(stable(providerPeriod(c,scope.scope,period))===stable(w),'v3 recomputation');}}
  need(Object.values(object(c.source_versions)).length>=3&&Object.values(c.source_versions).every(v=>SHA.test(v)),'source pins');return c;
 }
